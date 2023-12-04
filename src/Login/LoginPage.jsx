@@ -1,10 +1,13 @@
 // Login.js
-import React, { useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Paper } from '@mui/material';
 import { AdminLogin } from '../API/api';
+import AuthContext from '../context/auth';
+import useAuth from '../hooks/useAuth';
 
 const LoginPage = () => {
+    const {setAuth } = useAuth()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -20,8 +23,11 @@ const LoginPage = () => {
             }
 
             await AdminLogin(paylaod).then((res) => {
-                console.log(res, 'res')
-               // navigate('/')
+                console.log(res?.data?.data, 'res')
+                const accessToken = res?.data?.data[1]?.accessToken;
+                const role = res?.data?.data[0]?.role;
+                setAuth({username,password,accessToken,role})
+                
             }).catch((err) => {
                 consoe.log(err)
             })

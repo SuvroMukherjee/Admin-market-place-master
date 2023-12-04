@@ -24,7 +24,8 @@ export default function Roles() {
 
     async function getAllroll() {
         await allRoleList().then((res) => {
-            console.log('roles', res)
+           // console.log('roles', res)npm npm 
+            console.log('call')
             setRoleList(res?.data?.data)
         }).catch((err) => {
             console.log(err)
@@ -41,8 +42,9 @@ export default function Roles() {
                 name: inputValue
             }
             await createRole(payload).then((res) => {
-                console.log(res)
+                // console.log(res)
                 setInputValue('');
+                getAllroll()
             }).catch((err) => {
                 console.log(err)
             })
@@ -71,7 +73,7 @@ export default function Roles() {
                                         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary="Brunch this weekend?"
+                                        primary= {role?.name}
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
