@@ -18,7 +18,7 @@ function App() {
       <Topbar />
       <div className="container">
 
-        {/* <Sidebar /> */}
+        <Sidebar />
         <Routes>
           <Route path='/' element={<Layout />}>
             {/** public routes */}

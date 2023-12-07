@@ -29,6 +29,7 @@ const LoginPage = () => {
                 const accessToken = res?.data?.data[1]?.accessToken;
                 const role = res?.data?.data[0]?.role;
                 setAuth({ username, password, accessToken, role })
+                localStorage.setItem('auth', JSON.stringify({ username, password, accessToken, role }));
                 navigate(from, { replace: true });
             }).catch((err) => {
                 consoe.log(err)

@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./topbar.css";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import LanguageIcon from "@mui/icons-material/Language";
 import SettingsIcon from "@mui/icons-material/Settings";
+import useAuth from "../../hooks/useAuth";
+
 
 export default function Topbar() {
+
+    const { setAuth, logout } = useAuth();
+
     return (
         <div className="topbar">
             <div className="topbarWrapper">
@@ -28,6 +33,7 @@ export default function Topbar() {
                         alt=""
                         className="topAvatar"
                     />
+                     <button onClick={()=>logout()}>Logout</button>
                 </div>
             </div>
         </div>
