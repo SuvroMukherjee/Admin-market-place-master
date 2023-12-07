@@ -1,15 +1,16 @@
 // Login.js
-import React, { useContext, useState, useEffect } from 'react';
+import { Button, Container, Paper, TextField } from '@mui/material';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-import { TextField, Button, Container, Paper } from '@mui/material';
 import { AdminLogin } from '../API/api';
-import AuthContext from '../context/auth';
 import useAuth from '../hooks/useAuth';
+
 
 const LoginPage = () => {
     const { setAuth } = useAuth()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [loading,setLoading] = useState(false)
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,6 +19,8 @@ const LoginPage = () => {
     const handleLogin = async () => {
 
         if (username && password) {
+
+            setLoading(true)
 
             let paylaod = {
                 user: username,
@@ -29,10 +32,12 @@ const LoginPage = () => {
                 const accessToken = res?.data?.data[1]?.accessToken;
                 const role = res?.data?.data[0]?.role;
                 setAuth({ username, password, accessToken, role })
+                setLoading(false)
                 localStorage.setItem('auth', JSON.stringify({ username, password, accessToken, role }));
                 navigate(from, { replace: true });
             }).catch((err) => {
                 consoe.log(err)
+                setLoading(false)
             })
 
         } else {
@@ -62,9 +67,10 @@ const LoginPage = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button variant="contained" color="primary" onClick={handleLogin}>
-                        Login
+                    <Button variant="contained" color="primary" onClick={handleLogin} fullWidth>
+                        {loading ? 'Loading....': 'Login'}
                     </Button>
+                    
                 </form>
             </Paper>
         </Container>

@@ -1,20 +1,16 @@
-import React from "react";
-import "./sidebar.css";
 import {
-    LineStyle,
-    Timeline,
-    TrendingUp,
-    PermIdentity,
-    Storefront,
-    AttachMoney,
-    BarChart,
-    MailOutline,
-    DynamicFeed,
     ChatBubbleOutline,
-    WorkOutline,
+    DynamicFeed,
+    LineStyle,
+    MailOutline,
+    PermIdentity,
     Report,
+    Timeline,
+    WorkOutline
 } from "@mui/icons-material";
+import React from "react";
 import { Link } from "react-router-dom";
+import "./sidebar.css";
 
 export default function Sidebar() {
     return (
@@ -45,7 +41,7 @@ export default function Sidebar() {
                         <Link to="/roles" className="link">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
-                                 Roles
+                                Roles
                             </li>
                         </Link>
                         <Link to="/users" className="link">
@@ -110,7 +106,7 @@ export default function Sidebar() {
                         </li>
                     </ul>
                 </div>
-                <hr/>
+                <hr />
                 <div className="sidebarMenu">
                     <h3 className="sidebarTitle">Settings</h3>
                     <ul className="sidebarList">

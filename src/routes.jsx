@@ -1,4 +1,10 @@
-import { Navigate, Outlet, useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
+import AdminLayout from './Layouts/AdminLayout';
+import LoginPage from './Login/LoginPage';
+import Home from './Pages/Home/Home';
+import Roles from './Pages/Roles/Roles';
+import UserList from './Pages/UserList/UserList';
+import Topbar from './components/Topbar/Topbar';
 import useAuth from './hooks/useAuth';
 
 
@@ -13,9 +19,9 @@ export default function Router() {
         allRoutes = [
             {
                 path: '/',
-                element: <h1>This is Home Page <Outlet /> </h1>,
+                element: <Topbar />,
                 children: [
-                    { path: 'login', element: <h2>Login Page</h2> },
+                    { path: 'login', element: <LoginPage /> },
                 ]
             },
         ]
@@ -23,13 +29,11 @@ export default function Router() {
         allRoutes = [
             {
                 path: '/',
-                element: <h1>This is Home Page <Outlet /> </h1>,
+                element: <AdminLayout />,
                 children: [
-                    { path: 'AdminDashboard', element: <h2>Dashboard Page</h2> },
-                    { path: 'role', element: <h2>Role Page</h2> },
-                    { path: 'AdminDashboard', element: <h2>Dashboard Page</h2> },
-                    { path: 'AdminDashboard', element: <h2>Dashboard Page</h2> },
-
+                    { path: 'AdminDashboard', element: <Home /> },
+                    { path: 'roles', element: <Roles /> },
+                    { path: 'users', element: <UserList /> },
                 ]
             },
         ]
