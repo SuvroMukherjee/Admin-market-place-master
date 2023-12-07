@@ -8,7 +8,9 @@ import useAuth from "../../hooks/useAuth";
 
 export default function Topbar() {
 
-    const { setAuth, logout } = useAuth();
+    const { auth, logout } = useAuth();
+
+    console.log(auth)
 
     return (
         <div className="topbar">
@@ -16,6 +18,7 @@ export default function Topbar() {
                 <div className="topLeft">
                     <span className="logo">Market Place</span>
                 </div>
+                {auth && 
                 <div className="topRight">
                     <div className="topbarIconContainer">
                         <NotificationsNoneIcon />
@@ -34,7 +37,7 @@ export default function Topbar() {
                         className="topAvatar"
                     />
                      <button onClick={()=>logout()}>Logout</button>
-                </div>
+                </div>}
             </div>
         </div>
     );
