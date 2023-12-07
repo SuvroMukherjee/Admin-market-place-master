@@ -110,10 +110,12 @@ export default function Sidebar() {
                 <div className="sidebarMenu">
                     <h3 className="sidebarTitle">Settings</h3>
                     <ul className="sidebarList">
-                        <li className="sidebarListItem">
-                            <WorkOutline className="sidebarIcon" />
-                            Logout
-                        </li>
+                        <Link to="/" className="link" >
+                            <li className="sidebarListItem">
+                                <WorkOutline className="sidebarIcon" />
+                                Logout
+                            </li>
+                        </Link>
                     </ul>
                 </div>
             </div>
