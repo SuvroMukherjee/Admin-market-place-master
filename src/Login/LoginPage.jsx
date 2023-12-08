@@ -1,5 +1,5 @@
 // Login.js
-import { Button, container, Paper, TextField } from '@mui/material';
+import { Button, Paper, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { AdminLogin } from '../API/api';
@@ -48,7 +48,7 @@ const LoginPage = () => {
     };
 
     return (
-        <container maxWidth="sm">
+        <ontainer maxWidth="sm">
             <Paper elevation={3} style={{ padding: '20px', marginTop: '50px' }}>
                 <h2>Login</h2>
                 <form>
@@ -73,7 +73,7 @@ const LoginPage = () => {
 
                 </form>
             </Paper>
-        </container>
+        </ontainer>
     );
 };
 
