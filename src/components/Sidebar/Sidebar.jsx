@@ -20,7 +20,8 @@ export default function Sidebar() {
         <div className="sidebar" >
             <div className="sidebarWrapper">
                 <div className="sidebarMenu">
-                    <h3 className="sidebarTitle">Dashboard</h3>
+                    <h3 className="sidebarTitle">Admin Dashboard</h3>
+                    <hr style={{ color: 'white' }} />
                     <ul className="sidebarList">
                         <Link to="/" className="link">
                             <li className="sidebarListItem active">
@@ -56,7 +57,7 @@ export default function Sidebar() {
                         <Link to="/AddUser" className="link">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
-                                 Add User
+                                Add User
                             </li>
                         </Link>
                         {/* <Link to="/products" className="link">
@@ -112,8 +113,8 @@ export default function Sidebar() {
                 <hr />
                 <div className="sidebarMenu">
                     <h3 className="sidebarTitle">Settings</h3>
-                    <ul className="sidebarList" onClick={() => logout()}>
-                        <Link to="/" className="link" >
+                    <ul className="sidebarList" >
+                        <Link to={'/'} className="link" onClick={() => logout()}>
                             <li className="sidebarListItem">
                                 <WorkOutline className="sidebarIcon" />
                                 Logout

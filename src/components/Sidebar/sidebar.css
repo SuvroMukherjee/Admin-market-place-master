@@ -48,6 +48,8 @@
 .sidebarListItem.active,
 .sidebarListItem:hover {
     background-color: rgb(17, 17, 17);
+    padding: 5%;
+    font-size: 18px;
 }
 
 .sidebarIcon {

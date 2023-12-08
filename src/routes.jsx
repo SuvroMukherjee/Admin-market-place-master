@@ -11,32 +11,36 @@ import RequireAuth from './components/RequireAuth/RequireAuth'
 
 export default function Router() {
 
+    const {auth} = useAuth();
+
+   // For authenticated routes
+const authenticatedRoutes = [
+    {
+      path: '/',
+      element: <AdminLayout />,
+      children: [
+        {
+          path: '/',
+          element: <RequireAuth allowedRoles={['656d6fca298f781cbdd844bd']} />,
+          children: [
+            { path: '/', element: <Home /> },
+            { path: 'roles', element: <Roles /> },
+            { path: 'users', element: <UserList /> },
+            { path: 'AddUser', element: <AddUser /> },
+          ],
+        },
+      ],
+    },
+  ];
   
-    const allRoutes = [
-        {
-            path: '/',
-            element: <AdminLayout />,
-            children: [
-                {
-                    path: '/',
-                    element: <RequireAuth allowedRoles={['656d6fca298f781cbdd844bd']} />,
-                    children: [
-                        { path: 'AdminDashboard', element: <Home /> },
-                        { path: 'roles', element: <Roles /> },
-                        { path: 'users', element: <UserList /> },
-                        { path: 'AddUser', element: <AddUser /> },
-                    ],
-                },
-            ],
-        },
-        {
-            path: '/login',
-            element: <LoginPage />,
-        },
-    ];
-
-
-
+  // For unauthenticated route (Login Page)
+  const unauthenticatedRoute = {
+    path: '/',
+    element: <LoginPage />,
+  };
+  
+  // Define the final array of routes based on authentication status
+  const allRoutes = auth ? authenticatedRoutes : [unauthenticatedRoute];
 
     return useRoutes(allRoutes);
 }

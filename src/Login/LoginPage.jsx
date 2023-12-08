@@ -35,6 +35,7 @@ const LoginPage = () => {
                 setLoading(false)
                 localStorage.setItem('auth', JSON.stringify({ username, password, accessToken, role }));
                 navigate(from, { replace: true });
+                // navigate('/Admin/AdminDashboard');
             }).catch((err) => {
                 consoe.log(err)
                 setLoading(false)
