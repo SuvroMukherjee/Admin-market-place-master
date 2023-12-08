@@ -1,4 +1,4 @@
-import { useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from 'react-router-dom';
 import AdminLayout from './Layouts/AdminLayout';
 import LoginPage from './Login/LoginPage';
 import AddUser from './Pages/AddUser/AddUser';
@@ -11,17 +11,17 @@ import RequireAuth from './components/RequireAuth/RequireAuth'
 
 export default function Router() {
 
-    const {auth} = useAuth();
+  const { auth } = useAuth();
 
-   // For authenticated routes
-const authenticatedRoutes = [
+  // For authenticated routes
+  const authenticatedRoutes = [
     {
       path: '/',
       element: <AdminLayout />,
       children: [
         {
           path: '/',
-          element: <RequireAuth allowedRoles={['656d6fca298f781cbdd844bd']} />,
+          element: <RequireAuth allowedRoles={['Admin']} />,
           children: [
             { path: '/', element: <Home /> },
             { path: 'roles', element: <Roles /> },
@@ -31,16 +31,26 @@ const authenticatedRoutes = [
         },
       ],
     },
+    {
+      path: '*',
+      element: <Navigate to="/" />
+    }
   ];
-  
-  // For unauthenticated route (Login Page)
-  const unauthenticatedRoute = {
-    path: '/',
-    element: <LoginPage />,
-  };
-  
-  // Define the final array of routes based on authentication status
-  const allRoutes = auth ? authenticatedRoutes : [unauthenticatedRoute];
 
-    return useRoutes(allRoutes);
+  // For unauthenticated route (Login Page)
+  const unauthenticatedRoute = [
+    {
+      path: '/',
+      element: <LoginPage />,
+    },
+    {
+      path: '*',
+      element: <Navigate to="/" />
+    },
+  ]
+
+
+  const allRoutes = auth ? authenticatedRoutes : unauthenticatedRoute;
+
+  return useRoutes(allRoutes);
 }

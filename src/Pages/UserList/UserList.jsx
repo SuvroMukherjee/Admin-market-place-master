@@ -19,7 +19,7 @@ export default function UserList() {
             console.log(res?.data)
             const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
                 ...item,
-                id: index+1, // Generate a unique ID
+                id: index + 1, // Generate a unique ID
             }));
             setData(dataWithUniqueIds)
         }).catch((err) => {
@@ -40,14 +40,21 @@ export default function UserList() {
             renderCell: (params) => {
                 return (
                     <div className="userListUser">
-                        {/* <img className="userListImg" src={params.row.avatar} alt="" /> */}
                         {params?.row?.name}
                     </div>
                 );
             },
         },
         { field: "email", headerName: "Email", width: 200 },
-        { field: "role", headerName: "Role", width: 200 },
+        {
+            field: "role", headerName: "Role", width: 200, renderCell: (params) => {
+                return (
+                    <div className="userListUser">
+                        {params?.row?.role?.name}
+                    </div>
+                );
+            }
+        },
         { field: "status", headerName: "Active", width: 160 },
         {
             field: "action",

@@ -14,7 +14,7 @@ import { allRoleList, createRole } from "../../API/api";
 import { ChangeFormatDate } from "../../common/DateFormat";
 
 export function Roles() {
-    const [roleList, setRoleList] = useState(['Item 1', 'Item 2', 'Item 3']);
+    const [roleList, setRoleList] = useState([]);
     const [inputValue, setInputValue] = useState('');
 
 

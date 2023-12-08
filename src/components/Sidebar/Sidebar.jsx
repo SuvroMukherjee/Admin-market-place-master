@@ -12,6 +12,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./sidebar.css";
 import useAuth from "../../hooks/useAuth";
+import { NavLink } from 'react-router-dom';
 
 export default function Sidebar() {
     const { auth, logout } = useAuth();
@@ -22,26 +23,13 @@ export default function Sidebar() {
                 <div className="sidebarMenu">
                     <h3 className="sidebarTitle">Admin Dashboard</h3>
                     <hr style={{ color: 'white' }} />
-                    <ul className="sidebarList">
+                    {/* <ul className="sidebarList">
                         <Link to="/" className="link">
                             <li className="sidebarListItem active">
                                 <LineStyle className="sidebarIcon" />
                                 Home
                             </li>
                         </Link>
-                        {/* <li className="sidebarListItem">
-                            <Timeline className="sidebarIcon" />
-                            Analytics
-                        </li>
-                        <li className="sidebarListItem">
-                            <TrendingUp className="sidebarIcon" />
-                            Sales
-                        </li> */}
-                    </ul>
-                </div>
-                <div className="sidebarMenu">
-                    <h3 className="sidebarTitle">Quick Menu</h3>
-                    <ul className="sidebarList">
                         <Link to="/roles" className="link">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
@@ -60,69 +48,49 @@ export default function Sidebar() {
                                 Add User
                             </li>
                         </Link>
-                        {/* <Link to="/products" className="link">
-                            <li className="sidebarListItem">
-                                <Storefront className="sidebarIcon" />
-                                Products
-                            </li>
-                        </Link>
-                        <li className="sidebarListItem">
-                            <AttachMoney className="sidebarIcon" />
-                            Transactions
-                        </li>
-                        <li className="sidebarListItem">
-                            <BarChart className="sidebarIcon" />
-                            Reports
-                        </li> */}
-                    </ul>
-                </div>
-                <div className="sidebarMenu">
-                    <h3 className="sidebarTitle">Notifications</h3>
-                    <ul className="sidebarList">
-                        <li className="sidebarListItem">
-                            <MailOutline className="sidebarIcon" />
-                            Mail
-                        </li>
-                        <li className="sidebarListItem">
-                            <DynamicFeed className="sidebarIcon" />
-                            Feedback
-                        </li>
-                        <li className="sidebarListItem">
-                            <ChatBubbleOutline className="sidebarIcon" />
-                            Messages
-                        </li>
-                    </ul>
-                </div>
-                <div className="sidebarMenu">
-                    <h3 className="sidebarTitle">Staff</h3>
-                    <ul className="sidebarList">
-                        <li className="sidebarListItem">
-                            <WorkOutline className="sidebarIcon" />
-                            Manage
-                        </li>
-                        <li className="sidebarListItem">
-                            <Timeline className="sidebarIcon" />
-                            Analytics
-                        </li>
-                        <li className="sidebarListItem">
-                            <Report className="sidebarIcon" />
-                            Reports
-                        </li>
-                    </ul>
-                </div>
-                <hr />
-                <div className="sidebarMenu">
-                    <h3 className="sidebarTitle">Settings</h3>
-                    <ul className="sidebarList" >
                         <Link to={'/'} className="link" onClick={() => logout()}>
                             <li className="sidebarListItem">
                                 <WorkOutline className="sidebarIcon" />
                                 Logout
                             </li>
                         </Link>
+                    </ul> */}
+
+                    <ul className="sidebarList">
+                        <NavLink exact to="/" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <LineStyle className="sidebarIcon" />
+                                Home
+                            </li>
+                        </NavLink>
+                        <NavLink to="/roles" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <PermIdentity className="sidebarIcon" />
+                                Roles
+                            </li>
+                        </NavLink>
+                        <NavLink to="/users" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <PermIdentity className="sidebarIcon" />
+                                Users List
+                            </li>
+                        </NavLink>
+                        <NavLink to="/AddUser" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <PermIdentity className="sidebarIcon" />
+                                Add User
+                            </li>
+                        </NavLink>
+                        <NavLink exact to="/" className="link" onClick={() => logout()}>
+                            <li className="sidebarListItem">
+                                <WorkOutline className="sidebarIcon" />
+                                Logout
+                            </li>
+                        </NavLink>
                     </ul>
+
                 </div>
-            </div>
+                </div>
         </div>
     );
 }
