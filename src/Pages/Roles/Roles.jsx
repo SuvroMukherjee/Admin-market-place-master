@@ -11,8 +11,9 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { allRoleList, createRole } from "../../API/api";
+import { ChangeFormatDate } from "../../common/DateFormat";
 
-export default function Roles() {
+export function Roles() {
     const [roleList, setRoleList] = useState(['Item 1', 'Item 2', 'Item 3']);
     const [inputValue, setInputValue] = useState('');
 
@@ -24,7 +25,7 @@ export default function Roles() {
 
     async function getAllroll() {
         await allRoleList().then((res) => {
-           // console.log('roles', res)npm npm 
+            // console.log('roles', res)npm npm 
             console.log('call')
             setRoleList(res?.data?.data)
         }).catch((err) => {
@@ -64,16 +65,16 @@ export default function Roles() {
             <Grid container spacing={2} justifyContent="center" alignItems="center">
                 <Grid item xs={6} md={6} style={{ textAlign: 'center' }}>
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                       
+
                         {roleList?.length > 0 && roleList.map((role) => (
                             <>
-                            
-                             <ListItem alignItems="flex-start">
+
+                                <ListItem alignItems="flex-start">
                                     <ListItemAvatar>
                                         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary= {role?.name}
+                                        primary={`Role Name - ${role?.name}`}
                                         secondary={
                                             <React.Fragment>
                                                 <Typography
@@ -84,12 +85,12 @@ export default function Roles() {
                                                 >
                                                     {/* {role?.name} */}
                                                 </Typography>
-                                                {" — I'll be in your neighborhood doing errands this…"}
+                                                {`Created At - ${ChangeFormatDate(role?.createdAt)}`}
                                             </React.Fragment>
                                         }
                                     />
                                 </ListItem>
-                                <Divider variant="inset" component="li" /> 
+                                <Divider variant="inset" component="li" />
                             </>
 
                         ))}

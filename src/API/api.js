@@ -31,3 +31,21 @@ export async function allRoleList(){
         return error
     }
 }
+
+export async function AdminCreateUserList(){
+    try {
+        const response = await axios.get(apiUrl + "/admin/list")
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function StaffCreateByAdmin(formData){
+    try {
+        const response = await axios.post(apiUrl + "/admin/staff-add", formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}

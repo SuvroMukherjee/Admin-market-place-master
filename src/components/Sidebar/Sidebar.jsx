@@ -47,10 +47,10 @@ export default function Sidebar() {
                         <Link to="/users" className="link">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
-                                UsersList
+                                Users List
                             </li>
                         </Link>
-                        <Link to="/adduser" className="link">
+                        <Link to="/AddUser" className="link">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
                                  Add User

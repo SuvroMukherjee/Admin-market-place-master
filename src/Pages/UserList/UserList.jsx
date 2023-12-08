@@ -1,20 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./userlist.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import { DeleteOutline } from "@mui/icons-material";
 import { userRows } from '../../dummyData';
 import { Link } from "react-router-dom";
+import { AdminCreateUserList } from "../../API/api";
 
 export default function UserList() {
-    const [data, setData] = useState(userRows);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        getUserList();
+    }, [])
+
+    async function getUserList() {
+        await AdminCreateUserList().then((res) => {
+            console.log(res?.data)
+            const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
+                ...item,
+                id: index+1, // Generate a unique ID
+            }));
+            setData(dataWithUniqueIds)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     const handleDelete = (id) => {
         setData(data.filter((item) => item.id !== id));
     };
 
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
+        { field: "id", headerName: "SL No", width: 90 },
         {
             field: "user",
             headerName: "User",
@@ -22,15 +40,15 @@ export default function UserList() {
             renderCell: (params) => {
                 return (
                     <div className="userListUser">
-                        <img className="userListImg" src={params.row.avatar} alt="" />
-                        {params.row.username}
+                        {/* <img className="userListImg" src={params.row.avatar} alt="" /> */}
+                        {params?.row?.name}
                     </div>
                 );
             },
         },
         { field: "email", headerName: "Email", width: 200 },
-        { field: "status", headerName: "Status", width: 120 },
-        { field: "transaction", headerName: "Transaction Volume", width: 160 },
+        { field: "role", headerName: "Role", width: 200 },
+        { field: "status", headerName: "Active", width: 160 },
         {
             field: "action",
             headerName: "Action",

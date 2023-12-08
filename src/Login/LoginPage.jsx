@@ -1,5 +1,5 @@
 // Login.js
-import { Button, Container, Paper, TextField } from '@mui/material';
+import { Button, container, Paper, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { AdminLogin } from '../API/api';
@@ -10,7 +10,7 @@ const LoginPage = () => {
     const { setAuth } = useAuth()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -48,7 +48,7 @@ const LoginPage = () => {
     };
 
     return (
-        <Container maxWidth="sm">
+        <container maxWidth="sm">
             <Paper elevation={3} style={{ padding: '20px', marginTop: '50px' }}>
                 <h2>Login</h2>
                 <form>
@@ -68,12 +68,12 @@ const LoginPage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <Button variant="contained" color="primary" onClick={handleLogin} fullWidth>
-                        {loading ? 'Loading....': 'Login'}
+                        {loading ? 'Loading....' : 'Login'}
                     </Button>
-                    
+
                 </form>
             </Paper>
-        </Container>
+        </container>
     );
 };
 

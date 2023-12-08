@@ -4,6 +4,7 @@ import React from 'react';
 import './App.css';
 import { AuthProvider } from './context/auth';
 import Router from './routes';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
