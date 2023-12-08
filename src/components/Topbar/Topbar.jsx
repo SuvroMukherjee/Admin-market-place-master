@@ -36,7 +36,6 @@ export default function Topbar() {
                             alt=""
                             className="topAvatar"
                         />
-                        <button onClick={() => logout()}>Logout</button>
                     </div>}
             </div>
         </div>

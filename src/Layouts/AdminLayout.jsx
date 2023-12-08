@@ -9,7 +9,7 @@ const AdminLayout = () => {
             <div>
                 <Topbar />
             </div>
-            <div className="container">
+            <div className="containerLayout">
                 <Sidebar />
                 <Outlet />
             </div>

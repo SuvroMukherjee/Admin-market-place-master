@@ -20,10 +20,10 @@ export default function Router() {
         allRoutes = [
             {
                 path: '/',
-                element: <Topbar />,
-                children: [
-                    { path: 'login', element: <LoginPage /> },
-                ]
+                element: <LoginPage />,
+                // children: [
+                //     { path: 'login', element: <LoginPage /> },
+                // ]
             },
         ]
     } else {
