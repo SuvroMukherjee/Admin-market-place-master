@@ -21,9 +21,6 @@ export default function Router() {
             {
                 path: '/',
                 element: <LoginPage />,
-                // children: [
-                //     { path: 'login', element: <LoginPage /> },
-                // ]
             },
         ]
     } else {
