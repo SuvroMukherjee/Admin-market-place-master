@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import './addUser.css'
+import { useNavigate } from "react-router-dom";
 import { StaffCreateByAdmin, allRoleList } from '../../API/api';
+import './addUser.css';
 
 const AddUser = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +12,8 @@ const AddUser = () => {
         password: '',
     });
     const [roleList, setRoleList] = useState([])
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         getAllRole()
@@ -40,6 +42,7 @@ const AddUser = () => {
         console.log(formData);
         await StaffCreateByAdmin(formData).then((res) => {
             console.log(res)
+            navigate('/users')
         }).catch((err) => {
             console.log(err)
         })
