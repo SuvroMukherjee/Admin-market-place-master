@@ -11,8 +11,11 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 import "./sidebar.css";
+import useAuth from "../../hooks/useAuth";
 
 export default function Sidebar() {
+    const { auth, logout } = useAuth();
+
     return (
         <div className="sidebar" >
             <div className="sidebarWrapper">
@@ -109,7 +112,7 @@ export default function Sidebar() {
                 <hr />
                 <div className="sidebarMenu">
                     <h3 className="sidebarTitle">Settings</h3>
-                    <ul className="sidebarList">
+                    <ul className="sidebarList" onClick={() => logout()}>
                         <Link to="/" className="link" >
                             <li className="sidebarListItem">
                                 <WorkOutline className="sidebarIcon" />

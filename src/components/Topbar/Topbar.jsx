@@ -10,8 +10,6 @@ export default function Topbar() {
 
     const { auth, logout } = useAuth();
 
-    console.log(auth)
-
     return (
         <div className="topbar">
             <div className="topbarWrapper">
