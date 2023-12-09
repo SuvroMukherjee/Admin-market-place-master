@@ -81,6 +81,30 @@ export default function Sidebar() {
                                 Add User
                             </li>
                         </NavLink>
+                        <NavLink to="/Admin/category" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <PermIdentity className="sidebarIcon" />
+                                Category 
+                            </li>
+                        </NavLink>
+                        <NavLink to="/Admin/subcategory" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <PermIdentity className="sidebarIcon" />
+                                Sub Category 
+                            </li>
+                        </NavLink>
+                        {/* <NavLink to="/Admin/subcategory" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <PermIdentity className="sidebarIcon" />
+                               Sub Category 
+                            </li>
+                        </NavLink> */}
+                        <NavLink to="/Admin/brand" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <PermIdentity className="sidebarIcon" />
+                                Brand
+                            </li>
+                        </NavLink>
                         <NavLink exact to="/" className="link" onClick={() => logout()}>
                             <li className="sidebarListItem">
                                 <WorkOutline className="sidebarIcon" />

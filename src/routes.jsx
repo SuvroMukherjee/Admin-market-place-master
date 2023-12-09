@@ -7,6 +7,9 @@ import { Roles } from './Pages/Roles/Roles';
 import UserList from './Pages/UserList/UserList';
 import useAuth from './hooks/useAuth';
 import RequireAuth from './components/RequireAuth/RequireAuth'
+import ListCategory from './Pages/ProductManagement/Category/ListCategory';
+import ListSubCategory from './Pages/ProductManagement/SubCategory/ListSubCategory';
+import ListBrand from './Pages/ProductManagement/Brand/ListBrand';
 
 
 export default function Router() {
@@ -27,6 +30,18 @@ export default function Router() {
             { path: 'roles', element: <Roles /> },
             { path: 'users', element: <UserList /> },
             { path: 'AddUser', element: <AddUser /> },
+          ],
+        },
+        {
+          path: '/Admin',
+          element: <RequireAuth allowedRoles={['Admin']} />,
+          children: [
+            { path: 'category', element: <ListCategory /> },
+            { path: 'subcategory', element: <ListSubCategory /> },
+            { path: 'brand', element: <ListBrand /> },
+            // { path: 'roles', element: <Roles /> },
+            // { path: 'users', element: <UserList /> },
+            // { path: 'AddUser', element: <AddUser /> },
           ],
         },
       ],

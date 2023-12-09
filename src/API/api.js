@@ -49,3 +49,35 @@ export async function StaffCreateByAdmin(formData){
         return error
     }
 }
+
+/** Category Apis */
+export async function allCategoryList(){
+    try {
+        const response = await axios.get(apiUrl + "/category/list")
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+/** Sub-Category Apis */
+export async function allSubCategoryList(){
+    try {
+        const response = await axios.get(apiUrl + "/sub-category/list")
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+/** Brand Apis */
+
+export async function allBrandList(){
+    try {
+        const response = await axios.get(apiUrl + "/brand/list")
+        return response;
+    } catch (error) {
+        return error
+    }
+}
