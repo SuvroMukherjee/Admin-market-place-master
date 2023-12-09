@@ -2,7 +2,7 @@ import "../product.css";
 import { DataGrid } from "@mui/x-data-grid";
 // import { DeleteOutline } from "@material-ui/icons";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
@@ -10,6 +10,8 @@ import { allCategoryList } from "../../../API/api";
 
 export default function ListCategory() {
     const [data, setData] = useState(productRows);
+
+    const navigate = useNavigate()
 
     // const handleDelete = (id) => {
     //     setData(data.filter((item) => item.id !== id));
@@ -84,6 +86,10 @@ export default function ListCategory() {
         },
     ];
 
+    const handleNewCat = () =>{
+        navigate('/Admin/AddCategory');
+    }
+
     return (
         <div className="productList mt-4">
             <Container>
@@ -94,7 +100,7 @@ export default function ListCategory() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-4">
-                        <button className="addCategoryButton">Add New Category</button>
+                        <button className="addCategoryButton" onClick={()=>handleNewCat()}>Add New Category</button>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">

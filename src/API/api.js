@@ -60,6 +60,15 @@ export async function allCategoryList(){
     }
 }
 
+export async function AddProductCategory(formData){
+    try {
+        const response = await axios.post(apiUrl + "/category/create",formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 
 /** Sub-Category Apis */
 export async function allSubCategoryList(){
@@ -70,6 +79,9 @@ export async function allSubCategoryList(){
         return error
     }
 }
+
+
+
 
 /** Brand Apis */
 
