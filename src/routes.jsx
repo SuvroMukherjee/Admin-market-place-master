@@ -10,6 +10,7 @@ import RequireAuth from './components/RequireAuth/RequireAuth'
 import ListCategory from './Pages/ProductManagement/Category/ListCategory';
 import ListSubCategory from './Pages/ProductManagement/SubCategory/ListSubCategory';
 import ListBrand from './Pages/ProductManagement/Brand/ListBrand';
+import ListProduct from './Pages/ProductManagement/Product/ListProduct';
 
 
 export default function Router() {
@@ -39,9 +40,7 @@ export default function Router() {
             { path: 'category', element: <ListCategory /> },
             { path: 'subcategory', element: <ListSubCategory /> },
             { path: 'brand', element: <ListBrand /> },
-            // { path: 'roles', element: <Roles /> },
-            // { path: 'users', element: <UserList /> },
-            // { path: 'AddUser', element: <AddUser /> },
+            { path: 'product', element: <ListProduct /> },
           ],
         },
       ],

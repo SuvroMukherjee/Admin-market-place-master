@@ -93,16 +93,16 @@ export default function Sidebar() {
                                 Sub Category 
                             </li>
                         </NavLink>
-                        {/* <NavLink to="/Admin/subcategory" className="link" activeClassName="active">
-                            <li className="sidebarListItem">
-                                <PermIdentity className="sidebarIcon" />
-                               Sub Category 
-                            </li>
-                        </NavLink> */}
                         <NavLink to="/Admin/brand" className="link" activeClassName="active">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
                                 Brand
+                            </li>
+                        </NavLink>
+                        <NavLink to="/Admin/product" className="link" activeClassName="active">
+                            <li className="sidebarListItem">
+                                <PermIdentity className="sidebarIcon" />
+                                 Product
                             </li>
                         </NavLink>
                         <NavLink exact to="/" className="link" onClick={() => logout()}>
@@ -112,7 +112,6 @@ export default function Sidebar() {
                             </li>
                         </NavLink>
                     </ul>
-
                 </div>
                 </div>
         </div>
