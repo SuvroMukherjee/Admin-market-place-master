@@ -7,11 +7,28 @@ import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { allCategoryList } from "../../../API/api";
+import EditCategory from "./EditCategory";
 
 export default function ListCategory() {
     const [data, setData] = useState(productRows);
+    const [showModal, setShowModal] = useState(false);
+    const [modalData,setModalData] = useState()
 
     const navigate = useNavigate()
+
+    const handleShow = (catdata) => {
+        console.log('data',catdata)
+        setModalData(catdata)
+        setShowModal(true)
+    };
+    const handleClose = () => setShowModal(false);
+
+    const datas = {
+        title: 'Mobile',
+        description:
+            'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGhvbmV8ZW58MHx8MHx8fDA%3D', // Replace with your image path
+    }
 
     // const handleDelete = (id) => {
     //     setData(data.filter((item) => item.id !== id));
@@ -73,9 +90,9 @@ export default function ListCategory() {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={"/product/" + params.row.id}>
-                            <button className="productListEdit">Edit</button>
-                        </Link>
+
+                        <button className="productListEdit" onClick={() => handleShow(params?.row)}>Edit</button>
+
                         {/* <DeleteOutline
               className="productListDelete"
               onClick={() => handleDelete(params.row.id)}
@@ -86,13 +103,18 @@ export default function ListCategory() {
         },
     ];
 
-    const handleNewCat = () =>{
+    const handleNewCat = () => {
         navigate('/Admin/AddCategory');
     }
 
     return (
         <div className="productList mt-4">
             <Container>
+                <EditCategory
+                    showModal={showModal}
+                    handleClose={handleClose}
+                    data={modalData}
+                />
                 <Row className="justify-content-md-center">
                     <Col md="auto">
                         <h3>Category List</h3>
@@ -100,7 +122,7 @@ export default function ListCategory() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-4">
-                        <button className="addCategoryButton" onClick={()=>handleNewCat()}>Add New Category</button>
+                        <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">

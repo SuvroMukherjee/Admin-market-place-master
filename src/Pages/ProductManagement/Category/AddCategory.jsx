@@ -2,11 +2,17 @@ import React from 'react'
 import '../product.css';
 import { useState } from 'react';
 import { AddProductCategory } from '../../../API/api';
+import EditCategory from './EditCategory';
 
 const AddCategory = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(null);
+
+
+   ;
+    
+     
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
