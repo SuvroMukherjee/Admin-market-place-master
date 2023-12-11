@@ -8,6 +8,10 @@ import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { UpdateStatusBrand, allBrandList, allCategoryList, allSubCategoryList, deleteBrand } from "../../../API/api";
 import EditBrandPage from "./EditBrandPage";
+import { RiEdit2Line } from 'react-icons/ri';
+import { FaRegTrashAlt } from "react-icons/fa";
+import { AiOutlinePlus } from 'react-icons/ai';
+
 
 export default function ListSubCategory() {
     const [data, setData] = useState(productRows);
@@ -47,7 +51,7 @@ export default function ListSubCategory() {
     }
 
 
-    const handleDelete = async(id) =>{
+    const handleDelete = async (id) => {
         await deleteBrand(id).then((res) => {
             getAllBrandLists();
         }).catch((err) => {
@@ -77,21 +81,41 @@ export default function ListSubCategory() {
         {
             field: "status",
             headerName: "Status",
-            width: 120,
+            width: 150,
+            renderCell:(params)=>{
+                return (
+                    <div>
+                        {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+                    </div>
+                )
+            }
         },
         {
             field: "action",
             headerName: "Action",
-            width: 250,
+            width: 500,
             renderCell: (params) => {
                 return (
-                    <>
+                    <div className="buttonWrapper">
 
-                        <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button>
-                        <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
-                        <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button>
+                        {/* <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button> */}
+                        <Button variant="warning" onClick={() => handleEdit(params?.row)}>
+                            <RiEdit2Line /> Edit
+                        </Button>
+                        {params?.row?.status ?
+                            <Button variant="danger" onClick={() => handleStatus(params?.row)}>
+                                Deactive
+                            </Button> :
+                            <Button variant="success" onClick={() => handleStatus(params?.row)}>
+                                Active
+                            </Button>}
+                        <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
+                            <FaRegTrashAlt />
+                        </Button>
+                        {/* <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
+                        <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button> */}
 
-                    </>
+                    </div>
                 );
             },
         },
@@ -112,14 +136,16 @@ export default function ListSubCategory() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-2">
-                        <button className="addCategoryButton" onClick={() => navigate('/Admin/Addbrand')}>Add New Brand</button>
+                        <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addbrand')}>
+                            <AiOutlinePlus /> Add New Brand
+                        </Button>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
                     <Col>
                         <DataGrid
                             rows={data}
-                            disableSelectionOnClick
+                            // disableSelectionOnClick
                             columns={columns}
                             pageSize={8}
                         //checkboxSelection

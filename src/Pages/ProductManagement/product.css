@@ -130,4 +130,16 @@
     font-weight: 600;
     cursor: pointer;
   }
-  
+  .buttonWrapper{
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  .ActiveStatus{
+    color: green;
+    font-weight: bold;
+  }
+  .DeactiveStatus {
+       color: red;
+       font-weight: bold;
+     }
