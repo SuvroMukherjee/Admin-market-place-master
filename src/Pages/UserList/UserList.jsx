@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
-import "./userlist.css";
-import { DataGrid } from "@mui/x-data-grid";
-import { IconButton } from "@mui/material";
 import { DeleteOutline } from "@mui/icons-material";
-import { userRows } from '../../dummyData';
-import { Link } from "react-router-dom";
-import { AdminCreateUserList } from "../../API/api";
+import { IconButton } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import { Col, Container, Row } from 'react-bootstrap';
+import { Link, useNavigate } from "react-router-dom";
+import { AdminCreateUserList, StaffStatusUpdateByAdmin } from "../../API/api";
+import "./userlist.css";
 
 export default function UserList() {
     const [data, setData] = useState([]);
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         getUserList();
@@ -16,7 +18,6 @@ export default function UserList() {
 
     async function getUserList() {
         await AdminCreateUserList().then((res) => {
-            console.log(res?.data)
             const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
                 ...item,
                 id: index + 1, // Generate a unique ID
@@ -27,9 +28,21 @@ export default function UserList() {
         })
     }
 
-    const handleDelete = (id) => {
-        setData(data.filter((item) => item.id !== id));
-    };
+
+
+    const handleStatus = async (dataset) => {
+
+        let payload = {
+            'status': !dataset?.status
+        }
+
+        await StaffStatusUpdateByAdmin(dataset?._id, payload).then((res) => {
+            getUserList()
+        }).catch((err) => {
+            console.log(err)
+        })
+
+    }
 
     const columns = [
         { field: "id", headerName: "SL No", width: 90 },
@@ -63,18 +76,8 @@ export default function UserList() {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={"/user/" + params.row.id}>
-                            <IconButton size="small" color="primary">
-                                Edit
-                            </IconButton>
-                        </Link>
-                        <IconButton
-                            size="small"
-                            color="error"
-                            onClick={() => handleDelete(params.row.id)}
-                        >
-                            <DeleteOutline />
-                        </IconButton>
+                        <button className="productListEdit" onClick={() => handleShow(params?.row)}>Edit</button>
+                        <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
                     </>
                 );
             },
@@ -82,14 +85,35 @@ export default function UserList() {
     ];
 
     return (
-        <div className="userList">
-            <DataGrid
-                rows={data}
-                columns={columns}
-                pageSize={8}
-                checkboxSelection
-                disableSelectionOnClick
-            />
+        <div className="userList mt-4">
+            <Container>
+                {/* <EditCategory
+                    showModal={showModal}
+                    handleClose={handleClose}
+                    data={modalData}
+                /> */}
+                <Row className="justify-content-md-center">
+                    <Col md="auto">
+                        <h3>Category List</h3>
+                    </Col>
+                </Row>
+                <Row >
+                    <Col className="d-flex justify-content-end p-4">
+                        <button className="addCategoryButton" onClick={() => navigate('/AddUser')}>Add New User</button>
+                    </Col>
+                </Row>
+                <Row className="justify-content-md-center">
+                    <Col>
+                        <DataGrid
+                            rows={data}
+                            columns={columns}
+                            pageSize={8}
+                        // checkboxSelection
+                        // disableSelectionOnClick
+                        />
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 }

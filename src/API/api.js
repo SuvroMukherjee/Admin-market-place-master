@@ -60,6 +60,7 @@ export async function deleteApiRole(id){
     }
 }
 
+{/** Admin api */}
 export async function AdminCreateUserList(){
     try {
         const response = await axios.get(apiUrl + "/admin/list")
@@ -72,6 +73,15 @@ export async function AdminCreateUserList(){
 export async function StaffCreateByAdmin(formData){
     try {
         const response = await axios.post(apiUrl + "/admin/staff-add", formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function StaffStatusUpdateByAdmin(id,formData){
+    try {
+        const response = await axios.patch(apiUrl + `/admin/status-update/${id}`, formData)
         return response;
     } catch (error) {
         return error

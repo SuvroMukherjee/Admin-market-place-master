@@ -1,18 +1,12 @@
 import {
-    ChatBubbleOutline,
-    DynamicFeed,
     LineStyle,
-    MailOutline,
     PermIdentity,
-    Report,
-    Timeline,
     WorkOutline
 } from "@mui/icons-material";
 import React from "react";
-import { Link } from "react-router-dom";
-import "./sidebar.css";
-import useAuth from "../../hooks/useAuth";
 import { NavLink } from 'react-router-dom';
+import useAuth from "../../hooks/useAuth";
+import "./sidebar.css";
 
 export default function Sidebar() {
     const { auth, logout } = useAuth();
@@ -72,15 +66,15 @@ export default function Sidebar() {
                         <NavLink to="/users" className="link" activeClassName="active">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
-                                Users List
+                                Users 
                             </li>
                         </NavLink>
-                        <NavLink to="/AddUser" className="link" activeClassName="active">
+                        {/* <NavLink to="/AddUser" className="link" activeClassName="active">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
                                 Add User
                             </li>
-                        </NavLink>
+                        </NavLink> */}
                         <NavLink to="/Admin/category" className="link" activeClassName="active">
                             <li className="sidebarListItem">
                                 <PermIdentity className="sidebarIcon" />
