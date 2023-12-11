@@ -108,6 +108,15 @@ export async function allSubCategoryList(){
 }
 
 
+export async function UpdateProductSubCategory(formData,id){
+    try {
+        const response = await axios.patch(apiUrl + `/sub-category/update/${id}`,formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 
 
 /** Brand Apis */

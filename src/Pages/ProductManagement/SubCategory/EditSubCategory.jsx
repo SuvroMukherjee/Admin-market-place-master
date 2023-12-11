@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Modal, Button, Form, Col, ButtonGroup, Row } from 'react-bootstrap';
-import { UpdateProductCategory } from '../../../API/api';
+import { UpdateProductCategory, UpdateProductSubCategory, allCategoryList } from '../../../API/api';
 
 const EditSubCategory = ({ showModal, handleClose, data }) => {
-    console.log(data)
     const [modalData, setModalData] = useState({});
+    const [categorylist, setCategorylist] = useState([]);
+
+
 
     useEffect(() => {
         setModalData(data);
+        getCategoryList();
     }, [data]);
 
-    const handleSubmit = async(e) => {
+    async function getCategoryList() {
+        await allCategoryList().then((res) => {
+            setCategorylist(res?.data?.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        await UpdateProductCategory(modalData,modalData?._id).then((res)=>{
-            console.log({res})
+        console.log(modalData)
+        await UpdateProductSubCategory(modalData, modalData?._id).then((res) => {
+            console.log({ res })
             handleClose()
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err)
         })
     };
@@ -25,7 +36,7 @@ const EditSubCategory = ({ showModal, handleClose, data }) => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setModalData({ ...modalData, [name]: value });
-        
+
     };
 
     return (
@@ -63,6 +74,27 @@ const EditSubCategory = ({ showModal, handleClose, data }) => {
                             </Form.Group>
                         </Row>
                         <Row className='mt-2'>
+                            <Form.Label>Category </Form.Label>
+                            <Form.Select
+                                className="newUserSelect"
+                                name="category"
+                                id="category"
+                                value={modalData?.category?._id}
+                                onChange={handleInputChange}
+                            >
+
+                                <option value="" selected>
+                                    {modalData?.category?.title}
+                                </option>
+                                {categorylist?.length > 0 &&
+                                    categorylist?.map((ele) => (
+                                        <option key={ele?._id} value={ele?._id} >
+                                            {ele?.title}
+                                        </option>
+                                    ))}
+                            </Form.Select>
+                        </Row>
+                        <Row className='mt-2'>
                             <Form.Group controlId="image">
                                 <Form.Label>Image</Form.Label>
                                 <Col>
@@ -77,7 +109,7 @@ const EditSubCategory = ({ showModal, handleClose, data }) => {
                         <Row className='mt-2'>
                             <Form.Group controlId="image">
                                 <Form.Label>Category</Form.Label>
-                                
+
                             </Form.Group>
                         </Row>
                         <Row className='mt-3'>
@@ -88,7 +120,7 @@ const EditSubCategory = ({ showModal, handleClose, data }) => {
                                         variant="warning"
                                         type='submit'
                                         block
-                                    >Update Category</Button>
+                                    >Update Sub Category</Button>
                                 </ButtonGroup>
                             </Col>
                         </Row>

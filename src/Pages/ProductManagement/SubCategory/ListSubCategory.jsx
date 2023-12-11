@@ -20,11 +20,11 @@ export default function ListSubCategory() {
     // };
 
     useEffect(() => {
-        getCategoryList();
+        getSubCategoryList();
     }, []);
 
 
-    async function getCategoryList() {
+    async function getSubCategoryList() {
         await allSubCategoryList().then((res) => {
             const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
                 ...item,
@@ -43,7 +43,7 @@ export default function ListSubCategory() {
     }
 
     const handleClose = () => {
-        getCategoryList();
+        getSubCategoryList();
         setShowModal(false)
     }
 
@@ -132,7 +132,7 @@ export default function ListSubCategory() {
                             disableSelectionOnClick
                             columns={columns}
                             pageSize={8}
-                            checkboxSelection
+                            // checkboxSelection
                         />
                     </Col>
                 </Row>
