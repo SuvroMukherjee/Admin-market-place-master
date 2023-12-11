@@ -94,7 +94,7 @@ export default function UserList() {
                 /> */}
                 <Row className="justify-content-md-center">
                     <Col md="auto">
-                        <h3>Category List</h3>
+                        <h3>Users List</h3>
                     </Col>
                 </Row>
                 <Row >
