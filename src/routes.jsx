@@ -12,6 +12,7 @@ import ListSubCategory from './Pages/ProductManagement/SubCategory/ListSubCatego
 import ListBrand from './Pages/ProductManagement/Brand/ListBrand';
 import ListProduct from './Pages/ProductManagement/Product/ListProduct';
 import AddCategory from './Pages/ProductManagement/Category/AddCategory';
+import AddSubCategory from './Pages/ProductManagement/SubCategory/AddSubCategory';
 
 
 export default function Router() {
@@ -41,6 +42,7 @@ export default function Router() {
             { path: 'category', element: <ListCategory /> },
             { path: 'AddCategory', element: <AddCategory /> },
             { path: 'subcategory', element: <ListSubCategory /> },
+            { path: 'Addsubcategory', element: <AddSubCategory /> },
             { path: 'brand', element: <ListBrand /> },
             { path: 'product', element: <ListProduct /> },
           ],

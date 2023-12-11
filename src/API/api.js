@@ -107,6 +107,15 @@ export async function allSubCategoryList(){
     }
 }
 
+export async function AddProductSubCategory(formData){
+    try {
+        const response = await axios.post(apiUrl + "/sub-category/create",formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 
 export async function UpdateProductSubCategory(formData,id){
     try {

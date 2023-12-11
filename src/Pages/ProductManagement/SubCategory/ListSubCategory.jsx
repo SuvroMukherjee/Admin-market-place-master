@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 // import { DeleteOutline } from "@material-ui/icons";
 import "../product.css";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
@@ -15,9 +15,8 @@ export default function ListSubCategory() {
     const [modalData, setModalData] = useState();
     const [showModal, setShowModal] = useState(false);
 
-    // const handleDelete = (id) => {
-    //     setData(data.filter((item) => item.id !== id));
-    // };
+   
+    const navigate = useNavigate()
 
     useEffect(() => {
         getSubCategoryList();
@@ -122,7 +121,7 @@ export default function ListSubCategory() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-4">
-                        <button className="addCategoryButton">Add New Sub Category</button>
+                        <button className="addCategoryButton" onClick={()=>navigate('/Admin/Addsubcategory')}>Add New Sub Category</button>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
