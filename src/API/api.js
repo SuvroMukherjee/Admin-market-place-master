@@ -137,7 +137,7 @@ export async function UpdateStatusProductSubCategory(formData,id){
 
 export async function DeleteProductSubCategory(id){
     try {
-        const response = await axios.delete(apiUrl + `/sub-category/delete/${id}`)
+        const response = await axios.delete(apiUrl + `/sub-category/${id}`)
         return response;
     } catch (error) {
         return error
@@ -149,6 +149,15 @@ export async function DeleteProductSubCategory(id){
 export async function allBrandList(){
     try {
         const response = await axios.get(apiUrl + "/brand/list")
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function AddBrand(formData){
+    try {
+        const response = await axios.post(apiUrl + "/brand/create",formData)
         return response;
     } catch (error) {
         return error

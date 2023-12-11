@@ -13,6 +13,8 @@ import ListBrand from './Pages/ProductManagement/Brand/ListBrand';
 import ListProduct from './Pages/ProductManagement/Product/ListProduct';
 import AddCategory from './Pages/ProductManagement/Category/AddCategory';
 import AddSubCategory from './Pages/ProductManagement/SubCategory/AddSubCategory';
+import AddBrandPage from './Pages/ProductManagement/Brand/AddBrandPage';
+
 
 
 export default function Router() {
@@ -44,6 +46,7 @@ export default function Router() {
             { path: 'subcategory', element: <ListSubCategory /> },
             { path: 'Addsubcategory', element: <AddSubCategory /> },
             { path: 'brand', element: <ListBrand /> },
+            { path: 'Addbrand', element: <AddBrandPage /> },
             { path: 'product', element: <ListProduct /> },
           ],
         },
