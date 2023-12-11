@@ -85,7 +85,7 @@ export default function UserList() {
     ];
 
     return (
-        <div className="userList mt-4 p-2">
+        <div className="userList mt-4 p-4">
             <Container>
                 {/* <EditCategory
                     showModal={showModal}

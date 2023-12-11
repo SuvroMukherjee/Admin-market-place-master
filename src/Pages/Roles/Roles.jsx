@@ -160,7 +160,7 @@ export function Roles() {
     }
 
     return (
-        <div className="userList mt-4 p-2">
+        <div className="userList mt-4 p-4">
             <Container>
                 <Row className="justify-content-md-center">
                     <Col md="auto">

@@ -125,7 +125,7 @@ export default function ListCategory() {
 
 
     return (
-        <div className="productList mt-4">
+        <div className="productList mt-2 p-4">
             <Container>
                 <EditCategory
                     showModal={showModal}
@@ -138,7 +138,7 @@ export default function ListCategory() {
                     </Col>
                 </Row>
                 <Row >
-                    <Col className="d-flex justify-content-end p-4">
+                    <Col className="d-flex justify-content-end p-2">
                         <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button>
                     </Col>
                 </Row>

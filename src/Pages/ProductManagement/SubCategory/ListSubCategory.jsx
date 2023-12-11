@@ -134,7 +134,7 @@ export default function ListSubCategory() {
     ];
 
     return (
-        <div className="productList mt-4">
+        <div className="productList mt-2 p-4">
             <Container>
                 <EditSubCategory
                     showModal={showModal}
@@ -147,7 +147,7 @@ export default function ListSubCategory() {
                     </Col>
                 </Row>
                 <Row >
-                    <Col className="d-flex justify-content-end p-4">
+                    <Col className="d-flex justify-content-end p-2">
                         <button className="addCategoryButton" onClick={() => navigate('/Admin/Addsubcategory')}>Add New Sub Category</button>
                     </Col>
                 </Row>

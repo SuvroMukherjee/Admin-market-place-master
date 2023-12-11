@@ -72,7 +72,7 @@ export default function ListProduct() {
     ];
 
     return (
-        <div className="productList mt-4">
+        <div className="productList mt-2 p-4">
             <Container>
                 <Row className="justify-content-md-center">
                     <Col md="auto">
@@ -80,7 +80,7 @@ export default function ListProduct() {
                     </Col>
                 </Row>
                 <Row >
-                    <Col className="d-flex justify-content-end p-4">
+                    <Col className="d-flex justify-content-end p-2">
                         <button className="addCategoryButton">Add New Product</button>
                     </Col>
                 </Row>

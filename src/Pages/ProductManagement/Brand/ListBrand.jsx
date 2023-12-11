@@ -98,7 +98,7 @@ export default function ListSubCategory() {
     ];
 
     return (
-        <div className="productList mt-4">
+        <div className="productList mt-2 p-4">
             <Container>
                 <EditBrandPage
                     showModal={showModal}
@@ -111,7 +111,7 @@ export default function ListSubCategory() {
                     </Col>
                 </Row>
                 <Row >
-                    <Col className="d-flex justify-content-end p-4">
+                    <Col className="d-flex justify-content-end p-2">
                         <button className="addCategoryButton" onClick={() => navigate('/Admin/Addbrand')}>Add New Brand</button>
                     </Col>
                 </Row>
