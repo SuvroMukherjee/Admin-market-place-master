@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import { allCategoryList, allSubCategoryList } from "../../../API/api";
+import { DeleteProductSubCategory, UpdateStatusProductSubCategory, allCategoryList, allSubCategoryList } from "../../../API/api";
 import EditSubCategory from "./EditSubCategory";
 
 export default function ListSubCategory() {
@@ -15,7 +15,7 @@ export default function ListSubCategory() {
     const [modalData, setModalData] = useState();
     const [showModal, setShowModal] = useState(false);
 
-   
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -45,6 +45,31 @@ export default function ListSubCategory() {
         getSubCategoryList();
         setShowModal(false)
     }
+
+    const handleStatus = async (dataset) => {
+
+        let payload = {
+            "status": !dataset?.status
+        }
+
+        await UpdateStatusProductSubCategory(payload, dataset?._id).then((res) => {
+            console.log(res)
+            getSubCategoryList()
+        }).catch((err) => {
+            console.log(err)
+        })
+
+    }
+
+    const handleDelete = async (id) => {
+        await DeleteProductSubCategory(id).then((res) => {
+            console.log(res)
+            getSubCategoryList()
+        }).catch((err) => {
+            consoile.log(err)
+        })
+    }
+
 
 
     const columns = [
@@ -89,12 +114,14 @@ export default function ListSubCategory() {
         {
             field: "action",
             headerName: "Action",
-            width: 150,
+            width: 250,
             renderCell: (params) => {
                 return (
                     <>
 
                         <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button>
+                        <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
+                        <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button>
 
                         {/* <DeleteOutline
               className="productListDelete"
@@ -121,7 +148,7 @@ export default function ListSubCategory() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-4">
-                        <button className="addCategoryButton" onClick={()=>navigate('/Admin/Addsubcategory')}>Add New Sub Category</button>
+                        <button className="addCategoryButton" onClick={() => navigate('/Admin/Addsubcategory')}>Add New Sub Category</button>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
@@ -131,7 +158,7 @@ export default function ListSubCategory() {
                             disableSelectionOnClick
                             columns={columns}
                             pageSize={8}
-                            // checkboxSelection
+                        // checkboxSelection
                         />
                     </Col>
                 </Row>

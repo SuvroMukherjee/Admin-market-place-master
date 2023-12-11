@@ -126,7 +126,23 @@ export async function UpdateProductSubCategory(formData,id){
     }
 }
 
+export async function UpdateStatusProductSubCategory(formData,id){
+    try {
+        const response = await axios.patch(apiUrl + `/sub-category/status-update/${id}`,formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
 
+export async function DeleteProductSubCategory(id){
+    try {
+        const response = await axios.delete(apiUrl + `/sub-category/delete/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
 
 /** Brand Apis */
 
