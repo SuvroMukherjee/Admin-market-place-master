@@ -70,6 +70,33 @@ export async function AddProductCategory(formData){
 }
 
 
+export async function UpdateProductCategory(formData,id){
+    try {
+        const response = await axios.patch(apiUrl + `/category/update/${id}`,formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function UpdateStatusProductCategory(formData,id){
+    try {
+        const response = await axios.patch(apiUrl + `/category/status-update/${id}`,formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function DeleteProductCategory(id){
+    try {
+        const response = await axios.delete(apiUrl + `/category/delete/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 /** Sub-Category Apis */
 export async function allSubCategoryList(){
     try {

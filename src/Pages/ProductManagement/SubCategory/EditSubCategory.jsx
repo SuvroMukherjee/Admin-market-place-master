@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { Modal, Button, Form, Col, ButtonGroup, Row } from 'react-bootstrap';
 import { UpdateProductCategory } from '../../../API/api';
 
-const EditCategory = ({ showModal, handleClose, data }) => {
+const EditSubCategory = ({ showModal, handleClose, data }) => {
+    console.log(data)
     const [modalData, setModalData] = useState({});
 
     useEffect(() => {
@@ -73,6 +74,12 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                                 </Col>
                             </Form.Group>
                         </Row>
+                        <Row className='mt-2'>
+                            <Form.Group controlId="image">
+                                <Form.Label>Category</Form.Label>
+                                
+                            </Form.Group>
+                        </Row>
                         <Row className='mt-3'>
                             <Col>
                                 <ButtonGroup className="d-flex">
@@ -93,4 +100,4 @@ const EditCategory = ({ showModal, handleClose, data }) => {
     );
 };
 
-export default EditCategory;
+export default EditSubCategory;

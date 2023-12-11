@@ -8,9 +8,12 @@ import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { allCategoryList, allSubCategoryList } from "../../../API/api";
+import EditSubCategory from "./EditSubCategory";
 
 export default function ListSubCategory() {
     const [data, setData] = useState(productRows);
+    const [modalData, setModalData] = useState();
+    const [showModal, setShowModal] = useState(false);
 
     // const handleDelete = (id) => {
     //     setData(data.filter((item) => item.id !== id));
@@ -34,6 +37,17 @@ export default function ListSubCategory() {
     };
 
 
+    const handleEdit = (dataSet) => {
+        setModalData(dataSet);
+        setShowModal(true)
+    }
+
+    const handleClose = () => {
+        getCategoryList();
+        setShowModal(false)
+    }
+
+
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
         {
@@ -49,8 +63,15 @@ export default function ListSubCategory() {
                 );
             },
         },
-        { field: "category", headerName: "Category", width: 200 },
-        { field: "slug", headerName: "Slug", width: 200 },
+        {
+            field: "category", headerName: "Category", width: 200, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params?.row?.category?.title}
+                    </div>
+                );
+            }
+        },
         {
             field: "title",
             headerName: "Title",
@@ -73,9 +94,9 @@ export default function ListSubCategory() {
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={"/product/" + params.row.id}>
-                            <button className="productListEdit">Edit</button>
-                        </Link>
+
+                        <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button>
+
                         {/* <DeleteOutline
               className="productListDelete"
               onClick={() => handleDelete(params.row.id)}
@@ -89,7 +110,12 @@ export default function ListSubCategory() {
     return (
         <div className="productList mt-4">
             <Container>
-            <Row className="justify-content-md-center">
+                <EditSubCategory
+                    showModal={showModal}
+                    handleClose={handleClose}
+                    data={modalData}
+                />
+                <Row className="justify-content-md-center">
                     <Col md="auto">
                         <h3>Sub Category List</h3>
                     </Col>

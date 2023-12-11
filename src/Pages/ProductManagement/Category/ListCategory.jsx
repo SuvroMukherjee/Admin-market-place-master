@@ -6,29 +6,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import { allCategoryList } from "../../../API/api";
+import { DeleteProductCategory, UpdateStatusProductCategory, allCategoryList } from "../../../API/api";
 import EditCategory from "./EditCategory";
 
 export default function ListCategory() {
     const [data, setData] = useState(productRows);
     const [showModal, setShowModal] = useState(false);
-    const [modalData,setModalData] = useState()
+    const [modalData, setModalData] = useState()
 
     const navigate = useNavigate()
 
     const handleShow = (catdata) => {
-        console.log('data',catdata)
         setModalData(catdata)
         setShowModal(true)
     };
-    const handleClose = () => setShowModal(false);
+    const handleClose = () => {
+        getCategoryList();
+        setShowModal(false)
+    };
 
-    const datas = {
-        title: 'Mobile',
-        description:
-            'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGhvbmV8ZW58MHx8MHx8fDA%3D', // Replace with your image path
-    }
 
     // const handleDelete = (id) => {
     //     setData(data.filter((item) => item.id !== id));
@@ -51,6 +47,29 @@ export default function ListCategory() {
         })
     };
 
+    const handleStatus = async (data) => {
+        let payload = {
+            "status": !data?.status
+        }
+
+        await UpdateStatusProductCategory(payload, data?._id).then((res) => {
+            console.log(res, 'res')
+            getCategoryList();
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+
+    const handleDelete = async (id) => {
+        await DeleteProductCategory(id).then((res) => {
+            console.log({ res })
+            getCategoryList();
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
@@ -67,7 +86,6 @@ export default function ListCategory() {
                 );
             },
         },
-        { field: "slug", headerName: "Slug", width: 200 },
         {
             field: "title",
             headerName: "Title",
@@ -86,17 +104,14 @@ export default function ListCategory() {
         {
             field: "action",
             headerName: "Action",
-            width: 150,
+            width: 250,
             renderCell: (params) => {
                 return (
                     <>
 
                         <button className="productListEdit" onClick={() => handleShow(params?.row)}>Edit</button>
-
-                        {/* <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            /> */}
+                        <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
+                        <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button>
                     </>
                 );
             },
@@ -106,6 +121,8 @@ export default function ListCategory() {
     const handleNewCat = () => {
         navigate('/Admin/AddCategory');
     }
+
+
 
     return (
         <div className="productList mt-4">
@@ -132,7 +149,7 @@ export default function ListCategory() {
                             disableSelectionOnClick
                             columns={columns}
                             pageSize={8}
-                            checkboxSelection
+                        // checkboxSelection
                         />
                     </Col>
                 </Row>
