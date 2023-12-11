@@ -23,9 +23,37 @@ export async function createRole(formData){
     }
 }
 
+{/*** roles api */}
 export async function allRoleList(){
     try {
         const response = await axios.get(apiUrl + "/role/list") 
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function updateRole(id,formData){
+    try {
+        const response = await axios.patch(apiUrl + `/role/update/${id}`,formData) 
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function updateStatusRole(id,formData){
+    try {
+        const response = await axios.patch(apiUrl + `/role/status-update/${id}`,formData) 
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function deleteApiRole(id){
+    try {
+        const response = await axios.delete(apiUrl + `/role/delete/${id}`) 
         return response;
     } catch (error) {
         return error

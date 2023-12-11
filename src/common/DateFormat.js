@@ -12,3 +12,13 @@ export const ChangeFormatDate = (dateParams) => {
     });
     return formattedDate;
 };
+
+
+export const ChangeFormatDate2 = (dateParams) => {
+    const formattedDate = new Date(dateParams).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+    return formattedDate;
+};
