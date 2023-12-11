@@ -4,7 +4,6 @@ import { Modal, Button, Form, Col, ButtonGroup, Row } from 'react-bootstrap';
 import { EditBrand, UpdateProductCategory } from '../../../API/api';
 
 const EditBrandPage = ({ showModal, handleClose, data }) => {
-    console.log({data})
     const [modalData, setModalData] = useState({});
 
     useEffect(() => {
@@ -15,7 +14,6 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
         e.preventDefault();
         
         await EditBrand(modalData,modalData?._id).then((res)=>{
-            console.log({res})
             handleClose()
         }).catch((err)=>{
             console.log(err)

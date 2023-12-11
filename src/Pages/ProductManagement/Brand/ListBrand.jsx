@@ -40,7 +40,6 @@ export default function ListSubCategory() {
         }
 
         await UpdateStatusBrand(payload, data?._id).then((res) => {
-            console.log(res, 'res')
             getAllBrandLists();
         }).catch((err) => {
             console.log(err)
@@ -50,7 +49,6 @@ export default function ListSubCategory() {
 
     const handleDelete = async(id) =>{
         await deleteBrand(id).then((res) => {
-            console.log({ res })
             getAllBrandLists();
         }).catch((err) => {
             console.log(err)
@@ -76,11 +74,6 @@ export default function ListSubCategory() {
             headerName: "Title",
             width: 160,
         },
-        // {
-        //     field: "description",
-        //     headerName: "Description",
-        //     width: 200,
-        // },
         {
             field: "status",
             headerName: "Status",
