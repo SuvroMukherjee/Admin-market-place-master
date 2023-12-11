@@ -85,7 +85,7 @@ export default function UserList() {
     ];
 
     return (
-        <div className="userList mt-4">
+        <div className="userList mt-4 p-2">
             <Container>
                 {/* <EditCategory
                     showModal={showModal}
@@ -98,7 +98,7 @@ export default function UserList() {
                     </Col>
                 </Row>
                 <Row >
-                    <Col className="d-flex justify-content-end p-4">
+                    <Col className="d-flex justify-content-end p-2">
                         <button className="addCategoryButton" onClick={() => navigate('/AddUser')}>Add New User</button>
                     </Col>
                 </Row>

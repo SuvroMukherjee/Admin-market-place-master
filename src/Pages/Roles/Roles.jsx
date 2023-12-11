@@ -160,7 +160,7 @@ export function Roles() {
     }
 
     return (
-        <div className="userList mt-4">
+        <div className="userList mt-4 p-2">
             <Container>
                 <Row className="justify-content-md-center">
                     <Col md="auto">
@@ -168,7 +168,7 @@ export function Roles() {
                     </Col>
                 </Row>
                 <Row>
-                    <Col className="d-flex justify-content-end p-4">
+                    <Col className="d-flex justify-content-end p-2">
                         <button className="addCategoryButton" onClick={handleNew}>Add New Role</button>
                     </Col>
                 </Row>

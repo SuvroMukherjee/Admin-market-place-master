@@ -6,9 +6,9 @@ import { Outlet } from 'react-router-dom'
 const AdminLayout = () => {
     return (
         <div>
-            <div>
+            {/* <div>
                 <Topbar />
-            </div>
+            </div> */}
             <div className="containerLayout">
                 <Sidebar />
                 <Outlet />

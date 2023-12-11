@@ -1,6 +1,6 @@
 .containerLayout {
     display: flex;
-    gap: 50px;
+    gap: 30px;
 }
 
 .link {
@@ -13,7 +13,7 @@
     flex: 1;
     height: calc(100vh - 50px);
     position: sticky;
-    background-color: #42389d;
+    background-color: white;
     /* top: 50px; */
 }
 
