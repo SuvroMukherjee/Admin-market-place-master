@@ -164,6 +164,34 @@ export async function AddBrand(formData){
     }
 }
 
+
+export async function EditBrand(formData,id){
+    try {
+        const response = await axios.patch(apiUrl + `/brand/update/${id}`,formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function UpdateStatusBrand(formData,id){
+    try {
+        const response = await axios.patch(apiUrl + `/brand/status-update/${id}`,formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function deleteBrand(id){
+    try {
+        const response = await axios.delete(apiUrl + `/brand/delete/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 {/** Product Apis */}
 
 export async function allProductList(){

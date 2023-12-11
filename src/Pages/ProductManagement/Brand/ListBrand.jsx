@@ -6,20 +6,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import { allBrandList, allCategoryList, allSubCategoryList } from "../../../API/api";
+import { UpdateStatusBrand, allBrandList, allCategoryList, allSubCategoryList, deleteBrand } from "../../../API/api";
+import EditBrandPage from "./EditBrandPage";
 
 export default function ListSubCategory() {
     const [data, setData] = useState(productRows);
+    const [modalData, setModalData] = useState({});
+    const [showModal, setShowModal] = useState(false);
 
-    
     const navigate = useNavigate()
 
     useEffect(() => {
-        getCategoryList();
+        getAllBrandLists();
     }, []);
 
 
-    async function getCategoryList() {
+    async function getAllBrandLists() {
         await allBrandList().then((res) => {
             const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
                 ...item,
@@ -31,6 +33,41 @@ export default function ListSubCategory() {
         })
     };
 
+
+    const handleStatus = async (data) => {
+        let payload = {
+            "status": !data?.status
+        }
+
+        await UpdateStatusBrand(payload, data?._id).then((res) => {
+            console.log(res, 'res')
+            getAllBrandLists();
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+
+    const handleDelete = async(id) =>{
+        await deleteBrand(id).then((res) => {
+            console.log({ res })
+            getAllBrandLists();
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+
+
+    const handleEdit = (dataset) => {
+        setModalData(dataset)
+        setShowModal(true)
+    }
+
+    const handleClose = () => {
+        getAllBrandLists();
+        setShowModal(false)
+    };
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
@@ -52,17 +89,15 @@ export default function ListSubCategory() {
         {
             field: "action",
             headerName: "Action",
-            width: 150,
+            width: 250,
             renderCell: (params) => {
                 return (
                     <>
-                        
-                            <button className="productListEdit">Edit</button>
-                        
-                        {/* <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            /> */}
+
+                        <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button>
+                        <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
+                        <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button>
+
                     </>
                 );
             },
@@ -72,6 +107,11 @@ export default function ListSubCategory() {
     return (
         <div className="productList mt-4">
             <Container>
+                <EditBrandPage
+                    showModal={showModal}
+                    handleClose={handleClose}
+                    data={modalData}
+                />
                 <Row className="justify-content-md-center">
                     <Col md="auto">
                         <h3>Brand List</h3>
@@ -79,7 +119,7 @@ export default function ListSubCategory() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-4">
-                        <button className="addCategoryButton" onClick={()=>navigate('/Admin/Addbrand')}>Add New Brand</button>
+                        <button className="addCategoryButton" onClick={() => navigate('/Admin/Addbrand')}>Add New Brand</button>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
@@ -89,7 +129,7 @@ export default function ListSubCategory() {
                             disableSelectionOnClick
                             columns={columns}
                             pageSize={8}
-                            //checkboxSelection
+                        //checkboxSelection
                         />
                     </Col>
                 </Row>
