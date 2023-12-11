@@ -59,29 +59,11 @@ export function Roles() {
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
-        // {
-        //     field: "image",
-        //     headerName: "Image",
-        //     width: 200,
-        //     renderCell: (params) => {
-        //         return (
-        //             <div className="productListItem">
-        //                 <img className="productListImg" src={params.row.img} alt="" />
-        //                 {params?.row?.image}
-        //             </div>
-        //         );
-        //     },
-        // },
         {
             field: "name",
             headerName: "Name",
             width: 160,
         },
-        // {
-        //     field: "description",
-        //     headerName: "Description",
-        //     width: 200,
-        // },
         {
             field: "status",
             headerName: "Status",
@@ -125,6 +107,7 @@ export function Roles() {
     const handleClose = () => {
         getAllroll();
         setShowModal(false)
+        setInputValue('')
     }
 
     const handleEdit = (dataset) => {
@@ -136,6 +119,7 @@ export function Roles() {
     const handleClose2 = () => {
         getAllroll();
         setShowModalEdit(false)
+        setInputValue('')
     }
 
     const hanmdleUpdateRole = async () => {
@@ -176,60 +160,11 @@ export function Roles() {
     }
 
     return (
-        <div className="userList">
-            {/* <Grid container spacing={2} justifyContent="center" alignItems="center">
-                <Grid item xs={6} md={6} style={{ textAlign: 'center' }}>
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-
-                        {roleList?.length > 0 && roleList.map((role) => (
-                            <>
-
-                                <ListItem alignItems="flex-start">
-                                    <ListItemAvatar>
-                                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={`Role Name - ${role?.name}`}
-                                        secondary={
-                                            <React.Fragment>
-                                                <Typography
-                                                    sx={{ display: 'inline' }}
-                                                    component="span"
-                                                    variant="body2"
-                                                    color="text.primary"
-                                                >
-                                                    
-                                                </Typography>
-                                                {`Created At - ${ChangeFormatDate(role?.createdAt)}`}
-                                            </React.Fragment>
-                                        }
-                                    />
-                                </ListItem>
-                                <Divider variant="inset" component="li" />
-                            </>
-
-                        ))}
-                    </List>
-                </Grid>
-                <Grid item xs={6} md={6} style={{ textAlign: 'center' }}>
-                    <TextField
-                        label="Add New Role"
-                        variant="outlined"
-                        fullWidth
-                        value={inputValue}
-                        onChange={handleInputChange}
-                    />
-                    <br />
-                    <br />
-                    <Button variant="contained" color="primary" onClick={handleAddItem} fullWidth>
-                        Save Role
-                    </Button>
-                </Grid>
-            </Grid> */}
+        <div className="userList mt-4">
             <Container>
                 <Row className="justify-content-md-center">
                     <Col md="auto">
-                        <h3>Category List</h3>
+                        <h3>Role List</h3>
                     </Col>
                 </Row>
                 <Row>
@@ -278,16 +213,7 @@ export function Roles() {
                                 </ButtonGroup>
                             </Col>
                         </Row>
-                        {/* Additional form fields here */}
                     </Modal.Body>
-                    {/* <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSave}>
-                        Save
-                    </Button>
-                </Modal.Footer> */}
                 </Modal>
                 <Modal show={showModalEdit} onHide={handleClose2} centered>
                     <Modal.Header closeButton>
