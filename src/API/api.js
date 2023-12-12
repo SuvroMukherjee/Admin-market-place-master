@@ -305,11 +305,21 @@ export async function GetProductDetails(id) {
     }
 } 
 
-// export async function StatusProductUpdate(id) {
-//     try {
-//         const response = await axios.get(apiUrl + `/product/detail/${id}`, { headers: setAuthHeader() })
-//         return response;
-//     } catch (error) {
-//         return error
-//     }
-// } 
+export async function StatusUpdateProduct(id,fromData) {
+    try {
+        const response = await axios.patch(apiUrl + `/product/status-update/${id}`, fromData,{ headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+} 
+
+
+export async function  deleteProduct(id) {
+    try {
+        const response = await axios.delete(apiUrl + `/product/delete/${id}`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+} 

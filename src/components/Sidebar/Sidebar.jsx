@@ -8,6 +8,7 @@ import useAuth from "../../hooks/useAuth";
 import './Navbar.css';
 import { SidebarData } from './SidebarData';
 import "./sidebar.css";
+import { LuUnlock } from "react-icons/lu";
 
 export default function Sidebar() {
     const { auth, logout } = useAuth();
@@ -138,7 +139,7 @@ export default function Sidebar() {
                         })}
                         <li className="nav-text" onClick={() => logout()}>
                             <Link to={'/'}>
-                                <WorkOutline className="sidebarIcon" />
+                                <LuUnlock />
                                 <span>Logout</span>
                             </Link>
                         </li>

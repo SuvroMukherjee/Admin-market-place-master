@@ -109,8 +109,6 @@ export default function ListSubCategory() {
             renderCell: (params) => {
                 return (
                     <div className="buttonWrapper">
-
-                       
                         <Button variant="warning" onClick={() => handleEdit(params?.row)}>
                             <RiEdit2Line /> Edit
                         </Button>

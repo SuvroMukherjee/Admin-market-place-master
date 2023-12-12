@@ -8,6 +8,7 @@ import { BiSolidCategory } from "react-icons/bi";
 import { MdCategory } from "react-icons/md";
 import { IoPricetagsSharp } from "react-icons/io5";
 import { FaCartArrowDown } from "react-icons/fa";
+import { FaUnlock } from "react-icons/fa6";
 
 export const SidebarData = [
     {

@@ -1,22 +1,24 @@
-import "../product.css";
 import { DataGrid } from "@mui/x-data-grid";
-// import { DeleteOutline } from "@material-ui/icons";
-
-import { Link, useNavigate } from "react-router-dom";
+import "../product.css";
 import { useEffect, useState } from "react";
-import { productRows } from "../../../dummyData";
-import { Button, Container, Row, Col } from 'react-bootstrap';
-import { allBrandList, allCategoryList, allProductList, allSubCategoryList } from "../../../API/api";
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
-import { RiEdit2Line } from "react-icons/ri";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { RiEdit2Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { allProductList, deleteProduct } from "../../../API/api";
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function ListProduct() {
-    const [data, setData] = useState(productRows);
+    const [data, setData] = useState();
+    const [loading, setLoading] = useState(true)
 
 
     useEffect(() => {
-        getProductListFunc();
+        setTimeout(()=>{
+            getProductListFunc();
+        },5000)
     }, []);
 
 
@@ -30,18 +32,46 @@ export default function ListProduct() {
                 id: index + 1,
             }));
             setData(dataWithUniqueIds)
+            setLoading(false)
+        }).catch((err) => {
+            console.log(err)
+        }).finally((data)=>{
+            setLoading(false)
+        })
+    };
+
+    const handleStatus = async (dataset) => {
+        let payload = {
+            "status": !dataset?.status
+        }
+
+        await StatusUpdateProduct(payload, dataset?._id).then((res) => {
+            console.log(res)
+            getProductListFunc()
+            toast.success('Product status updated successfully!');
         }).catch((err) => {
             console.log(err)
         })
-    };
+    }
+
+
+    const handledeleteProduct = async (id) => {
+        await deleteProduct(id).then((res) => {
+            console.log(res)
+            getProductListFunc()
+            toast.success('Product deleted successfully!');
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
 
     const columns = [
         { field: "id", headerName: "ID", width: 100 },
-        { field: "productId", headerName: "Product Id", width: 100 },
-        { field: "name", headerName: "Name", width: 200 },
+        { field: "productId", headerName: "Product Id", width: 150 },
+        { field: "name", headerName: "Name", width: 150 },
         {
-            field: "image", headerName: "Image", width: 200, renderCell: (params) => {
+            field: "image", headerName: "Image", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         <img className="productListImg" src={params?.row?.image?.[0]} alt="" />
@@ -50,10 +80,10 @@ export default function ListProduct() {
                 );
             }
         },
-        { field: "regular_price", headerName: "Price", width: 200, },
-        { field: "desc", headerName: "Description", width: 200 },
+        { field: "regular_price", headerName: "Price", width: 150, },
+        { field: "desc", headerName: "Description", width: 150 },
         {
-            field: "category", headerName: "Category", width: 200, renderCell: (params) => {
+            field: "category", headerName: "Category", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         {params.row.categoryId?.title}
@@ -62,7 +92,7 @@ export default function ListProduct() {
             }
         },
         {
-            field: "Subcategory", headerName: "Sub Category", width: 200, renderCell: (params) => {
+            field: "Subcategory", headerName: "Sub Category", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         {params.row.subcategoryId?.title}
@@ -71,7 +101,7 @@ export default function ListProduct() {
             }
         },
         {
-            field: "tags", headerName: "Tags", width: 200, renderCell: (params) => {
+            field: "tags", headerName: "Tags", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         {params.row?.tags?.map((ele, i) => (
@@ -82,7 +112,7 @@ export default function ListProduct() {
             }
         },
         {
-            field: "status", headerName: "Status", width: 200, renderCell: (params) => {
+            field: "status", headerName: "Status", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
@@ -90,7 +120,7 @@ export default function ListProduct() {
                 );
             }
         },
-        { field: "type", headerName: "Type", width: 100 },
+        { field: "type", headerName: "Type", width: 150 },
         {
             field: "action",
             headerName: "Action",
@@ -98,21 +128,21 @@ export default function ListProduct() {
             renderCell: (params) => {
                 return (
                     <>
-                        {/* <button className="productListEdit" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)}>Edit</button> */}
+
                         <div className="buttonWrapper">
                             <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)}>
                                 <RiEdit2Line /> Edit
                             </Button>
                             {params?.row?.status ?
-                                <Button variant="danger" >
+                                <Button variant="danger" onClick={() => handleStatus(params?.row)}>
                                     Deactive
                                 </Button> :
-                                <Button variant="success" >
+                                <Button variant="success" onClick={() => handleStatus(params?.row)}>
                                     Active
                                 </Button>}
-                            {/* <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
+                            <Button variant="outline-danger" onClick={() => handledeleteProduct(params?.row?._id)}>
                                 <FaRegTrashAlt />
-                            </Button> */}
+                            </Button>
                         </div>
                     </>
                 );
@@ -121,31 +151,52 @@ export default function ListProduct() {
     ];
 
     return (
-        <div className="productList mt-2 p-4">
-            <Container>
-                <Row className="justify-content-md-center">
-                    <Col md="auto">
-                        <h3>Product List</h3>
-                    </Col>
-                </Row>
-                <Row >
-                    <Col className="d-flex justify-content-end p-2">
-                        <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
-                            <AiOutlinePlus /> Add New Product
-                        </Button>
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col>
-                        <DataGrid
-                            rows={data}
-                            columns={columns}
-                            pageSize={8}
-                        />
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <>
+            {loading &&
+                <div className="productList mt-2 p-4 contentLoader">
+                    <Row>
+                        <Col>
+                            <Spinner animation="border" size="lg" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>
+                        </Col>
+                    </Row>
+                </div>}
+            <div className="productList mt-2 p-4">
 
+                <Container>
+                    <Row className="justify-content-md-center">
+                        <Col md="auto">
+                            <h3>Product List</h3>
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Col className="d-flex justify-content-end p-2">
+                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
+                                <AiOutlinePlus /> Add New Product
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                        <Col>
+                            {data?.length > 0 ?
+                                <DataGrid
+                                    rows={data}
+                                    columns={columns}
+                                    pageSize={8}
+                                /> :
+
+                                <DataGrid
+                                    rows={[]}
+                                    columns={columns}
+                                    pageSize={8}
+                                />
+                            }
+                        </Col>
+                    </Row>
+                    <Toaster position="top-right" />
+                </Container>
+            </div>
+        </>
     );
 }
