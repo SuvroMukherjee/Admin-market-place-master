@@ -2,11 +2,12 @@ import "../product.css";
 import { DataGrid } from "@mui/x-data-grid";
 // import { DeleteOutline } from "@material-ui/icons";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { allBrandList, allCategoryList, allProductList, allSubCategoryList } from "../../../API/api";
+import { AiOutlinePlus } from "react-icons/ai";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -15,6 +16,9 @@ export default function ListProduct() {
     useEffect(() => {
         getProductListFunc();
     }, []);
+
+
+    const navigate = useNavigate()
 
 
     async function getProductListFunc() {
@@ -38,7 +42,7 @@ export default function ListProduct() {
             field: "image", headerName: "Image", width: 200, renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params?.row?.image[0]} alt="" />
+                        {/* <img className="productListImg" src={params?.row?.image[0]} alt="" /> */}
                     </div>
                 );
             }
@@ -49,12 +53,32 @@ export default function ListProduct() {
             field: "category", headerName: "Category", width: 200, renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params.row.categoryId?.title} alt="" />
+                        {params.row.categoryId?.title}
                     </div>
                 );
             }
         },
-        
+        {
+            field: "Subcategory", headerName: "Sub Category", width: 200, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params.row.subcategoryId?.title}
+                    </div>
+                );
+            }
+        },
+        {
+            field: "tags", headerName: "Tags", width: 200, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params.row?.tags?.map((ele,i) => (
+                            <p key={i}>{ele} |</p> 
+                        ))}
+                    </div>
+                );
+            }
+        },
+        { field: "type", headerName: "Type", width: 100 },
         {
             field: "action",
             headerName: "Action",
@@ -81,7 +105,9 @@ export default function ListProduct() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-2">
-                        <button className="addCategoryButton">Add New Product</button>
+                        <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
+                            <AiOutlinePlus /> Add New Product
+                        </Button>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">

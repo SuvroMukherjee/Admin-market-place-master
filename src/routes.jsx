@@ -15,6 +15,8 @@ import AddCategory from './Pages/ProductManagement/Category/AddCategory';
 import AddSubCategory from './Pages/ProductManagement/SubCategory/AddSubCategory';
 import AddBrandPage from './Pages/ProductManagement/Brand/AddBrandPage';
 import EditUser from './Pages/UserList/EditUser';
+import AddProduct from './Pages/ProductManagement/Product/AddProduct';
+
 
 
 
@@ -50,6 +52,7 @@ export default function Router() {
             { path: 'brand', element: <ListBrand /> },
             { path: 'Addbrand', element: <AddBrandPage /> },
             { path: 'product', element: <ListProduct /> },
+            { path: 'Addproduct', element: <AddProduct /> }
           ],
         },
       ],

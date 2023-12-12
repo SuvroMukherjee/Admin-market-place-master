@@ -285,3 +285,13 @@ export async function allProductList(){
         return error
     }
 }
+
+
+export async function AddNewProduct(formData) {
+    try {
+        const response = await axios.post(apiUrl + "/product/create", formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
