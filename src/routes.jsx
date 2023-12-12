@@ -14,6 +14,7 @@ import ListProduct from './Pages/ProductManagement/Product/ListProduct';
 import AddCategory from './Pages/ProductManagement/Category/AddCategory';
 import AddSubCategory from './Pages/ProductManagement/SubCategory/AddSubCategory';
 import AddBrandPage from './Pages/ProductManagement/Brand/AddBrandPage';
+import EditUser from './Pages/UserList/EditUser';
 
 
 
@@ -35,6 +36,7 @@ export default function Router() {
             { path: 'roles', element: <Roles /> },
             { path: 'users', element: <UserList /> },
             { path: 'AddUser', element: <AddUser /> },
+            { path: 'EditUser/:id', element: <EditUser /> },
           ],
         },
         {

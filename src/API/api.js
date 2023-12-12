@@ -88,6 +88,25 @@ export async function StaffStatusUpdateByAdmin(id,formData){
     }
 }
 
+export async function StaffDetails(id) {
+    try {
+        const response = await axios.get(apiUrl + `/admin/detail/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function StaffUpdatedDetails(id,formData) {
+    try {
+        const response = await axios.patch(apiUrl + `/admin/update/${id}`, formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 /** Category Apis */
 export async function allCategoryList(){
     try {

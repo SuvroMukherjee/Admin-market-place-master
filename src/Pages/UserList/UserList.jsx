@@ -2,10 +2,12 @@ import { DeleteOutline } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Button } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { AdminCreateUserList, StaffStatusUpdateByAdmin } from "../../API/api";
 import "./userlist.css";
+import { AiOutlinePlus } from "react-icons/ai";
+import { RiEdit2Line } from "react-icons/ri";
 
 export default function UserList() {
     const [data, setData] = useState([]);
@@ -44,12 +46,14 @@ export default function UserList() {
 
     }
 
+
+
     const columns = [
-        { field: "id", headerName: "SL No", width: 90 },
+        { field: "id", headerName: "SL No", width: 50 },
         {
             field: "user",
             headerName: "User",
-            width: 200,
+            width: 150,
             renderCell: (params) => {
                 return (
                     <div className="userListUser">
@@ -68,16 +72,47 @@ export default function UserList() {
                 );
             }
         },
-        { field: "status", headerName: "Active", width: 160 },
+        {
+            field: "status", headerName: "Active", width: 100,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+                    </div>
+                )
+
+            }
+        },
         {
             field: "action",
             headerName: "Action",
-            width: 150,
+            width: 250,
             renderCell: (params) => {
                 return (
                     <>
-                        <button className="productListEdit" onClick={() => handleShow(params?.row)}>Edit</button>
-                        <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
+                        {/* <button className="productListEdit" onClick={() => navigate(`/EditUser/${params?.row?._id}`)}>Edit</button>
+                        <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button> */}
+
+                        <div className="buttonWrapper">
+
+                            {/* <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button> */}
+                            <Button variant="warning" onClick={() => navigate(`/EditUser/${params?.row?._id}`)}>
+                                <RiEdit2Line /> Edit
+                            </Button>
+                            {params?.row?.status ?
+                                <Button variant="danger" onClick={() => handleStatus(params?.row)}>
+                                    Deactive
+                                </Button> :
+                                <Button variant="success" onClick={() => handleStatus(params?.row)}>
+                                    Active
+                                </Button>}
+                            {/* <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
+                                <FaRegTrashAlt />
+                            </Button> */}
+                            {/* <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
+                        <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button> */}
+
+                        </div>
                     </>
                 );
             },
@@ -87,11 +122,6 @@ export default function UserList() {
     return (
         <div className="userList mt-4 p-4">
             <Container>
-                {/* <EditCategory
-                    showModal={showModal}
-                    handleClose={handleClose}
-                    data={modalData}
-                /> */}
                 <Row className="justify-content-md-center">
                     <Col md="auto">
                         <h3>Users List</h3>
@@ -99,7 +129,10 @@ export default function UserList() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-2">
-                        <button className="addCategoryButton" onClick={() => navigate('/AddUser')}>Add New User</button>
+                        <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addbrand')}>
+                            <AiOutlinePlus /> Add New User
+                        </Button>
+                        {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addbrand')}>Add New User</button> */}
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
@@ -108,8 +141,6 @@ export default function UserList() {
                             rows={data}
                             columns={columns}
                             pageSize={8}
-                        // checkboxSelection
-                        // disableSelectionOnClick
                         />
                     </Col>
                 </Row>
