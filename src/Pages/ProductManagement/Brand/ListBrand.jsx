@@ -132,8 +132,6 @@ export default function ListSubCategory() {
                         <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
                             <FaRegTrashAlt />
                         </Button>
-
-
                     </div>
                 );
             },

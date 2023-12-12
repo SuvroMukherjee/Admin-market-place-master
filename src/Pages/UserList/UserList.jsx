@@ -1,16 +1,15 @@
-import { DeleteOutline } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Button } from 'react-bootstrap';
-import { Link, useNavigate } from "react-router-dom";
-import { AdminCreateUserList, StaffStatusUpdateByAdmin } from "../../API/api";
-import "./userlist.css";
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiEdit2Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { AdminCreateUserList, StaffStatusUpdateByAdmin } from "../../API/api";
+import { productRows } from "../../dummyData";
+import "./userlist.css";
 
 export default function UserList() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(productRows);
 
     const navigate = useNavigate()
 
