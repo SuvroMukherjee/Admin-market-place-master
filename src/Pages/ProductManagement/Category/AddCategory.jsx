@@ -1,7 +1,7 @@
 import React from 'react'
 import '../product.css';
 import { useState } from 'react';
-import { AddProductCategory } from '../../../API/api';
+import { AddProductCategory, FileUpload } from '../../../API/api';
 import EditCategory from './EditCategory';
 
 const AddCategory = () => {
@@ -10,9 +10,6 @@ const AddCategory = () => {
     const [file, setFile] = useState(null);
 
 
-   ;
-    
-     
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -22,8 +19,22 @@ const AddCategory = () => {
         setDescription(e.target.value);
     };
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+    const handleFileChange = async (e) => {
+        onFileUpload(e.target.files[0])
+    };
+
+
+    const onFileUpload = async (data) => {
+        const formData = new FormData();
+        formData.append("file", data);
+        await FileUpload(formData)
+            .then((res) => {
+                console.log(res, "res");
+                setFile(res?.data?.data?.fileurl)
+            })
+            .catch((err) => {
+                console.log(err, "err");
+            });
     };
 
     const handleSubmit = async (e) => {
@@ -35,7 +46,7 @@ const AddCategory = () => {
             {
                 "title": title,
                 "description": description,
-                "image": file?.name
+                "image": file
             }
 
 
@@ -57,7 +68,10 @@ const AddCategory = () => {
             <form className="addProductForm" onSubmit={handleSubmit}>
                 <div className="addProductItem">
                     <label>Image</label>
-                    <input type="file" id="file" onChange={handleFileChange} />
+                    {file &&
+                        <img src={file }  />}
+                    {/* <h2>{file?.fileurl}</h2> */}
+                    <input type="file" id="file"  onChange={handleFileChange} accept="image/jpeg, image/png, image/gif" />
                 </div>
                 <div className="addProductItem">
                     <label>Title</label>

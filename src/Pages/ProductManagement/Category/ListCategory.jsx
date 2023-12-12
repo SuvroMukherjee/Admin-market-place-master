@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import { DeleteProductCategory, UpdateStatusProductCategory, allCategoryList } from "../../../API/api";
+import { DeleteProductCategory, FileUpload, UpdateStatusProductCategory, allCategoryList } from "../../../API/api";
 import EditCategory from "./EditCategory";
 
 export default function ListCategory() {
@@ -70,18 +70,20 @@ export default function ListCategory() {
         })
     }
 
+    
+
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
         {
             field: "image",
             headerName: "Image",
-            width: 200,
+            width: 100,
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params.row.img} alt="" />
-                        {params?.row?.image}
+                        <img className="productListImg" src={params.row.image} alt="" />
+                        {/* {params?.row?.image} */}
                     </div>
                 );
             },

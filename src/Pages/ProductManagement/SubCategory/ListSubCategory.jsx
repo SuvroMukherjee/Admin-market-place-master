@@ -77,12 +77,11 @@ export default function ListSubCategory() {
         {
             field: "image",
             headerName: "Image",
-            width: 200,
+            width: 100,
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params.row.img} alt="" />
-                        {params?.row?.image}
+                        <img className="productListImg" src={params.row.image} alt="" />
                     </div>
                 );
             },

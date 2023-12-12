@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Modal, Button, Form, Col, ButtonGroup, Row } from 'react-bootstrap';
-import { UpdateProductCategory, UpdateProductSubCategory, allCategoryList } from '../../../API/api';
+import { FileUpload, UpdateProductCategory, UpdateProductSubCategory, allCategoryList } from '../../../API/api';
 
 const EditSubCategory = ({ showModal, handleClose, data }) => {
     const [modalData, setModalData] = useState({});
@@ -37,6 +37,25 @@ const EditSubCategory = ({ showModal, handleClose, data }) => {
         const { name, value } = e.target;
         setModalData({ ...modalData, [name]: value });
 
+    };
+
+    const handleFileChange = async (e) => {
+        onFileUpload(e.target.files[0])
+    };
+
+
+    const onFileUpload = async (data) => {
+        const formData = new FormData();
+        formData.append("file", data);
+        await FileUpload(formData)
+            .then((res) => {
+                console.log(res, "res");
+                //setFile(res?.data?.data?.fileurl)
+                setModalData({ ...modalData, ['image']: res?.data?.data?.fileurl });
+            })
+            .catch((err) => {
+                console.log(err, "err");
+            });
     };
 
     return (
@@ -98,18 +117,12 @@ const EditSubCategory = ({ showModal, handleClose, data }) => {
                             <Form.Group controlId="image">
                                 <Form.Label>Image</Form.Label>
                                 <Col>
-                                    <img src={modalData?.image} alt={modalData?.image} style={{ width: '100%' }} />
+                                    <img src={modalData?.image} alt={'subcategory'} style={{ width: '100%' }} />
                                 </Col>
                                 <Col>
                                     <label>Upload New Image</label>
-                                    <input type='file' />
+                                    <input type='file' onChange={handleFileChange} accept="image/jpeg, image/png, image/gif" />
                                 </Col>
-                            </Form.Group>
-                        </Row>
-                        <Row className='mt-2'>
-                            <Form.Group controlId="image">
-                                <Form.Label>Category</Form.Label>
-
                             </Form.Group>
                         </Row>
                         <Row className='mt-3'>

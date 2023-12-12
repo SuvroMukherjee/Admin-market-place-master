@@ -249,6 +249,18 @@ export async function deleteBrand(id){
     }
 }
 
+{/** File upload api */}
+
+
+export async function FileUpload(formData) {
+    try {
+        const response = await axios.post(apiUrl + `/file/upload`, formData);
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 {/** Product Apis */}
 
 export async function allProductList(){

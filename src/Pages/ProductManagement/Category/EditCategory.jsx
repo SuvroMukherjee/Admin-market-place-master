@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Modal, Button, Form, Col, ButtonGroup, Row } from 'react-bootstrap';
-import { UpdateProductCategory } from '../../../API/api';
+import { FileUpload, UpdateProductCategory } from '../../../API/api';
 
 const EditCategory = ({ showModal, handleClose, data }) => {
     const [modalData, setModalData] = useState({});
@@ -13,6 +13,8 @@ const EditCategory = ({ showModal, handleClose, data }) => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         
+        console.log({ modalData })
+
         await UpdateProductCategory(modalData,modalData?._id).then((res)=>{
             console.log({res})
             handleClose()
@@ -25,6 +27,25 @@ const EditCategory = ({ showModal, handleClose, data }) => {
         const { name, value } = e.target;
         setModalData({ ...modalData, [name]: value });
         
+    };
+
+    const handleFileChange = async (e) => {
+        onFileUpload(e.target.files[0])
+    };
+
+
+    const onFileUpload = async (data) => {
+        const formData = new FormData();
+        formData.append("file", data);
+        await FileUpload(formData)
+            .then((res) => {
+                console.log(res, "res");
+                //setFile(res?.data?.data?.fileurl)
+                setModalData({ ...modalData, ['image']: res?.data?.data?.fileurl });
+            })
+            .catch((err) => {
+                console.log(err, "err");
+            });
     };
 
     return (
@@ -65,11 +86,11 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                             <Form.Group controlId="image">
                                 <Form.Label>Image</Form.Label>
                                 <Col>
-                                    <img src={modalData?.image} alt={modalData?.image} style={{ width: '100%' }} />
+                                    <img src={modalData?.image} alt={"category"} style={{ width: '100%' }} />
                                 </Col>
                                 <Col>
                                     <label>Upload New Image</label>
-                                    <input type='file' />
+                                    <input type='file' onChange={handleFileChange} accept="image/jpeg, image/png, image/gif" />
                                 </Col>
                             </Form.Group>
                         </Row>

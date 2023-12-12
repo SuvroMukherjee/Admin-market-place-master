@@ -11,16 +11,13 @@ import { allBrandList, allCategoryList, allProductList, allSubCategoryList } fro
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
 
-    // const handleDelete = (id) => {
-    //     setData(data.filter((item) => item.id !== id));
-    // };
 
     useEffect(() => {
-        getCategoryList();
+        getProductListFunc();
     }, []);
 
 
-    async function getCategoryList() {
+    async function getProductListFunc() {
         await allProductList().then((res) => {
             const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
                 ...item,
@@ -61,10 +58,6 @@ export default function ListProduct() {
                         <Link to={"/product/" + params.row.id}>
                             <button className="productListEdit">Edit</button>
                         </Link>
-                        {/* <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            /> */}
                     </>
                 );
             },
