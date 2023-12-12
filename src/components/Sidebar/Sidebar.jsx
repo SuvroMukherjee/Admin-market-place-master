@@ -1,18 +1,13 @@
 import {
-    LineStyle,
-    PermIdentity,
     WorkOutline
 } from "@mui/icons-material";
 import React, { useState } from "react";
-import { NavLink } from 'react-router-dom';
-import useAuth from "../../hooks/useAuth";
-import "./sidebar.css";
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
-import { Link } from 'react-router-dom';
-import { SidebarData } from './SidebarData';
-import './Navbar.css';
 import { IconContext } from 'react-icons';
+import { Link } from 'react-router-dom';
+import useAuth from "../../hooks/useAuth";
+import './Navbar.css';
+import { SidebarData } from './SidebarData';
+import "./sidebar.css";
 
 export default function Sidebar() {
     const { auth, logout } = useAuth();

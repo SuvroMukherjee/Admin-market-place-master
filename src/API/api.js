@@ -1,8 +1,22 @@
 
 
 import axios from 'axios'
+import useAuth from '../hooks/useAuth';
 
 const apiUrl = import.meta.env.VITE_API_BASE;
+
+
+const authString = localStorage.getItem('auth');
+const auth = JSON.parse(authString);
+const accessToken = auth.accessToken;
+console.log(accessToken);
+
+function setAuthHeader() {
+    return {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + accessToken
+    }
+}
 
 export async function AdminLogin(formData) {
     try {
@@ -265,7 +279,7 @@ export async function FileUpload(formData) {
 
 export async function allProductList(){
     try {
-        const response = await axios.get(apiUrl + "/product/list")
+        const response = await axios.get(apiUrl + "/product/list",{ headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error

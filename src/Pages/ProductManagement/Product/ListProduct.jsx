@@ -31,23 +31,30 @@ export default function ListProduct() {
 
 
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
-        { field: "slug", headerName: "Slug", width: 200 },
+        { field: "id", headerName: "ID", width: 100 },
+        { field: "productId", headerName: "Product Id", width: 100 },
+        { field: "name", headerName: "Name", width: 200 },
         {
-            field: "title",
-            headerName: "Title",
-            width: 160,
+            field: "image", headerName: "Image", width: 200, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        <img className="productListImg" src={params.row.image[0]} alt="" />
+                    </div>
+                );
+            }
         },
+        { field: "regular_price", headerName: "Price", width: 200, },
+        { field: "desc", headerName: "Description", width: 200 },
         {
-            field: "description",
-            headerName: "Description",
-            width: 200,
+            field: "category", headerName: "Category", width: 200, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        <img className="productListImg" src={params.row.categoryId?.title} alt="" />
+                    </div>
+                );
+            }
         },
-        {
-            field: "status",
-            headerName: "Status",
-            width: 120,
-        },
+        
         {
             field: "action",
             headerName: "Action",

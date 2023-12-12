@@ -47,7 +47,7 @@ const AddBrandPage = () => {
                 console.log(res, "res");
                 setTimeout(() => {
                     setFile(res?.data?.data?.fileurl)
-                }, 5000);
+                }, 3000);
             })
             .catch((err) => {
                 console.log(err, "err");
