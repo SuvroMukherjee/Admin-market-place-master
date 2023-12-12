@@ -1,30 +1,31 @@
-// Login.js
-import { Button, Paper, Container, TextField } from '@mui/material';
+
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { AdminLogin } from '../API/api';
 import useAuth from '../hooks/useAuth';
-
+import { Form, Button, Alert } from "react-bootstrap";
+import './loginpage.css'
 
 const LoginPage = () => {
     const { setAuth } = useAuth()
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false)
+    
+    const [inputUsername, setInputUsername] = useState("");
+    const [inputPassword, setInputPassword] = useState("");
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+    const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleLogin = async () => {
-
-        if (username && password) {
-
-            setLoading(true)
-
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+        await delay(500);
+        console.log(`Username :${inputUsername}, Password :${inputPassword}`);
+        if (inputUsername == "" || inputPassword == "") {
+            setShow(true);
+        } else {
             let paylaod = {
-                user: username,
-                password: password
+                user: inputUsername,
+                password: inputPassword
             }
 
             await AdminLogin(paylaod).then((res) => {
@@ -37,44 +38,95 @@ const LoginPage = () => {
                 navigate(from, { replace: true });
                 // navigate('/Admin/AdminDashboard');
             }).catch((err) => {
-                consoe.log(err)
+                console.log(err)
+                setLoading(false)
+                setShow(true);
+            }).finally(()=>{
                 setLoading(false)
             })
-
-        } else {
-            alert('Fill')
         }
-
-
+        setLoading(false);
     };
 
-    return (
-        <Container maxWidth="sm">
-            <Paper elevation={3} style={{ padding: '20px', marginTop: '50px' }}>
-                <h2>Login</h2>
-                <form>
-                    <TextField
-                        label="Username"
-                        fullWidth
-                        margin="normal"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <TextField
-                        label="Password"
-                        type="password"
-                        fullWidth
-                        margin="normal"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Button variant="contained" color="primary" onClick={handleLogin} fullWidth>
-                        {loading ? 'Loading....' : 'Login'}
-                    </Button>
+    const handlePassword = () => { };
 
-                </form>
-            </Paper>
-        </Container>
+    function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+
+    return (
+        <div
+            className="sign-in__wrapper"
+            style={{ backgroundImage: `url('https://media.istockphoto.com/id/1341408852/video/colored-smoke-on-a-dark-background-blue-and-red-light-with-smoke.jpg?s=640x640&k=20&c=v2DQUY8IVbli_6FH_9KAs6YWRXlDdYiBJHfp7JFh7NY=')` }}
+        >
+            <div className="sign-in__backdrop"></div>
+            <Form className="shadow p-4 bg-white rounded" onSubmit={handleSubmit}>
+                <img
+                    className="img-thumbnail mx-auto d-block mb-2"
+                    src={'https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.1222169770.1701648000&semt=ais'}
+                    alt="logo"
+                />
+                <div className="h4 mb-2 text-center">Sign In</div>
+                {show ? (
+                    <Alert
+                        className="mb-2"
+                        variant="danger"
+                        onClose={() => setShow(false)}
+                        dismissible
+                    >
+                        Incorrect username or password.
+                    </Alert>
+                ) : (
+                    <div />
+                )}
+                <Form.Group className="mb-2" controlId="username">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={inputUsername}
+                        placeholder="Username"
+                        onChange={(e) => setInputUsername(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group className="mb-2" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={inputPassword}
+                        placeholder="Password"
+                        onChange={(e) => setInputPassword(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group className="mb-2" controlId="checkbox">
+                    <Form.Check type="checkbox" label="Remember me" />
+                </Form.Group>
+                {!loading ? (
+                    <Button className="w-100" variant="primary" type="submit">
+                        Log In
+                    </Button>
+                ) : (
+                    <Button className="w-100" variant="primary" type="submit" disabled>
+                        Logging In...
+                    </Button>
+                )}
+                <div className="d-grid justify-content-end">
+                    <Button
+                        className="text-muted px-0"
+                        variant="link"
+                        onClick={handlePassword}
+                    >
+                        Forgot password?
+                    </Button>
+                </div>
+            </Form>
+            {/* Footer */}
+            <div className="w-100 mb-2 position-absolute bottom-0 start-50 translate-middle-x text-white text-center">
+                Made by Hendrik C | &copy;2022
+            </div>
+        </div>
     );
 };
 

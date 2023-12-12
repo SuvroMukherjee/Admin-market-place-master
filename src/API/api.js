@@ -8,7 +8,7 @@ const apiUrl = import.meta.env.VITE_API_BASE;
 
 const authString = localStorage.getItem('auth');
 const auth = JSON.parse(authString);
-const accessToken = auth.accessToken;
+const accessToken = auth?.accessToken;
 console.log(accessToken);
 
 function setAuthHeader() {
