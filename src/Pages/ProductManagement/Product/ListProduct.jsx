@@ -38,7 +38,7 @@ export default function ListProduct() {
             field: "image", headerName: "Image", width: 200, renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params.row.image[0]} alt="" />
+                        <img className="productListImg" src={params?.row?.image[0]} alt="" />
                     </div>
                 );
             }
