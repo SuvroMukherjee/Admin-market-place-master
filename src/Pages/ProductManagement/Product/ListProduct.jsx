@@ -8,6 +8,8 @@ import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { allBrandList, allCategoryList, allProductList, allSubCategoryList } from "../../../API/api";
 import { AiOutlinePlus } from "react-icons/ai";
+import { RiEdit2Line } from "react-icons/ri";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -42,7 +44,8 @@ export default function ListProduct() {
             field: "image", headerName: "Image", width: 200, renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        {/* <img className="productListImg" src={params?.row?.image[0]} alt="" /> */}
+                        <img className="productListImg" src={params?.row?.image?.[0]} alt="" />
+                        <span>{params?.row?.image?.length - 1}+</span>
                     </div>
                 );
             }
@@ -71,9 +74,18 @@ export default function ListProduct() {
             field: "tags", headerName: "Tags", width: 200, renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        {params.row?.tags?.map((ele,i) => (
-                            <p key={i}>{ele} |</p> 
+                        {params.row?.tags?.map((ele, i) => (
+                            <p key={i}>{ele},</p>
                         ))}
+                    </div>
+                );
+            }
+        },
+        {
+            field: "status", headerName: "Status", width: 200, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
                     </div>
                 );
             }
@@ -82,13 +94,26 @@ export default function ListProduct() {
         {
             field: "action",
             headerName: "Action",
-            width: 150,
+            width: 300,
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={"/product/" + params.row.id}>
-                            <button className="productListEdit">Edit</button>
-                        </Link>
+                        {/* <button className="productListEdit" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)}>Edit</button> */}
+                        <div className="buttonWrapper">
+                            <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)}>
+                                <RiEdit2Line /> Edit
+                            </Button>
+                            {params?.row?.status ?
+                                <Button variant="danger" >
+                                    Deactive
+                                </Button> :
+                                <Button variant="success" >
+                                    Active
+                                </Button>}
+                            {/* <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
+                                <FaRegTrashAlt />
+                            </Button> */}
+                        </div>
                     </>
                 );
             },
@@ -114,10 +139,8 @@ export default function ListProduct() {
                     <Col>
                         <DataGrid
                             rows={data}
-                            disableSelectionOnClick
                             columns={columns}
                             pageSize={8}
-                            checkboxSelection
                         />
                     </Col>
                 </Row>

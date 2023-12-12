@@ -110,7 +110,7 @@ export default function ListSubCategory() {
                 return (
                     <div className="buttonWrapper">
 
-                        {/* <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button> */}
+                       
                         <Button variant="warning" onClick={() => handleEdit(params?.row)}>
                             <RiEdit2Line /> Edit
                         </Button>
@@ -124,8 +124,7 @@ export default function ListSubCategory() {
                         <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
                             <FaRegTrashAlt />
                         </Button>
-                        {/* <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
-                        <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button> */}
+                        
 
                     </div>
                 );

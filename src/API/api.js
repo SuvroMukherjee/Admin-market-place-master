@@ -294,4 +294,22 @@ export async function AddNewProduct(formData) {
     } catch (error) {
         return error
     }
-}
+} 
+
+export async function GetProductDetails(id) {
+    try {
+        const response = await axios.get(apiUrl + `/product/detail/${id}`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+} 
+
+// export async function StatusProductUpdate(id) {
+//     try {
+//         const response = await axios.get(apiUrl + `/product/detail/${id}`, { headers: setAuthHeader() })
+//         return response;
+//     } catch (error) {
+//         return error
+//     }
+// } 
