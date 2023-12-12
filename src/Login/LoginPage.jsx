@@ -81,11 +81,11 @@ const LoginPage = () => {
                     <div />
                 )}
                 <Form.Group className="mb-2" controlId="username">
-                    <Form.Label>Username</Form.Label>
+                    <Form.Label>Email</Form.Label>
                     <Form.Control
                         type="text"
                         value={inputUsername}
-                        placeholder="Username"
+                        placeholder="Enter your email"
                         onChange={(e) => setInputUsername(e.target.value)}
                         required
                     />
@@ -95,7 +95,7 @@ const LoginPage = () => {
                     <Form.Control
                         type="password"
                         value={inputPassword}
-                        placeholder="Password"
+                        placeholder="Enter your password"
                         onChange={(e) => setInputPassword(e.target.value)}
                         required
                     />
