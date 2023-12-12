@@ -74,6 +74,18 @@ export default function ListSubCategory() {
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
         {
+            field: "image",
+            headerName: "Image",
+            width: 100,
+            renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        <img className="productListImg" src={params.row.image} alt="" />
+                    </div>
+                );
+            },
+        },
+        {
             field: "title",
             headerName: "Title",
             width: 160,

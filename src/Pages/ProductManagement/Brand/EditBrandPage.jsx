@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Modal, Button, Form, Col, ButtonGroup, Row } from 'react-bootstrap';
-import { EditBrand, UpdateProductCategory } from '../../../API/api';
+import { EditBrand, FileUpload, UpdateProductCategory } from '../../../API/api';
 
 const EditBrandPage = ({ showModal, handleClose, data }) => {
     const [modalData, setModalData] = useState({});
@@ -25,6 +25,28 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
         setModalData({ ...modalData, [name]: value });
         
     };
+
+    const handleFileChange = async (e) => {
+        onFileUpload(e.target.files[0])
+    };
+
+
+    const onFileUpload = async (data) => {
+        const formData = new FormData();
+        formData.append("file", data);
+        await FileUpload(formData)
+            .then((res) => {
+                console.log(res, "res");
+                setTimeout(() => {
+                    //setFile(res?.data?.data?.fileurl)
+                    setModalData({ ...modalData, ['image']: res?.data?.data?.fileurl });
+                }, 5000);
+            })
+            .catch((err) => {
+                console.log(err, "err");
+            });
+    };
+
 
     return (
         <div>
@@ -55,7 +77,7 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
                                 </Col>
                                 <Col>
                                     <label>Upload New Image</label>
-                                    <input type='file' />
+                                    <input type='file' onChange={handleFileChange} accept="image/jpeg, image/png, image/gif" />
                                 </Col>
                             </Form.Group>
                         </Row>

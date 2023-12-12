@@ -1,20 +1,17 @@
 import React from 'react'
 import '../product.css';
 import { useState } from 'react';
-import { AddBrand, AddProductCategory } from '../../../API/api';
+import { AddBrand, AddProductCategory, FileUpload } from '../../../API/api';
 
 
 const AddBrandPage = () => {
     const [title, setTitle] = useState('');
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState("https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg");
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
     };
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,7 +21,7 @@ const AddBrandPage = () => {
             let payload =
             {
                 "title": title,
-                "image": file?.name
+                "image": file
             }
 
             await AddBrand(payload).then((res) => {
@@ -36,6 +33,27 @@ const AddBrandPage = () => {
             })
         }
     };
+
+    const handleFileChange = async (e) => {
+        onFileUpload(e.target.files[0])
+    };
+
+
+    const onFileUpload = async (data) => {
+        const formData = new FormData();
+        formData.append("file", data);
+        await FileUpload(formData)
+            .then((res) => {
+                console.log(res, "res");
+                setTimeout(() => {
+                    setFile(res?.data?.data?.fileurl)
+                }, 5000);
+            })
+            .catch((err) => {
+                console.log(err, "err");
+            });
+    };
+
     return (
 
         <div className="newProduct">
@@ -43,14 +61,16 @@ const AddBrandPage = () => {
             <form className="addProductForm" onSubmit={handleSubmit}>
                 <div className="addProductItem">
                     <label>Image</label>
-                    <input type="file" id="file" onChange={handleFileChange} />
+                    {file &&
+                        <img src={file} />}
+                    <input type="file" id="file" onChange={handleFileChange} accept="image/jpeg, image/png, image/gif" />
                 </div>
                 <div className="addProductItem">
                     <label>Title</label>
                     <input
                         type="text"
                         name="Title"
-                        placeholder="Category"
+                        placeholder="Brand Name"
                         value={title}
                         onChange={handleTitleChange}
                     />
