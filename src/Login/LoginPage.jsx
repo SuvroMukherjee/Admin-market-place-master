@@ -1,10 +1,9 @@
 
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { Alert, Button, Form } from "react-bootstrap";
 import { AdminLogin } from '../API/api';
 import useAuth from '../hooks/useAuth';
-import { Form, Button, Alert } from "react-bootstrap";
-import './loginpage.css'
+import './loginpage.css';
 
 const LoginPage = () => {
     const { setAuth } = useAuth()
