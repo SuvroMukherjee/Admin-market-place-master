@@ -1,27 +1,30 @@
-import "../product.css";
 import { DataGrid } from "@mui/x-data-grid";
-// import { DeleteOutline } from "@material-ui/icons";
-
-import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { productRows } from "../../../dummyData";
-import { Button, Container, Row, Col } from 'react-bootstrap';
-import { UpdateStatusBrand, allBrandList, allCategoryList, allSubCategoryList, deleteBrand } from "../../../API/api";
-import EditBrandPage from "./EditBrandPage";
-import { RiEdit2Line } from 'react-icons/ri';
-import { FaRegTrashAlt } from "react-icons/fa";
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
+import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { FaRegTrashAlt } from "react-icons/fa";
+import { RiEdit2Line } from 'react-icons/ri';
+import { useNavigate } from "react-router-dom";
+import { UpdateStatusBrand, allBrandList, deleteBrand } from "../../../API/api";
+import { productRows } from "../../../dummyData";
+import "../product.css";
+import EditBrandPage from "./EditBrandPage";
 
 
 export default function ListSubCategory() {
     const [data, setData] = useState(productRows);
     const [modalData, setModalData] = useState({});
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        getAllBrandLists();
+        setTimeout(() => {
+            getAllBrandLists();
+        }, 3000);
     }, []);
 
 
@@ -32,8 +35,11 @@ export default function ListSubCategory() {
                 id: index + 1,
             }));
             setData(dataWithUniqueIds)
+            setLoading(false)
         }).catch((err) => {
             console.log(err)
+        }).finally(()=>{
+            setLoading(false)
         })
     };
 
@@ -45,8 +51,10 @@ export default function ListSubCategory() {
 
         await UpdateStatusBrand(payload, data?._id).then((res) => {
             getAllBrandLists();
+            toast.success('Brand updated successfully!');
         }).catch((err) => {
             console.log(err)
+            toast.error('Something went wrong!');
         })
     }
 
@@ -54,8 +62,10 @@ export default function ListSubCategory() {
     const handleDelete = async (id) => {
         await deleteBrand(id).then((res) => {
             getAllBrandLists();
+            toast.success('Brand delete successfully!');
         }).catch((err) => {
             console.log(err)
+            toast.error('Something went wrong!');
         })
     }
 
@@ -94,7 +104,7 @@ export default function ListSubCategory() {
             field: "status",
             headerName: "Status",
             width: 150,
-            renderCell:(params)=>{
+            renderCell: (params) => {
                 return (
                     <div>
                         {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
@@ -122,7 +132,7 @@ export default function ListSubCategory() {
                         <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
                             <FaRegTrashAlt />
                         </Button>
-                        
+
 
                     </div>
                 );
@@ -131,38 +141,50 @@ export default function ListSubCategory() {
     ];
 
     return (
-        <div className="productList mt-2 p-4">
-            <Container>
-                <EditBrandPage
-                    showModal={showModal}
-                    handleClose={handleClose}
-                    data={modalData}
-                />
-                <Row className="justify-content-md-center">
-                    <Col md="auto">
-                        <h3>Brand List</h3>
-                    </Col>
-                </Row>
-                <Row >
-                    <Col className="d-flex justify-content-end p-2">
-                        <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addbrand')}>
-                            <AiOutlinePlus /> Add New Brand
-                        </Button>
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col>
-                        <DataGrid
-                            rows={data}
-                            // disableSelectionOnClick
-                            columns={columns}
-                            pageSize={8}
-                        //checkboxSelection
-                        />
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <>
+            {loading &&
+                <div className="productList mt-2 p-4 contentLoader">
+                    <Row>
+                        <Col>
+                            <Spinner animation="border" size="lg" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>
+                        </Col>
+                    </Row>
+                </div>}
+            <div className="productList mt-2 p-4">
+                <Container>
+                    <EditBrandPage
+                        showModal={showModal}
+                        handleClose={handleClose}
+                        data={modalData}
+                    />
+                    <Row className="justify-content-md-center">
+                        <Col md="auto">
+                            <h3>Brand List</h3>
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Col className="d-flex justify-content-end p-2">
+                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addbrand')}>
+                                <AiOutlinePlus /> Add New Brand
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                        <Col>
+                            <DataGrid
+                                rows={data}
+                                columns={columns}
+                                pageSize={8}
+                            />
+                        </Col>
+                    </Row>
+                </Container>
+                <Toaster position="top-right" />
+            </div>
+        </>
+
 
     );
 }

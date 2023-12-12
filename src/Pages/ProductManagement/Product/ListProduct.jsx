@@ -9,9 +9,10 @@ import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { allProductList, deleteProduct } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
+import { productRows } from "../../../dummyData";
 
 export default function ListProduct() {
-    const [data, setData] = useState();
+    const [data, setData] = useState(productRows);
     const [loading, setLoading] = useState(true)
 
 

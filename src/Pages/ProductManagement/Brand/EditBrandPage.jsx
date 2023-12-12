@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { Modal, Button, Form, Col, ButtonGroup, Row } from 'react-bootstrap';
-import { EditBrand, FileUpload, UpdateProductCategory } from '../../../API/api';
+import React, { useEffect, useState } from 'react';
+import { Button, ButtonGroup, Col, Form, Modal, Row } from 'react-bootstrap';
+import toast, { Toaster } from 'react-hot-toast';
+import { EditBrand, FileUpload } from '../../../API/api';
+
 
 const EditBrandPage = ({ showModal, handleClose, data }) => {
     const [modalData, setModalData] = useState({});
@@ -10,20 +11,22 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
         setModalData(data);
     }, [data]);
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        await EditBrand(modalData,modalData?._id).then((res)=>{
+
+        await EditBrand(modalData, modalData?._id).then((res) => {
+            toast.success('Brand updated successfully!');
             handleClose()
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err)
+            toast.error('Something went wrong!');
         })
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setModalData({ ...modalData, [name]: value });
-        
+
     };
 
     const handleFileChange = async (e) => {
@@ -97,6 +100,7 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
                     </Form>
                 </Modal.Body>
             </Modal>
+            <Toaster position="top-right" />
         </div>
     );
 };
