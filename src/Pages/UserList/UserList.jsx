@@ -96,7 +96,7 @@ export default function UserList() {
                         <div className="buttonWrapper">
 
                             {/* <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button> */}
-                            <Button variant="warning" onClick={() => navigate(`/EditUser/${params?.row?._id}`)}>
+                            <Button variant="warning" onClick={() => navigate(`/EditUser/${params?.row?._id}`)} size="sm">
                                 <RiEdit2Line /> Edit
                             </Button>
                             {params?.row?.status ?
