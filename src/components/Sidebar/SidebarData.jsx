@@ -52,8 +52,8 @@ export const AdminSidebarData = [
 
 export const KeyManagerSidebarData = [
     {
-        title: 'Home',
-        path: '/key',
+        title: 'Dashboard',
+        path: '/key/dashboard',
         icon: AiIcons.AiFillHome,
         cName: 'nav-text'
     },

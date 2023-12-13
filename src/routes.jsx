@@ -17,6 +17,7 @@ import AddBrandPage from './Pages/ProductManagement/Brand/AddBrandPage';
 import EditUser from './Pages/UserList/EditUser';
 import AddProduct from './Pages/ProductManagement/Product/AddProduct';
 import EditProduct from './Pages/ProductManagement/Product/EditProduct';
+import Dashboard from './Pages/KeyManager/Dashboard/Dashboard';
 
 
 
@@ -64,10 +65,9 @@ export default function Router() {
       element: <AdminLayout />,
       children: [
         {
-          path: '', // Remove the absolute path '/key'
           element: <RequireAuth allowedRoles={['Key Account Maneger']} />,
           children: [
-            { path: '', element: <Home /> }, // Remove the absolute path '/key'
+            { path: 'dashboard', element: <Dashboard/> }, // Remove the absolute path '/key'
           ],
         },
       ],
