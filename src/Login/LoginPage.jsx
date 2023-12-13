@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Alert, Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AdminLogin } from '../API/api';
 import useAuth from '../hooks/useAuth';
 import './loginpage.css';
@@ -16,6 +16,8 @@ const LoginPage = () => {
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate()
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const handleSubmit = async (event) => {
         event.preventDefault();

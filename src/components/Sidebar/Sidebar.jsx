@@ -1,74 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconContext } from 'react-icons';
 import { LuUnlock } from "react-icons/lu";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import classnames from 'classnames';
 import useAuth from "../../hooks/useAuth";
-import './Navbar.css';
 import { AdminSidebarData, KeyManagerSidebarData } from './SidebarData';
+import "./Navbar.css";
 import "./sidebar.css";
 
-
-export default function Sidebar() {
+const Sidebar = () => {
     const { auth, logout } = useAuth();
+    const location = useLocation();
 
     const [sidebar, setSidebar] = useState(true);
 
     const showSidebar = () => setSidebar(!sidebar);
 
-    // console.log(auth.role.name, 'role');
+    useEffect(() => {
+      
+    }, [auth, sidebar]);
+
+    const renderSidebarData = (sidebarData, title) => (
+        <nav className={classnames('nav-menu', { 'active': sidebar })}>
+            <ul className='nav-menu-items'>
+                <li className='navbar-toggle'>
+                    <h4 className="sidebar-ttile">{title}</h4>
+                </li>
+                {sidebarData.map((item, index) => (
+                    <li key={index} className={classnames('nav-text', { 'nav-text-active': location.pathname === item.path })}>
+                        <Link to={item.path}>
+                            {item.icon}
+                            <span>{item.title}</span>
+                        </Link>
+                    </li>
+                ))}
+                <li className="nav-text" onClick={() => logout()}>
+                    <Link to={'/'}>
+                        <LuUnlock />
+                        <span>Logout</span>
+                    </Link>
+                </li>
+            </ul>
+        </nav>
+    );
 
     return (
         <div className="sidebar">
             <IconContext.Provider value={{ color: '#fff' }}>
-                {auth.role.name == "Admin" &&
-                    <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                        <ul className='nav-menu-items'>
-                            <li className='navbar-toggle'>
-                                <h4 className="sidebar-ttile">Admin DashBoard</h4>
-                            </li>
-                            {AdminSidebarData.map((item, index) => {
-                                return (
-                                    <li key={index} className={location.pathname === item.path ? 'nav-text-active' : 'nav-text'}>
-                                        <Link to={item.path}>
-                                            {item.icon}
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </li>
-                                );
-                            })}
-                            <li className="nav-text" onClick={() => logout()}>
-                                <Link to={'/'}>
-                                    <LuUnlock />
-                                    <span>Logout</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </nav>}
-                {auth.role.name == "Key Account Maneger" &&
-                    <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                        <ul className='nav-menu-items'>
-                            <li className='navbar-toggle'>
-                                <h6 className="sidebar-ttile2">Key Account Maneger DashBoard</h6>
-                            </li>
-                            {KeyManagerSidebarData.map((item, index) => {
-                                return (
-                                    <li key={index} className={location.pathname === item.path ? 'nav-text-active' : 'nav-text'}>
-                                        <Link to={item.path}>
-                                            {item.icon}
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </li>
-                                );
-                            })}
-                            <li className="nav-text" onClick={() => logout()}>
-                                <Link to={'/'}>
-                                    <LuUnlock />
-                                    <span>Logout</span>
-                                </Link>
-                            </li>
-                        </ul>
-                    </nav>}
+                {auth.role.name === "Admin" && renderSidebarData(AdminSidebarData, "Admin DashBoard")}
+                {auth.role.name === "Key Account Maneger" && renderSidebarData(KeyManagerSidebarData, "Key Account Maneger DashBoard")}
             </IconContext.Provider>
         </div>
     );
 }
+
+export default Sidebar;

@@ -128,7 +128,7 @@ export default function UserList() {
                 </Row>
                 <Row >
                     <Col className="d-flex justify-content-end p-2">
-                        <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addbrand')}>
+                        <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/AddUser')}>
                             <AiOutlinePlus /> Add New User
                         </Button>
                         {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addbrand')}>Add New User</button> */}

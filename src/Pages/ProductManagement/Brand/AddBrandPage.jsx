@@ -80,7 +80,7 @@ const AddBrandPage = () => {
                     </Row>
                 </div>}
             <div className="newProduct">
-                <h1 className="addProductTitle">New Category</h1>
+                <h1 className="addProductTitle">New Brand</h1>
                 <form className="addProductForm" onSubmit={handleSubmit}>
                     <div className="addProductItem">
                         <label>Image</label>

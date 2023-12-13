@@ -54,7 +54,20 @@ export default function Router() {
             { path: 'Addbrand', element: <AddBrandPage /> },
             { path: 'product', element: <ListProduct /> },
             { path: 'Addproduct', element: <AddProduct /> },
-             { path: 'Editproduct/:id', element: <EditProduct /> }
+            { path: 'Editproduct/:id', element: <EditProduct /> }
+          ],
+        },
+      ],
+    },
+    {
+      path: '/key',
+      element: <AdminLayout />,
+      children: [
+        {
+          path: '', // Remove the absolute path '/key'
+          element: <RequireAuth allowedRoles={['Key Account Maneger']} />,
+          children: [
+            { path: '', element: <Home /> }, // Remove the absolute path '/key'
           ],
         },
       ],
