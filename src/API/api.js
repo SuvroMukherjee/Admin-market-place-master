@@ -120,6 +120,16 @@ export async function StaffUpdatedDetails(id,formData) {
     }
 }
 
+export async function AdminSellerLists() {
+    try {
+        const response = await axios.get(apiUrl + "/seller/all-list", { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 
 /** Category Apis */
 export async function allCategoryList(){

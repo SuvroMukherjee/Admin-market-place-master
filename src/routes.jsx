@@ -21,6 +21,7 @@ import Dashboard from './Pages/KeyManager/Dashboard/Dashboard';
 import ListSeller from './Pages/KeyManager/Seller/ListSeller';
 import Addseller from './Pages/KeyManager/Seller/Addseller';
 import EditSeller from './Pages/KeyManager/Seller/EditSeller';
+import SellerListManage from './Pages/SellerManagment/SellerListManage';
 
 
 
@@ -44,6 +45,7 @@ export default function Router() {
             { path: 'users', element: <UserList /> },
             { path: 'AddUser', element: <AddUser /> },
             { path: 'EditUser/:id', element: <EditUser /> },
+            { path: 'SellerManagment', element: <SellerListManage /> }
           ],
         },
         {
@@ -58,7 +60,7 @@ export default function Router() {
             { path: 'Addbrand', element: <AddBrandPage /> },
             { path: 'product', element: <ListProduct /> },
             { path: 'Addproduct', element: <AddProduct /> },
-            { path: 'Editproduct/:id', element: <EditProduct /> }
+            { path: 'Editproduct/:id', element: <EditProduct /> },
           ],
         },
       ],
