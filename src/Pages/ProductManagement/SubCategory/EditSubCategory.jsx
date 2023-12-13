@@ -51,7 +51,9 @@ const EditSubCategory = ({ showModal, handleClose, data }) => {
             .then((res) => {
                 console.log(res, "res");
                 //setFile(res?.data?.data?.fileurl)
-                setModalData({ ...modalData, ['image']: res?.data?.data?.fileurl });
+                setTimeout(() => {
+                    setModalData({ ...modalData, ['image']: res?.data?.data?.fileurl });
+                }, 3000);
             })
             .catch((err) => {
                 console.log(err, "err");

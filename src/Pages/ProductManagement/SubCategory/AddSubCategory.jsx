@@ -2,18 +2,23 @@ import React, { useEffect } from 'react'
 import '../product.css';
 import { useState } from 'react';
 import { AddProductCategory, AddProductSubCategory, FileUpload, allCategoryList } from '../../../API/api';
+import NoImage from '../../../assets/noimage.png'
+import { useNavigate } from "react-router-dom";
 
 
 const AddSubCategory = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState(NoImage);
     const [categoryId, setCategoryId] = useState();
     const [categorylist, setCategorylist] = useState([]);
 
     useEffect(() => {
         getCategoryList();
     }, [])
+
+    const navigate = useNavigate()
+
 
     async function getCategoryList() {
         await allCategoryList().then((res) => {
@@ -55,6 +60,7 @@ const AddSubCategory = () => {
                 setDescription('');
                 setFile(null);
                 setCategoryId(null)
+                navigate('/Admin/subcategory')
             }).catch((err) => {
                 console.log(err)
             })
@@ -72,7 +78,10 @@ const AddSubCategory = () => {
         await FileUpload(formData)
             .then((res) => {
                 console.log(res, "res");
-                setFile(res?.data?.data?.fileurl)
+                setTimeout(() => {
+                    setFile(res?.data?.data?.fileurl)
+                }, 3000);
+
             })
             .catch((err) => {
                 console.log(err, "err");
@@ -82,7 +91,7 @@ const AddSubCategory = () => {
     return (
 
         <div className="newProduct">
-            <h1 className="addProductTitle">New Sub-Category</h1>
+            <h3 className="addProductTitle mt-4">New Sub-Category</h3>
             <form className="addProductForm" onSubmit={handleSubmit}>
                 <div className="addProductItem">
                     <label>Image</label>
