@@ -53,7 +53,7 @@ const AddUser = () => {
 
     return (
         <div className="newUser">
-            <h1 className="newUserTitle">New User</h1>
+            <h3 className="newUserTitle mt-4">New User</h3>
             <form className="newUserForm" onSubmit={handleSubmit}>
                 <div className="newUserItem">
                     <label>Username</label>

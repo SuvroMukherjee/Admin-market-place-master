@@ -134,7 +134,7 @@ export async function AdminSellerLists() {
 /** Category Apis */
 export async function allCategoryList(){
     try {
-        const response = await axios.get(apiUrl + "/category/list,", { headers: setAuthHeader() })
+        const response = await axios.get(apiUrl + "/category/list", { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
@@ -218,7 +218,7 @@ export async function UpdateStatusProductSubCategory(formData,id){
 
 export async function DeleteProductSubCategory(id){
     try {
-        const response = await axios.delete(apiUrl + `/sub-category/${id},`, { headers: setAuthHeader() })
+        const response = await axios.delete(apiUrl + `/sub-category/delete/${id}`, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error

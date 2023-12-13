@@ -1,18 +1,23 @@
 import "../product.css";
 import { DataGrid } from "@mui/x-data-grid";
-// import { DeleteOutline } from "@material-ui/icons";
-
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productRows } from "../../../dummyData";
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { DeleteProductCategory, FileUpload, UpdateStatusProductCategory, allCategoryList } from "../../../API/api";
 import EditCategory from "./EditCategory";
+import Spinner from 'react-bootstrap/Spinner';
+import toast, { Toaster } from 'react-hot-toast';
+import { AiOutlinePlus } from "react-icons/ai";
+import { RiEdit2Line } from "react-icons/ri";
+import { FaRegTrashAlt } from "react-icons/fa";
+
 
 export default function ListCategory() {
-    const [data, setData] = useState(productRows);
+    const [data, setData] = useState(productRows || []);
     const [showModal, setShowModal] = useState(false);
     const [modalData, setModalData] = useState()
+    const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
 
@@ -42,8 +47,11 @@ export default function ListCategory() {
                 id: index + 1,
             }));
             setData(dataWithUniqueIds)
+            setLoading(false)
         }).catch((err) => {
             console.log(err)
+        }).finally(() => {
+            setLoading(false)
         })
     };
 
@@ -55,8 +63,10 @@ export default function ListCategory() {
         await UpdateStatusProductCategory(payload, data?._id).then((res) => {
             console.log(res, 'res')
             getCategoryList();
+            toast.success('Category updated successfully')
         }).catch((err) => {
             console.log(err)
+            toast.error('Soemthing went wrong!')
         })
     }
 
@@ -65,12 +75,14 @@ export default function ListCategory() {
         await DeleteProductCategory(id).then((res) => {
             console.log({ res })
             getCategoryList();
+            toast.success('Category deleted successfully')
         }).catch((err) => {
             console.log(err)
+            toast.error('Soemthing went wrong!')
         })
     }
 
-    
+
 
 
     const columns = [
@@ -102,19 +114,41 @@ export default function ListCategory() {
             field: "status",
             headerName: "Status",
             width: 120,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+                    </div>
+                )
+            }
         },
         {
             field: "action",
             headerName: "Action",
-            width: 250,
+            width: 350,
             renderCell: (params) => {
                 return (
-                    <>
+                    <div className="buttonWrapper">
+                        <Button variant="warning" onClick={() => handleShow(params?.row)}>
+                            <RiEdit2Line /> Edit
+                        </Button>
+                        {params?.row?.status ?
+                            <Button variant="danger" onClick={() => handleStatus(params?.row)}>
+                                Deactive
+                            </Button> :
+                            <Button variant="success" onClick={() => handleStatus(params?.row)}>
+                                Active
+                            </Button>}
+                        <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
+                            <FaRegTrashAlt />
+                        </Button>
+                    </div>
+                    // <>
 
-                        <button className="productListEdit" onClick={() => handleShow(params?.row)}>Edit</button>
-                        <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
-                        <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button>
-                    </>
+                    //     <button className="productListEdit" onClick={() => handleShow(params?.row)}>Edit</button>
+                    //     <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
+                    //     <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button>
+                    // </>
                 );
             },
         },
@@ -127,36 +161,53 @@ export default function ListCategory() {
 
 
     return (
-        <div className="productList mt-2 p-4">
-            <Container>
-                <EditCategory
-                    showModal={showModal}
-                    handleClose={handleClose}
-                    data={modalData}
-                />
-                <Row className="justify-content-md-center">
-                    <Col md="auto">
-                        <h3>Category List</h3>
-                    </Col>
-                </Row>
-                <Row >
-                    <Col className="d-flex justify-content-end p-2">
-                        <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button>
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col>
-                        <DataGrid
-                            rows={data}
-                            disableSelectionOnClick
-                            columns={columns}
-                            pageSize={8}
-                        // checkboxSelection
-                        />
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <>
+            {loading &&
+                <div className="productList mt-2 p-4 contentLoader">
+                    <Row>
+                        <Col>
+                            <Spinner animation="border" size="lg" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>
+                        </Col>
+                    </Row>
+                </div>}
+            <div className="productList mt-2 p-4">
+                <Container>
+                    <EditCategory
+                        showModal={showModal}
+                        handleClose={handleClose}
+                        data={modalData}
+                    />
+                    <Row className="justify-content-md-center">
+                        <Col md="auto">
+                            <h3>Category List</h3>
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Col className="d-flex justify-content-end p-2">
+                            {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
+                            <Button className="addCategoryButton" variant="dark" onClick={() => handleNewCat()}>
+                                <AiOutlinePlus /> Add New Category
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                        <Col>
+                            <DataGrid
+                                rows={data}
+                                disableSelectionOnClick
+                                columns={columns}
+                                pageSize={8}
+                            // checkboxSelection
+                            />
+                        </Col>
+                    </Row>
+                </Container>
+                <Toaster position="top-right" />
+            </div>
+        </>
+
 
     );
 }

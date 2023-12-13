@@ -3,13 +3,15 @@ import '../product.css';
 import { useState } from 'react';
 import { AddProductCategory, FileUpload } from '../../../API/api';
 import EditCategory from './EditCategory';
+import NoImage from '../../../assets/noimage.png'
+import { useNavigate } from "react-router-dom";
 
 const AddCategory = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState(NoImage);
 
-
+    const navigate = useNavigate()
 
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
@@ -30,7 +32,10 @@ const AddCategory = () => {
         await FileUpload(formData)
             .then((res) => {
                 console.log(res, "res");
-                setFile(res?.data?.data?.fileurl)
+                setTimeout(() => {
+                    setFile(res?.data?.data?.fileurl)
+                }, 3000);
+                //setFile(res?.data?.data?.fileurl)
             })
             .catch((err) => {
                 console.log(err, "err");
@@ -52,10 +57,10 @@ const AddCategory = () => {
 
             await AddProductCategory(payload).then((res) => {
                 console.log(res?.data?.data)
-
                 setTitle('');
                 setDescription('');
                 setFile(null);
+                navigate('/Admin/category')
             }).catch((err) => {
                 console.log(err)
             })
@@ -64,7 +69,7 @@ const AddCategory = () => {
     return (
 
         <div className="newProduct">
-            <h1 className="addProductTitle">New Category</h1>
+            <h3 className="addProductTitle mt-4">New Category</h3>
             <form className="addProductForm" onSubmit={handleSubmit}>
                 <div className="addProductItem">
                     <label>Image</label>

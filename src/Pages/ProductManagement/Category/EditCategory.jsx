@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Modal, Button, Form, Col, ButtonGroup, Row } from 'react-bootstrap';
 import { FileUpload, UpdateProductCategory } from '../../../API/api';
+import Spinner from 'react-bootstrap/Spinner';
+import toast, { Toaster } from 'react-hot-toast';
 
 const EditCategory = ({ showModal, handleClose, data }) => {
     const [modalData, setModalData] = useState({});
@@ -10,23 +12,25 @@ const EditCategory = ({ showModal, handleClose, data }) => {
         setModalData(data);
     }, [data]);
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         console.log({ modalData })
 
-        await UpdateProductCategory(modalData,modalData?._id).then((res)=>{
-            console.log({res})
+        await UpdateProductCategory(modalData, modalData?._id).then((res) => {
+            console.log({ res })
+            toast.success('Product update successfully')
             handleClose()
-        }).catch((err)=>{
+        }).catch((err) => {
             console.log(err)
+            toast.error('Something went wrong!')
         })
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setModalData({ ...modalData, [name]: value });
-        
+
     };
 
     const handleFileChange = async (e) => {
@@ -41,7 +45,9 @@ const EditCategory = ({ showModal, handleClose, data }) => {
             .then((res) => {
                 console.log(res, "res");
                 //setFile(res?.data?.data?.fileurl)
-                setModalData({ ...modalData, ['image']: res?.data?.data?.fileurl });
+                setTimeout(() => {
+                    setModalData({ ...modalData, ['image']: res?.data?.data?.fileurl });
+                }, 3000);
             })
             .catch((err) => {
                 console.log(err, "err");
@@ -110,6 +116,7 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                     </Form>
                 </Modal.Body>
             </Modal>
+            <Toaster position="top-right" />
         </div>
     );
 };
