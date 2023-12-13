@@ -80,13 +80,13 @@ const LoginPage = () => {
     return (
         <div
             className="sign-in__wrapper"
-            style={{ backgroundImage: `url('https://media.istockphoto.com/id/1341408852/video/colored-smoke-on-a-dark-background-blue-and-red-light-with-smoke.jpg?s=640x640&k=20&c=v2DQUY8IVbli_6FH_9KAs6YWRXlDdYiBJHfp7JFh7NY=')` }}
+            style={{ backgroundImage: `url('https://img.freepik.com/free-photo/online-shopping-shopping-cart-placed-alongside-notebook-blue_1150-19158.jpg')` }}
         >
             <div className="sign-in__backdrop"></div>
             <Form className="shadow p-4 bg-white rounded" onSubmit={handleSubmit}>
                 <img
                     className="img-thumbnail mx-auto d-block mb-2"
-                    src={'https://img.freepik.com/free-vector/bird-colorful-logo-gradient-vector_343694-1365.jpg?size=338&ext=jpg&ga=GA1.1.1222169770.1701648000&semt=ais'}
+                    src={'https://e7.pngegg.com/pngimages/898/54/png-clipart-online-marketplace-amazon-com-e-commerce-online-shopping-marketplace-text-service.png'}
                     alt="logo"
                 />
                 <div className="h4 mb-2 text-center">Sign In</div>
@@ -146,7 +146,7 @@ const LoginPage = () => {
             </Form>
             {/* Footer */}
             <div className="w-100 mb-2 position-absolute bottom-0 start-50 translate-middle-x text-white text-center">
-                Made by Hendrik C | &copy;2022
+                Sant Sales| &copy;2023
             </div>
         </div>
     );

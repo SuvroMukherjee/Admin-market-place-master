@@ -4,6 +4,7 @@ import { FaCartArrowDown, FaUsers } from 'react-icons/fa';
 import { IoPricetagsSharp } from 'react-icons/io5';
 import { MdCategory } from 'react-icons/md';
 import { RiUserSettingsFill } from 'react-icons/ri';
+import { BsShop } from "react-icons/bs";
 
 export const AdminSidebarData = [
     {
@@ -27,7 +28,7 @@ export const AdminSidebarData = [
     {
         title: 'Sellers',
         path: '/SellerManagment',
-        icon: FaUsers,
+        icon:  BsShop,
         cName: 'nav-text'
     },
     {
@@ -66,7 +67,7 @@ export const KeyManagerSidebarData = [
     {
         title: 'Seller',
         path: '/key/seller',
-        icon: AiIcons.AiFillHome,
+        icon: BsShop,
         cName: 'nav-text'
     }
 ];

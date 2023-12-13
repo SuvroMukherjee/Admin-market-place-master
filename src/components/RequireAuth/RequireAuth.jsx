@@ -9,14 +9,17 @@ const RequireAuth = ({ allowedRoles }) => {
     const location = useLocation();
 
     return (
+        allowedRoles.includes(auth?.role?.name) ? (
+            <Outlet />
+        ) : !auth?.username ? (
+            <Navigate to="/unauthorized" state={{ from: location }} replace />
+        ) : auth?.role?.name === 'Admin' ? (
+            <Navigate to="/" state={{ from: location }} replace />
+        ) : (
+            <Navigate to="/key/dashboard" state={{ from: location }} replace />
+        )
+    );
 
-        allowedRoles.includes(auth?.role?.name)
-            ? <Outlet />
-            : auth?.username
-                ? <Navigate to="/unauthorized" state={{ from: location }} replace />
-                : <Navigate to="/" state={{ from: location }} replace />
-
-    )
 }
 
 export default RequireAuth
