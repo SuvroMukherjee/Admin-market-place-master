@@ -7,7 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { allProductList, deleteProduct } from "../../../API/api";
+import { StatusUpdateProduct, allProductList, deleteProduct } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { productRows } from "../../../dummyData";
 
@@ -46,7 +46,7 @@ export default function ListProduct() {
             "status": !dataset?.status
         }
 
-        await StatusUpdateProduct(payload, dataset?._id).then((res) => {
+        await StatusUpdateProduct(dataset?._id,payload).then((res) => {
             console.log(res)
             getProductListFunc()
             toast.success('Product status updated successfully!');

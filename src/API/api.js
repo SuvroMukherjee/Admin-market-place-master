@@ -305,6 +305,15 @@ export async function GetProductDetails(id) {
     }
 } 
 
+export async function getSubCategoryByCategory(id) {
+    try {
+        const response = await axios.get(apiUrl + `/sub-category/list-by-catId/${id}`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 export async function StatusUpdateProduct(id,fromData) {
     try {
         const response = await axios.patch(apiUrl + `/product/status-update/${id}`, fromData,{ headers: setAuthHeader() })

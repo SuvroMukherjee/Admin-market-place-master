@@ -3,7 +3,7 @@ import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
-import { AddNewProduct, FileUpload, allBrandList, allCategoryList, allSubCategoryList } from '../../../API/api';
+import { AddNewProduct, FileUpload, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../../API/api';
 import { MdCancel } from "react-icons/md";
 import { MdOutlineFileUpload } from "react-icons/md";
 
@@ -33,7 +33,7 @@ const AddProduct = () => {
     useEffect(() => {
         setTimeout(() => {
             getCategoryList();
-            getSubCategoryList();
+            // getSubCategoryList();
             getAllBrandLists();
         }, 5000);
     }, [])
@@ -49,8 +49,9 @@ const AddProduct = () => {
         ])
     };
 
-    async function getSubCategoryList() {
-        await allSubCategoryList().then((res) => {
+    async function getSubCategoryList(CategoryId) {
+        console.log(CategoryId)
+        await getSubCategoryByCategory(CategoryId).then((res) => {
             setSubCatgoryList(res?.data?.data)
             setLoading(false)
         }).catch((err) => {
@@ -73,6 +74,9 @@ const AddProduct = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        if (name == 'categoryId') {
+            getSubCategoryList(value)
+        }
         setFormData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -148,8 +152,8 @@ const AddProduct = () => {
         }
     };
 
-    const handleCancelImage = (url) =>{
-        let filterData = formData.image?.filter((e,index)=>{
+    const handleCancelImage = (url) => {
+        let filterData = formData.image?.filter((e, index) => {
             return e !== url;
         })
 
@@ -157,7 +161,7 @@ const AddProduct = () => {
             ...prevData,
             image: filterData,
         }));
-     
+
     }
 
     return (
@@ -362,7 +366,7 @@ const AddProduct = () => {
                                                         {formData.image.map((fileUrl, index) => (
                                                             <Col key={index} xs={4} md={2}>
                                                                 <span>{index + 1}</span>
-                                                                <span><MdCancel style={{color:'red',fontSize:'20px',cursor:'pointer'}}
+                                                                <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
                                                                     onClick={() => handleCancelImage(fileUrl)}
                                                                 /></span>
                                                                 <Image src={fileUrl} thumbnail />
