@@ -332,3 +332,50 @@ export async function  deleteProduct(id) {
         return error
     }
 } 
+
+{/**key manager apis */}
+
+export async function allSellerList() {
+    try {
+        const response = await axios.get(apiUrl + "/seller/list", { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function addNewsSeller(fromData) {
+    try {
+        const response = await axios.post(apiUrl + "/seller/create", fromData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function sellerDetails(id) {
+    try {
+        const response = await axios.get(apiUrl + `/seller/detail/${id}`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function UpdateSellerData(id,fromData) {
+    try {
+        const response = await axios.patch(apiUrl + `/seller/update/${id}`, fromData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function UpdateSellerStatus(id, fromData) {
+    try {
+        const response = await axios.patch(apiUrl + `/seller/status-update/${id}`, fromData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}

@@ -18,6 +18,9 @@ import EditUser from './Pages/UserList/EditUser';
 import AddProduct from './Pages/ProductManagement/Product/AddProduct';
 import EditProduct from './Pages/ProductManagement/Product/EditProduct';
 import Dashboard from './Pages/KeyManager/Dashboard/Dashboard';
+import ListSeller from './Pages/KeyManager/Seller/ListSeller';
+import Addseller from './Pages/KeyManager/Seller/Addseller';
+import EditSeller from './Pages/KeyManager/Seller/EditSeller';
 
 
 
@@ -68,6 +71,9 @@ export default function Router() {
           element: <RequireAuth allowedRoles={['Key Account Maneger']} />,
           children: [
             { path: 'dashboard', element: <Dashboard/> }, // Remove the absolute path '/key'
+            { path: 'seller', element: <ListSeller /> },
+            { path: 'AddSeller', element: <Addseller /> },
+            { path: 'EditSeller/:id', element: <EditSeller /> },
           ],
         },
       ],
