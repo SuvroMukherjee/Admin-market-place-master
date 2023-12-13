@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { StaffCreateByAdmin, allRoleList } from '../../API/api';
 import './addUser.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 const AddUser = () => {
     const [formData, setFormData] = useState({
@@ -42,9 +43,11 @@ const AddUser = () => {
         console.log(formData);
         await StaffCreateByAdmin(formData).then((res) => {
             console.log(res)
+            toast.success('User Added successfuly')
             navigate('/users')
         }).catch((err) => {
             console.log(err)
+            toast.error('Something went wrong!')
         })
     };
 
@@ -108,6 +111,7 @@ const AddUser = () => {
                 </div>
                 <button className="newUserButton">Create</button>
             </form>
+            <Toaster position="top-right" />
         </div>
 
     );
