@@ -4,39 +4,45 @@ import "./featuredInfo.css";
 // import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { FaBoxOpen } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa";
+import { CiShop } from "react-icons/ci";
 
-export default function FeaturedInfo() {
+export default function FeaturedInfo({ product, user, seller }) {
+
+    console.log(product,'p')
+
     return (
         <div className="featured">
             <div className="featuredItem">
-                <span className="featuredTitle">Revenue</span>
+                <span className="featuredTitle">Staffs</span>
                 <div className="featuredMoneyContainer">
-                    <span className="featuredMoney">$2,415</span>
+                    <span className="featuredMoney">{user?.length} <FaUsers /></span>
                     <span className="featuredMoneyRate">
-                        -11.4 <ArrowDownwardIcon className="featuredIcon negative" />
+                        {/* -11.4 <ArrowDownwardIcon className="featuredIcon negative" /> */}
                     </span>
                 </div>
-                <span className="featuredSub">Compared to last month</span>
+                {/* <span className="featuredSub">Compared to last month</span> */}
             </div>
             <div className="featuredItem">
-                <span className="featuredTitle">Sales</span>
+                <span className="featuredTitle">Sellers</span>
                 <div className="featuredMoneyContainer">
-                    <span className="featuredMoney">$4,415</span>
+                    <span className="featuredMoney">{seller?.length} <CiShop/> </span>
                     <span className="featuredMoneyRate">
-                        -1.4 <ArrowDownwardIcon className="featuredIcon negative" />
+                        {/* -1.4 <ArrowDownwardIcon className="featuredIcon negative" /> */}
                     </span>
                 </div>
-                <span className="featuredSub">Compared to last month</span>
+                {/* <span className="featuredSub">Compared to last month</span> */}
             </div>
             <div className="featuredItem">
-                <span className="featuredTitle">Cost</span>
+                <span className="featuredTitle">Products</span>
                 <div className="featuredMoneyContainer">
-                    <span className="featuredMoney">$2,225</span>
-                    <span className="featuredMoneyRate">
+                    <span className="featuredMoney">{product?.length} <FaBoxOpen /></span>
+                    {/* <span className="featuredMoneyRate">
                         +2.4 <ArrowUpwardIcon className="featuredIcon" />
-                    </span>
+                    </span> */}
                 </div>
-                <span className="featuredSub">Compared to last month</span>
+                {/* <span className="featuredSub">Compared to last month</span> */}
             </div>
         </div>
     );
