@@ -12,7 +12,7 @@ import { productRows } from '../../dummyData';
 import "./roles.css";
 
 export function Roles() {
-    const [roleList, setRoleList] = useState(productRows);
+    const [roleList, setRoleList] = useState(productRows || []);
     const [inputValue, setInputValue] = useState('');
     const [showModal, setShowModal] = useState(false)
     const [showModalEdit, setShowModalEdit] = useState(false)
@@ -111,9 +111,9 @@ export function Roles() {
                                 <Button variant="success" onClick={() => handleStatusUpdate(params?.row)}>
                                     Active
                                 </Button>}
-                            <Button variant="outline-danger" onClick={() => deleteRole(params?.row?._id)}>
+                            {/* <Button variant="outline-danger" onClick={() => deleteRole(params?.row?._id)}>
                                 <FaRegTrashAlt />
-                            </Button>
+                            </Button> */}
                         </div>
                     </>
                 );

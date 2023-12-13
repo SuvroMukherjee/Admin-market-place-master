@@ -7,9 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { AdminCreateUserList, StaffStatusUpdateByAdmin } from "../../API/api";
 import { productRows } from "../../dummyData";
 import "./userlist.css";
+import Spinner from 'react-bootstrap/Spinner';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function UserList() {
-    const [data, setData] = useState(productRows);
+    const [data, setData] = useState(productRows || []);
+    const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
 
@@ -24,8 +27,11 @@ export default function UserList() {
                 id: index + 1, // Generate a unique ID
             }));
             setData(dataWithUniqueIds)
+            setLoading(false)
         }).catch((err) => {
             console.log(err)
+        }).finally(()=>{
+            setLoading(false)
         })
     }
 
@@ -38,9 +44,11 @@ export default function UserList() {
         }
 
         await StaffStatusUpdateByAdmin(dataset?._id, payload).then((res) => {
-            getUserList()
+            getUserList();
+            toast.success('User updated successfully')
         }).catch((err) => {
             console.log(err)
+            toast.error('Something went wrong!')
         })
 
     }
@@ -119,31 +127,45 @@ export default function UserList() {
     ];
 
     return (
-        <div className="userList mt-4 p-4">
-            <Container>
-                <Row className="justify-content-md-center">
-                    <Col md="auto">
-                        <h3>Users List</h3>
-                    </Col>
-                </Row>
-                <Row >
-                    <Col className="d-flex justify-content-end p-2">
-                        <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/AddUser')}>
-                            <AiOutlinePlus /> Add New User
-                        </Button>
-                        {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addbrand')}>Add New User</button> */}
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col>
-                        <DataGrid
-                            rows={data}
-                            columns={columns}
-                            pageSize={8}
-                        />
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <>
+            {loading &&
+                <div className="productList mt-2 p-4 contentLoader">
+                    <Row>
+                        <Col>
+                            <Spinner animation="border" size="lg" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>
+                        </Col>
+                    </Row>
+                </div>}
+            <div className="userList mt-4 p-4">
+                <Container>
+                    <Row className="justify-content-md-center">
+                        <Col md="auto">
+                            <h3>Users List</h3>
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Col className="d-flex justify-content-end p-2">
+                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/AddUser')}>
+                                <AiOutlinePlus /> Add New User
+                            </Button>
+                            {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addbrand')}>Add New User</button> */}
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-md-center">
+                        <Col>
+                            <DataGrid
+                                rows={data}
+                                columns={columns}
+                                pageSize={8}
+                            />
+                        </Col>
+                    </Row>
+                </Container>
+                <Toaster position="top-right" />
+            </div>
+        </>
+
     );
 }
