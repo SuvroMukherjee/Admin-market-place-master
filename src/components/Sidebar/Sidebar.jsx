@@ -29,7 +29,7 @@ const Sidebar = () => {
                 {sidebarData.map((item, index) => (
                     <li key={index} className={classnames('nav-text', { 'nav-text-active': location.pathname === item.path })}>
                         <Link to={item.path}>
-                            {item.icon}
+                            <item.icon/>
                             <span>{item.title}</span>
                         </Link>
                     </li>
