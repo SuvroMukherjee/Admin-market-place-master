@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Alert, Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { AdminLogin } from '../API/api';
 import useAuth from '../hooks/useAuth';
 import './loginpage.css';
@@ -14,38 +15,58 @@ const LoginPage = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate()
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true);
         await delay(500);
-        console.log(`Username :${inputUsername}, Password :${inputPassword}`);
-        if (inputUsername == "" || inputPassword == "") {
+        console.log(`Username: ${inputUsername}, Password: ${inputPassword}`);
+        if (inputUsername === "" || inputPassword === "") {
             setShow(true);
         } else {
-            let paylaod = {
+            let payload = {
                 user: inputUsername,
                 password: inputPassword
-            }
+            };
 
-            await AdminLogin(paylaod).then((res) => {
-                console.log(res?.data?.data, 'res')
-                const accessToken = res?.data?.data[1]?.accessToken;
-                const role = res?.data?.data[0]?.role;
-                setAuth({ username, password, accessToken, role })
-                setLoading(false)
-                localStorage.setItem('auth', JSON.stringify({ username, password, accessToken, role }));
-                navigate(from, { replace: true });
-                // navigate('/Admin/AdminDashboard');
-            }).catch((err) => {
-                console.log(err)
-                setLoading(false)
-                setShow(true);
-            }).finally(()=>{
-                setLoading(false)
-            })
+            await AdminLogin(payload)
+                .then((res) => {
+                    console.log(res?.data?.data, 'res');
+                    const accessToken = res?.data?.data[1]?.accessToken;
+                    const role = res?.data?.data[0]?.role;
+
+                    setAuth((prevAuth) => ({
+                        ...prevAuth,
+                        username: inputUsername,
+                        password: inputPassword,
+                        accessToken,
+                        role
+                    }));
+
+                    setLoading(false);
+
+                    const authData = {
+                        username: inputUsername,
+                        password: inputPassword,
+                        accessToken,
+                        role
+                    };
+
+                    localStorage.setItem('auth', JSON.stringify(authData));
+                    navigate(from, { replace: true });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setLoading(false);
+                    setShow(true);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
-        setLoading(false);
     };
+
 
     const handlePassword = () => { };
 

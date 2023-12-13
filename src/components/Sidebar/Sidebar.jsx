@@ -15,7 +15,7 @@ export default function Sidebar() {
 
     const showSidebar = () => setSidebar(!sidebar);
 
-    console.log(auth.role.name, 'role');
+    // console.log(auth.role.name, 'role');
 
     return (
         <div className="sidebar">
