@@ -6,21 +6,19 @@ import useAuth from '../hooks/useAuth';
 const apiUrl = import.meta.env.VITE_API_BASE;
 
 
-const authString = localStorage.getItem('auth');
-const auth = JSON.parse(authString);
-if (!auth) {
-    console.error("Authentication data not found");
-    // Handle the case when authentication data is missing
-    return;
-}
-const accessToken = auth?.accessToken;
+
+// const auth = JSON.parse(authString);
+// if (!auth) {
+//    window.location.reload();
+// }
+// const accessToken = auth?.accessToken;
 //console.log(accessToken);
 
 function setAuthHeader() {
-    console.log(accessToken);
+ 
     return {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + accessToken || JSON.parse(localStorage.getItem('ACCESS_TOKEN')) 
+        "Authorization": "Bearer " + JSON.parse(localStorage.getItem('ACCESS_TOKEN')) 
     }
 }
 

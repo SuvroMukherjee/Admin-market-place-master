@@ -29,9 +29,9 @@ const Dashboard = () => {
         }).catch((err) => {
             console.log(err)
         }).finally(() => {
-            // setTimeout(() => {
-            //     setLoading(false)
-            // }, 3000);
+            setTimeout(() => {
+                setLoading(false)
+            }, 3000);
         })
     };
 

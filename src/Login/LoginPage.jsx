@@ -54,7 +54,12 @@ const LoginPage = () => {
                         accessToken,
                         role
                     };
-
+                    
+                    localStorage.clear();
+                    localStorage.setItem(
+                        "ACCESS_TOKEN",
+                        JSON.stringify(res?.data?.data[1].accessToken)
+                    );
                     localStorage.setItem('auth', JSON.stringify(authData));
                     navigate(from, { replace: true });
                 })
