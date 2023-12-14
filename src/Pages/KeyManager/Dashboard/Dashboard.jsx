@@ -23,12 +23,15 @@ const Dashboard = () => {
     async function getAllSellersList() {
         await allSellerList().then((res) => {
             setSeller(res?.data?.data)
-            setData(dataWithUniqueIds)
-            setLoading(false)
+            if(res?.data?.data){
+                setLoading(false)
+            }
         }).catch((err) => {
             console.log(err)
         }).finally(() => {
-            setLoading(false)
+            // setTimeout(() => {
+            //     setLoading(false)
+            // }, 3000);
         })
     };
 
@@ -50,8 +53,8 @@ const Dashboard = () => {
                 {/* <Chart data={userData} title="User Analytics" grid dataKey="Active User" /> */}
                 <div className="homeWidgets">
                     <KeyWidgetSm user={seller} />
-                {/* <WidgetLg /> */}
-            </div>
+                    {/* <WidgetLg /> */}
+                </div>
             </div>
         </>
 

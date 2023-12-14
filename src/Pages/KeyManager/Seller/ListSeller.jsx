@@ -7,7 +7,7 @@ import "./listStyle.css";
 import { UpdateSellerStatus, allSellerList } from "../../../API/api";
 import { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, ButtonGroup } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
 
@@ -17,6 +17,35 @@ export default function ListSeller() {
     const [modalData, setModalData] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true)
+    const [activeButton, setActiveButton] = useState('all');
+    const [totalData,setTotalData]  = useState([])
+
+    const handleButtonClick = (buttonType) => {
+        if (buttonType == 'pending') {
+            let filtersData = totalData?.filter((ele) => {
+                return ele?.status == 'pending';
+            })
+            setData(filtersData)
+        }
+        else if (buttonType == 'approve') {
+            let filtersData = totalData?.filter((ele) => {
+                return ele?.status == 'approved';
+            })
+            setData(filtersData)
+        }
+        else if (buttonType == 'reject') {
+            let filtersData = totalData?.filter((ele) => {
+                return ele?.status == 'rejected';
+            })
+            console.log({ filtersData })
+            setData(filtersData)
+        }
+        else if (buttonType == 'all') {
+            getAllSellersList()
+        }
+        setActiveButton(buttonType);
+    };
+
 
     const navigate = useNavigate()
 
@@ -34,6 +63,7 @@ export default function ListSeller() {
                 id: index + 1,
             }));
             setData(dataWithUniqueIds)
+            setTotalData(dataWithUniqueIds)
             setLoading(false)
         }).catch((err) => {
             console.log(err)
@@ -42,43 +72,6 @@ export default function ListSeller() {
         })
     };
 
-
-    // const handleStatus = async (data) => {
-    //     let payload = {
-    //         "status": !data?.status
-    //     }
-
-    //     await UpdateSellerStatus(data?._id, payload).then((res) => {
-    //         getAllBrandLists();
-    //         toast.success('Brand updated successfully!');
-    //     }).catch((err) => {
-    //         console.log(err)
-    //         toast.error('Something went wrong!');
-    //     })
-    // }
-
-
-    // const handleDelete = async (id) => {
-    //     await deleteBrand(id).then((res) => {
-    //         getAllBrandLists();
-    //         toast.success('Brand delete successfully!');
-    //     }).catch((err) => {
-    //         console.log(err)
-    //         toast.error('Something went wrong!');
-    //     })
-    // }
-
-
-
-    // const handleEdit = (dataset) => {
-    //     setModalData(dataset)
-    //     setShowModal(true)
-    // }
-
-    // const handleClose = () => {
-    //     getAllBrandLists();
-    //     setShowModal(false)
-    // };
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
@@ -176,14 +169,9 @@ export default function ListSeller() {
                 </div>}
             <div className="productList mt-2 p-4">
                 <Container>
-                    {/* <EditBrandPage
-                        showModal={showModal}
-                        handleClose={handleClose}
-                        data={modalData}
-                    /> */}
                     <Row className="justify-content-md-center">
                         <Col md="auto">
-                            <h3>Seller List</h3>
+                            <h3>Sellers List</h3>
                         </Col>
                     </Row>
                     <Row >
@@ -193,12 +181,50 @@ export default function ListSeller() {
                             </Button>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col>
+                            <ButtonGroup>
+                                <Button
+                                    variant={activeButton === 'all' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('all')}
+                                    size="sm"
+                                >
+                                    All
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'pending' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('pending')}
+                                    size="sm"
+                                >
+                                    Pending
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'approve' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('approve')}
+                                    size="sm"
+                                >
+                                    Approve
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'reject' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('reject')}
+                                    size="sm"
+                                >
+                                    Reject
+                                </Button>
+                            </ButtonGroup>
+                        </Col>
+                    </Row>
                     <Row className="justify-content-md-center">
                         <Col>
                             <DataGrid
+                                style={{ height: 400, width: '100%' }}
                                 rows={data}
                                 columns={columns}
                                 pageSize={8}
+                                noRowsOverlay={
+                                    data?.length == 0 && <div style={{ textAlign: 'center', padding: '20px' }}>No Data Found</div>
+                                }
                             />
                         </Col>
                     </Row>

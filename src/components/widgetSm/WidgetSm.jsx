@@ -8,7 +8,7 @@ export default function WidgetSm({user}) {
         <div className="widgetSm">
             <span className="widgetSmTitle">New Join Members</span>
             <ul className="widgetSmList">
-                {user.map((ele,index) => (
+                {user?.length > 0 && user.map((ele,index) => (
                     <li className="widgetSmListItem" key={index}>
                         <img
                             src="https://images.pexels.com/photos/3992656/pexels-photo-3992656.png?auto=compress&cs=tinysrgb&dpr=2&w=500"

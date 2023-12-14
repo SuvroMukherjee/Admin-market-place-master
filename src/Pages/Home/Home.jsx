@@ -9,50 +9,66 @@ import Spinner from 'react-bootstrap/Spinner';
 import { AdminCreateUserList, AdminSellerLists, allProductList } from '../../API/api'
 
 const Home = () => {
- 
+
     const [loading, setLoading] = useState(true)
-    const [product,setproduct] = useState([])
-    const [user,setUser] = useState([]);
-    const [seller,setSeller] = useState([])
- 
-    useEffect(()=>{
-        setTimeout(() => {
-            productCount();
-            userCount();
-            sellerCount();
-        }, 3000);
-    },[])
+    const [product, setproduct] = useState([])
+    const [user, setUser] = useState([]);
+    const [seller, setSeller] = useState([])
 
-    async function productCount(){
-        await allProductList().then((res)=>{
-             setproduct(res?.data?.data)
-            setLoading(false)
-        }).catch((err)=>{
-            console.log(err)
-            setLoading(false)
-        })
-    }
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [productsResponse, usersResponse, sellersResponse] = await Promise.all([
+                    allProductList(),
+                    AdminCreateUserList(),
+                    AdminSellerLists()
+                ]);
+                setproduct(productsResponse?.data?.data);
+                setUser(usersResponse?.data?.data);
+                setSeller(sellersResponse?.data?.data);
+                if (productsResponse?.data?.data && usersResponse?.data?.data && sellersResponse?.data?.data ){
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.error(error);
+               // setLoading(false);
+            }
+        };
+
+        // Call the fetchData function
+        fetchData();
+    }, []);
+
+    // async function productCount() {
+    //     await allProductList().then((res) => {
+    //         setproduct(res?.data?.data)
+    //         setLoading(false)
+    //     }).catch((err) => {
+    //         console.log(err)
+    //         setLoading(false)
+    //     })
+    // }
 
 
-    async function userCount(){
-        await AdminCreateUserList().then((res)=>{
-            setUser(res?.data?.data)
-            setLoading(false)
-        }).catch((err) => {
-            console.log(err)
-            setLoading(false)
-        })
-    }
+    // async function userCount() {
+    //     await AdminCreateUserList().then((res) => {
+    //         setUser(res?.data?.data)
+    //         setLoading(false)
+    //     }).catch((err) => {
+    //         console.log(err)
+    //         setLoading(false)
+    //     })
+    // }
 
-    async function sellerCount() {
-        await AdminSellerLists().then((res) => {
-            setSeller(res?.data?.data)
-            setLoading(false)
-        }).catch((err) => {
-            console.log(err)
-            setLoading(false)
-        })
-    }
+    // async function sellerCount() {
+    //     await AdminSellerLists().then((res) => {
+    //         setSeller(res?.data?.data)
+    //         setLoading(false)
+    //     }).catch((err) => {
+    //         console.log(err)
+    //         setLoading(false)
+    //     })
+    // }
 
 
 
@@ -71,11 +87,11 @@ const Home = () => {
                 </div>}
             <div className="home">
 
-                <FeaturedInfo product={product} user={user} seller={seller}/>
+                <FeaturedInfo product={product} user={user} seller={seller} />
                 {/* <Chart data={userData} title="User Analytics" grid dataKey="Active User" /> */}
                 <div className="homeWidgets">
                     <WidgetSm user={user} />
-                    <WidgetLg product={product}/>
+                    <WidgetLg product={product} />
                 </div>
             </div>
         </>

@@ -9,12 +9,13 @@ const apiUrl = import.meta.env.VITE_API_BASE;
 const authString = localStorage.getItem('auth');
 const auth = JSON.parse(authString);
 const accessToken = auth?.accessToken;
-console.log(accessToken);
+//console.log(accessToken);
 
 function setAuthHeader() {
+    console.log(accessToken);
     return {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + accessToken 
+        "Authorization": "Bearer " + accessToken || JSON.parse(localStorage.getItem('ACCESS_TOKEN')) 
     }
 }
 
