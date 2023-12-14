@@ -8,6 +8,11 @@ const apiUrl = import.meta.env.VITE_API_BASE;
 
 const authString = localStorage.getItem('auth');
 const auth = JSON.parse(authString);
+if (!auth) {
+    console.error("Authentication data not found");
+    // Handle the case when authentication data is missing
+    return;
+}
 const accessToken = auth?.accessToken;
 //console.log(accessToken);
 
