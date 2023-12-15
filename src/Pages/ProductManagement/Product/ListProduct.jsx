@@ -17,9 +17,9 @@ export default function ListProduct() {
 
 
     useEffect(() => {
-        setTimeout(()=>{
+        setTimeout(() => {
             getProductListFunc();
-        },5000)
+        }, 5000)
     }, []);
 
 
@@ -36,7 +36,7 @@ export default function ListProduct() {
             setLoading(false)
         }).catch((err) => {
             console.log(err)
-        }).finally((data)=>{
+        }).finally((data) => {
             setLoading(false)
         })
     };
@@ -46,7 +46,7 @@ export default function ListProduct() {
             "status": !dataset?.status
         }
 
-        await StatusUpdateProduct(dataset?._id,payload).then((res) => {
+        await StatusUpdateProduct(dataset?._id, payload).then((res) => {
             console.log(res)
             getProductListFunc()
             toast.success('Product status updated successfully!');
@@ -76,7 +76,7 @@ export default function ListProduct() {
                 return (
                     <div className="productListItem">
                         <img className="productListImg" src={params?.row?.image?.[0]} alt="" />
-                        <span>{params?.row?.image?.length - 1}+</span>
+                        {params?.row?.image?.length > 1 && <span>{params?.row?.image?.length - 1}+</span>}
                     </div>
                 );
             }

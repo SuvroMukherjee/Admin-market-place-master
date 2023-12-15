@@ -124,21 +124,35 @@ const AddProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (
-            formData.type &&
-            formData.name &&
-            formData.visibility_in_Catalog &&
-            formData.desc &&
-            formData.tax_status &&
-            formData.regular_price &&
-            formData.categoryId &&
-            formData.subcategoryId &&
-            formData.image.length > 0 
-        ) {
-            console.log(formData);
+
+        // Check if any required fields are blank
+        const requiredFields = [
+            'type',
+            'name',
+            'visibility_in_Catalog',
+            'desc',
+            'tax_status',
+            'regular_price',
+            'categoryId',
+            'subcategoryId',
+            'image'
+        ];
+
+        if (requiredFields.every(field => formData[field])) {
+            // Filter out blank fields from the formData
+            const nonBlankFields = Object.fromEntries(
+                Object.entries(formData).filter(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        return value.length > 0; // For arrays, check if it's not empty
+                    }
+                    return value !== '';
+                })
+            );
+
+            console.log(nonBlankFields);
 
             try {
-                const res = await AddNewProduct(formData);
+                const res = await AddNewProduct(nonBlankFields);
                 console.log(res);
                 toast.success('Product added successfully!');
                 navigate('/Admin/product');
@@ -150,6 +164,7 @@ const AddProduct = () => {
             toast.error('Please fill in all required fields.');
         }
     };
+
 
     const handleCancelImage = (url) => {
         let filterData = formData.image?.filter((e, index) => {

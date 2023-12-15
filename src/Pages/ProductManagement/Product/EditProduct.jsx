@@ -119,10 +119,12 @@ const EditProduct = () => {
         try {
             const res = await FileUpload(formData);
             console.log(res, "res");
-            setFormData((prevData) => ({
-                ...prevData,
-                image: [...prevData.image, res?.data?.data?.fileurl],
-            }));
+            setTimeout(() => {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    image: [...prevData.image, res?.data?.data?.fileurl],
+                }));
+            }, 3000);
         } catch (err) {
             console.error(err, "err");
         }
@@ -133,23 +135,37 @@ const EditProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (
-            formData.type &&
-            formData.name &&
-            formData.visibility_in_Catalog &&
-            formData.desc &&
-            formData.tax_status &&
-            formData.regular_price &&
-            formData.categoryId &&
-            formData.subcategoryId &&
-            formData.image.length > 0 
-        ) {
-            console.log(formData);
+
+        // Check if any required fields are blank
+        const requiredFields = [
+            'type',
+            'name',
+            'visibility_in_Catalog',
+            'desc',
+            'tax_status',
+            'regular_price',
+            'categoryId',
+            'subcategoryId',
+            'image'
+        ];
+
+        if (requiredFields.every(field => formData[field])) {
+            // Filter out blank fields from the formData
+            const nonBlankFields = Object.fromEntries(
+                Object.entries(formData).filter(([key, value]) => {
+                    if (Array.isArray(value)) {
+                        return value.length > 0; // For arrays, check if it's not empty
+                    }
+                    return value !== '';
+                })
+            );
+
+            console.log(nonBlankFields);
 
             try {
-                const res = await AddNewProduct(formData);
+                const res = await AddNewProduct(nonBlankFields);
                 console.log(res);
-                toast.success('Product update successfully!');
+                toast.success('Product added successfully!');
                 navigate('/Admin/product');
             } catch (err) {
                 console.log(err);
@@ -158,7 +174,8 @@ const EditProduct = () => {
         } else {
             toast.error('Please fill in all required fields.');
         }
-    }
+    };
+
 
     const handleCancelImage = (url) => {
         let filterData = formData.image?.filter((e, index) => {
@@ -276,7 +293,7 @@ const EditProduct = () => {
                                     <Col>
                                         <Form.Group controlId="categoryId">
                                             <Form.Label>Category</Form.Label>
-                                            <Form.Control as="select" name="categoryId" value={formData.categoryId} onChange={handleChange} required>
+                                            <Form.Control as="select" name="categoryId" value={formData.categoryId?._id} onChange={handleChange} required>
                                                 <option value="" disabled selected>
                                                     Select Category
                                                 </option>
@@ -290,7 +307,7 @@ const EditProduct = () => {
                                     <Col>
                                         <Form.Group controlId="categoryId">
                                             <Form.Label>Sub Category</Form.Label>
-                                            <Form.Control as="select" name="subcategoryId" value={formData.subcategoryId} onChange={handleChange} required>
+                                            <Form.Control as="select" name="subcategoryId" value={formData.subcategoryId?._id} onChange={handleChange} required>
                                                 <option value="" disabled selected>
                                                     Select Sub Category
                                                 </option>
