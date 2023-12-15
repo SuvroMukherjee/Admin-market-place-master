@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Seller.css";
 import { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, ButtonGroup } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
 import { productRows } from "../../dummyData";
@@ -13,6 +13,7 @@ import { AdminSellerLists, UpdateSellerStatus, allSellerList } from "../../API/a
 import { FaEye } from "react-icons/fa";
 import { Card, Carousel } from 'react-bootstrap';
 import { FaRegUser } from "react-icons/fa";
+import {  Overlay, Popover } from 'react-bootstrap';
 
 export default function SellerListManage() {
     const [data, setData] = useState(productRows);
@@ -20,6 +21,36 @@ export default function SellerListManage() {
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true)
     const [sellerDetails, setSellerDeatils] = useState()
+    const [activeButton, setActiveButton] = useState('all');
+    const [totalData, setTotalData] = useState([])
+
+    const handleButtonClick = (buttonType) => {
+        if (buttonType == 'pending') {
+            let filtersData = totalData?.filter((ele) => {
+                return ele?.status == 'pending';
+            })
+            setData(filtersData)
+        }
+        else if (buttonType == 'approve') {
+            let filtersData = totalData?.filter((ele) => {
+                return ele?.status == 'approved';
+            })
+            setData(filtersData)
+        }
+        else if (buttonType == 'reject') {
+            let filtersData = totalData?.filter((ele) => {
+                return ele?.status == 'rejected';
+            })
+            console.log({ filtersData })
+            setData(filtersData)
+        }
+        else if (buttonType == 'all') {
+            getAllSellersList()
+        }
+        setActiveButton(buttonType);
+    };
+
+    
 
     const navigate = useNavigate()
 
@@ -37,6 +68,7 @@ export default function SellerListManage() {
                 id: index + 1,
             }));
             setData(dataWithUniqueIds)
+            setTotalData(dataWithUniqueIds)
             setLoading(false)
         }).catch((err) => {
             console.log(err)
@@ -206,6 +238,40 @@ export default function SellerListManage() {
                             <h3>Seller List</h3>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col>
+                            <ButtonGroup>
+                                <Button
+                                    variant={activeButton === 'all' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('all')}
+                                    size="sm"
+                                >
+                                    All
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'pending' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('pending')}
+                                    size="sm"
+                                >
+                                    Pending
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'approve' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('approve')}
+                                    size="sm"
+                                >
+                                    Approve
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'reject' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('reject')}
+                                    size="sm"
+                                >
+                                    Reject
+                                </Button>
+                            </ButtonGroup>
+                        </Col>
+                    </Row>
                     <Row className="justify-content-md-center">
                         <Col>
                             <DataGrid
@@ -239,6 +305,13 @@ export default function SellerListManage() {
 
 const UserCard = ({ user }) => {
     console.log({user})
+    // const [show, setShow] = useState(false);
+    // const [target, setTarget] = useState(null);
+
+    // const handleShow = (event) => {
+    //     setShow(!show);
+    //     setTarget(event.target);
+    // };
     return (
         <>
 
@@ -274,6 +347,23 @@ const UserCard = ({ user }) => {
                             </Carousel>
                         </Col>
                     </Row>
+                    {/* <Overlay
+                        show={show}
+                        target={target}
+                        placement="bottom"
+                        container={document.body}
+                        containerPadding={20}
+                    >
+                        <Popover id="popover-contained">
+                            <Popover.Content>
+                                <img
+                                    src={target?.src}
+                                    alt="Full-size Image"
+                                    style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                                />
+                            </Popover.Content>
+                        </Popover>
+                    </Overlay> */}
                     {/* <Card.Text>
                         <strong>Commission Rate:</strong> {user?.commission_rate}%
                     </Card.Text>
