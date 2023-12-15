@@ -2,9 +2,7 @@ import { useState } from "react";
 import Spinner from 'react-bootstrap/Spinner';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
-
 import "./Seller.css";
-// import { UpdateSellerStatus, allSellerList } from "../../../API/api";
 import { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Button, Col, Container, Row } from 'react-bootstrap';
@@ -12,13 +10,15 @@ import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
 import { productRows } from "../../dummyData";
 import { AdminSellerLists, UpdateSellerStatus, allSellerList } from "../../API/api";
-
+import { FaEye } from "react-icons/fa";
+import { Card, Carousel } from 'react-bootstrap';
 
 export default function SellerListManage() {
     const [data, setData] = useState(productRows);
     const [modalData, setModalData] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true)
+    const [sellerDetails, setSellerDeatils] = useState([])
 
     const navigate = useNavigate()
 
@@ -49,11 +49,11 @@ export default function SellerListManage() {
 
         let payload = {};
 
-        if (data?.status == 'approved'){
+        if (data?.status == 'approved') {
             payload = {
                 "status": 'rejected'
             }
-        }else{
+        } else {
             payload = {
                 "status": 'approved'
             }
@@ -68,6 +68,10 @@ export default function SellerListManage() {
         })
     }
 
+    const ShowDetails = (data) => {
+        console.log(data)
+        setSellerDeatils(data)
+    }
 
     // const handleDelete = async (id) => {
     //     await deleteBrand(id).then((res) => {
@@ -162,15 +166,18 @@ export default function SellerListManage() {
         {
             field: "action",
             headerName: "Action",
-            width: 100,
+            width: 200,
             renderCell: (params) => {
                 return (
                     <div className="buttonWrapper">
+                        {/* <Button variant="dark" onClick={() => ShowDetails(params?.row)} size="sm">
+                            <FaEye /> View
+                        </Button> */}
                         {params?.row?.status == 'approved' ?
-                            <Button variant="danger" onClick={() => handleStatus(params?.row)}>
+                            <Button variant="danger" onClick={() => handleStatus(params?.row)} size="sm">
                                 Reject
                             </Button> :
-                            <Button variant="success" onClick={() => handleStatus(params?.row)}>
+                            <Button variant="success" onClick={() => handleStatus(params?.row)} size="sm">
                                 Approve
                             </Button>}
                     </div>
@@ -208,10 +215,66 @@ export default function SellerListManage() {
                         </Col>
                     </Row>
                 </Container>
+
+                <Container>
+                    <Row>
+                        <Col>
+                            <UserCard user={setSellerDeatils} />
+                        </Col>
+                    </Row>
+                </Container>
                 <Toaster position="top-right" />
             </div>
+
         </>
 
 
     );
 }
+
+
+
+
+// const UserCard = ({ user }) => {
+//     return (
+//         <>
+//             {user &&
+//                 <Card style={{ width: '18rem' }}>
+//                     <Carousel>
+//                         {user?.pic_of_shope?.map((image, index) => (
+//                             <Carousel.Item key={index}>
+//                                 <img className="d-block w-100" src={image} alt={`Shop Image ${index + 1}`} />
+//                             </Carousel.Item>
+//                         ))}
+//                     </Carousel>
+//                     <Card.Body>
+//                         <Card.Title>{user?.staffId?.name}</Card.Title>
+//                         <Card.Subtitle className="mb-2 text-muted">{user?.staffId?.role?.name}</Card.Subtitle>
+//                         <Card.Text>
+//                             <strong>Phone:</strong> {user?.phone_no}
+//                             <br />
+//                             <strong>Email:</strong> {user?.email}
+//                             <br />
+//                             <strong>Address:</strong> {user?.address}
+//                             <br />
+//                             <strong>GST No:</strong> {user?.gst_no}
+//                             <br />
+//                             <strong>Pickup Location:</strong> {user?.picup_location}
+//                         </Card.Text>
+//                         <Card.Text>
+//                             <strong>Commission Rate:</strong> {user?.commission_rate}%
+//                         </Card.Text>
+//                         <Card.Text>
+//                             <strong>Status:</strong> {user?.status}
+//                         </Card.Text>
+//                         <Card.Text>
+//                             <strong>Joined:</strong> {new Date(user?.createdAt).toLocaleDateString()}
+//                         </Card.Text>
+//                     </Card.Body>
+//                 </Card>}
+
+//         </>
+//     );
+// };
+
+
