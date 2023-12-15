@@ -133,17 +133,17 @@ export default function ListSubCategory() {
             renderCell: (params) => {
                 return (
                     <div className="buttonWrapper">
-                        <Button variant="warning" onClick={() => handleEdit(params?.row)}>
+                        <Button variant="warning" onClick={() => handleEdit(params?.row)} size="sm">
                             <RiEdit2Line /> Edit
                         </Button>
                         {params?.row?.status ?
-                            <Button variant="danger" onClick={() => handleStatus(params?.row)}>
+                            <Button variant="danger" onClick={() => handleStatus(params?.row)} size="sm">
                                 Deactive
                             </Button> :
-                            <Button variant="success" onClick={() => handleStatus(params?.row)}>
+                            <Button variant="success" onClick={() => handleStatus(params?.row)} size="sm">
                                 Active
                             </Button>}
-                        <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)}>
+                        <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)} size="sm">
                             <FaRegTrashAlt />
                         </Button>
                     </div>

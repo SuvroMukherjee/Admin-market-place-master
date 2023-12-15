@@ -131,17 +131,17 @@ export default function ListProduct() {
                     <>
 
                         <div className="buttonWrapper">
-                            <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)}>
+                            <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)} size="sm">
                                 <RiEdit2Line /> Edit
                             </Button>
                             {params?.row?.status ?
-                                <Button variant="danger" onClick={() => handleStatus(params?.row)}>
+                                <Button variant="danger" onClick={() => handleStatus(params?.row)} size="sm">
                                     Deactive
                                 </Button> :
-                                <Button variant="success" onClick={() => handleStatus(params?.row)}>
+                                <Button variant="success" onClick={() => handleStatus(params?.row)} size="sm">
                                     Active
                                 </Button>}
-                            <Button variant="outline-danger" onClick={() => handledeleteProduct(params?.row?._id)}>
+                            <Button variant="outline-danger" onClick={() => handledeleteProduct(params?.row?._id)} size="sm">
                                 <FaRegTrashAlt />
                             </Button>
                         </div>

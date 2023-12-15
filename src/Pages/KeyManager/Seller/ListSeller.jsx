@@ -136,7 +136,7 @@ export default function ListSeller() {
             renderCell: (params) => {
                 return (
                     <div className="buttonWrapper">
-                        <Button variant="warning" onClick={() => navigate(`/key/EditSeller/${params?.row?._id}`)}>
+                        <Button variant="warning" onClick={() => navigate(`/key/EditSeller/${params?.row?._id}`)} size="sm">
                             <RiEdit2Line /> Edit
                         </Button>
                         {/* {params?.row?.status ?
