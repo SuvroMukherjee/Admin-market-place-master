@@ -133,8 +133,7 @@ const AddProduct = () => {
             formData.regular_price &&
             formData.categoryId &&
             formData.subcategoryId &&
-            formData.image.length > 0 &&
-            formData.brandId
+            formData.image.length > 0 
         ) {
             console.log(formData);
 
@@ -295,7 +294,7 @@ const AddProduct = () => {
                                     <Col>
                                         <Form.Group controlId="categoryId">
                                             <Form.Label>Brand</Form.Label>
-                                            <Form.Control as="select" name="brandId" value={formData.brandId} onChange={handleChange} required>
+                                            <Form.Control as="select" name="brandId" value={formData.brandId} onChange={handleChange} >
                                                 <option value="" disabled selected>
                                                     Select Brand
                                                 </option>
@@ -352,7 +351,7 @@ const AddProduct = () => {
                                     <Col xs={6}>
                                         <Form.Group controlId="formFileMultiple" className="mb-3">
                                             <Form.Label>Multiple Images</Form.Label>
-                                            <Form.Control type="file" onChange={handleImageInputChange} multiple accept="image/jpeg, image/png, image/gif" required />
+                                            <Form.Control type="file" onChange={handleImageInputChange} multiple accept="image/jpeg, image/png, image/gif"  />
                                             <Form.Text className="text-muted" >
                                                 Add images one by one or Select multiple images.
                                             </Form.Text>
