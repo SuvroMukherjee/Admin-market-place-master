@@ -264,10 +264,10 @@ const UserCard = ({ user }) => {
                     </Card.Text>
                     <Row>
                         <Col className="d-flex align-items-center"><strong>Shop Images</strong></Col>
-                        <Col xs={5}>
+                        <Col xs={6}>
                             <Carousel>
                                 {user?.pic_of_shope?.map((image, index) => (
-                                    <Carousel.Item key={index} className="custom-carousel-item">
+                                    <Carousel.Item key={index}>
                                         <img className="d-block w-100" src={image} alt={`Shop Image ${index + 1}`} />
                                     </Carousel.Item>
                                 ))}

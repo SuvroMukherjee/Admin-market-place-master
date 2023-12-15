@@ -154,19 +154,16 @@
     font-weight: bold;
 }
 
-.custom-carousel-item {
-    height: 100px;
-    /* Set your desired fixed height */
+/* .custom-carousel-item {
+    height: auto;
     overflow: hidden;
-    /* Optional: Hide overflow if the image is taller than the specified height */
 }
 
 .custom-carousel-image {
     object-fit: cover;
-    /* Optional: Maintain aspect ratio and cover the container */
     height: 100%;
-    /* Optional: Fill the entire height of the container */
-}
+
+} */
 .carousel-item{
     border-radius: 17px !important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
