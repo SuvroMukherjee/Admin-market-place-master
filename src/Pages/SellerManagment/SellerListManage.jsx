@@ -12,13 +12,14 @@ import { productRows } from "../../dummyData";
 import { AdminSellerLists, UpdateSellerStatus, allSellerList } from "../../API/api";
 import { FaEye } from "react-icons/fa";
 import { Card, Carousel } from 'react-bootstrap';
+import { FaRegUser } from "react-icons/fa";
 
 export default function SellerListManage() {
     const [data, setData] = useState(productRows);
     const [modalData, setModalData] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true)
-    const [sellerDetails, setSellerDeatils] = useState([])
+    const [sellerDetails, setSellerDeatils] = useState()
 
     const navigate = useNavigate()
 
@@ -170,9 +171,9 @@ export default function SellerListManage() {
             renderCell: (params) => {
                 return (
                     <div className="buttonWrapper">
-                        {/* <Button variant="dark" onClick={() => ShowDetails(params?.row)} size="sm">
+                        <Button variant="dark" onClick={() => ShowDetails(params?.row)} size="sm">
                             <FaEye /> View
-                        </Button> */}
+                        </Button>
                         {params?.row?.status == 'approved' ?
                             <Button variant="danger" onClick={() => handleStatus(params?.row)} size="sm">
                                 Reject
@@ -216,10 +217,11 @@ export default function SellerListManage() {
                     </Row>
                 </Container>
 
-                <Container>
+                <Container className="mt-4">
                     <Row>
                         <Col>
-                            <UserCard user={setSellerDeatils} />
+                            {sellerDetails &&
+                                <UserCard user={sellerDetails} />}
                         </Col>
                     </Row>
                 </Container>
@@ -235,46 +237,58 @@ export default function SellerListManage() {
 
 
 
-// const UserCard = ({ user }) => {
-//     return (
-//         <>
-//             {user &&
-//                 <Card style={{ width: '18rem' }}>
-//                     <Carousel>
-//                         {user?.pic_of_shope?.map((image, index) => (
-//                             <Carousel.Item key={index}>
-//                                 <img className="d-block w-100" src={image} alt={`Shop Image ${index + 1}`} />
-//                             </Carousel.Item>
-//                         ))}
-//                     </Carousel>
-//                     <Card.Body>
-//                         <Card.Title>{user?.staffId?.name}</Card.Title>
-//                         <Card.Subtitle className="mb-2 text-muted">{user?.staffId?.role?.name}</Card.Subtitle>
-//                         <Card.Text>
-//                             <strong>Phone:</strong> {user?.phone_no}
-//                             <br />
-//                             <strong>Email:</strong> {user?.email}
-//                             <br />
-//                             <strong>Address:</strong> {user?.address}
-//                             <br />
-//                             <strong>GST No:</strong> {user?.gst_no}
-//                             <br />
-//                             <strong>Pickup Location:</strong> {user?.picup_location}
-//                         </Card.Text>
-//                         <Card.Text>
-//                             <strong>Commission Rate:</strong> {user?.commission_rate}%
-//                         </Card.Text>
-//                         <Card.Text>
-//                             <strong>Status:</strong> {user?.status}
-//                         </Card.Text>
-//                         <Card.Text>
-//                             <strong>Joined:</strong> {new Date(user?.createdAt).toLocaleDateString()}
-//                         </Card.Text>
-//                     </Card.Body>
-//                 </Card>}
+const UserCard = ({ user }) => {
+    console.log({user})
+    return (
+        <>
 
-//         </>
-//     );
-// };
+            <Card style={{ width: '18rem' }}>
+                <Card.Header><FaRegUser/> Seller Details</Card.Header>
+                <Card.Body>
+                    {/* <Card.Title>{user?.staffId?.name}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">{user?.staffId?.role?.name}</Card.Subtitle> */}
+                    <Card.Text>
+                        <strong>Phone:</strong> {user?.phone_no}
+                        <br />
+                        <strong>Email:</strong> {user?.email}
+                        <br />
+                        <strong>Address:</strong> {user?.address}
+                        <br />
+                        <strong>GST No:</strong> {user?.gst_no}
+                        <br />
+                        <strong>Pickup Location:</strong> {user?.picup_location}
+                        <br/>
+                        <strong>Commission Rate:</strong> {user?.commission_rate}%
+                        <br/>
+                        <strong>Status:</strong> {user?.status}
+                    </Card.Text>
+                    <Row>
+                        <Col className="d-flex align-items-center"><strong>Shop Images</strong></Col>
+                        <Col xs={5}>
+                            <Carousel>
+                                {user?.pic_of_shope?.map((image, index) => (
+                                    <Carousel.Item key={index} className="custom-carousel-item">
+                                        <img className="d-block w-100" src={image} alt={`Shop Image ${index + 1}`} />
+                                    </Carousel.Item>
+                                ))}
+                            </Carousel>
+                        </Col>
+                    </Row>
+                    {/* <Card.Text>
+                        <strong>Commission Rate:</strong> {user?.commission_rate}%
+                    </Card.Text>
+                    <Card.Text> */}
+                        
+                    {/* </Card.Text> */}
+                    {/* <Card.Text>
+                        <strong>Added:</strong> {new Date(user?.createdAt).toLocaleDateString()} By {user?.staffId?.name}
+                        <span>{user?.staffId?.role?.name}</span>
+                    </Card.Text> */}
+                </Card.Body>
+            </Card>
+
+        </>
+    );
+};
 
 
