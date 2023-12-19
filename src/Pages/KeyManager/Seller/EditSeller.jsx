@@ -3,14 +3,15 @@ import { useState } from "react";
 import Spinner from 'react-bootstrap/Spinner';
 import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate, useParams } from "react-router-dom";
-import { productRows } from "../../../dummyData";
+import { categoryData, productRows } from "../../../dummyData";
 import "./listStyle.css";
 import { FileUpload, UpdateSellerData, addNewsSeller, allSellerList, sellerDetails } from "../../../API/api";
 import { useEffect } from "react";
 import { AiOutlinePlus, AiTwotoneEdit } from "react-icons/ai";
-import { Button, Col, Container, Row, Form, Image } from 'react-bootstrap';
+import { Button, Col, Container, Row, Form, Image, Table } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { MdCancel, MdOutlineFileUpload } from 'react-icons/md';
+import { IoIosAddCircle } from "react-icons/io";
 
 const EditSeller = () => {
     const [loading, setLoading] = useState(true)
@@ -25,6 +26,9 @@ const EditSeller = () => {
         commission_rate: 0,
         status: '',
     });
+    const [btnEnale, setBtnEnable] = useState(true)
+    const [commissionSave, setCommission] = useState(true)
+    const [catsdata, setCatsData] = useState([])
 
     const { id: SellerId } = useParams();
     const navigate = useNavigate();
@@ -33,16 +37,17 @@ const EditSeller = () => {
         setTimeout(() => {
             getSellerDetails();
         }, 3000);
-    },[])
+    }, [])
 
-    async function getSellerDetails(){
-        await sellerDetails(SellerId).then((res)=>{
+    async function getSellerDetails() {
+        await sellerDetails(SellerId).then((res) => {
             console.log(res)
             setFormData(res?.data?.data)
+            setCatsData(res?.data?.data?.commission_data)
             setLoading(false)
-        }).catch((err)=>[
+        }).catch((err) => [
             console.group(err)
-        ]).finally(()=>{
+        ]).finally(() => {
             setLoading(false)
         })
     }
@@ -56,16 +61,36 @@ const EditSeller = () => {
         e.preventDefault();
         const isFormValid = Object.values(formData).every((value) => value !== '');
 
+        console.log(formData)
+
+        // if (isFormValid) {
+        //     console.log(formData);
+        //     await UpdateSellerData(SellerId,formData).then((res) => {
+        //         console.log(res)
+        //         toast.success('Seller updated successfully!');
+        //         navigate('/key/seller')
+        //     }).catch((err) => {
+        //         console.log(err)
+        //         toast.error('Something went wrong!');
+        //     })
+        // } else {
+        //     console.error('Please fill in all the required fields.');
+        // }
         if (isFormValid) {
-            console.log(formData);
-            await UpdateSellerData(SellerId,formData).then((res) => {
-                console.log(res)
-                toast.success('Seller updated successfully!');
-                navigate('/key/seller')
-            }).catch((err) => {
-                console.log(err)
+            try {
+                const res = await UpdateSellerData(SellerId, formData);
+                console.log(res);
+                if (res?.response?.data?.error) {
+                    toast.error(res.response.data.data);
+                } else {
+                    console.log(res)
+                    toast.success('Seller updated successfully!');
+                    navigate('/key/seller');
+                }
+            } catch (err) {
+                console.error(err);
                 toast.error('Something went wrong!');
-            })
+            }
         } else {
             console.error('Please fill in all the required fields.');
         }
@@ -112,6 +137,18 @@ const EditSeller = () => {
         }));
 
     }
+
+
+    const addCategorytoForm = (data) => {
+        console.log({ data })
+        if (data) {
+            setCommission(false)
+            setFormData((prevData) => ({
+                ...prevData,
+                commission_data: [...prevData?.commission_data, ...data],
+            }));
+        }
+    };
 
 
     return (
@@ -208,7 +245,7 @@ const EditSeller = () => {
 
                                 </Row>
                                 <Row className='mt-2'>
-                                    
+
                                     <Col>
                                         <Form.Group controlId="pickupLocation">
                                             <Form.Label>Pickup Location</Form.Label>
@@ -223,7 +260,7 @@ const EditSeller = () => {
                                     </Col>
 
                                     <Col>
-                                        <Form.Group controlId="commissionRate">
+                                        {/* <Form.Group controlId="commissionRate">
                                             <Form.Label>Commission Rate(%)</Form.Label>
                                             <Form.Control
                                                 type="number"
@@ -232,10 +269,11 @@ const EditSeller = () => {
                                                 onChange={handleChange}
                                                 required
                                             />
-                                        </Form.Group>
+                                        </Form.Group> */}
+                                        <CommissionComponent addCategorytoForm={addCategorytoForm} catsdata={catsdata} />
                                     </Col>
                                 </Row>
-                               
+
                                 <Row className="mt-2">
                                     <Col xs={6}>
                                         <Form.Group controlId="formFileMultiple" className="mb-3">
@@ -245,7 +283,7 @@ const EditSeller = () => {
                                                 onChange={handleImageInputChange}
                                                 multiple
                                                 accept="image/jpeg, image/png, image/gif"
-                                                required
+                                                
                                             />
                                             <Form.Text className="text-muted">
                                                 Add images one by one or select multiple images.
@@ -300,5 +338,116 @@ const EditSeller = () => {
         </>
     )
 }
+
+const CommissionComponent = ({ addCategorytoForm, catsdata }) => {
+
+    console.log({ catsdata })
+
+    const [formData, setFormData] = useState({
+        categories: [{ categoryId: '', commission_rate: '' }]
+    });
+    const [categorylist, setcategorylist] = useState([]);
+
+    useEffect(() => {
+        setcategorylist(categoryData)
+    })
+
+    const handleChange = (e, index) => {
+        const { name, value } = e.target;
+        const updatedCategories = [...formData.categories];
+        updatedCategories[index][name] = value;
+        setFormData({ ...formData, categories: updatedCategories });
+    };
+
+    const addCategory = () => {
+        setFormData({
+            ...formData,
+            categories: [...formData.categories, { categoryId: '', commission_rate: '' }]
+        });
+    };
+
+    const handleSave = () => {
+        console.log(formData.categories);
+        addCategorytoForm(formData.categories)
+    };
+
+    const handleDelete = (index) => {
+        const updatedCategories = [...formData.categories];
+        updatedCategories.splice(index, 1);
+        setFormData({ ...formData, categories: updatedCategories });
+    };
+
+
+
+
+    return (
+        <>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th className="text-center">Category Title</th>
+                        <th className="text-center">Commission Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {catsdata?.map((item, index) => (
+                        <tr key={index}>
+                            <td className="text-center">{item?.categoryId?.title}</td>
+                            <td className="text-center">{item?.commission_rate}%</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+
+            <Form.Group controlId="commissionRate">
+                <Form.Label>Commission rate against category(%)</Form.Label>
+                <span>
+                    <Button variant="dark" onClick={handleSave} size="sm">Save</Button>
+                </span>
+                {formData.categories.map((item, index) => (
+                    <Row key={index} className="mb-2">
+                        <Col>
+                            <Form.Label>category</Form.Label>
+                            <Form.Select
+                                name="categoryId"
+                                value={item.categoryId}
+                                onChange={(e) => handleChange(e, index)}
+                                
+                            >
+                                <option value="" disabled>Select category</option>
+                                {categorylist?.length > 0 && categorylist.map((ele) => (
+                                    <option value={ele?._id}>{ele?.title}</option>
+                                ))}
+                            </Form.Select>
+                        </Col>
+                        <Col>
+                            <Form.Label>commission(%)</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="commission_rate"
+                                value={item.commission}
+                                onChange={(e) => handleChange(e, index)}
+                                placeholder="Commisson rate"
+                                
+                            />
+                        </Col>
+                        <Col>
+                            <MdCancel size={22} color='red' onClick={() => handleDelete(index)} />
+                        </Col>
+                    </Row>
+                ))}
+                <IoIosAddCircle size={26} onClick={addCategory} />
+                <span style={{ marginLeft: '5px', color: 'grey', fontSize: '16px' }}  >Add more...</span>
+            </Form.Group>
+        </>
+
+
+
+
+    );
+};
+
+
+
 
 export default EditSeller
