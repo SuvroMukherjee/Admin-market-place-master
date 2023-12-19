@@ -133,7 +133,7 @@ export default function SellerListManage() {
         {
             field: "email",
             headerName: "Email",
-            width: 150,
+            width: 200,
         },
         {
             field: "phone_no",

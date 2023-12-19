@@ -38,10 +38,13 @@ const LoginPage = () => {
                     const accessToken = res?.data?.data[1]?.accessToken;
                     const role = res?.data?.data[0]?.role;
 
+                    console.log(res?.data?.data[0]?.name,'api name')
+
                     setAuth((prevAuth) => ({
                         ...prevAuth,
-                        username: inputUsername,
-                        password: inputPassword,
+                        username: res?.data?.data[0]?.name,
+                        password:  res?.data?.data[0]?.password,
+                        email:res?.data?.data[0]?.email,
                         accessToken,
                         role
                     }));
@@ -49,8 +52,9 @@ const LoginPage = () => {
                     setLoading(false);
 
                     const authData = {
-                        username: inputUsername,
-                        password: inputPassword,
+                        username:  res?.data?.data[0]?.name,
+                        password:  res?.data?.data[0]?.password,
+                        email:res?.data?.data[0]?.email,
                         accessToken,
                         role
                     };
