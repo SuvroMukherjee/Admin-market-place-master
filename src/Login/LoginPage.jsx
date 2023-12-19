@@ -5,10 +5,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AdminLogin } from '../API/api';
 import useAuth from '../hooks/useAuth';
 import './loginpage.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 const LoginPage = () => {
     const { setAuth } = useAuth()
-    
+
     const [inputUsername, setInputUsername] = useState("");
     const [inputPassword, setInputPassword] = useState("");
 
@@ -34,38 +35,43 @@ const LoginPage = () => {
 
             await AdminLogin(payload)
                 .then((res) => {
-                    console.log(res?.data?.data, 'res');
-                    const accessToken = res?.data?.data[1]?.accessToken;
-                    const role = res?.data?.data[0]?.role;
+                    console.log(res, 'res');
+                    if (res?.response?.data?.error == true) {
+                        toast.error(res?.response?.data?.message)
+                    } else {
+                        const accessToken = res?.data?.data[1]?.accessToken;
+                        const role = res?.data?.data[0]?.role;
 
-                    console.log(res?.data?.data[0]?.name,'api name')
+                        console.log(res?.data?.data[0]?.name, 'api name')
 
-                    setAuth((prevAuth) => ({
-                        ...prevAuth,
-                        username: res?.data?.data[0]?.name,
-                        password:  res?.data?.data[0]?.password,
-                        email:res?.data?.data[0]?.email,
-                        accessToken,
-                        role
-                    }));
+                        setAuth((prevAuth) => ({
+                            ...prevAuth,
+                            username: res?.data?.data[0]?.name,
+                            password: res?.data?.data[0]?.password,
+                            email: res?.data?.data[0]?.email,
+                            accessToken,
+                            role
+                        }));
 
-                    setLoading(false);
+                        setLoading(false);
 
-                    const authData = {
-                        username:  res?.data?.data[0]?.name,
-                        password:  res?.data?.data[0]?.password,
-                        email:res?.data?.data[0]?.email,
-                        accessToken,
-                        role
-                    };
-                    
-                    localStorage.clear();
-                    localStorage.setItem(
-                        "ACCESS_TOKEN",
-                        JSON.stringify(res?.data?.data[1].accessToken)
-                    );
-                    localStorage.setItem('auth', JSON.stringify(authData));
-                    navigate(from, { replace: true });
+                        const authData = {
+                            username: res?.data?.data[0]?.name,
+                            password: res?.data?.data[0]?.password,
+                            email: res?.data?.data[0]?.email,
+                            accessToken,
+                            role
+                        };
+
+                        localStorage.clear();
+                        localStorage.setItem(
+                            "ACCESS_TOKEN",
+                            JSON.stringify(res?.data?.data[1].accessToken)
+                        );
+                        localStorage.setItem('auth', JSON.stringify(authData));
+                        navigate(from, { replace: true });
+                    }
+
                 })
                 .catch((err) => {
                     console.log(err);
@@ -153,6 +159,7 @@ const LoginPage = () => {
                     </Button>
                 </div>
             </Form>
+            <Toaster position="top-right" />
             {/* Footer */}
             <div className="w-100 mb-2 position-absolute bottom-0 start-50 translate-middle-x text-white text-center">
                 Sant Sales| &copy;2023
