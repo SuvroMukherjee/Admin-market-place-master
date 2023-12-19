@@ -72,6 +72,13 @@ export default function ListSeller() {
         })
     };
 
+    const calculateAverageCommission = (data) => {
+        const commissionRates = data.map(item => item.commission_rate);
+        const totalCommission = commissionRates.reduce((acc, rate) => acc + rate, 0);
+        const averageCommission = totalCommission / commissionRates.length;
+    
+        return averageCommission?.toFixed(2);
+    };
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
@@ -114,6 +121,13 @@ export default function ListSeller() {
             field: "commission_rate",
             headerName: "Commission Rate(%)",
             width: 200,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        {params?.row?.commission_data  && <span className="ActiveStatus">{calculateAverageCommission(params?.row?.commission_data)}%</span>}
+                    </div>
+                )
+            }
         },
         {
             field: "status",

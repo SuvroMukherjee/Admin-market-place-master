@@ -4,7 +4,7 @@ import { LuUnlock } from "react-icons/lu";
 import { Link, useLocation } from 'react-router-dom';
 import classnames from 'classnames';
 import useAuth from "../../hooks/useAuth";
-import { AdminSidebarData, KeyManagerSidebarData } from './SidebarData';
+import { AdminSidebarData, KeyManagerSidebarData, SellerSidebarData } from './SidebarData';
 import "./Navbar.css";
 import "./sidebar.css";
 
@@ -49,6 +49,7 @@ const Sidebar = () => {
             <IconContext.Provider value={{ color: '#fff' }}>
                 {auth.role.name === "Admin" && renderSidebarData(AdminSidebarData, "Admin DashBoard")}
                 {auth.role.name === "Key Account Maneger" && renderSidebarData(KeyManagerSidebarData, "Key Account Maneger DashBoard")}
+                {auth.role.name === "Seller" && renderSidebarData(SellerSidebarData, "Seller DashBoard")}
             </IconContext.Provider>
         </div>
     );

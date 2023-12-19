@@ -71,3 +71,25 @@ export const KeyManagerSidebarData = [
         cName: 'nav-text'
     }
 ];
+
+export const SellerSidebarData = [
+    {
+        title: 'Dashboard',
+        path: '/seller/seller-dashboard',
+        icon: AiIcons.AiFillHome,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Product',
+        path: '/seller/seller-addproduct',
+        icon: BsShop,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Add Product',
+        path: '/seller/seller-ownproduct',
+        icon: BsShop,
+        cName: 'nav-text'
+    }
+];
+

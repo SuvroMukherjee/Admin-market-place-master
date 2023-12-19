@@ -393,3 +393,14 @@ export async function UpdateSellerStatus(id, fromData) {
         return error
     }
 }
+
+{/** seller api */}
+
+export async function SellerLogin(fromData) {
+    try {
+        const response = await axios.post(apiUrl + `/seller/login`, fromData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}

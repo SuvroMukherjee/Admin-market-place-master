@@ -1,25 +1,44 @@
 
-import React from 'react'
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import React from 'react';
+import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 const RequireAuth = ({ allowedRoles }) => {
-
     const { auth } = useAuth();
     const location = useLocation();
 
-    return (
-        allowedRoles.includes(auth?.role?.name) ? (
-            <Outlet />
-        ) : !auth?.username ? (
-            <Navigate to="/unauthorized" state={{ from: location }} replace />
-        ) : auth?.role?.name === 'Admin' ? (
-            <Navigate to="/" state={{ from: location }} replace />
-        ) : (
-            <Navigate to="/key/dashboard" state={{ from: location }} replace />
-        )
-    );
+    let componentToRender;
 
-}
+    switch (true) {
+        case allowedRoles.includes(auth?.role?.name):
+            componentToRender = <Outlet />;
+            break;
+        case !auth?.email:
+            componentToRender = (
+                <Navigate to="/unauthorized" state={{ from: location }} replace />
+            );
+            break;
+        case auth?.role?.name === 'Admin':
+            componentToRender = (
+                <Navigate to="/" state={{ from: location }} replace />
+            );
+            break;
+        case auth?.role?.name === 'Key Account Maneger':
+            componentToRender = (
+                <Navigate to="/key/dashboard" state={{ from: location }} replace />
+            );
+            break;
+        case auth?.role?.name === 'Seller':
+            componentToRender = (
+                <Navigate to="/seller/seller-dashboard" state={{ from: location }} replace />
+            );
+            break;
+        default:
+            componentToRender = <Navigate to="*" state={{ from: location }} replace />;
 
-export default RequireAuth
+    }
+
+    return componentToRender;
+};
+
+export default RequireAuth;
