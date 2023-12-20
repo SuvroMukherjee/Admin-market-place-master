@@ -32,7 +32,7 @@ export default function SellerAddProduct() {
             getProductListFunc();
             getAllCats();
             getBrandList();
-            getAllOwnProducts();
+            //getAllOwnProducts();
         }, 5000)
     }, []);
 
@@ -267,16 +267,11 @@ export default function SellerAddProduct() {
 
     const handleButtonClick = (buttonType) => {
         if (buttonType == 'sell') {
-            // let filtersData = totalData?.filter((ele) => {
-            //     return ele?.status == 'pending';
-            // })
-            // setData(filtersData)
+            setLoading(true)
+            getProductListFunc();
         }
         else if (buttonType == 'own') {
-            // let filtersData = totalData?.filter((ele) => {
-            //     return ele?.status == 'approved';
-            // })
-            // setData(filtersData)
+            getAllOwnProducts();
         }
         setActiveButton(buttonType);
     };
@@ -390,8 +385,8 @@ export default function SellerAddProduct() {
                             </Row>
                         </div>}
                     {activeButton == 'own' &&
-                        <div>
-                            <Row className="justify-content-md-center">
+                        <div className="mt-4">
+                            <Row className="justify-content-md-center mt-4">
                                 <Col>
                                     <DataGrid
                                         rows={sellerOwnData}
