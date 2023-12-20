@@ -309,3 +309,155 @@ export const categoryData = [
         }
       
 ]
+
+export const demoProductData  = [
+    {
+        "id": "657bcef890056c6b468cb679",
+        "adminId": "656d874f8d7257ee2c8ef3bf",
+        "productId": "05",
+        "type": "Laptop",
+        "name": "Lenovo IdeaPad 1 AMD Athlon Dual Core 7120U",
+        "is_published": false,
+        "is_featured": false,
+        "desc": "The IdeaPad Slim 1 was designed to be used on the go for those who like learning all the time and hence it is only 19.9 mm thin and weighs only 1.65 kg, now you can learn wherever you want and whenever you want.",
+        "tax_status": "taxable",
+        "allow_customer_reviews": false,
+        "backorders_allowed": false,
+        "sold_individually": false,
+        "regular_price": 26991,
+        "categoryId": {
+            "_id": "6579feeaace40f8bb9c005b3",
+            "title": "Computers"
+        },
+        "subcategoryId": {
+            "_id": "657bcbe990056c6b468cb62b",
+            "title": "laptops"
+        },
+        "image": [
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702612717348.jpeg?alt=media"
+        ],
+        "tags": [
+            "8 GB",
+            "512 GB SSD",
+            "Windows 11 Home"
+        ],
+        "status": true,
+        "__v": 0
+    },
+    {
+        "id": "657a10fdace40f8bb9c00751",
+        "adminId": "656d874f8d7257ee2c8ef3bf",
+        "productId": "04",
+        "type": "T-shirt",
+        "name": "Marvel Men Colorblock Round Neck Pure Cotton White T-Shirt",
+        "is_published": false,
+        "is_featured": false,
+        "desc": "Perfectly fit, Best White tshirt, Thanku Bewakoof and Flipkart",
+        "tax_status": "taxable",
+        "allow_customer_reviews": false,
+        "backorders_allowed": false,
+        "sold_individually": false,
+        "regular_price": 1699,
+        "categoryId": {
+            "_id": "6579ff48ace40f8bb9c005bc",
+            "title": "Fashion"
+        },
+        "subcategoryId": {
+            "_id": "657a0b6bace40f8bb9c006aa",
+            "title": "t-shirts"
+        },
+        "brandId": {
+            "_id": "657a0cebace40f8bb9c006ec",
+            "title": "H&M"
+        },
+        "image": [
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498482471.jpeg?alt=media",
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498482474.jpeg?alt=media",
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498507564.jpeg?alt=media"
+        ],
+        "tags": [
+            "cotton",
+            "white"
+        ],
+        "status": true,
+        "__v": 0
+    },
+    {
+        "id": "657a0fc9ace40f8bb9c0073d",
+        "adminId": "656d874f8d7257ee2c8ef3bf",
+        "productId": "03",
+        "type": "Power Bank",
+        "name": "AMYTEL 20000 mAh Power Bank",
+        "is_published": false,
+        "is_featured": false,
+        "desc": "\nAMYTEL solar power bank is a power bank which you can charge via the sunlight. With the power bank, you can then charge your phone or tablet. That's ideal if you're away from home for a long time. You can charge a solar power bank with solar energy. A solar power bank is an outdoor power bank. You can charge your devices with an outdoor power bank during hikes, vacations, or at the campsite. That's useful in case there's no socket nearby. You charge a power bank with solar panel by placing the power bank in the sun. The charging takes a lot of time. Charge it at home first and then use the solar panel to recharge your power bank. That way, you can continue to use the power bank with solar energy during a long trip, bike ride, or festival. Extra protection Solar power bank backpack hiking Because you use a solar power bank outside a lot, most models are protected from the elements like water and dust. Generally, the power banks are only splash proof. A bit of rain isn't a problem, but don submerge them in water. In addition, power bank with solar power often have a hook or loop so you can attach them to your pants or backpack. A rubber casing provides more grip and protection from fall damage. That's useful on a hiking vacation or festival. Other specifications Charge solar power bank Do you want to know how often you can charge your device with a power bank or how much power you need? Power banks with solar power don't differ a lot from regular power banks in that sense. Read our advice on power banks if you want to know more about capacity, power, and other specifications.\n",
+        "tax_status": "taxable",
+        "allow_customer_reviews": false,
+        "backorders_allowed": false,
+        "sold_individually": false,
+        "regular_price": 560,
+        "categoryId": {
+            "_id": "6579fd5eace40f8bb9c00595",
+            "title": "Mobiles"
+        },
+        "subcategoryId": {
+            "_id": "657a0a16ace40f8bb9c0066b",
+            "title": "Power Bank"
+        },
+        "brandId": {
+            "_id": "657a0d1dace40f8bb9c006f1",
+            "title": "Leveno"
+        },
+        "image": [
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498236730.jpeg?alt=media",
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498236740.jpeg?alt=media",
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498236773.jpeg?alt=media",
+            null
+        ],
+        "tags": [
+            "18 W",
+            "Fast Charging",
+            "Quick Charge 4.0"
+        ],
+        "status": true,
+        "__v": 0
+    },
+    {
+        "id": "657a0ee8ace40f8bb9c00723",
+        "adminId": "656d874f8d7257ee2c8ef3bf",
+        "productId": "02",
+        "type": "Phone case",
+        "name": "TheGiftKart Shockproof Crystal Clear Back Cover Case for Samsung Galaxy M14 5G ",
+        "is_published": false,
+        "is_featured": false,
+        "desc": "Compatible with Samsung Galaxy M14 5G Only\nCrystal Clear Non Yellowing Transparent Back\nShock Proof & Protective Case\n360 Degree Protection Design\nSleek and Lightweight Profile",
+        "tax_status": "non_taxable",
+        "allow_customer_reviews": false,
+        "backorders_allowed": false,
+        "sold_individually": false,
+        "regular_price": 149,
+        "categoryId": {
+            "_id": "6579fd5eace40f8bb9c00595",
+            "title": "Mobiles"
+        },
+        "subcategoryId": {
+            "_id": "657a0926ace40f8bb9c0064c",
+            "title": "Cases & Cover"
+        },
+        "brandId": {
+            "_id": "657a0d63ace40f8bb9c006f6",
+            "title": "Samsung"
+        },
+        "image": [
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498013401.jpg?alt=media",
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498013414.jpg?alt=media",
+            "https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1702498013459.jpg?alt=media"
+        ],
+        "tags": [
+            "hard",
+            "protected"
+        ],
+        "status": true,
+        "__v": 0
+    }
+]

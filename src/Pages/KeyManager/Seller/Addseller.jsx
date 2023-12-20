@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { Toaster, toast } from 'react-hot-toast';
 import { IoIosAddCircle } from "react-icons/io";
 import { MdCancel, MdOutlineFileUpload } from 'react-icons/md';
-import { FileUpload, addNewsSeller } from "../../../API/api";
+import { FileUpload, addNewsSeller, allCategoryList } from "../../../API/api";
 import { categoryData } from "../../../dummyData";
 import "./listStyle.css";
 import { useNavigate } from 'react-router-dom';
@@ -334,9 +334,18 @@ const CommissionComponent = ({ addCategorytoForm }) => {
     });
     const [categorylist, setcategorylist] = useState([]);
 
+
     useEffect(() => {
-        setcategorylist(categoryData)
-    })
+        getAllCats()
+    },[])
+
+    async function getAllCats(){
+        await allCategoryList().then((res)=>{
+            setcategorylist(res?.data?.data)
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
 
     const handleChange = (e, index) => {
         const { name, value } = e.target;

@@ -404,3 +404,13 @@ export async function SellerLogin(fromData) {
         return error
     }
 }
+
+
+export async function SellerProductAdd(fromData) {
+    try {
+        const response = await axios.post(apiUrl + `/seller-product/create`, fromData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}

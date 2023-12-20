@@ -5,7 +5,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate, useParams } from "react-router-dom";
 import { categoryData, productRows } from "../../../dummyData";
 import "./listStyle.css";
-import { FileUpload, UpdateSellerData, addNewsSeller, allSellerList, sellerDetails } from "../../../API/api";
+import { FileUpload, UpdateSellerData, addNewsSeller, allCategoryList, allSellerList, sellerDetails } from "../../../API/api";
 import { useEffect } from "react";
 import { AiOutlinePlus, AiTwotoneEdit } from "react-icons/ai";
 import { Button, Col, Container, Row, Form, Image, Table } from 'react-bootstrap';
@@ -283,7 +283,7 @@ const EditSeller = () => {
                                                 onChange={handleImageInputChange}
                                                 multiple
                                                 accept="image/jpeg, image/png, image/gif"
-                                                
+
                                             />
                                             <Form.Text className="text-muted">
                                                 Add images one by one or select multiple images.
@@ -348,9 +348,18 @@ const CommissionComponent = ({ addCategorytoForm, catsdata }) => {
     });
     const [categorylist, setcategorylist] = useState([]);
 
+
     useEffect(() => {
-        setcategorylist(categoryData)
-    })
+        getAllCats()
+    }, [])
+
+    async function getAllCats() {
+        await allCategoryList().then((res) => {
+            setcategorylist(res?.data?.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     const handleChange = (e, index) => {
         const { name, value } = e.target;
@@ -412,7 +421,7 @@ const CommissionComponent = ({ addCategorytoForm, catsdata }) => {
                                 name="categoryId"
                                 value={item.categoryId}
                                 onChange={(e) => handleChange(e, index)}
-                                
+
                             >
                                 <option value="" disabled>Select category</option>
                                 {categorylist?.length > 0 && categorylist.map((ele) => (
@@ -428,7 +437,7 @@ const CommissionComponent = ({ addCategorytoForm, catsdata }) => {
                                 value={item.commission}
                                 onChange={(e) => handleChange(e, index)}
                                 placeholder="Commisson rate"
-                                
+
                             />
                         </Col>
                         <Col>
