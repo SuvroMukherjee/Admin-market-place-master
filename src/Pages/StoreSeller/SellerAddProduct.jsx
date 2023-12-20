@@ -11,6 +11,7 @@ import { SellerProductAdd, StatusUpdateProduct, allBrandList, allCategoryList, a
 import Spinner from 'react-bootstrap/Spinner';
 import { categoryData, demoProductData, productRows } from "../../dummyData";
 
+
 export default function SellerAddProduct() {
     const [data, setData] = useState(demoProductData);
     const [loading, setLoading] = useState(true);
@@ -20,7 +21,9 @@ export default function SellerAddProduct() {
     const [allbrandList, setAllBrandList] = useState(categoryData);
     const [selectedRows, setSelectedRows] = useState([]);
 
-    console.log({ selectedRows })
+    const { userId } = JSON.parse(localStorage.getItem('auth'));
+
+    console.log({ userId })
 
     useEffect(() => {
         setTimeout(() => {
@@ -104,16 +107,21 @@ export default function SellerAddProduct() {
         setLoading(false)
     }
 
-    const AddSellerProduct = async(Pid) =>{
-       let payload = {
-        "sellerId":"6581859f8e7c609438712a3b",
-        "productId":Pid
-       }
-       await SellerProductAdd(payload).then((res)=>{
-          console.log(res?.data?.data)
-       }).catch((err)=>{
-        console.log(err)
-       })
+    const AddSellerProduct = async (Pid) => {
+        let payload = {
+            "sellerId": userId,
+            "productId": Pid
+        }
+        await SellerProductAdd(payload).then((res) => {
+            console.log(res?.data?.data)
+            if (res?.response?.data?.error !== false) {
+                toast.success('product added successfully')
+            }else{
+                toast.error(res?.response?.data?.data)
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     const handleStatus = async (dataset) => {
@@ -255,7 +263,7 @@ export default function SellerAddProduct() {
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
-                            <h3>Product List</h3>
+                            <h3>Add Your Product</h3>
                         </Col>
                     </Row>
                     <Row className="mb-3 mt-3">
@@ -311,15 +319,15 @@ export default function SellerAddProduct() {
                                 rows={data}
                                 columns={columns}
                                 pageSize={8}
-                                checkboxSelection
-                                onSelectionModelChange={(ids) => {
-                                    const selectedIDs = new Set(ids);
-                                    const selectedRows = data.rows.filter((row) =>
-                                        selectedIDs.has(row.id),
-                                    );
+                                // checkboxSelection
+                                // onSelectionModelChange={(ids) => {
+                                //     const selectedIDs = new Set(ids);
+                                //     const selectedRows = data.rows.filter((row) =>
+                                //         selectedIDs.has(row.id),
+                                //     );
 
-                                    setSelectedRows(selectedRows);
-                                }}
+                                //     setSelectedRows(selectedRows);
+                                // }}
                                 noRowsOverlay={
                                     data?.length === 0 && <div style={{ textAlign: 'center', padding: '20px' }}>No Data Found</div>
                                 }

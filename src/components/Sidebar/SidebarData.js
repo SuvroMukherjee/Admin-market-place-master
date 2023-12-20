@@ -80,13 +80,19 @@ export const SellerSidebarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Product',
-        path: '/seller/seller-addproduct',
+        title: 'Product List',
+        path: '/seller/seller-productList',
         icon: BsShop,
         cName: 'nav-text'
     },
     {
         title: 'Add Product',
+        path: '/seller/seller-addproduct',
+        icon: BsShop,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Own Product',
         path: '/seller/seller-ownproduct',
         icon: BsShop,
         cName: 'nav-text'

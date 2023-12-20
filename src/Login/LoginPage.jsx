@@ -114,7 +114,8 @@ const LoginPage = () => {
                             password: res?.data?.data[0]?.password,
                             email: res?.data?.data[0]?.email,
                             accessToken,
-                            role
+                            role,
+                            userId : res?.data?.data[0]?._id
                         };
 
                         localStorage.clear();

@@ -3,32 +3,43 @@ import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
-import { AddNewProduct, FileUpload, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../API/api';
+import { AddNewProduct, FileUpload, SellerCreateOwn, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../API/api';
 import { MdCancel } from "react-icons/md";
 import { MdOutlineFileUpload } from "react-icons/md";
 
 const SellerOwnProduct = () => {
 
     const [formData, setFormData] = useState({
-        type: '',
+        // type: '',
         name: '',
-        visibility_in_Catalog: '',
+        // visibility_in_Catalog: '',
         desc: '',
-        tax_status: '',
-        regular_price: '',
+        // tax_status: '',
+        // regular_price: '',
         categoryId: '',
         subcategoryId: '',
         image: [],
-        tags: [],
-        position: '',
+        // tags: [],
+        // position: '',
         brandId: '',
     });
+    // {
+    //     "sellerId":"65797ee51f484c81f21f1a6c",
+    //     "name":"phone",
+    //     "desc":"hfdjfjfjefjkejf",
+    //     "categoryId":"6579fd5eace40f8bb9c00595",
+    //     "subcategoryId":"657a0926ace40f8bb9c0064c",
+    //     "brandId":"657a0d63ace40f8bb9c006f6",
+    //     "image":["img.pdf"]
+    // }
     const [allcategoryList, setAllCategoryList] = useState([]);
     const [allSubcategorylist, setSubCatgoryList] = useState([]);
     const [allbrandList, setAllBrandList] = useState([]);
     const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate();
+
+    const { userId } = JSON.parse(localStorage.getItem('auth'));
 
     useEffect(() => {
         setTimeout(() => {
@@ -127,12 +138,8 @@ const SellerOwnProduct = () => {
 
         // Check if any required fields are blank
         const requiredFields = [
-            'type',
             'name',
-            'visibility_in_Catalog',
             'desc',
-            'tax_status',
-            'regular_price',
             'categoryId',
             'subcategoryId',
             'image'
@@ -151,11 +158,13 @@ const SellerOwnProduct = () => {
 
             console.log(nonBlankFields);
 
+            nonBlankFields["sellerId"] = userId;
+
             try {
-                const res = await AddNewProduct(nonBlankFields);
+                const res = await SellerCreateOwn(nonBlankFields);
                 console.log(res);
                 toast.success('Product added successfully!');
-                navigate('/Admin/product');
+                // navigate('/Admin/product');
             } catch (err) {
                 console.log(err);
                 toast.error('An error occurred. Please try again.');
@@ -205,10 +214,10 @@ const SellerOwnProduct = () => {
 
                                 <Row className='mt-2'>
                                     <Col>
-                                        <Form.Group controlId="type">
+                                        {/* <Form.Group controlId="type">
                                             <Form.Label>Type</Form.Label>
                                             <Form.Control type="text" name="type" placeholder='Enter product type' value={formData.type} onChange={handleChange} required />
-                                        </Form.Group>
+                                        </Form.Group> */}
                                     </Col>
 
                                     <Col>
@@ -219,7 +228,7 @@ const SellerOwnProduct = () => {
                                     </Col>
 
                                     <Col>
-                                        <Form.Group controlId="visibility_in_Catalog">
+                                        {/* <Form.Group controlId="visibility_in_Catalog">
                                             <Form.Label>Visibility in Catalog</Form.Label>
                                             <Form.Control
                                                 as="select"
@@ -234,14 +243,14 @@ const SellerOwnProduct = () => {
                                                 <option value="visible">Visible</option>
                                                 <option value="hidden">Hidden</option>
                                             </Form.Control>
-                                        </Form.Group>
+                                        </Form.Group> */}
                                     </Col>
                                 </Row>
 
                                 <Row className='mt-2'>
 
                                     <Col>
-                                        <Form.Group controlId="regular_price">
+                                        {/* <Form.Group controlId="regular_price">
                                             <Form.Label>Regular Price</Form.Label>
                                             <Form.Control
                                                 type="number"
@@ -251,12 +260,12 @@ const SellerOwnProduct = () => {
                                                 onChange={handleChange}
                                                 required
                                             />
-                                        </Form.Group>
+                                        </Form.Group> */}
                                     </Col>
 
 
                                     <Col>
-                                        <Form.Group controlId="tax_status">
+                                        {/* <Form.Group controlId="tax_status">
                                             <Form.Label>Tax Status</Form.Label>
                                             <Form.Control
                                                 as="select"
@@ -271,7 +280,7 @@ const SellerOwnProduct = () => {
                                                 <option value="taxable">Taxable</option>
                                                 <option value="non_taxable">Non-taxable</option>
                                             </Form.Control>
-                                        </Form.Group>
+                                        </Form.Group> */}
                                     </Col>
 
                                 </Row>
@@ -323,7 +332,7 @@ const SellerOwnProduct = () => {
 
                                 <Row className='mt-2'>
                                     <Col>
-                                        <Form.Group controlId="position">
+                                        {/* <Form.Group controlId="position">
                                             <Form.Label>Position</Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -333,10 +342,10 @@ const SellerOwnProduct = () => {
                                                 onChange={handleChange}
                                                 required
                                             />
-                                        </Form.Group>
+                                        </Form.Group> */}
                                     </Col>
                                     <Col>
-                                        <Form.Group controlId="tags">
+                                        {/* <Form.Group controlId="tags">
                                             <Form.Label>Tags</Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -349,7 +358,7 @@ const SellerOwnProduct = () => {
                                             <Form.Text className="text-muted">
                                                 Separate tags with commas (e.g., tag1, tag2).
                                             </Form.Text>
-                                        </Form.Group>
+                                        </Form.Group> */}
                                     </Col>
                                 </Row>
 

@@ -414,3 +414,31 @@ export async function SellerProductAdd(fromData) {
         return error
     }
 }
+
+
+export async function SellerProductList(id) {
+    try {
+        const response = await axios.get(apiUrl + `/seller-product/list-by-seller/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function SellerCreateOwn(fromData) {
+    try {
+        const response = await axios.post(apiUrl + `/seller-new-product/create`, fromData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function OwnProductSellerList(id) {
+    try {
+        const response = await axios.get(apiUrl + `/seller-new-product/list-by-seller/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
