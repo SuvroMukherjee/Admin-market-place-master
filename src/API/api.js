@@ -6,14 +6,6 @@ import useAuth from '../hooks/useAuth';
 const apiUrl = import.meta.env.VITE_API_BASE;
 
 
-
-// const auth = JSON.parse(authString);
-// if (!auth) {
-//    window.location.reload();
-// }
-// const accessToken = auth?.accessToken;
-//console.log(accessToken);
-
 function setAuthHeader() {
  
     return {
@@ -124,6 +116,8 @@ export async function StaffUpdatedDetails(id,formData) {
     }
 }
 
+{/** Admin seller */}
+
 export async function AdminSellerLists() {
     try {
         const response = await axios.get(apiUrl + "/seller/all-list", { headers: setAuthHeader() })
@@ -133,6 +127,14 @@ export async function AdminSellerLists() {
     }
 }
 
+export async function AdminSellerProductLists() {
+    try {
+        const response = await axios.get(apiUrl + "/seller-new-product/list", { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
 
 
 /** Category Apis */

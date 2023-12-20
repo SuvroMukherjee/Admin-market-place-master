@@ -32,6 +32,12 @@ export const AdminSidebarData = [
         cName: 'nav-text'
     },
     {
+        title: `Seller's Product`,
+        path: '/SellerProductManagment',
+        icon:  BsShop,
+        cName: 'nav-text'
+    },
+    {
         title: 'Category',
         path: '/Admin/category',
         icon: BiSolidCategory,
