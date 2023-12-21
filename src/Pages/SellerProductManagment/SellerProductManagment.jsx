@@ -313,7 +313,7 @@ const ProductCard = ({ product }) => {
     return (
         <>
             <Card style={{ width: '40rem' }}>
-                <Card.Header className="text-center"><FaBox /> Product Details</Card.Header>
+                <Card.Header className="text-center fw-bold"><FaBox /> Product Details</Card.Header>
                 <Card.Body>
                     <Row>
                         <Col>
