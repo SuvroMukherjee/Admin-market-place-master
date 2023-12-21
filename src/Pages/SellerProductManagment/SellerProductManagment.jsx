@@ -306,60 +306,77 @@ const UserCard = ({ user }) => {
 
 const ProductCard = ({ product }) => {
 
+    const [showDes, setShowDesc] = useState(false)
+
     console.log({ product })
 
     return (
         <>
-            <Card style={{ width: '18rem' }}>
-                <Card.Header><FaBox /> Product Details</Card.Header>
+            <Card style={{ width: '40rem' }}>
+                <Card.Header className="text-center"><FaBox /> Product Details</Card.Header>
                 <Card.Body>
-                    <Carousel>
-                        {product?.image?.map((image, index) => (
-                            <Carousel.Item key={index}>
-                                <img className="d-block w-100" src={image} alt={`Shop Image ${index + 1}`} />
-                            </Carousel.Item>
-                        ))}
-                    </Carousel>
-                </Card.Body>
-                <ListGroup className="list-group-flush">
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={5} style={{ fontSize: '14px', color: 'black' }}>Product Name</Col>
-                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.name}</Col>
+                    <Row>
+                        <Col>
+                            <Carousel>
+                                {product?.image?.map((image, index) => (
+                                    <Carousel.Item key={index}>
+                                        <img className="d-block w-100" src={image} alt={`Shop Image ${index + 1}`} />
+                                    </Carousel.Item>
+                                ))}
+                            </Carousel>
+                        </Col>
+                        <Col>
+                            <ListGroup className="list-group-flush">
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={5} style={{ fontSize: '14px', color: 'black' }}>Product Name</Col>
+                                        <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.name}</Col>
 
-                        </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>description</Col>
-                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.desc}</Col>
-                        </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Category</Col>
-                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.categoryId?.title}</Col>
-                        </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Sub Category</Col>
-                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.subcategoryId?.title}</Col>
-                        </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Brand</Col>
-                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.brandId?.title}</Col>
-                        </Row>
-                    </ListGroup.Item>
-                    <ListGroup.Item>
-                        <Row>
-                            <Col xs={4}>Approve</Col>
-                            <Col>{product?.is_approved == 'pending' ? <span className="DeactiveStatus">Pending</span> : <span className="ActiveStatus">Approved</span>}</Col>
-                        </Row>
-                    </ListGroup.Item>
-                </ListGroup>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>description</Col>
+                                        {product?.desc?.length < 25 ?
+                                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.desc}</Col>
+                                            :
+                                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{!showDes ? product?.desc?.slice(0, 20) + '....' : product?.desc}
+
+                                                <span style={{ cursor: 'pointer', color: 'blue', fontSize: '10px' }} onClick={() => setShowDesc(!showDes)}>
+                                                    {!showDes ? 'read more..' : 'read less..'}
+                                                </span>
+                                            </Col>
+                                        }
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Category</Col>
+                                        <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.categoryId?.title}</Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Sub Category</Col>
+                                        <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.subcategoryId?.title}</Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Brand</Col>
+                                        <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.brandId?.title}</Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col xs={4}>Approve</Col>
+                                        <Col>{product?.is_approved == 'pending' ? <span className="DeactiveStatus">Pending</span> : <span className="ActiveStatus">Approved</span>}</Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                </Card.Body>
             </Card>
 
         </>
