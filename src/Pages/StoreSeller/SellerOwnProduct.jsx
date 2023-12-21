@@ -156,7 +156,7 @@ const SellerOwnProduct = () => {
                 const res = await SellerCreateOwn(nonBlankFields);
                 console.log(res);
                 toast.success('Product added successfully!');
-                setFormData({})
+               
                 // navigate('/Admin/product');
             } catch (err) {
                 console.log(err);

@@ -27,6 +27,7 @@ import SellerOwnProduct from './Pages/StoreSeller/SellerOwnProduct';
 import SellerAddProduct from './Pages/StoreSeller/SellerAddProduct';
 import SellerProductList from './Pages/StoreSeller/SellerProductList';
 import SellerProductManagment from './Pages/SellerProductManagment/SellerProductManagment';
+import EditOwnProduct from './Pages/StoreSeller/EditOwnProduct';
 
 
 
@@ -95,6 +96,7 @@ export default function Router() {
           children: [
             { path: 'seller-dashboard', element: <SellerDashboard /> },
             { path: 'seller-ownproduct', element: <SellerOwnProduct /> },
+            { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
             { path: 'seller-addproduct', element: <SellerAddProduct /> },
             { path: 'seller-productList', element: <SellerProductList /> },
           ],

@@ -252,18 +252,90 @@ export default function SellerAddProduct() {
         // },
     ];
 
-    // const handleSelectionChange = (selection) => {
-    //     const selectedRowIds = selection.selectionModel;
-    //     setSelectedIds(selectedRowIds);
-
-    //     // Log the selected IDs to the console
-    //     console.log('Selected IDs:', selectedRowIds);
-    // };
 
 
-    const handleChange = (e) => {
-        console.log(e.target.value)
-    }
+
+    const columnsOwn = [
+        { field: "id", headerName: "ID", width: 100 },
+        { field: "name", headerName: "Name", width: 250 },
+        {
+            field: "image", headerName: "Image", width: 150, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        <img className="productListImg" src={params?.row?.image?.[0]} alt="" />
+                        {params?.row?.image?.length > 1 && <span>{params?.row?.image?.length - 1}+</span>}
+                    </div>
+                );
+            }
+        },
+        { field: "regular_price", headerName: "Price", width: 150, },
+        { field: "desc", headerName: "Description", width: 150 },
+        {
+            field: "category", headerName: "Category", width: 150, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params.row.categoryId?.title}
+                    </div>
+                );
+            }
+        },
+        {
+            field: "Subcategory", headerName: "Sub Category", width: 150, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params.row.subcategoryId?.title}
+                    </div>
+                );
+            }
+        },
+        {
+            field: "Brand", headerName: "Brand", width: 150, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params.row?.brandId?.title}
+                    </div>
+                );
+            }
+        },
+        {
+            field: "tags", headerName: "Tags", width: 150, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params.row?.tags?.map((ele, i) => (
+                            <p key={i}>{ele},</p>
+                        ))}
+                    </div>
+                );
+            }
+        },
+        {
+            field: "status", headerName: "Is Approve", width: 150, renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params?.row?.is_approved == 'pending' ? <span className="DeactiveStatus">Pending</span> : <span className="ActiveStatus">Approved</span>}
+                    </div>
+                );
+            }
+        },
+        {
+            field: "action",
+            headerName: "Action",
+            width: 300,
+            renderCell: (params) => {
+                return (
+                    <>
+
+                        <div className="buttonWrapper">
+                            <Button variant="warning" onClick={() => navigate(`/seller/seller-editownproduct/${params?.row?._id}`)} size="sm">
+                                <RiEdit2Line /> Edit
+                            </Button>
+                        </div>
+                    </>
+                );
+            },
+        },
+    ];
+
 
     const handleButtonClick = (buttonType) => {
         if (buttonType == 'sell') {
@@ -368,15 +440,6 @@ export default function SellerAddProduct() {
                                         rows={data}
                                         columns={columns}
                                         pageSize={8}
-                                        // checkboxSelection
-                                        // onSelectionModelChange={(ids) => {
-                                        //     const selectedIDs = new Set(ids);
-                                        //     const selectedRows = data.rows.filter((row) =>
-                                        //         selectedIDs.has(row.id),
-                                        //     );
-
-                                        //     setSelectedRows(selectedRows);
-                                        // }}
                                         noRowsOverlay={
                                             data?.length === 0 && <div style={{ textAlign: 'center', padding: '20px' }}>No Data Found</div>
                                         }
@@ -390,17 +453,8 @@ export default function SellerAddProduct() {
                                 <Col>
                                     <DataGrid
                                         rows={sellerOwnData}
-                                        columns={columns}
+                                        columns={columnsOwn}
                                         pageSize={8}
-                                        // checkboxSelection
-                                        // onSelectionModelChange={(ids) => {
-                                        //     const selectedIDs = new Set(ids);
-                                        //     const selectedRows = data.rows.filter((row) =>
-                                        //         selectedIDs.has(row.id),
-                                        //     );
-
-                                        //     setSelectedRows(selectedRows);
-                                        // }}
                                         noRowsOverlay={
                                             data?.length === 0 && <div style={{ textAlign: 'center', padding: '20px' }}>No Data Found</div>
                                         }

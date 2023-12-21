@@ -454,3 +454,21 @@ export async function OwnProductSellerList(id) {
         return error
     }
 }
+
+export async function SellerOwnProductDetails(id) {
+    try {
+        const response = await axios.get(apiUrl + `/seller-new-product/detail/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function EditSellerOwnProduct(id,formData) {
+    try {
+        const response = await axios.patch(apiUrl + `/seller-new-product/update/${id}`,formData,{ headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
