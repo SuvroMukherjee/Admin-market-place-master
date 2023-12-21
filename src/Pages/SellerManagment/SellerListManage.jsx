@@ -94,7 +94,7 @@ export default function SellerListManage() {
 
         await UpdateSellerStatus(data?._id, payload).then((res) => {
             getAllSellersList();
-            toast.success('Brand updated successfully!');
+            toast.success('Seller updated successfully!');
         }).catch((err) => {
             console.log(err)
             toast.error('Something went wrong!');

@@ -1,11 +1,11 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Button, Card, Carousel, Col, Container, Row, ListGroup } from 'react-bootstrap';
+import { Button, Card, Carousel, Col, Container, ListGroup, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { Toaster } from 'react-hot-toast';
-import { FaEye, FaRegUser } from "react-icons/fa";
+import { Toaster, toast } from 'react-hot-toast';
+import { FaBox, FaEye, FaRegUser } from "react-icons/fa";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
-import { AdminSellerProductLists } from "../../API/api";
+import { AdminSellerProductLists, AdminSellerProductStatus } from "../../API/api";
 
 
 export default function SellerProductManagment() {
@@ -46,6 +46,30 @@ export default function SellerProductManagment() {
     const ShowProductDetails = (data) => {
         console.log(data)
         setProductDetails(data)
+    }
+
+    const productStatusUpdate = async (data) => {
+        let payload = {};
+
+        if (data?.is_approved == 'approved') {
+            payload = {
+                "is_approved": 'pending'
+            }
+        } else {
+            payload = {
+                "is_approved": 'approved'
+            }
+        }
+
+        await AdminSellerProductStatus(data?._id, payload).then((res) => {
+            console.log(res?.data?.data)
+            getAllOwnProducts()
+            toast.success('Seller Product updated successfully!');
+        }).catch((err) => {
+            console.log(err)
+            toast.error('Something went wrong!');
+        })
+
     }
 
     const columns = [
@@ -115,7 +139,7 @@ export default function SellerProductManagment() {
             field: "approved", headerName: "Is Approved", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        {params?.row?.is_approved == 'pending' ? <span className="ActiveStatus">Pending</span> : <span className="DeactiveStatus">Approved</span>}
+                        {params?.row?.is_approved == 'pending' ? <span className="DeactiveStatus">Pending</span> : <span className="ActiveStatus">Approved</span>}
                     </div>
                 );
             }
@@ -166,10 +190,10 @@ export default function SellerProductManagment() {
 
                         <div className="buttonWrapper">
                             {params?.row?.is_approved == 'pending' ?
-                                <Button variant="outline-success" onClick={() => AddSellerProduct(params?.row?._id)} size="sm">
+                                <Button variant="outline-success" onClick={() => productStatusUpdate(params?.row)} size="sm">
                                     <IoCheckmarkDoneSharp /> Approve
                                 </Button>
-                                : <Button variant="outline-danger" onClick={() => AddSellerProduct(params?.row?._id)} size="sm">
+                                : <Button variant="outline-danger" onClick={() => productStatusUpdate(params?.row)} size="sm">
                                     <IoCheckmarkDoneSharp /> Reject
                                 </Button>}
 
@@ -286,44 +310,8 @@ const ProductCard = ({ product }) => {
 
     return (
         <>
-
-            {/* <Card style={{ width: '18rem' }}>
-                <Card.Header><FaRegUser /> Seller Details</Card.Header>
-                <Card.Body>
-                    <Card.Text>
-                        <strong>Phone:</strong> {user?.phone_no}
-                        <br />
-                        <strong>Email:</strong> {user?.email}
-                        <br />
-                        <strong>Address:</strong> {user?.address}
-                        <br />
-                        <strong>GST No:</strong> {user?.gst_no}
-                        <br />
-                        <strong>Pickup Location:</strong> {user?.picup_location}
-                        <br />
-                        <strong>Commission Rate:</strong> {user?.commission_rate}%
-                        <br />
-                        <strong>Average Rating
-                            :</strong> {user?.rating || 0}
-                        <br />
-                        <strong>Status:</strong> {user?.status}
-                    </Card.Text>
-                    <Row>
-                        <Col className="d-flex align-items-center"><strong>Shop Images</strong></Col>
-                        <Col xs={6}>
-                            <Carousel>
-                                {user?.pic_of_shope?.map((image, index) => (
-                                    <Carousel.Item key={index}>
-                                        <img className="d-block w-100" src={image} alt={`Shop Image ${index + 1}`} />
-                                    </Carousel.Item>
-                                ))}
-                            </Carousel>
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card> */}
-
             <Card style={{ width: '18rem' }}>
+                <Card.Header><FaBox /> Product Details</Card.Header>
                 <Card.Body>
                     <Carousel>
                         {product?.image?.map((image, index) => (
@@ -334,14 +322,44 @@ const ProductCard = ({ product }) => {
                     </Carousel>
                 </Card.Body>
                 <ListGroup className="list-group-flush">
-                    <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                    <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                    <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+                    <ListGroup.Item>
+                        <Row>
+                            <Col xs={5} style={{ fontSize: '14px', color: 'black' }}>Product Name</Col>
+                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.name}</Col>
+
+                        </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Row>
+                            <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>description</Col>
+                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.desc}</Col>
+                        </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Row>
+                            <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Category</Col>
+                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.categoryId?.title}</Col>
+                        </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Row>
+                            <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Sub Category</Col>
+                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.subcategoryId?.title}</Col>
+                        </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Row>
+                            <Col xs={4} style={{ fontSize: '14px', color: 'black' }}>Brand</Col>
+                            <Col style={{ fontSize: '14px', color: 'black', fontWeight: 'bold' }}>{product?.brandId?.title}</Col>
+                        </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <Row>
+                            <Col xs={4}>Approve</Col>
+                            <Col>{product?.is_approved == 'pending' ? <span className="DeactiveStatus">Pending</span> : <span className="ActiveStatus">Approved</span>}</Col>
+                        </Row>
+                    </ListGroup.Item>
                 </ListGroup>
-                <Card.Body>
-                    <Card.Link href="#">Card Link</Card.Link>
-                    <Card.Link href="#">Another Link</Card.Link>
-                </Card.Body>
             </Card>
 
         </>

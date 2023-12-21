@@ -7,16 +7,16 @@ const apiUrl = import.meta.env.VITE_API_BASE;
 
 
 function setAuthHeader() {
- 
+
     return {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + JSON.parse(localStorage.getItem('ACCESS_TOKEN')) 
+        "Authorization": "Bearer " + JSON.parse(localStorage.getItem('ACCESS_TOKEN'))
     }
 }
 
 export async function AdminLogin(formData) {
     try {
-        const response = await axios.post(apiUrl + "/admin/login", formData) 
+        const response = await axios.post(apiUrl + "/admin/login", formData)
         return response;
     } catch (error) {
         return error
@@ -24,54 +24,54 @@ export async function AdminLogin(formData) {
 }
 
 
-export async function createRole(formData){
+export async function createRole(formData) {
     try {
-        const response = await axios.post(apiUrl + "/role/create", formData, { headers: setAuthHeader() }) 
+        const response = await axios.post(apiUrl + "/role/create", formData, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
 }
 
-{/*** roles api */}
-export async function allRoleList(){
+{/*** roles api */ }
+export async function allRoleList() {
     try {
-        const response = await axios.get(apiUrl + "/role/list", { headers: setAuthHeader() }) 
+        const response = await axios.get(apiUrl + "/role/list", { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
 }
 
-export async function updateRole(id,formData){
+export async function updateRole(id, formData) {
     try {
-        const response = await axios.patch(apiUrl + `/role/update/${id}`, formData, { headers: setAuthHeader() }) 
+        const response = await axios.patch(apiUrl + `/role/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
 }
 
-export async function updateStatusRole(id,formData){
+export async function updateStatusRole(id, formData) {
     try {
-        const response = await axios.patch(apiUrl + `/role/status-update/${id}`, formData, { headers: setAuthHeader() }) 
+        const response = await axios.patch(apiUrl + `/role/status-update/${id}`, formData, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
 }
 
-export async function deleteApiRole(id){
+export async function deleteApiRole(id) {
     try {
-        const response = await axios.delete(apiUrl + `/role/delete/${id}`, { headers: setAuthHeader() }) 
+        const response = await axios.delete(apiUrl + `/role/delete/${id}`, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
 }
 
-{/** Admin api */}
-export async function AdminCreateUserList(){
+{/** Admin api */ }
+export async function AdminCreateUserList() {
     try {
         const response = await axios.get(apiUrl + "/admin/list", { headers: setAuthHeader() })
         return response;
@@ -80,7 +80,7 @@ export async function AdminCreateUserList(){
     }
 }
 
-export async function StaffCreateByAdmin(formData){
+export async function StaffCreateByAdmin(formData) {
     try {
         const response = await axios.post(apiUrl + "/admin/staff-add", formData, { headers: setAuthHeader() })
         return response;
@@ -89,7 +89,7 @@ export async function StaffCreateByAdmin(formData){
     }
 }
 
-export async function StaffStatusUpdateByAdmin(id,formData){
+export async function StaffStatusUpdateByAdmin(id, formData) {
     try {
         const response = await axios.patch(apiUrl + `/admin/status-update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -107,7 +107,7 @@ export async function StaffDetails(id) {
     }
 }
 
-export async function StaffUpdatedDetails(id,formData) {
+export async function StaffUpdatedDetails(id, formData) {
     try {
         const response = await axios.patch(apiUrl + `/admin/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -116,7 +116,7 @@ export async function StaffUpdatedDetails(id,formData) {
     }
 }
 
-{/** Admin seller */}
+{/** Admin seller */ }
 
 export async function AdminSellerLists() {
     try {
@@ -137,8 +137,18 @@ export async function AdminSellerProductLists() {
 }
 
 
+export async function AdminSellerProductStatus(id, formData) {
+    try {
+        const response = await axios.patch(apiUrl + `/seller-new-product/update-status/${id}`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 /** Category Apis */
-export async function allCategoryList(){
+export async function allCategoryList() {
     try {
         const response = await axios.get(apiUrl + "/category/list", { headers: setAuthHeader() })
         return response;
@@ -147,7 +157,7 @@ export async function allCategoryList(){
     }
 }
 
-export async function AddProductCategory(formData){
+export async function AddProductCategory(formData) {
     try {
         const response = await axios.post(apiUrl + "/category/create", formData, { headers: setAuthHeader() })
         return response;
@@ -157,7 +167,7 @@ export async function AddProductCategory(formData){
 }
 
 
-export async function UpdateProductCategory(formData,id){
+export async function UpdateProductCategory(formData, id) {
     try {
         const response = await axios.patch(apiUrl + `/category/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -166,7 +176,7 @@ export async function UpdateProductCategory(formData,id){
     }
 }
 
-export async function UpdateStatusProductCategory(formData,id){
+export async function UpdateStatusProductCategory(formData, id) {
     try {
         const response = await axios.patch(apiUrl + `/category/status-update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -175,7 +185,7 @@ export async function UpdateStatusProductCategory(formData,id){
     }
 }
 
-export async function DeleteProductCategory(id){
+export async function DeleteProductCategory(id) {
     try {
         const response = await axios.delete(apiUrl + `/category/delete/${id}`, { headers: setAuthHeader() })
         return response;
@@ -185,7 +195,7 @@ export async function DeleteProductCategory(id){
 }
 
 /** Sub-Category Apis */
-export async function allSubCategoryList(){
+export async function allSubCategoryList() {
     try {
         const response = await axios.get(apiUrl + "/sub-category/list", { headers: setAuthHeader() })
         return response;
@@ -194,7 +204,7 @@ export async function allSubCategoryList(){
     }
 }
 
-export async function AddProductSubCategory(formData){
+export async function AddProductSubCategory(formData) {
     try {
         const response = await axios.post(apiUrl + "/sub-category/create", formData, { headers: setAuthHeader() })
         return response;
@@ -204,7 +214,7 @@ export async function AddProductSubCategory(formData){
 }
 
 
-export async function UpdateProductSubCategory(formData,id){
+export async function UpdateProductSubCategory(formData, id) {
     try {
         const response = await axios.patch(apiUrl + `/sub-category/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -213,7 +223,7 @@ export async function UpdateProductSubCategory(formData,id){
     }
 }
 
-export async function UpdateStatusProductSubCategory(formData,id){
+export async function UpdateStatusProductSubCategory(formData, id) {
     try {
         const response = await axios.patch(apiUrl + `/sub-category/status-update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -222,7 +232,7 @@ export async function UpdateStatusProductSubCategory(formData,id){
     }
 }
 
-export async function DeleteProductSubCategory(id){
+export async function DeleteProductSubCategory(id) {
     try {
         const response = await axios.delete(apiUrl + `/sub-category/delete/${id}`, { headers: setAuthHeader() })
         return response;
@@ -233,7 +243,7 @@ export async function DeleteProductSubCategory(id){
 
 /** Brand Apis */
 
-export async function allBrandList(){
+export async function allBrandList() {
     try {
         const response = await axios.get(apiUrl + "/brand/list", { headers: setAuthHeader() })
         return response;
@@ -242,7 +252,7 @@ export async function allBrandList(){
     }
 }
 
-export async function AddBrand(formData){
+export async function AddBrand(formData) {
     try {
         const response = await axios.post(apiUrl + "/brand/create", formData, { headers: setAuthHeader() })
         return response;
@@ -252,7 +262,7 @@ export async function AddBrand(formData){
 }
 
 
-export async function EditBrand(formData,id){
+export async function EditBrand(formData, id) {
     try {
         const response = await axios.patch(apiUrl + `/brand/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -261,7 +271,7 @@ export async function EditBrand(formData,id){
     }
 }
 
-export async function UpdateStatusBrand(formData,id){
+export async function UpdateStatusBrand(formData, id) {
     try {
         const response = await axios.patch(apiUrl + `/brand/status-update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -270,7 +280,7 @@ export async function UpdateStatusBrand(formData,id){
     }
 }
 
-export async function deleteBrand(id){
+export async function deleteBrand(id) {
     try {
         const response = await axios.delete(apiUrl + `/brand/delete/${id}`, { headers: setAuthHeader() })
         return response;
@@ -279,7 +289,7 @@ export async function deleteBrand(id){
     }
 }
 
-{/** File upload api */}
+{/** File upload api */ }
 
 
 export async function FileUpload(formData) {
@@ -291,11 +301,11 @@ export async function FileUpload(formData) {
     }
 }
 
-{/** Product Apis */}
+{/** Product Apis */ }
 
-export async function allProductList(){
+export async function allProductList() {
     try {
-        const response = await axios.get(apiUrl + "/product/list",{ headers: setAuthHeader() })
+        const response = await axios.get(apiUrl + "/product/list", { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
@@ -310,7 +320,7 @@ export async function AddNewProduct(formData) {
     } catch (error) {
         return error
     }
-} 
+}
 
 export async function GetProductDetails(id) {
     try {
@@ -319,7 +329,7 @@ export async function GetProductDetails(id) {
     } catch (error) {
         return error
     }
-} 
+}
 
 export async function getSubCategoryByCategory(id) {
     try {
@@ -330,26 +340,26 @@ export async function getSubCategoryByCategory(id) {
     }
 }
 
-export async function StatusUpdateProduct(id,fromData) {
+export async function StatusUpdateProduct(id, fromData) {
     try {
-        const response = await axios.patch(apiUrl + `/product/status-update/${id}`, fromData,{ headers: setAuthHeader() })
+        const response = await axios.patch(apiUrl + `/product/status-update/${id}`, fromData, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
-} 
+}
 
 
-export async function  deleteProduct(id) {
+export async function deleteProduct(id) {
     try {
         const response = await axios.delete(apiUrl + `/product/delete/${id}`, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
-} 
+}
 
-{/**key manager apis */}
+{/**key manager apis */ }
 
 export async function allSellerList() {
     try {
@@ -378,7 +388,7 @@ export async function sellerDetails(id) {
     }
 }
 
-export async function UpdateSellerData(id,fromData) {
+export async function UpdateSellerData(id, fromData) {
     try {
         const response = await axios.patch(apiUrl + `/seller/update/${id}`, fromData, { headers: setAuthHeader() })
         return response;
@@ -396,7 +406,7 @@ export async function UpdateSellerStatus(id, fromData) {
     }
 }
 
-{/** seller api */}
+{/** seller api */ }
 
 export async function SellerLogin(fromData) {
     try {
