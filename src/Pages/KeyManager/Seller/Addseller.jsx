@@ -1,16 +1,14 @@
-import React from 'react'
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { Toaster, toast } from 'react-hot-toast';
-import { useNavigate } from "react-router-dom";
-import { productRows } from "../../../dummyData";
-import "./listStyle.css";
-import { FileUpload, addNewsSeller, allSellerList } from "../../../API/api";
-import { useEffect } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
-import { Button, Col, Container, Row, Form, Image } from 'react-bootstrap';
-import { DataGrid } from "@mui/x-data-grid";
+import { IoIosAddCircle } from "react-icons/io";
 import { MdCancel, MdOutlineFileUpload } from 'react-icons/md';
+import { FileUpload, addNewsSeller, allCategoryList } from "../../../API/api";
+import { categoryData } from "../../../dummyData";
+import "./listStyle.css";
+import { useNavigate } from 'react-router-dom';
+
 
 const Addseller = () => {
     const [loading, setLoading] = useState(true)
@@ -22,9 +20,13 @@ const Addseller = () => {
         pic_of_shope: [],
         gst_no: '',
         picup_location: '',
-        commission_rate: 0,
+        commission_data: [],
         status: 'pending',
     });
+    const [btnEnale, setBtnEnable] = useState(true)
+    const [commissionSave, setCommission] = useState(true)
+
+    const naviagete  = useNavigate()
 
     useEffect(() => {
         setTimeout(() => {
@@ -41,19 +43,34 @@ const Addseller = () => {
         e.preventDefault();
         const isFormValid = Object.values(formData).every((value) => value !== '');
 
+        if (commissionSave) {
+            toast.error('Please save your commission');
+            return;
+        }
+
+        console.log({formData})
+
         if (isFormValid) {
-            console.log(formData);
-            await addNewsSeller(formData).then((res) => {
-                console.log(res)
-                toast.success('Seller created successfully!');
-            }).catch((err) => {
-                console.log(err)
+            try {
+                const res = await addNewsSeller(formData);
+                console.log(res);
+                if (res?.response?.data?.error) {
+                    toast.error(res.response.data.data);
+                } else {
+                    toast.success('Seller created successfully!');
+                    setTimeout(() => {
+                        naviagete('/key/AddSeller');
+                    }, 2500);
+                }
+            } catch (err) {
+                console.error(err);
                 toast.error('Something went wrong!');
-            })
+            }
         } else {
             console.error('Please fill in all the required fields.');
         }
     };
+
 
     const handleImageInputChange = (e) => {
         const { files } = e.target;
@@ -67,7 +84,7 @@ const Addseller = () => {
 
     const onFileUpload = async (file) => {
         const formData = new FormData();
-        formData.append("file", file); 
+        formData.append("file", file);
 
         try {
             const res = await FileUpload(formData);
@@ -77,6 +94,7 @@ const Addseller = () => {
                     pic_of_shope: [...prevData?.pic_of_shope, res?.data?.data?.fileurl],
                 }));
             }, 3000);
+            setBtnEnable(false)
         } catch (err) {
             console.error(err, "err");
         }
@@ -97,6 +115,19 @@ const Addseller = () => {
 
     }
 
+    const addCategorytoForm = (data) => {
+        console.log({ data })
+        if (data) {
+            setCommission(false)
+            setFormData((prevData) => ({
+                ...prevData,
+                commission_data: [...prevData?.commission_data, ...data],
+            }));
+        }
+    };
+
+
+
 
     return (
         <>
@@ -114,7 +145,7 @@ const Addseller = () => {
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
-                            <h3>Add Product</h3>
+                            <h3>Add Seller</h3>
                         </Col>
                     </Row>
                     <Row className="justify-content-md-center">
@@ -203,10 +234,11 @@ const Addseller = () => {
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                                <Row className='mt-2'>
-                                    <Col xs={6}> 
+
+                                {/* <Row className='mt-2'>
+                                    <Col xs={6}>
                                         <Form.Group controlId="commissionRate">
-                                            <Form.Label>Commission Rate(%)</Form.Label>
+                                            <Form.Label>Commission rate against category(%)</Form.Label>
                                             <Form.Control
                                                 type="number"
                                                 name="commission_rate"
@@ -214,24 +246,18 @@ const Addseller = () => {
                                                 onChange={handleChange}
                                                 required
                                             />
+                                            <Form.Text className="text-muted">
+                                                Select category for add commission
+                                            </Form.Text>
                                         </Form.Group>
                                     </Col>
-                                    {/* <Col>
-                                        <Form.Group controlId="status">
-                                            <Form.Label>Status</Form.Label>
-                                            <Form.Control
-                                                as="select"
-                                                name="status"
-                                                value={formData.status}
-                                                onChange={handleChange}
-                                                required
-                                            >
-                                                <option value="approved">Approved</option>
-                                                <option value="pending">Pending</option>
-                                                <option value="rejected">Rejected</option>
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Col> */}
+                                    <Col>
+
+                                    </Col>
+                                </Row> */}
+
+                                <Row className='mt-3'>
+                                    <CommissionComponent addCategorytoForm={addCategorytoForm} />
                                 </Row>
 
                                 <Row className="mt-2">
@@ -282,7 +308,7 @@ const Addseller = () => {
                                 <Row className='mt-4'>
                                     <Col>
                                         <div className="d-grid gap-2">
-                                            <Button variant="warning" size="lg" type="submit">
+                                            <Button variant="warning" size="lg" type="submit" disabled={btnEnale && commissionSave}>
                                                 <MdOutlineFileUpload /> Add Seller
                                             </Button>
                                         </div>
@@ -298,5 +324,103 @@ const Addseller = () => {
         </>
     )
 }
+
+
+
+
+const CommissionComponent = ({ addCategorytoForm }) => {
+    const [formData, setFormData] = useState({
+        categories: [{ categoryId: '', commission_rate: '' }]
+    });
+    const [categorylist, setcategorylist] = useState([]);
+
+
+    useEffect(() => {
+        getAllCats()
+    },[])
+
+    async function getAllCats(){
+        await allCategoryList().then((res)=>{
+            setcategorylist(res?.data?.data)
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
+
+    const handleChange = (e, index) => {
+        const { name, value } = e.target;
+        const updatedCategories = [...formData.categories];
+        updatedCategories[index][name] = value;
+        setFormData({ ...formData, categories: updatedCategories });
+    };
+
+    const addCategory = () => {
+        setFormData({
+            ...formData,
+            categories: [...formData.categories, { categoryId: '', commission_rate: '' }]
+        });
+    };
+
+    const handleSave = () => {
+        console.log(formData.categories);
+        addCategorytoForm(formData.categories)
+    };
+
+    const handleDelete = (index) => {
+        const updatedCategories = [...formData.categories];
+        updatedCategories.splice(index, 1);
+        setFormData({ ...formData, categories: updatedCategories });
+    };
+
+    return (
+
+        <Col xs={6} >
+            <Form.Group controlId="commissionRate">
+                <Form.Label>Commission rate against category(%)</Form.Label>
+                <span>
+                    <Button variant="dark" onClick={handleSave} size="sm">Save</Button>
+                </span>
+                {formData.categories.map((item, index) => (
+                    <Row key={index} className="mb-2">
+                        <Col>
+                            <Form.Label>category</Form.Label>
+                            <Form.Select
+                                name="categoryId"
+                                value={item.categoryId}
+                                onChange={(e) => handleChange(e, index)}
+                                required
+                            >
+                                <option value="" disabled>Select category</option>
+                                {categorylist?.length > 0 && categorylist.map((ele) => (
+                                    <option value={ele?._id}>{ele?.title}</option>
+                                ))}
+                            </Form.Select>
+                        </Col>
+                        <Col>
+                            <Form.Label>commission(%)</Form.Label>
+                            <Form.Control
+                                type="number"
+                                name="commission_rate"
+                                value={item.commission}
+                                onChange={(e) => handleChange(e, index)}
+                                placeholder="Commisson rate"
+                                required
+                            />
+                        </Col>
+                        <Col>
+                            <MdCancel size={22} color='red' onClick={() => handleDelete(index)} />
+                        </Col>
+                    </Row>
+                ))}
+                <IoIosAddCircle size={26} onClick={addCategory} />
+                <span style={{ marginLeft: '5px', color: 'grey', fontSize: '16px' }}  >Add more...</span>
+            </Form.Group>
+        </Col>
+
+
+    );
+};
+
+
 
 export default Addseller

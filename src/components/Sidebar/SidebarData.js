@@ -32,6 +32,12 @@ export const AdminSidebarData = [
         cName: 'nav-text'
     },
     {
+        title: `Seller's Product`,
+        path: '/SellerProductManagment',
+        icon:  BsShop,
+        cName: 'nav-text'
+    },
+    {
         title: 'Category',
         path: '/Admin/category',
         icon: BiSolidCategory,
@@ -71,3 +77,31 @@ export const KeyManagerSidebarData = [
         cName: 'nav-text'
     }
 ];
+
+export const SellerSidebarData = [
+    {
+        title: 'Dashboard',
+        path: '/seller/seller-dashboard',
+        icon: AiIcons.AiFillHome,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Product List',
+        path: '/seller/seller-productList',
+        icon: BsShop,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Add Product',
+        path: '/seller/seller-addproduct',
+        icon: BsShop,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Own Product',
+        path: '/seller/seller-ownproduct',
+        icon: BsShop,
+        cName: 'nav-text'
+    }
+];
+

@@ -22,6 +22,12 @@ import ListSeller from './Pages/KeyManager/Seller/ListSeller';
 import Addseller from './Pages/KeyManager/Seller/Addseller';
 import EditSeller from './Pages/KeyManager/Seller/EditSeller';
 import SellerListManage from './Pages/SellerManagment/SellerListManage';
+import SellerDashboard from './Pages/StoreSeller/SellerDashboard';
+import SellerOwnProduct from './Pages/StoreSeller/SellerOwnProduct';
+import SellerAddProduct from './Pages/StoreSeller/SellerAddProduct';
+import SellerProductList from './Pages/StoreSeller/SellerProductList';
+import SellerProductManagment from './Pages/SellerProductManagment/SellerProductManagment';
+import EditOwnProduct from './Pages/StoreSeller/EditOwnProduct';
 
 
 
@@ -45,7 +51,8 @@ export default function Router() {
             { path: 'users', element: <UserList /> },
             { path: 'AddUser', element: <AddUser /> },
             { path: 'EditUser/:id', element: <EditUser /> },
-            { path: 'SellerManagment', element: <SellerListManage /> }
+            { path: 'SellerManagment', element: <SellerListManage /> },
+            { path: 'SellerProductManagment', element: <SellerProductManagment /> }
           ],
         },
         {
@@ -72,10 +79,26 @@ export default function Router() {
         {
           element: <RequireAuth allowedRoles={['Key Account Maneger']} />,
           children: [
-            { path: 'dashboard', element: <Dashboard/> }, // Remove the absolute path '/key'
+            { path: 'dashboard', element: <Dashboard /> }, // Remove the absolute path '/key'
             { path: 'seller', element: <ListSeller /> },
             { path: 'AddSeller', element: <Addseller /> },
             { path: 'EditSeller/:id', element: <EditSeller /> },
+          ],
+        },
+      ],
+    },
+    {
+      path: '/seller',
+      element: <AdminLayout />,
+      children: [
+        {
+          element: <RequireAuth allowedRoles={['Seller']} />,
+          children: [
+            { path: 'seller-dashboard', element: <SellerDashboard /> },
+            { path: 'seller-ownproduct', element: <SellerOwnProduct /> },
+            { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
+            { path: 'seller-addproduct', element: <SellerAddProduct /> },
+            { path: 'seller-productList', element: <SellerProductList /> },
           ],
         },
       ],

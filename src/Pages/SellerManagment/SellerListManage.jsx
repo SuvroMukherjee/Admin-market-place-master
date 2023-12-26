@@ -94,7 +94,7 @@ export default function SellerListManage() {
 
         await UpdateSellerStatus(data?._id, payload).then((res) => {
             getAllSellersList();
-            toast.success('Brand updated successfully!');
+            toast.success('Seller updated successfully!');
         }).catch((err) => {
             console.log(err)
             toast.error('Something went wrong!');
@@ -133,7 +133,7 @@ export default function SellerListManage() {
         {
             field: "email",
             headerName: "Email",
-            width: 150,
+            width: 200,
         },
         {
             field: "phone_no",
@@ -151,11 +151,20 @@ export default function SellerListManage() {
             width: 200,
         },
         {
-            field: "pic_of_shope", headerName: "Image", width: 200, renderCell: (params) => {
+            field: "pic_of_shope", headerName: "Image", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         <img className="productListImg" src={params?.row?.pic_of_shope?.[0]} alt="" />
                         <span>{params?.row?.pic_of_shope?.length - 1}+</span>
+                    </div>
+                );
+            }
+        },
+        {
+            field: "rating", headerName: "Rating by Buyer(avg)", width: 200, renderCell: (params) => {
+                return (
+                    <div>
+                       {'Not Avaible'}
                     </div>
                 );
             }
@@ -260,7 +269,7 @@ export default function SellerListManage() {
                                     onClick={() => handleButtonClick('approve')}
                                     size="sm"
                                 >
-                                    Approve
+                                    Approved
                                 </Button>
                                 <Button
                                     variant={activeButton === 'reject' ? 'dark' : 'outline-dark'}
@@ -305,21 +314,12 @@ export default function SellerListManage() {
 
 const UserCard = ({ user }) => {
     console.log({user})
-    // const [show, setShow] = useState(false);
-    // const [target, setTarget] = useState(null);
-
-    // const handleShow = (event) => {
-    //     setShow(!show);
-    //     setTarget(event.target);
-    // };
     return (
         <>
 
             <Card style={{ width: '18rem' }}>
                 <Card.Header><FaRegUser/> Seller Details</Card.Header>
                 <Card.Body>
-                    {/* <Card.Title>{user?.staffId?.name}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{user?.staffId?.role?.name}</Card.Subtitle> */}
                     <Card.Text>
                         <strong>Phone:</strong> {user?.phone_no}
                         <br />
@@ -332,6 +332,9 @@ const UserCard = ({ user }) => {
                         <strong>Pickup Location:</strong> {user?.picup_location}
                         <br/>
                         <strong>Commission Rate:</strong> {user?.commission_rate}%
+                        <br/>
+                        <strong>Average Rating
+                            :</strong> {user?.rating  ||  0 }
                         <br/>
                         <strong>Status:</strong> {user?.status}
                     </Card.Text>
@@ -347,33 +350,6 @@ const UserCard = ({ user }) => {
                             </Carousel>
                         </Col>
                     </Row>
-                    {/* <Overlay
-                        show={show}
-                        target={target}
-                        placement="bottom"
-                        container={document.body}
-                        containerPadding={20}
-                    >
-                        <Popover id="popover-contained">
-                            <Popover.Content>
-                                <img
-                                    src={target?.src}
-                                    alt="Full-size Image"
-                                    style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
-                                />
-                            </Popover.Content>
-                        </Popover>
-                    </Overlay> */}
-                    {/* <Card.Text>
-                        <strong>Commission Rate:</strong> {user?.commission_rate}%
-                    </Card.Text>
-                    <Card.Text> */}
-                        
-                    {/* </Card.Text> */}
-                    {/* <Card.Text>
-                        <strong>Added:</strong> {new Date(user?.createdAt).toLocaleDateString()} By {user?.staffId?.name}
-                        <span>{user?.staffId?.role?.name}</span>
-                    </Card.Text> */}
                 </Card.Body>
             </Card>
 
