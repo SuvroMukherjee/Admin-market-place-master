@@ -9,6 +9,9 @@ import { Col, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { OwnProductSellerList, SellerProductList } from '../../API/api';
+import { FaUsers } from 'react-icons/fa';
+import { CiShop } from 'react-icons/ci';
 // import KeyWidgetSm from '../../../components/widgetSm/KeyWidgetSm';
 
 
@@ -16,30 +19,43 @@ const SellerDashboard = () => {
 
     //const [seller, setSeller] = useState();
     const [loading, setLoading] = useState(true)
+    const [addedProduct, setAddedProduct] = useState(0);
+    const [ownproudct, setOwnproduct] = useState(0)
 
-    
 
+    const { userId } = JSON.parse(localStorage.getItem('auth'));
 
     useEffect(() => {
+        getProductListFunc();
+        getAllOwnProducts();
         setTimeout(() => {
             setLoading(false)
-        }, 3000); 
+        }, 3000);
     }, [])
 
-    // async function getAllSellersList() {
-    //     await allSellerList().then((res) => {
-    //         setSeller(res?.data?.data)
-    //         if (res?.data?.data) {
-    //             setLoading(false)
-    //         }
-    //     }).catch((err) => {
-    //         console.log(err)
-    //     }).finally(() => {
-    //         setTimeout(() => {
-    //             setLoading(false)
-    //         }, 3000);
-    //     })
-    // };
+    async function getProductListFunc() {
+        await SellerProductList(userId).then((res) => {
+            console.log(res?.data?.data)
+            setAddedProduct(res?.data?.data?.length)
+            setLoading(false)
+        }).catch((err) => {
+            console.log(err)
+        }).finally((data) => {
+            setLoading(false)
+        })
+    };
+
+    async function getAllOwnProducts() {
+        setLoading(true)
+        await OwnProductSellerList(userId).then((res) => {
+            console.log(res?.data?.data, 'own data');
+            setOwnproduct(res?.data?.data?.length)
+            setLoading(false)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
 
     return (
         <>
@@ -53,14 +69,28 @@ const SellerDashboard = () => {
                         </Col>
                     </Row>
                 </div>}
-            <div className="home">
+            <div className="home mt-4">
 
-                {/* <KeyFeaturedInfo seller={seller} />
-                
-                <div className="homeWidgets">
-                    <KeyWidgetSm user={seller} />
-                    <WidgetLg />
-                </div> */}
+                <div className="featured">
+                    <div className="featuredItem">
+                        <span className="featuredTitle">Added Product</span>
+                        <div className="featuredMoneyContainer">
+                            <span className="featuredMoney">{addedProduct} <FaUsers /></span>
+                            <span className="featuredMoneyRate">
+                                {/* -11.4 <ArrowDownwardIcon className="featuredIcon negative" /> */}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="featuredItem">
+                        <span className="featuredTitle">Own Product</span>
+                        <div className="featuredMoneyContainer">
+                            <span className="featuredMoney">{ownproudct} <CiShop /> </span>
+                            <span className="featuredMoneyRate">
+                                {/* -1.4 <ArrowDownwardIcon className="featuredIcon negative" /> */}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
 
