@@ -91,7 +91,7 @@ const LoginPage = () => {
             <Form className="shadow p-4 bg-white rounded" onSubmit={handleSubmit}>
                 <img
                     className="img-thumbnail mx-auto d-block mb-2"
-                    src={'https://e7.pngegg.com/pngimages/898/54/png-clipart-online-marketplace-amazon-com-e-commerce-online-shopping-marketplace-text-service.png'}
+                    src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn0ivKSgxD_PljXFzpiZIDT-TXhcRNVo4g3Q&usqp=CAU'}
                     alt="logo"
                 />
                 <div className="h4 mb-2 text-center">Sign In</div>
