@@ -22,6 +22,7 @@ const AddProduct = () => {
         tags: [],
         position: '',
         brandId: '',
+        video_link: ''
     });
     const [allcategoryList, setAllCategoryList] = useState([]);
     const [allSubcategorylist, setSubCatgoryList] = useState([]);
@@ -391,6 +392,15 @@ const AddProduct = () => {
                                             )}
                                         </Col>
                                     </Row>
+                                </Row>
+
+                                <Row className='mt-2'>
+                                    <Col>
+                                        <Form.Group controlId="desc">
+                                            <Form.Label>Add Youtube Video Link(optional)</Form.Label>
+                                            <Form.Control as="textarea" placeholder='Add Video Link' name="video_link" value={formData.video_link} onChange={handleChange} />
+                                        </Form.Group>
+                                    </Col>
                                 </Row>
 
                                 <Row className='mt-4'>
