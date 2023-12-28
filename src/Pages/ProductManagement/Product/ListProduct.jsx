@@ -1,19 +1,21 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "../product.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { StatusUpdateProduct, allProductList, deleteProduct } from "../../../API/api";
+import { BulkProductUpload, FileUpload, StatusUpdateProduct, allProductList, deleteProduct } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { productRows } from "../../../dummyData";
+import { PiFileCsvDuotone } from "react-icons/pi";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [uploading,setUploading] = useState(false)
 
 
     useEffect(() => {
@@ -151,6 +153,62 @@ export default function ListProduct() {
         },
     ];
 
+
+    const fileInputRef = useRef(null);
+
+    const handleFileChange = (event) => {
+        
+        const file = event.target.files[0];
+        if (file) {
+            // Handle the file, e.g., upload or process it
+            console.log('Selected File:', file);
+            onFileUpload(file)
+        }
+    };
+
+    const handleButtonClick = () => {
+        // Trigger the hidden file input
+        fileInputRef.current.click();
+    };
+
+
+    const onFileUpload = async (file) => {
+        setUploading(true)
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await FileUpload(formData);
+            console.log(res?.data?.data)
+
+            let payload  = {
+                file: res?.data?.data?.fileName
+            }
+
+            let response = await BulkProductUpload(payload);
+            
+            if(response?.data?.error){
+                toast.error('Could not upload csv');
+                setUploading(false)
+            }else{
+                console.log(response?.data)
+                toast.success('Upload successfully')
+                getProductListFunc();
+                setUploading(false)
+            }
+
+            console.log(response)
+            // setTimeout(() => {
+            //     setFormData((prevData) => ({
+            //         ...prevData,
+            //         image: [...prevData.image, res?.data?.data?.fileurl],
+            //     }));
+            // }, 3000);
+        } catch (err) {
+            console.error(err, "err");
+        }
+    };
+
     return (
         <>
             {loading &&
@@ -173,6 +231,25 @@ export default function ListProduct() {
                     </Row>
                     <Row >
                         <Col className="d-flex justify-content-end p-2">
+                            <Button className="addCategoryButton" variant="dark" >
+                                <div>
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                    />
+                                    <Button variant="dark" onClick={handleButtonClick}>
+                                        {uploading ? (
+                                            <Spinner animation="border" size="sm" />
+                                        ) : (
+                                            <>
+                                                <PiFileCsvDuotone /> CSV Upload
+                                            </>
+                                        )}
+                                    </Button>
+                                </div>
+                            </Button>
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
                                 <AiOutlinePlus /> Add New Product
                             </Button>
