@@ -60,6 +60,12 @@ export const AdminSidebarData = [
         path: '/Admin/product',
         icon: FaCartArrowDown,
         cName: 'nav-text'
+    },
+    {
+        title: 'Banner Managment',
+        path: '/Admin/product',
+        icon: FaCartArrowDown,
+        cName: 'nav-text'
     }
 ];
 
