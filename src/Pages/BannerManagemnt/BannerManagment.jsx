@@ -132,8 +132,6 @@ const BannerManagment = () => {
 
         console.warn(filterDataImges)
         if(filterDataImges){
-            // SetbannerImages(filterDataImges?.image);
-            // SetbannerImages(filterDataImges?.image);
             setIsNew(false)
             SetbannerImages(filterDataImges?.image)
             setbannerupdateId(filterDataImges?._id)
