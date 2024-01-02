@@ -28,6 +28,7 @@ import SellerAddProduct from './Pages/StoreSeller/SellerAddProduct';
 import SellerProductList from './Pages/StoreSeller/SellerProductList';
 import SellerProductManagment from './Pages/SellerProductManagment/SellerProductManagment';
 import EditOwnProduct from './Pages/StoreSeller/EditOwnProduct';
+import BannerManagment from './Pages/BannerManagemnt/BannerManagment';
 
 
 
@@ -52,7 +53,8 @@ export default function Router() {
             { path: 'AddUser', element: <AddUser /> },
             { path: 'EditUser/:id', element: <EditUser /> },
             { path: 'SellerManagment', element: <SellerListManage /> },
-            { path: 'SellerProductManagment', element: <SellerProductManagment /> }
+            { path: 'SellerProductManagment', element: <SellerProductManagment /> },
+            { path: 'bannermanagment', element: <BannerManagment /> }
           ],
         },
         {

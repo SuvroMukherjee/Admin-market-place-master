@@ -5,6 +5,7 @@ import { IoPricetagsSharp } from 'react-icons/io5';
 import { MdCategory } from 'react-icons/md';
 import { RiUserSettingsFill } from 'react-icons/ri';
 import { BsShop } from "react-icons/bs";
+import { GiVerticalBanner } from "react-icons/gi";
 
 export const AdminSidebarData = [
     {
@@ -63,8 +64,8 @@ export const AdminSidebarData = [
     },
     {
         title: 'Banner Managment',
-        path: '/Admin/product',
-        icon: FaCartArrowDown,
+        path: '/bannermanagment',
+        icon: GiVerticalBanner,
         cName: 'nav-text'
     }
 ];

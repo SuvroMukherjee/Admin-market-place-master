@@ -482,3 +482,29 @@ export async function EditSellerOwnProduct(id,formData) {
         return error
     }
 }
+
+export async function creteBannerType(formData){
+    try {
+        const response = await axios.post(apiUrl + `/banner-type/create`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+export async function bannerTypeList() {
+    try {
+        const response = await axios.get(apiUrl + `/banner-type/list`,  { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function createBannerImages(formData){
+    try {
+        const response = await axios.post(apiUrl + `/banner/create`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
