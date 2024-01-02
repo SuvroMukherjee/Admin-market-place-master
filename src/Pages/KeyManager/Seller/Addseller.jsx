@@ -21,6 +21,7 @@ const Addseller = () => {
         gst_no: '',
         picup_location: '',
         commission_data: [],
+        shope_name: '',
         status: 'pending',
     });
     const [btnEnale, setBtnEnable] = useState(true)
@@ -59,7 +60,7 @@ const Addseller = () => {
                 } else {
                     toast.success('Seller created successfully!');
                     setTimeout(() => {
-                        naviagete('/key/AddSeller');
+                        naviagete('/key/seller');
                     }, 2500);
                 }
             } catch (err) {
@@ -216,6 +217,7 @@ const Addseller = () => {
                                                 type="text"
                                                 name="gst_no"
                                                 value={formData.gst_no}
+                                                placeholder='Enter GST Number'
                                                 onChange={handleChange}
                                                 required
                                             />
@@ -228,6 +230,7 @@ const Addseller = () => {
                                                 type="text"
                                                 name="picup_location"
                                                 value={formData.picup_location}
+                                                placeholder='Enter Pickup Location'
                                                 onChange={handleChange}
                                                 required
                                             />
@@ -235,26 +238,25 @@ const Addseller = () => {
                                     </Col>
                                 </Row>
 
-                                {/* <Row className='mt-2'>
+                                <Row className='mt-2'>
                                     <Col xs={6}>
                                         <Form.Group controlId="commissionRate">
-                                            <Form.Label>Commission rate against category(%)</Form.Label>
+                                            <Form.Label>Enter Shop Name</Form.Label>
                                             <Form.Control
-                                                type="number"
-                                                name="commission_rate"
-                                                value={formData.commission_rate}
+                                                type="text"
+                                                name="shope_name"
+                                                value={formData.shope_name}
+                                                placeholder='Enter Shopname'
+                                                minLength={3}
                                                 onChange={handleChange}
                                                 required
                                             />
-                                            <Form.Text className="text-muted">
-                                                Select category for add commission
-                                            </Form.Text>
                                         </Form.Group>
                                     </Col>
                                     <Col>
 
                                     </Col>
-                                </Row> */}
+                                </Row>
 
                                 <Row className='mt-3'>
                                     <CommissionComponent addCategorytoForm={addCategorytoForm} />

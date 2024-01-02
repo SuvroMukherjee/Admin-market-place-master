@@ -24,6 +24,7 @@ const EditSeller = () => {
         gst_no: '',
         picup_location: '',
         commission_rate: 0,
+        shope_name : '',
         status: '',
     });
     const [btnEnale, setBtnEnable] = useState(true)
@@ -245,7 +246,20 @@ const EditSeller = () => {
 
                                 </Row>
                                 <Row className='mt-2'>
-
+                                    <Col xs={6}>
+                                        <Form.Group controlId="commissionRate">
+                                            <Form.Label>Enter Shop Name</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="shope_name"
+                                                value={formData.shope_name}
+                                                placeholder='Enter Shopname'
+                                                minLength={3}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Col>
                                     <Col>
                                         <Form.Group controlId="pickupLocation">
                                             <Form.Label>Pickup Location</Form.Label>
@@ -259,17 +273,9 @@ const EditSeller = () => {
                                         </Form.Group>
                                     </Col>
 
+                                </Row>
+                                <Row className='mt-2'>
                                     <Col>
-                                        {/* <Form.Group controlId="commissionRate">
-                                            <Form.Label>Commission Rate(%)</Form.Label>
-                                            <Form.Control
-                                                type="number"
-                                                name="commission_rate"
-                                                value={formData.commission_rate}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </Form.Group> */}
                                         <CommissionComponent addCategorytoForm={addCategorytoForm} catsdata={catsdata} />
                                     </Col>
                                 </Row>

@@ -5,6 +5,7 @@ import { BannerImagesLists, FileUpload, bannerTypeList, createBannerImages, cret
 import { useRef } from 'react';
 import { FaImages } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
+import { FaYoutube } from "react-icons/fa";
 
 const BannerManagment = () => {
 
@@ -18,6 +19,19 @@ const BannerManagment = () => {
     const [allbannerImages,setAllBannerImages] = useState([])
     const [bannerUpdateid,setbannerupdateId] = useState('')
     const [isNew,setIsNew] = useState(true)
+    const [inputFields, setInputFields] = useState([]);
+    const [isImage,seIsImage] = useState(true)
+
+    const handleAddInput = () => {
+        seIsImage(false)
+        setInputFields([...inputFields, '']); // Add a new empty input field to the array
+    };
+
+    const handleInputChange = (index, value) => {
+        const updatedInputs = [...inputFields];
+        updatedInputs[index] = value;
+        setInputFields(updatedInputs);
+    };
 
     useEffect(() => {
         getBannerType();
@@ -92,30 +106,6 @@ const BannerManagment = () => {
                     res?.data?.data?.fileurl
                 ]);
             }, 3000);
-
-            // let payload = {
-            //     file: res?.data?.data?.fileName
-            // }
-
-            // let response = await BulkProductUpload(payload);
-
-            // if (response?.data?.error) {
-            //     toast.error('Could not upload csv');
-            //     setUploading(false)
-            // } else {
-            //     console.log(response?.data)
-            //     toast.success('Upload successfully')
-            //     getProductListFunc();
-            //     setUploading(false)
-            // }
-
-            // console.log(response)
-            // // setTimeout(() => {
-            // //     setFormData((prevData) => ({
-            // //         ...prevData,
-            // //         image: [...prevData.image, res?.data?.data?.fileurl],
-            // //     }));
-            // // }, 3000);
         } catch (err) {
             console.error(err, "err");
         }
@@ -145,11 +135,22 @@ const BannerManagment = () => {
     }
 
     const BannerUpload = async () => {
-        const payload = {
-            banner_typeId: selectBannerType?.id,
-            image: BannerImages,
-        };
 
+        console.log({ inputFields })
+        let payload = {};
+
+        if(!isImage){
+             payload = {
+                banner_typeId: selectBannerType?.id,
+                image: inputFields,
+            };
+        }else{
+             payload = {
+                banner_typeId: selectBannerType?.id,
+                image: BannerImages,
+            };
+
+        }
         console.log({payload})
 
         let res;
@@ -186,6 +187,15 @@ const BannerManagment = () => {
     }
 
     console.log({ BannerImages })
+
+
+    const handleVideoClick  = () =>{
+        setVideoLinkInput((prevData)=>[
+            ...prevData,
+        ])
+    }
+
+    console.log({inputFields})
 
 
     return (
@@ -243,7 +253,7 @@ const BannerManagment = () => {
                                                 <h6>{selectBannerType?.type}</h6>
                                             </Col>
                                             <Col>
-                                                <Button variant="dark" size="sm" onClick={() => BannerUpload()} disabled={BannerImages?.length == 0}>SAVE BANNER</Button>
+                                                <Button variant="dark" size="sm" onClick={() => BannerUpload()} disabled={BannerImages?.length == 0 && inputFields?.length == 0}>SAVE BANNER</Button>
                                             </Col>
                                         </Row>
                                         <Row className='mt-2'>
@@ -258,12 +268,15 @@ const BannerManagment = () => {
                                                         <Image src={ele} thumbnail />
                                                     </Col>
                                                 ))}
-                                                {/* <Col>1</Col>
-                                                <Col>1</Col>
-                                                <Col>1</Col>
-                                                <Col>1</Col>
-                                                <Col>1</Col>
-                                                <Col>1</Col> */}
+                                                {inputFields.map((input, index) => (
+                                                    <Form.Control
+                                                        key={index}
+                                                        type="text"
+                                                        placeholder={`Enter video link ${index + 1}`}
+                                                        value={input}
+                                                        onChange={(e) => handleInputChange(index, e.target.value)}
+                                                    />
+                                                ))}
                                                 </Row>
                                             </Col>
                                             <Col xs={6} className='mt-2'>
@@ -277,6 +290,10 @@ const BannerManagment = () => {
                                                 <div className="d-grid">
                                                 <Button variant="dark" size="sm" onClick={handleButtonClick}>
                                                         <FaImages /> Upload Images
+                                                    </Button>
+                                                    <span style={{textAlign:'center'}}>OR</span>
+                                                <Button variant="dark" size="sm" onClick={handleAddInput}>
+                                                       <FaYoutube /> Upload Video Link
                                                     </Button>
                                                 </div>
                                             </Col>

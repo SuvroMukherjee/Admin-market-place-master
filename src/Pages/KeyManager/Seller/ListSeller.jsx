@@ -10,6 +10,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { Button, Col, Container, Row, ButtonGroup } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
+import { width } from "@mui/system";
 
 
 export default function ListSeller() {
@@ -82,6 +83,11 @@ export default function ListSeller() {
 
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
+        {
+            field: "shope_name",
+            headerName : 'Shop Name',
+            width : 150
+        },
         {
             field: "email",
             headerName: "Email",
