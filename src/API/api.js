@@ -508,3 +508,21 @@ export async function createBannerImages(formData){
         return error
     }
 }
+
+export async function updateBannerImages(formData,id) {
+    try {
+        const response = await axios.patch(apiUrl + `/banner/update/${id}`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function BannerImagesLists() {
+    try {
+        const response = await axios.get(apiUrl + `/banner/list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
