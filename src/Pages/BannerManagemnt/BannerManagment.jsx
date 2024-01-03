@@ -124,6 +124,13 @@ const BannerManagment = () => {
         })
 
         console.warn({filterDataImges})
+
+        if (filterDataImges?.banner_typeId?.banner_type == "Indian Grown Product Video"){
+            console.log('herererere')
+            
+            setInputFields(filterDataImges?.image)
+        }
+
         if(filterDataImges){
             //setIsNew(false)
             SetbannerImages(filterDataImges?.image)
@@ -311,41 +318,6 @@ const BannerManagment = () => {
                                         </Row>
                                     </>
                                 }
-                                {/* <Col>
-                                    <Form.Group controlId="bannerType">
-                                        <Form.Select
-                                            value={SetSelectedBannerType}
-                                            onChange={BabnnerTypeChange}
-                                        >
-                                            <option value="" disabled selected>Select Banner Type</option>
-                                            {bannerTypelist?.length > 0 && bannerTypelist?.map((ele) => (
-                                                <option value={ele?._id} label={ele?.banner_type}>{ele?.banner_type}</option>
-                                            ))}
-                                        </Form.Select>
-                                    </Form.Group>
-                                </Col>
-                                <Col className='mt-2'>
-                                    <h4>{selectBannerType?.type}</h4> <button onClick={() => BannerUpload()}>save</button>
-
-                                    <div>
-                                        <input
-                                            type="file"
-                                            ref={fileInputRef}
-                                            style={{ display: 'none' }}
-                                            onChange={handleFileChange}
-                                        />
-                                        <Button variant="primary" onClick={handleButtonClick}>
-                                            Select File
-                                        </Button>
-                                    </div>
-                                </Col>
-                                <Col>
-                                    {BannerImages?.length > 0 && BannerImages?.map((ele, index) => (
-                                        <Col xs={2}>
-                                            <img src={ele} /> <button onClick={() => deleteImage(index)}>delete</button>
-                                        </Col>
-                                    ))}
-                                </Col> */}
                             </Col>
                         </Row>
                     </Col>

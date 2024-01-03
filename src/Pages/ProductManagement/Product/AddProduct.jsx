@@ -504,6 +504,9 @@ const ProductSpecificationForm = ({ getProductSpefication }) => {
                                     value={specification.value}
                                     onChange={(e) => handleChange(index, specification.key, e.target.value)}
                                 />
+                                <Form.Text className="text-muted">
+                                    Separate values with commas (e.g., value1, value2).
+                                </Form.Text>
                             </Form.Group>
                         </Col>
                         <Col className='d-flex align-items-end'>
