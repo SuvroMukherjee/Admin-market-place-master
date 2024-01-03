@@ -114,13 +114,15 @@ const BannerManagment = () => {
 
     const BabnnerTypeChange = (e) => {
         console.log(e.target.selectedOptions[0])
+        // SetbannerImages([]);
+        // setInputFields([])
         const selectedOption = e.target.selectedOptions[0];
 
         let filterDataImges = allbannerImages?.find((ele)=>{
-            return ele?.banner_typeId?._id == selectedOption.value
+            return ele?.banner_typeId?._id == selectedOption.value && ele?.image?.length > 0
         })
 
-        console.warn(filterDataImges)
+        console.warn({filterDataImges})
         if(filterDataImges){
             setIsNew(false)
             SetbannerImages(filterDataImges?.image)
@@ -154,7 +156,7 @@ const BannerManagment = () => {
         console.log({payload})
 
         let res;
-        if (BannerImages?.length > 0){
+        if (BannerImages?.length > 0 || inputFields?.length > 0){
             if (isNew) {
                 res = await createBannerImages(payload);
             } else {
@@ -174,8 +176,10 @@ const BannerManagment = () => {
     const resetState = () => {
         SetSelectedBannerType({ id: '', type: '' });
         SetbannerImages([]);
+        setInputFields([])
     };
 
+    console.log({ isNew })
 
     const deleteImage = (id) => {
         console.log('clc')
