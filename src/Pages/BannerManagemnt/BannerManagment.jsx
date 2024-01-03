@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row, Form, ListGroup, Image } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
-import { BannerImagesLists, FileUpload, bannerTypeList, createBannerImages, creteBannerType, updateBannerImages } from '../../API/api';
+import { BannerImagesLists, DeleteBanner, FileUpload, bannerTypeList, createBannerImages, creteBannerType, updateBannerImages } from '../../API/api';
 import { useRef } from 'react';
 import { FaImages } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
@@ -68,6 +68,7 @@ const BannerManagment = () => {
             toast.success('Banner Type create successfully...');
             setBannerType('')
             getBannerType();
+            getbannerImageslist();
 
         }
     }
@@ -119,17 +120,18 @@ const BannerManagment = () => {
         const selectedOption = e.target.selectedOptions[0];
 
         let filterDataImges = allbannerImages?.find((ele)=>{
-            return ele?.banner_typeId?._id == selectedOption.value && ele?.image?.length > 0
+            return ele?.banner_typeId?._id == selectedOption.value 
         })
 
         console.warn({filterDataImges})
         if(filterDataImges){
-            setIsNew(false)
+            //setIsNew(false)
             SetbannerImages(filterDataImges?.image)
             setbannerupdateId(filterDataImges?._id)
-        }else{
-            setIsNew(true)
         }
+        // }else{
+        //     setIsNew(true)
+        // }
         SetSelectedBannerType({
             id: selectedOption.value,
             type: selectedOption.label,
@@ -157,13 +159,14 @@ const BannerManagment = () => {
 
         let res;
         if (BannerImages?.length > 0 || inputFields?.length > 0){
-            if (isNew) {
-                res = await createBannerImages(payload);
-            } else {
-                res = await updateBannerImages(payload, bannerUpdateid);
-            }
 
-            console.log({ res });
+            // if (isNew) {
+            //     res = await createBannerImages(payload);
+            // } else {
+            //     res = await updateBannerImages(payload, bannerUpdateid);
+            // }
+
+            res = await updateBannerImages(payload, bannerUpdateid);
 
             if (res?.data?.error === false) {
                 toast.success('Images upload successfully...');
@@ -193,11 +196,14 @@ const BannerManagment = () => {
     console.log({ BannerImages })
 
 
-    const handleVideoClick  = () =>{
-        setVideoLinkInput((prevData)=>[
-            ...prevData,
-        ])
-    }
+   const deleteBanner = async(id) =>{
+       let res = await DeleteBanner(id);
+       resetState();
+       getBannerType();
+       getbannerImageslist();
+
+       console.log(res)
+   }
 
     console.log({inputFields})
 
@@ -258,6 +264,7 @@ const BannerManagment = () => {
                                             </Col>
                                             <Col>
                                                 <Button variant="dark" size="sm" onClick={() => BannerUpload()} disabled={BannerImages?.length == 0 && inputFields?.length == 0}>SAVE BANNER</Button>
+                                            <Button variant="danger" size="sm" onClick={() => deleteBanner(bannerUpdateid)} disabled={BannerImages?.length == 0 && inputFields?.length == 0}>DELETE BANNER</Button>
                                             </Col>
                                         </Row>
                                         <Row className='mt-2'>

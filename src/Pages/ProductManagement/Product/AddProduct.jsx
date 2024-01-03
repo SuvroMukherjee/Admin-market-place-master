@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { AddNewProduct, FileUpload, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../../API/api';
 import { MdCancel } from "react-icons/md";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { IoMdCloseCircle } from "react-icons/io";
+import { IoIosAdd } from "react-icons/io";
 
 const AddProduct = () => {
 
@@ -22,6 +24,7 @@ const AddProduct = () => {
         tags: [],
         position: '',
         brandId: '',
+        specifications: [],
         video_link: ''
     });
     const [allcategoryList, setAllCategoryList] = useState([]);
@@ -177,6 +180,14 @@ const AddProduct = () => {
             image: filterData,
         }));
 
+    }
+
+
+    const getProductSpefication = (data) =>{
+        setFormData((prevData) => ({
+            ...prevData,
+            specifications: data,
+        }));
     }
 
     return (
@@ -364,10 +375,19 @@ const AddProduct = () => {
                                 </Row>
 
                                 <Row className='mt-2'>
+                                    <Col>
+                                        <Form.Group controlId="desc">
+                                            <Form.Label>Product Specification Form</Form.Label>
+                                            <ProductSpecificationForm getProductSpefication={getProductSpefication} />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <Row className='mt-2'>
                                     <Col xs={6}>
                                         <Form.Group controlId="formFileMultiple" className="mb-3">
                                             <Form.Label>Multiple Images</Form.Label>
-                                            <Form.Control type="file" onChange={handleImageInputChange} multiple accept="image/jpeg, image/png, image/gif"  />
+                                            <Form.Control type="file" onChange={handleImageInputChange} multiple accept="image/jpeg, image/png, image/gif" />
                                             <Form.Text className="text-muted" >
                                                 Add images one by one or Select multiple images.
                                             </Form.Text>
@@ -421,5 +441,96 @@ const AddProduct = () => {
         </>
     )
 }
+
+
+const ProductSpecificationForm = ({ getProductSpefication }) => {
+    const [specifications, setSpecifications] = useState([
+        {
+            key: '',
+            value: '',
+        },
+    ]);
+
+    const handleChange = (index, key, value) => {
+        setSpecifications((prevSpecifications) => {
+            const newSpecifications = [...prevSpecifications];
+            newSpecifications[index] = { key, value };
+            return newSpecifications;
+        });
+    };
+
+    const addSpecification = () => {
+        setSpecifications((prevSpecifications) => [
+            ...prevSpecifications,
+            { key: '', value: '' },
+        ]);
+    };
+
+    const removeSpecification = (index) => {
+        setSpecifications((prevSpecifications) => {
+            const newSpecifications = [...prevSpecifications];
+            newSpecifications.splice(index, 1);
+            return newSpecifications;
+        });
+    };
+
+    const handleSubmit = () => {
+        console.log('Submitted Data:', specifications);
+        getProductSpefication(specifications)
+        // Send the specifications data to your API or perform other actions
+    };
+
+    return (
+        <Container>
+            {/* <h4>Product Specification Form</h4> */}
+            <Row>
+                {specifications.map((specification, index) => (
+                    <Row key={index}>
+                        <Col>
+                            <Form.Group controlId={`key-${index}`}>
+                                <Form.Label>Key:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    value={specification.key}
+                                    onChange={(e) => handleChange(index, e.target.value, specification.value)}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Form.Group controlId={`value-${index}`}>
+                                <Form.Label>Value:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    value={specification.value}
+                                    onChange={(e) => handleChange(index, specification.key, e.target.value)}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col className='d-flex align-items-end'>
+                            <Button variant="danger" size="sm" onClick={() => removeSpecification(index)}>
+                                <IoMdCloseCircle size={26}/>
+                            </Button>
+                        </Col>
+                    </Row>
+                ))}
+            </Row>
+            <Row className='mt-2'> 
+                <Col xs={3}>
+                    <Button variant="dark" size="sm" onClick={addSpecification}>
+                        <IoIosAdd/>  Add Specification
+                    </Button>
+                </Col>
+                <Col xs={2}>
+                    <Button variant="dark" size="sm" onClick={handleSubmit}>
+                        Submit Form
+                    </Button>
+                </Col>
+            </Row>
+        </Container>
+    );
+};
+
+
+
 
 export default AddProduct;

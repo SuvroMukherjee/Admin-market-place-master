@@ -349,6 +349,15 @@ export async function StatusUpdateProduct(id, fromData) {
     }
 }
 
+export async function UpdateProduct(id,fromData){
+    try {
+        const response = await axios.patch(apiUrl + `/product/update/${id}`, fromData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 
 export async function deleteProduct(id) {
     try {
@@ -521,6 +530,15 @@ export async function updateBannerImages(formData,id) {
 export async function BannerImagesLists() {
     try {
         const response = await axios.get(apiUrl + `/banner/list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function DeleteBanner(id){
+    try {
+        const response = await axios.delete(apiUrl + `/banner/delete/${id}`, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
