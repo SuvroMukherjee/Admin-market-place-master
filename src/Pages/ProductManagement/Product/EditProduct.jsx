@@ -24,6 +24,7 @@ const EditProduct = () => {
         tags: [],
         position: '',
         specifications:[],
+        features:[],
         brandId: '',
     });
     const [allcategoryList, setAllCategoryList] = useState([]);
@@ -196,6 +197,14 @@ const EditProduct = () => {
         setFormData((prevData) => ({
             ...prevData,
             specifications: data,
+        }));
+    }
+
+    const handleFeaturesChange = (e) =>{
+        const { value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            features: value.split(',').map((tag) => tag.trim()),
         }));
     }
 
@@ -394,6 +403,18 @@ const EditProduct = () => {
                                     </Col>
                                 </Row>
 
+                                <Row className='mt-2'>
+                                    <Col>
+                                        <Form.Group controlId="features">
+                                            {console.log(formData, 'formData?.specification')}
+                                            <Form.Label>Features</Form.Label>
+                                            <Form.Control as="textarea" placeholder='Enter Product Features' name="features" value={formData.features.join(', ')} onChange={handleFeaturesChange}  />
+                                            <Form.Text className="text-muted">
+                                                Separate Features with commas (e.g., features1, features2).
+                                            </Form.Text>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
 
                                 <Row className='mt-2'>
                                     <Col xs={6}>
