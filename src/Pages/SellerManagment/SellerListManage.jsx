@@ -131,6 +131,11 @@ export default function SellerListManage() {
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
         {
+            field: "shope_name",
+            headerName: "Shop Name",
+            width: 200,
+        },
+        {
             field: "email",
             headerName: "Email",
             width: 200,
@@ -321,6 +326,8 @@ const UserCard = ({ user }) => {
                 <Card.Header><FaRegUser/> Seller Details</Card.Header>
                 <Card.Body>
                     <Card.Text>
+                        <strong>Shop Name:</strong> {user?.shope_name}
+                        <br />
                         <strong>Phone:</strong> {user?.phone_no}
                         <br />
                         <strong>Email:</strong> {user?.email}

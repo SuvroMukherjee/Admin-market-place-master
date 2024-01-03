@@ -448,13 +448,14 @@ const ProductSpecificationForm = ({ getProductSpefication }) => {
         {
             key: '',
             value: '',
+            user_choice : false
         },
     ]);
 
-    const handleChange = (index, key, value) => {
+    const handleChange = (index, key, value, userChoice) => {
         setSpecifications((prevSpecifications) => {
             const newSpecifications = [...prevSpecifications];
-            newSpecifications[index] = { key, value };
+            newSpecifications[index] = { key, value, user_choice: userChoice };
             return newSpecifications;
         });
     };
@@ -462,7 +463,7 @@ const ProductSpecificationForm = ({ getProductSpefication }) => {
     const addSpecification = () => {
         setSpecifications((prevSpecifications) => [
             ...prevSpecifications,
-            { key: '', value: '' },
+            { key: '', value: '', user_choice: false }, // Set user_choice to a default value
         ]);
     };
 
@@ -492,7 +493,7 @@ const ProductSpecificationForm = ({ getProductSpefication }) => {
                                 <Form.Control
                                     type="text"
                                     value={specification.key}
-                                    onChange={(e) => handleChange(index, e.target.value, specification.value)}
+                                    onChange={(e) => handleChange(index, e.target.value, specification.value, specification.user_choice)}
                                 />
                             </Form.Group>
                         </Col>
@@ -502,16 +503,29 @@ const ProductSpecificationForm = ({ getProductSpefication }) => {
                                 <Form.Control
                                     type="text"
                                     value={specification.value}
-                                    onChange={(e) => handleChange(index, specification.key, e.target.value)}
+                                    onChange={(e) => handleChange(index, specification.key, e.target.value, specification.user_choice)}
                                 />
                                 <Form.Text className="text-muted">
                                     Separate values with commas (e.g., value1, value2).
                                 </Form.Text>
                             </Form.Group>
                         </Col>
+                        <Col className='d-flex align-items-center'>
+                            <Form.Group controlId={`value-${index}`}>
+                                <Form>
+                                    <Form.Check // prettier-ignore
+                                        type="switch"
+                                        id={`custom-switch-${index}`}
+                                        label="User Select Option"
+                                        checked={specification.user_choice}
+                                        onChange={(e) => handleChange(index, specification.key, specification.value, e.target.checked)}
+                                    />
+                                </Form>
+                            </Form.Group>
+                        </Col>
                         <Col className='d-flex align-items-end'>
                             <Button variant="danger" size="sm" onClick={() => removeSpecification(index)}>
-                                <IoMdCloseCircle size={26}/>
+                                <IoMdCloseCircle size={26} />
                             </Button>
                         </Col>
                     </Row>

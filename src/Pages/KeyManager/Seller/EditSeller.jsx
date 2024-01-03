@@ -18,7 +18,6 @@ const EditSeller = () => {
     const [formData, setFormData] = useState({
         phone_no: '',
         email: '',
-        password: '',
         address: '',
         pic_of_shope: [],
         gst_no: '',
@@ -42,16 +41,22 @@ const EditSeller = () => {
 
     async function getSellerDetails() {
         await sellerDetails(SellerId).then((res) => {
-            console.log(res)
-            setFormData(res?.data?.data)
-            setCatsData(res?.data?.data?.commission_data)
-            setLoading(false)
-        }).catch((err) => [
-            console.group(err)
-        ]).finally(() => {
-            setLoading(false)
-        })
+            console.log(res);
+
+            // Extracting data from the response and excluding the password
+            const { password, ...filteredData } = res?.data?.data;
+
+            // Setting the filtered data in the state
+            setFormData(filteredData);
+            setCatsData(filteredData?.commission_data);
+            setLoading(false);
+        }).catch((err) => {
+            console.error(err);
+        }).finally(() => {
+            setLoading(false);
+        });
     }
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -77,6 +82,7 @@ const EditSeller = () => {
         // } else {
         //     console.error('Please fill in all the required fields.');
         // }
+        console.table(formData)
         if (isFormValid) {
             try {
                 const res = await UpdateSellerData(SellerId, formData);
