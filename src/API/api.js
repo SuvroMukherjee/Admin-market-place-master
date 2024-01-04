@@ -4,6 +4,9 @@ import axios from 'axios'
 import useAuth from '../hooks/useAuth';
 
 const apiUrl = import.meta.env.VITE_API_BASE;
+const zipcodekey = import.meta.env.ZIPCODE_BASE_KEY || "7aa28e70-aaec-11ee-872e-5fd18abb3eb8";
+
+console.log({ zipcodekey })
 
 
 function setAuthHeader() {
@@ -11,6 +14,15 @@ function setAuthHeader() {
     return {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + JSON.parse(localStorage.getItem('ACCESS_TOKEN'))
+    }
+}
+
+function setAuthHeaderForRapi(){
+    return {
+        'content-type': 'application/json',
+        'Content-Type': 'application/json',
+        'X-RapidAPI-Key': '14fcfc6491msh621de8d149e4f32p1d0e1ajsn7d2f562a41a4',
+        'X-RapidAPI-Host': 'pincode.p.rapidapi.com'
     }
 }
 
@@ -539,6 +551,31 @@ export async function BannerImagesLists() {
 export async function DeleteBanner(id){
     try {
         const response = await axios.delete(apiUrl + `/banner/delete/${id}`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+{/**location api */ }
+
+export async function getLocation() {
+    let formData = {
+        "searchBy": "pincode",
+        "value": 110001
+    }
+    try {
+        const response = await axios.get(apiUrl + `/banner/list`, formData, { headers: setAuthHeaderForRapi() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+export async function getLocationByZipCoder(pincode) {
+    try {
+        const response = await axios.get(`https://app.zipcodebase.com/api/v1/search?apikey=${zipcodekey}&codes=${pincode}`)
         return response;
     } catch (error) {
         return error
