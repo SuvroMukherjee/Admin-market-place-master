@@ -139,7 +139,7 @@ const Addseller = () => {
 
         if (formData?.pin_code != '') {
 
-           // let res = await getLocationByZipCoder(formData?.pin_code);
+        //    let res = await getLocationByZipCoder(formData?.pin_code);
 
             let res = {
                 "data": {
@@ -396,7 +396,7 @@ const Addseller = () => {
    const saveAddress = async (locData) =>{
        setFormData((prevData) => ({
            ...prevData,
-           address: JSON.stringify(locData),
+           address: locData,
        }));
        setSearchItems([])
        console.log({locData})
@@ -593,14 +593,14 @@ const Addseller = () => {
                                  
                                 <Row className='mt-2'>
                                     <Col xs={6}>
-                                        <h1>{console.log(formData?.address)}</h1>
+                                        {/* <h1>{formattedAddress}</h1> */}
                                         <Form.Group controlId="commissionRate">
                                             <Form.Label>Shop Address</Form.Label>
                                             <Form.Control
                                                 as="textarea" // Set the type to "textarea"
                                                 rows={3}      // You can adjust the number of rows as needed
                                                 name="address"
-                                                value={formData?.address}
+                                                value={formattedAddress}
                                               //  value={formData?.address}
                                                 // placeholder='Enter Shopname'
                                                 // minLength={3}
