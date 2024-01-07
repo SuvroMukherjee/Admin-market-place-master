@@ -473,21 +473,6 @@ const Addseller = () => {
                                             />
                                         </Form.Group>
                                     </Col>
-                                    {/* <Col>
-                                        <Form.Group controlId="address">
-                                            <Form.Label>Address</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="address"
-                                                placeholder='Enter your Address'
-                                                value={formData.address}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </Form.Group>
-                                    </Col> */}
-                                </Row>
-                                <Row className='mt-2'>
                                     <Col>
                                         <Form.Group controlId="gstNo">
                                             <Form.Label>GST Number</Form.Label>
@@ -496,6 +481,22 @@ const Addseller = () => {
                                                 name="gst_no"
                                                 value={formData.gst_no}
                                                 placeholder='Enter GST Number'
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row className='mt-2'>
+                                    <Col xs={6}>
+                                        <Form.Group controlId="commissionRate">
+                                            <Form.Label>Enter Shop Name</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="shope_name"
+                                                value={formData.shope_name}
+                                                placeholder='Enter Shopname'
+                                                minLength={3}
                                                 onChange={handleChange}
                                                 required
                                             />
@@ -543,23 +544,29 @@ const Addseller = () => {
                                     </Col>
                                     <Col xs={6}>
                                         <Form.Group controlId="commissionRate">
-                                            <Form.Label>Enter Shop Name</Form.Label>
+                                            <Form.Label>Shop Address</Form.Label>
                                             <Form.Control
-                                                type="text"
-                                                name="shope_name"
-                                                value={formData.shope_name}
-                                                placeholder='Enter Shopname'
-                                                minLength={3}
-                                                onChange={handleChange}
+                                                as="textarea" // Set the type to "textarea"
+                                                rows={3}      // You can adjust the number of rows as needed
+                                                name="address"
+                                                value={formattedAddress}
+                                                //  value={formData?.address}
+                                                // placeholder='Enter Shopname'
+                                                // minLength={3}
+                                                // onChange={handleChange}
+                                                readOnly
                                                 required
+                                                disabled
                                             />
                                         </Form.Group>
                                     </Col>
+                                    
                                 </Row>
 
                                 {searchItems?.length > 0 &&
-                                    <Row className='mt-4'>
-                                        <Col xs={6}>
+                                    <Row className='mt-0'>
+                                        <Col></Col>
+                                        <Col offset={6} xs={6}>
                                             <h6>Results:</h6>
                                             <ListGroup style={{ maxHeight: '300px', overflowY: 'auto' }} className='p-2'>
                                                 {searchItems.map((data, index) => (
@@ -589,28 +596,6 @@ const Addseller = () => {
                                             </ListGroup>
                                         </Col>
                                     </Row>}
-
-                                 
-                                <Row className='mt-2'>
-                                    <Col xs={6}>
-                                        {/* <h1>{formattedAddress}</h1> */}
-                                        <Form.Group controlId="commissionRate">
-                                            <Form.Label>Shop Address</Form.Label>
-                                            <Form.Control
-                                                as="textarea" // Set the type to "textarea"
-                                                rows={3}      // You can adjust the number of rows as needed
-                                                name="address"
-                                                value={formattedAddress}
-                                              //  value={formData?.address}
-                                                // placeholder='Enter Shopname'
-                                                // minLength={3}
-                                                // onChange={handleChange}
-                                                readOnly
-                                                required
-                                            />
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
 
                                 <Row className='mt-3'>
                                     <CommissionComponent addCategorytoForm={addCategorytoForm} />

@@ -8,27 +8,32 @@ import "./listStyle.css";
 import { FileUpload, UpdateSellerData, addNewsSeller, allCategoryList, allSellerList, sellerDetails } from "../../../API/api";
 import { useEffect } from "react";
 import { AiOutlinePlus, AiTwotoneEdit } from "react-icons/ai";
-import { Button, Col, Container, Row, Form, Image, Table } from 'react-bootstrap';
+import { Button, Col, Container, Row, Form, Image, Table, ListGroup } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { MdCancel, MdOutlineFileUpload } from 'react-icons/md';
 import { IoIosAddCircle } from "react-icons/io";
+import { FaSearch } from "react-icons/fa";
 
 const EditSeller = () => {
     const [loading, setLoading] = useState(true)
     const [formData, setFormData] = useState({
         phone_no: '',
         email: '',
+        password: '',
         address: '',
         pic_of_shope: [],
         gst_no: '',
         picup_location: '',
-        commission_rate: 0,
-        shope_name : '',
-        status: '',
+        commission_data: [],
+        shope_name: '',
+        pin_code: '',
+        address: '',
+        status: 'pending',
     });
     const [btnEnale, setBtnEnable] = useState(true)
     const [commissionSave, setCommission] = useState(true)
     const [catsdata, setCatsData] = useState([])
+    const [searchItems, setSearchItems] = useState([])
 
     const { id: SellerId } = useParams();
     const navigate = useNavigate();
@@ -157,6 +162,279 @@ const EditSeller = () => {
         }
     };
 
+    const getSellerShopLocation = async () => {
+
+        if (formData?.pin_code != '') {
+
+            //    let res = await getLocationByZipCoder(formData?.pin_code);
+
+            let res = {
+                "data": {
+                    "query": {
+                        "codes": [
+                            "743372"
+                        ],
+                        "country": null
+                    },
+                    "results": {
+                        "743372": [
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.20380000",
+                                "longitude": "88.43440000",
+                                "city": "Baharu",
+                                "state": "West Bengal",
+                                "city_en": "Baharu",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.28810000",
+                                "longitude": "88.50920000",
+                                "city": "Nabagram",
+                                "state": "West Bengal",
+                                "city_en": "Nabagram",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Keyatala",
+                                "state": "West Bengal",
+                                "city_en": "Keyatala",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.08000000",
+                                "longitude": "88.33370000",
+                                "city": "Srikrishnanagar",
+                                "state": "West Bengal",
+                                "city_en": "Srikrishnanagar",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Tasarala",
+                                "state": "West Bengal",
+                                "city_en": "Tasarala",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Kashimpur",
+                                "state": "West Bengal",
+                                "city_en": "Kashimpur",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Punpua",
+                                "state": "West Bengal",
+                                "city_en": "Punpua",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Gorerhat",
+                                "state": "West Bengal",
+                                "city_en": "Gorerhat",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Surajapurhat",
+                                "state": "West Bengal",
+                                "city_en": "Surajapurhat",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Banasundaria",
+                                "state": "West Bengal",
+                                "city_en": "Banasundaria",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Madhya Shibpur",
+                                "state": "West Bengal",
+                                "city_en": "Madhya Shibpur",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Dakshin Barasat",
+                                "state": "West Bengal",
+                                "city_en": "Dakshin Barasat",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Gocharan",
+                                "state": "West Bengal",
+                                "city_en": "Gocharan",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Sarberia",
+                                "state": "West Bengal",
+                                "city_en": "Sarberia",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            },
+                            {
+                                "postal_code": "743372",
+                                "country_code": "IN",
+                                "latitude": "22.19060000",
+                                "longitude": "88.42570000",
+                                "city": "Khakurdaha",
+                                "state": "West Bengal",
+                                "city_en": "Khakurdaha",
+                                "state_en": "West Bengal",
+                                "state_code": "WB",
+                                "province": "South 24 Parganas",
+                                "province_code": "PS"
+                            }
+                        ]
+                    }
+                },
+                "status": 200,
+                "statusText": "",
+                "headers": {
+                    "cache-control": "no-cache, private",
+                    "content-type": "application/json; charset=UTF-8"
+                },
+                "config": {
+                    "transitional": {
+                        "silentJSONParsing": true,
+                        "forcedJSONParsing": true,
+                        "clarifyTimeoutError": false
+                    },
+                    "adapter": [
+                        "xhr",
+                        "http"
+                    ],
+                    "transformRequest": [
+                        null
+                    ],
+                    "transformResponse": [
+                        null
+                    ],
+                    "timeout": 0,
+                    "xsrfCookieName": "XSRF-TOKEN",
+                    "xsrfHeaderName": "X-XSRF-TOKEN",
+                    "maxContentLength": -1,
+                    "maxBodyLength": -1,
+                    "env": {},
+                    "headers": {
+                        "Accept": "application/json, text/plain, */*"
+                    },
+                    "method": "get",
+                    "url": "https://app.zipcodebase.com/api/v1/search?apikey=7aa28e70-aaec-11ee-872e-5fd18abb3eb8&codes=743372"
+                },
+                "request": {}
+            }
+
+            console.table(res?.data?.results[formData?.pin_code])
+            setSearchItems(res?.data?.results[formData?.pin_code])
+
+        }
+    }
+
+
+    const saveAddress = async (locData) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            address: locData,
+        }));
+        setSearchItems([])
+        console.log({ locData })
+
+        //    setFormData({ ...formData, [address]: JSON.stringify(locData) });
+    }
+
+    const formattedAddress = Object.entries(formData?.address)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join('\n'); 
+
 
     return (
         <>
@@ -223,7 +501,7 @@ const EditSeller = () => {
                                             />
                                         </Form.Group>
                                     </Col> */}
-                                    <Col>
+                                    {/* <Col>
                                         <Form.Group controlId="address">
                                             <Form.Label>Address</Form.Label>
                                             <Form.Control
@@ -235,7 +513,7 @@ const EditSeller = () => {
                                                 required
                                             />
                                         </Form.Group>
-                                    </Col>
+                                    </Col> */}
 
                                     <Col>
                                         <Form.Group controlId="gstNo">
@@ -249,7 +527,7 @@ const EditSeller = () => {
                                             />
                                         </Form.Group>
                                     </Col>
-
+                                    <Col></Col>
                                 </Row>
                                 <Row className='mt-2'>
                                     <Col xs={6}>
@@ -280,6 +558,88 @@ const EditSeller = () => {
                                     </Col>
 
                                 </Row>
+
+                                <Row className='mt-2'>
+
+                                    <Col>
+                                        <Row>
+                                            <Col xs={10}>
+                                                <Form.Group controlId="commissionRate">
+                                                    <Form.Label>Shop Location </Form.Label>
+                                                    <Form.Control
+                                                        type="number"
+                                                        name="pin_code"
+                                                        value={formData.pin_code}
+                                                        placeholder='Search location by pincode..'
+                                                        minLength={3}
+                                                        onChange={handleChange}
+                                                        required
+                                                    />
+                                                </Form.Group>
+                                            </Col>
+                                            <Col sx={2} className='d-flex align-items-end'>
+                                                <Button size="md" variant='dark' onClick={() => getSellerShopLocation()}>
+                                                    <FaSearch />
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col xs={6}>
+                                        <Form.Group controlId="commissionRate">
+                                            <Form.Label>Shop Address</Form.Label>
+                                            <Form.Control
+                                                as="textarea" // Set the type to "textarea"
+                                                rows={3}      // You can adjust the number of rows as needed
+                                                name="address"
+                                               // value={formattedAddress}
+                                                //defaultValue={formData?.address}
+                                                 value={formData?.address}
+                                                // placeholder='Enter Shopname'
+                                                // minLength={3}
+                                                // onChange={handleChange}
+                                                readOnly
+                                                required
+                                                disabled
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                      
+                                </Row>
+
+                                {searchItems?.length > 0 &&
+                                    <Row className='mt-0'>
+                                        <Col></Col>
+                                        <Col offset={6} xs={6}>
+                                            <h6>Results:</h6>
+                                            <ListGroup style={{ maxHeight: '300px', overflowY: 'auto' }} className='p-2'>
+                                                {searchItems.map((data, index) => (
+                                                    <ListGroup.Item action key={index}>
+                                                        <Row>
+                                                            <Col xs={10}>
+                                                                <strong style={{ fontSize: '12px' }}>Address Details: {index + 1}</strong>
+                                                            </Col>
+                                                            <Col xs={2}>
+                                                                <Button variant='outline-success' size="sm" onClick={() => saveAddress(data)}>SAVE</Button>
+                                                            </Col>
+                                                        </Row>
+
+                                                        <Row className='locationTagHeader mt-2'>
+                                                            <Col>City</Col>
+                                                            <Col >State</Col>
+                                                            <Col>Province</Col>
+                                                        </Row>
+                                                        <Row className='locationTagvalue'>
+                                                            <Col >{data?.city}</Col>
+                                                            <Col>{data?.state}</Col>
+                                                            <Col>{data?.province}</Col>
+                                                        </Row>
+                                                    </ListGroup.Item>
+
+                                                ))}
+                                            </ListGroup>
+                                        </Col>
+                                    </Row>}
+
                                 <Row className='mt-2'>
                                     <Col>
                                         <CommissionComponent addCategorytoForm={addCategorytoForm} catsdata={catsdata} />
