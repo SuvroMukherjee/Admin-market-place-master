@@ -390,6 +390,18 @@ export async function BulkProductUpload(formData) {
 }
 
 
+
+export async function ProductSpecificationCreate(formData) {
+    try {
+        const response = await axios.post(apiUrl + "/specification/create", formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+
 {/**key manager apis */ }
 
 export async function allSellerList() {

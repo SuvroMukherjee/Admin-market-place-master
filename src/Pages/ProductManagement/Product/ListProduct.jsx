@@ -1,13 +1,13 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "../product.css";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row, Modal, Form } from 'react-bootstrap';
+import { Button, Col, Container, Row, Modal, Form, ListGroup } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { BulkProductUpload, FileUpload, StatusUpdateProduct, allProductList, deleteProduct } from "../../../API/api";
+import { BulkProductUpload, FileUpload, ProductSpecificationCreate, StatusUpdateProduct, allProductList, deleteProduct } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { productRows } from "../../../dummyData";
 import { PiFileCsvDuotone } from "react-icons/pi";
@@ -150,7 +150,7 @@ export default function ListProduct() {
                     <>
 
                         <div className="buttonWrapper">
-                            <Button variant="info" onClick={() => { handleShowModal(); setSeledtedProductId(params?.row?._id)}} size="sm">
+                            <Button variant="info" onClick={() => { handleShowModal(); setSeledtedProductId(params?.row)}} size="sm">
                                 <RiListSettingsFill /> Add Specification
                             </Button>
                             <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)} size="sm">
@@ -249,7 +249,7 @@ export default function ListProduct() {
                             <h3>Product List</h3>
                         </Col>
                     </Row>
-                    <Row >
+                    <Row>
                         <Col className="d-flex justify-content-end p-2">
                             <Button className="addCategoryButton" variant="dark" >
                                 <div>
@@ -316,16 +316,18 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
 
     const [specifications, setSpecifications] = useState([
         {
-            key: '',
+            title: '',
             value: '',
-            user_choice: false,
+            //user_choice: false,
         },
     ]);
 
-    const handleChange = (index, key, value, userChoice) => {
+    const [productPrice,setproductPrice] = useState(0)
+
+    const handleChange = (index, title, value) => {
         setSpecifications((prevSpecifications) => {
             const newSpecifications = [...prevSpecifications];
-            newSpecifications[index] = { key, value, user_choice: userChoice };
+            newSpecifications[index] = { title, value};
             return newSpecifications;
         });
     };
@@ -333,7 +335,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
     const addSpecification = () => {
         setSpecifications((prevSpecifications) => [
             ...prevSpecifications,
-            { key: '', value: '', user_choice: false }, // Set user_choice to a default value
+            { title: '', value: ''}, // Set user_choice to a default value
         ]);
     };
 
@@ -347,9 +349,41 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
 
     const handleSubmit = async() => {
         console.log('Submitted Data:', specifications);
-        handleCloseModal(); // Close the modal after submitting
+        let payload = {
+            productId: selectedproductid?._id,
+            spec_det: specifications,
+            price: productPrice,
+            skuId: generateRandomKey(),
+           // user_choice:false,
+        }
         
+        let res = await ProductSpecificationCreate(payload);
+
+        if(res?.data?.error){
+            toast.error('Something went wrong..')
+        }else{
+            console.log({ payload })
+            setSpecifications([{
+                title: '',
+                value: '',
+                //user_choice: false,
+            }])
+            setproductPrice('')
+            handleCloseModal(); // Close the modal after submitting
+        }
     };
+
+    function generateRandomKey() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let key = '';
+
+        for (let i = 0; i < 6; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            key += characters.charAt(randomIndex);
+        }
+
+        return key;
+    }
 
     return (
         <Modal show={showModal} onHide={handleCloseModal} size="lg">
@@ -359,32 +393,63 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
             <Modal.Body>
                 <Container>
                     <Row>
+                        <Col>
+                            <ListGroup style={{ maxHeight: '150px', overflowY: 'auto' }} className='p-2'>
+                                {selectedproductid?.specId?.map((ele,index)=>(
+                                    <ListGroup.Item key={ele?._id}>
+                                        <Row>
+                                            <Col xs={10}>
+                                                <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
+                                            </Col>
+                                            {/* <Col xs={2}>
+                                                <Button variant='outline-success' size="sm" onClick={() => saveAddress(data)}>SAVE</Button>
+                                            </Col> */}
+                                        </Row>
+
+                                        <Row className='locationTagHeader mt-2'>
+                                            <Col>Price</Col>
+                                            {ele?.spec_det?.map((e)=>(
+                                                <Col>{e?.title}</Col>
+                                            ))}
+                                        </Row>
+                                        <Row className='locationTagvalue'>
+                                            <Col >{ele?.price}</Col>
+                                            {ele?.spec_det?.map((e) => (
+                                                <Col>{e?.value}</Col>
+                                            ))}
+                                        </Row>
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </Col>
+                    </Row>
+                    <Row className="mt-2">
                         {specifications.map((specification, index) => (
                             <Row key={index}>
                                 <Col>
                                     <Form.Group controlId={`key-${index}`}>
-                                        <Form.Label>Key:</Form.Label>
+                                        <Form.Label>Title :</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            value={specification.key}
-                                            onChange={(e) => handleChange(index, e.target.value, specification.value, specification.user_choice)}
+                                            value={specification.title}
+                                            onChange={(e) => handleChange(index, e.target.value, specification.value)}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col >
                                     <Form.Group controlId={`value-${index}`}>
-                                        <Form.Label>Value:</Form.Label>
+                                        <Form.Label>Option :</Form.Label>
                                         <Form.Control
                                             type="text"
                                             value={specification.value}
-                                            onChange={(e) => handleChange(index, specification.key, e.target.value, specification.user_choice)}
+                                            onChange={(e) => handleChange(index, specification.title, e.target.value)}
                                         />
-                                        <Form.Text className="text-muted">
+                                        {/* <Form.Text className="text-muted">
                                             Separate values with commas (e.g., value1, value2).
-                                        </Form.Text>
+                                        </Form.Text> */}
                                     </Form.Group>
                                 </Col>
-                                <Col className='d-flex align-items-center'>
+                                {/* <Col className='d-flex align-items-center'>
                                     <Form.Group controlId={`value-${index}`}>
                                         <Form>
                                             <Form.Check // prettier-ignore
@@ -392,12 +457,12 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                                                 id={`custom-switch-${index}`}
                                                 label="User Select Option"
                                                 checked={specification.user_choice}
-                                                onChange={(e) => handleChange(index, specification.key, specification.value, e.target.checked)}
+                                                onChange={(e) => handleChange(index, specification.title, specification.value, e.target.checked)}
                                             />
                                         </Form>
                                     </Form.Group>
-                                </Col>
-                                <Col className='d-flex align-items-center'>
+                                </Col> */}
+                                <Col className='d-flex align-items-start'>
                                     <Button variant="danger" size="sm" onClick={() => removeSpecification(index)}>
                                         <IoMdCloseCircle size={26} />
                                     </Button>
@@ -408,9 +473,35 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                     <Row className="mt-2">
                         <Col xs={3}>
                             <Button variant="dark" size="sm" onClick={addSpecification}>
-                                <IoIosAdd /> Add Specification
+                                <IoIosAdd /> Add Title
                             </Button>
                         </Col>
+                        {/* <Col xs={2}>
+                            <Button variant="dark" size="sm" onClick={handleSubmit}>
+                                Submit Form
+                            </Button>
+                        </Col> */}
+                    </Row>
+                    <Row>
+                        <Col xs={6}>
+                            <Form.Group>
+                                <Form.Label>Product Price :</Form.Label>
+                                <Form.Control
+                                    type="tel"
+                                    value={productPrice}
+                                    placeholder="Enter Product Price"
+                                    onChange={(e) => setproductPrice(e.target.value)}
+                                    required
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row className="mt-2">
+                        {/* <Col xs={3}>
+                            <Button variant="dark" size="sm" onClick={addSpecification}>
+                                <IoIosAdd /> Add Title
+                            </Button>
+                        </Col> */}
                         <Col xs={2}>
                             <Button variant="dark" size="sm" onClick={handleSubmit}>
                                 Submit Form

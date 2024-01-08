@@ -462,19 +462,19 @@ export default function SellerAddProduct() {
                                         {seletedProducrt?.specifications?.filter((item) => (
                                             item?.user_choice == true
                                         )).map((spe) => (
-                                            // <Form.Group controlId="exampleForm.SelectCustom">
-                                            //     <Form.Label className="p-lableSmall">{spe.key}</Form.Label>
-                                            //     <Form.Select custom multiple onChange={handleSelectChange} value={selectedOptions}>
-                                            //         <option disabled>Select {spe.key}</option>
-                                            //         {spe.value?.split(',').map((opt) => (
-                                            //             <option key={opt} value={opt}>
-                                            //                 {opt}
-                                            //             </option>
-                                            //         ))}
-                                            //     </Form.Select>
-                                            // </Form.Group>
+
                                             <Col>
-                                              
+                                                <Form.Group controlId="exampleForm.SelectCustom">
+                                                    <Form.Label className="p-lableSmall">{spe.key}</Form.Label>
+                                                    <Form.Select custom  onChange={handleSelectChange} value={selectedOptions}>
+                                                        <option disabled>Select {spe.key}</option>
+                                                        {spe.value?.split(',').map((opt) => (
+                                                            <option key={opt} value={opt}>
+                                                                {opt}
+                                                            </option>
+                                                        ))}
+                                                    </Form.Select>
+                                                </Form.Group>
                                             </Col>
                                         ))} 
                                         

@@ -24,7 +24,7 @@ const AddProduct = () => {
         tags: [],
         position: '',
         brandId: '',
-        specifications: [],
+        //specifications: [],
         features: [],
         video_link: ''
     });
@@ -384,7 +384,7 @@ const AddProduct = () => {
                                 </Row>
 
 
-                                <Row className='mt-2'>
+                                {/* <Row className='mt-2'>
                                     <Col>
                                         <Form.Group controlId="desc">
                                             {console.log(formData, 'formData?.specification')}
@@ -392,7 +392,7 @@ const AddProduct = () => {
                                             <ProductSpecificationForm getProductSpefication={getProductSpefication} initalData={formData?.specifications} />
                                         </Form.Group>
                                     </Col>
-                                </Row>
+                                </Row> */}
 
                                 <Row className='mt-2'>
                                     <Col>
@@ -470,7 +470,7 @@ const AddProduct = () => {
 const ProductSpecificationForm = ({ getProductSpefication }) => {
     const [specifications, setSpecifications] = useState([
         {
-            key: '',
+            title: '',
             value: '',
             user_choice : false
         },
@@ -558,7 +558,7 @@ const ProductSpecificationForm = ({ getProductSpefication }) => {
             <Row className='mt-2'> 
                 <Col xs={3}>
                     <Button variant="dark" size="sm" onClick={addSpecification}>
-                        <IoIosAdd/>  Add Specification
+                        <IoIosAdd/>  Add Another Title
                     </Button>
                 </Col>
                 <Col xs={2}>

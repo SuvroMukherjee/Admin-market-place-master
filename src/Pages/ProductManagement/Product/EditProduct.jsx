@@ -23,7 +23,7 @@ const EditProduct = () => {
         image: [],
         tags: [],
         position: '',
-        specifications:[],
+      //  specifications:[],
         features:[],
         brandId: '',
     });
@@ -39,7 +39,7 @@ const EditProduct = () => {
     async function getProductDetails() {
         try {
             const res = await GetProductDetails(productId);
-            setFormData(res?.data?.data);
+            setFormData(res?.data?.data?.ProductData);
             setLoading(false)
         } catch (err) {
             console.log(err);
@@ -372,7 +372,7 @@ const EditProduct = () => {
                                             <Form.Control
                                                 type="text"
                                                 name="tags"
-                                                value={formData.tags.join(', ')}
+                                                value={formData.tags?.join(', ')}
                                                 onChange={handleTagInputChange}
                                                 placeholder="Add tags, separated by commas"
                                                 required
@@ -393,7 +393,7 @@ const EditProduct = () => {
                                     </Col>
                                 </Row>
 
-                                <Row className='mt-2'>
+                                {/* <Row className='mt-2'>
                                     <Col>
                                         <Form.Group controlId="desc">
                                             {console.log(formData,'formData?.specification')}
@@ -401,14 +401,14 @@ const EditProduct = () => {
                                             <ProductSpecificationForm getProductSpefication={getProductSpefication} initalData={formData?.specifications}/>
                                         </Form.Group>
                                     </Col>
-                                </Row>
+                                </Row> */}
 
                                 <Row className='mt-2'>
                                     <Col>
                                         <Form.Group controlId="features">
                                             {console.log(formData, 'formData?.specification')}
                                             <Form.Label>Features</Form.Label>
-                                            <Form.Control as="textarea" placeholder='Enter Product Features' name="features" value={formData.features.join(', ')} onChange={handleFeaturesChange}  />
+                                            <Form.Control as="textarea" placeholder='Enter Product Features' name="features" value={formData.features?.join(', ')} onChange={handleFeaturesChange}  />
                                             <Form.Text className="text-muted">
                                                 Separate Features with commas (e.g., features1, features2).
                                             </Form.Text>
@@ -428,7 +428,7 @@ const EditProduct = () => {
                                     </Col>
                                     <Row>
                                         <Col>
-                                            {formData.image.length > 0 && (
+                                            {formData?.image?.length > 0 && (
                                                 <Container>
                                                     <Row>
                                                         {formData?.image.map((fileUrl, index) => (
@@ -560,7 +560,7 @@ const ProductSpecificationForm = ({ getProductSpefication, initalData }) => {
                         </Col>
                         <Col className='d-flex align-items-end'>
                             <Button variant="danger" size="sm" onClick={() => removeSpecification(index)}>
-                                <IoMdCloseCircle size={26} />
+                                <IoMdCloseCircle size={24} />
                             </Button>
                         </Col>
                     </Row>
