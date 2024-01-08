@@ -351,7 +351,7 @@ export default function SellerAddProduct() {
                             <Button variant="dark" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>All Reset</Button>
                         </Col>
                     </Row>
-                    <Row className="justify-content-md-center">
+                    {/* <Row className="justify-content-md-center">
                         <Col>
                             <DataGrid
                                 rows={data}
@@ -371,11 +371,11 @@ export default function SellerAddProduct() {
                                 }
                             />
                         </Col>
-                    </Row>
+                    </Row> */}
                     <Toaster position="top-right" />
                 </Container>
 
-                <Container>
+                <Container className="mt-4">
                     <Row className="d-flex justify-content-md-center gap-4">
                         {data?.length > 0 && data?.map((ele, index) => (
                             <Col key={index} className="d-flex justify-content-md-center">
@@ -386,8 +386,8 @@ export default function SellerAddProduct() {
                                     }
                                     <Card.Body>
                                         <Card.Title className="p-name">{ele?.name}</Card.Title>
-                                        <Card.Subtitle className="p-catname">{ele?.categoryId?.title}</Card.Subtitle>
-                                        <Card.Text className="p-desc">
+                                        <Card.Subtitle className="p-catname">{ele?.brandId?.title} | {ele?.categoryId?.title}</Card.Subtitle>
+                                        <Card.Text className="p-desc"> 
                                             {ele?.desc?.slice(0, 100) + '.....'}
                                         </Card.Text>
                                     </Card.Body>
