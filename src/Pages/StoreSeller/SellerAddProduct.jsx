@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "./Seller.css";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Form } from 'react-bootstrap';
+import { Button, Col, Container, Row, Form, Card } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { SellerProductAdd, StatusUpdateProduct, allBrandList, allCategoryList, allProductList, deleteProduct, getSubCategoryByCategory } from "../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { categoryData, demoProductData, productRows } from "../../dummyData";
+import Modal from 'react-bootstrap/Modal';
+
 
 
 export default function SellerAddProduct() {
@@ -20,6 +22,18 @@ export default function SellerAddProduct() {
     const [allSubcategorylist, setSubCatgoryList] = useState(categoryData);
     const [allbrandList, setAllBrandList] = useState(categoryData);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [show, setShow] = useState(false);
+    const [seletedProducrt,setSelectedProduct] = useState()
+    const [inputValue,Setvalues] = useState({
+        productPrice : "",
+        productQuantity:"",
+
+    })
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const { userId } = JSON.parse(localStorage.getItem('auth'));
 
@@ -36,6 +50,12 @@ export default function SellerAddProduct() {
 
     const navigate = useNavigate()
 
+    const handleSelectChange = (event) => {
+        const selectedValues = Array.from(event.target.selectedOptions, (option) => option.value);
+        setSelectedOptions(selectedValues);
+    };
+
+    console.log({ selectedOptions })
 
     async function getProductListFunc() {
         await allProductList().then((res) => {
@@ -116,7 +136,7 @@ export default function SellerAddProduct() {
             console.log(res?.data?.data)
             if (res?.response?.data?.error !== false) {
                 toast.success('product added successfully')
-            }else{
+            } else {
                 toast.error(res?.response?.data?.data)
             }
         }).catch((err) => {
@@ -246,6 +266,16 @@ export default function SellerAddProduct() {
         console.log(e.target.value)
     }
 
+    console.log({ data })
+
+    // new
+
+ const handleAddProduct  = (product) =>{
+       setSelectedProduct(product)
+       handleShow();
+   }
+
+
     return (
         <>
             {loading &&
@@ -336,6 +366,99 @@ export default function SellerAddProduct() {
                     </Row>
                     <Toaster position="top-right" />
                 </Container>
+
+                <Container>
+                    <Row className="d-flex justify-content-md-center gap-4">
+                        {data?.length > 0 && data?.map((ele, index) => (
+                            <Col key={index} className="d-flex justify-content-md-center">
+                                <Card style={{ width: '18rem'}}>
+                                    {ele?.image?.[0]?.length < 15 ?
+                                        <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf9vk9y50x6ZHHMLz9LHvwG-iUx0IUtLUmqg&usqp=CAU' style={{ height: '200px', objectFit: 'cover' }} /> :
+                                        <Card.Img variant="top" src={ele?.image?.[0]} style={{ height: '200px', objectFit: 'cover' }} />
+                                    }
+                                    <Card.Body>
+                                        <Card.Title className="p-name">{ele?.name}</Card.Title>
+                                        <Card.Subtitle className="p-catname">{ele?.categoryId?.title}</Card.Subtitle>
+                                        <Card.Text className="p-desc">
+                                            {ele?.desc?.slice(0,100)+'.....'}
+                                        </Card.Text>
+                                    </Card.Body>
+                                    <Card.Footer>
+                                        <Button variant="outline-success w-100" onClick={() => handleAddProduct(ele)}>Add Product</Button>
+                                    </Card.Footer>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                    {console.log({seletedProducrt})}
+                    <Row>
+                        <Modal size="md" show={show} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title className="p-catname">{seletedProducrt?.name}</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form >
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                        <Form.Label>Enter Product Price</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            placeholder="Product Price"
+                                            autoFocus
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                        <Form.Label>Enter Product Qunaity</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            placeholder="Product Quantity"
+                                            autoFocus
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                        <Form.Label>Discount (%)</Form.Label>
+                                        <Form.Control
+                                            type="tel"
+                                            placeholder="Discoount in %"
+                                            autoFocus
+                                        />
+                                    </Form.Group>
+                                    {seletedProducrt?.specifications?.filter((item)=>(
+                                        item?.user_choice == true
+                                    )).map((spe)=>(
+                                        <Form.Group controlId="exampleForm.SelectCustom">
+                                            <Form.Label className="p-lableSmall">{spe.key}</Form.Label>
+                                            <Form.Select custom multiple onChange={handleSelectChange} value={selectedOptions}>
+                                                <option disabled>Select {spe.key}</option>
+                                                {spe.value?.split(',').map((opt) => (
+                                                    <option key={opt} value={opt}>
+                                                        {opt}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </Form.Group>
+                                    ))}
+                                    {/* <Form.Group controlId="exampleForm.SelectCustom">
+                                        <Form.Label>Select Example</Form.Label>
+                                        <Form.Select custom>
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                        </Form.Select>
+                                    </Form.Group> */}
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" size="sm" onClick={handleClose}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" size="sm" onClick={handleClose}>
+                                    Save Changes
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </Row>
+                </Container>
+
             </div>
         </>
     );

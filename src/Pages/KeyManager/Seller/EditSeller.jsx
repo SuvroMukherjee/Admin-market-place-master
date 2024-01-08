@@ -28,7 +28,10 @@ const EditSeller = () => {
         shope_name: '',
         pin_code: '',
         address: '',
+        total_no_of_unit: '',
+        old_shope_desc: '',
         status: 'pending',
+        review: ''
     });
     const [btnEnale, setBtnEnable] = useState(true)
     const [commissionSave, setCommission] = useState(true)
@@ -423,10 +426,10 @@ const EditSeller = () => {
     const saveAddress = async (locData) => {
         setFormData((prevData) => ({
             ...prevData,
-            address: locData,
+            address: JSON.stringify(locData),
         }));
         setSearchItems([])
-        console.log({ locData })
+        //console.log({ locData })
 
         //    setFormData({ ...formData, [address]: JSON.stringify(locData) });
     }
@@ -591,9 +594,9 @@ const EditSeller = () => {
                                                 as="textarea" // Set the type to "textarea"
                                                 rows={3}      // You can adjust the number of rows as needed
                                                 name="address"
-                                               // value={formattedAddress}
+                                                value={formattedAddress}
                                                 //defaultValue={formData?.address}
-                                                 value={formData?.address}
+                                                 //value={formData?.address}
                                                 // placeholder='Enter Shopname'
                                                 // minLength={3}
                                                 // onChange={handleChange}
@@ -644,6 +647,51 @@ const EditSeller = () => {
                                     <Col>
                                         <CommissionComponent addCategorytoForm={addCategorytoForm} catsdata={catsdata} />
                                     </Col>
+                                </Row>
+
+                                <Row className='mt-3'>
+                                    <Col>
+                                        <Form.Group controlId="pickupLocation">
+                                            <Form.Label>Total Year of Busniess Experience</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="old_shope_desc"
+                                                value={formData.old_shope_desc}
+                                                placeholder='Enter Busniess Experince'
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Col>
+
+                                    <Col>
+                                        <Form.Group controlId="pickupLocation">
+                                            <Form.Label>Total of Units Sold Each Year</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="total_no_of_unit"
+                                                value={formData.total_no_of_unit}
+                                                placeholder='Enter Total Units'
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Col>
+
+                                    <Col>
+                                        <Form.Group controlId="pickupLocation">
+                                            <Form.Label>Review / Rating</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                name="review"
+                                                value={formData.review}
+                                                placeholder='Enter Review'
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </Form.Group>
+                                    </Col>
+
                                 </Row>
 
                                 <Row className="mt-2">

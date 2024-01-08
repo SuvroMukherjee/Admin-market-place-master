@@ -7,3 +7,20 @@
     display: flex;
     margin: 20px;
 }
+
+.p-desc{
+    font-size: 12px;
+    color: rgb(97, 97, 97);
+}
+
+.p-name{
+    font-size: 16px !important;
+}
+
+.p-catname {
+    font-size: 14px !important;
+}
+
+.p-lableSmall {
+    font-size: 14px !important;
+}
