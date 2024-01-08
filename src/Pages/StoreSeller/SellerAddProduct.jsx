@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "./Seller.css";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Form, Card } from 'react-bootstrap';
+import { Button, Col, Container, Row, Form, Card, ListGroup } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -23,12 +23,16 @@ export default function SellerAddProduct() {
     const [allbrandList, setAllBrandList] = useState(categoryData);
     const [selectedRows, setSelectedRows] = useState([]);
     const [show, setShow] = useState(false);
-    const [seletedProducrt,setSelectedProduct] = useState()
-    const [inputValue,SetInputvalues] = useState({
-        price : "",
-        discount_price:"",
+    const [seletedProducrt, setSelectedProduct] = useState()
+    const [formData, setFormData] = useState([]);
 
-    })
+    const handlePriceChange = (specIndex, price) => {
+        setFormData((prevData) => {
+            const newData = [...prevData];
+            newData[specIndex] = { ...newData[specIndex], price };
+            return newData;
+        });
+    };
 
     const [selectedOptions, setSelectedOptions] = useState([]);
 
@@ -37,7 +41,7 @@ export default function SellerAddProduct() {
 
     const { userId } = JSON.parse(localStorage.getItem('auth'));
 
-    console.log({ userId })
+    
 
     useEffect(() => {
         setTimeout(() => {
@@ -55,7 +59,6 @@ export default function SellerAddProduct() {
         setSelectedOptions(selectedValues);
     };
 
-    console.log({ selectedOptions })
 
     async function getProductListFunc() {
         await allProductList().then((res) => {
@@ -127,24 +130,32 @@ export default function SellerAddProduct() {
         setLoading(false)
     }
 
-    const AddSellerProduct = async (Pid) => {
-        let payload = {
-            "sellerId": userId,
-            "productId": Pid,
-            "price": inputValue?.price,
-            "discount_price": inputValue?.discount_price
-        }
-        await SellerProductAdd(payload).then((res) => {
-            console.log(res?.data?.data)
-            if (res?.response?.data?.error !== false) {
-                toast.success('product added successfully');
-                handleClose();
-            } else {
-                toast.error(res?.response?.data?.data)
+    const AddSellerProduct = async (Pid,SpecId,price) => {
+
+        if(price){
+            let payload = {
+                "sellerId": userId,
+                "productId": Pid,
+                "specId": SpecId,
+                "price": price,
+                // "discount_price": inputValue?.discount_price
             }
-        }).catch((err) => {
-            console.log(err)
-        })
+
+            console.log(payload);
+
+            await SellerProductAdd(payload).then((res) => {
+               
+                if (res?.response?.data?.error == true) {
+                    toast.error(res?.response?.data?.message)
+                    
+                   // handleClose();
+                } else {
+                    toast.success('product added successfully');
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
     }
 
     const handleStatus = async (dataset) => {
@@ -256,33 +267,21 @@ export default function SellerAddProduct() {
         },
     ];
 
-    // const handleSelectionChange = (selection) => {
-    //     const selectedRowIds = selection.selectionModel;
-    //     setSelectedIds(selectedRowIds);
-
-    //     // Log the selected IDs to the console
-    //     console.log('Selected IDs:', selectedRowIds);
-    // };
-
-
-    const handleChange = (e) => {
-        console.log(e.target.value)
-    }
-
-    console.log({ data })
-
     // new
 
- const handleAddProduct  = (product) =>{
-       setSelectedProduct(product)
-       handleShow();
-   }
-
-
-    const handleChnage = (e) =>{
-        const { name, value } = e.target;
-        SetInputvalues({ ...inputValue, [name]: value });
+    const handleAddProduct = (product) => {
+        setSelectedProduct(product)
+        handleShow();
     }
+
+
+  
+
+
+    const handleSubmit = (index) => {
+        console.log('Form Data:', formData[index]);
+        // You can now send formData to your server or perform any other desired actions
+    };
 
 
     return (
@@ -380,7 +379,7 @@ export default function SellerAddProduct() {
                     <Row className="d-flex justify-content-md-center gap-4">
                         {data?.length > 0 && data?.map((ele, index) => (
                             <Col key={index} className="d-flex justify-content-md-center">
-                                <Card style={{ width: '18rem'}}>
+                                <Card style={{ width: '18rem' }}>
                                     {ele?.image?.[0]?.length < 15 ?
                                         <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf9vk9y50x6ZHHMLz9LHvwG-iUx0IUtLUmqg&usqp=CAU' style={{ height: '200px', objectFit: 'cover' }} /> :
                                         <Card.Img variant="top" src={ele?.image?.[0]} style={{ height: '200px', objectFit: 'cover' }} />
@@ -389,7 +388,7 @@ export default function SellerAddProduct() {
                                         <Card.Title className="p-name">{ele?.name}</Card.Title>
                                         <Card.Subtitle className="p-catname">{ele?.categoryId?.title}</Card.Subtitle>
                                         <Card.Text className="p-desc">
-                                            {ele?.desc?.slice(0,100)+'.....'}
+                                            {ele?.desc?.slice(0, 100) + '.....'}
                                         </Card.Text>
                                     </Card.Body>
                                     <Card.Footer>
@@ -406,89 +405,65 @@ export default function SellerAddProduct() {
                                 <Modal.Title className="p-catname">{seletedProducrt?.name}</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                {/* <Form >
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                        <Form.Label>Enter Product Price</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="Product Price"
-                                            name="price"
-                                            value={inputValue?.price}
-                                            required
-                                            onChange={handleChnage}
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                        <Form.Label>Enter Product Qunaity</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            placeholder="Product Quantity"
-                                            name="discount_price"
-                                            value={inputValue?.discount_price}
-                                            onChange={handleChnage}
-                                            autoFocus
-                                        />
-                                    </Form.Group>
-                                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                        <Form.Label>Discount (%)</Form.Label>
-                                        <Form.Control
-                                            type="tel"
-                                            placeholder="Discoount in %"
-                                            name="discount_price"
-                                            value={inputValue?.discount_price}
-                                            onChange={handleChnage}
-                                            required
-                                            autoFocus
-                                        />
-                                    </Form.Group>
-                                    {seletedProducrt?.specifications?.filter((item)=>(
-                                        item?.user_choice == true
-                                    )).map((spe)=>(
-                                        <Form.Group controlId="exampleForm.SelectCustom">
-                                            <Form.Label className="p-lableSmall">{spe.key}</Form.Label>
-                                            <Form.Select custom multiple onChange={handleSelectChange} value={selectedOptions}>
-                                                <option disabled>Select {spe.key}</option>
-                                                {spe.value?.split(',').map((opt) => (
-                                                    <option key={opt} value={opt}>
-                                                        {opt}
-                                                    </option>
-                                                ))}
-                                            </Form.Select>
-                                        </Form.Group>
-                                    ))} 
-                                </Form> */}
                                 <Form>
                                     <Row>
-                                        {seletedProducrt?.specifications?.filter((item) => (
-                                            item?.user_choice == true
-                                        )).map((spe) => (
+                                        <Col>
+                                            <ListGroup style={{ maxHeight: '250px', overflowY: 'auto' }}>
+                                                {seletedProducrt?.specId?.map((ele, index) => (
+                                                    <ListGroup.Item key={ele?._id}>
+                                                        <Row>
+                                                            <Col xs={10}>
+                                                                <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
+                                                            </Col>
+                                                            <Col xs={2}>
+                                                                <Button variant="outline-success" size="sm" onClick={() => AddSellerProduct(ele?.productId, ele?._id, formData[index]?.price)}>SAVE</Button>
+                                                            </Col>
+                                                        </Row>
 
-                                            <Col>
-                                                <Form.Group controlId="exampleForm.SelectCustom">
-                                                    <Form.Label className="p-lableSmall">{spe.key}</Form.Label>
-                                                    <Form.Select custom  onChange={handleSelectChange} value={selectedOptions}>
-                                                        <option disabled>Select {spe.key}</option>
-                                                        {spe.value?.split(',').map((opt) => (
-                                                            <option key={opt} value={opt}>
-                                                                {opt}
-                                                            </option>
-                                                        ))}
-                                                    </Form.Select>
-                                                </Form.Group>
-                                            </Col>
-                                        ))} 
-                                        
+                                                        <Row className='locationTagHeader mt-2'>
+                                                            <Col xs={2}>MRP (₹)</Col>
+                                                            {ele?.spec_det?.map((e) => (
+                                                                <Col xs={2}>{e?.title}</Col>
+                                                            ))}
+                                                            <Col>Enter product price (₹)</Col>
+
+                                                        </Row>
+                                                        <Row className='locationTagvalue mt-2'>
+                                                            <Col xs={2} >{ele?.price}</Col>
+                                                            {ele?.spec_det?.map((e) => (
+                                                                <Col xs={2}>{e?.value}</Col>
+                                                            ))}
+                                                            <Col>
+                                                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                                                    <Form.Control
+                                                                        type="tel"
+                                                                        size="sm"
+                                                                        placeholder="Product Price"
+                                                                        name="price"
+                                                                        required
+                                                                        max={ele?.price}
+                                                                        value={formData[index]?.price}
+                                                                        onChange={(e) => handlePriceChange(index, e.target.value)}
+
+                                                                    />
+                                                                </Form.Group>
+                                                            </Col>
+                                                        </Row>
+                                                    </ListGroup.Item>
+                                                ))}
+                                            </ListGroup>
+                                        </Col>
                                     </Row>
                                 </Form>
                             </Modal.Body>
-                            <Modal.Footer>
+                            {/* <Modal.Footer>
                                 <Button variant="secondary" size="sm" onClick={handleClose}>
                                     Close
                                 </Button>
-                                <Button variant="primary" size="sm" onClick={()=>AddSellerProduct(seletedProducrt?._id)}>
+                                <Button variant="primary" size="sm" onClick={() => AddSellerProduct(seletedProducrt?._id)}>
                                     Save Changes
                                 </Button>
-                            </Modal.Footer>
+                            </Modal.Footer> */}
                         </Modal>
                     </Row>
                 </Container>

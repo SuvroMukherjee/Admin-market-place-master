@@ -297,6 +297,7 @@ export default function ListProduct() {
                             selectedproductid={selectedproductid}
                             showModal={showModal}
                             handleCloseModal={handleCloseModal}
+                            getProductListFunc={getProductListFunc}
                         />
                     </Row>
                     <Toaster position="top-right" />
@@ -310,7 +311,7 @@ export default function ListProduct() {
 
 
 
-const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseModal }) => {
+const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseModal, getProductListFunc }) => {
 
     console.log({ selectedproductid })
 
@@ -363,6 +364,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
             toast.error('Something went wrong..')
         }else{
             console.log({ payload })
+            getProductListFunc();
             setSpecifications([{
                 title: '',
                 value: '',
