@@ -484,7 +484,8 @@ export default function SellerAddProduct() {
                                         </Card.Text>
                                     </Card.Body>
                                     <Card.Footer>
-                                        <Button variant="outline-success w-100" onClick={() => handleAddProduct(ele)}>Select Product</Button>
+                                        {console.log({ele})}
+                                        <Button variant="outline-success w-100">Price - {ele?.price}</Button>
                                     </Card.Footer>
                                 </Card>
                             </Col>
