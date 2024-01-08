@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "./Seller.css";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Form, ButtonGroup } from 'react-bootstrap';
+import { Button, Col, Container, Row, Form, ButtonGroup,Card } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -434,7 +434,7 @@ export default function SellerAddProduct() {
                                     <Button variant="dark" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>All Reset</Button>
                                 </Col>
                             </Row>
-                            <Row className="justify-content-md-center">
+                            {/* <Row className="justify-content-md-center">
                                 <Col>
                                     <DataGrid
                                         rows={data}
@@ -445,11 +445,11 @@ export default function SellerAddProduct() {
                                         }
                                     />
                                 </Col>
-                            </Row>
+                            </Row> */}
                         </div>}
                     {activeButton == 'own' &&
-                        <div className="mt-4">
-                            <Row className="justify-content-md-center mt-4">
+                        <div>
+                            {/* <Row className="justify-content-md-center mt-4">
                                 <Col>
                                     <DataGrid
                                         rows={sellerOwnData}
@@ -460,11 +460,61 @@ export default function SellerAddProduct() {
                                         }
                                     />
                                 </Col>
-                            </Row>
+                            </Row> */}
                         </div>}
 
                     <Toaster position="top-right" />
                 </Container>
+             
+               <Container className="mt-4">
+                    {activeButton == 'sell' && 
+                    <Row className="d-flex justify-content-md-center gap-4">
+                        {data?.length > 0 && data?.map((ele, index) => (
+                            <Col key={index} className="d-flex justify-content-md-center">
+                                <Card style={{ width: '18rem' }}>
+                                    {ele?.image?.[0]?.length < 15 ?
+                                        <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf9vk9y50x6ZHHMLz9LHvwG-iUx0IUtLUmqg&usqp=CAU' style={{ height: '200px', objectFit: 'cover' }} /> :
+                                        <Card.Img variant="top" src={ele?.image?.[0]} style={{ height: '200px', objectFit: 'cover' }} />
+                                    }
+                                    <Card.Body>
+                                        <Card.Title className="p-name">{ele?.name}</Card.Title>
+                                        <Card.Subtitle className="p-catname">{ele?.brandId?.title} | {ele?.categoryId?.title}</Card.Subtitle>
+                                        <Card.Text className="p-desc">
+                                            {ele?.desc?.slice(0, 100) + '.....'}
+                                        </Card.Text>
+                                    </Card.Body>
+                                    <Card.Footer>
+                                        <Button variant="outline-success w-100" onClick={() => handleAddProduct(ele)}>Select Product</Button>
+                                    </Card.Footer>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>}
+                    {activeButton == 'own' &&
+                    <Row className="d-flex justify-content-md-center gap-4">
+                        {sellerOwnData?.length > 0 && sellerOwnData?.map((ele, index) => (
+                            <Col key={index} className="d-flex justify-content-md-center">
+                                <Card style={{ width: '18rem' }}>
+                                    {ele?.image?.[0]?.length < 15 ?
+                                        <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf9vk9y50x6ZHHMLz9LHvwG-iUx0IUtLUmqg&usqp=CAU' style={{ height: '200px', objectFit: 'cover' }} /> :
+                                        <Card.Img variant="top" src={ele?.image?.[0]} style={{ height: '200px', objectFit: 'cover' }} />
+                                    }
+                                    <Card.Body>
+                                        <Card.Title className="p-name">{ele?.name}</Card.Title>
+                                        <Card.Subtitle className="p-catname">{ele?.brandId?.title} | {ele?.categoryId?.title}</Card.Subtitle>
+                                        <Card.Text className="p-desc">
+                                            {ele?.desc?.slice(0, 100) + '.....'}
+                                        </Card.Text>
+                                    </Card.Body>
+                                    <Card.Footer>
+                                        <Button variant="outline-success w-100" onClick={() => handleAddProduct(ele)}>Select Product</Button>
+                                    </Card.Footer>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>}
+               </Container>
+
             </div>
         </>
     );

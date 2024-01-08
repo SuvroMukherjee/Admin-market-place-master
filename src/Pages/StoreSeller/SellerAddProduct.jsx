@@ -456,14 +456,6 @@ export default function SellerAddProduct() {
                                     </Row>
                                 </Form>
                             </Modal.Body>
-                            {/* <Modal.Footer>
-                                <Button variant="secondary" size="sm" onClick={handleClose}>
-                                    Close
-                                </Button>
-                                <Button variant="primary" size="sm" onClick={() => AddSellerProduct(seletedProducrt?._id)}>
-                                    Save Changes
-                                </Button>
-                            </Modal.Footer> */}
                         </Modal>
                     </Row>
                 </Container>
