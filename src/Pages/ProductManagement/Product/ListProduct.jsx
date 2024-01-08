@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "../product.css";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row, Modal, Form } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -11,11 +11,28 @@ import { BulkProductUpload, FileUpload, StatusUpdateProduct, allProductList, del
 import Spinner from 'react-bootstrap/Spinner';
 import { productRows } from "../../../dummyData";
 import { PiFileCsvDuotone } from "react-icons/pi";
+import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
+import { RiListSettingsFill } from "react-icons/ri";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
     const [loading, setLoading] = useState(true);
-    const [uploading,setUploading] = useState(false)
+    const [uploading, setUploading] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+    const [selectedproductid, setSeledtedProductId] = useState()
+
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+
+    // const getProductSpecification = (specifications) => {
+    //     setSeledtedProductId(specifications?._id)
+    // };
 
 
     useEffect(() => {
@@ -133,6 +150,9 @@ export default function ListProduct() {
                     <>
 
                         <div className="buttonWrapper">
+                            <Button variant="info" onClick={() => { handleShowModal(); setSeledtedProductId(params?.row?._id)}} size="sm">
+                                <RiListSettingsFill /> Add Specification
+                            </Button>
                             <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)} size="sm">
                                 <RiEdit2Line /> Edit
                             </Button>
@@ -157,7 +177,7 @@ export default function ListProduct() {
     const fileInputRef = useRef(null);
 
     const handleFileChange = (event) => {
-        
+
         const file = event.target.files[0];
         if (file) {
             // Handle the file, e.g., upload or process it
@@ -181,16 +201,16 @@ export default function ListProduct() {
             const res = await FileUpload(formData);
             console.log(res?.data?.data)
 
-            let payload  = {
+            let payload = {
                 file: res?.data?.data?.fileName
             }
 
             let response = await BulkProductUpload(payload);
-            
-            if(response?.data?.error){
+
+            if (response?.data?.error) {
                 toast.error('Could not upload csv');
                 setUploading(false)
-            }else{
+            } else {
                 console.log(response?.data)
                 toast.success('Upload successfully')
                 getProductListFunc();
@@ -272,9 +292,135 @@ export default function ListProduct() {
                             }
                         </Col>
                     </Row>
+                    <Row>
+                        <ProductSpecificationForm
+                            selectedproductid={selectedproductid}
+                            showModal={showModal}
+                            handleCloseModal={handleCloseModal}
+                        />
+                    </Row>
                     <Toaster position="top-right" />
                 </Container>
             </div>
         </>
     );
 }
+
+
+
+
+
+const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseModal }) => {
+
+    console.log({ selectedproductid })
+
+    const [specifications, setSpecifications] = useState([
+        {
+            key: '',
+            value: '',
+            user_choice: false,
+        },
+    ]);
+
+    const handleChange = (index, key, value, userChoice) => {
+        setSpecifications((prevSpecifications) => {
+            const newSpecifications = [...prevSpecifications];
+            newSpecifications[index] = { key, value, user_choice: userChoice };
+            return newSpecifications;
+        });
+    };
+
+    const addSpecification = () => {
+        setSpecifications((prevSpecifications) => [
+            ...prevSpecifications,
+            { key: '', value: '', user_choice: false }, // Set user_choice to a default value
+        ]);
+    };
+
+    const removeSpecification = (index) => {
+        setSpecifications((prevSpecifications) => {
+            const newSpecifications = [...prevSpecifications];
+            newSpecifications.splice(index, 1);
+            return newSpecifications;
+        });
+    };
+
+    const handleSubmit = async() => {
+        console.log('Submitted Data:', specifications);
+        handleCloseModal(); // Close the modal after submitting
+        
+    };
+
+    return (
+        <Modal show={showModal} onHide={handleCloseModal} size="lg">
+            <Modal.Header closeButton>
+                <Modal.Title>Product Specification Form</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Container>
+                    <Row>
+                        {specifications.map((specification, index) => (
+                            <Row key={index}>
+                                <Col>
+                                    <Form.Group controlId={`key-${index}`}>
+                                        <Form.Label>Key:</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            value={specification.key}
+                                            onChange={(e) => handleChange(index, e.target.value, specification.value, specification.user_choice)}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col >
+                                    <Form.Group controlId={`value-${index}`}>
+                                        <Form.Label>Value:</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            value={specification.value}
+                                            onChange={(e) => handleChange(index, specification.key, e.target.value, specification.user_choice)}
+                                        />
+                                        <Form.Text className="text-muted">
+                                            Separate values with commas (e.g., value1, value2).
+                                        </Form.Text>
+                                    </Form.Group>
+                                </Col>
+                                <Col className='d-flex align-items-center'>
+                                    <Form.Group controlId={`value-${index}`}>
+                                        <Form>
+                                            <Form.Check // prettier-ignore
+                                                type="switch"
+                                                id={`custom-switch-${index}`}
+                                                label="User Select Option"
+                                                checked={specification.user_choice}
+                                                onChange={(e) => handleChange(index, specification.key, specification.value, e.target.checked)}
+                                            />
+                                        </Form>
+                                    </Form.Group>
+                                </Col>
+                                <Col className='d-flex align-items-center'>
+                                    <Button variant="danger" size="sm" onClick={() => removeSpecification(index)}>
+                                        <IoMdCloseCircle size={26} />
+                                    </Button>
+                                </Col>
+                            </Row>
+                        ))}
+                    </Row>
+                    <Row className="mt-2">
+                        <Col xs={3}>
+                            <Button variant="dark" size="sm" onClick={addSpecification}>
+                                <IoIosAdd /> Add Specification
+                            </Button>
+                        </Col>
+                        <Col xs={2}>
+                            <Button variant="dark" size="sm" onClick={handleSubmit}>
+                                Submit Form
+                            </Button>
+                        </Col>
+                    </Row>
+                </Container>
+            </Modal.Body>
+        </Modal>
+    );
+};
+
+

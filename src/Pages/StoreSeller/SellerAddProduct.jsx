@@ -24,9 +24,9 @@ export default function SellerAddProduct() {
     const [selectedRows, setSelectedRows] = useState([]);
     const [show, setShow] = useState(false);
     const [seletedProducrt,setSelectedProduct] = useState()
-    const [inputValue,Setvalues] = useState({
-        productPrice : "",
-        productQuantity:"",
+    const [inputValue,SetInputvalues] = useState({
+        price : "",
+        discount_price:"",
 
     })
 
@@ -130,12 +130,15 @@ export default function SellerAddProduct() {
     const AddSellerProduct = async (Pid) => {
         let payload = {
             "sellerId": userId,
-            "productId": Pid
+            "productId": Pid,
+            "price": inputValue?.price,
+            "discount_price": inputValue?.discount_price
         }
         await SellerProductAdd(payload).then((res) => {
             console.log(res?.data?.data)
             if (res?.response?.data?.error !== false) {
-                toast.success('product added successfully')
+                toast.success('product added successfully');
+                handleClose();
             } else {
                 toast.error(res?.response?.data?.data)
             }
@@ -276,6 +279,12 @@ export default function SellerAddProduct() {
    }
 
 
+    const handleChnage = (e) =>{
+        const { name, value } = e.target;
+        SetInputvalues({ ...inputValue, [name]: value });
+    }
+
+
     return (
         <>
             {loading &&
@@ -384,7 +393,7 @@ export default function SellerAddProduct() {
                                         </Card.Text>
                                     </Card.Body>
                                     <Card.Footer>
-                                        <Button variant="outline-success w-100" onClick={() => handleAddProduct(ele)}>Add Product</Button>
+                                        <Button variant="outline-success w-100" onClick={() => handleAddProduct(ele)}>Select Product</Button>
                                     </Card.Footer>
                                 </Card>
                             </Col>
@@ -397,13 +406,16 @@ export default function SellerAddProduct() {
                                 <Modal.Title className="p-catname">{seletedProducrt?.name}</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Form >
+                                {/* <Form >
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                         <Form.Label>Enter Product Price</Form.Label>
                                         <Form.Control
                                             type="number"
                                             placeholder="Product Price"
-                                            autoFocus
+                                            name="price"
+                                            value={inputValue?.price}
+                                            required
+                                            onChange={handleChnage}
                                         />
                                     </Form.Group>
                                     <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -411,6 +423,9 @@ export default function SellerAddProduct() {
                                         <Form.Control
                                             type="number"
                                             placeholder="Product Quantity"
+                                            name="discount_price"
+                                            value={inputValue?.discount_price}
+                                            onChange={handleChnage}
                                             autoFocus
                                         />
                                     </Form.Group>
@@ -419,6 +434,10 @@ export default function SellerAddProduct() {
                                         <Form.Control
                                             type="tel"
                                             placeholder="Discoount in %"
+                                            name="discount_price"
+                                            value={inputValue?.discount_price}
+                                            onChange={handleChnage}
+                                            required
                                             autoFocus
                                         />
                                     </Form.Group>
@@ -436,22 +455,37 @@ export default function SellerAddProduct() {
                                                 ))}
                                             </Form.Select>
                                         </Form.Group>
-                                    ))}
-                                    {/* <Form.Group controlId="exampleForm.SelectCustom">
-                                        <Form.Label>Select Example</Form.Label>
-                                        <Form.Select custom>
-                                            <option value="1">Option 1</option>
-                                            <option value="2">Option 2</option>
-                                            <option value="3">Option 3</option>
-                                        </Form.Select>
-                                    </Form.Group> */}
+                                    ))} 
+                                </Form> */}
+                                <Form>
+                                    <Row>
+                                        {seletedProducrt?.specifications?.filter((item) => (
+                                            item?.user_choice == true
+                                        )).map((spe) => (
+                                            // <Form.Group controlId="exampleForm.SelectCustom">
+                                            //     <Form.Label className="p-lableSmall">{spe.key}</Form.Label>
+                                            //     <Form.Select custom multiple onChange={handleSelectChange} value={selectedOptions}>
+                                            //         <option disabled>Select {spe.key}</option>
+                                            //         {spe.value?.split(',').map((opt) => (
+                                            //             <option key={opt} value={opt}>
+                                            //                 {opt}
+                                            //             </option>
+                                            //         ))}
+                                            //     </Form.Select>
+                                            // </Form.Group>
+                                            <Col>
+                                              
+                                            </Col>
+                                        ))} 
+                                        
+                                    </Row>
                                 </Form>
                             </Modal.Body>
                             <Modal.Footer>
                                 <Button variant="secondary" size="sm" onClick={handleClose}>
                                     Close
                                 </Button>
-                                <Button variant="primary" size="sm" onClick={handleClose}>
+                                <Button variant="primary" size="sm" onClick={()=>AddSellerProduct(seletedProducrt?._id)}>
                                     Save Changes
                                 </Button>
                             </Modal.Footer>
