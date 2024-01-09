@@ -126,7 +126,7 @@ const EditProduct = () => {
             setTimeout(() => {
                 setFormData((prevData) => ({
                     ...prevData,
-                    image: [...prevData.image, res?.data?.data?.fileurl],
+                    image: [...prevData.image, {image_path : res?.data?.data?.fileurl}],
                 }));
             }, 3000);
         } catch (err) {
@@ -437,7 +437,7 @@ const EditProduct = () => {
                                                                 <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
                                                                     onClick={() => handleCancelImage(fileUrl)}
                                                                 /></span>
-                                                                <Image src={fileUrl} thumbnail />
+                                                                <Image src={fileUrl?.image_path} thumbnail />
                                                             </Col>
                                                         ))}
                                                     </Row>

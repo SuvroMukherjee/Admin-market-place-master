@@ -401,6 +401,15 @@ export async function ProductSpecificationCreate(formData) {
 }
 
 
+export async function UpdateProductSpecification(formData,id) {
+    try {
+        const response = await axios.patch(apiUrl + `/specification/update/${id}`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 
 {/**key manager apis */ }
 

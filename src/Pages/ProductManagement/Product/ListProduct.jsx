@@ -1,18 +1,20 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "../product.css";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row, Modal, Form, ListGroup } from 'react-bootstrap';
+import { Button, Col, Container, Row, Modal, Form, ListGroup, Image } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { BulkProductUpload, FileUpload, ProductSpecificationCreate, StatusUpdateProduct, allProductList, deleteProduct } from "../../../API/api";
+import { BulkProductUpload, FileUpload, ProductSpecificationCreate, StatusUpdateProduct, UpdateProductSpecification, allProductList, deleteProduct } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { productRows } from "../../../dummyData";
 import { PiFileCsvDuotone } from "react-icons/pi";
 import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
 import { RiListSettingsFill } from "react-icons/ri";
+import { MdCancel } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -20,7 +22,6 @@ export default function ListProduct() {
     const [uploading, setUploading] = useState(false)
     const [showModal, setShowModal] = useState(false);
     const [selectedproductid, setSeledtedProductId] = useState()
-
     const handleShowModal = () => {
         setShowModal(true);
     };
@@ -86,6 +87,8 @@ export default function ListProduct() {
     }
 
 
+
+
     const columns = [
         { field: "id", headerName: "ID", width: 100 },
         { field: "productId", headerName: "Product Id", width: 150 },
@@ -94,7 +97,7 @@ export default function ListProduct() {
             field: "image", headerName: "Image", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params?.row?.image?.[0]} alt="" />
+                        <img className="productListImg" src={params?.row?.image?.[0]?.image_path} alt="" />
                         {params?.row?.image?.length > 1 && <span>{params?.row?.image?.length - 1}+</span>}
                     </div>
                 );
@@ -132,7 +135,7 @@ export default function ListProduct() {
             }
         },
         {
-            field: "status", headerName: "Status", width: 150, renderCell: (params) => {
+            field: "status", headerName: "Status", width: 100, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
@@ -140,17 +143,17 @@ export default function ListProduct() {
                 );
             }
         },
-        { field: "type", headerName: "Type", width: 150 },
+        { field: "type", headerName: "Type", width: 350 },
         {
             field: "action",
-            headerName: "Action",
+            headerName: "Actions",
             width: 300,
             renderCell: (params) => {
                 return (
                     <>
 
                         <div className="buttonWrapper">
-                            <Button variant="info" onClick={() => { handleShowModal(); setSeledtedProductId(params?.row)}} size="sm">
+                            <Button variant="info" onClick={() => { handleShowModal(); setSeledtedProductId(params?.row) }} size="sm">
                                 <RiListSettingsFill /> Add Specification
                             </Button>
                             <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)} size="sm">
@@ -192,38 +195,36 @@ export default function ListProduct() {
     };
 
 
-    const onFileUpload = async (file) => {
-        setUploading(true)
-        const formData = new FormData();
-        formData.append("file", file);
+    const onFileUpload = async (files) => {
+        setUploading(true);
 
         try {
-            const res = await FileUpload(formData);
-            console.log(res?.data?.data)
+            // Iterate through the array of files
+            for (const file of files) {
+                const formData = new FormData();
+                formData.append("file", file);
 
-            let payload = {
-                file: res?.data?.data?.fileName
+                const res = await FileUpload(formData);
+                console.log(res?.data?.data);
+
+                if (response?.data?.error) {
+                    toast.error(`Could not upload file: ${file.name}`);
+                } else {
+                    console.log(response?.data);
+                    toast.success(`Upload successful: ${file.name}`);
+                    setTimeout(() => {
+                        SetbannerImages((prevData) => [
+                            ...prevData,
+                            res?.data?.data?.fileurl
+                        ]);
+                    }, 3000);
+                }
+
+                console.log(response);
             }
 
-            let response = await BulkProductUpload(payload);
-
-            if (response?.data?.error) {
-                toast.error('Could not upload csv');
-                setUploading(false)
-            } else {
-                console.log(response?.data)
-                toast.success('Upload successfully')
-                getProductListFunc();
-                setUploading(false)
-            }
-
-            console.log(response)
-            // setTimeout(() => {
-            //     setFormData((prevData) => ({
-            //         ...prevData,
-            //         image: [...prevData.image, res?.data?.data?.fileurl],
-            //     }));
-            // }, 3000);
+            getProductListFunc();
+            setUploading(false);
         } catch (err) {
             console.error(err, "err");
         }
@@ -276,12 +277,12 @@ export default function ListProduct() {
                         </Col>
                     </Row>
                     <Row className="justify-content-md-center">
-                        <Col>
+                        <Col style={{ height: 400, width: '100%' }}>
                             {data?.length > 0 ?
                                 <DataGrid
                                     rows={data}
                                     columns={columns}
-                                    pageSize={8}
+                                    pageSize={2}
                                 /> :
 
                                 <DataGrid
@@ -323,12 +324,18 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
         },
     ]);
 
-    const [productPrice,setproductPrice] = useState(0)
+    const [productPrice, setproductPrice] = useState(0);
+
+    const [isEdit, setIsEdit] = useState(false);
+
+    const [productImges, setProductImages] = useState([]);
+
+    const [selectedSpecId, setSelectedSpecId] = useState()
 
     const handleChange = (index, title, value) => {
         setSpecifications((prevSpecifications) => {
             const newSpecifications = [...prevSpecifications];
-            newSpecifications[index] = { title, value};
+            newSpecifications[index] = { title, value };
             return newSpecifications;
         });
     };
@@ -336,7 +343,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
     const addSpecification = () => {
         setSpecifications((prevSpecifications) => [
             ...prevSpecifications,
-            { title: '', value: ''}, // Set user_choice to a default value
+            { title: '', value: '' }, // Set user_choice to a default value
         ]);
     };
 
@@ -348,21 +355,24 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
         });
     };
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         console.log('Submitted Data:', specifications);
         let payload = {
             productId: selectedproductid?._id,
             spec_det: specifications,
             price: productPrice,
+            image: productImges,
             skuId: generateRandomKey(),
-           // user_choice:false,
+            // user_choice:false,
         }
-        
+
+        console.log(payload)
+
         let res = await ProductSpecificationCreate(payload);
 
-        if(res?.data?.error){
+        if (res?.data?.error) {
             toast.error('Something went wrong..')
-        }else{
+        } else {
             console.log({ payload })
             getProductListFunc();
             setSpecifications([{
@@ -371,6 +381,39 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                 //user_choice: false,
             }])
             setproductPrice('')
+            setProductImages([])
+            handleCloseModal(); // Close the modal after submitting
+        }
+    };
+
+
+    const EdithandleSubmit = async () => {
+        console.log('Submitted Data:', specifications);
+        let payload = {
+            productId: selectedproductid?._id,
+            spec_det: specifications,
+            price: productPrice,
+            image: productImges,
+            skuId: generateRandomKey(),
+            // user_choice:false,
+        }
+
+        console.log(payload)
+
+        let res = await UpdateProductSpecification(payload, selectedSpecId);
+
+        if (res?.data?.error) {
+            toast.error('Something went wrong..')
+        } else {
+            console.log({ payload })
+            getProductListFunc();
+            setSpecifications([{
+                title: '',
+                value: '',
+                //user_choice: false,
+            }])
+            setproductPrice('')
+            setProductImages([])
             handleCloseModal(); // Close the modal after submitting
         }
     };
@@ -387,6 +430,95 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
         return key;
     }
 
+    // const [selectedFiles, setSelectedFiles] = useState([]);
+
+    // const handleFileSelect = (files) => {
+    //     setSelectedFiles(files);
+    // };
+
+    // const handleUpload = () => {
+    //     console.log(selectedFiles);
+    // };
+
+    // const onFileUpload = async (file) => {
+    //     //setUploading(true)
+    //     const formData = new FormData();
+    //     formData.append("file", file);
+
+    //     try {
+    //         const res = await FileUpload(formData);
+    //         console.log(res?.data?.data)
+
+    //         setTimeout(() => {
+    //             setProductImages((prevData) => [
+    //                 ...prevData,
+    //                 res?.data?.data?.fileurl
+    //             ]);
+    //         }, 3000);
+    //     } catch (err) {
+    //         console.error(err, "err");
+    //     }
+    // };\
+
+    const handleFileImageChange = async (event) => {
+        const files = event.target.files;
+
+        if (files.length > 0) {
+            const selectedFiles = Array.from(files);
+            console.log('Selected Files:', selectedFiles);
+            selectedFiles.forEach((file, index) => {
+                console.log(`File ${index + 1}:`, file);
+            });
+
+            for (const file of selectedFiles) {
+                await onFileUpload(file);
+            }
+        }
+    }
+
+    const onFileUpload = async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await FileUpload(formData);
+            console.log(res?.data?.data);
+
+            setTimeout(() => {
+                setProductImages((prevData) => [
+                    ...prevData,
+                    { image_path:  res?.data?.data?.fileurl}
+                ]);
+            }, 3000);
+        } catch (err) {
+            console.error(err, "err");
+        }
+    };
+
+    const deleteImage = (id) => {
+        console.log('clc')
+        let filterData = productImges?.filter((ele, i) => {
+            return i != id;
+        })
+        console.log({ filterData })
+        setProductImages(filterData)
+    }
+
+
+    const EditHandler = (id) => {
+        setSelectedSpecId(id)
+        setIsEdit(true)
+        let filterSpecData = selectedproductid?.specId?.find((ele) => {
+            return ele?._id == id;
+        })
+        setSpecifications(filterSpecData?.spec_det)
+        setProductImages(filterSpecData?.image)
+        setproductPrice(filterSpecData?.price)
+        console.log(filterSpecData)
+    }
+
+    console.table(productImges)
+
     return (
         <Modal show={showModal} onHide={handleCloseModal} size="lg">
             <Modal.Header closeButton>
@@ -397,28 +529,39 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                     <Row>
                         <Col>
                             <ListGroup style={{ maxHeight: '150px', overflowY: 'auto' }} className='p-2'>
-                                {selectedproductid?.specId?.map((ele,index)=>(
+                                {selectedproductid?.specId?.map((ele, index) => (
                                     <ListGroup.Item key={ele?._id}>
                                         <Row>
                                             <Col xs={10}>
                                                 <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
                                             </Col>
-                                            {/* <Col xs={2}>
-                                                <Button variant='outline-success' size="sm" onClick={() => saveAddress(data)}>SAVE</Button>
-                                            </Col> */}
+                                            <Col xs={2}>
+                                                <Button variant='success' size="sm" onClick={() => EditHandler(ele?._id)}><CiEdit /> EDIT</Button>
+                                            </Col>
                                         </Row>
 
                                         <Row className='locationTagHeader mt-2'>
                                             <Col>Price</Col>
-                                            {ele?.spec_det?.map((e)=>(
+                                            {ele?.spec_det?.map((e) => (
                                                 <Col>{e?.title}</Col>
                                             ))}
+                                            <Col>Images</Col>
                                         </Row>
                                         <Row className='locationTagvalue'>
                                             <Col >{ele?.price}</Col>
                                             {ele?.spec_det?.map((e) => (
                                                 <Col>{e?.value}</Col>
                                             ))}
+                                            <Col size={2}>
+                                                {/* {ele?.image?.map((ele)=>(
+                                                <Row>
+                                                    <Col>
+                                                         <Image src={ele} rounded />
+                                                    </Col>
+                                                </Row>
+                                             ))} */}
+                                                {ele?.image?.length}
+                                            </Col>
                                         </Row>
                                     </ListGroup.Item>
                                 ))}
@@ -446,24 +589,8 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                                             value={specification.value}
                                             onChange={(e) => handleChange(index, specification.title, e.target.value)}
                                         />
-                                        {/* <Form.Text className="text-muted">
-                                            Separate values with commas (e.g., value1, value2).
-                                        </Form.Text> */}
                                     </Form.Group>
                                 </Col>
-                                {/* <Col className='d-flex align-items-center'>
-                                    <Form.Group controlId={`value-${index}`}>
-                                        <Form>
-                                            <Form.Check // prettier-ignore
-                                                type="switch"
-                                                id={`custom-switch-${index}`}
-                                                label="User Select Option"
-                                                checked={specification.user_choice}
-                                                onChange={(e) => handleChange(index, specification.title, specification.value, e.target.checked)}
-                                            />
-                                        </Form>
-                                    </Form.Group>
-                                </Col> */}
                                 <Col className='d-flex align-items-start'>
                                     <Button variant="danger" size="sm" onClick={() => removeSpecification(index)}>
                                         <IoMdCloseCircle size={26} />
@@ -474,6 +601,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                     </Row>
                     <Row className="mt-2">
                         <Col xs={3}>
+
                             <Button variant="dark" size="sm" onClick={addSpecification}>
                                 <IoIosAdd /> Add Title
                             </Button>
@@ -497,6 +625,29 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                                 />
                             </Form.Group>
                         </Col>
+                        <Col>
+                            <Form.Group>
+                                <Form.Group controlId="formFileMultiple" className="mb-3">
+                                    <Form.Label>Choose Multiple Files</Form.Label>
+                                    <Form.Control type="file" multiple onChange={handleFileImageChange} />
+                                </Form.Group>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Row>
+                                {productImges?.length > 0 && productImges?.map((ele, index) => (
+                                    <Col xs={2}>
+                                        <span>{index + 1}</span>
+                                        <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
+                                            onClick={() => deleteImage(index)}
+                                        /></span>
+                                        <Image src={ele?.image_path} thumbnail />
+                                    </Col>
+                                ))}
+                            </Row>
+                        </Col>
                     </Row>
                     <Row className="mt-2">
                         {/* <Col xs={3}>
@@ -505,9 +656,14 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                             </Button>
                         </Col> */}
                         <Col xs={2}>
-                            <Button variant="dark" size="sm" onClick={handleSubmit}>
-                                Submit Form
-                            </Button>
+                            {isEdit ?
+                                <Button variant="dark" size="sm" onClick={EdithandleSubmit}>
+                                    Update Form
+                                </Button>
+                                :
+                                <Button variant="dark" size="sm" onClick={handleSubmit}>
+                                    Submit Form
+                                </Button>}
                         </Col>
                     </Row>
                 </Container>
@@ -515,5 +671,21 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
         </Modal>
     );
 };
+
+
+
+// const FileUploadButton = ({ onFileSelect }) => {
+//     const handleFileChange = (e) => {
+//         const selectedFiles = Array.from(e.target.files);
+//         onFileSelect(selectedFiles);
+//     };
+
+//     return (
+//         <Form.Group controlId="formFileMultiple" className="mb-3">
+//             <Form.Label>Choose Multiple Files</Form.Label>
+//             <Form.Control type="file" multiple onChange={handleFileChange} />
+//         </Form.Group>
+//     );
+// };
 
 

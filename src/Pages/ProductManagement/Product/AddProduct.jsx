@@ -116,7 +116,7 @@ const AddProduct = () => {
             setTimeout(() => {
                 setFormData((prevData) => ({
                     ...prevData,
-                    image: [...prevData.image, res?.data?.data?.fileurl],
+                    image: [...prevData.image, {image_path : res?.data?.data?.fileurl}],
                 }));
             }, 3000);
         } catch (err) {
@@ -422,13 +422,13 @@ const AddProduct = () => {
                                             {formData.image.length > 0 && (
                                                 <Container>
                                                     <Row>
-                                                        {formData.image.map((fileUrl, index) => (
+                                                        {formData?.image.map((fileUrl, index) => (
                                                             <Col key={index} xs={4} md={2}>
                                                                 <span>{index + 1}</span>
                                                                 <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
                                                                     onClick={() => handleCancelImage(fileUrl)}
                                                                 /></span>
-                                                                <Image src={fileUrl} thumbnail />
+                                                                <Image src={fileUrl?.image_path} thumbnail />
                                                             </Col>
                                                         ))}
                                                     </Row>

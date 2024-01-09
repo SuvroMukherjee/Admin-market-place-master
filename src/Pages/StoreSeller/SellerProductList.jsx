@@ -474,7 +474,7 @@ export default function SellerAddProduct() {
                                 <Card style={{ width: '18rem' }}>
                                     {ele?.image?.[0]?.length < 15 ?
                                         <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf9vk9y50x6ZHHMLz9LHvwG-iUx0IUtLUmqg&usqp=CAU' style={{ height: '200px', objectFit: 'cover' }} /> :
-                                        <Card.Img variant="top" src={ele?.image?.[0]} style={{ height: '200px', objectFit: 'cover' }} />
+                                        <Card.Img variant="top" src={ele?.image?.[0]?.image_path} style={{ height: '200px', objectFit: 'cover' }} />
                                     }
                                     <Card.Body>
                                         <Card.Title className="p-name">{ele?.name}</Card.Title>
