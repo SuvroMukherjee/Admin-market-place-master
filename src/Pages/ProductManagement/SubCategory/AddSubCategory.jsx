@@ -48,7 +48,9 @@ const AddSubCategory = () => {
             {
                 "title": title,
                 "description": description,
-                "image": file,
+                "image": {
+                    image_path : file
+                 },
                 "category": categoryId
             }
 
