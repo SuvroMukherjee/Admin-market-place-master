@@ -33,7 +33,9 @@ const AddBrandPage = () => {
             let payload =
             {
                 "title": title,
-                "image": file
+                "image": {
+                    image_path : file
+                }
             }
 
             await AddBrand(payload).then((res) => {
