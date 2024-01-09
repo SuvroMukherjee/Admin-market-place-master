@@ -46,7 +46,7 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                 console.log(res, "res");
                 //setFile(res?.data?.data?.fileurl)
                 setTimeout(() => {
-                    setModalData({ ...modalData, ['image']: res?.data?.data?.fileurl });
+                    setModalData({ ...modalData, ['image']: { image_path : res?.data?.data?.fileurl} });
                 }, 3000);
             })
             .catch((err) => {
@@ -92,7 +92,7 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                             <Form.Group controlId="image">
                                 <Form.Label>Image</Form.Label>
                                 <Col>
-                                    <img src={modalData?.image} alt={"category"} style={{ width: '100%' }} />
+                                    <img src={modalData?.image?.[0]?.image_path} alt={"category"} style={{ width: '100%' }} />
                                 </Col>
                                 <Col>
                                     <label>Upload New Image</label>

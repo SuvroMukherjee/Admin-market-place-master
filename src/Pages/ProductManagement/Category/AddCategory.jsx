@@ -51,7 +51,9 @@ const AddCategory = () => {
             {
                 "title": title,
                 "description": description,
-                "image": file
+                "image": {
+                    image_path : file
+                }
             }
 
 

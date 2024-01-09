@@ -94,7 +94,7 @@ export default function ListCategory() {
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params.row.image} alt="" />
+                        <img className="productListImg" src={params.row.image?.[0]?.image_path} alt="" />
                         {/* {params?.row?.image} */}
                     </div>
                 );
