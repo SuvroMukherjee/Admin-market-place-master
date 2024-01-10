@@ -29,7 +29,7 @@ const BannerManagment = () => {
 
     const handleInputChange = (index, value) => {
         const updatedInputs = [...inputFields];
-        updatedInputs[index] = value;
+        updatedInputs[index] = {image_path : value};
         setInputFields(updatedInputs);
     };
 
@@ -104,7 +104,7 @@ const BannerManagment = () => {
             setTimeout(() => {
                 SetbannerImages((prevData) => [
                     ...prevData,
-                    res?.data?.data?.fileurl
+                    {image_path : res?.data?.data?.fileurl}
                 ]);
             }, 3000);
         } catch (err) {
@@ -125,7 +125,7 @@ const BannerManagment = () => {
 
         console.warn({filterDataImges})
 
-        if (filterDataImges?.banner_typeId?.banner_type == "Indian Grown Product Video"){
+        if (filterDataImges?.banner_typeId?.banner_type == "indian grown product videos new"){
             console.log('herererere')
             
             setInputFields(filterDataImges?.image)
@@ -283,15 +283,15 @@ const BannerManagment = () => {
                                                         <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
                                                             onClick={() => deleteImage(index)}
                                                         /></span>
-                                                        <Image src={ele} thumbnail />
+                                                        <Image src={ele?.image_path} thumbnail />
                                                     </Col>
                                                 ))}
-                                                {inputFields.map((input, index) => (
+                                                {inputFields?.length > 0 && inputFields?.map((input, index) => (
                                                     <Form.Control
                                                         key={index}
                                                         type="text"
                                                         placeholder={`Enter video link ${index + 1}`}
-                                                        value={input}
+                                                        value={input?.image_path}
                                                         onChange={(e) => handleInputChange(index, e.target.value)}
                                                     />
                                                 ))}
