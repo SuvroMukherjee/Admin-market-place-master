@@ -11,6 +11,7 @@ import { SellerProductAdd, StatusUpdateProduct, allBrandList, allCategoryList, a
 import Spinner from 'react-bootstrap/Spinner';
 import { categoryData, demoProductData, productRows } from "../../dummyData";
 import Modal from 'react-bootstrap/Modal';
+import { IoIosCloseCircle } from "react-icons/io";
 
 
 
@@ -349,7 +350,8 @@ export default function SellerAddProduct() {
                             </Form.Group>
                         </Col>
                         <Col className="d-flex justify-content-center align-items-end">
-                            <Button variant="dark" size="sm" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>Clear All</Button>
+                            <Button variant="dark" size="sm" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>
+                                <IoIosCloseCircle size={25}/> clear Filter</Button>
                         </Col>
                     </Row>
                     {/* <Row className="justify-content-md-center">
@@ -414,7 +416,7 @@ export default function SellerAddProduct() {
                             </Col>
                         ))}
                     </Row>
-                    {console.log({seletedProducrt})}
+
                     <Row>
                         <Modal size="md" show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
