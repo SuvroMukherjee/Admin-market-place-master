@@ -17,10 +17,10 @@ import Modal from 'react-bootstrap/Modal';
 export default function SellerAddProduct() {
     const [data, setData] = useState(demoProductData);
     const [loading, setLoading] = useState(true);
-    const [allcategoryList, setAllCategoryList] = useState(categoryData);
+    const [allcategoryList, setAllCategoryList] = useState();
     const [maindata, setMaindata] = useState([])
-    const [allSubcategorylist, setSubCatgoryList] = useState(categoryData);
-    const [allbrandList, setAllBrandList] = useState(categoryData);
+    const [allSubcategorylist, setSubCatgoryList] = useState();
+    const [allbrandList, setAllBrandList] = useState();
     const [selectedRows, setSelectedRows] = useState([]);
     const [show, setShow] = useState(false);
     const [seletedProducrt, setSelectedProduct] = useState()
@@ -283,6 +283,7 @@ export default function SellerAddProduct() {
         // You can now send formData to your server or perform any other desired actions
     };
 
+    console.log({data})
 
     return (
         <>
@@ -347,8 +348,8 @@ export default function SellerAddProduct() {
                                 </Form.Control>
                             </Form.Group>
                         </Col>
-                        <Col className="d-flex justify-content-center align-items-center">
-                            <Button variant="dark" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>All Reset</Button>
+                        <Col className="d-flex justify-content-center align-items-end">
+                            <Button variant="dark" size="sm" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>Clear All</Button>
                         </Col>
                     </Row>
                     {/* <Row className="justify-content-md-center">
@@ -382,7 +383,7 @@ export default function SellerAddProduct() {
                                 <Card style={{ width: '18rem' }}>
                                     {ele?.image?.[0]?.length < 15 ?
                                         <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf9vk9y50x6ZHHMLz9LHvwG-iUx0IUtLUmqg&usqp=CAU' style={{ height: '200px', objectFit: 'cover' }} /> :
-                                        <Card.Img variant="top" src={ele?.image?.[0]?.image_path} style={{ height: '200px', objectFit: 'cover' }} />
+                                        <Card.Img variant="top" src={ele?.image?.[0]?.image_path} style={{ height: '250px', objectFit: 'cover' }} />
                                     }
                                     <Card.Body>
                                         <Card.Title className="p-name">{ele?.name}</Card.Title>
@@ -390,6 +391,21 @@ export default function SellerAddProduct() {
                                         <Card.Text className="p-desc"> 
                                             {ele?.desc?.slice(0, 100) + '.....'}
                                         </Card.Text>
+                                        <div className="p-desc">
+                                            <ul>
+                                                {ele?.features?.length > 0 && ele?.features?.map((ele)=>(
+                                                    <li>{ele}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <Card.Subtitle className="p-catname">M.R.P - {ele?.regular_price?.toLocaleString()}</Card.Subtitle>
+                                        {/* <Card.Subtitle className="p-catname">
+                                            
+                                                    {ele?.specId?.length > 0 && ele?.specId?.map((ele) => (
+                                                        <span>{ele?.price} | </span>
+                                                    ))}
+                                            
+                                        </Card.Subtitle> */}
                                     </Card.Body>
                                     <Card.Footer>
                                         <Button variant="outline-success w-100" onClick={() => handleAddProduct(ele)}>Select Product</Button>

@@ -24,7 +24,7 @@ export default function WidgetLg({product}) {
                         <TableRow key={index} className="widgetLgTr">
                             <TableCell className="widgetLgUser">
                                 <img
-                                    src={ele?.image?.[0]}
+                                    src={ele?.image?.[0]?.image_path}
                                     alt=""
                                     className="widgetLgImg"
                                 />

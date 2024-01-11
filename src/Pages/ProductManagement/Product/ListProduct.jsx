@@ -143,11 +143,11 @@ export default function ListProduct() {
                 );
             }
         },
-        { field: "type", headerName: "Type", width: 350 },
+        { field: "type", headerName: "Type", width: 100 },
         {
             field: "action",
             headerName: "Actions",
-            width: 300,
+            width: 400,
             renderCell: (params) => {
                 return (
                     <>

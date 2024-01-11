@@ -7,11 +7,11 @@ export default function KeyWidgetSm({ user }) {
     return (
         <div className="widgetSm">
             <span className="widgetSmTitle">New Added Sellers</span>
-            <ul className="widgetSmList">
+            <ul className="widgetSmList w-50">
                 {user?.map((ele, index) => (
                     <li className="widgetSmListItem" key={index}>
                         <img
-                            src="https://images.pexels.com/photos/3992656/pexels-photo-3992656.png?auto=compress&cs=tinysrgb&dpr=2&w=500"
+                            src={ele?.pic_of_shope?.[0]}
                             alt=""
                             className="widgetSmImg"
                         />

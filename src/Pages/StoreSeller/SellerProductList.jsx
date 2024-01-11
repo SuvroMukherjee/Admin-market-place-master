@@ -42,9 +42,9 @@ export default function SellerAddProduct() {
 
     async function getProductListFunc() {
         await SellerProductList(userId).then((res) => {
-            console.log(res?.data?.data)
+            console.log(res?.data?.data,'data')
             const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
-                ...item?.productId,
+                ...item,
                 id: index + 1,
             }));
             setData(dataWithUniqueIds)
@@ -348,6 +348,8 @@ export default function SellerAddProduct() {
         setActiveButton(buttonType);
     };
 
+    console.log({ data })
+
     return (
         <>
             {loading &&
@@ -474,13 +476,13 @@ export default function SellerAddProduct() {
                                 <Card style={{ width: '18rem' }}>
                                     {ele?.image?.[0]?.length < 15 ?
                                         <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf9vk9y50x6ZHHMLz9LHvwG-iUx0IUtLUmqg&usqp=CAU' style={{ height: '200px', objectFit: 'cover' }} /> :
-                                        <Card.Img variant="top" src={ele?.image?.[0]?.image_path} style={{ height: '200px', objectFit: 'cover' }} />
+                                        <Card.Img variant="top" src={ele?.productId?.image?.[0]?.image_path} style={{ height: '200px', objectFit: 'cover' }} />
                                     }
                                     <Card.Body>
                                         <Card.Title className="p-name">{ele?.name}</Card.Title>
-                                        <Card.Subtitle className="p-catname">{ele?.brandId?.title} | {ele?.categoryId?.title}</Card.Subtitle>
+                                        <Card.Subtitle className="p-catname">{ele?.productId?.brandId?.title} | {ele?.productId?.categoryId?.title}</Card.Subtitle>
                                         <Card.Text className="p-desc">
-                                            {ele?.desc?.slice(0, 100) + '.....'}
+                                            {ele?.productId?.desc?.slice(0, 100) + '.....'}
                                         </Card.Text>
                                     </Card.Body>
                                     <Card.Footer>
