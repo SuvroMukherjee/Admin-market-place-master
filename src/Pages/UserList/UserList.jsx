@@ -9,10 +9,15 @@ import { productRows } from "../../dummyData";
 import "./userlist.css";
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
+import { FaClipboardList } from "react-icons/fa";
+import Modal from 'react-bootstrap/Modal';
+import UserAttendence from "./UserAttendence";
 
 export default function UserList() {
     const [data, setData] = useState(productRows || []);
     const [loading, setLoading] = useState(true)
+    const [show,setshow] = useState(false)
+    const [selectedUserId,setSelectedUserId] = useState()
 
     const navigate = useNavigate()
 
@@ -54,6 +59,9 @@ export default function UserList() {
     }
 
 
+    const handleClose = () => {
+        setshow(false)
+    }
 
     const columns = [
         { field: "id", headerName: "SL No", width: 50 },
@@ -93,7 +101,7 @@ export default function UserList() {
         {
             field: "action",
             headerName: "Action",
-            width: 250,
+            width: 200,
             renderCell: (params) => {
                 return (
                     <>
@@ -123,6 +131,19 @@ export default function UserList() {
                     </>
                 );
             },
+        },
+        {
+            field: "Attendence", headerName: "Attence", width: 120,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        <Button variant="info" onClick={() => { setshow(true); setSelectedUserId(params?.row)}} size="sm">
+                            <FaClipboardList/> Attendence
+                        </Button>
+                    </div>
+                )
+
+            }
         },
     ];
 
@@ -162,6 +183,17 @@ export default function UserList() {
                             />
                         </Col>
                     </Row>
+                </Container>
+                <Container>
+                    {console.log(selectedUserId)}
+                    <Modal size="lg" show={show} onHide={handleClose} centered>
+                        <Modal.Header closeButton>
+                            <h5>{selectedUserId?.name} Attendence logs</h5>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <UserAttendence userId={selectedUserId?._id}/>
+                        </Modal.Body>
+                    </Modal>
                 </Container>
                 <Toaster position="top-right" />
             </div>

@@ -14,9 +14,7 @@ export const AuthProvider = ({ children }) => {
  
         console.log({auth})
         if (auth?.role?.name == "Key Account Maneger"){
-            alert('logout call');
            let res = await getLocationForLogout();
-           console.log({res})
             if (res?.error == false){
                localStorage.removeItem('auth');
                localStorage.removeItem('ACCESS_TOKEN');
@@ -25,7 +23,6 @@ export const AuthProvider = ({ children }) => {
            }
            
         } else if (auth?.role?.name != "Key Account Maneger"){
-            alert('else call')
             localStorage.removeItem('auth');
             localStorage.removeItem('ACCESS_TOKEN');
             localStorage.clear();
