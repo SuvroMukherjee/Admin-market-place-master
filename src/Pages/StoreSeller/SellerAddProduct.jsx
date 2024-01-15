@@ -395,7 +395,7 @@ export default function SellerAddProduct() {
                                         </Card.Text>
                                         <div className="p-desc">
                                             <ul>
-                                                {ele?.features?.length > 0 && ele?.features?.map((ele)=>(
+                                                {ele?.features?.length > 0 && ele?.features?.slice(0,5)?.map((ele)=>(
                                                     <li>{ele}</li>
                                                 ))}
                                             </ul>
