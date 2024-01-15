@@ -17,7 +17,7 @@ function setAuthHeader() {
     }
 }
 
-function setAuthHeaderForRapi(){
+function setAuthHeaderForRapi() {
     return {
         'content-type': 'application/json',
         'Content-Type': 'application/json',
@@ -361,7 +361,7 @@ export async function StatusUpdateProduct(id, fromData) {
     }
 }
 
-export async function UpdateProduct(id,fromData){
+export async function UpdateProduct(id, fromData) {
     try {
         const response = await axios.patch(apiUrl + `/product/update/${id}`, fromData, { headers: setAuthHeader() })
         return response;
@@ -401,7 +401,7 @@ export async function ProductSpecificationCreate(formData) {
 }
 
 
-export async function UpdateProductSpecification(formData,id) {
+export async function UpdateProductSpecification(formData, id) {
     try {
         const response = await axios.patch(apiUrl + `/specification/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -452,6 +452,36 @@ export async function UpdateSellerData(id, fromData) {
 export async function UpdateSellerStatus(id, fromData) {
     try {
         const response = await axios.patch(apiUrl + `/seller/status-update/${id}`, fromData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+export async function setAttendenceLogin(formData){
+    try {
+        const response = await axios.post(apiUrl + `/attandance/create`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+export async function setAttendenceLogout(formData,id) {
+    try {
+        const response = await axios.patch(apiUrl + `/attandance/update/${id}`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+export async function attendenceList(id){
+    try {
+        const response = await axios.get(apiUrl + `/attandance/list/${id}`)
         return response;
     } catch (error) {
         return error
@@ -516,16 +546,16 @@ export async function SellerOwnProductDetails(id) {
     }
 }
 
-export async function EditSellerOwnProduct(id,formData) {
+export async function EditSellerOwnProduct(id, formData) {
     try {
-        const response = await axios.patch(apiUrl + `/seller-new-product/update/${id}`,formData,{ headers: setAuthHeader() })
+        const response = await axios.patch(apiUrl + `/seller-new-product/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
 }
 
-export async function creteBannerType(formData){
+export async function creteBannerType(formData) {
     try {
         const response = await axios.post(apiUrl + `/banner-type/create`, formData, { headers: setAuthHeader() })
         return response;
@@ -535,14 +565,14 @@ export async function creteBannerType(formData){
 }
 export async function bannerTypeList() {
     try {
-        const response = await axios.get(apiUrl + `/banner-type/list`,  { headers: setAuthHeader() })
+        const response = await axios.get(apiUrl + `/banner-type/list`, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error
     }
 }
 
-export async function createBannerImages(formData){
+export async function createBannerImages(formData) {
     try {
         const response = await axios.post(apiUrl + `/banner/create`, formData, { headers: setAuthHeader() })
         return response;
@@ -551,7 +581,7 @@ export async function createBannerImages(formData){
     }
 }
 
-export async function updateBannerImages(formData,id) {
+export async function updateBannerImages(formData, id) {
     try {
         const response = await axios.patch(apiUrl + `/banner/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -569,7 +599,7 @@ export async function BannerImagesLists() {
     }
 }
 
-export async function DeleteBanner(id){
+export async function DeleteBanner(id) {
     try {
         const response = await axios.delete(apiUrl + `/banner/delete/${id}`, { headers: setAuthHeader() })
         return response;
@@ -578,7 +608,8 @@ export async function DeleteBanner(id){
     }
 }
 
-{/**location api */ }
+{/**location api -Rapid apis(free) */ }
+
 
 export async function getLocation() {
     let formData = {
@@ -594,9 +625,31 @@ export async function getLocation() {
 }
 
 
+
+
+{/** zip code base apis.. */ }
+
 export async function getLocationByZipCoder(pincode) {
     try {
         const response = await axios.get(`https://app.zipcodebase.com/api/v1/search?apikey=${zipcodekey}&codes=${pincode}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+{/** free apis... */ }
+
+
+{/*** Rapid apis */ }
+
+
+{/** get location data from lat,long  */ }
+
+export async function getUserLoginLocation(latitude, longitude) {
+    try{
+        const response = await axios.get(` http://api.weatherapi.com/v1/current.json?key=5e07887c5e3f4e1cbcc45540241501&q=${latitude},${longitude}&aqi=yes`)
         return response;
     } catch (error) {
         return error

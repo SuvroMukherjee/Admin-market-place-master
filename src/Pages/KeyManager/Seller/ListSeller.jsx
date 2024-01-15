@@ -11,6 +11,7 @@ import { Button, Col, Container, Row, ButtonGroup } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
 import { width } from "@mui/system";
+import SellerAttendence from "./SellerAttendence";
 
 
 export default function ListSeller() {
@@ -194,6 +195,7 @@ export default function ListSeller() {
                             <h3>Sellers List</h3>
                         </Col>
                     </Row>
+                    {/* <SellerAttendence/> */}
                     <Row >
                         <Col className="d-flex justify-content-end p-2">
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/key/AddSeller')}>

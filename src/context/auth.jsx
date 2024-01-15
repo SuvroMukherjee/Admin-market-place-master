@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { getLocationForLogout } from "../Pages/KeyManager/Dashboard/LogoutTrack";
 
 const AuthContext = createContext({});
 
@@ -8,12 +9,28 @@ export const AuthProvider = ({ children }) => {
         return storedAuth ? JSON.parse(storedAuth) : null;
     });
 
-    const logout = () => {
+    const logout = async() => {
         // Clear the authentication data from localStorage and reset auth state
-        localStorage.removeItem('auth');
-        localStorage.removeItem('ACCESS_TOKEN');
-        localStorage.clear();
-        setAuth(null);
+ 
+        console.log({auth})
+        if (auth?.role?.name == "Key Account Maneger"){
+            alert('logout call');
+           let res = await getLocationForLogout();
+           console.log({res})
+            if (res?.error == false){
+               localStorage.removeItem('auth');
+               localStorage.removeItem('ACCESS_TOKEN');
+               localStorage.clear();
+               setAuth(null);
+           }
+           
+        } else if (auth?.role?.name != "Key Account Maneger"){
+            alert('else call')
+            localStorage.removeItem('auth');
+            localStorage.removeItem('ACCESS_TOKEN');
+            localStorage.clear();
+            setAuth(null);
+        }
     };
 
 

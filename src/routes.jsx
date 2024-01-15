@@ -29,6 +29,7 @@ import SellerProductList from './Pages/StoreSeller/SellerProductList';
 import SellerProductManagment from './Pages/SellerProductManagment/SellerProductManagment';
 import EditOwnProduct from './Pages/StoreSeller/EditOwnProduct';
 import BannerManagment from './Pages/BannerManagemnt/BannerManagment';
+import AttendenceComp from './Pages/KeyManager/Dashboard/AttendenceComp';
 
 
 
@@ -82,6 +83,7 @@ export default function Router() {
           element: <RequireAuth allowedRoles={['Key Account Maneger']} />,
           children: [
             { path: 'dashboard', element: <Dashboard /> }, // Remove the absolute path '/key'
+            { path: 'attencdence', element: <AttendenceComp /> },
             { path: 'seller', element: <ListSeller /> },
             { path: 'AddSeller', element: <Addseller /> },
             { path: 'EditSeller/:id', element: <EditSeller /> },

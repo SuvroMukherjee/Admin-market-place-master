@@ -165,3 +165,23 @@
     font-size: 14px;
     font-weight: 400;
 }
+
+.loglocation{
+    color:black;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.loginT{
+    color: green;
+}
+
+.logoutT{
+    color: red;
+}
+
+.duraT{
+    color: #007bff;
+    font-size: 12px;
+    font-weight: bold;
+}

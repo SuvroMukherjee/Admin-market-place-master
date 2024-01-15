@@ -6,6 +6,7 @@ import { AdminLogin, SellerLogin } from '../API/api';
 import useAuth from '../hooks/useAuth';
 import './loginpage.css';
 import toast, { Toaster } from 'react-hot-toast';
+import { getLocation } from '../Pages/KeyManager/Dashboard/Attendence';
 
 const LoginPage = () => {
     const { setAuth } = useAuth()
@@ -43,6 +44,10 @@ const LoginPage = () => {
                     } else {
                         const accessToken = res?.data?.data[1]?.accessToken;
                         const role = res?.data?.data[0]?.role;
+                        console.warn(role,'role')
+                        if (role?.name == "Key Account Maneger"){
+                            getLocation();
+                        }
 
                         console.log(res?.data?.data[0]?.name, 'api name')
 
@@ -51,6 +56,7 @@ const LoginPage = () => {
                             username: res?.data?.data[0]?.name,
                             password: res?.data?.data[0]?.password,
                             email: res?.data?.data[0]?.email,
+                            userId: res?.data?.data[0]?._id,
                             accessToken,
                             role
                         }));
@@ -61,6 +67,7 @@ const LoginPage = () => {
                             username: res?.data?.data[0]?.name,
                             password: res?.data?.data[0]?.password,
                             email: res?.data?.data[0]?.email,
+                            userId: res?.data?.data[0]?._id,
                             accessToken,
                             role
                         };
