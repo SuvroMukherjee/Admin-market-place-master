@@ -1,0 +1,13 @@
+.logoname{
+    color: red !important;
+}
+
+.titlename{
+    color: black !important;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.active-link {
+    color: red;
+}
