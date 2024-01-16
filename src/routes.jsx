@@ -32,6 +32,7 @@ import BannerManagment from './Pages/BannerManagemnt/BannerManagment';
 import AttendenceComp from './Pages/KeyManager/Dashboard/AttendenceComp';
 import SellerLayout from './Pages/StoreSeller/Layout/SellerLayout';
 import NewAddProduct from './Pages/StoreSeller/Layout/NewAddProduct';
+import SellerInventory from './Pages/StoreSeller/Layout/SellerInventory';
 
 
 
@@ -106,7 +107,8 @@ export default function Router() {
             { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
             // { path: 'seller-addproduct', element: <SellerAddProduct /> },
             { path: 'seller-addproduct', element: <NewAddProduct /> },
-            { path: 'seller-productList', element: <SellerProductList /> },
+            // { path: 'seller-productList', element: <SellerProductList /> }, /SellerInventory
+            { path: 'seller-productList', element: <SellerInventory /> }
           ],
         },
       ],

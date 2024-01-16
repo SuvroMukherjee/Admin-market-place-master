@@ -28,6 +28,7 @@ const MyNavbar = () => {
     const navigate = useNavigate()
 
     const [menuAnchor, setMenuAnchor] = useState(null);
+    const [menuAnchor2, setMenuAnchor2] = useState(null);
 
     const handleMenuClick = (event) => {
         setMenuAnchor(event.currentTarget);
@@ -35,6 +36,14 @@ const MyNavbar = () => {
 
     const handleMenuClose = () => {
         setMenuAnchor(null);
+    };
+
+    const handleMenuClick2 = (event) => {
+        setMenuAnchor2(event.currentTarget);
+    };
+
+    const handleMenuClose2 = () => {
+        setMenuAnchor2(null);
     };
     
 
@@ -89,6 +98,26 @@ const MyNavbar = () => {
                                 <MenuItem onClick={() => { navigate('/seller/seller-addproduct');handleMenuClose()}}>Add product</MenuItem>
                                 <MenuItem onClick={handleMenuClose}>Option 2</MenuItem>
                                 <MenuItem onClick={handleMenuClose}>Option 3</MenuItem>
+                            </Menu>
+                        </ListItem>
+                        <ListItem >
+                            <ListItem disablePadding>
+                                <ListItemButton onClick={handleMenuClick2}>
+                                    <ListItemIcon>
+                                        <InboxIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={"Inventory"} />
+                                </ListItemButton>
+
+                            </ListItem>
+                            <Menu
+                                anchorEl={menuAnchor2}
+                                open={Boolean(menuAnchor2)}
+                                onClose={handleMenuClose2}
+                            >
+                                <MenuItem onClick={() => { navigate('/seller/seller-productList'); handleMenuClose() }}>Manage All Inventory</MenuItem>
+                                {/* <MenuItem onClick={handleMenuClose}>Option 2</MenuItem>
+                                <MenuItem onClick={handleMenuClose}>Option 3</MenuItem> */}
                             </Menu>
                         </ListItem>
                         <ListItem >
