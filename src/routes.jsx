@@ -33,6 +33,7 @@ import AttendenceComp from './Pages/KeyManager/Dashboard/AttendenceComp';
 import SellerLayout from './Pages/StoreSeller/Layout/SellerLayout';
 import NewAddProduct from './Pages/StoreSeller/Layout/NewAddProduct';
 import SellerInventory from './Pages/StoreSeller/Layout/SellerInventory';
+import NewSellerDashboard from './Pages/StoreSeller/Layout/NewSellerDashboard';
 
 
 
@@ -102,7 +103,8 @@ export default function Router() {
         {
           element: <RequireAuth allowedRoles={['Seller']} />,
           children: [
-            { path: 'seller-dashboard', element: <SellerDashboard /> },
+            // { path: 'seller-dashboard', element: <SellerDashboard /> },
+            { path: 'seller-dashboard', element: <NewSellerDashboard /> },
             { path: 'seller-ownproduct', element: <SellerOwnProduct /> },
             { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
             // { path: 'seller-addproduct', element: <SellerAddProduct /> },
