@@ -18,6 +18,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { height } from "@mui/system";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { FaSearch } from "react-icons/fa";
 
 export default function NewAddProduct() {
     const [data, setData] = useState(demoProductData);
@@ -512,7 +513,7 @@ export default function NewAddProduct() {
     const navbarStyle = {
         paddingLeft: '0px', // Adjust the left padding
         paddingRight: '10px', // Adjust the right padding
-        height: '10vh'
+        height: '15vh'
     };
 
     const [searchtext, setsearchrtext] = useState();
@@ -533,37 +534,54 @@ export default function NewAddProduct() {
     return (
         <div>
             <div>
-                <Navbar className="bg-body-tertiary" style={navbarStyle}>
+                <Navbar expand="lg" className="bg-body-tertiary" style={navbarStyle}>
                     <Container>
-                        <Navbar.Brand href="#home">Add Product</Navbar.Brand>
+                        <Navbar.Brand href="#home" >Add Product</Navbar.Brand>
                     </Container>
                 </Navbar>
-                <Container style={{ background: 'red' }}>
-                    <Row style={{ background: 'green' }}>
-                        <Col xs={10}>
-
-                            <InputGroup className="mb-3">
-                                <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+                <Container  className="mt-4 p-4" >
+                   
+                    <Row>
+                        <Col>To Being Adding Products</Col>
+                    </Row>
+                    <Row>
+                        <Col> <h4>Search Your Product In Market Place Catalogue</h4></Col>
+                    </Row>
+                    <Row className="mt-4">
+                        <Col xs={5} >
+                            <InputGroup >
+                                <InputGroup.Text id="basic-addon1">
+                                    <FaSearch />
+                                </InputGroup.Text>
                                 <Form.Control
-                                    placeholder="Username"
+                                    placeholder="Search product by enter product name.."
                                     aria-label="Username"
                                     aria-describedby="basic-addon1"
                                     onChange={(e) => setsearchrtext(e.target.value)}
                                 />
                             </InputGroup>
-
                         </Col>
-                        <Col>
-                            <Button onClick={() => searchproducts()}>SEARCH</Button>
+                        <Col className="d-flex align-items-center">
+                            <Button onClick={() => searchproducts()} size="sm" variant="warning">search</Button>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col>
-                            <ListGroup as="ol" numbered>
-                                {searchResults?.length > 0 && searchResults?.map((ele) => (
+                    <Row className="mt-4 ml-2">
+                        <Col xs={5}>
+                            <ListGroup>
+                                {searchResults?.length > 0 && searchResults?.map((ele,index) => (
                                     <ListGroup.Item as="li">
-                                        {ele?.name}
-                                        <Button size="sm" variant="dark" onClick={() => handleAddProduct(ele)}>select</Button>
+                                        {/* {ele?.name}
+                                        <Button size="sm" variant="dark" onClick={() => handleAddProduct(ele)}>select</Button> */}
+                                        <Row className='locationTagHeader mt-2'>
+                                            <Col>{index+1}. Product Name</Col>
+                                            <Col xs={2}>Action</Col>
+                                        </Row>
+                                        <Row className='locationTagvalue mt-2'>
+                                            <Col>{ele?.name}</Col>
+                                            <Col xs={2}>
+                                                <Button size="sm" variant="dark" onClick={() => handleAddProduct(ele)}>select</Button>
+                                            </Col>
+                                        </Row>
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>

@@ -11,3 +11,29 @@
 .active-link {
     color: red;
 }
+
+th{
+  color: black !important;
+  font-size: 12px;
+}
+
+td{
+    color: black !important;
+    font-size: 12px;
+}
+
+.datecolor{
+    color: #FE7A36 !important;
+    font-weight: 500;
+}
+.pname{
+    color: black !important;
+}
+
+.pname:hover{
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #3468C0 !important;
+}
+

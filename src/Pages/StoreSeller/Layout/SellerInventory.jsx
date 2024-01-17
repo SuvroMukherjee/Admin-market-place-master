@@ -7,12 +7,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { OwnProductSellerList, SellerProductAdd, SellerProductList, StatusUpdateProduct, allBrandList, allCategoryList, allProductList, deleteProduct, getSubCategoryByCategory } from "../../../API/api";
+import { OwnProductSellerList, SellerProductAdd, SellerProductList, StatusUpdateProduct, UpdateSellerProduct, allBrandList, allCategoryList, allProductList, deleteProduct, getSubCategoryByCategory } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { categoryData, demoProductData, productRows } from "../../../dummyData";
 import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
+import './sellerlayout.css'
+import { ChangeFormatDate } from "../../../common/DateFormat";
 
 export default function SellerInventory() {
     const [data, setData] = useState(demoProductData);
@@ -50,6 +52,7 @@ export default function SellerInventory() {
                 id: index + 1,
             }));
             setData(dataWithUniqueIds)
+            setFormData(dataWithUniqueIds)
             setMaindata(dataWithUniqueIds)
             setLoading(false)
         }).catch((err) => {
@@ -517,21 +520,110 @@ export default function SellerInventory() {
     };
 
 
-    const handleUpdate = (id) => {
+    
+
+    const [formData, setFormData] = useState([]);
+
+    const handleUpdate = async(index) => {
+        console.log(formData[index])
+
+        let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
+
+        console.log({res})
+
+        if (res.data.error == false){
+           toast.success('Inventory update successfully...')
+            getProductListFunc();
+        }
 
     }
+
+    const handleInputChange = (specIndex, quantity=0) => {
+        // Ensure quantity is a valid number
+        console.log({ quantity })
+
+        if(quantity == '0'){
+            handleQuansChange(specIndex, formData[specIndex]?.quantity);
+        }
+
+        const parsedQuantity = parseInt(quantity) || 0;
+        if (isNaN(parsedQuantity)) {
+            // Handle the case when quantity is not a valid number
+            return;
+        }
+
+        
+
+        // Use optional chaining to check if formData[specIndex] is defined
+        const currentQuantity = formData[specIndex]?.quantity || 0;
+
+        // Calculate the final quantity
+        const finalQuantity = currentQuantity + parsedQuantity;
+
+        // Call the handleQuansChange function
+        handleQuansChange(specIndex, finalQuantity);
+    };
+
+    const handleQuansChange = (specIndex, quantity) => {
+        console.log(specIndex, quantity);
+
+        setFormData((prevData) => {
+            const newData = [...prevData];
+            newData[specIndex] = { ...newData[specIndex], quantity: parseInt(quantity) };
+            return newData;
+        });
+    };
+
+    const handlePriceChange = (specIndex, quantity) => {
+        setFormData((prevData) => {
+            const newData = [...prevData];
+            newData[specIndex] = { ...newData[specIndex], quantity };
+            return newData;
+        });
+    };
+
+    const handleShippingChange = (specIndex, shipping) => {
+        setFormData((prevData) => {
+            const newData = [...prevData];
+            newData[specIndex] = { ...newData[specIndex], shipping };
+            return newData;
+        });
+    };
+
+    console.log(formData)
+
+    const [searchtext,setSearchtext] = useState()
 
     return (
         <div>
             <div>
-                <Navbar className="bg-body-tertiary" style={navbarStyle}>
+                {/* <Navbar className="bg-body-tertiary" style={navbarStyle}>
                     <Container>
                         <Navbar.Brand href="#home">Manage Inventory</Navbar.Brand>
                     </Container>
-                </Navbar>
+                </Navbar> */}
             </div>
-            <Container>
-                <Row>
+            <Container className="mt-4">
+                <Row className="mt-4">
+                    <Col>Manage Inventory</Col>
+                </Row>
+                <Row className="mt-4">
+                    <Col xs={4}>
+                        <Form.Control
+                            type="text"
+                            size="sm"
+                            placeholder="Search by SKU or Product name"
+                            name="searchtext"
+                            required
+                            // value={formData[index]?.price}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                        />
+                    </Col>
+                    <Col>
+                       <Button variant="dark" size="sm">Search</Button>
+                    </Col>
+                </Row>
+                <Row className="mt-4">
                     <Col>
                         <Table striped bordered hover>
                             <thead>
@@ -541,32 +633,73 @@ export default function SellerInventory() {
                                     <th>SKU</th>
                                     <th>Product Name</th>
                                     <th>Date Created</th>
-                                    <th>Available</th>
+                                    <th>Available Quantity</th>
                                     <th>MRP price</th>
                                     <th>Selling Price</th>
                                     <th>Shipping Price</th>
+                                    <th>Add Quatity</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data?.length > 0 && data?.map((ele) => (
+                                {data?.length > 0 && data?.map((ele,index) => (
                                     <tr>
-                                        <td>{ele?.status ? 'Active' : 'InActive'}</td>
+                                        <td>{ele?.status ? <span style={{color:'green'}}>Active</span> : <span style={{color:'red'}}>InActive</span>}<br/>
+                                        </td>
                                         <td>
                                             <Image src={ele?.specId?.image?.[0]?.image_path} thumbnail width={60} height={60} />
                                         </td>
                                         <td>{ele?.specId?.skuId}</td>
-                                        <td>{ele?.name}</td>
-                                        <td>{ele?.specId?.createdAt}</td>
+                                        <td className="pname">{ele?.name}</td>
+                                        <td className="datecolor">{ChangeFormatDate(ele?.updatedAt)}</td>
                                         <td>
-                                            <button>-</button>{ele?.quantity}<button>+</button>
-                                            {/* <input type="number"  defaultValue={ele?.quantity}/>
-                                            {ele?.quantity} */}
+                                             {formData[index]?.quantity || 0}
                                         </td>
-                                        <td>{ele?.price}</td>
-                                        <td>{ele?.shipping_cost}</td>
+                                        <td> 
+                                            {ele?.specId?.price}
+                                        </td>
                                         <td>
-                                            <Button size="sm" onClick={() => handleUpdate(ele?._id)}>Save</Button>
+                                            <Form.Control
+                                                type="tel"
+                                                size="sm"
+                                                placeholder="Product Price"
+                                                name="price"
+                                                required
+                                                // value={formData[index]?.price}
+                                                onChange={(e) => handlePriceChange(index, e.target.value)}
+                                                defaultValue={ele?.price}
+
+                                            />    
+                                           </td>
+                                        <td>
+                                            <Form.Control
+                                            type="tel"
+                                            size="sm"
+                                            placeholder="Shipping Price"
+                                            name="shipping_cost"
+                                            required
+                                            // value={formData[index]?.price}
+                                            onChange={(e) => handleShippingChange(index, e.target.value)}
+                                            defaultValue={ele?.shipping_cost}
+
+                                        />    
+                                            
+                                           </td>
+                                           <td>
+                                           
+                                            <Form.Control
+                                                type="number"
+                                                size="sm"
+                                                placeholder="Add Quantity"
+                                                name="quantity"
+                                                required
+                                                // value={formData[index]?.price}
+                                                onChange={(e) => handleInputChange(index, e.target.value)}
+                                               />
+
+                                           </td>
+                                        <td>
+                                            <Button size="sm" variant="warning" onClick={() => handleUpdate(index)}>Save</Button>
                                         </td>
                                     </tr>
                                 ))}
@@ -574,6 +707,7 @@ export default function SellerInventory() {
                         </Table>
                     </Col>
                 </Row>
+                <Toaster position="top-right" />
             </Container>
         </div>
     )

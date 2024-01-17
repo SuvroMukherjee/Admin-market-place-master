@@ -50,12 +50,12 @@ const MyNavbar = () => {
     return (
         <div>
             {/* AppBar for the top section */}
-            <AppBar position="static">
+            <AppBar position="static" onClick={() => navigate('/seller/seller-dashboard')}>
                 <Toolbar>
                     <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div">
+                    <Typography variant="h6" component="div" style={{color:'red'}}>
                         Sant Sales <span className='titlename'>Seller central</span>
                     </Typography>
                 </Toolbar>
@@ -74,19 +74,19 @@ const MyNavbar = () => {
                                     <ListItemIcon>
                                         <MdCancel size={28}/>
                                     </ListItemIcon>
-                                    <ListItemText primary={"MENU"} />
+                                    <ListItemText primary={"Menu"} />
                                 </ListItemButton>
 
                             </ListItem>
                         </ListItem>
                         <Divider />
-                        <ListItem > 
+                        
                             <ListItem  disablePadding>
                                 <ListItemButton onClick={handleMenuClick}>
                                     <ListItemIcon>
                                         <InboxIcon/>
                                     </ListItemIcon>
-                                    <ListItemText primary={"catalogue"} />
+                                    <ListItemText primary={"Catalogue"} />
                                 </ListItemButton>
 
                             </ListItem>
@@ -99,8 +99,8 @@ const MyNavbar = () => {
                                 <MenuItem onClick={handleMenuClose}>Option 2</MenuItem>
                                 <MenuItem onClick={handleMenuClose}>Option 3</MenuItem>
                             </Menu>
-                        </ListItem>
-                        <ListItem >
+                        
+                       
                             <ListItem disablePadding>
                                 <ListItemButton onClick={handleMenuClick2}>
                                     <ListItemIcon>
@@ -116,11 +116,10 @@ const MyNavbar = () => {
                                 onClose={handleMenuClose2}
                             >
                                 <MenuItem onClick={() => { navigate('/seller/seller-productList'); handleMenuClose() }}>Manage All Inventory</MenuItem>
-                                {/* <MenuItem onClick={handleMenuClose}>Option 2</MenuItem>
-                                <MenuItem onClick={handleMenuClose}>Option 3</MenuItem> */}
                             </Menu>
-                        </ListItem>
+                        
                         <ListItem >
+                            <Divider />
                             <ListItem disablePadding>
 
                                 <ListItemButton onClick={() => logout()}>

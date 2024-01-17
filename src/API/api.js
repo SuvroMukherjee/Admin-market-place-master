@@ -608,6 +608,16 @@ export async function DeleteBanner(id) {
     }
 }
 
+export async function UpdateSellerProduct(id,fromData) {
+    try {
+        const response = await axios.patch(apiUrl + `/seller-product/update/${id}`, fromData , { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 {/**location api -Rapid apis(free) */ }
 
 
