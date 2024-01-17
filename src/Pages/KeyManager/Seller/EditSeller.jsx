@@ -645,7 +645,7 @@ const EditSeller = () => {
 
                                 <Row className='mt-2'>
                                     <Col>
-                                        <CommissionComponent addCategorytoForm={addCategorytoForm} catsdata={catsdata} />
+                                        <CommissionComponentshow addCategorytoForm={addCategorytoForm} catsdata={catsdata} />
                                     </Col>
                                 </Row>
 
@@ -759,7 +759,7 @@ const EditSeller = () => {
     )
 }
 
-const CommissionComponent = ({ addCategorytoForm, catsdata }) => {
+export const CommissionComponentshow = ({ addCategorytoForm, catsdata }) => {
 
     console.log({ catsdata })
 

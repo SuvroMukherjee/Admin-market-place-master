@@ -4,7 +4,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import { productRows } from "../../../dummyData";
 import "./listStyle.css";
-import { UpdateSellerStatus, allSellerList } from "../../../API/api";
+import { UpdateSellerStatus, allSellerList, createCommission, getCommission } from "../../../API/api";
 import { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Button, Col, Container, Row, ButtonGroup } from 'react-bootstrap';
@@ -12,16 +12,50 @@ import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
 import { width } from "@mui/system";
 import SellerAttendence from "./SellerAttendence";
+import Modal from 'react-bootstrap/Modal';
+import { CommissionComponent } from "./Addseller";
+import useAuth from "../../../hooks/useAuth";
+import { CommissionComponentshow } from "./EditSeller";
 
 
 export default function ListSeller() {
+    const { auth, logout } = useAuth();
     const [data, setData] = useState(productRows);
     const [modalData, setModalData] = useState({});
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true)
     const [activeButton, setActiveButton] = useState('all');
     const [totalData,setTotalData]  = useState([])
+    const [sleSllerId,setSeSllerId] = useState()
+    const [commissiondata,setCommissiondata] = useState()
 
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = (sellerId) => {
+        setShow(true);
+        setSeSllerId(sellerId)
+        getCommissionDetails(sellerId)
+    }
+
+
+    // const [show2, setShow2] = useState(false);
+
+    // const handleClose2 = () => setShow2(false);
+    // const handleShow2 = (sellerId) => {
+    //     setShow2(true);
+    //     setSeSllerId(sellerId);
+    //     getCommissionDetails(sellerId)
+    // }
+    
+
+    const getCommissionDetails = async(ID) =>{
+       
+        let res = await getCommission(ID);
+
+        setCommissiondata(res?.data?.data)
+    }
+   
     const handleButtonClick = (buttonType) => {
         if (buttonType == 'pending') {
             let filtersData = totalData?.filter((ele) => {
@@ -150,6 +184,30 @@ export default function ListSeller() {
                 )
             }
         },
+        // {
+        //     field: "View Commisson",
+        //     headerName: "View commisson",
+        //     width: 150,
+        //     renderCell: (params) => {
+        //         return (
+        //             <div>
+        //                 <Button size="sm" onClick={() => handleShow2(params?.row?._id)}>View Commision</Button>
+        //             </div>
+        //         )
+        //     }
+        // },
+        {
+            field: "Add Commisson",
+            headerName: "commisson",
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <div>
+                        <Button size="sm" onClick={() => handleShow(params?.row?._id)}>Add Commision</Button>
+                    </div>
+                )
+            }
+        },
         {
             field: "action",
             headerName: "Action",
@@ -175,6 +233,27 @@ export default function ListSeller() {
             },
         },
     ];
+
+
+    const handlecreateCommissionFunc = async (dataValue) => {
+
+        console.log({dataValue})
+
+        let payload = {
+
+            "staff": auth?.userId,
+            "sellerId": sleSllerId,
+            "categoryId": dataValue?.categoryId,
+            "commission_rate": parseInt(dataValue?.commission_rate)
+        }
+
+        console.log({payload})
+
+        let res = await createCommission(payload);
+
+        console.log(res, 'conm res')
+
+    }
 
     return (
         <>
@@ -252,9 +331,131 @@ export default function ListSeller() {
                     </Row>
                 </Container>
                 <Toaster position="top-right" />
+                <Container>
+                    <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Modal heading</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <CommissionComponent catsdata={commissiondata} handlecreateCommissionFunc={handlecreateCommissionFunc}/>
+                        </Modal.Body>
+                    </Modal>
+                </Container>
+                {/* <Container>
+                    <Modal show={show2} onHide={handleClose2}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Modal heading</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <CommissionComponentshow catsdata={commissiondata} />
+                        </Modal.Body>
+                    </Modal>
+                </Container> */}
             </div>
         </>
 
 
     );
+
+
+
+    
+
 }
+
+
+// export const CommissionComponent = ({ addCategorytoForm }) => {
+//     const [formData, setFormData] = useState({
+//         categories: [{ categoryId: '', commission_rate: '' }]
+//     });
+//     const [categorylist, setcategorylist] = useState([]);
+
+
+//     useEffect(() => {
+//         getAllCats()
+//     }, [])
+
+//     async function getAllCats() {
+//         await allCategoryList().then((res) => {
+//             setcategorylist(res?.data?.data)
+//         }).catch((err) => {
+//             console.log(err)
+//         })
+//     }
+
+//     const handleChange = (e, index) => {
+//         const { name, value } = e.target;
+//         const updatedCategories = [...formData.categories];
+//         updatedCategories[index][name] = value;
+//         setFormData({ ...formData, categories: updatedCategories });
+//     };
+
+//     const addCategory = () => {
+//         setFormData({
+//             ...formData,
+//             categories: [...formData.categories, { categoryId: '', commission_rate: '' }]
+//         });
+//     };
+
+//     const handleSave = () => {
+//         console.log(formData.categories);
+//         addCategorytoForm(formData.categories)
+//     };
+
+//     const handleDelete = (index) => {
+//         const updatedCategories = [...formData.categories];
+//         updatedCategories.splice(index, 1);
+//         setFormData({ ...formData, categories: updatedCategories });
+//     };
+
+//     return (
+
+//         <Col xs={12} >
+//             <Form.Group controlId="commissionRate">
+//                 <Form.Label>Commission rate against category(%)</Form.Label>
+//                 <span>
+//                     <Button variant="dark" onClick={handleSave} size="sm">Save</Button>
+//                 </span>
+//                 {formData.categories.map((item, index) => (
+//                     <Row key={index} className="mb-2">
+//                         <Col>
+//                             <Form.Label>category</Form.Label>
+//                             <Form.Select
+//                                 name="categoryId"
+//                                 value={item.categoryId}
+//                                 onChange={(e) => handleChange(e, index)}
+//                                 required
+//                             >
+//                                 <option value="" disabled>Select category</option>
+//                                 {categorylist?.length > 0 && categorylist.map((ele) => (
+//                                     <option value={ele?._id}>{ele?.title}</option>
+//                                 ))}
+//                             </Form.Select>
+//                         </Col>
+//                         <Col>
+//                             <Form.Label>commission(%)</Form.Label>
+//                             <Form.Control
+//                                 type="number"
+//                                 name="commission_rate"
+//                                 value={item.commission}
+//                                 onChange={(e) => handleChange(e, index)}
+//                                 placeholder="Commisson rate"
+//                                 required
+//                             />
+//                         </Col>
+//                         <Col>
+//                             <Button size="sm" variant="dark" >SAVE</Button>
+//                         </Col>
+//                         <Col>
+//                             <MdCancel size={22} color='red' onClick={() => handleDelete(index)} />
+//                         </Col>
+//                     </Row>
+//                 ))}
+//                 <IoIosAddCircle size={26} onClick={addCategory} />
+//                 <span style={{ marginLeft: '5px', color: 'grey', fontSize: '16px' }}  >Add more...</span>
+//             </Form.Group>
+//         </Col>
+
+
+//     );
+// };

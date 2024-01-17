@@ -16,6 +16,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import useAuth from '../../../hooks/useAuth';
 import { MdCancel } from "react-icons/md";
+import Button from '@mui/material/Button';
 
 const MyNavbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -55,9 +56,10 @@ const MyNavbar = () => {
                     <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" style={{color:'red'}}>
+                    <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }} style={{color:'red'}}>
                         Sant Sales <span className='titlename'>Seller central</span>
                     </Typography>
+                    <Button color="inherit">Sign In as <span style={{ color:'#FF9843',fontWeight:'bold'}}>{auth?.email}</span></Button>
                 </Toolbar>
             </AppBar>
 

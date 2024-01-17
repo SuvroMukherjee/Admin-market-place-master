@@ -617,6 +617,27 @@ export async function UpdateSellerProduct(id,fromData) {
     }
 }
 
+{/** commission create  */ } 
+
+export async function createCommission(fromData) {
+    try {
+        const response = await axios.post(apiUrl + `/commission/create`, fromData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+export async function getCommission(id) {
+    try {
+        const response = await axios.get(apiUrl + `/commission/list-by-sellerId/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 
 {/**location api -Rapid apis(free) */ }
 

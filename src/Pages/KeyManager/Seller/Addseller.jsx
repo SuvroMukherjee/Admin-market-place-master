@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Image, Row, ListGroup } from 'react-bootstrap';
+import { Button, Col, Container, Form, Image, Row, ListGroup, Table } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { Toaster, toast } from 'react-hot-toast';
 import { IoIosAddCircle } from "react-icons/io";
@@ -717,7 +717,7 @@ const Addseller = () => {
 
 
 
-const CommissionComponent = ({ addCategorytoForm }) => {
+export const CommissionComponent = ({ addCategorytoForm, handlecreateCommissionFunc, catsdata }) => {
     const [formData, setFormData] = useState({
         categories: [{ categoryId: '', commission_rate: '' }]
     });
@@ -763,15 +763,31 @@ const CommissionComponent = ({ addCategorytoForm }) => {
 
     return (
 
-        <Col xs={6} >
+        <Col xs={12} >
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th className="text-center">Category Title</th>
+                        <th className="text-center">Commission Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {catsdata?.length > 0 && catsdata?.map((item, index) => (
+                        <tr key={index}>
+                            <td className="text-center">{item?.categoryId?.title}</td>
+                            <td className="text-center">{item?.commission_rate}%</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
             <Form.Group controlId="commissionRate">
-                <Form.Label>Commission rate against category(%)</Form.Label>
-                <span>
+                {/* <Form.Label>Commission rate against category(%)</Form.Label> */}
+                {/* <span>
                     <Button variant="dark" onClick={handleSave} size="sm">Save</Button>
-                </span>
+                </span> */}
                 {formData.categories.map((item, index) => (
                     <Row key={index} className="mb-2">
-                        <Col>
+                        <Col xs={4}>
                             <Form.Label>category</Form.Label>
                             <Form.Select
                                 name="categoryId"
@@ -785,7 +801,7 @@ const CommissionComponent = ({ addCategorytoForm }) => {
                                 ))}
                             </Form.Select>
                         </Col>
-                        <Col>
+                        <Col xs={4}>
                             <Form.Label>commission(%)</Form.Label>
                             <Form.Control
                                 type="number"
@@ -796,8 +812,11 @@ const CommissionComponent = ({ addCategorytoForm }) => {
                                 required
                             />
                         </Col>
-                        <Col>
-                            <MdCancel size={22} color='red' onClick={() => handleDelete(index)} />
+                        <Col className='d-flex align-items-end'>
+                            <Button variant='success' size='sm' onClick={() => handlecreateCommissionFunc(formData?.categories?.[index])}>save</Button>
+                        </Col>
+                        <Col className='d-flex align-items-end'>
+                            <Button variant='danger' size='sm' onClick={() => handleDelete(index)}>cancel</Button>
                         </Col>
                     </Row>
                 ))}

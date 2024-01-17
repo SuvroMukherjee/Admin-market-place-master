@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Button, Col, Container, Row, Form, ButtonGroup, Card } from 'react-bootstrap';
+import { useState } from 'react';
+import { SellerProductList } from '../../../API/api';
 
 const NewSellerDashboard = () => {
     const navbarStyle = {
@@ -13,11 +15,30 @@ const NewSellerDashboard = () => {
         height: '15vh'
     };
 
+    const [sellingProducts,setSellingProducts ] = useState(0);
+
+    const { userId } = JSON.parse(localStorage.getItem('auth'));
+
+    useEffect(()=>{
+        SellingProducts()
+    },[])
+
+    const SellingProducts = async() =>{
+        await SellerProductList(userId).then((res) => {
+            console.log(res?.data?.data, 'data')
+            setSellingProducts(res?.data?.data?.length)
+        }).catch((err) => {
+            console.log(err)
+        }).finally((data) => {
+            
+        })
+    }
+
     const NumberBox = ({ icon, number, label }) => {
         return (
-            <Card style={{ width: '7rem',height:'25vh' }}>
+            <Card style={{ width: '10rem' }}>
                 <Card.Body>
-                    <h4>{label}</h4>
+                    <h6>{label}</h6>
                     <h6 className="small">{number}</h6>
                 </Card.Body>
             </Card>
@@ -40,22 +61,22 @@ const NewSellerDashboard = () => {
               </Container>
               
           </Navbar>
-          <Container>
+          <Container className='mt-4'>
             <Row>
                 <Col>
-                      <NumberBox label={'order'} number={10}/>
+                      <NumberBox label={'order'} number={0}/>
                 </Col>
                   <Col>
-                      <NumberBox label={'order'} number={10} />
+                      <NumberBox label={'Selling Products'} number={sellingProducts} />
                   </Col>
                   <Col>
-                      <NumberBox label={'order'} number={10} />
+                      <NumberBox label={'Total Sales'} number={0} />
                   </Col>
                   <Col>
-                      <NumberBox label={'order'} number={10} />
+                      <NumberBox label={'Customer Feedback'} number={0} />
                   </Col>
                   <Col>
-                      <NumberBox label={'order'} number={10} />
+                      <NumberBox label={'Total Balance'} number={0} />
                   </Col>
             </Row>
           </Container>
