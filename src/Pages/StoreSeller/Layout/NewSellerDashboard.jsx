@@ -7,6 +7,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Button, Col, Container, Row, Form, ButtonGroup, Card } from 'react-bootstrap';
 import { useState } from 'react';
 import { SellerProductList } from '../../../API/api';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const NewSellerDashboard = () => {
     const navbarStyle = {
@@ -14,6 +15,8 @@ const NewSellerDashboard = () => {
         paddingRight: '10px', // Adjust the right padding
         height: '15vh'
     };
+
+    const navigate = useNavigate()
 
     const [sellingProducts,setSellingProducts ] = useState(0);
 
@@ -36,7 +39,7 @@ const NewSellerDashboard = () => {
 
     const NumberBox = ({ icon, number, label }) => {
         return (
-            <Card style={{ width: '10rem' }}>
+            <Card style={{ width: '12rem' }}>
                 <Card.Body>
                     <h6>{label}</h6>
                     <h6 className="small">{number}</h6>
@@ -52,10 +55,14 @@ const NewSellerDashboard = () => {
                   <Navbar.Toggle aria-controls="basic-navbar-nav" />
                   <Navbar.Collapse id="basic-navbar-nav">
                       <Nav className="me-auto">
-                          <Nav.Link href="#home">Home</Nav.Link>
-                          <Nav.Link href="#link">Category</Nav.Link>
-                          <Nav.Link href="#link">Inventory</Nav.Link>
-                          <Nav.Link href="#link">Order</Nav.Link>
+                          <Nav.Link onClick={() => navigate('/seller/seller-dashboard')} >Home</Nav.Link>
+                          <NavDropdown title="Catalogue" id="basic-nav-dropdown">
+                              <NavDropdown.Item onClick={() => navigate('seller/seller-addproduct')}>Add Product</NavDropdown.Item>
+                          </NavDropdown>
+                          <NavDropdown title="Inventory" id="basic-nav-dropdown">
+                              <NavDropdown.Item onClick={() => navigate('/seller/seller-productList')}>Manage Inventory</NavDropdown.Item>
+                          </NavDropdown>
+                          <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Order</Nav.Link>
                       </Nav>
                   </Navbar.Collapse>
               </Container>
@@ -77,6 +84,27 @@ const NewSellerDashboard = () => {
                   </Col>
                   <Col>
                       <NumberBox label={'Total Balance'} number={0} />
+                  </Col>
+            </Row>
+          </Container>
+          <Container className='mt-4'> 
+            <Row>
+                <Col style={{height:'50vh',background:'red'}}>
+                   <Container style={{background:'black'}}>
+                      <Row>
+                        data
+                      </Row>
+                   </Container>
+                </Col>
+                  <Col style={{ height: '50vh', background: 'blue' }}>
+                      <Container style={{ background: 'grey' }}>
+                          <Row>
+                              <Col>Top Selling products</Col>
+                          </Row>
+                          <Row>
+                            <Col></Col>
+                          </Row>
+                      </Container>
                   </Col>
             </Row>
           </Container>

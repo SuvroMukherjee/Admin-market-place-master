@@ -639,6 +639,15 @@ export async function getCommission(id) {
 }
 
 
+export async function sellerStockoutlist(id){
+    try {
+        const response = await axios.get(apiUrl + `/seller-product/order-list/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 {/**location api -Rapid apis(free) */ }
 
 

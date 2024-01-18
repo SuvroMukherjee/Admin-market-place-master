@@ -26,7 +26,21 @@ export default function SellerInventory() {
     const [selectedRows, setSelectedRows] = useState([]);
     const [activeButton, setActiveButton] = useState('sell');
     const [sellerOwnData, setSellerOwnData] = useState([]);
-    const [searchtext, setSearchtext] = useState()
+    const [searchtext, setSearchtext] = useState();
+    const initialQuantities = [];
+
+    // State for quantities
+    const [quantities, setQuantities] = useState(initialQuantities);
+
+    // Function to update quantity at a specific index
+    const setQuantityAtIndex = (index, value) => {
+        // Create a copy of the quantities array
+        const updatedQuantities = [...quantities];
+        // Update the quantity at the specified index
+        updatedQuantities[index] = value;
+        // Update the state
+        setQuantities(updatedQuantities);
+    };
 
     const { userId } = JSON.parse(localStorage.getItem('auth'));
 
@@ -188,7 +202,7 @@ export default function SellerInventory() {
         setActiveButton(buttonType);
     };
 
-    console.log({ data })
+    
 
     
     const navbarStyle = {
@@ -204,6 +218,9 @@ export default function SellerInventory() {
 
     const handleUpdate = async(index) => {
         console.log(formData[index])
+        console.log(quantities[index])
+
+        formData[index].quantity = quantities[index] || 0 ;
 
         let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
 
@@ -212,6 +229,7 @@ export default function SellerInventory() {
         if (res.data.error == false){
            toast.success('Inventory update successfully...')
             getProductListFunc();
+
         }
 
     }
@@ -230,7 +248,7 @@ export default function SellerInventory() {
     const handlePriceChange = (specIndex, quantity) => {
         setFormData((prevData) => {
             const newData = [...prevData];
-            newData[specIndex] = { ...newData[specIndex], quantity };
+            newData[specIndex] = { ...newData[specIndex], price: quantity };
             return newData;
         });
     };
@@ -243,7 +261,7 @@ export default function SellerInventory() {
         });
     };
 
-    console.log(formData)
+    console.log(formData[0])
 
 
     const handleSearch = () =>{
@@ -268,7 +286,7 @@ export default function SellerInventory() {
             </div>
             <Container className="mt-4">
                 <Row className="mt-4">
-                    <Col>Manage Inventory</Col>
+                    <Col><h4>Manage Inventory</h4></Col>
                 </Row>
                 <Row className="mt-4">
                     <Col xs={4}>
@@ -278,15 +296,15 @@ export default function SellerInventory() {
                             placeholder="Search by SKU or Product name"
                             name="searchtext"
                             required
-                            // value={formData[index]?.price}
+                             value={searchtext}
                             onChange={(e) => setSearchtext(e.target.value)}
                         />
                     </Col>
-                    <Col>
-                       <Button variant="dark" size="sm" onClick={()=>handleSearch()}>Search</Button>
+                    <Col xs={2}>
+                       <Button variant="warning" size="sm" onClick={()=>handleSearch()}>Search</Button>
                     </Col>
-                    <Col>
-                        <Button variant="dark" size="sm" onClick={() => getProductListFunc()}>See All</Button>
+                    <Col xs={2}>
+                        <Button variant="dark" size="sm" onClick={() => { getProductListFunc(); setSearchtext('')}}>See All Products</Button>
                 </Col>
                 </Row>
                 <Row className="mt-4">
@@ -303,6 +321,7 @@ export default function SellerInventory() {
                                     <th>MRP price</th>
                                     <th>Selling Price</th>
                                     <th>Shipping Price</th>
+                                    <th>Commission Price</th>
                                     <th>Add Quatity</th>
                                     <th>Action</th>
                                 </tr>
@@ -351,16 +370,17 @@ export default function SellerInventory() {
                                         />    
                                             
                                            </td>
+                                            <td>{ele?.comission_price}</td>
                                            <td>
                                            
                                             <Form.Control
-                                                type="tel"
+                                                type="number"
                                                 size="sm"
                                                 placeholder="Add Quantity"
                                                 name="quantity"
                                                 required
                                                 // value={formData[index]?.price}
-                                                onChange={(e) => handleQuansChange(index, e.target.value)}
+                                                onChange={(e) => setQuantityAtIndex(index, parseInt(e.target.value))}
                                                />
 
                                            </td>

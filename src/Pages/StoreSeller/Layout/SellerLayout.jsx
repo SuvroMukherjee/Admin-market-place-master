@@ -17,6 +17,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import useAuth from '../../../hooks/useAuth';
 import { MdCancel } from "react-icons/md";
 import Button from '@mui/material/Button';
+import cmp from '../../../assets/cmp.png'
 
 const MyNavbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -56,8 +57,8 @@ const MyNavbar = () => {
                     <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }} style={{color:'red'}}>
-                        Sant Sales <span className='titlename'>Seller central</span>
+                    <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        <img src={cmp} width={250}/> <span >Seller central</span>
                     </Typography>
                     <Button color="inherit">Sign In as <span style={{ color:'#FF9843',fontWeight:'bold'}}>{auth?.email}</span></Button>
                 </Toolbar>
@@ -72,7 +73,7 @@ const MyNavbar = () => {
                     <List>
                         <ListItem >
                             <ListItem disablePadding>
-                                <ListItemButton>
+                                <ListItemButton onClick={toggleDrawer}>
                                     <ListItemIcon>
                                         <MdCancel size={28}/>
                                     </ListItemIcon>
@@ -83,11 +84,11 @@ const MyNavbar = () => {
                         </ListItem>
                         <Divider />
                         
-                            <ListItem  disablePadding>
+                            <ListItem  >
                                 <ListItemButton onClick={handleMenuClick}>
-                                    <ListItemIcon>
+                                    {/* <ListItemIcon>
                                         <InboxIcon/>
-                                    </ListItemIcon>
+                                    </ListItemIcon> */}
                                     <ListItemText primary={"Catalogue"} />
                                 </ListItemButton>
 
@@ -103,11 +104,11 @@ const MyNavbar = () => {
                             </Menu>
                         
                        
-                            <ListItem disablePadding>
+                            <ListItem >
                                 <ListItemButton onClick={handleMenuClick2}>
-                                    <ListItemIcon>
+                                    {/* <ListItemIcon>
                                         <InboxIcon />
-                                    </ListItemIcon>
+                                    </ListItemIcon> */}
                                     <ListItemText primary={"Inventory"} />
                                 </ListItemButton>
 
@@ -122,12 +123,11 @@ const MyNavbar = () => {
                         
                         <ListItem >
                             <Divider />
-                            <ListItem disablePadding>
-
+                            <ListItem >
                                 <ListItemButton onClick={() => logout()}>
-                                    <ListItemIcon>
+                                    {/* <ListItemIcon>
                                         <FaUnlockAlt />
-                                    </ListItemIcon>
+                                    </ListItemIcon> */}
                                     <ListItemText primary={"logout"} />
                                 </ListItemButton>
 
