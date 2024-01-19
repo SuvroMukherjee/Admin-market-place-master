@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
-// import "./Seller.css";
+import "./sellerlayout.css";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Form, Card, ListGroup, InputGroup } from 'react-bootstrap';
+import { Button, Col, Container, Row, Form, Card, ListGroup, InputGroup, Image, Table } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -12,6 +12,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { categoryData, demoProductData, productRows } from "../../../dummyData";
 import Modal from 'react-bootstrap/Modal';
 import { IoIosCloseCircle } from "react-icons/io";
+import sellerback2 from '../../../assets/sellerback2.jpg'
 
 //new
 import Navbar from 'react-bootstrap/Navbar';
@@ -31,7 +32,12 @@ export default function NewAddProduct() {
     const [show, setShow] = useState(false);
     const [seletedProducrt, setSelectedProduct] = useState()
     const [formData, setFormData] = useState([]);
-   
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        // Toggle the value of 'isChecked' when the checkbox is clicked
+        setIsChecked(!isChecked);
+    };
 
     const handlePriceChange = (specIndex, price) => {
         setFormData((prevData) => {
@@ -282,7 +288,7 @@ export default function NewAddProduct() {
                     <>
 
                         <div className="buttonWrapper">
-                            <Button variant="success" onClick={() => AddSellerProduct(params?.row?._id)} size="sm">
+                            <Button variant="success" onClick={() => handleAddProduct(params?.row)} size="sm">
                                 <RiEdit2Line /> Add Item
                             </Button>
                         </div>
@@ -336,51 +342,51 @@ export default function NewAddProduct() {
     //                 <Row className="mb-3 mt-3">
     //                     <Col className="text-dark fw-bold">Apply Filter</Col>
     //                 </Row>
-    //                 <Row className="w-40 mb-2 mt-2">
-    //                     <Col>
-    //                         <Form.Group controlId="categoryId">
-    //                             <Form.Label className="text-dark fw-bold">Category</Form.Label>
-    //                             <Form.Control as="select" name="categoryId" onChange={handleCategoryChange} required>
-    //                                 <option value="" disabled selected>
-    //                                     Select Category
-    //                                 </option>
-    //                                 {allcategoryList?.length > 0 && allcategoryList?.map((ele) => (
-    //                                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-    //                                 ))}
-    //                             </Form.Control>
-    //                         </Form.Group>
-    //                     </Col>
-    //                     <Col>
-    //                         <Form.Group controlId="categoryId">
-    //                             <Form.Label className="text-dark fw-bold">Sub Category</Form.Label>
-    //                             <Form.Control as="select" name="subcategoryId" onChange={handleSubChange} required>
-    //                                 <option value="" disabled selected>
-    //                                     Select Sub Category
-    //                                 </option>
-    //                                 {allSubcategorylist?.length > 0 && allSubcategorylist?.map((ele) => (
-    //                                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-    //                                 ))}
-    //                             </Form.Control>
-    //                         </Form.Group>
-    //                     </Col>
-    //                     <Col>
-    //                         <Form.Group controlId="categoryId">
-    //                             <Form.Label className="text-dark fw-bold">Brand</Form.Label>
-    //                             <Form.Control as="select" name="brandId" onChange={handleBrandChange} >
-    //                                 <option value="" disabled selected>
-    //                                     Select Brand
-    //                                 </option>
-    //                                 {allbrandList?.length > 0 && allbrandList?.map((ele) => (
-    //                                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-    //                                 ))}
-    //                             </Form.Control>
-    //                         </Form.Group>
-    //                     </Col>
-    //                     <Col className="d-flex justify-content-center align-items-end">
-    //                         <Button variant="dark" size="sm" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>
-    //                             <IoIosCloseCircle size={25} /> clear Filter</Button>
-    //                     </Col>
-    //                 </Row>
+                    // <Row className="w-40 mb-2 mt-2">
+                    //     <Col>
+                    //         <Form.Group controlId="categoryId">
+                    //             <Form.Label className="text-dark fw-bold">Category</Form.Label>
+                    //             <Form.Control as="select" name="categoryId" onChange={handleCategoryChange} required>
+                    //                 <option value="" disabled selected>
+                    //                     Select Category
+                    //                 </option>
+                    //                 {allcategoryList?.length > 0 && allcategoryList?.map((ele) => (
+                    //                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                    //                 ))}
+                    //             </Form.Control>
+                    //         </Form.Group>
+                    //     </Col>
+                    //     <Col>
+                    //         <Form.Group controlId="categoryId">
+                    //             <Form.Label className="text-dark fw-bold">Sub Category</Form.Label>
+                    //             <Form.Control as="select" name="subcategoryId" onChange={handleSubChange} required>
+                    //                 <option value="" disabled selected>
+                    //                     Select Sub Category
+                    //                 </option>
+                    //                 {allSubcategorylist?.length > 0 && allSubcategorylist?.map((ele) => (
+                    //                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                    //                 ))}
+                    //             </Form.Control>
+                    //         </Form.Group>
+                    //     </Col>
+                    //     <Col>
+                    //         <Form.Group controlId="categoryId">
+                    //             <Form.Label className="text-dark fw-bold">Brand</Form.Label>
+                    //             <Form.Control as="select" name="brandId" onChange={handleBrandChange} >
+                    //                 <option value="" disabled selected>
+                    //                     Select Brand
+                    //                 </option>
+                    //                 {allbrandList?.length > 0 && allbrandList?.map((ele) => (
+                    //                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                    //                 ))}
+                    //             </Form.Control>
+                    //         </Form.Group>
+                    //     </Col>
+                    //     <Col className="d-flex justify-content-center align-items-end">
+                    //         <Button variant="dark" size="sm" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>
+                    //             <IoIosCloseCircle size={25} /> clear Filter</Button>
+                    //     </Col>
+                    // </Row>
     //                 {/* <Row className="justify-content-md-center">
     //                     <Col>
     //                         <DataGrid
@@ -513,7 +519,7 @@ export default function NewAddProduct() {
     const navbarStyle = {
         paddingLeft: '0px', // Adjust the left padding
         paddingRight: '10px', // Adjust the right padding
-        height: '15vh'
+        height: '6vh'
     };
 
     const [searchtext, setsearchrtext] = useState();
@@ -521,73 +527,221 @@ export default function NewAddProduct() {
 
     const searchproducts = () => {
 
-       
-            let filterproducts = data?.filter((ele) => {
-                console.log(searchtext?.toLowerCase())
-                return ele?.name?.toLowerCase()?.includes(searchtext?.toLowerCase())
-            })
-            console.table({ filterproducts })
-            setSearchResults(filterproducts);
-        
+
+        let filterproducts = data?.filter((ele) => {
+            console.log(searchtext?.toLowerCase())
+            return ele?.name?.toLowerCase()?.includes(searchtext?.toLowerCase())
+        })
+        console.table({ filterproducts })
+        setSearchResults(filterproducts);
+
     }
 
     return (
-        <div>
+        <div style={{ background: '#ffffff', height: '100vh' }}>
             <div>
                 <Navbar expand="lg" className="bg-body-tertiary" style={navbarStyle}>
                     <Container>
-                        <Navbar.Brand href="#home" >Add Product</Navbar.Brand>
+                        <Navbar.Brand href="#home" className="Caption" >ADD PRODUCT</Navbar.Brand>
                     </Container>
                 </Navbar>
-                <Container  className="mt-4 p-4" >
-                   
-                    <Row>
-                        <Col>To Being Adding Products</Col>
-                    </Row>
-                    <Row>
-                        <Col> <h4>Search Your Product In Market Place Catalogue</h4></Col>
-                    </Row>
+                <div className="mt-5" >
                     <Row className="mt-4">
-                        <Col xs={5} >
-                            <InputGroup >
-                                <InputGroup.Text id="basic-addon1">
-                                    <FaSearch />
-                                </InputGroup.Text>
-                                <Form.Control
-                                    placeholder="Search product by enter product name.."
-                                    aria-label="Username"
-                                    aria-describedby="basic-addon1"
-                                    onChange={(e) => setsearchrtext(e.target.value)}
-                                />
-                            </InputGroup>
+                        <Col xs={4} className="mt-4 d-flex align-items-center justify-content-center p-4">
+                            <Image src={sellerback2} fluid width={400} height={400} />
                         </Col>
-                        <Col className="d-flex align-items-center">
-                            <Button onClick={() => searchproducts()} size="sm" variant="warning">search</Button>
+                        <Col>
+                            <Row>
+                                <Col className="mt-2 padd1">To Being Adding Products</Col>
+                            </Row>
+
+                            <Row className="mt-4">
+                                <Col className="padd2">Search Your Product In Market Place Catalogue <br /> &  Start Selling</Col>
+                            </Row>
+                            <Row className="mt-4 " >
+                                <Col xs={6} style={{ marginLeft: '-2%' }}>
+                                    <InputGroup>
+                                        <InputGroup.Text id="basic-addon1">
+                                            <FaSearch />
+                                        </InputGroup.Text>
+                                        <Form.Control
+                                            placeholder="Search product by enter product name.."
+                                            aria-label="Username"
+                                            className="p-2"
+                                            aria-describedby="basic-addon1"
+                                            onChange={(e) => setsearchrtext(e.target.value)}
+                                        />
+                                    </InputGroup>
+                                </Col>
+                                <Col className="d-flex align-items-center">
+                                    <Button onClick={() => searchproducts()} size="sm" variant="warning">SEARCH</Button>
+                                </Col>
+                            </Row>
+                            <Row className="mt-4">
+                                <Col>
+                                    <Form>
+                                        <Form.Check
+                                            type="switch"
+                                            id="custom-switch"
+                                            label="Check All Available Products"
+                                            className="custom-label-style" // Add a custom class for styling
+                                            checked={isChecked}
+                                            onChange={handleCheckboxChange}
+                                        />
+                                    </Form>
+                                </Col>
+                            </Row>
+                            <Row className="mt-4 ml-2">
+                                <Col xs={6}>
+                                    <ListGroup>
+                                        {searchResults?.length > 0 && searchResults?.map((ele, index) => (
+                                            <ListGroup.Item as="li">
+                                                <Row className='locationTagHeader mt-2'>
+                                                    <Col>{index + 1}. Product Name</Col>
+                                                    <Col xs={2}>Action</Col>
+                                                </Row>
+                                                <Row className='locationTagvalue mt-2'>
+                                                    <Col>{ele?.name}</Col>
+                                                    <Col xs={2}>
+                                                        <Button size="sm" variant="dark" onClick={() => handleAddProduct(ele)}>select</Button>
+                                                    </Col>
+                                                </Row>
+                                            </ListGroup.Item>
+                                        ))}
+                                    </ListGroup>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Toaster position="top-right" />
+                    </Row>
+
+                  
+                </div>
+                {isChecked &&
+                <Container>
+                        <Row className="w-40 mb-2 mt-2">
+                            <Col>
+                                <Form.Group controlId="categoryId">
+                                    <Form.Label className="text-dark fw-bold dtext">Category</Form.Label>
+                                    <Form.Control as="select" size="sm" name="categoryId" onChange={handleCategoryChange} required>
+                                        <option value="" disabled selected>
+                                            Select Category
+                                        </option>
+                                        {allcategoryList?.length > 0 && allcategoryList?.map((ele) => (
+                                            <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                                        ))}
+                                    </Form.Control>
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="categoryId">
+                                    <Form.Label className="text-dark fw-bold dtext">Sub Category</Form.Label>
+                                    <Form.Control as="select" size="sm" name="subcategoryId" onChange={handleSubChange} required>
+                                        <option value="" disabled selected>
+                                            Select Sub Category
+                                        </option>
+                                        {allSubcategorylist?.length > 0 && allSubcategorylist?.map((ele) => (
+                                            <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                                        ))}
+                                    </Form.Control>
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="categoryId">
+                                    <Form.Label className="text-dark fw-bold dtext">Brand</Form.Label>
+                                    <Form.Control as="select" size="sm" name="brandId" onChange={handleBrandChange} >
+                                        <option value="" disabled selected>
+                                            Select Brand
+                                        </option>
+                                        {allbrandList?.length > 0 && allbrandList?.map((ele) => (
+                                            <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                                        ))}
+                                    </Form.Control>
+                                </Form.Group>
+                            </Col>
+                            <Col className="d-flex justify-content-center align-items-end">
+                                <Button variant="dark" size="sm"  onClick={() => { setLoading(true); getProductListFunc() }}>
+                                    <IoIosCloseCircle size={17} />CLEAR FILTER</Button>
+                            </Col>
+                        </Row>
+                    <Row>
+                        <Col>
+                            {/* <DataGrid
+                                rows={data}
+                                columns={columns}
+                                pageSize={8}
+                                noRowsOverlay={
+                                    data?.length === 0 && <div style={{ textAlign: 'center', padding: '20px' }}>No Data Found</div>
+                                }
+                            /> */}
+
+                                <Table striped responsive bordered hover>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Image</th>
+                                            <th>Price</th>
+                                            <th>Description</th>
+                                            <th>Category</th>
+                                            <th>Sub Category</th>
+                                            <th>Brand</th>
+                                            <th>Tags</th>
+                                            <th>Status</th>
+                                            <th>Type</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data.map((row) => (
+                                            <tr key={row?.id}>
+                                                <td>{row?.id}</td>
+                                                <td>{row?.name}</td>
+                                                <td>
+                                                    <div className="productListItem">
+                                                        <Image className="productListImg" src={row.image?.[0]?.image_path} thumbnail alt="" />
+                                                    </div>
+                                                </td>
+                                                <td>{row?.regular_price}</td>
+                                                <td>{row?.desc?.substr(0,50) + '...'}</td>
+                                                <td>
+                                                    <div className="productListItem">{row.categoryId?.title}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="productListItem">{row.subcategoryId?.title}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="productListItem">{row?.brandId?.title}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="productListItem">
+                                                        {row?.tags?.map((ele, i) => (
+                                                            <p key={i}>{ele},</p>
+                                                        ))}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="productListItem">
+                                                        {row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+                                                    </div>
+                                                </td>
+                                                <td>{row.type}</td>
+                                                <td>
+                                                    {/* <div className="buttonWrapper">
+                                                        <Button variant="success" size='sm' onClick={() => handleAddProduct(row)} >
+                                                             Add Item
+                                                        </Button>
+                                                    </div> */}
+
+                                                    <Button onClick={() => handleAddProduct(row)} variant="success" size='sm' >Add</Button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
                         </Col>
                     </Row>
-                    <Row className="mt-4 ml-2">
-                        <Col xs={5}>
-                            <ListGroup>
-                                {searchResults?.length > 0 && searchResults?.map((ele,index) => (
-                                    <ListGroup.Item as="li">
-                                        {/* {ele?.name}
-                                        <Button size="sm" variant="dark" onClick={() => handleAddProduct(ele)}>select</Button> */}
-                                        <Row className='locationTagHeader mt-2'>
-                                            <Col>{index+1}. Product Name</Col>
-                                            <Col xs={2}>Action</Col>
-                                        </Row>
-                                        <Row className='locationTagvalue mt-2'>
-                                            <Col>{ele?.name}</Col>
-                                            <Col xs={2}>
-                                                <Button size="sm" variant="dark" onClick={() => handleAddProduct(ele)}>select</Button>
-                                            </Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                        </Col>
-                    </Row>
-                </Container>
+                </Container>}
 
                 <Container>
                     <Row>

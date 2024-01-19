@@ -1,8 +1,8 @@
-.logoname{
+.logoname {
     color: red !important;
 }
 
-.titlename{
+.titlename {
     color: black !important;
     font-size: 14px;
     font-weight: bold;
@@ -12,28 +12,142 @@
     color: red;
 }
 
-th{
-  color: black !important;
-  font-size: 12px;
-}
-
-td{
+th {
     color: black !important;
     font-size: 12px;
 }
 
-.datecolor{
+td {
+    color: black !important;
+    font-size: 12px;
+}
+
+.datecolor {
     color: #FE7A36 !important;
     font-weight: 500;
 }
-.pname{
+
+.pname {
     color: black !important;
 }
 
-.pname:hover{
+.pname:hover {
     font-weight: bold;
     text-decoration: underline;
     cursor: pointer;
     color: #3468C0 !important;
 }
 
+.avaible {
+    color: green !important;
+    font-weight: 500;
+}
+
+.amount {
+    color: #3468C0 !important;
+    font-weight: bold;
+}
+
+td {
+    text-align: center !important;
+}
+
+th {
+    text-align: center !important;
+}
+
+.shadowbox {
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.shadowbox2 {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.dtext {
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: black;
+    text-transform: uppercase !important;
+}
+
+.Caption {
+    font-size: 12px !important;
+    letter-spacing: 1.5px !important;
+    color: rgb(62, 61, 61) !important;
+}
+
+.dtextNumber {
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: rgb(51, 50, 50);
+}
+
+.dtext2 {
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: rgb(43, 40, 40);
+}
+
+.nav-link {
+    font-size: 14px !important;
+    color: black !important;
+    text-transform: uppercase !important;
+}
+
+.padd1 {
+    text-transform: uppercase;
+    color: #596FB7;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.padd2 {
+    text-transform: uppercase;
+    color: #1D2B53;
+    letter-spacing: 1px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.custom-label-style {
+    text-transform: uppercase;
+    color: #414140;
+    letter-spacing: 1px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.css-hyum1k-MuiToolbar-root {
+    min-height: 50px !important;
+    background: #0766AD !important;
+}
+
+.sellerpName {
+    font-size: 20px;
+    text-transform: uppercase !important;
+    letter-spacing: 1px;
+    color: black;
+    font-weight: bold;
+
+}
+
+.sellerpName2 {
+    font-size: 16px;
+    text-transform: uppercase !important;
+    letter-spacing: 1px;
+    color: black;
+    font-weight: bold;
+
+}
+
+.sellerpName3 {
+    font-size: 14px;
+    text-transform: uppercase !important;
+    letter-spacing: 1px;
+    color: black;
+
+}

@@ -35,6 +35,7 @@ import NewAddProduct from './Pages/StoreSeller/Layout/NewAddProduct';
 import SellerInventory from './Pages/StoreSeller/Layout/SellerInventory';
 import NewSellerDashboard from './Pages/StoreSeller/Layout/NewSellerDashboard';
 import OrderList from './Pages/StoreSeller/Layout/OrderList';
+import SellerProductDetails from './Pages/StoreSeller/Layout/SellerProductDetails';
 
 
 
@@ -112,7 +113,8 @@ export default function Router() {
             { path: 'seller-addproduct', element: <NewAddProduct /> },
             // { path: 'seller-productList', element: <SellerProductList /> }, /SellerInventory
             { path: 'seller-productList', element: <SellerInventory /> },
-            { path: 'seller-orderlist', element: <OrderList /> }
+            { path: 'seller-orderlist', element: <OrderList /> },
+            { path: 'product-deatils/:id', element: <SellerProductDetails /> }
           ],
         },
       ],

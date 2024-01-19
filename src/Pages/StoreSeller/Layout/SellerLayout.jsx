@@ -18,6 +18,8 @@ import useAuth from '../../../hooks/useAuth';
 import { MdCancel } from "react-icons/md";
 import Button from '@mui/material/Button';
 import cmp from '../../../assets/cmp.png'
+import { FaUserCircle } from "react-icons/fa";
+import { IoIosMenu } from "react-icons/io";
 
 const MyNavbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -52,15 +54,17 @@ const MyNavbar = () => {
     return (
         <div>
             {/* AppBar for the top section */}
-            <AppBar position="static" onClick={() => navigate('/seller/seller-dashboard')}>
+            <AppBar position="static" onClick={() => navigate('/seller/seller-dashboard')} className='sellerheader'>
                 <Toolbar>
                     <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
-                        <MenuIcon />
+                        <IoIosMenu size={20}/>
                     </IconButton>
                     <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        <img src={cmp} width={250}/> <span >Seller central</span>
+                        <img src={cmp} width={150} /> <span style={{ fontSize: '12px',letterSpacing:'1px',textTransform:'uppercase',fontWeight:'bold', }}><strong>Seller central</strong></span>
                     </Typography>
-                    <Button color="inherit">Sign In as <span style={{ color:'#FF9843',fontWeight:'bold'}}>{auth?.email}</span></Button>
+                    {/* <Button color="inherit" style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase' }}>Sign In as  */}
+                    <FaUserCircle size={25}/>
+                    <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', color: '#0766AD', fontWeight: 'bold', color:'#FF9843' }}>{auth?.email}</span>
                 </Toolbar>
             </AppBar>
 
@@ -75,7 +79,7 @@ const MyNavbar = () => {
                             <ListItem disablePadding>
                                 <ListItemButton onClick={toggleDrawer}>
                                     <ListItemIcon>
-                                        <MdCancel size={28}/>
+                                        <MdCancel size={20}/>
                                     </ListItemIcon>
                                     <ListItemText primary={"Menu"} />
                                 </ListItemButton>

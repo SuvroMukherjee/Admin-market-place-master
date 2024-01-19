@@ -648,6 +648,17 @@ export async function sellerStockoutlist(id){
     }
 }
 
+
+export async function sellerProductDeatils(id) {
+    try {
+        const response = await axios.get(apiUrl + `/seller-product/detail/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 {/**location api -Rapid apis(free) */ }
 
 
