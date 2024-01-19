@@ -4,7 +4,7 @@ import axios from 'axios'
 import useAuth from '../hooks/useAuth';
 
 const apiUrl = import.meta.env.VITE_API_BASE;
-const zipcodekey = import.meta.env.ZIPCODE_BASE_KEY || "82b6f270-b0ff-11ee-850f-5749d71382b9";
+const zipcodekey = import.meta.env.ZIPCODE_BASE_KEY || "7d89a9a0-b6a0-11ee-bda0-153e0d1683dc";
 
 console.log({ zipcodekey })
 

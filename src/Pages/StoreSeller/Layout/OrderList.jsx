@@ -126,7 +126,7 @@ const OrderList = () => {
                               <th>Price</th>
                               <th>Shipping Cost</th>
                               <th>Commission Price</th>
-                              <th>Order Time</th>
+                              <th>Order Date & Time</th>
                               <th>Available Quantiy</th>
                           </tr>
                       </thead>

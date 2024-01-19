@@ -228,6 +228,7 @@ export default function SellerInventory() {
 
         if (res.data.error == false) {
             toast.success('Inventory update successfully...')
+            setQuantities([])
             getProductListFunc();
 
         }
@@ -274,6 +275,7 @@ export default function SellerInventory() {
         setData(filterData);
     }
 
+    console.log({ quantities })
 
     return (
         <div>
@@ -338,7 +340,7 @@ export default function SellerInventory() {
                                         <td onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)} className="pname">{ele?.name}</td>
                                         <td className="datecolor">{ChangeFormatDate(ele?.updatedAt)}</td>
                                         <td className="avaible">
-                                            {formData[index]?.available_qty || 0}
+                                            {ele?.available_qty || 0}
                                         </td>
                                         <td>
                                             {ele?.specId?.price}
@@ -379,6 +381,7 @@ export default function SellerInventory() {
                                                 placeholder="Add Quantity"
                                                 name="quantity"
                                                 required
+                                                value={quantities[index]}
                                                 // value={formData[index]?.price}
                                                 onChange={(e) => setQuantityAtIndex(index, parseInt(e.target.value))}
                                             />

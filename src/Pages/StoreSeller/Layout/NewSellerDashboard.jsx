@@ -176,7 +176,7 @@ const OrderConatiner = ({ list }) => {
                         <th className='pname'>SKU</th>
                         <th>Order Quantity</th>
                         <th>Price</th>
-                        <th>Order Time</th>
+                        <th>Order Date & Time</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -207,7 +207,7 @@ const SellingProductList = ({ data }) =>{
             <Table striped bordered hover  className='shadowbox'>
                 <thead>
                     <tr>
-                        <th>Status</th>
+                        
                         <th>Image</th>
                         <th>SKU</th>
                         <th>Product Name</th>
@@ -218,8 +218,7 @@ const SellingProductList = ({ data }) =>{
                 <tbody>
                     {data?.length > 0 && data?.slice(0,5)?.map((ele, index) => (
                         <tr>
-                            <td>{ele?.status ? <span style={{ color: 'green' }}>Active</span> : <span style={{ color: 'red' }}>InActive</span>}<br />
-                            </td>
+                            
                             <td>
                                 <Image src={ele?.specId?.image?.[0]?.image_path} thumbnail width={60} height={60} />
                             </td>
