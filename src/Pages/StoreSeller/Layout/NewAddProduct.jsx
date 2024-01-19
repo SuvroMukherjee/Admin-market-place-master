@@ -125,7 +125,7 @@ export default function NewAddProduct() {
     const handleCategoryChange = async (e) => {
         console.log(e.target.value)
         setLoading(true)
-        let filterData = demoProductData?.filter((ele) => {
+        let filterData = data?.filter((ele) => {
             return ele?.categoryId?._id == e?.target?.value;
         })
         setData(filterData);
@@ -142,7 +142,7 @@ export default function NewAddProduct() {
 
     const handleSubChange = (e) => {
         setLoading(true);
-        let filterData = demoProductData?.filter((ele) => {
+        let filterData = data?.filter((ele) => {
             return ele?.subcategoryId?._id == e.target.value;
         })
         setData(filterData);
@@ -152,7 +152,7 @@ export default function NewAddProduct() {
     const handleBrandChange = (e) => {
         console.log(e.target.value)
         setLoading(true);
-        let filterData = demoProductData?.filter((ele) => {
+        let filterData = data?.filter((ele) => {
             return ele?.brandId?._id == e.target.value;
         })
         setData(filterData);
@@ -681,7 +681,7 @@ export default function NewAddProduct() {
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Image</th>
-                                            <th>Price</th>
+                                            <th>Variants</th>
                                             <th>Description</th>
                                             <th>Category</th>
                                             <th>Sub Category</th>
@@ -702,7 +702,7 @@ export default function NewAddProduct() {
                                                         <Image className="productListImg" src={row.image?.[0]?.image_path} thumbnail alt="" />
                                                     </div>
                                                 </td>
-                                                <td>{row?.regular_price}</td>
+                                                <td className="variants">( {row?.specId?.length} ) variants</td>
                                                 <td>{row?.desc?.substr(0,50) + '...'}</td>
                                                 <td>
                                                     <div className="productListItem">{row.categoryId?.title}</div>

@@ -13,6 +13,7 @@ import { ChangeFormatDate } from '../../../common/DateFormat';
 import { FaArrowUpRightDots } from "react-icons/fa6";
 import { MdBookmarkBorder } from "react-icons/md";
 import { FaRegStar } from "react-icons/fa";
+import { FaCartFlatbed } from "react-icons/fa6";
 
 const NewSellerDashboard = () => {
     const navbarStyle = {
@@ -76,6 +77,15 @@ const NewSellerDashboard = () => {
             id: index + 1,
         }));
 
+        let totalCommission = 0;
+
+        // data.forEach(product => {
+        
+        //     const quantity = product?.quantity || 0;
+        //     console.log(quantity)
+
+        // });
+
         setList(dataWithUniqueIds)
     }
 
@@ -124,7 +134,7 @@ const NewSellerDashboard = () => {
                     <Col className='p-2' xs={7}>
                         <Container>
                             <Row className='mt-4'>
-                                <Col className='dtext2'>Top Selling Products <span><FaArrowUpRightDots color='red'/></span></Col>
+                                <Col className='dtext2'>Top Selling Products <span><FaArrowUpRightDots color='red' size={24} /></span></Col>
                             </Row>
                             <hr/>
                             <Row className='mt-2'>
@@ -137,7 +147,7 @@ const NewSellerDashboard = () => {
                     <Col  className='p-2'>
                         <Container>
                             <Row className='mt-4'>
-                                <Col className='dtext2'>Recent Orders <span><MdBookmarkBorder color='red' /></span></Col>
+                                <Col className='dtext2'>Recent Orders <span><FaCartFlatbed color='red' size={24} /></span></Col>
                             </Row>
                             <hr />
                             <Row className='mt-2'>
@@ -172,11 +182,11 @@ const OrderConatiner = ({ list }) => {
                 <tbody>
                     {list.map((row) => (
                         <tr key={row.id}>
-                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{row.productId ? row.productId.name : ''}</td>
+                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}>{row.productId ? row.productId.name : ''}</td>
                             <td>
                                 <Image src={row.productId?.specId?.image?.[0]?.image_path} thumbnail width={40} height={40} />
                             </td>
-                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{row.productId?.specId?.skuId}</td>
+                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}>{row.productId?.specId?.skuId}</td>
                             <td className='avaible'>{row.quantity}</td>
                             <td className='avaible'> {row.productId?.price}</td>
                             <td className='datecolor'>{ChangeFormatDate(row.createdAt)}</td>

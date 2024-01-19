@@ -109,11 +109,11 @@ const OrderList = () => {
     <div>
         <Container className='mt-4'>
             <Row>
-                <Col>
-                 <h4>Order List</h4>
+                  <Col className='dtext'>
+                    Order List
                 </Col>
             </Row>
-            <Row>
+            <Row className='mt-4'>
                 <Col>
                       <Table striped bordered hover responsive>
                       <thead>
