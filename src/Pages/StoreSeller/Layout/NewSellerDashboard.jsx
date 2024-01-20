@@ -29,6 +29,7 @@ const NewSellerDashboard = () => {
     const [list, setList] = useState([])
 
     const [totalSales,setTotalSales] = useState(0)
+    const [totalcommission,settotalcommission] = useState(0)
 
     const { userId } = JSON.parse(localStorage.getItem('auth'));
 
@@ -77,14 +78,8 @@ const NewSellerDashboard = () => {
             id: index + 1,
         }));
 
-        let totalCommission = 0;
-
-        // data.forEach(product => {
-        
-        //     const quantity = product?.quantity || 0;
-        //     console.log(quantity)
-
-        // });
+        setTotalSales(Math.round(res?.data?.totalsellingAmount))
+        settotalcommission(Math.round(res?.data?.totalcommission))
 
         setList(dataWithUniqueIds)
     }
@@ -103,8 +98,12 @@ const NewSellerDashboard = () => {
                             <NavDropdown title="Inventory" id="basic-nav-dropdown">
                                 <NavDropdown.Item onClick={() => navigate('/seller/seller-productList')}>Manage Inventory</NavDropdown.Item>
                             </NavDropdown>
-                            <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link>
-                            <Nav.Link >Customer Fedback</Nav.Link>
+                            <NavDropdown title="Orders" id="basic-nav-dropdown">
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-orderlist')}>Orders Lists</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders</NavDropdown.Item>
+                            </NavDropdown>
+                            {/* <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link> */}
+                            <Nav.Link >Customer Feedback</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -119,13 +118,13 @@ const NewSellerDashboard = () => {
                         <NumberBox label={'Selling Products'} number={sellingProducts} />
                     </Col>
                     <Col>
-                        <NumberBox label={'Total Sales'} number={totalSales} />
+                        <NumberBox label={'Total Sales'} number={totalSales?.toLocaleString()} />
                     </Col>
                     <Col>
                         <NumberBox label={'Customer Feedback'} number={0} />
                     </Col>
                     <Col>
-                        <NumberBox label={'Total Balance'} number={0} />
+                        <NumberBox label={'Total Balance'} number={totalcommission?.toLocaleString()} />
                     </Col>
                 </Row>
             </Container>

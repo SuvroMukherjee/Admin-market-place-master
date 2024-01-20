@@ -649,6 +649,15 @@ export async function sellerStockoutlist(id){
 }
 
 
+export async function sellerOrderLists(id){
+    try {
+        const response = await axios.get(apiUrl + `/order/list-by-sellerId/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 export async function sellerProductDeatils(id) {
     try {
         const response = await axios.get(apiUrl + `/seller-product/detail/${id}`)

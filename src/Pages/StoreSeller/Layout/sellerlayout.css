@@ -98,6 +98,12 @@ th {
     text-transform: uppercase !important;
 }
 
+.dropdown-item {
+    font-size: 14px !important;
+    color: black !important;
+    text-transform: uppercase !important;
+}
+
 .padd1 {
     text-transform: uppercase;
     color: #596FB7;
@@ -152,7 +158,39 @@ th {
 
 }
 
-.variants{
+.variants {
     color: #0766AD !important;
     font-weight: bold;
+}
+
+.orderpadding {
+    padding: 0.5px !important;
+    text-transform: uppercase() !important;
+}
+
+.orderId {
+    color: #508D69 !important;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px !important;
+}
+
+.orderId:hover {
+    text-decoration: underline;
+
+}
+
+.orderPrice {
+    color: #FF004D !important;
+    font-weight: bold;
+    font-size: 12px !important;
+}
+
+.dtextOredr {
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: black;
+    text-transform: uppercase !important;
+    text-decoration: underline;
 }
