@@ -37,6 +37,7 @@ import NewSellerDashboard from './Pages/StoreSeller/Layout/NewSellerDashboard';
 import OrderList from './Pages/StoreSeller/Layout/OrderList';
 import SellerProductDetails from './Pages/StoreSeller/Layout/SellerProductDetails';
 import ManageOrders from './Pages/StoreSeller/Layout/ManageOrders';
+import OwnproductStatus from './Pages/StoreSeller/Layout/OwnproductStatus';
 
 
 
@@ -109,13 +110,16 @@ export default function Router() {
             // { path: 'seller-dashboard', element: <SellerDashboard /> },
             { path: 'seller-dashboard', element: <NewSellerDashboard /> },
             { path: 'seller-ownproduct', element: <SellerOwnProduct /> },
+            { path: 'seller-ownproduct-status', element: <OwnproductStatus /> },
             { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
             // { path: 'seller-addproduct', element: <SellerAddProduct /> },
             { path: 'seller-addproduct', element: <NewAddProduct /> },
             // { path: 'seller-productList', element: <SellerProductList /> }, /SellerInventory
             { path: 'seller-productList', element: <SellerInventory /> },
+            { path: 'product-deatils/:id', element: <SellerProductDetails /> },
             { path: 'seller-orderlist', element: <OrderList /> },
-            { path: 'manage-orders', element: <ManageOrders /> }
+            { path: 'manage-orders', element: <ManageOrders /> },
+
           ],
         },
       ],

@@ -14,12 +14,15 @@ import { FaArrowUpRightDots } from "react-icons/fa6";
 import { MdBookmarkBorder } from "react-icons/md";
 import { FaRegStar } from "react-icons/fa";
 import { FaCartFlatbed } from "react-icons/fa6";
+import { GoArrowUpRight } from "react-icons/go";
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const NewSellerDashboard = () => {
     const navbarStyle = {
         paddingLeft: '0px', // Adjust the left padding
         paddingRight: '10px', // Adjust the right padding
-        height: '7vh'
+        height: '7vh',
+        background: 'black'
     };
 
     const navigate = useNavigate()
@@ -86,21 +89,25 @@ const NewSellerDashboard = () => {
 
     return (
         <div style={{ background: '#f5f1f1' }}>
-            <Navbar expand="lg" className="bg-body-tertiary" style={navbarStyle}>
+            <Navbar expand="lg" className="" style={navbarStyle}>
                 <Container>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ background: 'black' }} />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link onClick={() => navigate('/seller/seller-dashboard')} className='dtext'>Home</Nav.Link>
                             <NavDropdown title="Catalogue" id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={() => navigate('/seller/seller-addproduct')}>Add Product</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-addproduct')}>Add Product <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                                <Dropdown.Divider />
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-ownproduct-status')}>Sell Your Product <GoArrowUpRight size={20} /> </NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Inventory" id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={() => navigate('/seller/seller-productList')}>Manage Inventory</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-productList')}>Manage Inventory <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                                <Dropdown.Divider />
                             </NavDropdown>
                             <NavDropdown title="Orders" id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={() => navigate('/seller/seller-orderlist')}>Orders Lists</NavDropdown.Item>
-                                <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-orderlist')}>Orders Lists <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                                <Dropdown.Divider />
+                                <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders <GoArrowUpRight size={20} /> </NavDropdown.Item>
                             </NavDropdown>
                             {/* <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link> */}
                             <Nav.Link >Customer Feedback</Nav.Link>
@@ -185,9 +192,9 @@ const OrderConatiner = ({ list }) => {
                             <td>
                                 <Image src={row.productId?.specId?.image?.[0]?.image_path} thumbnail width={40} height={40} />
                             </td>
-                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}>{row.productId?.specId?.skuId}</td>
+                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}>{row.productId?.specId?.skuId?.toUpperCase()}</td>
                             <td className='avaible'>{row.quantity}</td>
-                            <td className='avaible'> {row.productId?.price}</td>
+                            <td className='avaible'> {row.productId?.price?.toLocaleString()}</td>
                             <td className='datecolor'>{ChangeFormatDate(row.createdAt)}</td>
                         </tr>
                     ))}
@@ -221,10 +228,10 @@ const SellingProductList = ({ data }) =>{
                             <td>
                                 <Image src={ele?.specId?.image?.[0]?.image_path} thumbnail width={60} height={60} />
                             </td>
-                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.specId?.skuId}</td>
+                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.specId?.skuId?.toUpperCase()}</td>
                             <td className="pname" onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.name}</td>
                             <td>
-                             {ele?.price}
+                             {ele?.price?.toLocaleString()}
                             </td>
                             <td className='avaible'>
                                 {ele?.available_qty || 0}

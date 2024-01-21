@@ -82,7 +82,7 @@ const ManageOrders = () => {
                 {console.log(list[selectIndex]?.order_details, 'l')}
                 {selectIndex &&
                     <Row>
-                        <Col className='mb-2 dtextOredr'>Order Id : {list[selectIndex]?.order_no}</Col>
+                        <Col className='mb-2 dtextOredr'>Order Id : <span style={{ color: '#FF9843' }}>{list[selectIndex]?.order_no}</span>  </Col>
                         <Col xs={12}>
                             <Table striped bordered hover responsive>
                                 <thead>
@@ -104,7 +104,7 @@ const ManageOrders = () => {
                                         <tr>
 
                                             <td>{row?.proId?.name}</td>
-                                            <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail className="productListImg" /></td>
+                                            <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={75}  /></td>
                                             <td>{row?.qty}</td>
                                             <td>{row?.proId?.specId?.skuId?.toUpperCase()}</td>
                                             <td>

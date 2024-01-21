@@ -21,7 +21,7 @@ const Addseller = () => {
         pic_of_shope: [],
         gst_no: '',
         picup_location: '',
-        commission_data: [],
+       // commission_data: [],
         shope_name: '',
         pin_code: '',
         address : '',
@@ -50,12 +50,13 @@ const Addseller = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        formData['address'] = JSON.stringify(formData['address'])
         const isFormValid = Object.values(formData).every((value) => value !== '');
 
-        if (commissionSave) {
-            toast.error('Please save your commission');
-            return;
-        }
+        // if (commissionSave) {
+        //     toast.error('Please save your commission');
+        //     return;
+        // }
 
         console.log({ formData })
 
@@ -600,9 +601,9 @@ const Addseller = () => {
                                         </Col>
                                     </Row>}
 
-                                <Row className='mt-3'>
+                                {/* <Row className='mt-3'>
                                     <CommissionComponent addCategorytoForm={addCategorytoForm} />
-                                </Row>
+                                </Row> */}
 
                                 <Row className='mt-3'>
                                         <Col>
@@ -697,7 +698,7 @@ const Addseller = () => {
                                 <Row className='mt-4'>
                                     <Col>
                                         <div className="d-grid gap-2">
-                                            <Button variant="warning" size="lg" type="submit" disabled={btnEnale && commissionSave}>
+                                            <Button variant="warning" size="lg" type="submit" disabled={btnEnale}>
                                                 <MdOutlineFileUpload /> Add Seller
                                             </Button>
                                         </div>

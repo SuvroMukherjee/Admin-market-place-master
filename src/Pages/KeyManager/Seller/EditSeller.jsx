@@ -24,7 +24,7 @@ const EditSeller = () => {
         pic_of_shope: [],
         gst_no: '',
         picup_location: '',
-        commission_data: [],
+       // commission_data: [],
         shope_name: '',
         pin_code: '',
         address: '',
@@ -56,7 +56,7 @@ const EditSeller = () => {
 
             // Setting the filtered data in the state
             setFormData(filteredData);
-            setCatsData(filteredData?.commission_data);
+          //  setCatsData(filteredData?.commission_data);
             setLoading(false);
         }).catch((err) => {
             console.error(err);
@@ -643,11 +643,11 @@ const EditSeller = () => {
                                         </Col>
                                     </Row>}
 
-                                <Row className='mt-2'>
+                                {/* <Row className='mt-2'>
                                     <Col>
                                         <CommissionComponentshow addCategorytoForm={addCategorytoForm} catsdata={catsdata} />
                                     </Col>
-                                </Row>
+                                </Row> */}
 
                                 <Row className='mt-3'>
                                     <Col>

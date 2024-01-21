@@ -193,15 +193,15 @@ const SellerOwnProduct = () => {
                     </Row>
                 </div>
             }
-            <div className="productList mt-2 p-4">
-                <Container>
+            {/* <div className="productList mt-2 p-4"> */}
+                <Container className='mt-4'>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
-                            <h3>Add Your Product</h3>
+                            <h6>Add Your Product</h6>
                         </Col>
                     </Row>
 
-                    <Row className="justify-content-md-center">
+                    <Row className="justify-content-md-center mt-4">
                         <Col>
                             <Form onSubmit={handleSubmit}>
 
@@ -441,7 +441,7 @@ const SellerOwnProduct = () => {
                     </Row>
                     <Toaster position="top-right" />
                 </Container>
-            </div>
+            {/* </div> */}
         </>
     )
 }

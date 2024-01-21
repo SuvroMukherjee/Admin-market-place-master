@@ -93,9 +93,10 @@ th {
 }
 
 .nav-link {
-    font-size: 14px !important;
-    color: black !important;
+    font-size: 12px !important;
+    color: white !important;
     text-transform: uppercase !important;
+    font-weight: bold !important;
 }
 
 .dropdown-item {
@@ -193,4 +194,24 @@ th {
     color: black;
     text-transform: uppercase !important;
     text-decoration: underline;
+}
+
+.dropdown-item {
+    color: white !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+}
+
+.dropdown-item:hover {
+    color: black !important;
+    font-weight: bold !important;
+    font-size: 12px !important;
+}
+
+.dropdown-menu {
+    background-color: black !important;
+}
+
+.dropdown-divider{
+    background: white !important;
 }
