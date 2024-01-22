@@ -715,3 +715,13 @@ export async function getUserLoginLocation(latitude, longitude) {
         return error
     }
 }
+
+
+export async function orderStatusUpdate(fromdata,id){
+    try {
+        const response = await axios.patch(apiUrl + `/order/status-update/${id}`, fromdata)
+        return response;
+    } catch (error) {
+        return error
+    }
+}

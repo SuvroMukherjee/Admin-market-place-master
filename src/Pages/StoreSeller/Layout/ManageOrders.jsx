@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { sellerOrderLists, sellerStockoutlist } from '../../../API/api';
+import { orderStatusUpdate, sellerOrderLists, sellerStockoutlist } from '../../../API/api';
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Col, Container, Row, Form, ButtonGroup, Card, Image } from 'react-bootstrap';
 import { ChangeFormatDate } from '../../../common/DateFormat';
@@ -30,6 +30,21 @@ const ManageOrders = () => {
     console.log({ list })
 
 
+    const handleStatusUpdate = async(OId,product,status) =>{
+     
+     let payload =  {
+
+         "proId": product,
+           "order_status": status
+
+        }
+
+        let res = await orderStatusUpdate(payload, OId);
+
+        console.log(res)
+
+
+    }
 
 
     return (
@@ -79,7 +94,6 @@ const ManageOrders = () => {
 
                     </Col>
                 </Row>
-                {console.log(list[selectIndex]?.order_details, 'l')}
                 {selectIndex &&
                     <Row>
                         <Col className='mb-2 dtextOredr'>Order Id : <span style={{ color: '#FF9843' }}>{list[selectIndex]?.order_no}</span>  </Col>
@@ -99,12 +113,13 @@ const ManageOrders = () => {
 
                                     </tr>
                                 </thead>
+                                
                                 <tbody>
                                     {list[selectIndex]?.order_details?.length > 0 && list[selectIndex]?.order_details?.map((row, index) => (
                                         <tr>
 
                                             <td>{row?.proId?.name}</td>
-                                            <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={75}  /></td>
+                                            <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={100}  /></td>
                                             <td>{row?.qty}</td>
                                             <td>{row?.proId?.specId?.skuId?.toUpperCase()}</td>
                                             <td>
@@ -115,11 +130,18 @@ const ManageOrders = () => {
                                             <td>₹{row?.price?.toLocaleString()}</td>
                                             <td>{row?.total_shipping_price}</td>
                                             <td className="d-flex flex-column gap-1">
+                                                <Button variant={row?.order_status == 'confirmed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'confirmed')} disabled={row?.order_status == 'confirmed'}>Confirm Order</Button>
 
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Packed</Button>
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Packed</Button>
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Packed</Button>
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Packed</Button>
+                                                <Button variant='outline-secondary' size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} >Order Packed</Button>
+
+                                                <Button variant='outline-secondary' size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')}>Order Shipped</Button>
+
+                                                <Button variant='outline-secondary' size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'delivered')}>Order Deliverd</Button>
+
+                                                <Button variant='outline-secondary' size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')}>Order Cancel</Button>
+
+                                                <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Refund</Button>
+                                                <Button variant='outline-secondary' size="sm" className='orderpadding'>Print Tax Invoice</Button>
 
                                             </td>
                                         </tr>
