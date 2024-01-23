@@ -47,7 +47,7 @@ const ManageOrders = () => {
     }
 
 
-    const IsallOrderPackedFunc  = (data) =>{
+    const IsallOrderPackedFunc = (data) => {
         console.log(data)
         return (data.order_status == 'order_packed');
     }
@@ -155,22 +155,49 @@ const ManageOrders = () => {
 
                                                 </td>
                                             </tr>
-                                            
+
                                         </>
 
-                                        
+
 
                                     ))}
                                 </tbody>
-                                {list[selectIndex]?.order_details?.every(IsallOrderPackedFunc)  &&
-                                    <tbody>
-                                        show
-                                        </tbody>
-                                }
-        
+                                
+
                             </Table>
                         </Col>
                     </Row>}
+                    
+                    {list[selectIndex]?.order_details?.every(IsallOrderPackedFunc) &&
+                    <Row className='p-4 mt-2 mb-4 cdetailsbg'>
+                            <Col className='dtext' xs={5}>
+                                <Row>
+                                    <Col>Customer Details</Col>
+                                </Row>
+                                <Row className='mt-3'>
+                                    <Col className='orderId'> {list[selectIndex]?.order_no}</Col>
+                                </Row>
+                            </Col>
+                            <Col>
+                            <Row >
+                                    <Col className='dtext'>Name</Col>
+                                    <Col className='dtext'>Phone</Col>
+                                    <Col className='dtext'>City</Col>
+                                    <Col className='dtext' xs={3}>Locality</Col>
+                                    <Col className='dtext'>Shipping Place</Col>
+                              </Row>
+                              <Row>
+                                    <Col className='cdetails'>{list[selectIndex]?.addressId?.name}</Col>
+                                    <Col className='cdetails'>{list[selectIndex]?.addressId?.ph_no}</Col>
+                                    <Col className='cdetails'>{list[selectIndex]?.addressId?.city}</Col>
+                                    <Col xs={3} className='cdetails'>{list[selectIndex]?.addressId?.locality}</Col>
+                                    <Col className='cdetails'>{list[selectIndex]?.addressId?.address_type}</Col>
+                                    
+                              </Row>
+                            </Col>
+                        </Row>
+                    }
+                    
             </Container>
         </div>
     )

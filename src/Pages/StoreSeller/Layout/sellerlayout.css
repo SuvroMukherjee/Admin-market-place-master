@@ -211,6 +211,18 @@ th {
     background-color: black !important;
 }
 
-.dropdown-divider{
+.dropdown-divider {
     background: white !important;
+}
+
+.cdetails {
+    color: #080505;
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.cdetailsbg{
+    /* background: #FE7A36; */
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    background: rgb(236, 235, 235);
 }
