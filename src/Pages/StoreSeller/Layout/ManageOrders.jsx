@@ -69,13 +69,13 @@ const ManageOrders = () => {
                                     <th>Order ID</th>
                                     <th>Order Amount</th>
                                     <th>Order date & time</th>
-                                    <th>Customer Name</th>
+                                    {/* <th>Customer Name</th>
                                     <th>Customer Phone</th>
                                     <th>Locality</th>
-                                    <th>City</th>
+                                    <th>City</th> */}
                                     <th>Pincode</th>
                                     <th>Address</th>
-                                    <th>Shipping Place</th>
+                                    {/* <th>Shipping Place</th> */}
                                     <th>Payment Status</th>
                                 </tr>
                             </thead>
@@ -85,13 +85,13 @@ const ManageOrders = () => {
                                         <td className='orderId' onClick={() => setSelectIndex(index)}>{row?.order_no} <MdArrowDropDownCircle size={20} /> </td>
                                         <td className='orderPrice'>₹ {row?.order_price?.toLocaleString()}</td>
                                         <td>{ChangeFormatDate(row?.createdAt)}</td>
-                                        <td>{row?.name}</td>
+                                        {/* <td>{row?.name}</td>
                                         <td>{row?.addressId?.ph_no}</td>
                                         <td>{row?.addressId?.locality}</td>
-                                        <td>{row?.addressId?.city}</td>
+                                        <td>{row?.addressId?.city}</td> */}
                                         <td>{row?.addressId?.pincode}</td>
                                         <td>{row?.addressId?.address}</td>
-                                        <td>{row?.addressId?.address_type?.toUpperCase()}</td>
+                                        {/* <td>{row?.addressId?.address_type?.toUpperCase()}</td> */}
                                         <td>{row?.payment_status}</td>
                                     </tr>
                                 ))}
