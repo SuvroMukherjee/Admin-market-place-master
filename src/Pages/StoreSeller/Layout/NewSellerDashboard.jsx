@@ -89,7 +89,7 @@ const NewSellerDashboard = () => {
 
     return (
         <div style={{ background: '#f5f1f1' }}>
-            <Navbar expand="lg" className="" style={navbarStyle}>
+            {/* <Navbar expand="lg" className="" style={navbarStyle}>
                 <Container>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ background: 'black' }} />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -109,13 +109,12 @@ const NewSellerDashboard = () => {
                                 <Dropdown.Divider />
                                 <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders <GoArrowUpRight size={20} /> </NavDropdown.Item>
                             </NavDropdown>
-                            {/* <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link> */}
+                         
                             <Nav.Link >Customer Feedback</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
-
-            </Navbar>
+            </Navbar> */}
             <Container className='mt-4'>
                 <Row>
                     <Col>

@@ -231,7 +231,7 @@ export default function SellerInventory() {
 
         if (res.data.error == false) {
             toast.success('Inventory update successfully...')
-            //setQuantities([])
+            setQuantities([])
             setClearInput(true);
             setTimeout(() => {
                 setClearInput(false);

@@ -564,6 +564,7 @@ export default function NewAddProduct() {
     return (
         <div style={{ background: '#ffffff', height: '100vh' }}>
             <div>
+                
                 <Navbar expand="lg" className="bg-body-tertiary" style={navbarStyle}>
                     <Container>
                         <Navbar.Brand href="#home" className="Caption" >ADD PRODUCT</Navbar.Brand>

@@ -1,25 +1,22 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Drawer, Box, List, Menu, MenuItem } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { NavLink } from 'react-router-dom';
-import { FaUnlockAlt } from 'react-icons/fa';
+import { AppBar, Box, Drawer, IconButton, List, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { Outlet } from 'react-router-dom'
-import { SellerSidebarData } from '../../../components/Sidebar/SidebarData';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Container } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
-import useAuth from '../../../hooks/useAuth';
-import { MdCancel } from "react-icons/md";
-import Button from '@mui/material/Button';
-import cmp from '../../../assets/cmp.png'
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Navbar from 'react-bootstrap/Navbar';
 import { FaUserCircle } from "react-icons/fa";
+import { GoArrowUpRight } from "react-icons/go";
 import { IoIosMenu } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
+import { Outlet, useNavigate } from 'react-router-dom';
+import cmp from '../../../assets/cmp.png';
+import useAuth from '../../../hooks/useAuth';
 
 const MyNavbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -50,6 +47,13 @@ const MyNavbar = () => {
         setMenuAnchor2(null);
     };
     
+    const navbarStyle = {
+        paddingLeft: '0px', // Adjust the left padding
+        paddingRight: '10px', // Adjust the right padding
+        height: '7vh',
+        background: 'black'
+    };
+
 
     return (
         <div>
@@ -67,6 +71,7 @@ const MyNavbar = () => {
                     <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', color: '#0766AD', fontWeight: 'bold', color:'#FF9843' }}>{auth?.email}</span>
                 </Toolbar>
             </AppBar>
+            
 
             {/* Drawer for the bottom section */}
             <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
@@ -140,6 +145,34 @@ const MyNavbar = () => {
                     </List>
                 </Box>
             </Drawer>
+
+            <Navbar expand="lg" className="" style={navbarStyle}>
+                <Container>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ background: 'black' }} />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <Nav.Link onClick={() => navigate('/seller/seller-dashboard')} className='dtext'>Home</Nav.Link>
+                            <NavDropdown title="Catalogue" id="basic-nav-dropdown">
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-addproduct')}>Add Product <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                                <Dropdown.Divider />
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-ownproduct-status')}>Sell Your Product <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                            </NavDropdown>
+                            <NavDropdown title="Inventory" id="basic-nav-dropdown">
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-productList')}>Manage Inventory <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                                <Dropdown.Divider />
+                            </NavDropdown>
+                            <NavDropdown title="Orders" id="basic-nav-dropdown">
+                                <NavDropdown.Item onClick={() => navigate('/seller/seller-orderlist')}>Orders Lists <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                                <Dropdown.Divider />
+                                <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                            </NavDropdown>
+                            {/* <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link> */}
+                            <Nav.Link >Customer Feedback</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+
+            </Navbar>
 
             <Outlet />
         </div>
