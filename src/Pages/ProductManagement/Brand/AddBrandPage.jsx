@@ -10,7 +10,13 @@ import NoImage from '../../../assets/noimage.png'
 const AddBrandPage = () => {
     const [title, setTitle] = useState('');
     const [file, setFile] = useState(NoImage);
+    const [isIndian,setIsIndian] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [isChecked, setChecked] = useState(false);
+
+    const handleCheckboxChange = () => {
+        setChecked(!isChecked);
+    };
 
     const navigate = useNavigate()
 
@@ -33,6 +39,7 @@ const AddBrandPage = () => {
             let payload =
             {
                 "title": title,
+                'brand_origin': isChecked,
                 "image": {
                     image_path : file
                 }
@@ -89,6 +96,17 @@ const AddBrandPage = () => {
                         {file &&
                             <img src={file} />}
                         <input type="file" id="file" onChange={handleFileChange} accept="image/jpeg, image/png, image/gif" />
+                    </div>
+                    <div className="addProductItem">
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={handleCheckboxChange}
+                            />
+                            {' '}
+                            Is It Indian Brand?
+                        </label>
                     </div>
                     <div className="addProductItem">
                         <label>Title</label>

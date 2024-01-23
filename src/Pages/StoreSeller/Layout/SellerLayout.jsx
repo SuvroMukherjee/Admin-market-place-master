@@ -68,7 +68,7 @@ const MyNavbar = () => {
                     </Typography>
                     {/* <Button color="inherit" style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase' }}>Sign In as  */}
                     <FaUserCircle size={25}/>
-                    <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', color: '#0766AD', fontWeight: 'bold', color:'#FF9843' }}>{auth?.email}</span>
+                    <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase',  fontWeight: 'bold', color:'#FF9843' }}>{auth?.email}</span>
                 </Toolbar>
             </AppBar>
             

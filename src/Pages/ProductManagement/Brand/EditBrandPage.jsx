@@ -6,6 +6,15 @@ import { EditBrand, FileUpload } from '../../../API/api';
 
 const EditBrandPage = ({ showModal, handleClose, data }) => {
     const [modalData, setModalData] = useState({});
+    const [isChecked, setChecked] = useState(false);
+
+    console.log({data})
+
+    const handleCheckboxChange = () => {
+        setChecked(!isChecked);
+    };
+
+    
 
     useEffect(() => {
         setModalData(data);
@@ -24,9 +33,20 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setModalData({ ...modalData, [name]: value });
+        const { name, value, type, checked } = e.target;
 
+        // Check if the input is a checkbox and update the state accordingly
+        if (type === 'checkbox') {
+            setModalData((prevData) => ({
+                ...prevData,
+                [name]: checked,
+            }));
+        } else {
+            setModalData((prevData) => ({
+                ...prevData,
+                [name]: value,
+            }));
+        }
     };
 
     const handleFileChange = async (e) => {
@@ -72,6 +92,18 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
                                 />
                             </Form.Group>
                         </Row>
+                        <div className="addProductItem mt-2">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name='brand_origin'
+                                    checked={modalData?.brand_origin}
+                                    onChange={handleInputChange}
+                                />
+                                {' '}
+                                Is It Indian Brand?
+                            </label>
+                        </div>
                         <Row className='mt-2'>
                             <Form.Group controlId="image">
                                 <Form.Label>Image</Form.Label>
@@ -92,11 +124,12 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
                                         variant="warning"
                                         type='submit'
                                         block
-                                    >Update Brand</Button>
+                                    >
+                                        Update Brand
+                                    </Button>
                                 </ButtonGroup>
                             </Col>
                         </Row>
-
                     </Form>
                 </Modal.Body>
             </Modal>

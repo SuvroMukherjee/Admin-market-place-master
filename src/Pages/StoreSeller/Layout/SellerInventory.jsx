@@ -331,6 +331,7 @@ export default function SellerInventory() {
                                     <th>Selling Price</th>
                                     <th>Shipping Price</th>
                                     <th>Commission Price</th>
+                                    <th>Net Disbursement</th>
                                     <th>Add Quatity</th>
                                     <th>Action</th>
                                 </tr>
@@ -379,7 +380,8 @@ export default function SellerInventory() {
                                             />
 
                                         </td>
-                                        <td>{ele?.comission_price}</td>
+                                        <td>{Math.round(ele?.price - ele?.comission_price)}</td>
+                                        <td>{Math.round(ele?.comission_price)?.toLocaleString()}</td>
                                         <td>
 
                                             <Form.Control
