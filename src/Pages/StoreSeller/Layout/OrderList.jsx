@@ -122,12 +122,13 @@ const OrderList = () => {
                               <th>Product Name</th>
                               <th>Product Image</th>
                               <th>SKU</th>
+                              <th>Available Quantiy</th>
                               <th>Order Quantity</th>
                               <th>Price</th>
                               <th>Shipping Cost</th>
-                              <th>Commission Price</th>
+                              <th>Net Disbursement</th>
                               <th>Order Date & Time</th>
-                              <th>Available Quantiy</th>
+                              {/* <th>Available Quantiy</th> */}
                           </tr>
                       </thead>
                       <tbody>
@@ -139,12 +140,13 @@ const OrderList = () => {
                                       <Image src={row.productId?.specId?.image?.[0]?.image_path} thumbnail width={40} height={40} />
                                   </td>
                                   <td>{row.productId?.specId?.skuId}</td>
-                                  <td className='amount'>{row.quantity}</td>
-                                  <td className='amount'> {row.productId?.price}</td>
-                                  <td className='amount'>{row.productId?.shipping_cost}</td>
-                                  <td className='amount'>{row.productId?.comission_price}</td>
-                                  <td className='datecolor'>{ChangeFormatDate(row.createdAt)}</td>
                                   <td className='avaible'>{row.productId?.available_qty}</td>
+                                  <td className='amount'>{row.quantity}</td>
+                                  <td className='amount'> {row.productId?.price?.toLocaleString()}</td>
+                                  <td className='amount'>{row.productId?.shipping_cost}</td>
+                                  <td className='amount'>{row.productId?.comission_price?.toLocaleString()}</td>
+                                  <td className='datecolor'>{ChangeFormatDate(row.createdAt)}</td>
+                                  {/* <td className='avaible'>{row.productId?.available_qty}</td> */}
                               </tr>
                           ))}
                       </tbody>

@@ -30,12 +30,12 @@ const ManageOrders = () => {
     console.log({ list })
 
 
-    const handleStatusUpdate = async(OId,product,status) =>{
-     
-     let payload =  {
+    const handleStatusUpdate = async (OId, product, status) => {
 
-         "proId": product,
-           "order_status": status
+        let payload = {
+
+            "proId": product,
+            "order_status": status
 
         }
 
@@ -44,6 +44,12 @@ const ManageOrders = () => {
         console.log(res)
 
 
+    }
+
+
+    const IsallOrderPackedFunc  = (data) =>{
+        console.log(data)
+        return (data.order_status == 'order_packed');
     }
 
 
@@ -76,7 +82,7 @@ const ManageOrders = () => {
                             <tbody>
                                 {list?.length > 0 && list.map((row, index) => (
                                     <tr key={row.id}>
-                                        <td className='orderId' onClick={() => setSelectIndex(index)}>{row?.order_no} <MdArrowDropDownCircle size={20}/> </td>
+                                        <td className='orderId' onClick={() => setSelectIndex(index)}>{row?.order_no} <MdArrowDropDownCircle size={20} /> </td>
                                         <td className='orderPrice'>₹ {row?.order_price?.toLocaleString()}</td>
                                         <td>{ChangeFormatDate(row?.createdAt)}</td>
                                         <td>{row?.name}</td>
@@ -94,7 +100,7 @@ const ManageOrders = () => {
 
                     </Col>
                 </Row>
-                {selectIndex &&
+                {list[selectIndex]?.order_details?.length > 0 &&
                     <Row>
                         <Col className='mb-2 dtextOredr'>Order Id : <span style={{ color: '#FF9843' }}>{list[selectIndex]?.order_no}</span>  </Col>
                         <Col xs={12}>
@@ -109,44 +115,59 @@ const ManageOrders = () => {
                                         <th>Order Quantity</th>
                                         <th>Price</th>
                                         <th>Shipping Cost</th>
+                                        <th>Estimated Date & Time</th>
                                         <th>Manage Order</th>
 
                                     </tr>
                                 </thead>
-                                
+
                                 <tbody>
                                     {list[selectIndex]?.order_details?.length > 0 && list[selectIndex]?.order_details?.map((row, index) => (
-                                        <tr>
+                                        <>
 
-                                            <td>{row?.proId?.name}</td>
-                                            <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={100}  /></td>
-                                            <td>{row?.qty}</td>
-                                            <td>{row?.proId?.specId?.skuId?.toUpperCase()}</td>
-                                            <td>
-                                                {row?.proId?.specId?.spec_det?.map((ele) => (
-                                                    <li>{ele?.title} : {ele?.value}</li>
-                                                ))}
-                                            </td>
-                                            <td>₹{row?.price?.toLocaleString()}</td>
-                                            <td>{row?.total_shipping_price}</td>
-                                            <td className="d-flex flex-column gap-1">
-                                                <Button variant={row?.order_status == 'confirmed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'confirmed')} disabled={row?.order_status == 'confirmed'}>Confirm Order</Button>
+                                            <tr>
 
-                                                <Button variant={row?.order_status == 'order_packed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} disabled={row?.order_status == 'order_packed'}>Order Packed</Button>
+                                                <td>{row?.proId?.name}</td>
+                                                <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={100} /></td>
+                                                <td>{row?.qty}</td>
+                                                <td>{row?.proId?.specId?.skuId?.toUpperCase()}</td>
+                                                <td>
+                                                    {row?.proId?.specId?.spec_det?.map((ele) => (
+                                                        <li>{ele?.title} : {ele?.value}</li>
+                                                    ))}
+                                                </td>
+                                                <td>₹{row?.price?.toLocaleString()}</td>
+                                                <td>{row?.total_shipping_price}</td>
+                                                <td>{ChangeFormatDate(row?.estimited_delivery)}</td>
+                                                <td className="d-flex flex-column gap-1">
+                                                    {/* <Button variant={row?.order_status == 'confirmed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'confirmed')} disabled={row?.order_status == 'confirmed'}>Confirm Order</Button> */}
 
-                                                <Button variant={row?.order_status == 'shipped' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')} disabled={row?.order_status == 'shipped'}>Order Shipped</Button>
+                                                    <Button variant={row?.order_status == 'order_packed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} disabled={row?.order_status == 'order_packed'}>Order Packed</Button>
 
-                                                <Button variant={row?.order_status == 'delivered' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'delivered')} disabled={row?.order_status == 'delivered'}>Order Deliverd</Button>
+                                                    <Button variant={row?.order_status == 'shipped' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')} disabled={row?.order_status == 'shipped'}>Order Shipped</Button>
 
-                                                <Button variant={row?.order_status == 'cancel' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')} disabled={row?.order_status == 'cancel'}>Order Cancel</Button>
+                                                    <Button variant={row?.order_status == 'delivered' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'delivered')} disabled={row?.order_status == 'delivered'}>Order Deliverd</Button>
 
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Refund</Button>
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding'>Print Tax Invoice</Button>
+                                                    <Button variant={row?.order_status == 'cancel' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')} disabled={row?.order_status == 'cancel'}>Order Cancel</Button>
 
-                                            </td>
-                                        </tr>
+                                                    <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Refund</Button>
+                                                    <Button variant='outline-secondary' size="sm" className='orderpadding'>Print Tax Invoice</Button>
+
+                                                </td>
+                                            </tr>
+                                            
+                                        </>
+
+                                        
+
                                     ))}
                                 </tbody>
+                                {list[selectIndex]?.order_details?.every(IsallOrderPackedFunc)  &&
+                                    <tbody>
+                                        show
+                                        </tbody>
+                                }
+        
                             </Table>
                         </Col>
                     </Row>}
