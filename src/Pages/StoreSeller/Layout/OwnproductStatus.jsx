@@ -5,6 +5,7 @@ import { OwnProductSellerList } from '../../../API/api';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import noproduct from '../../../assets/noproduct.png'
+import { FaSearch } from "react-icons/fa";
 
 const OwnproductStatus = () => {
 
@@ -38,16 +39,18 @@ const OwnproductStatus = () => {
             <Row className='mt-4'>
                     <Col xs={6}>
                         <InputGroup>
-                            <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+                            <InputGroup.Text id="basic-addon1">
+                            <FaSearch/>
+                            </InputGroup.Text>
                             <Form.Control
-                                placeholder="Username"
-                                aria-label="Username"
+                                placeholder="Search Your Product"
+                                aria-label="Search Your Product"
                                 aria-describedby="basic-addon1"
                             />
                         </InputGroup>
                     </Col>
                     <Col>
-                     <Button size="sm">Search</Button>
+                     <Button variant='dark' size="sm">Search</Button>
                     </Col>
                 </Row>
                 <Row className='mt-4'>

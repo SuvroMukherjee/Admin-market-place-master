@@ -28,9 +28,10 @@ export default function SellerInventory() {
     const [sellerOwnData, setSellerOwnData] = useState([]);
     const [searchtext, setSearchtext] = useState();
     const initialQuantities = [];
+    const [clearInput, setClearInput] = useState(false);
 
     // State for quantities
-    const [quantities, setQuantities] = useState(initialQuantities);
+    const [quantities, setQuantities] = useState([]);
 
     // Function to update quantity at a specific index
     const setQuantityAtIndex = (index, value) => {
@@ -55,6 +56,8 @@ export default function SellerInventory() {
         }, 5000)
     }, []);
 
+
+    useEffect
 
     const navigate = useNavigate()
 
@@ -228,7 +231,11 @@ export default function SellerInventory() {
 
         if (res.data.error == false) {
             toast.success('Inventory update successfully...')
-            setQuantities([])
+            //setQuantities([])
+            setClearInput(true);
+            setTimeout(() => {
+                setClearInput(false);
+            }, 100);
             getProductListFunc();
 
         }
@@ -381,7 +388,7 @@ export default function SellerInventory() {
                                                 placeholder="Add Quantity"
                                                 name="quantity"
                                                 required
-                                                value={quantities[index]}
+                                                value={clearInput ? '' : quantities[index]}
                                                 // value={formData[index]?.price}
                                                 onChange={(e) => setQuantityAtIndex(index, parseInt(e.target.value))}
                                             />

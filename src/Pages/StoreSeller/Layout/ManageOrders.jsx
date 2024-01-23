@@ -132,13 +132,13 @@ const ManageOrders = () => {
                                             <td className="d-flex flex-column gap-1">
                                                 <Button variant={row?.order_status == 'confirmed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'confirmed')} disabled={row?.order_status == 'confirmed'}>Confirm Order</Button>
 
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} >Order Packed</Button>
+                                                <Button variant={row?.order_status == 'order_packed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} disabled={row?.order_status == 'order_packed'}>Order Packed</Button>
 
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')}>Order Shipped</Button>
+                                                <Button variant={row?.order_status == 'shipped' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')} disabled={row?.order_status == 'shipped'}>Order Shipped</Button>
 
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'delivered')}>Order Deliverd</Button>
+                                                <Button variant={row?.order_status == 'delivered' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'delivered')} disabled={row?.order_status == 'delivered'}>Order Deliverd</Button>
 
-                                                <Button variant='outline-secondary' size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')}>Order Cancel</Button>
+                                                <Button variant={row?.order_status == 'cancel' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')} disabled={row?.order_status == 'cancel'}>Order Cancel</Button>
 
                                                 <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Refund</Button>
                                                 <Button variant='outline-secondary' size="sm" className='orderpadding'>Print Tax Invoice</Button>
