@@ -3,7 +3,7 @@ import { orderStatusUpdate, sellerOrderLists, sellerStockoutlist } from '../../.
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Col, Container, Row, Form, ButtonGroup, Card, Image } from 'react-bootstrap';
 import { ChangeFormatDate } from '../../../common/DateFormat';
-import Table from 'react-bootstrap/Table';
+import { Table, Pagination } from 'react-bootstrap';
 import { MdArrowDropDownCircle } from "react-icons/md";
 
 const ManageOrders = () => {
@@ -42,6 +42,11 @@ const ManageOrders = () => {
         let res = await orderStatusUpdate(payload, OId);
 
         console.log(res)
+       // window.location.reload();
+        getOrdersist();
+
+
+
 
 
     }
@@ -49,8 +54,22 @@ const ManageOrders = () => {
 
     const IsallOrderPackedFunc = (data) => {
         console.log(data)
-        return (data.order_status == 'order_packed');
+        return (data.order_status != 'order_placed');
     }
+
+
+    const itemsPerPage = 5;  // You can adjust this based on your preference
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = list?.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(list?.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
 
     return (
@@ -80,7 +99,7 @@ const ManageOrders = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {list?.length > 0 && list.map((row, index) => (
+                                {currentItems?.length > 0 && currentItems.map((row, index) => (
                                     <tr key={row.id}>
                                         <td className='orderId' onClick={() => setSelectIndex(index)}>{row?.order_no} <MdArrowDropDownCircle size={20} /> </td>
                                         <td className='orderPrice'>₹ {row?.order_price?.toLocaleString()}</td>
@@ -97,12 +116,62 @@ const ManageOrders = () => {
                                 ))}
                             </tbody>
                         </Table>
-
+                        <Pagination size="sm">  
+                            <Pagination.Prev
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            />
+                            {[...Array(totalPages)].map((_, index) => (
+                                <Pagination.Item
+                                  
+                                    key={index + 1}
+                                    active={index + 1 === currentPage}
+                                    onClick={() => handlePageChange(index + 1)}
+                                >
+                                    {index + 1}
+                                </Pagination.Item>
+                            ))}
+                            <Pagination.Next
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            />
+                        </Pagination>
                     </Col>
                 </Row>
+                
                 {list[selectIndex]?.order_details?.length > 0 &&
                     <Row>
-                        <Col className='mb-2 dtextOredr'>Order Id : <span style={{ color: '#FF9843' }}>{list[selectIndex]?.order_no}</span>  </Col>
+                        <Col  className='mb-2 dtextOredr'>Order Id : <span style={{ color: '#FF9843' }}>{list[selectIndex]?.order_no}</span>  </Col>
+                        {list[selectIndex]?.order_details?.every(IsallOrderPackedFunc) &&
+                            <Row className='p-2 mt-2 mb-4 cdetailsbg'>
+                                <Col className='dtext' xs={4}>
+                                    <Row>
+                                        <Col>Customer Details</Col>
+                                    </Row>
+                                    <Row className='mt-3'>
+                                        <Col className='orderId'> {list[selectIndex]?.order_no}</Col>
+                                    </Row>
+                                </Col>
+                                <Col>
+                                    <Row >
+                                        <Col className='dtext' xs={3}>Name</Col>
+                                        <Col className='dtext'>Phone</Col>
+                                        <Col className='dtext'>City</Col>
+                                        <Col className='dtext' xs={3}>Locality</Col>
+                                        <Col className='dtext'>Shipping Place</Col>
+                                    </Row>
+                                    <Row>
+                                        <Col className='cdetails' xs={3}>{list[selectIndex]?.addressId?.name}</Col>
+                                        <Col className='cdetails'>{list[selectIndex]?.addressId?.ph_no}</Col>
+                                        <Col className='cdetails'>{list[selectIndex]?.addressId?.city}</Col>
+                                        <Col xs={3} className='cdetails'>{list[selectIndex]?.addressId?.locality}</Col>
+                                        <Col className='cdetails'>{list[selectIndex]?.addressId?.address_type}</Col>
+
+                                    </Row>
+                                </Col>
+                            </Row>
+                            
+                        }
                         <Col xs={12}>
                             <Table striped bordered hover responsive>
                                 <thead>
@@ -120,7 +189,7 @@ const ManageOrders = () => {
 
                                     </tr>
                                 </thead>
-
+                                {console.log(list[selectIndex], 'index')}
                                 <tbody>
                                     {list[selectIndex]?.order_details?.length > 0 && list[selectIndex]?.order_details?.map((row, index) => (
                                         <>
@@ -138,66 +207,63 @@ const ManageOrders = () => {
                                                 </td>
                                                 <td>₹{row?.price?.toLocaleString()}</td>
                                                 <td>{row?.total_shipping_price}</td>
-                                                <td>{ChangeFormatDate(row?.estimited_delivery)}</td>
+                                                <td className='estTime'>{ChangeFormatDate(row?.estimited_delivery)}</td>
                                                 <td className="d-flex flex-column gap-1">
-                                                    {/* <Button variant={row?.order_status == 'confirmed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'confirmed')} disabled={row?.order_status == 'confirmed'}>Confirm Order</Button> */}
+                                                    {/* <Button variant={row?.order_status == 'order_placed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_placed')} disabled={row?.order_status == 'order_placed'}>Confirm Order</Button> */}
 
-                                                    <Button variant={row?.order_status == 'order_packed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} disabled={row?.order_status == 'order_packed'}>Order Packed</Button>
+                                                    <Button variant={row?.order_status == 'order_packed' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} disabled={row?.order_status == 'order_packed'}>Order Packed</Button>
 
-                                                    <Button variant={row?.order_status == 'shipped' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')} disabled={row?.order_status == 'shipped'}>Order Shipped</Button>
+                                                    <Button variant={row?.order_status == 'shipped' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')} disabled={row?.order_status == 'shipped'}>Order Shipped</Button>
 
-                                                    <Button variant={row?.order_status == 'delivered' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'delivered')} disabled={row?.order_status == 'delivered'}>Order Deliverd</Button>
+                                                    <Button variant={row?.order_status == 'delivered' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'delivered')} disabled={row?.order_status == 'delivered'}>Order Deliverd</Button>
 
-                                                    <Button variant={row?.order_status == 'cancel' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')} disabled={row?.order_status == 'cancel'}>Order Cancel</Button>
+                                                    <Button variant={row?.order_status == 'cancel' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')} disabled={row?.order_status == 'cancel'}>Order Cancel</Button>
 
                                                     <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Refund</Button>
                                                     <Button variant='outline-secondary' size="sm" className='orderpadding'>Print Tax Invoice</Button>
-
                                                 </td>
                                             </tr>
 
                                         </>
 
-
-
                                     ))}
                                 </tbody>
-                                
+
 
                             </Table>
                         </Col>
                     </Row>}
-                    
-                    {list[selectIndex]?.order_details?.every(IsallOrderPackedFunc) &&
-                    <Row className='p-4 mt-2 mb-4 cdetailsbg'>
-                            <Col className='dtext' xs={5}>
-                                <Row>
-                                    <Col>Customer Details</Col>
-                                </Row>
-                                <Row className='mt-3'>
-                                    <Col className='orderId'> {list[selectIndex]?.order_no}</Col>
-                                </Row>
-                            </Col>
-                            <Col>
+
+                {/* {list[selectIndex]?.order_details?.every(IsallOrderPackedFunc) &&
+                    <Row className='p-2 mt-2 mb-4 cdetailsbg'>
+                        <Col className='dtext' xs={4}>
+                            <Row>
+                                <Col>Customer Details</Col>
+                            </Row>
+                            <Row className='mt-3'>
+                                <Col className='orderId'> {list[selectIndex]?.order_no}</Col>
+                            </Row>
+                        </Col>
+                        <Col>
                             <Row >
-                                    <Col className='dtext'>Name</Col>
-                                    <Col className='dtext'>Phone</Col>
-                                    <Col className='dtext'>City</Col>
-                                    <Col className='dtext' xs={3}>Locality</Col>
-                                    <Col className='dtext'>Shipping Place</Col>
-                              </Row>
-                              <Row>
-                                    <Col className='cdetails'>{list[selectIndex]?.addressId?.name}</Col>
-                                    <Col className='cdetails'>{list[selectIndex]?.addressId?.ph_no}</Col>
-                                    <Col className='cdetails'>{list[selectIndex]?.addressId?.city}</Col>
-                                    <Col xs={3} className='cdetails'>{list[selectIndex]?.addressId?.locality}</Col>
-                                    <Col className='cdetails'>{list[selectIndex]?.addressId?.address_type}</Col>
-                                    
-                              </Row>
-                            </Col>
-                        </Row>
-                    }
-                    
+                                <Col className='dtext' xs={3}>Name</Col>
+                                <Col className='dtext'>Phone</Col>
+                                <Col className='dtext'>City</Col>
+                                <Col className='dtext' xs={3}>Locality</Col>
+                                <Col className='dtext'>Shipping Place</Col>
+                            </Row>
+                            <Row>
+                                <Col className='cdetails' xs={3}>{list[selectIndex]?.addressId?.name}</Col>
+                                <Col className='cdetails'>{list[selectIndex]?.addressId?.ph_no}</Col>
+                                <Col className='cdetails'>{list[selectIndex]?.addressId?.city}</Col>
+                                <Col xs={3} className='cdetails'>{list[selectIndex]?.addressId?.locality}</Col>
+                                <Col className='cdetails'>{list[selectIndex]?.addressId?.address_type}</Col>
+
+                            </Row>
+                        </Col>
+                    </Row>
+                } */}
+
             </Container>
         </div>
     )

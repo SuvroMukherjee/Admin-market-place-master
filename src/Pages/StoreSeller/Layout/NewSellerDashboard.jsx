@@ -149,7 +149,7 @@ const NewSellerDashboard = () => {
                             </Row>
                         </Container>
                     </Col>
-                    <Col  className='p-2'>
+                    {/* <Col  className='p-2'>
                         <Container>
                             <Row className='mt-4'>
                                 <Col className='dtext2'>Recent Orders <span><FaCartFlatbed color='red' size={24} /></span></Col>
@@ -161,7 +161,7 @@ const NewSellerDashboard = () => {
                                 </Col>
                             </Row>
                         </Container>
-                    </Col>
+                    </Col> */}
                 </Row>
             </Container>
         </div>

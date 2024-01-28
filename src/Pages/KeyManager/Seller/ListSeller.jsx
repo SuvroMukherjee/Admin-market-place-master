@@ -334,7 +334,7 @@ export default function ListSeller() {
                 <Container>
                     <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Modal heading</Modal.Title>
+                            <Modal.Title>Commission</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <CommissionComponent catsdata={commissiondata} handlecreateCommissionFunc={handlecreateCommissionFunc}/>
