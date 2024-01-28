@@ -6,6 +6,7 @@ import { MdCategory } from 'react-icons/md';
 import { RiUserSettingsFill } from 'react-icons/ri';
 import { BsShop } from "react-icons/bs";
 import { GiVerticalBanner } from "react-icons/gi";
+import { IoMdImages } from "react-icons/io";
 
 export const AdminSidebarData = [
     {
@@ -66,6 +67,11 @@ export const AdminSidebarData = [
         title: 'Banner Managment',
         path: '/bannermanagment',
         icon: GiVerticalBanner,
+        cName: 'nav-text'
+    },{
+        title: 'Image Converter',
+        path: '/image-convert',
+        icon: IoMdImages,
         cName: 'nav-text'
     }
 ];

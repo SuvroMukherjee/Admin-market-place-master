@@ -38,6 +38,7 @@ import OrderList from './Pages/StoreSeller/Layout/OrderList';
 import SellerProductDetails from './Pages/StoreSeller/Layout/SellerProductDetails';
 import ManageOrders from './Pages/StoreSeller/Layout/ManageOrders';
 import OwnproductStatus from './Pages/StoreSeller/Layout/OwnproductStatus';
+import Imageconverter from './Pages/ProductManagement/ImageConverter/Imageconverter';
 
 
 
@@ -63,7 +64,8 @@ export default function Router() {
             { path: 'EditUser/:id', element: <EditUser /> },
             { path: 'SellerManagment', element: <SellerListManage /> },
             { path: 'SellerProductManagment', element: <SellerProductManagment /> },
-            { path: 'bannermanagment', element: <BannerManagment /> }
+            { path: 'bannermanagment', element: <BannerManagment /> },
+            { path: 'image-convert', element: <Imageconverter /> }
           ],
         },
         {
