@@ -81,24 +81,23 @@ const MyNavbar = () => {
                         <img src={cmp} width={150} /> <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
                     </Typography>
                     {/* <Button color="inherit" style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase' }}>Sign In as  */}
-                    <div>
+                    
                         {/* FaUserCircle icon that opens/closes the dropdown */}
                         <div onClick={handleDropdownToggle}>
                             <FaUserCircle size={25} />
                         </div>
-                        <p onClick={() => navigate('/seller/reset')}>chc</p>
-
+                       
                         {/* Dropdown content */}
-                        {/* <Dropdown show={isDropdownOpen} onClose={handleDropdownClose}>
+                        <Dropdown show={isDropdownOpen} onClose={handleDropdownClose}>
                             <Dropdown.Menu>
                                 <p onClick={() => navigateToChange()}>Change Passowrd</p>
                                 <Dropdown.Item onClick={() => navigate('/seller/changepassword')}>Another action</Dropdown.Item>
                                 <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
                             </Dropdown.Menu>
-                        </Dropdown> */}
+                        </Dropdown>
 
                         {/* Your other content goes here */}
-                    </div>
+                    
                     <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', color: '#FF9843' }}>{auth?.email}</span>
                 </Toolbar>
             </AppBar>

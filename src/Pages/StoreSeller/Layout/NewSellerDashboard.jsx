@@ -74,22 +74,37 @@ const NewSellerDashboard = () => {
         }, 0)
 
         console.log({ totalRating })
-        setAvgCustomerRating((totalRating / filteredData?.length)?.toFixed(2))
+        if(totalRating != 0){
+            setAvgCustomerRating((totalRating / filteredData?.length)?.toFixed(2))
+        }
     }
 
 
 
     const NumberBox = ({ icon, number, label }) => {
+        console.log(number,label)
         return (
             <Card style={{ width: '12rem' }} className='shadowbox'>
                 <Card.Body>
                     <p className='dtext'>{label?.toUpperCase()}</p>
                     {label != 'Customer Feedback' &&
                         <h6 className="dtextNumber">{number}</h6>}
-                    {label == 'Customer Feedback' &&
-                        // <h6>{number} <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> </h6> 
-                        <StarRating value={number} />
+                    {
+                        label == 'Customer Feedback' && (
+                            number != 0 ? (
+                                <StarRating value={number} />
+                            ) : (
+                                <>
+                                    <FaRegStar color='#FF9843' />
+                                    <FaRegStar color='#FF9843' />
+                                    <FaRegStar color='#FF9843' />
+                                    <FaRegStar color='#FF9843' />
+                                    <FaRegStar color='#FF9843' />
+                                </>
+                            )
+                        )
                     }
+
                 </Card.Body>
             </Card>
         );

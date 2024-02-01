@@ -389,7 +389,14 @@ export async function BulkProductUpload(formData) {
     }
 }
 
-
+export async function SpecBulkProductUpload(formData) {
+    try {
+        const response = await axios.post(apiUrl + "/file/product-csv-upload/spec", formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
 
 export async function ProductSpecificationCreate(formData) {
     try {

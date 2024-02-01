@@ -89,7 +89,7 @@ export default function SellerProductManagment() {
             field: "image", headerName: "Product Image", width: 150, renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params?.row?.image?.[0]} alt="" />
+                        <img className="productListImg" src={params?.row?.image?.[0]?.image_path} alt="" />
                         {params?.row?.image?.length > 1 && <span>{params?.row?.image?.length - 1}+</span>}
                     </div>
                 );

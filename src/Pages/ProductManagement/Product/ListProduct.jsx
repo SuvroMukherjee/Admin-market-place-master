@@ -7,7 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { BulkProductUpload, FileUpload, ProductSpecificationCreate, StatusUpdateProduct, UpdateProductSpecification, allProductList, deleteProduct } from "../../../API/api";
+import { BulkProductUpload, FileUpload, ProductSpecificationCreate, SpecBulkProductUpload, StatusUpdateProduct, UpdateProductSpecification, allProductList, deleteProduct } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { productRows } from "../../../dummyData";
 import { PiFileCsvDuotone } from "react-icons/pi";
@@ -15,6 +15,7 @@ import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
 import { RiListSettingsFill } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import { PiFileCsvLight } from "react-icons/pi";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -103,7 +104,7 @@ export default function ListProduct() {
                 );
             }
         },
-        { field: "regular_price", headerName: "Price", width: 150, },
+        // { field: "regular_price", headerName: "Price", width: 150, },
         { field: "desc", headerName: "Description", width: 150 },
         {
             field: "category", headerName: "Category", width: 150, renderCell: (params) => {
@@ -156,6 +157,25 @@ export default function ListProduct() {
                             <Button variant="info" onClick={() => { handleShowModal(); setSeledtedProductId(params?.row) }} size="sm">
                                 <RiListSettingsFill /> Add Specification
                             </Button>
+                            {/* <Button className="addCategoryButton" size="sm" variant="danger" >
+                                <div>
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        style={{ display: 'none' }}
+                                        onChange={handleFileChange}
+                                    />
+                                    <Button variant="dark" onClick={handleButtonClick}>
+                                        {uploading ? (
+                                            <Spinner animation="border" size="sm" />
+                                        ) : (
+                                            <>
+                                                <PiFileCsvDuotone /> 
+                                            </>
+                                        )}
+                                    </Button>
+                                </div>
+                            </Button> */}
                             <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)} size="sm">
                                 <RiEdit2Line /> Edit
                             </Button>
@@ -178,57 +198,67 @@ export default function ListProduct() {
 
 
     const fileInputRef = useRef(null);
+    const fileInputRef2 = useRef(null);
 
     const handleFileChange = (event) => {
 
         const file = event.target.files[0];
         if (file) {
             // Handle the file, e.g., upload or process it
-            console.log('Selected File:', file);
-            onFileUpload(file)
+            onFileUpload(file,'product')
+        }
+    };
+
+    const handleFileChangeSpec = (event) => {
+
+        const file = event.target.files[0];
+        if (file) {
+            // Handle the file, e.g., upload or process it
+            onFileUpload(file,'spec')
         }
     };
 
     const handleButtonClick = () => {
         // Trigger the hidden file input
+        console.log({fileInputRef})
         fileInputRef.current.click();
     };
 
 
-    const onFileUpload = async (files) => {
-        setUploading(true);
-
+    const onFileUpload = async (file, type) => {
         try {
-            // Iterate through the array of files
-            for (const file of files) {
-                const formData = new FormData();
-                formData.append("file", file);
+            alert(type);
+            setUploading(true);
 
-                const res = await FileUpload(formData);
-                console.log(res?.data?.data);
+            const formData = new FormData();
+            formData.append("file", file);
 
-                if (response?.data?.error) {
-                    toast.error(`Could not upload file: ${file.name}`);
-                } else {
-                    console.log(response?.data);
-                    toast.success(`Upload successful: ${file.name}`);
-                    setTimeout(() => {
-                        SetbannerImages((prevData) => [
-                            ...prevData,
-                            res?.data?.data?.fileurl
-                        ]);
-                    }, 3000);
-                }
+            const uploadResponse = await FileUpload(formData);
+            const fileName = uploadResponse?.data?.data?.fileName;
 
-                console.log(response);
+            if (!fileName) {
+                throw new Error("File upload failed");
             }
 
-            getProductListFunc();
+            const payload = { "file": fileName };
+            const Bulkres = type == 'spec' ? await SpecBulkProductUpload(payload) : await BulkProductUpload(payload);
+
+            if (Bulkres?.data?.error === false) {
+                toast.success(`Upload successful: ${file.name}`);
+                getProductListFunc();
+            } else {
+                throw new Error(`Could not upload file: ${file.name}`);
+            }
+        } catch (error) {
+            console.error("Error in file upload:", error.message);
+            toast.error(`Error in file upload: ${error.message}`);
+        } finally {
             setUploading(false);
-        } catch (err) {
-            console.error(err, "err");
         }
     };
+
+
+      
 
     return (
         <>
@@ -252,20 +282,58 @@ export default function ListProduct() {
                     </Row>
                     <Row>
                         <Col className="d-flex justify-content-end p-2">
+                          <Row>
+                                <Col >
+                                    <div>
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef}
+                                            style={{ display: 'none' }}
+                                            onChange={handleFileChange}
+                                        />
+                                        <Button size='sm' variant="success" onClick={() => fileInputRef.current.click()}><PiFileCsvLight size="20" /> Product via CSV</Button>
+                                    </div>
+                            </Col>
+                            <Col>
+                                    <div>
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef2}
+                                            style={{ display: 'none' }}
+                                            onChange={handleFileChangeSpec}
+                                        />
+                                        <Button size='sm' variant="success" onClick={() => fileInputRef2.current.click()}><PiFileCsvLight size="20" />   Specification via CSV</Button>
+                                    </div>
+                            </Col>
+                            <Col>
+                                    <Button size="sm" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
+                                        <AiOutlinePlus /> Add New Product
+                                    </Button>
+                            </Col>
+                          </Row>
+                        </Col>
+                    
+                        {/* <Col className="d-flex justify-content-end p-2">
+                            
+                                
+                           
+                                    
+                                
+                            
                             <Button className="addCategoryButton" variant="dark" >
                                 <div>
                                     <input
                                         type="file"
                                         ref={fileInputRef}
-                                        style={{ display: 'none' }}
-                                        onChange={handleFileChange}
+
+                                        onChange={handleFileChangeSpec}
                                     />
                                     <Button variant="dark" onClick={handleButtonClick}>
                                         {uploading ? (
                                             <Spinner animation="border" size="sm" />
                                         ) : (
                                             <>
-                                                <PiFileCsvDuotone /> CSV Upload
+                                                <PiFileCsvDuotone /> CSV Upload Spec
                                             </>
                                         )}
                                     </Button>
@@ -274,7 +342,7 @@ export default function ListProduct() {
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
                                 <AiOutlinePlus /> Add New Product
                             </Button>
-                        </Col>
+                        </Col> */}
                     </Row>
                     <Row className="justify-content-md-center">
                         <Col style={{ height: 400, width: '100%' }}>
