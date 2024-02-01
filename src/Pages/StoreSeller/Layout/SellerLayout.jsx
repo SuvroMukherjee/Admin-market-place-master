@@ -6,7 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
-import Dropdown from 'react-bootstrap/Dropdown';
+// import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
@@ -17,6 +17,7 @@ import { MdCancel } from "react-icons/md";
 import { Outlet, useNavigate } from 'react-router-dom';
 import cmp from '../../../assets/cmp.png';
 import useAuth from '../../../hooks/useAuth';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 const MyNavbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -54,6 +55,19 @@ const MyNavbar = () => {
         background: 'black'
     };
 
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+    const handleDropdownToggle = () => {
+        setDropdownOpen(!isDropdownOpen);
+    };
+
+    const handleDropdownClose = () => {
+        setDropdownOpen(false);
+    };
+
+    const navigateToChange = () =>{ 
+        navigate('/seller/reset')
+    }
 
     return (
         <div>
@@ -67,7 +81,24 @@ const MyNavbar = () => {
                         <img src={cmp} width={150} /> <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
                     </Typography>
                     {/* <Button color="inherit" style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase' }}>Sign In as  */}
-                    <FaUserCircle size={25} />
+                    <div>
+                        {/* FaUserCircle icon that opens/closes the dropdown */}
+                        <div onClick={handleDropdownToggle}>
+                            <FaUserCircle size={25} />
+                        </div>
+                        <p onClick={() => navigate('/seller/reset')}>chc</p>
+
+                        {/* Dropdown content */}
+                        {/* <Dropdown show={isDropdownOpen} onClose={handleDropdownClose}>
+                            <Dropdown.Menu>
+                                <p onClick={() => navigateToChange()}>Change Passowrd</p>
+                                <Dropdown.Item onClick={() => navigate('/seller/changepassword')}>Another action</Dropdown.Item>
+                                <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown> */}
+
+                        {/* Your other content goes here */}
+                    </div>
                     <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', color: '#FF9843' }}>{auth?.email}</span>
                 </Toolbar>
             </AppBar>
@@ -168,12 +199,14 @@ const MyNavbar = () => {
                             </NavDropdown>
                             {/* <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link> */}
                             <Nav.Link onClick={() => navigate('/seller/customer-feedback')}>Customer Feedback</Nav.Link>
+                           
                         </Nav>
                     </Navbar.Collapse>
+                  
                 </Container>
-
+                
             </Navbar>
-
+            <p onClick={() => navigate('/seller/reset')}></p>
             <Outlet />
         </div>
     );

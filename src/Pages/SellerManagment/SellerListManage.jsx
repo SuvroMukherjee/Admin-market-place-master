@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Seller.css";
 import { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Button, Col, Container, Row, ButtonGroup } from 'react-bootstrap';
+import { Button, Col, Container, Row, ButtonGroup, Form } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
 import { productRows } from "../../dummyData";
@@ -14,6 +14,7 @@ import { FaEye } from "react-icons/fa";
 import { Card, Carousel } from 'react-bootstrap';
 import { FaRegUser } from "react-icons/fa";
 import {  Overlay, Popover } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
 
 export default function SellerListManage() {
     const [data, setData] = useState(productRows);
@@ -23,6 +24,14 @@ export default function SellerListManage() {
     const [sellerDetails, setSellerDeatils] = useState()
     const [activeButton, setActiveButton] = useState('all');
     const [totalData, setTotalData] = useState([])
+    const [selectedSeller,setSellerSeller] = useState()
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = (data) => {
+        setShow(true)
+        setSellerSeller(data)
+    };
 
     const handleButtonClick = (buttonType) => {
         if (buttonType == 'pending') {
@@ -78,17 +87,18 @@ export default function SellerListManage() {
     };
 
 
-    const handleStatus = async (data) => {
+    const handleStatus = async (data,password='') => {
 
         let payload = {};
 
         if (data?.status == 'approved') {
             payload = {
-                "status": 'rejected'
+                "status": 'rejected',
             }
         } else {
             payload = {
-                "status": 'approved'
+                "status": 'approved',
+                "password": password
             }
         }
 
@@ -224,14 +234,27 @@ export default function SellerListManage() {
                             <Button variant="danger" onClick={() => handleStatus(params?.row)} size="sm">
                                 Reject
                             </Button> :
-                            <Button variant="success" onClick={() => handleStatus(params?.row)} size="sm">
+                            // <Button variant="success"   onClick={() => handleStatus(params?.row)} size="sm">
+                            //     Approve
+                            // </Button>
+                            <Button variant="success" onClick={() => handleShow(params?.row)} size="sm">
                                 Approve
-                            </Button>}
+                            </Button>
+                            }
                     </div>
                 );
             },
         },
     ];
+
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
+    const generatePassword = () => {
+        // Generate a random password of length 6
+        const newPassword = Math.random().toString(36).slice(-6);
+        setPassword(newPassword);
+    };
 
     return (
         <>
@@ -296,7 +319,53 @@ export default function SellerListManage() {
                         </Col>
                     </Row>
                 </Container>
+                <Container>
+                    <Modal centered size="md" show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>{selectedSeller?.email} {console.log(selectedSeller)}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Row>
+                                <Col xs={9}>
+                                    <Form.Group controlId="formPassword">
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control
+                                            type={showPassword ? 'text' : 'password'}
+                                            placeholder="Enter password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                        <Form.Text className="text-muted">
+                                            Password should be at least 6 characters long.
+                                        </Form.Text>
+                                    </Form.Group>
+                                </Col>
+                                <Col xs={3} className="d-flex align-items-center">
+                                    <Button variant="dark" size="sm" onClick={generatePassword}>
+                                        Auto Generate
+                                    </Button>
+                                </Col>
+                            </Row>
 
+                            <Form.Check
+                                type="checkbox"
+                                size="sm"
+                                label="Show Password"
+                                onChange={() => setShowPassword(!showPassword)}
+                            />
+      
+                            <Row className="mt-2">
+                                <Col>
+                                    <Button variant="dark" size="sm" onClick={() => handleStatus(selectedSeller,password)}>
+                                        SAVE
+                                    </Button>
+                                </Col>
+                            </Row>
+
+
+                        </Modal.Body>
+                    </Modal>
+                </Container>
                 <Container className="mt-4">
                     <Row>
                         <Col>

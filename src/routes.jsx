@@ -40,6 +40,8 @@ import ManageOrders from './Pages/StoreSeller/Layout/ManageOrders';
 import OwnproductStatus from './Pages/StoreSeller/Layout/OwnproductStatus';
 import Imageconverter from './Pages/ProductManagement/ImageConverter/Imageconverter';
 import Customerfeedback from './Pages/StoreSeller/Layout/Customerfeedback';
+import ResetPassComp from './Pages/StoreSeller/Layout/ResetPassComp';
+
 
 
 
@@ -123,6 +125,8 @@ export default function Router() {
             { path: 'seller-orderlist', element: <OrderList /> },
             { path: 'manage-orders', element: <ManageOrders /> },
             { path: 'customer-feedback', element: <Customerfeedback /> },
+            // { path: 'change-password', element: <ChangePassword /> },
+            { path: 'reset', element: <ResetPassComp /> },
 
           ],
         },

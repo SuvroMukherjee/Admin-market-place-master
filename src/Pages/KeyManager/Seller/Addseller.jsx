@@ -16,7 +16,7 @@ const Addseller = () => {
     const [formData, setFormData] = useState({
         phone_no: '',
         email: '',
-        password: '',
+        // password: '',
         address: '',
         pic_of_shope: [],
         gst_no: '',
@@ -464,7 +464,7 @@ const Addseller = () => {
                                 </Row>
 
                                 <Row className='mt-2'>
-                                    <Col>
+                                    {/* <Col>
                                         <Form.Group controlId="password">
                                             <Form.Label>Password</Form.Label>
                                             <Form.Control
@@ -476,8 +476,8 @@ const Addseller = () => {
                                                 required
                                             />
                                         </Form.Group>
-                                    </Col>
-                                    <Col>
+                                    </Col> */}
+                                    <Col xs={6}>
                                         <Form.Group controlId="gstNo">
                                             <Form.Label>GST Number</Form.Label>
                                             <Form.Control

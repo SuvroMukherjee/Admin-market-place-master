@@ -617,6 +617,17 @@ export async function UpdateSellerProduct(id,fromData) {
     }
 }
 
+
+export async function PasswordReset(id, fromData) {
+    try {
+        const response = await axios.patch(apiUrl + `/seller/change-password/${id}`, fromData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 {/** commission create  */ } 
 
 export async function createCommission(fromData) {
