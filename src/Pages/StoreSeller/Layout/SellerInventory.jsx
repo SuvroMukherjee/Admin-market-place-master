@@ -65,7 +65,7 @@ export default function SellerInventory() {
     async function getProductListFunc() {
         await SellerProductList(userId).then((res) => {
             console.log(res?.data?.data, 'data')
-            const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
+            const dataWithUniqueIds = res?.data?.data?.SellerProductData?.map((item, index) => ({
                 ...item,
                 id: index + 1,
             }));

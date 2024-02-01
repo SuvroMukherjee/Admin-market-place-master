@@ -16,6 +16,10 @@ import { FaRegStar } from "react-icons/fa";
 import { FaCartFlatbed } from "react-icons/fa6";
 import { GoArrowUpRight } from "react-icons/go";
 import Dropdown from 'react-bootstrap/Dropdown';
+import { ratingCalculation } from '../../../common/RatingAvg';
+import { FaStar } from "react-icons/fa";
+import { StarRating } from '../../../Layouts/StarRating';
+import { FaChrome } from "react-icons/fa";
 
 const NewSellerDashboard = () => {
     const navbarStyle = {
@@ -28,11 +32,13 @@ const NewSellerDashboard = () => {
     const navigate = useNavigate()
 
     const [sellingProducts, setSellingProducts] = useState(0);
-    const [data,setdata] = useState()
+    const [data, setdata] = useState()
     const [list, setList] = useState([])
 
-    const [totalSales,setTotalSales] = useState(0)
-    const [totalcommission,settotalcommission] = useState(0)
+    const [totalSales, setTotalSales] = useState(0)
+    const [totalcommission, settotalcommission] = useState(0)
+    const [reviewData, setReviewData] = useState()
+    const [avgCustomerRating, setAvgCustomerRating] = useState(0)
 
     const { userId } = JSON.parse(localStorage.getItem('auth'));
 
@@ -43,8 +49,10 @@ const NewSellerDashboard = () => {
     const SellingProducts = async () => {
         await SellerProductList(userId).then((res) => {
             console.log(res?.data?.data, 'data')
-            setSellingProducts(res?.data?.data?.length)
-            setdata(res?.data?.data)
+            setSellingProducts(res?.data?.data?.SellerProductData?.length)
+            setdata(res?.data?.data?.SellerProductData)
+            setReviewData(res?.data?.data?.reviewData)
+            CalculateAvgRating(res?.data?.data?.SellerProductData, res?.data?.data?.reviewData)
         }).catch((err) => {
             console.log(err)
         }).finally((data) => {
@@ -52,22 +60,43 @@ const NewSellerDashboard = () => {
         })
     }
 
+    const CalculateAvgRating = (pdata, rData) => {
+
+        const filteredData = rData?.filter((ele) => {
+            // Use some to check if there is any matching item in pdata
+            return pdata?.some((item) => item?._id == ele?.proId?._id);
+        });
+
+        console.log({ filteredData });
+
+        let totalRating = filteredData?.reduce((acc, curr) => {
+            return acc + parseInt(curr?.rating)
+        }, 0)
+
+        console.log({ totalRating })
+        setAvgCustomerRating((totalRating / filteredData?.length)?.toFixed(2))
+    }
+
+
+
     const NumberBox = ({ icon, number, label }) => {
         return (
             <Card style={{ width: '12rem' }} className='shadowbox'>
                 <Card.Body>
                     <p className='dtext'>{label?.toUpperCase()}</p>
-                    {label != 'Customer Feedback' && 
-                    <h6 className="dtextNumber">{number}</h6>}
-                    {label == 'Customer Feedback' && 
-                        <h6><FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> </h6>}
+                    {label != 'Customer Feedback' &&
+                        <h6 className="dtextNumber">{number}</h6>}
+                    {label == 'Customer Feedback' &&
+                        // <h6>{number} <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> <FaRegStar color='#FF9843' /> </h6> 
+                        <StarRating value={number} />
+                    }
                 </Card.Body>
             </Card>
         );
     };
 
 
-   
+
 
     useEffect(() => {
         getOrdersist()
@@ -118,7 +147,7 @@ const NewSellerDashboard = () => {
             <Container className='mt-4'>
                 <Row>
                     <Col>
-                        <NumberBox  label={'Total Orders'} number={list?.length} />
+                        <NumberBox label={'Total Orders'} number={list?.length} />
                     </Col>
                     <Col>
                         <NumberBox label={'Selling Products'} number={sellingProducts} />
@@ -127,7 +156,7 @@ const NewSellerDashboard = () => {
                         <NumberBox label={'Total Sales'} number={totalSales?.toLocaleString()} />
                     </Col>
                     <Col>
-                        <NumberBox label={'Customer Feedback'} number={0} />
+                        <NumberBox label={'Customer Feedback'} number={avgCustomerRating} />
                     </Col>
                     <Col>
                         <NumberBox label={'Total Balance'} number={totalcommission?.toLocaleString()} />
@@ -136,15 +165,15 @@ const NewSellerDashboard = () => {
             </Container>
             <Container className='mt-4'>
                 <Row>
-                    <Col className='p-2' xs={7}>
+                    <Col className='p-2' xs={8}>
                         <Container>
                             <Row className='mt-4'>
                                 <Col className='dtext2'>Top Selling Products <span><FaArrowUpRightDots color='red' size={24} /></span></Col>
                             </Row>
-                            <hr/>
+                            <hr />
                             <Row className='mt-2'>
                                 <Col>
-                                    <SellingProductList data={data} />
+                                    <SellingProductList data={data} reviewData={reviewData} />
                                 </Col>
                             </Row>
                         </Container>
@@ -203,37 +232,47 @@ const OrderConatiner = ({ list }) => {
     )
 }
 
-const SellingProductList = ({ data }) =>{
+const SellingProductList = ({ data, reviewData }) => {
 
-    console.log({data})
+    console.log({ data })
     const navigate = useNavigate()
     return (
         <div>
-            <Table striped bordered hover  className='shadowbox'>
+            <Table striped bordered hover className='shadowbox'>
                 <thead>
                     <tr>
-                        
+
                         <th>Image</th>
                         <th>SKU</th>
                         <th>Product Name</th>
                         <th>Selling Price</th>
                         <th>In Stock</th>
+                        <th>Rating</th>
+                        <th>Visit On Site</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.length > 0 && data?.slice(0,5)?.map((ele, index) => (
+                    {data?.length > 0 && data?.slice(0, 5)?.map((ele, index) => (
                         <tr>
-                            
+
                             <td>
                                 <Image src={ele?.specId?.image?.[0]?.image_path} thumbnail width={60} height={60} />
                             </td>
                             <td className='pname' onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.specId?.skuId?.toUpperCase()}</td>
                             <td className="pname" onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.name}</td>
                             <td>
-                             {ele?.price?.toLocaleString()}
+                                {ele?.price?.toLocaleString()}
                             </td>
                             <td className='avaible'>
                                 {ele?.available_qty || 0}
+                            </td>
+                            <td>
+                                <div className='ratingDiv'>
+                                    <FaStar color='gold' size={15} />{ratingCalculation(ele?._id, reviewData)}
+                                </div>
+                            </td>
+                            <td>
+                                <FaChrome size={30}/>
                             </td>
                         </tr>
                     ))}

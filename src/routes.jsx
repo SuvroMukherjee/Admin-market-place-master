@@ -39,6 +39,7 @@ import SellerProductDetails from './Pages/StoreSeller/Layout/SellerProductDetail
 import ManageOrders from './Pages/StoreSeller/Layout/ManageOrders';
 import OwnproductStatus from './Pages/StoreSeller/Layout/OwnproductStatus';
 import Imageconverter from './Pages/ProductManagement/ImageConverter/Imageconverter';
+import Customerfeedback from './Pages/StoreSeller/Layout/Customerfeedback';
 
 
 
@@ -121,6 +122,7 @@ export default function Router() {
             { path: 'product-deatils/:id', element: <SellerProductDetails /> },
             { path: 'seller-orderlist', element: <OrderList /> },
             { path: 'manage-orders', element: <ManageOrders /> },
+            { path: 'customer-feedback', element: <Customerfeedback /> },
 
           ],
         },

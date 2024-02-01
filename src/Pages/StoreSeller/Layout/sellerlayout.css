@@ -221,12 +221,25 @@ th {
     font-size: 14px;
 }
 
-.cdetailsbg{
+.cdetailsbg {
     /* background: #FE7A36; */
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     background: rgb(236, 235, 235);
 }
 
-.estTime{
+.estTime {
     color: red !important;
+}
+
+.ratingDiv {
+    background: green;
+    text-align: center;
+    padding: 10%;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    gap: 5px;
 }

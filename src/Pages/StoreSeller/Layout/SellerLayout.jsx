@@ -46,7 +46,7 @@ const MyNavbar = () => {
     const handleMenuClose2 = () => {
         setMenuAnchor2(null);
     };
-    
+
     const navbarStyle = {
         paddingLeft: '0px', // Adjust the left padding
         paddingRight: '10px', // Adjust the right padding
@@ -61,17 +61,17 @@ const MyNavbar = () => {
             <AppBar position="static" onClick={() => navigate('/seller/seller-dashboard')} className='sellerheader'>
                 <Toolbar>
                     <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
-                        <IoIosMenu size={20}/>
+                        <IoIosMenu size={20} />
                     </IconButton>
-                    <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        <img src={cmp} width={150} /> <span style={{ fontSize: '12px',letterSpacing:'1px',textTransform:'uppercase',fontWeight:'bold', }}><strong>Seller central</strong></span>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        <img src={cmp} width={150} /> <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
                     </Typography>
                     {/* <Button color="inherit" style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase' }}>Sign In as  */}
-                    <FaUserCircle size={25}/>
-                    <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase',  fontWeight: 'bold', color:'#FF9843' }}>{auth?.email}</span>
+                    <FaUserCircle size={25} />
+                    <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', color: '#FF9843' }}>{auth?.email}</span>
                 </Toolbar>
             </AppBar>
-            
+
 
             {/* Drawer for the bottom section */}
             <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
@@ -84,7 +84,7 @@ const MyNavbar = () => {
                             <ListItem disablePadding>
                                 <ListItemButton onClick={toggleDrawer}>
                                     <ListItemIcon>
-                                        <MdCancel size={20}/>
+                                        <MdCancel size={20} />
                                     </ListItemIcon>
                                     <ListItemText primary={"Menu"} />
                                 </ListItemButton>
@@ -92,44 +92,44 @@ const MyNavbar = () => {
                             </ListItem>
                         </ListItem>
                         <Divider />
-                        
-                            <ListItem  >
-                                <ListItemButton onClick={handleMenuClick}>
-                                    {/* <ListItemIcon>
+
+                        <ListItem  >
+                            <ListItemButton onClick={handleMenuClick}>
+                                {/* <ListItemIcon>
                                         <InboxIcon/>
                                     </ListItemIcon> */}
-                                    <ListItemText primary={"Catalogue"} />
-                                </ListItemButton>
+                                <ListItemText primary={"Catalogue"} />
+                            </ListItemButton>
 
-                            </ListItem>
-                            <Menu
-                                anchorEl={menuAnchor}
-                                open={Boolean(menuAnchor)}
-                                onClose={handleMenuClose}
-                            >
-                                <MenuItem onClick={() => { navigate('/seller/seller-addproduct');handleMenuClose()}}>Add product</MenuItem>
-                                <MenuItem onClick={handleMenuClose}>Option 2</MenuItem>
-                                <MenuItem onClick={handleMenuClose}>Option 3</MenuItem>
-                            </Menu>
-                        
-                       
-                            <ListItem >
-                                <ListItemButton onClick={handleMenuClick2}>
-                                    {/* <ListItemIcon>
+                        </ListItem>
+                        <Menu
+                            anchorEl={menuAnchor}
+                            open={Boolean(menuAnchor)}
+                            onClose={handleMenuClose}
+                        >
+                            <MenuItem onClick={() => { navigate('/seller/seller-addproduct'); handleMenuClose() }}>Add product</MenuItem>
+                            <MenuItem onClick={handleMenuClose}>Option 2</MenuItem>
+                            <MenuItem onClick={handleMenuClose}>Option 3</MenuItem>
+                        </Menu>
+
+
+                        <ListItem >
+                            <ListItemButton onClick={handleMenuClick2}>
+                                {/* <ListItemIcon>
                                         <InboxIcon />
                                     </ListItemIcon> */}
-                                    <ListItemText primary={"Inventory"} />
-                                </ListItemButton>
+                                <ListItemText primary={"Inventory"} />
+                            </ListItemButton>
 
-                            </ListItem>
-                            <Menu
-                                anchorEl={menuAnchor2}
-                                open={Boolean(menuAnchor2)}
-                                onClose={handleMenuClose2}
-                            >
-                                <MenuItem onClick={() => { navigate('/seller/seller-productList'); handleMenuClose() }}>Manage All Inventory</MenuItem>
-                            </Menu>
-                        
+                        </ListItem>
+                        <Menu
+                            anchorEl={menuAnchor2}
+                            open={Boolean(menuAnchor2)}
+                            onClose={handleMenuClose2}
+                        >
+                            <MenuItem onClick={() => { navigate('/seller/seller-productList'); handleMenuClose() }}>Manage All Inventory</MenuItem>
+                        </Menu>
+
                         <ListItem >
                             <Divider />
                             <ListItem >
@@ -167,7 +167,7 @@ const MyNavbar = () => {
                                 <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders <GoArrowUpRight size={20} /> </NavDropdown.Item>
                             </NavDropdown>
                             {/* <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link> */}
-                            <Nav.Link >Customer Feedback</Nav.Link>
+                            <Nav.Link onClick={() => navigate('/seller/customer-feedback')}>Customer Feedback</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
