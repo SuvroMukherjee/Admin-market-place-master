@@ -184,7 +184,7 @@ const NewSellerDashboard = () => {
                         <Container>
                             <Row className='mt-4'>
                                 <Col className='dtext2' >Top Selling Products <span><FaArrowUpRightDots color='red' size={24} /></span></Col>
-                                <p onClick={() => navigate('/seller/reset')}>ffffffff</p>
+                                {/* <p onClick={() => navigate('/seller/reset')}>ffffffff</p> */}
                             </Row>
                             <hr />
                             <Row className='mt-2'>

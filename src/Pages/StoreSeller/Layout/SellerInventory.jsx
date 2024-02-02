@@ -15,6 +15,13 @@ import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
 import './sellerlayout.css'
 import { ChangeFormatDate } from "../../../common/DateFormat";
+import { CSVLink } from 'react-csv';
+import Papa from 'papaparse';
+import { useRef } from "react";
+import { LuDownload } from "react-icons/lu";
+import { FaFileUpload } from "react-icons/fa";
+
+
 
 export default function SellerInventory() {
     const [data, setData] = useState(demoProductData);
@@ -29,6 +36,30 @@ export default function SellerInventory() {
     const [searchtext, setSearchtext] = useState();
     const initialQuantities = [];
     const [clearInput, setClearInput] = useState(false);
+    const [csvData, setCsvData] = useState([]);
+    const [importedData, setImportedData] = useState([]);
+    const [stratuploading, setStartUploading] = useState(false)
+
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            Papa.parse(file, {
+                complete: (result) => {
+                    // Access the parsed data in result.dat
+                    setImportedData(result.data);
+                    let Qarray = []
+                    result?.data?.map((ele) => {
+                        Qarray.push(ele?.['Add Quantity'] ? ele?.['Add Quantity'] : 0)
+                    })
+                    console.log({ Qarray })
+                    setQuantities(Qarray)
+                },
+                header: true, // Set this to true if your CSV file has headers
+            });
+        }
+    };
+
 
     // State for quantities
     const [quantities, setQuantities] = useState([]);
@@ -40,6 +71,9 @@ export default function SellerInventory() {
         // Update the quantity at the specified index
         updatedQuantities[index] = value;
         // Update the state
+
+        console.warn(updatedQuantities, 'updatedQuantities')
+
         setQuantities(updatedQuantities);
     };
 
@@ -57,8 +91,6 @@ export default function SellerInventory() {
     }, []);
 
 
-    useEffect
-
     const navigate = useNavigate()
 
 
@@ -72,6 +104,22 @@ export default function SellerInventory() {
             setData(dataWithUniqueIds)
             setFormData(dataWithUniqueIds)
             setMaindata(dataWithUniqueIds)
+            const csvDataArray = res?.data?.data?.SellerProductData?.map((ele, index) => ({
+                Status: ele.status ? 'Active' : 'Inactive',
+                // Image: ele.specId.image[0]?.image_path,
+                SKU: ele.specId.skuId,
+                'Product Name': `${ele?.productId?.brandId?.title} ${ele?.name}`,
+                'Date Created': ChangeFormatDate(ele?.updatedAt),
+                'Available Quantity': ele?.available_qty || 0,
+                'MRP price': ele?.specId?.price,
+                'Selling Price': ele?.price,
+                'Shipping Price': ele?.shipping_cost,
+                'Commission Price': Math.round(ele?.comission_price),
+                'Net Disbursement': Math.round(ele?.price - ele?.comission_price),
+                'Add Quantity': quantities[index], // Adjust this based on your logic
+            }));
+            console.log({ csvDataArray })
+            setCsvData([...csvDataArray]);
             setLoading(false)
         }).catch((err) => {
             console.log(err)
@@ -282,7 +330,31 @@ export default function SellerInventory() {
         setData(filterData);
     }
 
-    console.log({ quantities })
+    const handleSaveAll = async () => {
+        // Iterate through all rows and invoke handleUpdate for each
+        setStartUploading(true)
+        for (let index = 0; index < formData?.length; index++) {
+            await handleUpdate(index);
+        }
+
+        // Optionally, perform any additional actions after saving all
+        // For example, reset state, show a success message, fetch updated data, etc.
+        setQuantities([]);
+        setClearInput(true);
+        setTimeout(() => {
+            setClearInput(false);
+        }, 100);
+       // getProductListFunc();
+        toast.success( ' 🚀 All inventory updated successfully...');
+        setStartUploading(false)
+    };
+
+
+    const fileInputRef = useRef(null);
+
+    const handleChooseFile = () => {
+        fileInputRef.current.click();
+    };
 
     return (
         <div>
@@ -316,8 +388,43 @@ export default function SellerInventory() {
                         <Button variant="dark" size="sm" onClick={() => { getProductListFunc(); setSearchtext('') }}>See All Products</Button>
                     </Col>
                 </Row>
-                <Row className="mt-4">
+                {/* <Row className="mt-4">
                     <Col>
+                        <Button size="sm" variant="primary" onClick={handleChooseFile}>Choose CSV File</Button>
+                        <input type="file" ref={fileInputRef} accept=".csv" style={{ display: 'none' }} onChange={handleFileUpload} />
+                    </Col>
+                </Row> */}
+                <div class="d-flex flex-row-reverse">
+                    <div class="p-2">
+                        {csvData?.length > 0 &&
+                            <CSVLink size="sm" data={csvData} filename={`product_data.csv`} className="downloadCSV">
+                                <LuDownload /> Download CSV
+                            </CSVLink>}
+                    </div>
+                    <div class="p-2">
+                        <Button size="sm" variant="outline-dark" className="uploadCSV" onClick={handleChooseFile}><span className="m-1"><FaFileUpload /> </span>Import CSV</Button>
+                        <input type="file" ref={fileInputRef} accept=".csv" style={{ display: 'none' }} onChange={handleFileUpload} />
+                    </div>
+                    <div class="p-2">
+                        {importedData?.length > 0 &&
+                            <Row>
+                                <Button size="sm" variant="dark" className="uploadCSV" onClick={handleSaveAll}>
+                                    Save All
+                                    <span className="m-2">
+                                        {stratuploading ? (
+                                            <Spinner animation="border" size="sm" />
+                                        ) : (
+                                            `(${quantities?.filter(element => element !== 0)?.length} products changes)`
+                                        )}
+                                    </span>
+                                </Button>
+
+                            </Row>}
+                    </div>
+                </div>
+                <Row className="mt-2">
+                    <Col>
+
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
@@ -338,14 +445,14 @@ export default function SellerInventory() {
                             </thead>
                             <tbody>
                                 {data?.length > 0 && data?.map((ele, index) => (
-                                    <tr>
+                                    <tr style={{ background: 'red' }}>
                                         <td>{ele?.status ? <span style={{ color: 'green' }}>Active</span> : <span style={{ color: 'red' }}>InActive</span>}<br />
                                         </td>
                                         <td>
                                             <Image src={ele?.specId?.image?.[0]?.image_path} thumbnail width={60} height={60} />
                                         </td>
                                         <td onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.specId?.skuId}</td>
-                                        <td onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)} className="pname">{ele?.name}</td>
+                                        <td onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)} className="pname">{ele?.productId?.brandId?.title} {ele?.name}</td>
                                         <td className="datecolor">{ChangeFormatDate(ele?.updatedAt)}</td>
                                         <td className="avaible">
                                             {ele?.available_qty || 0}
@@ -390,7 +497,7 @@ export default function SellerInventory() {
                                                 placeholder="Add Quantity"
                                                 name="quantity"
                                                 required
-                                                value={clearInput ? '' : quantities[index]}
+                                                value={clearInput ? '' : quantities?.[index]}
                                                 // value={formData[index]?.price}
                                                 onChange={(e) => setQuantityAtIndex(index, parseInt(e.target.value))}
                                             />

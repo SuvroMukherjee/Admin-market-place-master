@@ -72,12 +72,12 @@ const MyNavbar = () => {
     return (
         <div>
             {/* AppBar for the top section */}
-            <AppBar position="static" onClick={() => navigate('/seller/seller-dashboard')} className='sellerheader'>
+            <AppBar position="static"  className='sellerheader'>
                 <Toolbar>
                     <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
                         <IoIosMenu size={20} />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() => navigate('/seller/seller-dashboard')}>
                         <img src={cmp} width={150} /> <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
                     </Typography>
                     {/* <Button color="inherit" style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase' }}>Sign In as  */}
@@ -90,8 +90,8 @@ const MyNavbar = () => {
                         {/* Dropdown content */}
                         <Dropdown show={isDropdownOpen} onClose={handleDropdownClose}>
                             <Dropdown.Menu>
-                                <p onClick={() => navigateToChange()}>Change Passowrd</p>
-                                <Dropdown.Item onClick={() => navigate('/seller/changepassword')}>Another action</Dropdown.Item>
+                               <Dropdown.Item onClick={() => navigate('/seller/reset')}>Change Passowrd</Dropdown.Item>
+                                {/* <Dropdown.Item onClick={() => navigate('/seller/changepassword')}>Another action</Dropdown.Item> */}
                                 <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>

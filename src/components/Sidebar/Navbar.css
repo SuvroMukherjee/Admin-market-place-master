@@ -92,9 +92,9 @@
     align-items: center;
 }
 
-span {
+/* .navbar-toggle .nav-text span {
     margin-left: 16px;
-}
+} */
 
 .sidebar-ttile {
     color: white;

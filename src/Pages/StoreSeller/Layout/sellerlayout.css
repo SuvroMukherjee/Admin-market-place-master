@@ -243,3 +243,31 @@ th {
     border-radius: 5px;
     gap: 5px;
 }
+
+.downloadCSV{
+            border: 0.5px solid;
+            color: black;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            border-radius: 4px;
+}
+
+.downloadCSV:hover{
+    background-color: #080505;
+    color: white;
+}
+
+.uploadCSV{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 11px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+

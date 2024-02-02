@@ -42,63 +42,71 @@ const ResetPassComp = () => {
 
     return (
         <Container className="mt-5">
-            <h2>Reset Password</h2>
-            <Form onSubmit={handleSubmit}>
+            <h4>Reset Password</h4>
+            <Row className='mt-3'>
+               
+                <Col>
+                    <Form onSubmit={handleSubmit} className='mt-4'>
 
-                <Row>
-                    <Col xs={6}>
-                        <Form.Group controlId="formPassword">
-                            <Form.Label>Old Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Enter old password"
-                                value={oldPassword}
-                                onChange={(e) => setOldpassowrd(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                        <Row>
+                            <Col xs={8}>
+                                <Form.Group controlId="formPassword">
+                                    <Form.Label>Old Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Enter old password"
+                                        value={oldPassword}
+                                        onChange={(e) => setOldpassowrd(e.target.value)}
+                                        required
+                                    />
+                                </Form.Group>
 
-                    </Col>
-                </Row>
+                            </Col>
+                        </Row>
 
-                <Row>
-                    <Col xs={6}>
-                        <Form.Group controlId="formPassword">
-                            <Form.Label>New Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Enter new password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                        <Row>
+                            <Col xs={8}>
+                                <Form.Group controlId="formPassword">
+                                    <Form.Label>New Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Enter new password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                </Form.Group>
 
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs={6}>
-                        <Form.Group controlId="formConfirmPassword">
-                            <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Confirm new password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
-                            />
-                            {!isPasswordMatch && (
-                                <Form.Text className="text-danger">
-                                    Passwords do not match.
-                                </Form.Text>
-                            )}
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Button variant="primary" type="submit" className='mt-4'>
-                    Reset Password
-                </Button>
-            </Form>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={8}>
+                                <Form.Group controlId="formConfirmPassword">
+                                    <Form.Label>Confirm Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Confirm new password"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        required
+                                    />
+                                    {!isPasswordMatch && (
+                                        <Form.Text className="text-danger">
+                                            Passwords do not match.
+                                        </Form.Text>
+                                    )}
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Button variant="primary" type="submit" className='mt-4'>
+                            Reset Password
+                        </Button>
+                    </Form>
+                </Col>
+                <Col xs={3} className='mb-5'>
+                    <Image src='https://t4.ftcdn.net/jpg/04/20/32/53/360_F_420325313_0tgC68egfuhtzKf1OhVlZRHG6Dvv36Xt.jpg' />
+                </Col>
+            </Row>
             <Toaster position="top-right" />
         </Container>
     );

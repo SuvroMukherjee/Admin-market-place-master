@@ -15,6 +15,7 @@ import { Card, Carousel } from 'react-bootstrap';
 import { FaRegUser } from "react-icons/fa";
 import {  Overlay, Popover } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
+import { MdAutorenew } from "react-icons/md";
 
 export default function SellerListManage() {
     const [data, setData] = useState(productRows);
@@ -326,7 +327,7 @@ export default function SellerListManage() {
                         </Modal.Header>
                         <Modal.Body>
                             <Row>
-                                <Col xs={9}>
+                                <Col xs={8}>
                                     <Form.Group controlId="formPassword">
                                         <Form.Label>Password</Form.Label>
                                         <Form.Control
@@ -340,9 +341,9 @@ export default function SellerListManage() {
                                         </Form.Text>
                                     </Form.Group>
                                 </Col>
-                                <Col xs={3} className="d-flex align-items-center">
+                                <Col  className="d-flex align-items-center">
                                     <Button variant="dark" size="sm" onClick={generatePassword}>
-                                        Auto Generate
+                                        <MdAutorenew/> Auto Generate
                                     </Button>
                                 </Col>
                             </Row>

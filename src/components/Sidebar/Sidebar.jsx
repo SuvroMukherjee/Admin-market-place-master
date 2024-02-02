@@ -30,14 +30,14 @@ const Sidebar = () => {
                     <li key={index} className={classnames('nav-text', { 'nav-text-active': location.pathname === item.path })}>
                         <Link to={item.path}>
                             <item.icon/>
-                            <span>{item.title}</span>
+                            <span className="m-2">{item.title}</span>
                         </Link>
                     </li>
                 ))}
                 <li className="nav-text" onClick={() => logout()}>
                     <Link to={'/'}>
                         <LuUnlock />
-                        <span>Logout</span>
+                        <span className="m-2">Logout</span>
                     </Link>
                 </li>
             </ul>
