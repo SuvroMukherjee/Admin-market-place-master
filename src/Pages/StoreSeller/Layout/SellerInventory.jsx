@@ -50,7 +50,9 @@ export default function SellerInventory() {
                     setImportedData(result.data);
                     let Qarray = []
                     result?.data?.map((ele) => {
-                        Qarray.push(ele?.['Add Quantity'] ? ele?.['Add Quantity'] : 0)
+                        if (ele?.['Add Quantity']){
+                            Qarray.push(ele?.['Add Quantity'])
+                        }
                     })
                     console.log({ Qarray })
                     setQuantities(Qarray)
@@ -317,7 +319,8 @@ export default function SellerInventory() {
         });
     };
 
-    console.log(formData[0])
+
+     console.log({quantities})
 
 
     const handleSearch = () => {
@@ -333,8 +336,11 @@ export default function SellerInventory() {
     const handleSaveAll = async () => {
         // Iterate through all rows and invoke handleUpdate for each
         setStartUploading(true)
+        console.log({formData})
         for (let index = 0; index < formData?.length; index++) {
-            await handleUpdate(index);
+            if (formData[index]?.quantity > 0){
+                await handleUpdate(index);
+            }
         }
 
         // Optionally, perform any additional actions after saving all
@@ -345,8 +351,10 @@ export default function SellerInventory() {
             setClearInput(false);
         }, 100);
        // getProductListFunc();
-        toast.success( ' 🚀 All inventory updated successfully...');
-        setStartUploading(false)
+       setTimeout(()=>{
+           toast.success(' 🚀 All inventory updated successfully...');
+           setStartUploading(false)
+       },2000)
     };
 
 
@@ -394,7 +402,7 @@ export default function SellerInventory() {
                         <input type="file" ref={fileInputRef} accept=".csv" style={{ display: 'none' }} onChange={handleFileUpload} />
                     </Col>
                 </Row> */}
-                <div class="d-flex flex-row-reverse">
+                <div class="d-flex flex-row-reverse mt-4">
                     <div class="p-2">
                         {csvData?.length > 0 &&
                             <CSVLink size="sm" data={csvData} filename={`product_data.csv`} className="downloadCSV">
