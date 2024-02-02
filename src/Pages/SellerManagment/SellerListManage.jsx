@@ -16,6 +16,7 @@ import { FaRegUser } from "react-icons/fa";
 import {  Overlay, Popover } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { MdAutorenew } from "react-icons/md";
+import { FaStar } from "react-icons/fa";
 
 export default function SellerListManage() {
     const [data, setData] = useState(productRows);
@@ -179,9 +180,10 @@ export default function SellerListManage() {
         {
             field: "rating", headerName: "Rating by Buyer(avg)", width: 200, renderCell: (params) => {
                 return (
-                    <div>
-                       {'Not Avaible'}
-                    </div>
+                   
+                     <div className='ratingDiv'>
+                                    <FaStar color='gold' size={15} /> {params?.row?.review}
+                                </div>
                 );
             }
         },

@@ -24,6 +24,34 @@ const ManageOrders = () => {
             ...item,
             id: index + 1,
         }));
+
+        console.log({ dataWithUniqueIds })
+
+        // let filteredOrders = dataWithUniqueIds?.map((ele) => {
+        //     // Filter out order_details array based on sellerId
+        //     ele.order_details = ele.order_details?.filter((item) => {
+        //         return item.sellerId === "65bb2b0949aa020e01f2c1cb";
+        //     });
+
+        //     return ele;
+        // }).filter(ele => ele.order_details.length > 0); // Remove objects with empty order_details array
+
+        // console.log({filteredOrders});
+
+        // let f = dataWithUniqueIds?.map((ele) => {
+        //     ele?.order_details?.filter((item) => {
+        //         if (item?.sellerId != "65bb2b0949aa020e01f2c1cb") {
+        //             // console.log(ele, 'ele');
+        //             return ele;
+        //         }
+        //         // Make sure to return something from the filter callback
+                
+        //     });
+        // });
+
+
+        // console.log({f})
+
         setList(dataWithUniqueIds)
     }
 

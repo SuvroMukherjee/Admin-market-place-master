@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Button, Col, Container, Row, Form, ButtonGroup, Card, Image } from 'react-bootstrap';
 import { useState } from 'react';
-import { SellerProductList, sellerStockoutlist } from '../../../API/api';
+import { SellerProductList, UpdateSellerData, sellerDetails, sellerStockoutlist } from '../../../API/api';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import { ChangeFormatDate } from '../../../common/DateFormat';
@@ -39,6 +39,7 @@ const NewSellerDashboard = () => {
     const [totalcommission, settotalcommission] = useState(0)
     const [reviewData, setReviewData] = useState()
     const [avgCustomerRating, setAvgCustomerRating] = useState(0)
+    const [profileData,setProfiledata] = useState()
 
     const { userId } = JSON.parse(localStorage.getItem('auth'));
 
@@ -60,6 +61,9 @@ const NewSellerDashboard = () => {
         })
     }
 
+
+
+
     const CalculateAvgRating = (pdata, rData) => {
 
         const filteredData = rData?.filter((ele) => {
@@ -76,9 +80,21 @@ const NewSellerDashboard = () => {
         console.log({ totalRating })
         if(totalRating != 0){
             setAvgCustomerRating((totalRating / filteredData?.length)?.toFixed(2))
+            getProfileDetails((totalRating / filteredData?.length)?.toFixed(2));
         }
     }
 
+    const getProfileDetails = async (rating) => {
+        let res = await sellerDetails(userId)
+        console.log({ res })
+        setProfiledata(res?.data?.data);
+        let profileData = res?.data?.data;
+        delete profileData.password; 
+        profileData['review'] = rating;
+        let response = await UpdateSellerData(userId, profileData)
+        console.log(response, 'response')
+
+    }
 
 
     const NumberBox = ({ icon, number, label }) => {
