@@ -408,7 +408,7 @@ export async function ProductSpecificationCreate(formData) {
 }
 
 
-export async function UpdateProductSpecification(formData, id) {
+export async function UpdateProductSpecification(id) {
     try {
         const response = await axios.patch(apiUrl + `/specification/update/${id}`, formData, { headers: setAuthHeader() })
         return response;
@@ -416,6 +416,16 @@ export async function UpdateProductSpecification(formData, id) {
         return error
     }
 }
+
+export async function DeleteProductSpecification(id) {
+    try {
+        const response = await axios.delete(apiUrl + `/specification/delete/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 
 
 {/**key manager apis */ }

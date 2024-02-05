@@ -7,7 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { BulkProductUpload, FileUpload, ProductSpecificationCreate, SpecBulkProductUpload, StatusUpdateProduct, UpdateProductSpecification, allProductList, deleteProduct } from "../../../API/api";
+import { BulkProductUpload, DeleteProductSpecification, FileUpload, ProductSpecificationCreate, SpecBulkProductUpload, StatusUpdateProduct, UpdateProductSpecification, allProductList, deleteProduct } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { productRows } from "../../../dummyData";
 import { PiFileCsvDuotone } from "react-icons/pi";
@@ -16,6 +16,7 @@ import { RiListSettingsFill } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { PiFileCsvLight } from "react-icons/pi";
+import { FaTrashAlt } from "react-icons/fa";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -29,6 +30,7 @@ export default function ListProduct() {
 
     const handleCloseModal = () => {
         setShowModal(false);
+        getProductListFunc();
     };
 
 
@@ -227,7 +229,7 @@ export default function ListProduct() {
 
     const onFileUpload = async (file, type) => {
         try {
-            alert(type);
+           
             setUploading(true);
 
             const formData = new FormData();
@@ -254,6 +256,7 @@ export default function ListProduct() {
             toast.error(`Error in file upload: ${error.message}`);
         } finally {
             setUploading(false);
+            getProductListFunc();
         }
     };
 
@@ -587,6 +590,20 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
 
     console.table(productImges)
 
+
+    const deleteSpec = async(id) =>{
+     
+        let res = await DeleteProductSpecification(id);
+        console.log(res)
+        if (res?.data?.error) {
+            toast.error('Something went wrong..')
+        } else {
+          toast.success('Spec delete successfully')
+          handleCloseModal();
+        }
+
+    }
+
     return (
         <Modal show={showModal} onHide={handleCloseModal} size="lg">
             <Modal.Header closeButton>
@@ -600,11 +617,14 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                                 {selectedproductid?.specId?.map((ele, index) => (
                                     <ListGroup.Item key={ele?._id}>
                                         <Row>
-                                            <Col xs={10}>
+                                            <Col xs={9}>
                                                 <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
                                             </Col>
                                             <Col xs={2}>
                                                 <Button variant='success' size="sm" onClick={() => EditHandler(ele?._id)}><CiEdit /> EDIT</Button>
+                                            </Col>
+                                            <Col xs={1}>
+                                                <Button variant='danger' size="sm" onClick={() => deleteSpec(ele?._id)}><FaTrashAlt /></Button>
                                             </Col>
                                         </Row>
 

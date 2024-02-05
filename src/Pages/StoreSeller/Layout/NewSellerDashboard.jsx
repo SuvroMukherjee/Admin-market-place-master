@@ -280,35 +280,39 @@ const SellingProductList = ({ data, reviewData }) => {
                         <th>Selling Price</th>
                         <th>In Stock</th>
                         <th>Rating</th>
-                        <th>Visit On Site</th>
+                        {/* <th>Visit On Site</th> */}
                     </tr>
                 </thead>
                 <tbody>
                     {data?.length > 0 && data?.slice(0, 5)?.map((ele, index) => (
-                        <tr>
-
-                            <td>
-                                <Image src={ele?.specId?.image?.[0]?.image_path} thumbnail width={60} height={60} />
-                            </td>
-                            <td className='pname' onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.specId?.skuId?.toUpperCase()}</td>
-                            <td className="pname" onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.name}</td>
-                            <td>
-                                {ele?.price?.toLocaleString()}
-                            </td>
-                            <td className='avaible'>
-                                {ele?.available_qty || 0}
-                            </td>
-                            <td>
-                                <div className='ratingDiv'>
-                                    <FaStar color='gold' size={15} />{ratingCalculation(ele?._id, reviewData)}
-                                </div>
-                            </td>
-                            <td>
-                                <FaChrome size={30}/>
-                            </td>
-                        </tr>
+                        // Add a condition to check if the rating is greater than 2
+                        ratingCalculation(ele?._id, reviewData) > 2 && (
+                            <tr key={index}>
+                                <td>
+                                    <Image src={ele?.specId?.image?.[0]?.image_path} thumbnail width={60} height={60} />
+                                </td>
+                                <td className='pname' onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>
+                                    {ele?.specId?.skuId?.toUpperCase()}
+                                </td>
+                                <td className="pname" onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>
+                                    {ele?.name}
+                                </td>
+                                <td>
+                                    {ele?.price?.toLocaleString()}
+                                </td>
+                                <td className='avaible'>
+                                    {ele?.available_qty || 0}
+                                </td>
+                                <td>
+                                    <div className='ratingDiv'>
+                                        <FaStar color='gold' size={15} />{ratingCalculation(ele?._id, reviewData)}
+                                    </div>
+                                </td>
+                            </tr>
+                        )
                     ))}
                 </tbody>
+
             </Table>
         </div>
     )
