@@ -165,8 +165,10 @@ th {
 }
 
 .orderpadding {
-    padding: 0.5px !important;
-    text-transform: uppercase() !important;
+    padding: 1px !important;
+    text-transform: uppercase !important;
+    font-size: 14px !important;
+    letter-spacing: 0.5px !important;
 }
 
 .orderId {

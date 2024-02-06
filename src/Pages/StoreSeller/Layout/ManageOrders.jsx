@@ -45,7 +45,7 @@ const ManageOrders = () => {
         //             return ele;
         //         }
         //         // Make sure to return something from the filter callback
-                
+
         //     });
         // });
 
@@ -70,7 +70,7 @@ const ManageOrders = () => {
         let res = await orderStatusUpdate(payload, OId);
 
         console.log(res)
-       // window.location.reload();
+        // window.location.reload();
         getOrdersist();
 
 
@@ -81,8 +81,9 @@ const ManageOrders = () => {
 
 
     const IsallOrderPackedFunc = (data) => {
-        console.log(data)
-        return (data.order_status != 'order_placed');
+        console.log(data?.order_status,'o')
+        console.log(data.order_status != 'order_placed' && data?.order_status != 'cancel','ll')
+        return (data.order_status != 'order_placed' && data?.order_status != 'cancel' );
     }
 
 
@@ -99,6 +100,57 @@ const ManageOrders = () => {
         setCurrentPage(pageNumber);
     };
 
+
+    const OrderSequence = (status) => { //"order_placed"
+        switch (status) {
+            case "order_placed":
+                return "Pack Your Order";
+            case "order_packed":
+                return "Shipping Order";
+            case "shipped":
+                return "Deliver Order";
+            case "delivered":
+                return "Order Delivered";
+            case "cancel":
+                return "Order Cancel";
+            default:
+                return "Unknown Status";
+        }
+    }
+
+
+    const OrderSequenceStatus = (status) => {
+        switch (status) {
+            case "order_placed":
+                return "order_packed";
+            case "order_packed":
+                return "shipped";
+            case "shipped":
+                return "delivered";
+            case "delivered":
+                return "Order Delivered";
+            case "cancel":
+                return "Order Cancel";
+            default:
+                return "Unknown Status";
+        }
+    }
+
+
+    function calculateDateDifference(startDateString, endDateString) {
+        const startDate = new Date(startDateString);
+        const endDate = new Date(endDateString);
+
+        const timeDifference = Math.abs(endDate - startDate);
+        const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+        if (daysDifference >= 1) {
+            return `${daysDifference} day${daysDifference > 1 ? 's' : ''}`;
+        } else {
+            const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+            return `${hoursDifference} hour${hoursDifference > 1 ? 's' : ''}`;
+        }
+    }
 
     return (
         <div>
@@ -139,19 +191,19 @@ const ManageOrders = () => {
                                         <td>{row?.addressId?.pincode}</td>
                                         <td>{row?.addressId?.address}</td>
                                         {/* <td>{row?.addressId?.address_type?.toUpperCase()}</td> */}
-                                        <td>{row?.payment_status}</td>
+                                        <td>{row?.payment_status == 'unpaid' ? 'COD' : ''}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </Table>
-                        <Pagination size="sm">  
+                        <Pagination size="sm">
                             <Pagination.Prev
                                 onClick={() => setCurrentPage(currentPage - 1)}
                                 disabled={currentPage === 1}
                             />
                             {[...Array(totalPages)].map((_, index) => (
                                 <Pagination.Item
-                                  
+
                                     key={index + 1}
                                     active={index + 1 === currentPage}
                                     onClick={() => handlePageChange(index + 1)}
@@ -166,10 +218,10 @@ const ManageOrders = () => {
                         </Pagination>
                     </Col>
                 </Row>
-                
+
                 {list[selectIndex]?.order_details?.length > 0 &&
                     <Row>
-                        <Col  className='mb-2 dtextOredr'>Order Id : <span style={{ color: '#FF9843' }}>{list[selectIndex]?.order_no}</span>  </Col>
+                        <Col className='mb-2 dtextOredr'>Order Id : <span style={{ color: '#FF9843' }}>{list[selectIndex]?.order_no}</span>  </Col>
                         {list[selectIndex]?.order_details?.every(IsallOrderPackedFunc) &&
                             <Row className='p-2 mt-2 mb-4 cdetailsbg'>
                                 <Col className='dtext' xs={4}>
@@ -198,7 +250,7 @@ const ManageOrders = () => {
                                     </Row>
                                 </Col>
                             </Row>
-                            
+
                         }
                         <Col xs={12}>
                             <Table striped bordered hover responsive>
@@ -225,7 +277,7 @@ const ManageOrders = () => {
                                             <tr>
 
                                                 <td>{row?.proId?.name}</td>
-                                                <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={100} /></td>
+                                                <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={100} style={{ objectFit: 'contain', height: '120px' }} /></td>
                                                 <td>{row?.qty}</td>
                                                 <td>{row?.proId?.specId?.skuId?.toUpperCase()}</td>
                                                 <td>
@@ -235,10 +287,19 @@ const ManageOrders = () => {
                                                 </td>
                                                 <td>₹{row?.price?.toLocaleString()}</td>
                                                 <td>{row?.total_shipping_price}</td>
-                                                <td className='estTime'>{ChangeFormatDate(row?.estimited_delivery)}</td>
-                                                <td className="d-flex flex-column gap-1">
-                                                    {/* <Button variant={row?.order_status == 'order_placed' ? 'secondary' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_placed')} disabled={row?.order_status == 'order_placed'}>Confirm Order</Button> */}
+                                                <td className='estTime'>
+                                                    {ChangeFormatDate(row?.estimited_delivery)}
+                                                    <p style={{ color: 'green' }}>
+                                                        {row?.order_delivery && row?.order_status == 'delivered' ? `Delivery date: ${ChangeFormatDate(row?.order_delivery)}` : ''}
+                                                    </p>
+                                                    {row?.order_delivery && row?.order_status == 'delivered' ?
+                                                        <span style={{ fontSize: '12px', fontWeight: 'bold', color: 'black', textTransform: 'uppercase' }}> (Delivered In <span style={{ color:'#2874f0'}}>{calculateDateDifference(row?.order_delivery, list[selectIndex]?.createdAt)}</span> )</span> 
+                                                        : ''}
+                                                </td>
 
+
+
+                                                {/* <td className="d-flex flex-column gap-1">
                                                     <Button variant={row?.order_status == 'order_packed' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} disabled={row?.order_status == 'order_packed'}>Order Packed</Button>
 
                                                     <Button variant={row?.order_status == 'shipped' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')} disabled={row?.order_status == 'shipped'}>Order Shipped</Button>
@@ -249,6 +310,22 @@ const ManageOrders = () => {
 
                                                     <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Refund</Button>
                                                     <Button variant='outline-secondary' size="sm" className='orderpadding'>Print Tax Invoice</Button>
+                                                </td> */}
+                                                <td className="d-flex flex-column gap-2">
+                                                    <Button
+                                                        variant='success'
+                                                        className='orderpadding'
+                                                        onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, OrderSequenceStatus(row?.order_status))}
+                                                        disabled={row?.order_status == 'cancel'}
+                                                    >
+                                                        {OrderSequence(row?.order_status)}
+                                                    </Button>
+
+                                                    <Button variant="danger" size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')} >Order Cancel</Button>
+
+                                                    <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Refund</Button>
+                                                    <Button variant='outline-secondary' size="sm" className='orderpadding'>Print Tax Invoice</Button>
+
                                                 </td>
                                             </tr>
 
