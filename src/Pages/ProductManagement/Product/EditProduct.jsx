@@ -449,6 +449,15 @@ const EditProduct = () => {
 
                                 <Row className='mt-4'>
                                     <Col>
+                                        <Form.Group controlId="desc">
+                                            <Form.Label>Add Youtube Video Link(optional)</Form.Label>
+                                            <Form.Control as="textarea" placeholder='Add Video Link' name="video_link" value={formData.video_link} onChange={handleChange} />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <Row className='mt-4'>
+                                    <Col>
                                         <div className="d-grid gap-2">
                                             <Button variant="success" size="lg" type="submit">
                                                 <AiTwotoneEdit/> Edit Product
