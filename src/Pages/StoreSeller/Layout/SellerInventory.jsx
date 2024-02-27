@@ -116,8 +116,8 @@ export default function SellerInventory() {
                 'MRP price': ele?.specId?.price,
                 'Selling Price': ele?.price,
                 'Shipping Price': ele?.shipping_cost,
-                'Commission Price': Math.round(ele?.comission_price),
-                'Net Disbursement': Math.round(ele?.price - ele?.comission_price),
+                // 'Commission Price': Math.round(ele?.comission_price),
+                // 'Net Disbursement': Math.round(ele?.price - ele?.comission_price),
                 'Add Quantity': quantities[index], // Adjust this based on your logic
             }));
             console.log({ csvDataArray })

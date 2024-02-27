@@ -23,7 +23,7 @@ import { FaSearch } from "react-icons/fa";
 
 
 export default function NewAddProduct() {
-    const [data, setData] = useState(demoProductData);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [allcategoryList, setAllCategoryList] = useState();
     const [maindata, setMaindata] = useState([])
@@ -45,6 +45,10 @@ export default function NewAddProduct() {
     const handleCheckboxChange = () => {
         // Toggle the value of 'isChecked' when the checkbox is clicked
         setIsChecked(!isChecked);
+
+        if(isChecked == true){
+            setData([])
+        }
     };
 
     const handlePriceChange = (specIndex, price) => {
@@ -103,7 +107,7 @@ export default function NewAddProduct() {
                 ...item,
                 id: index + 1,
             }));
-            setData(dataWithUniqueIds)
+          //  setData(dataWithUniqueIds)
             setMaindata(dataWithUniqueIds)
             setLoading(false)
         }).catch((err) => {
@@ -133,7 +137,7 @@ export default function NewAddProduct() {
     const handleCategoryChange = async (e) => {
         console.log(e.target.value)
         setLoading(true)
-        let filterData = data?.filter((ele) => {
+        let filterData = maindata?.filter((ele) => {
             return ele?.categoryId?._id == e?.target?.value;
         })
         setData(filterData);
@@ -150,7 +154,7 @@ export default function NewAddProduct() {
 
     const handleSubChange = (e) => {
         setLoading(true);
-        let filterData = data?.filter((ele) => {
+        let filterData = maindata?.filter((ele) => {
             return ele?.subcategoryId?._id == e.target.value;
         })
         setData(filterData);
@@ -160,7 +164,7 @@ export default function NewAddProduct() {
     const handleBrandChange = (e) => {
         console.log(e.target.value)
         setLoading(true);
-        let filterData = data?.filter((ele) => {
+        let filterData = maindata?.filter((ele) => {
             return ele?.brandId?._id == e.target.value;
         })
         setData(filterData);
@@ -168,8 +172,8 @@ export default function NewAddProduct() {
     }
 
 
-    const cleatFilter  = () =>{
-        setLoading(true); 
+    const cleatFilter = () => {
+        setLoading(true);
         getProductListFunc();
 
     }
@@ -543,7 +547,7 @@ export default function NewAddProduct() {
     const searchproducts = () => {
 
 
-        let filterproducts = data?.filter((ele) => {
+        let filterproducts = maindata?.filter((ele) => {
             console.log(searchtext?.toLowerCase())
             return ele?.name?.toLowerCase()?.includes(searchtext?.toLowerCase())
         })
@@ -564,7 +568,7 @@ export default function NewAddProduct() {
     return (
         <div style={{ background: '#ffffff', height: '100vh' }}>
             <div>
-                
+
                 <Navbar expand="lg" className="bg-body-tertiary" style={navbarStyle}>
                     <Container>
                         <Navbar.Brand href="#home" className="Caption" >ADD PRODUCT</Navbar.Brand>
@@ -616,6 +620,7 @@ export default function NewAddProduct() {
                                     </Form>
                                 </Col>
                             </Row>
+                            {!isChecked && 
                             <Row className="mt-4 ml-2">
                                 <Col xs={6}>
                                     <ListGroup>
@@ -637,16 +642,70 @@ export default function NewAddProduct() {
                                         ))}
                                     </ListGroup>
                                 </Col>
-                            </Row>
+                            </Row>}
+                            {isChecked &&
+                            <>
+                                <Row>
+                                    <p className="seealltext">Select category , Subcategory or brand </p>
+                                </Row>
+                                <Row className="w-40 mb-2 mt-2">
+                                    <Col>
+                                        <Form.Group controlId="categoryId">
+                                            <Form.Label className="text-dark fw-bold dtext">Category</Form.Label>
+                                            <Form.Control as="select" size="sm" name="categoryId" onChange={handleCategoryChange} required>
+                                                <option value="" disabled selected>
+                                                    Select Category
+                                                </option>
+                                                {allcategoryList?.length > 0 && allcategoryList?.map((ele) => (
+                                                    <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                                                ))}
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group controlId="categoryId">
+                                            <Form.Label className="text-dark fw-bold dtext">Sub Category</Form.Label>
+                                            <Form.Control as="select" size="sm" name="subcategoryId" onChange={handleSubChange} required>
+                                                <option value="" disabled selected>
+                                                    Select Sub Category
+                                                </option>
+                                                {allSubcategorylist?.length > 0 && allSubcategorylist?.map((ele) => (
+                                                    <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                                                ))}
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group controlId="categoryId">
+                                            <Form.Label className="text-dark fw-bold dtext">Brand</Form.Label>
+                                            <Form.Control as="select" size="sm" name="brandId" onChange={handleBrandChange} >
+                                                <option value="" disabled selected>
+                                                    Select Brand
+                                                </option>
+                                                {allbrandList?.length > 0 && allbrandList?.map((ele) => (
+                                                    <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
+                                                ))}
+                                            </Form.Control>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col className="d-flex justify-content-center align-items-end">
+                                        {/* <Button variant="dark" size="sm" onClick={() => cleatFilter()}>
+                                            <IoIosCloseCircle size={17} />CLEAR FILTER</Button> */}
+                                    </Col>
+                                </Row>
+                            </>
+                           
+                            }
+
                         </Col>
                         <Toaster position="top-right" />
                     </Row>
 
 
                 </div>
-                {isChecked &&
+                {(data?.length > 0 && isChecked) && 
                     <Container>
-                        <Row className="w-40 mb-2 mt-2">
+                        {/* <Row className="w-40 mb-2 mt-2">
                             <Col>
                                 <Form.Group controlId="categoryId">
                                     <Form.Label className="text-dark fw-bold dtext">Category</Form.Label>
@@ -690,7 +749,7 @@ export default function NewAddProduct() {
                                 <Button variant="dark" size="sm" onClick={() => cleatFilter()}>
                                     <IoIosCloseCircle size={17} />CLEAR FILTER</Button>
                             </Col>
-                        </Row>
+                        </Row> */}
                         <Row>
                             <Col>
                                 {/* <DataGrid
@@ -702,7 +761,7 @@ export default function NewAddProduct() {
                                 }
                             /> */}
 
-                                <Table striped responsive bordered hover>
+                                <Table striped responsive bordered hover className="mt-4">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -729,7 +788,7 @@ export default function NewAddProduct() {
                                                         <Image className="productListImg" src={row.image?.[0]?.image_path} thumbnail alt="" />
                                                     </div>
                                                 </td>
-                                                <td className="variants" onClick={() => showVariants(row?.specId)} style={{cursor:'pointer'}}>( {row?.specId?.length} ) variants</td>
+                                                <td className="variants" onClick={() => showVariants(row?.specId)} style={{ cursor: 'pointer' }}>( {row?.specId?.length} ) variants</td>
                                                 <td>{row?.desc?.substr(0, 50) + '...'}</td>
                                                 <td>
                                                     <div className="productListItem">{row.categoryId?.title}</div>
@@ -768,7 +827,8 @@ export default function NewAddProduct() {
                                 </Table>
                             </Col>
                         </Row>
-                    </Container>}
+                    </Container>  
+                }
 
                 <Container>
                     <Row>
@@ -871,10 +931,10 @@ export default function NewAddProduct() {
 
                                 {variantsArray?.length > 0 && variantsArray?.map((ele, index) =>
                                     <Col key={index} className="d-flex justify-content-md-center">
-                                        <Card style={{width:'10rem'}}>
+                                        <Card style={{ width: '10rem' }}>
 
 
-                                            <Card.Img className="p-2" variant="top" src={ele?.image?.[0]?.image_path} style={{ height: 'auto',  objectFit: 'cover' }} />
+                                            <Card.Img className="p-2" variant="top" src={ele?.image?.[0]?.image_path} style={{ height: 'auto', objectFit: 'cover' }} />
 
                                             <Card.Body>
                                                 <Row>
@@ -883,7 +943,7 @@ export default function NewAddProduct() {
                                                     ))}
                                                 </Row>
                                                 <Row className="mt-2">
-                                                    <Col style={{ fontSize: '12px', fontWeight: 'bold',background:'lightgrey',textAlign:'center',padding:'2%'}}>M.R.P - <span style={{color:'green'}}>{ele?.price?.toLocaleString()}</span></Col>
+                                                    <Col style={{ fontSize: '12px', fontWeight: 'bold', background: 'lightgrey', textAlign: 'center', padding: '2%' }}>M.R.P - <span style={{ color: 'green' }}>{ele?.price?.toLocaleString()}</span></Col>
                                                 </Row>
 
                                             </Card.Body>
