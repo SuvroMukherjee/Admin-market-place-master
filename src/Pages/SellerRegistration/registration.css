@@ -1,4 +1,4 @@
-.main-container {
+/* .main-container {
     width: 85%;
     margin: 0 auto;
 }
@@ -129,4 +129,8 @@
 
 .StepButtonContent-d3-0-2-9.active{
     background : none !important;
+} */
+
+.req{
+    color: red;
 }

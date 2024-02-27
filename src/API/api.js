@@ -753,3 +753,32 @@ export async function orderStatusUpdate(fromdata,id){
         return error
     }
 }
+
+
+export async function sellerOwnRegistrationForm(formData,id){
+    try {
+        const response = await axios.post(apiUrl + `/seller/self-create`, formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+export async function UpdatesellerOwnRegistrationForm(formData, id) {
+    try {
+        const response = await axios.patch(apiUrl + `/seller/update/${id}`, formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function allcatList(){
+    try {
+        const response = await axios.get(apiUrl + `/category/all-list`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}

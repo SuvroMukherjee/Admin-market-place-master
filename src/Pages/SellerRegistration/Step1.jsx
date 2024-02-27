@@ -1,0 +1,92 @@
+import React, { useState } from 'react';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { sellerOwnRegistrationForm } from '../../API/api';
+import toast, { Toaster } from 'react-hot-toast';
+
+const Step1 = ({ nextStep, getUserdata }) => {
+    const [userInfo, setUserInfo] = useState({
+        user_name: '',
+        email: '',
+        phone_no: '',
+        password: ''
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserInfo({ ...userInfo, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log({ userInfo })
+        // You can perform validation here before proceeding to the next step
+
+        let response = await sellerOwnRegistrationForm(userInfo);
+
+        console.log({ response })
+
+        console.log(response?.data?.data)
+
+        if (response?.response?.data?.error) {
+            toast.error(response?.response?.data?.data)
+        } else {
+            getUserdata(response?.data?.data)
+            localStorage.setItem('seller-registration',JSON.stringify(response?.data?.data))
+            toast.success('Personal indormation Added')
+            nextStep();
+        }
+    };
+
+    return (
+        <Container>
+            <Row>
+                <Col>
+                    <h4>Step 1: User Information</h4>
+                    <Form onSubmit={handleSubmit}>
+                        <Row>
+                            <Col xs={6}>
+                                <Form.Group controlId="user_name">
+                                    <Form.Label>User Name <span className="req">*</span></Form.Label>
+                                    <Form.Control type="text" name="user_name" value={userInfo.user_name} onChange={handleChange} required />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col xs={6}>
+                                <Form.Group controlId="email">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control type="email" name="email" value={userInfo.email} onChange={handleChange} required />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col xs={6}>
+                                <Form.Group controlId="phone_no">
+                                    <Form.Label>Phone Number</Form.Label>
+                                    <Form.Control type="tel" name="phone_no" value={userInfo.phone_no} onChange={handleChange} required />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col xs={6}>
+                                <Form.Group controlId="password">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control type="password" name="password" value={userInfo.password} onChange={handleChange} required />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+
+                        <Button variant="primary" type="submit">Next</Button>
+                    </Form>
+                </Col>
+            </Row>
+            <Toaster position="top-right" />
+        </Container>
+    );
+};
+
+export default Step1;
