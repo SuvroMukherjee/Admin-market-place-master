@@ -78,6 +78,7 @@ export default function UserList() {
             },
         },
         { field: "email", headerName: "Email", width: 200 },
+        { field: "phone_no", headerName: "Email", width: 200 },
         {
             field: "role", headerName: "Role", width: 200, renderCell: (params) => {
                 return (
@@ -159,7 +160,7 @@ export default function UserList() {
                         </Col>
                     </Row>
                 </div>}
-            <div className="userList mt-4 p-4">
+            <div className="productList mt-2 p-4">
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
@@ -174,8 +175,8 @@ export default function UserList() {
                             {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addbrand')}>Add New User</button> */}
                         </Col>
                     </Row>
-                    <Row className="justify-content-md-center">
-                        <Col>
+                    <Row >
+                        <Col style={{ height: 400, width: '100%' }}>
                             <DataGrid
                                 rows={data}
                                 columns={columns}

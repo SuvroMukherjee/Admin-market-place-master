@@ -7,6 +7,7 @@ import useAuth from '../hooks/useAuth';
 import './loginpage.css';
 import toast, { Toaster } from 'react-hot-toast';
 import { getLocation } from '../Pages/KeyManager/Dashboard/Attendence';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const LoginPage = () => {
     const { setAuth } = useAuth()
@@ -17,6 +18,7 @@ const LoginPage = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [loginAsSeller, setLoginAsSeller] = useState(false);
+    const [isCaptchaVerified, setCaptchaVerified] = useState(false);
 
     const navigate = useNavigate()
     const location = useLocation();
@@ -155,6 +157,12 @@ const LoginPage = () => {
     }
 
 
+    const handleCaptchaChange = (value) => {
+        if (value) {
+            setCaptchaVerified(true);
+        }
+    };
+
     return (
         <div
             className="sign-in__wrapper"
@@ -208,11 +216,15 @@ const LoginPage = () => {
                         onChange={(e) => setLoginAsSeller(e.target.checked)}
                     />
                 </Form.Group>
+                <ReCAPTCHA
+                    sitekey="6Lf2Y4EpAAAAAMIJJIvzy88IybLMRSIjSWS2H7sq"
+                    onChange={handleCaptchaChange}
+                />
                 {/* <Form.Group className="mb-2" controlId="checkbox">
                     <Form.Check type="checkbox" label="Remember me" />
                 </Form.Group> */}
                 {!loading ? (
-                    <Button className="w-100" variant="primary" type="submit">
+                    <Button className="w-100" variant="primary" type="submit" disabled={!isCaptchaVerified}>
                         Log In
                     </Button>
                 ) : (

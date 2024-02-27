@@ -41,6 +41,7 @@ import OwnproductStatus from './Pages/StoreSeller/Layout/OwnproductStatus';
 import Imageconverter from './Pages/ProductManagement/ImageConverter/Imageconverter';
 import Customerfeedback from './Pages/StoreSeller/Layout/Customerfeedback';
 import ResetPassComp from './Pages/StoreSeller/Layout/ResetPassComp';
+import SellerRegistrationPage from './Pages/SellerRegistration/SellerRegistrationPage';
 
 
 
@@ -143,6 +144,10 @@ export default function Router() {
     {
       path: '/',
       element: <LoginPage />,
+    },
+    {
+      path: '/seller-registration',
+      element: <SellerRegistrationPage />,
     },
     {
       path: '*',
