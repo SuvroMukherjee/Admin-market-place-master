@@ -795,3 +795,12 @@ export async function allIndiaCities() {
         return error
     }
 }
+
+export async function commandOnOrder(id,formData){
+    try {
+        const response = await axios.patch(apiUrl + `/order/update/${id}`, formData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}

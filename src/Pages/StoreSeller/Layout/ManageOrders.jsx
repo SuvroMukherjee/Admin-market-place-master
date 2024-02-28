@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { orderStatusUpdate, sellerOrderLists, sellerStockoutlist } from '../../../API/api';
+import { commandOnOrder, orderStatusUpdate, sellerOrderLists, sellerStockoutlist } from '../../../API/api';
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Col, Container, Row, Form, ButtonGroup, Card, Image } from 'react-bootstrap';
 import { ChangeFormatDate } from '../../../common/DateFormat';
@@ -161,13 +161,19 @@ const ManageOrders = () => {
     }
 
 
-    const handleCommand = () =>{
+    const handleCommand = async(orderId,proId) =>{
+        console.log({ orderId })
         let payload = {
-            proId : '',
-            comment : ''
+            proId: proId,
+            comment: showCommentBoxText
         }
 
-        console.log(payload)
+        let res = await commandOnOrder(orderId,payload);
+        
+        console.log(res,'res')
+
+        getOrdersist();
+        
     }
 
     return (
@@ -327,9 +333,10 @@ const ManageOrders = () => {
                                                                 <Form.Control size='sm' placeholder='Enter your comment..' onChange={(e) => SetshowCommentBoxText(e.target.value)} as="textarea" rows={3} />
                                                             </Form.Group>
                                                         </div>
-                                                        <button onClick={()=>handleCommand()}>save</button>
+                                                        <button onClick={() => handleCommand(list[selectIndex]?._id,row?.proId?._id)}>save</button>
                                                     </>
                                                     }
+                                                    {row?.comment}
                                                 </td>
 
                                                 <td className="d-flex flex-column gap-2">
