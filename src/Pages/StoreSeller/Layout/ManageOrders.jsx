@@ -5,6 +5,7 @@ import { Button, Col, Container, Row, Form, ButtonGroup, Card, Image } from 'rea
 import { ChangeFormatDate } from '../../../common/DateFormat';
 import { Table, Pagination } from 'react-bootstrap';
 import { MdArrowDropDownCircle } from "react-icons/md";
+import { IoIosInformationCircle } from "react-icons/io";
 
 const ManageOrders = () => {
 
@@ -12,6 +13,8 @@ const ManageOrders = () => {
 
     const [list, setList] = useState([])
     const [selectIndex, setSelectIndex] = useState()
+    const [showCommentIndex,setCommentIndx] = useState();
+    const [showCommentBoxText, SetshowCommentBoxText] = useState('')
 
     useEffect(() => {
         getOrdersist()
@@ -152,6 +155,21 @@ const ManageOrders = () => {
         }
     }
 
+
+    const showCommentBox = (index) =>{
+        setCommentIndx(index)
+    }
+
+
+    const handleCommand = () =>{
+        let payload = {
+            proId : '',
+            comment : ''
+        }
+
+        console.log(payload)
+    }
+
     return (
         <div>
             <Container className='mt-4'>
@@ -288,32 +306,36 @@ const ManageOrders = () => {
                                                 <td>₹{row?.price?.toLocaleString()}</td>
                                                 <td>{row?.total_shipping_price}</td>
                                                 <td className='estTime'>
-                                                    {ChangeFormatDate(row?.estimited_delivery)}
+                                                    {row?.order_delivery && row?.order_status != 'delivered' && ChangeFormatDate(row?.estimited_delivery) } 
                                                     <p style={{ color: 'green' }}>
+                                                        {/* {OrderSequence(row?.order_status)} Estimation */}
+                                                        {row?.order_delivery && row?.order_status !== 'delivered' && OrderSequence(row?.order_status)} Estimation
+
                                                         {row?.order_delivery && row?.order_status == 'delivered' ? `Delivery date: ${ChangeFormatDate(row?.order_delivery)}` : ''}
                                                     </p>
                                                     {row?.order_delivery && row?.order_status == 'delivered' ?
                                                         <span style={{ fontSize: '12px', fontWeight: 'bold', color: 'black', textTransform: 'uppercase' }}> (Delivered In <span style={{ color:'#2874f0'}}>{calculateDateDifference(row?.order_delivery, list[selectIndex]?.createdAt)}</span> )</span> 
                                                         : ''}
+
+                                                    <div onClick={() => showCommentBox(row?._id)} style={{cursor:'pointer'}}>
+                                                        <IoIosInformationCircle size={20} color='black'/> <span className='mx-2' style={{color:'black'}}>Add your Reason</span>
+                                                    </div>
+                                                    {showCommentIndex == row?._id && 
+                                                    <>
+                                                        <div className='mt-2'>
+                                                            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                                                                <Form.Control size='sm' placeholder='Enter your comment..' onChange={(e) => SetshowCommentBoxText(e.target.value)} as="textarea" rows={3} />
+                                                            </Form.Group>
+                                                        </div>
+                                                        <button onClick={()=>handleCommand()}>save</button>
+                                                    </>
+                                                    }
                                                 </td>
 
-
-
-                                                {/* <td className="d-flex flex-column gap-1">
-                                                    <Button variant={row?.order_status == 'order_packed' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'order_packed')} disabled={row?.order_status == 'order_packed'}>Order Packed</Button>
-
-                                                    <Button variant={row?.order_status == 'shipped' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'shipped')} disabled={row?.order_status == 'shipped'}>Order Shipped</Button>
-
-                                                    <Button variant={row?.order_status == 'delivered' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'delivered')} disabled={row?.order_status == 'delivered'}>Order Deliverd</Button>
-
-                                                    <Button variant={row?.order_status == 'cancel' ? 'info' : 'outline-success'} size="sm" className='orderpadding' onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, 'cancel')} disabled={row?.order_status == 'cancel'}>Order Cancel</Button>
-
-                                                    <Button variant='outline-secondary' size="sm" className='orderpadding'>Order Refund</Button>
-                                                    <Button variant='outline-secondary' size="sm" className='orderpadding'>Print Tax Invoice</Button>
-                                                </td> */}
                                                 <td className="d-flex flex-column gap-2">
                                                     <Button
                                                         variant='success'
+                                                        size='sm'
                                                         className='orderpadding'
                                                         onClick={() => handleStatusUpdate(list[selectIndex]?._id, row?.proId?._id, OrderSequenceStatus(row?.order_status))}
                                                         disabled={row?.order_status == 'cancel'}
@@ -338,37 +360,6 @@ const ManageOrders = () => {
                             </Table>
                         </Col>
                     </Row>}
-
-                {/* {list[selectIndex]?.order_details?.every(IsallOrderPackedFunc) &&
-                    <Row className='p-2 mt-2 mb-4 cdetailsbg'>
-                        <Col className='dtext' xs={4}>
-                            <Row>
-                                <Col>Customer Details</Col>
-                            </Row>
-                            <Row className='mt-3'>
-                                <Col className='orderId'> {list[selectIndex]?.order_no}</Col>
-                            </Row>
-                        </Col>
-                        <Col>
-                            <Row >
-                                <Col className='dtext' xs={3}>Name</Col>
-                                <Col className='dtext'>Phone</Col>
-                                <Col className='dtext'>City</Col>
-                                <Col className='dtext' xs={3}>Locality</Col>
-                                <Col className='dtext'>Shipping Place</Col>
-                            </Row>
-                            <Row>
-                                <Col className='cdetails' xs={3}>{list[selectIndex]?.addressId?.name}</Col>
-                                <Col className='cdetails'>{list[selectIndex]?.addressId?.ph_no}</Col>
-                                <Col className='cdetails'>{list[selectIndex]?.addressId?.city}</Col>
-                                <Col xs={3} className='cdetails'>{list[selectIndex]?.addressId?.locality}</Col>
-                                <Col className='cdetails'>{list[selectIndex]?.addressId?.address_type}</Col>
-
-                            </Row>
-                        </Col>
-                    </Row>
-                } */}
-
             </Container>
         </div>
     )

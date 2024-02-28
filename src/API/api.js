@@ -782,3 +782,16 @@ export async function allcatList(){
         return error
     }
 }
+
+export async function allIndiaCities() {
+    try {
+        const response = await axios.post('https://countriesnow.space/api/v0.1/countries/states',
+            {
+                "country": "India"
+            }
+        );
+        return response
+    } catch (error) {
+        return error
+    }
+}

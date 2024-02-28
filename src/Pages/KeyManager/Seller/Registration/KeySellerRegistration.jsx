@@ -1,6 +1,6 @@
 // App.js
 import React, { useEffect, useState } from 'react';
-import './registration.css'
+import './reg.css'
 import { Stepper, Step } from 'react-form-stepper';
 import Step1 from './Step1';
 import Step2 from './Step2';
@@ -9,17 +9,17 @@ import Step4 from './Step4';
 import Step5 from './Step5';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
-function SellerRegistrationPage() {
+function KeySellerRegistration() {
     const [step, setStep] = useState(0);
-    const [userData,setUserData] = useState();
+    const [userData, setUserData] = useState();
 
     const reg_userdata = JSON.parse(localStorage.getItem('seller-registration'))
 
     console.log({ reg_userdata })
 
 
-    useEffect(()=>{
-        if (!reg_userdata?.Shop_Details_Info && reg_userdata?.password){
+    useEffect(() => {
+        if (!reg_userdata?.Shop_Details_Info && reg_userdata?.password) {
             setStep(1)
         }
         else if (reg_userdata?.Shop_Details_Info && !reg_userdata?.doc_details) {
@@ -31,10 +31,10 @@ function SellerRegistrationPage() {
         else if (reg_userdata?.bank_details && !reg_userdata?.interest_details) {
             setStep(4)
         }
-    },[])
+    }, [])
 
     // useEffect(()=>{
-       
+
     //     // if (!reg_userdata?.Shop_Details_Info){
     //     //     setStep(1)
     //     // } else if (!reg_userdata?.doc_details && reg_userdata?.Shop_Details_Info && reg_userdata?.password){
@@ -48,7 +48,7 @@ function SellerRegistrationPage() {
     //     }
     // },[])
 
-    
+
 
     const nextStep = () => {
         setStep(step + 1);
@@ -58,12 +58,12 @@ function SellerRegistrationPage() {
         setStep(step - 1);
     };
 
-    const getUserdata  = (data) =>{
+    const getUserdata = (data) => {
         console.log(data)
         setUserData(data)
     }
 
-  
+
 
     return (
         <div className="App">
@@ -75,9 +75,9 @@ function SellerRegistrationPage() {
                             activeTextColor: '#fff',
                             inactiveBgColor: '#fff',
                             inactiveTextColor: '#2b7cff',
-                            completedBgColor: '#fff',
-                            completedTextColor: '#2b7cff',
-                            size: '3em'
+                            completedBgColor: '#0D9276',
+                            completedTextColor: '#000000',
+                            size: '2em'
                         }}>
                             <Step label="Seller Information" />
                             <Step label="Shop Details" />
@@ -103,4 +103,4 @@ function SellerRegistrationPage() {
     );
 }
 
-export default SellerRegistrationPage;
+export default KeySellerRegistration;

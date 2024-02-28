@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { UpdatesellerOwnRegistrationForm } from '../../API/api';
+import { UpdatesellerOwnRegistrationForm }  from '../../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { RiShareForwardFill } from "react-icons/ri";
 
@@ -19,7 +19,7 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
         setBankingDetails({ ...bankingDetails, [name]: value });
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // You can perform validation here before proceeding to the next step
         let payload = { "bank_details": bankingDetails }
@@ -32,7 +32,9 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
             getUserdata(response?.data?.data)
             localStorage.setItem('seller-registration', JSON.stringify(response?.data?.data))
             toast.success(response?.data?.message)
-            nextStep();
+            setTimeout(() => {
+                nextStep();
+            }, 2000);
         }
     };
 

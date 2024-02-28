@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Form, Button, Container, Row, Col, Image } from 'react-bootstrap';
-import { FileUpload, UpdatesellerOwnRegistrationForm, allIndiaCities } from '../../API/api';
+import { FileUpload, UpdatesellerOwnRegistrationForm, allIndiaCities } from '../../../../API/api';
 import { MdCancel, MdOutlineFileUpload } from 'react-icons/md';
 import toast, { Toaster } from 'react-hot-toast';
 import { RiShareForwardFill } from "react-icons/ri";
@@ -16,17 +16,17 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
         disict: '',
         state: '',
         pic_of_shope: [],
-        old_shope_desc : '',
-        total_no_of_unit:''
+        old_shope_desc: '',
+        total_no_of_unit: ''
 
     });
-    const [allstates,setAllStates] = useState([])
+    const [allstates, setAllStates] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
         getallStates();
-    },[])
+    }, [])
 
-    const getallStates = async() =>{
+    const getallStates = async () => {
         let res = await allIndiaCities();
         setAllStates(res?.data?.data?.states)
     }
@@ -45,7 +45,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
             onFileUpload(file);
         });
 
-       // setShopInfo({ ...shopInfo, pic_of_shope: files });
+        // setShopInfo({ ...shopInfo, pic_of_shope: files });
     };
 
 
@@ -63,12 +63,12 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                     pic_of_shope: [...prevData?.pic_of_shope, res?.data?.data?.fileurl],
                 }));
             }, 3000);
-           // setBtnEnable(false)
+            // setBtnEnable(false)
         } catch (err) {
             console.error(err, "err");
         }
     };
-    
+
 
     const handleCancelImage = (url) => {
 
@@ -89,8 +89,8 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
         e.preventDefault();
         // You can perform validation here before proceeding to the next step
         console.log({ shopInfo })
-        
-        let payload = {"Shop_Details_Info" : shopInfo}
+
+        let payload = { "Shop_Details_Info": shopInfo }
         let response = await UpdatesellerOwnRegistrationForm(payload, reg_userdata?._id);
 
         if (response?.response?.data?.error) {
@@ -99,7 +99,9 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
             getUserdata(response?.data?.data)
             localStorage.setItem('seller-registration', JSON.stringify(response?.data?.data))
             toast.success(response?.data?.message)
-            nextStep();
+            setTimeout(() => {
+                nextStep();
+            }, 2000);
         }
         //nextStep();
     };
@@ -174,7 +176,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                     <Form.Label className='frmLable'>State <span className="req">*</span></Form.Label>
                                     <Form.Control as="select" name="state" size='sm' value={shopInfo.state} onChange={handleChange} required>
                                         <option disabled selected>Select State</option>
-                                        {allstates?.length > 0 && allstates?.map((ele)=>(
+                                        {allstates?.length > 0 && allstates?.map((ele) => (
                                             <option value={ele?.name}>{ele?.name}</option>
                                         ))}
                                     </Form.Control>
@@ -247,18 +249,18 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             </Col>
                         </Row> */}
 
-                       
+
                         {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                         <Row className='mt-4'>
-                             <Col>
+                            <Col>
                                 <Button variant="warning" size='sm' className='frmLable' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
-                             </Col>
+                            </Col>
                         </Row>
                     </Form>
                 </Col>
             </Row>
             <Toaster position="top-right" />
-        </Container>        
+        </Container>
     );
 };
 

@@ -224,11 +224,11 @@ const LoginPage = () => {
                     <Form.Check type="checkbox" label="Remember me" />
                 </Form.Group> */}
                 {!loading ? (
-                    <Button className="w-100" variant="primary" type="submit" disabled={!isCaptchaVerified}>
+                    <Button className="w-100 mt-2" variant="primary"  type="submit" disabled={!isCaptchaVerified}>
                         Log In
                     </Button>
                 ) : (
-                    <Button className="w-100" variant="primary" type="submit" disabled>
+                    <Button className="w-100 mt-2" variant="primary" type="submit" disabled>
                         Logging In...
                     </Button>
                 )}

@@ -9,6 +9,8 @@ import { categoryData } from "../../../dummyData";
 import "./listStyle.css";
 import { useNavigate } from 'react-router-dom';
 import { FaSearch } from "react-icons/fa";
+import SellerRegistrationPage from '../../SellerRegistration/SellerRegistrationPage';
+import KeySellerRegistration from './Registration/KeySellerRegistration';
 
 
 const Addseller = () => {
@@ -145,250 +147,7 @@ const Addseller = () => {
 
            let res = await getLocationByZipCoder(formData?.pin_code);
 
-            // let res = {
-            //     "data": {
-            //         "query": {
-            //             "codes": [
-            //                 "743372"
-            //             ],
-            //             "country": null
-            //         },
-            //         "results": {
-            //             "743372": [
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.20380000",
-            //                     "longitude": "88.43440000",
-            //                     "city": "Baharu",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Baharu",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.28810000",
-            //                     "longitude": "88.50920000",
-            //                     "city": "Nabagram",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Nabagram",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Keyatala",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Keyatala",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.08000000",
-            //                     "longitude": "88.33370000",
-            //                     "city": "Srikrishnanagar",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Srikrishnanagar",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Tasarala",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Tasarala",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Kashimpur",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Kashimpur",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Punpua",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Punpua",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Gorerhat",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Gorerhat",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Surajapurhat",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Surajapurhat",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Banasundaria",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Banasundaria",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Madhya Shibpur",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Madhya Shibpur",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Dakshin Barasat",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Dakshin Barasat",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Gocharan",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Gocharan",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Sarberia",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Sarberia",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 },
-            //                 {
-            //                     "postal_code": "743372",
-            //                     "country_code": "IN",
-            //                     "latitude": "22.19060000",
-            //                     "longitude": "88.42570000",
-            //                     "city": "Khakurdaha",
-            //                     "state": "West Bengal",
-            //                     "city_en": "Khakurdaha",
-            //                     "state_en": "West Bengal",
-            //                     "state_code": "WB",
-            //                     "province": "South 24 Parganas",
-            //                     "province_code": "PS"
-            //                 }
-            //             ]
-            //         }
-            //     },
-            //     "status": 200,
-            //     "statusText": "",
-            //     "headers": {
-            //         "cache-control": "no-cache, private",
-            //         "content-type": "application/json; charset=UTF-8"
-            //     },
-            //     "config": {
-            //         "transitional": {
-            //             "silentJSONParsing": true,
-            //             "forcedJSONParsing": true,
-            //             "clarifyTimeoutError": false
-            //         },
-            //         "adapter": [
-            //             "xhr",
-            //             "http"
-            //         ],
-            //         "transformRequest": [
-            //             null
-            //         ],
-            //         "transformResponse": [
-            //             null
-            //         ],
-            //         "timeout": 0,
-            //         "xsrfCookieName": "XSRF-TOKEN",
-            //         "xsrfHeaderName": "X-XSRF-TOKEN",
-            //         "maxContentLength": -1,
-            //         "maxBodyLength": -1,
-            //         "env": {},
-            //         "headers": {
-            //             "Accept": "application/json, text/plain, */*"
-            //         },
-            //         "method": "get",
-            //         "url": "https://app.zipcodebase.com/api/v1/search?apikey=7aa28e70-aaec-11ee-872e-5fd18abb3eb8&codes=743372"
-            //     },
-            //     "request": {}
-            // }
+           
            
             console.table(res?.data?.results[formData?.pin_code])
             setSearchItems(res?.data?.results[formData?.pin_code])
@@ -431,7 +190,7 @@ const Addseller = () => {
                             <h3>Add Seller</h3>
                         </Col>
                     </Row>
-                    <Row className="justify-content-md-center">
+                    {/* <Row className="justify-content-md-center">
                         <Col>
                             <Form onSubmit={handleSubmit}>
                                 <Row className='mt-2'>
@@ -464,19 +223,7 @@ const Addseller = () => {
                                 </Row>
 
                                 <Row className='mt-2'>
-                                    {/* <Col>
-                                        <Form.Group controlId="password">
-                                            <Form.Label>Password</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                name="password"
-                                                placeholder='Enter your Password'
-                                                value={formData.password}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </Form.Group>
-                                    </Col> */}
+                                   
                                     <Col xs={6}>
                                         <Form.Group controlId="gstNo">
                                             <Form.Label>GST Number</Form.Label>
@@ -554,10 +301,7 @@ const Addseller = () => {
                                                 rows={3}      // You can adjust the number of rows as needed
                                                 name="address"
                                                 value={formattedAddress}
-                                                //  value={formData?.address}
-                                                // placeholder='Enter Shopname'
-                                                // minLength={3}
-                                                // onChange={handleChange}
+                                                
                                                 readOnly
                                                 required
                                                 disabled
@@ -601,9 +345,7 @@ const Addseller = () => {
                                         </Col>
                                     </Row>}
 
-                                {/* <Row className='mt-3'>
-                                    <CommissionComponent addCategorytoForm={addCategorytoForm} />
-                                </Row> */}
+                               
 
                                 <Row className='mt-3'>
                                         <Col>
@@ -685,7 +427,7 @@ const Addseller = () => {
                                                                     />
                                                                 </span>
                                                                 <Image src={fileUrl} thumbnail fluid />
-                                                                {/* Use fluid prop for responsive images */}
+                                                               
                                                             </Col>
                                                         ))}
                                                     </Row>
@@ -707,6 +449,9 @@ const Addseller = () => {
 
                             </Form>
                         </Col>
+                    </Row> */}
+                    <Row className="justify-content-md-center">
+                      <KeySellerRegistration/>
                     </Row>
                 </Container>
                 <Toaster position="top-right" />

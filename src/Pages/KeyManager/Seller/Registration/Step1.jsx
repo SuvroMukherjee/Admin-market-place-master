@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { sellerOwnRegistrationForm } from '../../API/api';
+import { addNewsSeller, sellerOwnRegistrationForm } from '../../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { RiShareForwardFill } from "react-icons/ri";
 
@@ -22,19 +22,17 @@ const Step1 = ({ nextStep, getUserdata }) => {
         console.log({ userInfo })
         // You can perform validation here before proceeding to the next step
 
-        let response = await sellerOwnRegistrationForm(userInfo);
-
-        console.log({ response })
-
-        console.log(response?.data?.data)
+        let response = await addNewsSeller(userInfo);
 
         if (response?.response?.data?.error) {
             toast.error(response?.response?.data?.data)
         } else {
             getUserdata(response?.data?.data)
-            localStorage.setItem('seller-registration',JSON.stringify(response?.data?.data))
+            localStorage.setItem('seller-registration', JSON.stringify(response?.data?.data))
             toast.success('Personal information Added')
-            nextStep();
+            setTimeout(() => {
+                nextStep();
+            }, 2000);
         }
     };
 
@@ -82,11 +80,11 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             </Col>
                         </Row>
 
-                         <Row className='mt-4'>
+                        <Row className='mt-4'>
                             <Col>
                                 <Button variant="warning" size='sm' className='frmLable' type="submit"> Next Step <span className='mx-2'><RiShareForwardFill /></span> </Button>
                             </Col>
-                         </Row>
+                        </Row>
                     </Form>
                 </Col>
             </Row>

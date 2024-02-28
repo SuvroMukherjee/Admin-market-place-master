@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Image } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
-import { FileUpload, UpdatesellerOwnRegistrationForm } from '../../API/api';
+import { FileUpload, UpdatesellerOwnRegistrationForm } from '../../../../API/api';
 import { RiShareForwardFill } from "react-icons/ri";
 
 
@@ -59,7 +59,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
     };
 
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // You can perform validation here before proceeding to the next step
 
@@ -73,7 +73,9 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
             getUserdata(response?.data?.data)
             localStorage.setItem('seller-registration', JSON.stringify(response?.data?.data))
             toast.success(response?.data?.message)
-            nextStep();
+            setTimeout(() => {
+                nextStep();
+            }, 2000);
         }
     };
 
@@ -82,11 +84,11 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
             <Row>
                 <Col>
                     <div>
-                       <Row>
-                        <Col>
-                          Documentation
-                        </Col>
-                       </Row>
+                        <Row>
+                            <Col>
+                                Documentation
+                            </Col>
+                        </Row>
                         <Form onSubmit={handleSubmit}>
                             <Row className='mt-2'>
                                 <Col xs={6}>
@@ -112,8 +114,8 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                 </Col>
                                 <Col xs={6}>
                                     <Form.Group controlId="gst_file">
-                                        
-                                        <Form.Label className='frmLable'>GST File <span className="req">*</span> 
+
+                                        <Form.Label className='frmLable'>GST File <span className="req">*</span>
                                             {documentation?.gst_file &&
                                                 <a
                                                     href={documentation?.gst_file}

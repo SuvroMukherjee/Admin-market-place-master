@@ -134,3 +134,15 @@
 .req{
     color: red;
 }
+
+.frmLable{
+    font-size: 12px;
+        font-weight: 450;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+}
+
+.active {
+    background-color: none !important;
+
+}

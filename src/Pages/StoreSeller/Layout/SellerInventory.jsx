@@ -447,7 +447,7 @@ export default function SellerInventory() {
                                     <th>Shipping Price</th>
                                     <th>Commission Price</th>
                                     <th>Net Disbursement</th>
-                                    <th>Add Quatity</th>
+                                    <th>Add Stock</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -502,7 +502,7 @@ export default function SellerInventory() {
                                             <Form.Control
                                                 type="number"
                                                 size="sm"
-                                                placeholder="Add Quantity"
+                                                placeholder="Add Stock"
                                                 name="quantity"
                                                 required
                                                 value={clearInput ? '' : quantities?.[index]}

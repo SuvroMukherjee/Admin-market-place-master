@@ -4,6 +4,8 @@ import { UpdatesellerOwnRegistrationForm, allCategoryList, allcatList } from '..
 import toast, { Toaster } from 'react-hot-toast';
 import { IoIosAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { RiShareForwardFill } from "react-icons/ri";
+import { IoSaveSharp } from "react-icons/io5";
 
 
 const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
@@ -76,7 +78,8 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
             toast.error(response?.response?.data?.data)
         } else {
             getUserdata(response?.data?.data)
-            localStorage.setItem('seller-registration', JSON.stringify(response?.data?.data))
+            // localStorage.setItem('seller-registration', JSON.stringify(response?.data?.data))
+            localStorage.clear();
             toast.success(response?.data?.message)
             //nextStep();
             navigate('/login')
@@ -91,11 +94,13 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
       <Container>
         <Row>
             <Col>
-              <Row>
-                <h4>Chhose Your Interst Category</h4>
+                  <Row>
+                      <Col className='frmLable'>Interest Category</Col>
+                  </Row>
+                  <Row className='mt-2'>
                           <Row>
                               {categorylist.map((option) => (
-                                  <Col key={option._id} xs={4} className='mt-2'>
+                                  <Col key={option._id} xs={4} className='mt-2 '>
                                       <input
                                           type="checkbox"
                                           id={option._id}
@@ -103,81 +108,69 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                                           checked={selectedCategories.includes(option._id)}
                                           onChange={() => handleCheckboxChange(option._id)}
                                       />
-                                      <label className='mx-2' htmlFor={option._id}>{option.title}</label>
+                                      <label className='mx-2 frmLable' htmlFor={option._id}>{option.title}</label>
                                   </Col>
                               ))}
                           </Row>
               </Row>
             </Col>
         </Row>
-        <Row>
-              <h4>Add commission</h4>
-            <Col xs={12} >
-            {/* <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th className="text-center">Category Title</th>
-                        <th className="text-center">Commission Rate</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {catsdata?.length > 0 && catsdata?.map((item, index) => (
-                        <tr key={index}>
-                            <td className="text-center">{item?.categoryId?.title}</td>
-                            <td className="text-center">{item?.commission_rate}%</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table> */}
-            <Form.Group controlId="commissionRate">
-                {/* <Form.Label>Commission rate against category(%)</Form.Label> */}
-                {/* <span>
-                    <Button variant="dark" onClick={handleSave} size="sm">Save</Button>
-                </span> */}
-                      {formData.commission_data.map((item, index) => (
-                    <Row key={index} className="mb-2">
-                        <Col xs={4}>
-                            <Form.Label>category</Form.Label>
-                            <Form.Select
-                                name="categoryId"
-                                value={item.categoryId}
-                                onChange={(e) => handleChange(e, index)}
-                                required
-                            >
-                                <option value="" disabled>Select category</option>
-                                {categorylist?.length > 0 && categorylist.map((ele) => (
-                                    <option value={ele?._id}>{ele?.title}</option>
-                                ))}
-                            </Form.Select>
-                        </Col>
-                        <Col xs={4}>
-                            <Form.Label>commission(%)</Form.Label>
-                            <Form.Control
-                                type="number"
-                                name="commission_rate"
-                                value={item.commission}
-                                onChange={(e) => handleChange(e, index)}
-                                placeholder="Commisson rate"
-                                required
-                            />
-                        </Col>
-                        <Col className='d-flex align-items-end'>
-                                  <Button variant='success' size='sm' onClick={() => handlecreateCommissionFunc(formData?.commission_data?.[index])}>save</Button>
-                        </Col>
-                        <Col className='d-flex align-items-end'>
-                            <Button variant='danger' size='sm' onClick={() => handleDelete(index)}>cancel</Button>
-                        </Col>
-                    </Row>
-                ))}
-                <IoIosAddCircle size={26} onClick={addCategory} />
-                <span style={{ marginLeft: '5px', color: 'grey', fontSize: '16px' }}  >Add more...</span>
-            </Form.Group>
-        </Col>
+          <Row className='mt-2'>
+             <Row>
+                  <Col className='frmLable'>
+                  Commission
+                </Col>
+             </Row>
+              <Row className='mt-2'>
+                  <Col xs={12} >
+                      <Form.Group controlId="commissionRate">
+                          {formData.commission_data.map((item, index) => (
+                              <Row key={index} className="mb-2">
+                                  <Col xs={4}>
+                                      <Form.Label className='frmLable'>category</Form.Label>
+                                      <Form.Select
+                                          name="categoryId"
+                                          value={item.categoryId}
+                                          onChange={(e) => handleChange(e, index)}
+                                          size='sm'
+                                          required
+                                      >
+                                          <option value="" disabled>Select category</option>
+                                          {categorylist?.length > 0 && categorylist.map((ele) => (
+                                              <option value={ele?._id}>{ele?.title}</option>
+                                          ))}
+                                      </Form.Select>
+                                  </Col>
+                                  <Col xs={4}>
+                                      <Form.Label className='frmLable'>commission(%)</Form.Label>
+                                      <Form.Control
+                                          type="number"
+                                          name="commission_rate"
+                                          value={item.commission}
+                                          onChange={(e) => handleChange(e, index)}
+                                          placeholder="Commisson rate"
+                                          size='sm'
+                                          required
+                                      />
+                                  </Col>
+                                  {/* <Col className='d-flex align-items-end'>
+                                      <Button variant='success' size='sm' onClick={() => handlecreateCommissionFunc(formData?.commission_data?.[index])}>save</Button>
+                                  </Col>
+                                  <Col className='d-flex align-items-end'>
+                                      <Button variant='danger' size='sm' onClick={() => handleDelete(index)}>cancel</Button>
+                                  </Col> */}
+                              </Row>
+                          ))}
+                          <IoIosAddCircle size={20} onClick={addCategory} />
+                          <span className='frmLable mx-2' >Add more...</span>
+                      </Form.Group>
+                  </Col>
+             </Row>
         </Row>
-        <Row>
+        <Row className='mt-4'>
             <Col>
-                  <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '}
-                  <Button variant="primary" onClick={()=>handleSubmit()}>Next</Button>
+                  {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
+                  <Button variant="warning" size='sm' className='frmLable'  onClick={() => handleSubmit()}>Final Submit <span className='mx-2'><IoSaveSharp size={25} /></span></Button>
             </Col>
         </Row>
           <Toaster position="top-right" />

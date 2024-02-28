@@ -858,7 +858,7 @@ export default function NewAddProduct() {
                                                                 <Col xs={2}>{e?.title}</Col>
                                                             ))}
                                                             <Col>Enter product price (₹)</Col>
-                                                            <Col>Add Quatity</Col>
+                                                            <Col>Add Stock</Col>
                                                             <Col>Add Shipping Cost(₹)</Col>
 
                                                         </Row>
