@@ -7,7 +7,7 @@ import "./listStyle.css";
 import { UpdateSellerStatus, allSellerList, createCommission, getCommission } from "../../../API/api";
 import { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Button, Col, Container, Row, ButtonGroup } from 'react-bootstrap';
+import { Button, Col, Container, Row, ButtonGroup, Table } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
 import { width } from "@mui/system";
@@ -16,6 +16,7 @@ import Modal from 'react-bootstrap/Modal';
 import { CommissionComponent } from "./Addseller";
 import useAuth from "../../../hooks/useAuth";
 import { CommissionComponentshow } from "./EditSeller";
+import { IoIosEye } from "react-icons/io";
 
 
 export default function ListSeller() {
@@ -25,9 +26,9 @@ export default function ListSeller() {
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true)
     const [activeButton, setActiveButton] = useState('all');
-    const [totalData,setTotalData]  = useState([])
-    const [sleSllerId,setSeSllerId] = useState()
-    const [commissiondata,setCommissiondata] = useState()
+    const [totalData, setTotalData] = useState([])
+    const [sleSllerId, setSeSllerId] = useState()
+    const [commissiondata, setCommissiondata] = useState()
 
     const [show, setShow] = useState(false);
 
@@ -47,15 +48,15 @@ export default function ListSeller() {
     //     setSeSllerId(sellerId);
     //     getCommissionDetails(sellerId)
     // }
-    
 
-    const getCommissionDetails = async(ID) =>{
-       
+
+    const getCommissionDetails = async (ID) => {
+
         let res = await getCommission(ID);
 
         setCommissiondata(res?.data?.data)
     }
-   
+
     const handleButtonClick = (buttonType) => {
         if (buttonType == 'pending') {
             let filtersData = totalData?.filter((ele) => {
@@ -112,7 +113,7 @@ export default function ListSeller() {
         const commissionRates = data.map(item => item.commission_rate);
         const totalCommission = commissionRates.reduce((acc, rate) => acc + rate, 0);
         const averageCommission = totalCommission / commissionRates.length;
-    
+
         return averageCommission?.toFixed(2);
     };
 
@@ -120,8 +121,8 @@ export default function ListSeller() {
         { field: "id", headerName: "ID", width: 90 },
         {
             field: "shope_name",
-            headerName : 'Shop Name',
-            width : 150
+            headerName: 'Shop Name',
+            width: 150
         },
         {
             field: "email",
@@ -165,7 +166,7 @@ export default function ListSeller() {
             renderCell: (params) => {
                 return (
                     <div>
-                        {params?.row?.commission_data  && <span className="ActiveStatus">{calculateAverageCommission(params?.row?.commission_data)}%</span>}
+                        {params?.row?.commission_data && <span className="ActiveStatus">{calculateAverageCommission(params?.row?.commission_data)}%</span>}
                     </div>
                 )
             }
@@ -237,7 +238,7 @@ export default function ListSeller() {
 
     const handlecreateCommissionFunc = async (dataValue) => {
 
-        console.log({dataValue})
+        console.log({ dataValue })
 
         let payload = {
 
@@ -247,7 +248,7 @@ export default function ListSeller() {
             "commission_rate": parseInt(dataValue?.commission_rate)
         }
 
-        console.log({payload})
+        console.log({ payload })
 
         let res = await createCommission(payload);
 
@@ -275,15 +276,15 @@ export default function ListSeller() {
                         </Col>
                     </Row>
                     {/* <SellerAttendence/> */}
-                    <Row >
+                    {/* <Row >
                         <Col className="d-flex justify-content-end p-2">
-                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/key/AddSeller')}>
+                            <Button className="addCategoryButton" size="sm" variant="dark" onClick={() => navigate('/key/AddSeller')}>
                                 <AiOutlinePlus /> Add New Seller
                             </Button>
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col>
+                    </Row> */}
+                    <Row className="mt-4">
+                        <Col >
                             <ButtonGroup>
                                 <Button
                                     variant={activeButton === 'all' ? 'dark' : 'outline-dark'}
@@ -315,8 +316,13 @@ export default function ListSeller() {
                                 </Button>
                             </ButtonGroup>
                         </Col>
+                        <Col className="d-flex justify-content-end">
+                            <Button className="addCategoryButton" size="sm" variant="dark" onClick={() => navigate('/key/AddSeller')}>
+                                <AiOutlinePlus /> Add New Seller
+                            </Button>
+                        </Col>
                     </Row>
-                    <Row className="justify-content-md-center">
+                    {/* <Row className="justify-content-md-center">
                         <Col>
                             <DataGrid
                                 style={{ height: 400, width: '100%' }}
@@ -328,6 +334,71 @@ export default function ListSeller() {
                                 }
                             />
                         </Col>
+                    </Row> */}
+                </Container>
+                <Container>
+                    <Row className="justify-content-md-center mt-4">
+                        <Col>
+                            <Table  bordered hover responsive>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Shop Name</th>
+                                        <th>Shop Image</th>
+                                        <th>Seller Name</th>
+                                        <th>Seller Email</th>
+                                        <th>Seller Phone No.</th>
+                                        <th>Registration</th>
+                                        <th>Status</th>
+                                        <th>Commission</th>
+                                        <th>Action</th>
+                                        <th>View</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data.map((row) => (
+                                        <tr key={row?.id}>
+                                            <td>{row?.id}</td>
+                                            <td>{row?.Shop_Details_Info?.shope_name}</td>
+                                            <td>
+                                                <div className="productListItem">
+                                                    <img className="productListImg" src={row?.Shop_Details_Info?.pic_of_shope?.[0]} alt="" />
+                                                    {row?.Shop_Details_Info?.pic_of_shope?.length > 2 &&
+                                                        <span>{row?.Shop_Details_Info?.pic_of_shope?.length - 1}+</span>}
+                                                </div>
+                                            </td>
+                                            <td>{row?.user_name}</td>
+                                            <td>{row?.email}</td>
+                                            <td>{row?.phone_no}</td>
+                                            <td>{row?.interest_details ? <p style={{ color: 'white', background: 'green' }}>Complete</p> : <p style={{ color: 'black', background: '#FAA300' }}>Incomplete</p>}</td>
+                                            <td>
+                                                {row?.status === 'approved' && <span className="ActiveStatus">Approved</span>}
+                                                {row?.status === 'rejected' && <span className="DeactiveStatus">Reject</span>}
+                                                {row?.status === 'pending' && <span className="PendingStatus">Pending</span>}
+                                            </td>
+                                            <td>
+                                                <Button size="sm" onClick={() => handleShow(row?._id)}>Add</Button>
+                                            </td>
+                                            <td>
+                                                <div className="buttonWrapper">
+                                                    <Button variant="success" onClick={() => navigate(`/key/EditSeller/${row?._id}`)} size="sm">
+                                                        <RiEdit2Line />
+                                                    </Button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <Button size="sm" variant="dark" onClick={() => handleShow(row?._id)}><IoIosEye/></Button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    {data.length === 0 && (
+                                        <tr>
+                                            <td colSpan="12" style={{ textAlign: 'center' }}>No Data Found</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </Table>
+                        </Col>
                     </Row>
                 </Container>
                 <Toaster position="top-right" />
@@ -337,7 +408,7 @@ export default function ListSeller() {
                             <Modal.Title>Commission</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <CommissionComponent catsdata={commissiondata} handlecreateCommissionFunc={handlecreateCommissionFunc}/>
+                            <CommissionComponent catsdata={commissiondata} handlecreateCommissionFunc={handlecreateCommissionFunc} />
                         </Modal.Body>
                     </Modal>
                 </Container>
@@ -359,7 +430,7 @@ export default function ListSeller() {
 
 
 
-    
+
 
 }
 

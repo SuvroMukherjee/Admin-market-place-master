@@ -67,7 +67,7 @@
     font-size: 20px !important;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     width: 5px;
 }
 
@@ -78,4 +78,4 @@
 
 ::-webkit-scrollbar-track {
     background-color: #f1f1f1;
-}
+} */

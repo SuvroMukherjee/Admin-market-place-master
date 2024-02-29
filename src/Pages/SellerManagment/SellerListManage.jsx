@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./Seller.css";
 import { useEffect } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { Button, Col, Container, Row, ButtonGroup, Form } from 'react-bootstrap';
+import { Button, Col, Container, Row, ButtonGroup, Form, Table } from 'react-bootstrap';
 import { DataGrid } from "@mui/x-data-grid";
 import { RiEdit2Line } from "react-icons/ri";
 import { productRows } from "../../dummyData";
@@ -17,6 +17,7 @@ import {  Overlay, Popover } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import { MdAutorenew } from "react-icons/md";
 import { FaStar } from "react-icons/fa";
+import { IoIosEye } from "react-icons/io";
 
 export default function SellerListManage() {
     const [data, setData] = useState(productRows);
@@ -312,13 +313,99 @@ export default function SellerListManage() {
                             </ButtonGroup>
                         </Col>
                     </Row>
-                    <Row className="justify-content-md-center">
+                    {/* <Row className="justify-content-md-center">
                         <Col>
                             <DataGrid
                                 rows={data}
                                 columns={columns}
                                 pageSize={8}
                             />
+                        </Col>
+                    </Row> */}
+                </Container>
+                <Container>
+                    <Row className="justify-content-md-center mt-4">
+                        <Col>
+                            <Table bordered hover responsive>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>Registered By</td>
+                                        <th>Shop Name</th>
+                                        <th>Shop Image</th>
+                                        <th>Seller Name</th>
+                                        <th>Seller Email</th>
+                                        <th>Seller Phone No.</th>
+                                        <th>Registration</th>
+                                        <th>Status</th>
+                                        {/* <th>Commission</th>
+                                        <th>Edit</th> */}
+                                        <th>View</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data.map((row) => (
+                                        <tr key={row?.id}>
+                                            <td>{row?.id}</td>
+                                            <td>{row?.staffId ? row?.staffId?.name : 'Own'}</td>
+                                            <td>{row?.Shop_Details_Info?.shope_name}</td>
+                                            <td>
+                                                <div className="productListItem">
+                                                    <img className="productListImg" src={row?.Shop_Details_Info?.pic_of_shope?.[0]} alt="" />
+                                                    {row?.Shop_Details_Info?.pic_of_shope?.length > 2 &&
+                                                        <span>{row?.Shop_Details_Info?.pic_of_shope?.length - 1}+</span>}
+                                                </div>
+                                            </td>
+                                            <td>{row?.user_name}</td>
+                                            <td>{row?.email}</td>
+                                            <td>{row?.phone_no}</td>
+                                            <td>{row?.interest_details ? <p style={{ color: 'white', background: 'green' }}>Complete</p> : <p style={{ color: 'black', background: '#FAA300' }}>Incomplete</p>}</td>
+                                            <td>
+                                                {row?.status === 'approved' && <span className="ActiveStatus">Approved</span>}
+                                                {row?.status === 'rejected' && <span className="DeactiveStatus">Reject</span>}
+                                                {row?.status === 'pending' && <span className="PendingStatus">Pending</span>}
+                                            </td>
+                                            {/* <td>
+                                                <Button size="sm" onClick={() => handleShow(row?._id)}>Add</Button>
+                                            </td>
+                                            <td>
+                                                <div className="buttonWrapper">
+                                                    <Button variant="success" onClick={() => navigate(`/key/EditSeller/${row?._id}`)} size="sm">
+                                                        <RiEdit2Line />
+                                                    </Button>
+                                                </div>
+                                            </td> */}
+                                            <td>
+                                                <Button size="sm" variant="dark" onClick={() => ShowDetails(row)}><IoIosEye /></Button>
+                                            </td>
+                                            <td>
+                                                {row?.status == 'approved' ? (
+                                                    <Button variant="danger" onClick={() => handleStatus(row)} size="sm">
+                                                        Reject
+                                                    </Button>
+                                                ) : (
+                                                    row?.staffId ? (
+                                                        <Button variant="success" onClick={() => handleShow(row)} size="sm">
+                                                            Approve
+                                                        </Button>
+                                                    ) : (
+                                                        <Button variant="success" onClick={() => handleStatus(row)} size="sm">
+                                                            Approve
+                                                        </Button>
+                                                    )
+                                                )}
+                                            </td>
+
+                                        </tr>
+                                    ))}
+                                    {data.length === 0 && (
+                                        <tr>
+                                            <td colSpan="12" style={{ textAlign: 'center' }}>No Data Found</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </Table>
                         </Col>
                     </Row>
                 </Container>
