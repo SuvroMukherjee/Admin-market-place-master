@@ -17,6 +17,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { FaFileAlt } from "react-icons/fa";
 import { FaFileInvoice } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa";
+import { ChangeFormatDate2 } from '../../common/DateFormat';
 
 
 const SellerDetails = () => {
@@ -51,8 +52,13 @@ const SellerDetails = () => {
                     </Row>
                 </div>}
             <div className="productList mt-2 p-4 mt-4">
+                <Container>
+                    <Row>
+                        <Col>Seller Details : <span className='mx-4' style={{ fontWeight: 'bold', color:'#0C2D57'}}>{sellerdata?.user_name} ({sellerdata?.Shop_Details_Info?.shope_name})</span></Col>
+                        <p style={{fontSize:'12px'}} className='mt-2'>Register on {ChangeFormatDate2(sellerdata?.updatedAt)}</p>
+                    </Row>
+                </Container>
                 <Container className='mb-4 mt-4'>
-
                     <div className='mt-4'>
                         <Container>
                             <Row>
@@ -493,7 +499,7 @@ const CategoryAndCommission = ({ userInfo }) => {
                     </Row>
                 </Col>
             </Row>
-            <Row>
+            <Row className='mt-4'>
                 <Col>
                     <Table striped bordered hover>
                         <thead>
