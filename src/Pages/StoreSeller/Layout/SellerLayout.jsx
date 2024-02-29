@@ -91,6 +91,7 @@ const MyNavbar = () => {
                         <Dropdown show={isDropdownOpen} onClose={handleDropdownClose}>
                             <Dropdown.Menu>
                                <Dropdown.Item onClick={() => navigate('/seller/reset')}>Change Passowrd</Dropdown.Item>
+                            <Dropdown.Item onClick={() => navigate('/seller/profile')}>Update Profile</Dropdown.Item>
                                 {/* <Dropdown.Item onClick={() => navigate('/seller/changepassword')}>Another action</Dropdown.Item> */}
                                 <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
                             </Dropdown.Menu>

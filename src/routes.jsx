@@ -42,6 +42,7 @@ import Imageconverter from './Pages/ProductManagement/ImageConverter/Imageconver
 import Customerfeedback from './Pages/StoreSeller/Layout/Customerfeedback';
 import ResetPassComp from './Pages/StoreSeller/Layout/ResetPassComp';
 import SellerRegistrationPage from './Pages/SellerRegistration/SellerRegistrationPage';
+import ProfilePage from './Pages/StoreSeller/Layout/ProfilePage';
 
 
 
@@ -128,6 +129,7 @@ export default function Router() {
             { path: 'customer-feedback', element: <Customerfeedback /> },
             // { path: 'change-password', element: <ChangePassword /> },
             { path: 'reset', element: <ResetPassComp /> },
+            { path: 'profile', element: <ProfilePage /> },
 
           ],
         },

@@ -266,7 +266,7 @@ const OrderConatiner = ({ list }) => {
 
 const SellingProductList = ({ data, reviewData }) => {
 
-    console.log({ data })
+    console.log(data,'selllingproductdata')
     const navigate = useNavigate()
     return (
         <div>
@@ -284,7 +284,7 @@ const SellingProductList = ({ data, reviewData }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data?.length > 0 && data?.slice(0, 5)?.map((ele, index) => (
+                    {data?.length > 0 && data?.slice(0, 20)?.map((ele, index) => (
                         // Add a condition to check if the rating is greater than 2
                         ratingCalculation(ele?._id, reviewData) > 2 && (
                             <tr key={index}>

@@ -311,18 +311,21 @@ const ManageOrders = () => {
                                                 </td>
                                                 <td>₹{row?.price?.toLocaleString()}</td>
                                                 <td>{row?.total_shipping_price}</td>
+
                                                 <td className='estTime'>
-                                                    {row?.order_delivery && row?.order_status != 'delivered' && ChangeFormatDate(row?.estimited_delivery) } 
+                                                    {/* {row?.order_delivery && row?.order_status == 'delivered' && ChangeFormatDate(row?.estimited_delivery) }  */}
                                                     <p style={{ color: 'green' }}>
                                                         {/* {OrderSequence(row?.order_status)} Estimation */}
-                                                        {row?.order_delivery && row?.order_status !== 'delivered' && OrderSequence(row?.order_status)} Estimation
-
-                                                        {row?.order_delivery && row?.order_status == 'delivered' ? `Delivery date: ${ChangeFormatDate(row?.order_delivery)}` : ''}
+                                                        {row?.order_status != 'delivered' && ` ${OrderSequence(row?.order_status)} Estimation`} <br/>
+                                                        {row?.order_status != 'delivered' && ChangeFormatDate(row?.estimited_delivery)} 
+                                                        {/* {row?.order_delivery && row?.order_status == 'delivered' ? `Delivery date: ${ChangeFormatDate(row?.order_delivery)}` : ''} */}
                                                     </p>
+                                                    {row?.order_delivery && row?.order_status == 'delivered' && <span>Delivered : {ChangeFormatDate(row?.order_delivery)}</span>}
                                                     {row?.order_delivery && row?.order_status == 'delivered' ?
-                                                        <span style={{ fontSize: '12px', fontWeight: 'bold', color: 'black', textTransform: 'uppercase' }}> (Delivered In <span style={{ color:'#2874f0'}}>{calculateDateDifference(row?.order_delivery, list[selectIndex]?.createdAt)}</span> )</span> 
+                                                        <span style={{ fontSize: '10px', fontWeight: 'bold', color: 'black', textTransform: 'uppercase' }}> (Delivered In <span style={{ color:'#2874f0'}}>{calculateDateDifference(row?.order_delivery, list[selectIndex]?.createdAt)}</span> )</span> 
                                                         : ''}
 
+       
                                                     <div onClick={() => showCommentBox(row?._id)} style={{cursor:'pointer'}}>
                                                         <IoIosInformationCircle size={20} color='black'/> <span className='mx-2' style={{color:'black'}}>Add your Reason</span>
                                                     </div>
@@ -333,7 +336,7 @@ const ManageOrders = () => {
                                                                 <Form.Control size='sm' placeholder='Enter your comment..' onChange={(e) => SetshowCommentBoxText(e.target.value)} as="textarea" rows={3} />
                                                             </Form.Group>
                                                         </div>
-                                                        <button onClick={() => handleCommand(list[selectIndex]?._id,row?.proId?._id)}>save</button>
+                                                        <button onClick={() => handleCommand(list[selectIndex]?._id,row?.proId?._id)} className='savebtn'>save</button>
                                                     </>
                                                     }
                                                     {row?.comment}

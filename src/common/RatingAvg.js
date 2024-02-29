@@ -1,8 +1,11 @@
 export const ratingCalculation = (id, reviewData) => {
+
+    console.log({reviewData})
+
     let filterReview = reviewData?.filter((item) => (
         item?.proId?._id == id
     ));
-    // console.log({ filterReview });
+     console.log({ filterReview });
 
     if (!filterReview || filterReview.length === 0) {
         return 0;
@@ -12,5 +15,6 @@ export const ratingCalculation = (id, reviewData) => {
     }, 0);
 
     const averageRating = sumOfRatings / filterReview.length;
+    console.log({averageRating})
     return averageRating;
 };

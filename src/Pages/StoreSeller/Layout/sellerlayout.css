@@ -280,3 +280,10 @@ font-size: 10px;
     font-weight: bold;
     color: darkcyan;
 }
+.savebtn{
+        border: 1px solid;
+        text-transform: uppercase;
+        background: green;
+        color: white;
+        border-radius: 7px;
+}
