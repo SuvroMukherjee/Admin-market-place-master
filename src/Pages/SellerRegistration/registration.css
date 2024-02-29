@@ -131,15 +131,15 @@
     background : none !important;
 } */
 
-.req{
+.req {
     color: red;
 }
 
-.frmLable{
+.frmLable {
     font-size: 12px;
-        font-weight: 450;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
+    font-weight: 450;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .active {
@@ -147,10 +147,74 @@
 
 }
 
-.hd{
-     color: #0766AD;
-       font-size: 16px;
-        font-weight: 450;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
+.hd {
+    color: #0766AD;
+    font-size: 16px;
+    font-weight: 450;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
+
+.Label-0-2-11 {
+        font-size: 10px !important;
+            font-weight: 550 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            background: #f7f7f7 !important;
+            padding: 5px !important;
+            border-radius: 5px !important;
+            color: #045558 !important;
+}
+
+.nvbg{
+    background-color: #F3F3F3 !important;
+}
+
+.t1{
+    color: #236162;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.tsmall{
+    color: #222222;
+    font-size: 12px;
+}
+
+.tt{
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+}
+
+.tapG:focus{
+    border-color: #2D9596 !important;
+    border-width: 2px;
+    box-shadow: none !important;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
+}
+
+.grnbg{
+    background-color: #2D9596 !important;
+    border: 2px solid #236162 !important;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px !important;
+}
+/* .Label-d3-0-2-15 {
+    font-size: 10px !important;
+    font-weight: 550 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px;
+}
+.Label-d7-0-2-29{
+    font-size: 10px !important;
+        font-weight: 550 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px;
+}
+.Label-d11-0-2-41{
+    font-size: 10px !important;
+        font-weight: 550 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px;
+} */

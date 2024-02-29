@@ -6,6 +6,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { RiShareForwardFill } from "react-icons/ri";
 import { IoSaveSharp } from "react-icons/io5";
+import { FaCheckCircle } from "react-icons/fa";
 
 
 const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
@@ -95,7 +96,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
         <Row>
             <Col>
                   <Row>
-                      <Col className='frmLable'>Interest Category</Col>
+                      <Col className='t1'>Choose categories you wish to sell</Col>
                   </Row>
                   <Row className='mt-2'>
                           <Row>
@@ -103,6 +104,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                                   <Col key={option._id} xs={4} className='mt-2 '>
                                       <input
                                           type="checkbox"
+                                          className='tapG'
                                           id={option._id}
                                           name={option.title}
                                           checked={selectedCategories.includes(option._id)}
@@ -115,12 +117,10 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
               </Row>
             </Col>
         </Row>
-          <Row className='mt-2'>
-             <Row>
-                  <Col className='frmLable'>
-                  Commission
-                </Col>
-             </Row>
+          <Row className='mt-4'>
+              <Row>
+                  <Col className='t1'>Add commission accoding to categories</Col>
+              </Row>
               <Row className='mt-2'>
                   <Col xs={12} >
                       <Form.Group controlId="commissionRate">
@@ -133,6 +133,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                                           value={item.categoryId}
                                           onChange={(e) => handleChange(e, index)}
                                           size='sm'
+                                          className='tapG'
                                           required
                                       >
                                           <option value="" disabled>Select category</option>
@@ -145,6 +146,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                                       <Form.Label className='frmLable'>commission(%)</Form.Label>
                                       <Form.Control
                                           type="number"
+                                          className='tapG'
                                           name="commission_rate"
                                           value={item.commission}
                                           onChange={(e) => handleChange(e, index)}
@@ -170,7 +172,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
         <Row className='mt-4'>
             <Col>
                   {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
-                  <Button variant="warning" size='sm' className='frmLable'  onClick={() => handleSubmit()}>Final Submit <span className='mx-2'><IoSaveSharp size={25} /></span></Button>
+                  <Button size='sm' className='frmLable grnbg' onClick={() => handleSubmit()}>Final Submit <span className='mx-2'><FaCheckCircle size={20} /></span></Button>
             </Col>
         </Row>
           <Toaster position="top-right" />

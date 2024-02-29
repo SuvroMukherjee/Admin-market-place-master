@@ -41,21 +41,21 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
             <Row>
                 <Col>
                     <Row>
-                        <Col>Bank Details</Col>
+                        <Col className='t1'>Update your bank details</Col>
                     </Row>
                     <Form onSubmit={handleSubmit}>
                         <Row className='mt-2'>
                             <Col xs={6}>
                                 <Form.Group controlId="bankName">
                                     <Form.Label className='frmLable'>Bank Name <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="bank_name" placeholder="Enter bank name" size='sm' value={bankingDetails.bank_name} onChange={handleChange} required />
+                                    <Form.Control type="text" name="bank_name" className='tapG' placeholder="Enter bank name" size='sm' value={bankingDetails.bank_name} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={6}>
                                 <Form.Group controlId="beneficiaryName">
                                     <Form.Label className='frmLable'>Beneficiary Name <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="beneficiary_name" placeholder="Enter beneficiary name" size='sm' value={bankingDetails.beneficiary_name} onChange={handleChange} required />
+                                    <Form.Control type="text" name="beneficiary_name" className='tapG' placeholder="Enter beneficiary name" size='sm' value={bankingDetails.beneficiary_name} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
 
@@ -64,14 +64,14 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="accountNumber">
                                     <Form.Label className='frmLable'>Account Number <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="account_number" placeholder="Enter account number" size='sm' value={bankingDetails.account_number} onChange={handleChange} required />
+                                    <Form.Control type="text" name="account_number" className='tapG' placeholder="Enter account number" size='sm' value={bankingDetails.account_number} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={6}>
                                 <Form.Group controlId="ifscCode">
                                     <Form.Label className='frmLable'>IFSC Code <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="ifsc_code" placeholder="Enter IFSC code" size='sm' value={bankingDetails.ifsc_code} onChange={handleChange} required />
+                                    <Form.Control type="text" name="ifsc_code" className='tapG' placeholder="Enter IFSC code" size='sm' value={bankingDetails.ifsc_code} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
 
@@ -80,14 +80,14 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="bankBranch">
                                     <Form.Label className='frmLable'>Bank Branch <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="bank_branch" placeholder="Enter bank branch" size='sm' value={bankingDetails.bank_branch} onChange={handleChange} required />
+                                    <Form.Control type="text" name="bank_branch" className='tapG' placeholder="Enter bank branch" size='sm' value={bankingDetails.bank_branch} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={6}>
                                 <Form.Group controlId="micrCode">
                                     <Form.Label className='frmLable'>MICR Code <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="micr_code" placeholder="Enter MICR code" size='sm' value={bankingDetails.micr_code} onChange={handleChange} required />
+                                    <Form.Control type="text" name="micr_code" className='tapG' placeholder="Enter MICR code" size='sm' value={bankingDetails.micr_code} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
 
@@ -95,7 +95,7 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                         {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                         <Row className='mt-4'>
                             <Col>
-                                <Button variant="warning" size='sm' className='frmLable' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
+                                <Button  size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
                             </Col>
                         </Row>
                     </Form>

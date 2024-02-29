@@ -7,7 +7,9 @@ import Step2 from './Step2';
 import Step3 from './Step3';
 import Step4 from './Step4';
 import Step5 from './Step5';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Navbar, NavDropdown, Nav } from 'react-bootstrap';
+import { FaRegCircleUser } from "react-icons/fa6";
+
 
 function SellerRegistrationPage() {
     const [step, setStep] = useState(0);
@@ -63,21 +65,35 @@ function SellerRegistrationPage() {
         setUserData(data)
     }
 
+    const navbarStyle = {
+        paddingLeft: '0px', // Adjust the left padding
+        paddingRight: '10px', // Adjust the right padding
+        height: '10vh',
+        backgroundColor:'#F3F3F3  !important'
+    };
   
 
     return (
         <div className="App">
+            <Navbar expand="lg" className="nvbg" style={navbarStyle}>
+                <Container>
+                    <Navbar.Brand ><img src='http://localhost:5174/src/assets/images/newlogo.png' width={70} /></Navbar.Brand>
+                    <Col style={{ color:'#236162',fontWeight:'bold',textTransform:'uppercase',fontSize:'14px'}}>Seller central</Col>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                </Container>
+            </Navbar>
             <Container>
                 <Row>
                     <Col xs={12}>
                         <Stepper activeStep={step} styleConfig={{
-                            activeBgColor: '#2b7cff',
+                            activeBgColor: '#1ec7d6',
                             activeTextColor: '#fff',
-                            inactiveBgColor: '#fff',
-                            inactiveTextColor: '#2b7cff',
-                            completedBgColor: '#fff',
-                            completedTextColor: '#2b7cff',
-                            size: '3em'
+                            activeTitleColor:'#820300',
+                            inactiveBgColor: '#F5F7F8',
+                            inactiveTextColor: '#BFC2C6',
+                            completedBgColor: '#236162',
+                            completedTextColor: '#fff',
+                            size: '2em'
                         }}>
                             <Step label="Seller Information" />
                             <Step label="Shop Details" />

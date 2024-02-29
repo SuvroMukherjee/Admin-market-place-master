@@ -71,12 +71,12 @@ const ProfilePage = () => {
 
   return (
     <Container className='mb-4 mt-4'>
-        <Row>
+        {/* <Row>
             <Col>
                   <h4> Update Your Profile</h4>
             </Col>
-        </Row>
-        <div className='mt-2'>
+        </Row> */}
+        <div className='mt-4'>
               <Container>              
                 <Row>
                   <Col className='hd'> <span className='mx-2'><ImProfile size={25}/></span> Personal Information</Col>
@@ -119,19 +119,19 @@ const ProfilePage = () => {
 
         </div>
         
-          <div className='mt-2'>
+          <div className='mt-4'>
               <ShopInfo userInfo={userInfo} getProfileData={getProfileData}/>
         </div>
          
-          <div className='mt-2'>
+          <div className='mt-4'>
               <Documentation userInfo={userInfo} getProfileData={getProfileData} />
           </div>
           
-          <div className='mt-2'>
+          <div className='mt-4'>
               <Bankdata userInfo={userInfo} getProfileData={getProfileData} />
           </div>
          
-          <div className='mt-2'>
+          <div className='mt-4'>
               <CategoryAndCommission userInfo={userInfo} getProfileData={getProfileData} />
           </div>
           <Toaster position="top-right" />

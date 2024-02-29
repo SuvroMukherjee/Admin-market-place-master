@@ -32,7 +32,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
             toast.error(response?.response?.data?.data)
         } else {
             getUserdata(response?.data?.data)
-            localStorage.setItem('seller-registration',JSON.stringify(response?.data?.data))
+            localStorage.setItem('seller-registration', JSON.stringify(response?.data?.data))
             toast.success('Personal information Added')
             nextStep();
         }
@@ -43,14 +43,28 @@ const Step1 = ({ nextStep, getUserdata }) => {
             <Row>
                 <Col>
                     <Row>
-                        <Col>Register and Start Selling</Col>
+                        <Col className='t1'>Register and Start Selling</Col>
+                    </Row>
+                    <Row>
+                        <Col className='tsmall'>Please have the following before you start register
+                            <ul>
+                                <li>Shop related location,images </li>
+                                <li>Bank account details </li>
+                                <li>Busniess document with GSt and cancel cheque certificate</li>
+                            </ul>
+                        </Col>
+                    </Row>
+                    <Row className='tt mt-2'>
+                        <Col>
+                            Enter Details to strat your registration process
+                        </Col>
                     </Row>
                     <Form onSubmit={handleSubmit}>
                         <Row className='mt-2'>
                             <Col xs={6}>
                                 <Form.Group controlId="user_name">
                                     <Form.Label className='frmLable'>User Name <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="user_name" placeholder='Enter Your Username' size='sm' value={userInfo.user_name} onChange={handleChange} required />
+                                    <Form.Control type="text" name="user_name" className='tapG' placeholder='Enter Your Username' size='sm' value={userInfo.user_name} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -59,7 +73,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="email">
                                     <Form.Label className='frmLable'>Email <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="email" name="email" size='sm' placeholder='Enter Your Email' value={userInfo.email} onChange={handleChange} required />
+                                    <Form.Control type="email" name="email" size='sm' className='tapG' placeholder='Enter Your Email' value={userInfo.email} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -68,7 +82,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="phone_no">
                                     <Form.Label className='frmLable'>Phone Number <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="tel" name="phone_no" size='sm' placeholder='Enter Your Phone No.' value={userInfo.phone_no} onChange={handleChange} required />
+                                    <Form.Control type="tel" name="phone_no" size='sm' className='tapG' placeholder='Enter Your Phone No.' value={userInfo.phone_no} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -77,16 +91,16 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="password">
                                     <Form.Label className='frmLable'>Password <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="password" name="password" size='sm' placeholder='Enter Your Password' value={userInfo.password} onChange={handleChange} required />
+                                    <Form.Control type="password" name="password" size='sm' className='tapG' placeholder='Enter Your Password' value={userInfo.password} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
                         </Row>
 
-                         <Row className='mt-4'>
+                        <Row className='mt-4'>
                             <Col>
-                                <Button variant="warning" size='sm' className='frmLable' type="submit"> Next Step <span className='mx-2'><RiShareForwardFill /></span> </Button>
+                                <Button  size='sm' className='frmLable grnbg' type="submit"> Next Step <span className='mx-2'><RiShareForwardFill /></span> </Button>
                             </Col>
-                         </Row>
+                        </Row>
                     </Form>
                 </Col>
             </Row>

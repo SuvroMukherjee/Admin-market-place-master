@@ -83,8 +83,8 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                 <Col>
                     <div>
                        <Row>
-                        <Col>
-                          Documentation
+                            <Col className='t1'>
+                            Let's collect your indentity proof & documents
                         </Col>
                        </Row>
                         <Form onSubmit={handleSubmit}>
@@ -92,13 +92,13 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                 <Col xs={6}>
                                     <Form.Group controlId="gst_no">
                                         <Form.Label className='frmLable'>GST Number <span className="req">*</span></Form.Label>
-                                        <Form.Control type="text" name="gst_no" size='sm' placeholder="Enter GST number" value={documentation.gst_no} onChange={handleChange} required />
+                                        <Form.Control type="text" name="gst_no" className='tapG' size='sm' placeholder="Enter GST number" value={documentation.gst_no} onChange={handleChange} required />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={6}>
                                     <Form.Group controlId="pan_no">
                                         <Form.Label className='frmLable'>PAN Card <span className="req">*</span></Form.Label>
-                                        <Form.Control type="text" name="pan_no" size='sm' placeholder="Enter PAN card number" value={documentation.pan_no} onChange={handleChange} required />
+                                        <Form.Control type="text" name="pan_no" size='sm' className='tapG' placeholder="Enter PAN card number" value={documentation.pan_no} onChange={handleChange} required />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -107,7 +107,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                 <Col xs={6}>
                                     <Form.Group controlId="adhar_card">
                                         <Form.Label className='frmLable'>Aadhar Card <span className="req">*</span></Form.Label>
-                                        <Form.Control type="text" name="adhar_card" size='sm' placeholder="Enter Aadhar card number" value={documentation.adhar_card} onChange={handleChange} required />
+                                        <Form.Control type="text" name="adhar_card" className='tapG' size='sm' placeholder="Enter Aadhar card number" value={documentation.adhar_card} onChange={handleChange} required />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={6}>
@@ -124,7 +124,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                                 </a>
                                             }
                                         </Form.Label>
-                                        <Form.Control type="file" name="gst_file" size='sm' onChange={handleFileChange} required />
+                                        <Form.Control type="file" name="gst_file" className='tapG' size='sm' onChange={handleFileChange} required />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -143,7 +143,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                                 </a>
                                             }
                                         </Form.Label>
-                                        <Form.Control type="file" name="cancelled_cheque" size='sm' onChange={handleFileChange} required />
+                                        <Form.Control type="file" name="cancelled_cheque" className='tapG' size='sm' onChange={handleFileChange} required />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={6}>
@@ -159,7 +159,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                                 </a>
                                             }
                                         </Form.Label>
-                                        <Form.Control type="file" name="msme_certificate" size='sm' onChange={handleFileChange} required />
+                                        <Form.Control type="file" name="msme_certificate" className='tapG' size='sm' onChange={handleFileChange} required />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -167,7 +167,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                             <Row className='mt-4'>
                                 <Col>
-                                    <Button variant="warning" size='sm' className='frmLable' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
+                                    <Button  size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
                                 </Col>
                             </Row>
                         </Form>
