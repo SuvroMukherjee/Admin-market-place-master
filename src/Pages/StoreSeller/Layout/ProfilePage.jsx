@@ -8,6 +8,14 @@ import { GrUpdate } from "react-icons/gr";
 import { MdCancel, MdOutlineFileUpload } from 'react-icons/md';
 import { IoIosAddCircle } from "react-icons/io";
 import { IoSaveSharp } from "react-icons/io5";
+import './sellerlayout.css';
+import { ImProfile } from "react-icons/im";
+import { GiShop } from "react-icons/gi";
+import { TiDocumentText } from "react-icons/ti";
+import { BsBank } from "react-icons/bs";
+import { TbCategoryPlus } from "react-icons/tb";
+import { BsShop } from "react-icons/bs";
+
 
 const ProfilePage = () => {
 
@@ -62,15 +70,16 @@ const ProfilePage = () => {
     }
 
   return (
-    <Container>
+    <Container className='mb-4 mt-4'>
         <Row>
             <Col>
                   <h4> Update Your Profile</h4>
             </Col>
         </Row>
-        <div>
-              <Row>
-                  <Col>Personal Information</Col>
+        <div className='mt-2'>
+              <Container>              
+                <Row>
+                  <Col className='hd'> <span className='mx-2'><ImProfile size={25}/></span> Personal Information</Col>
               </Row>
               <Row>
                   <Form onSubmit={handleSubmit}>
@@ -101,26 +110,28 @@ const ProfilePage = () => {
                      
                       <Row className='mt-4'>
                           <Col className='d-flex justify-content-start'>
-                              <Button variant="outline-dark" size='sm' className='frmLable w-30' type="submit"> Update <span className='mx-2'><GrUpdate /></span> </Button>
+                                  <Button variant="dark" size='sm' className='frmLable w-30' type="submit"> Update <span className='mx-2'><GrUpdate /></span> </Button>
                           </Col>
                       </Row>
                   </Form>
               </Row>
+              </Container>
+
         </div>
-        <hr/>
-        <div>
+        
+          <div className='mt-2'>
               <ShopInfo userInfo={userInfo} getProfileData={getProfileData}/>
         </div>
-          <hr />
-          <div>
+         
+          <div className='mt-2'>
               <Documentation userInfo={userInfo} getProfileData={getProfileData} />
           </div>
-          <hr />
-          <div>
+          
+          <div className='mt-2'>
               <Bankdata userInfo={userInfo} getProfileData={getProfileData} />
           </div>
-          <hr/>
-          <div>
+         
+          <div className='mt-2'>
               <CategoryAndCommission userInfo={userInfo} getProfileData={getProfileData} />
           </div>
           <Toaster position="top-right" />
@@ -236,8 +247,8 @@ const ShopInfo = ({ userInfo, getProfileData }) =>{
     return (
         <Container>
             <Row>
-                <Col>
-                    <h5> Update Shop Deatils</h5>
+                <Col className='hd'>
+                    <span className='mx-2'><BsShop size={25} /></span> Update Shop Deatils
                 </Col>
             </Row>
             <Row>
@@ -366,20 +377,11 @@ const ShopInfo = ({ userInfo, getProfileData }) =>{
 
                     </Row>
 
-                    {/* <Row className='mt-2'>
-                            <Col xs={6}>
-                                <Form.Group controlId="total_no_of_unit">
-                                    <Form.Label className='frmLable'> Total of Units Sold Each Year</Form.Label>
-                                    <Form.Control type="text" size='sm' name="total_no_of_unit" placeholder='Total of Units Sold Each Year' value={shopInfo.total_no_of_unit} onChange={handleChange}  required />
-                                </Form.Group>
-                            </Col>
-                        </Row> */}
-
 
                     {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                     <Row className='mt-4'>
                         <Col>
-                            <Button variant="outline-dark" size='sm' className='frmLable' type="submit"> Update <span className='mx-2'><GrUpdate /></span></Button>
+                            <Button variant="dark" size='sm' className='frmLable' type="submit"> Update <span className='mx-2'><GrUpdate /></span></Button>
                         </Col>
                     </Row>
                 </Form>
@@ -466,8 +468,7 @@ const Documentation = ({ userInfo, getProfileData }) =>{
     return (
         <Container>
             <Row>
-                <Col>
-                <h5>Update Document</h5></Col>
+                <Col className='hd'> <span className='mx-2'><TiDocumentText size={25} /></span> Update Document</Col>
             </Row>
             <Row>
                 <Form onSubmit={handleSubmit}>
@@ -546,7 +547,7 @@ const Documentation = ({ userInfo, getProfileData }) =>{
                     {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                     <Row className='mt-4'>
                         <Col>
-                            <Button variant="outline-dark" size='sm' className='frmLable' type="submit">Update <span className='mx-2'><GrUpdate /></span></Button>
+                            <Button variant="dark" size='sm' className='frmLable' type="submit">Update <span className='mx-2'><GrUpdate /></span></Button>
                         </Col>
                     </Row>
                 </Form>
@@ -593,7 +594,7 @@ const Bankdata = ({ userInfo, getProfileData }) =>{
     return (
          <Container>
             <Row>
-                <Col>Bank Details</Col>
+                <Col className='hd'> <span className='mx-2'><BsBank size={25}/></span> Bank Details</Col>
             </Row>
             <Row>
                 <Form onSubmit={handleSubmit}>
@@ -648,7 +649,7 @@ const Bankdata = ({ userInfo, getProfileData }) =>{
                     {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                     <Row className='mt-4'>
                         <Col>
-                            <Button variant="outline-dark"  size='sm' className='frmLable' type="submit">Update <span className='mx-2'><GrUpdate /></span></Button>
+                            <Button variant="dark"  size='sm' className='frmLable' type="submit">Update <span className='mx-2'><GrUpdate /></span></Button>
                         </Col>
                     </Row>
                 </Form>
@@ -751,7 +752,7 @@ return (
         <Row>
             <Col>
                 <Row>
-                    <Col className='frmLable'>Interest Category</Col>
+                    <Col className='hd'> <span className='mx-2'><TbCategoryPlus size={25}/></span>Interest  Category & Commission</Col>
                 </Row>
                 <Row className='mt-2'>
                     <Row>
@@ -773,9 +774,9 @@ return (
         </Row>
         <Row className='mt-2'>
             <Row>
-                <Col className='frmLable'>
-                    Commission
-                </Col>
+                {/* <Col className='frmLable hd'>
+                   Category & Commission
+                </Col> */}
             </Row>
             {/*  */}
             <Row className='mt-2'>
@@ -827,7 +828,7 @@ return (
         <Row className='mt-4'>
             <Col>
                 {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
-                <Button variant="outline-dark" size='sm' className='frmLable' onClick={() => handleSubmit()}>Update <span className='mx-2'><GrUpdate /></span></Button>
+                <Button variant="dark" size='sm' className='frmLable' onClick={() => handleSubmit()}>Update <span className='mx-2'><GrUpdate /></span></Button>
             </Col>
         </Row>
         <Toaster position="top-right" />

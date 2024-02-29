@@ -146,3 +146,11 @@
     background-color: none !important;
 
 }
+
+.hd{
+     color: #0766AD;
+       font-size: 16px;
+        font-weight: 450;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+}

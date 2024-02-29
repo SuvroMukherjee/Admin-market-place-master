@@ -246,23 +246,23 @@ th {
     gap: 5px;
 }
 
-.downloadCSV{
-            border: 0.5px solid;
-            color: black;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 15px;
-            border-radius: 4px;
+.downloadCSV {
+    border: 0.5px solid;
+    color: black;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 4px;
 }
 
-.downloadCSV:hover{
+.downloadCSV:hover {
     background-color: #080505;
     color: white;
 }
 
-.uploadCSV{
+.uploadCSV {
     background-color: #4CAF50;
     border: none;
     color: white;
@@ -273,17 +273,44 @@ th {
     font-size: 16px;
 }
 
-.seealltext{
-font-size: 10px;
+.seealltext {
+    font-size: 10px;
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: bold;
     color: darkcyan;
 }
-.savebtn{
-        border: 1px solid;
-        text-transform: uppercase;
-        background: green;
-        color: white;
-        border-radius: 7px;
+
+.savebtn {
+    border: 1px solid;
+    text-transform: uppercase;
+    background: green;
+    color: white;
+    border-radius: 7px;
+}
+
+.req {
+    color: red;
+}
+
+.frmLable {
+    font-size: 12px;
+    font-weight: 450;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.active {
+    background-color: none !important;
+
+}
+
+.hd {
+    color: #212529;
+    font-size: 15px;
+    font-weight: 450;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background: #f0eeee;
+    padding: 1%;
 }
