@@ -272,7 +272,7 @@ export default function SellerListManage() {
                         </Col>
                     </Row>
                 </div>}
-            <div className="productList mt-2 p-4">
+            <div className="productList mt-2 p-4 mt-4">
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
@@ -377,7 +377,7 @@ export default function SellerListManage() {
                                                 </div>
                                             </td> */}
                                             <td>
-                                                <Button size="sm" variant="dark" onClick={() => ShowDetails(row)}><IoIosEye /></Button>
+                                                <Button size="sm" variant="dark" onClick={() => navigate(`/SellerDetails/${row?._id}`)}><IoIosEye /></Button>
                                             </td>
                                             <td>
                                                 {row?.status == 'approved' ? (

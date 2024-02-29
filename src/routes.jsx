@@ -43,6 +43,7 @@ import Customerfeedback from './Pages/StoreSeller/Layout/Customerfeedback';
 import ResetPassComp from './Pages/StoreSeller/Layout/ResetPassComp';
 import SellerRegistrationPage from './Pages/SellerRegistration/SellerRegistrationPage';
 import ProfilePage from './Pages/StoreSeller/Layout/ProfilePage';
+import SellerDetails from './Pages/SellerManagment/SellerDetails';
 
 
 
@@ -69,6 +70,7 @@ export default function Router() {
             { path: 'EditUser/:id', element: <EditUser /> },
             { path: 'SellerManagment', element: <SellerListManage /> },
             { path: 'SellerProductManagment', element: <SellerProductManagment /> },
+            { path: 'SellerDetails/:id', element: <SellerDetails /> },
             { path: 'bannermanagment', element: <BannerManagment /> },
             { path: 'image-convert', element: <Imageconverter /> }
           ],

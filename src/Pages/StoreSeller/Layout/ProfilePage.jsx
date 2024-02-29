@@ -71,11 +71,7 @@ const ProfilePage = () => {
 
   return (
     <Container className='mb-4 mt-4'>
-        {/* <Row>
-            <Col>
-                  <h4> Update Your Profile</h4>
-            </Col>
-        </Row> */}
+       
         <div className='mt-4'>
               <Container>              
                 <Row>
