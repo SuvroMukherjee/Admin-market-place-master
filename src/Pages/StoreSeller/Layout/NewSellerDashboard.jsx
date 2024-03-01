@@ -53,7 +53,8 @@ const NewSellerDashboard = () => {
             setSellingProducts(res?.data?.data?.SellerProductData?.length)
             setdata(res?.data?.data?.SellerProductData)
             setReviewData(res?.data?.data?.reviewData)
-            CalculateAvgRating(res?.data?.data?.SellerProductData, res?.data?.data?.reviewData)
+            getProfileDetails();
+           // CalculateAvgRating(res?.data?.data?.SellerProductData, res?.data?.data?.reviewData)
         }).catch((err) => {
             console.log(err)
         }).finally((data) => {
@@ -84,15 +85,14 @@ const NewSellerDashboard = () => {
         }
     }
 
-    const getProfileDetails = async (rating) => {
+    const getProfileDetails = async () => {
         let res = await sellerDetails(userId)
-        console.log({ res })
-        setProfiledata(res?.data?.data);
-        let profileData = res?.data?.data;
-        delete profileData.password; 
-        profileData['review'] = rating;
-        let response = await UpdateSellerData(userId, profileData)
-        console.log(response, 'response')
+        let totalRating = (res?.data?.sellerReviewData || []).reduce((acc, curr) => {
+            return acc + parseInt(curr?.rating || 0);
+        }, 0);
+
+        console.log(totalRating / res?.data?.sellerReviewData?.length,'totalRating')
+        setAvgCustomerRating(totalRating / res?.data?.sellerReviewData?.length)
 
     }
 

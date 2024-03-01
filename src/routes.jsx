@@ -45,6 +45,7 @@ import SellerRegistrationPage from './Pages/SellerRegistration/SellerRegistratio
 import ProfilePage from './Pages/StoreSeller/Layout/ProfilePage';
 import SellerDetails from './Pages/SellerManagment/SellerDetails';
 import KeySellerdetails from './Pages/KeyManager/Seller/Registration/KeySellerdetails';
+import ServicesFeedback from './Pages/StoreSeller/Layout/ServicesFeedback';
 
 
 
@@ -131,6 +132,7 @@ export default function Router() {
             { path: 'seller-orderlist', element: <OrderList /> },
             { path: 'manage-orders', element: <ManageOrders /> },
             { path: 'customer-feedback', element: <Customerfeedback /> },
+            { path: 'service-feedback', element: <ServicesFeedback /> },
             // { path: 'change-password', element: <ChangePassword /> },
             { path: 'reset', element: <ResetPassComp /> },
             { path: 'profile', element: <ProfilePage /> },

@@ -15,7 +15,7 @@ import { GoArrowUpRight } from "react-icons/go";
 import { IoIosMenu } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import { Outlet, useNavigate } from 'react-router-dom';
-import cmp from '../../../assets/cmp.png';
+import cmp from '../../../assets/newlogo.png';
 import useAuth from '../../../hooks/useAuth';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 
@@ -78,7 +78,7 @@ const MyNavbar = () => {
                         <IoIosMenu size={20} />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() => navigate('/seller/seller-dashboard')}>
-                        <img src={cmp} width={150} /> <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
+                        <img src={cmp} width={100} /> <span className='mx-4' style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
                     </Typography>
                     {/* <Button color="inherit" style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase' }}>Sign In as  */}
                     
@@ -198,7 +198,13 @@ const MyNavbar = () => {
                                 <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders <GoArrowUpRight size={20} /> </NavDropdown.Item>
                             </NavDropdown>
                             {/* <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link> */}
-                            <Nav.Link onClick={() => navigate('/seller/customer-feedback')}>Customer Feedback</Nav.Link>
+                            {/* <Nav.Link onClick={() => navigate('/seller/customer-feedback')}>Customer Feedback</Nav.Link> */}
+
+                            <NavDropdown title="Customer feedback" id="basic-nav-dropdown">
+                                <NavDropdown.Item onClick={() => navigate('/seller/customer-feedback')}>Selling Product <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                                <Dropdown.Divider />
+                                <NavDropdown.Item onClick={() => navigate('/seller/service-feedback')}>Services <GoArrowUpRight size={20} /> </NavDropdown.Item>
+                            </NavDropdown>
                            
                         </Nav>
                     </Navbar.Collapse>
