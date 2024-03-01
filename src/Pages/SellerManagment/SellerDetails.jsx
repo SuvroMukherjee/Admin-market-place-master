@@ -18,6 +18,7 @@ import { FaFileAlt } from "react-icons/fa";
 import { FaFileInvoice } from "react-icons/fa";
 import { FaFilePdf } from "react-icons/fa";
 import { ChangeFormatDate2 } from '../../common/DateFormat';
+import { FaHouseUser } from "react-icons/fa";
 
 
 const SellerDetails = () => {
@@ -54,7 +55,7 @@ const SellerDetails = () => {
             <div className="productList mt-2 p-4 mt-4">
                 <Container>
                     <Row>
-                        <Col>Seller Details : <span className='mx-4' style={{ fontWeight: 'bold', color:'#0C2D57'}}>{sellerdata?.user_name} ({sellerdata?.Shop_Details_Info?.shope_name})</span></Col>
+                        <Col><span className='mx-1'><FaHouseUser size={25}/></span> <span className='mx-2' style={{ fontWeight: 'bold', color:'#0C2D57'}}>{sellerdata?.user_name} ({sellerdata?.Shop_Details_Info?.shope_name})</span></Col>
                         <p style={{fontSize:'12px'}} className='mt-2'>Register on {ChangeFormatDate2(sellerdata?.updatedAt)}</p>
                     </Row>
                 </Container>
@@ -485,15 +486,18 @@ const CategoryAndCommission = ({ userInfo }) => {
                     <Row className='mt-2'>
                         <Row>
                             {categorylist.map((option) => (
-                                <Col key={option?._id} xs={4} className='mt-2 '>
-                                    <input
-                                        type="checkbox"
-                                        id={option?._id}
-                                        name={option?.title}
-                                        checked={selectedCategories?.includes(option?._id)}
-                                    />
-                                    <label className='mx-2 frmLable' htmlFor={option?._id}>{option?.title}</label>
-                                </Col>
+                                selectedCategories?.includes(option?._id) && (
+                                    <Col key={option?._id} xs={4} className='mt-2'>
+                                        <input
+                                            type="checkbox"
+                                            id={option?._id}
+                                            name={option?.title}
+                                            checked={selectedCategories?.includes(option?._id)}
+                                            onChange={() => handleCheckboxChange(option?._id)} // Assuming you have a function to handle checkbox change
+                                        />
+                                        <label className='mx-2 frmLable' htmlFor={option?._id}>{option?.title}</label>
+                                    </Col>
+                                )
                             ))}
                         </Row>
                     </Row>
