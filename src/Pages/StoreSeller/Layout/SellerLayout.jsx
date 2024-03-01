@@ -74,9 +74,9 @@ const MyNavbar = () => {
             {/* AppBar for the top section */}
             <AppBar position="static"  className='sellerheader'>
                 <Toolbar>
-                    <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
+                    {/* <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
                         <IoIosMenu size={20} />
-                    </IconButton>
+                    </IconButton> */}
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() => navigate('/seller/seller-dashboard')}>
                         <img src={cmp} width={100} /> <span className='mx-4' style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
                     </Typography>
