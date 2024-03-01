@@ -103,6 +103,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                         </Row>
                     </Form>
                 </Col>
+               
             </Row>
             <Toaster position="top-right" />
         </Container>
