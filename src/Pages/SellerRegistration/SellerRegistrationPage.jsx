@@ -9,6 +9,7 @@ import Step4 from './Step4';
 import Step5 from './Step5';
 import { Form, Button, Container, Row, Col, Navbar, NavDropdown, Nav } from 'react-bootstrap';
 import { FaRegCircleUser } from "react-icons/fa6";
+import newlogo from '../../assets/newlogo.png'
 
 
 function SellerRegistrationPage() {
@@ -77,8 +78,8 @@ function SellerRegistrationPage() {
         <div className="App">
             <Navbar expand="lg" className="nvbg" style={navbarStyle}>
                 <Container>
-                    <Navbar.Brand ><img src='http://localhost:5174/src/assets/images/newlogo.png' width={70} /></Navbar.Brand>
-                    <Col style={{ color:'#236162',fontWeight:'bold',textTransform:'uppercase',fontSize:'14px'}}>Seller central</Col>
+                    <Navbar.Brand ><img src={newlogo} width={80} /></Navbar.Brand>
+                    <Col style={{ color:'#236162',fontWeight:'500',textTransform:'uppercase',fontSize:'14px',letterSpacing:'1px'}}>Seller central</Col>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 </Container>
             </Navbar>

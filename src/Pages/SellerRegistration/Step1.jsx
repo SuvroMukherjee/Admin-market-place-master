@@ -56,15 +56,15 @@ const Step1 = ({ nextStep, getUserdata }) => {
                     </Row>
                     <Row className='tt mt-2'>
                         <Col>
-                            Enter Details to strat your registration process
+                            Enter details to strat your registration process
                         </Col>
                     </Row>
                     <Form onSubmit={handleSubmit}>
                         <Row className='mt-2'>
                             <Col xs={6}>
                                 <Form.Group controlId="user_name">
-                                    <Form.Label className='frmLable'>User Name <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="user_name" className='tapG' placeholder='Enter Your Username' size='sm' value={userInfo.user_name} onChange={handleChange} required />
+                                    <Form.Label className='frmLable'>Company Busniess Name <span className="req">*</span></Form.Label>
+                                    <Form.Control type="text" name="user_name" className='tapG' placeholder='Enter Your Username' size='sm' value={userInfo.user_name} onChange={handleChange} required autoComplete='off'/>
                                 </Form.Group>
                             </Col>
                         </Row>
