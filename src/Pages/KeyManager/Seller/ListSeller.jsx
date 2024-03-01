@@ -387,7 +387,7 @@ export default function ListSeller() {
                                                 </div>
                                             </td>
                                             <td>
-                                                <Button size="sm" variant="dark" onClick={() => handleShow(row?._id)}><IoIosEye/></Button>
+                                                <Button size="sm" variant="dark" onClick={() => navigate(`/key/keysellerdetails/${row?._id}`)}><IoIosEye/></Button>
                                             </td>
                                         </tr>
                                     ))}

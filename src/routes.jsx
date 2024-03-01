@@ -44,6 +44,7 @@ import ResetPassComp from './Pages/StoreSeller/Layout/ResetPassComp';
 import SellerRegistrationPage from './Pages/SellerRegistration/SellerRegistrationPage';
 import ProfilePage from './Pages/StoreSeller/Layout/ProfilePage';
 import SellerDetails from './Pages/SellerManagment/SellerDetails';
+import KeySellerdetails from './Pages/KeyManager/Seller/Registration/KeySellerdetails';
 
 
 
@@ -103,6 +104,7 @@ export default function Router() {
             { path: 'attencdence', element: <AttendenceComp /> },
             { path: 'seller', element: <ListSeller /> },
             { path: 'AddSeller', element: <Addseller /> },
+            { path: 'keysellerdetails/:id', element: <KeySellerdetails /> },
             { path: 'EditSeller/:id', element: <EditSeller /> },
           ],
         },
