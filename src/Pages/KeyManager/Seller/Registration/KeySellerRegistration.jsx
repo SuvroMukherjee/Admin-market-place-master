@@ -71,12 +71,13 @@ function KeySellerRegistration() {
                 <Row>
                     <Col xs={12}>
                         <Stepper activeStep={step} styleConfig={{
-                            activeBgColor: '#2b7cff',
+                            activeBgColor: '#1ec7d6',
                             activeTextColor: '#fff',
-                            inactiveBgColor: '#fff',
-                            inactiveTextColor: '#2b7cff',
-                            completedBgColor: '#0D9276',
-                            completedTextColor: '#000000',
+                            activeTitleColor: '#820300',
+                            inactiveBgColor: '#F5F7F8',
+                            inactiveTextColor: '#BFC2C6',
+                            completedBgColor: '#236162',
+                            completedTextColor: '#fff',
                             size: '2em'
                         }}>
                             <Step label="Seller Information" />

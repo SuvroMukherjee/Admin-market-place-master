@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "../product.css";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row, Modal, Form, ListGroup, Image } from 'react-bootstrap';
+import { Button, Col, Container, Row, Modal, Form, ListGroup, Image, Table,Card } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -17,6 +17,10 @@ import { MdCancel } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { PiFileCsvLight } from "react-icons/pi";
 import { FaTrashAlt } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
+import { LuClipboardSignature } from "react-icons/lu";
+import { BsClipboard2CheckFill } from "react-icons/bs";
+import { FaCirclePlus } from "react-icons/fa6";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -24,6 +28,15 @@ export default function ListProduct() {
     const [uploading, setUploading] = useState(false)
     const [showModal, setShowModal] = useState(false);
     const [selectedproductid, setSeledtedProductId] = useState()
+
+    const [variantsArray, setVariantsArray] = useState([])
+
+
+    const [showModal2, setShowModal2] = useState(false);
+
+    const handleCloseModal2 = () => setShowModal2(false);
+    const handleShowModal2 = () => setShowModal2(true);
+
     const handleShowModal = () => {
         setShowModal(true);
     };
@@ -207,7 +220,7 @@ export default function ListProduct() {
         const file = event.target.files[0];
         if (file) {
             // Handle the file, e.g., upload or process it
-            onFileUpload(file,'product')
+            onFileUpload(file, 'product')
         }
     };
 
@@ -216,20 +229,20 @@ export default function ListProduct() {
         const file = event.target.files[0];
         if (file) {
             // Handle the file, e.g., upload or process it
-            onFileUpload(file,'spec')
+            onFileUpload(file, 'spec')
         }
     };
 
     const handleButtonClick = () => {
         // Trigger the hidden file input
-        console.log({fileInputRef})
+        console.log({ fileInputRef })
         fileInputRef.current.click();
     };
 
 
     const onFileUpload = async (file, type) => {
         try {
-           
+
             setUploading(true);
 
             const formData = new FormData();
@@ -261,7 +274,40 @@ export default function ListProduct() {
     };
 
 
-      
+    const [copied, setCopied] = useState(false);
+    const [copiedindex, setCopiedIndex] = useState('');
+
+
+    const copyTextToClipboard = (text, index) => {
+        setCopiedIndex(index)
+        const textToCopy = text;
+        // Create a temporary textarea element
+        const textarea = document.createElement('textarea');
+        // Set the text content to be copied
+        textarea.value = textToCopy;
+        // Append the textarea to the body
+        document.body.appendChild(textarea);
+        // Select the text within the textarea
+        textarea.select();
+        // Copy the selected text to the clipboard
+        document.execCommand('copy');
+        // Remove the temporary textarea
+        document.body.removeChild(textarea);
+        // Set copied state to true
+        setCopied(true);
+        // Reset copied state after 2 seconds
+        setTimeout(() => {
+            setCopied(false);
+            setCopiedIndex('');
+        }, 2000);
+    };
+
+
+    const showVariants = (data) => {
+        console.log(data)
+        setVariantsArray(data)
+        handleShowModal2();
+    }
 
     return (
         <>
@@ -285,7 +331,7 @@ export default function ListProduct() {
                     </Row>
                     <Row>
                         <Col className="d-flex justify-content-end p-2">
-                          <Row>
+                            <Row>
                                 <Col >
                                     <div>
                                         <input
@@ -296,8 +342,8 @@ export default function ListProduct() {
                                         />
                                         <Button size='sm' variant="success" onClick={() => fileInputRef.current.click()}><PiFileCsvLight size="20" /> Product via CSV</Button>
                                     </div>
-                            </Col>
-                            <Col>
+                                </Col>
+                                <Col>
                                     <div>
                                         <input
                                             type="file"
@@ -307,15 +353,15 @@ export default function ListProduct() {
                                         />
                                         <Button size='sm' variant="success" onClick={() => fileInputRef2.current.click()}><PiFileCsvLight size="20" />   Specification via CSV</Button>
                                     </div>
-                            </Col>
-                            <Col>
+                                </Col>
+                                <Col>
                                     <Button size="sm" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
                                         <AiOutlinePlus /> Add New Product
                                     </Button>
-                            </Col>
-                          </Row>
+                                </Col>
+                            </Row>
                         </Col>
-                    
+
                         {/* <Col className="d-flex justify-content-end p-2">
                             
                                 
@@ -347,7 +393,7 @@ export default function ListProduct() {
                             </Button>
                         </Col> */}
                     </Row>
-                    <Row className="justify-content-md-center">
+                    {/* <Row className="justify-content-md-center">
                         <Col style={{ height: 400, width: '100%' }}>
                             {data?.length > 0 ?
                                 <DataGrid
@@ -363,6 +409,94 @@ export default function ListProduct() {
                                 />
                             }
                         </Col>
+                    </Row> */}
+                    <Row>
+                        <Table responsive striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Product Id</th>
+                                    <th>Name</th>
+                                    <th>Image</th>
+                                    <th>Variants</th>
+                                    {/* <th>Description</th> */}
+                                    <th>Category</th>
+                                    <th>Sub Category</th>
+                                    {/* <th>Tags</th> */}
+                                    {/* <th>Status</th> */}
+                                    {/* <th>Type</th> */}
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.map((row, index) => (
+                                    <tr key={index}>
+                                        <td>{row?.id}</td>
+                                        {/* <td>{row?.productId}</td> */}
+                                        {/** TEMP */}
+                                        <td>{row?.productId?.substring(0, 15)}
+                                            <span className="mx-2">
+                                                {(copied && copiedindex == index) ?
+                                                <>
+                                                        <BsClipboard2CheckFill size={20} color="green" /><br/> <span style={{fontSize:'10px',color:'green'}}>Copied</span>
+                                                </>
+                                                :
+                                                <>
+                                                        <LuClipboardSignature style={{ cursor: 'pointer' }} onClick={() => copyTextToClipboard(row?.productId, index)} size={18} />
+                                                </>
+                                                    }
+                                            </span>
+                                        </td>
+                                        <td>{row?.name?.substring(0, 20) + '...'}</td>
+                                        <td>
+                                            <div className="productListItem">
+                                                <img className="productListImg" src={row.image?.[0]?.image_path} alt="" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {row?.specId?.length}
+                                            <p className="variCss" onClick={() => showVariants(row?.specId)}>VIEW</p>
+                                            </td>
+                                        {/* <td>{row?.desc}</td> */}
+                                        <td>{row?.categoryId?.title}</td>
+                                        <td>{row?.subcategoryId?.title}</td>
+                                        {/* <td>
+                                            <div className="productListItem">
+                                                {row?.tags?.map((ele, i) => (
+                                                    <p key={i}>{ele},</p>
+                                                ))}
+                                            </div>
+                                        </td> */}
+                                        {/* <td>
+                                            <div className="productListItem">
+                                                {row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+                                            </div>
+                                        </td> */}
+                                        {/* <td>{row?.type}</td> */}
+                                        <td style={{ width: '305px' }}>
+                                            <div className="buttonWrapper">
+                                                <Button variant="info" size="sm" onClick={() => { handleShowModal(); setSeledtedProductId(row) }}>
+                                                    <FaCirclePlus />  Variants
+                                                </Button>
+                                                <Button variant="success" size="sm" onClick={() => navigate(`/Admin/Editproduct/${row?._id}`)}>
+                                                    Edit
+                                                </Button>
+                                                {row?.status ?
+                                                    <Button variant="danger" size="sm" onClick={() => handleStatus(row)}>
+                                                        Deactive
+                                                    </Button> :
+                                                    <Button variant="success" size="sm" onClick={() => handleStatus(row)}>
+                                                        Active
+                                                    </Button>}
+                                                {/* <Button variant="outline-danger" size="sm">
+                                                    Delete
+                                                </Button> */}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
                     </Row>
                     <Row>
                         <ProductSpecificationForm
@@ -373,6 +507,38 @@ export default function ListProduct() {
                         />
                     </Row>
                     <Toaster position="top-right" />
+                </Container>
+                <Container>
+                    <Modal show={showModal2} size="md" onHide={handleCloseModal2}>
+                        <Modal.Body>
+                            <Row className="d-flex justify-content-md-center gap-4">
+
+                                {variantsArray?.length > 0 && variantsArray?.map((ele, index) =>
+                                    <Col key={index} className="d-flex justify-content-md-center">
+                                        <Card style={{ width: '10rem' }}>
+
+
+                                            <Card.Img className="p-2" variant="top" src={ele?.image?.[0]?.image_path} style={{ height: 'auto', objectFit: 'cover' }} />
+
+                                            <Card.Body>
+                                                <Row>
+                                                    {ele?.spec_det?.length > 0 && ele?.spec_det?.map((ele) => (
+                                                        <Col className="p-desc">{ele?.title} : {ele?.value}</Col>
+                                                    ))}
+                                                </Row>
+                                                <Row className="mt-2">
+                                                    <Col style={{ fontSize: '12px', fontWeight: 'bold', background: 'lightgrey', textAlign: 'center', padding: '2%' }}>M.R.P - <span style={{ color: 'green' }}>{ele?.price?.toLocaleString()}</span></Col>
+                                                </Row>
+
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                )}
+
+                            </Row>
+
+                        </Modal.Body>
+                    </Modal>
                 </Container>
             </div>
         </>
@@ -558,7 +724,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
             setTimeout(() => {
                 setProductImages((prevData) => [
                     ...prevData,
-                    { image_path:  res?.data?.data?.fileurl}
+                    { image_path: res?.data?.data?.fileurl }
                 ]);
             }, 3000);
         } catch (err) {
@@ -591,15 +757,15 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
     console.table(productImges)
 
 
-    const deleteSpec = async(id) =>{
-     
+    const deleteSpec = async (id) => {
+
         let res = await DeleteProductSpecification(id);
         console.log(res)
         if (res?.data?.error) {
             toast.error('Something went wrong..')
         } else {
-          toast.success('Spec delete successfully')
-          handleCloseModal();
+            toast.success('Spec delete successfully')
+            handleCloseModal();
         }
 
     }

@@ -112,9 +112,9 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
         <Container>
             <Row>
                 <Col>
-                    <Row>
+                    {/* <Row>
                         <Col>Shop Details</Col>
-                    </Row>
+                    </Row> */}
                     <Form onSubmit={handleSubmit}>
                         <Row className='mt-2'>
                             <Col xs={6}>
@@ -253,7 +253,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                         {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                         <Row className='mt-4'>
                             <Col>
-                                <Button variant="warning" size='sm' className='frmLable' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
+                                <Button variant="warning" size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
                             </Col>
                         </Row>
                     </Form>

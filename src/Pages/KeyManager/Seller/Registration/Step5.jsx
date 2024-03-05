@@ -97,9 +97,9 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
         <Container>
             <Row>
                 <Col>
-                    <Row>
+                    {/* <Row>
                         <Col className='frmLable'>Interest Category  <span className="req">*</span> </Col>
-                    </Row>
+                    </Row> */}
                     <Row className='mt-2'>
                         <Row>
                             {categorylist.map((option) => (
@@ -181,7 +181,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
             <Row className='mt-4'>
                 <Col>
                     {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
-                    <Button variant="warning" size='sm' className='frmLable w-50' onClick={() => handleSubmit()}>Final Submit <span className='mx-2'><IoSaveSharp size={25} /></span></Button>
+                    <Button variant="warning" size='sm' className='frmLable grnbg w-50' onClick={() => handleSubmit()}>Final Submit <span className='mx-2'><IoSaveSharp size={25} /></span></Button>
                 </Col>
             </Row>
             <Toaster position="top-right" />

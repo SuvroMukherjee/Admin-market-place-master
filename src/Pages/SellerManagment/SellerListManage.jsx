@@ -276,7 +276,7 @@ export default function SellerListManage() {
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
-                            <h3>Seller List</h3>
+                            <h4>Seller - List</h4>
                         </Col>
                     </Row>
                     <Row>

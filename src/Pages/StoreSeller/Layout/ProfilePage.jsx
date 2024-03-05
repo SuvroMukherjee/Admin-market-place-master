@@ -38,6 +38,7 @@ const ProfilePage = () => {
 
     async function getProfileData(){
         let res = await sellerDetails(auth?.userId)
+        
         console.log(res?.data?.data)
         setUserInfo(res?.data?.data)
     }

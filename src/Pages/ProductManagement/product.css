@@ -6,13 +6,14 @@
 .productListItem{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .productListImg {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 0% !important;
+    object-fit: contain !important;
     margin-right: 10px;
   }
 
@@ -143,3 +144,11 @@
        color: red;
        font-weight: bold;
      }
+ .variCss{
+    color: green;
+    font-weight: bold;
+    font-size: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+    letter-spacing: 1px;
+ }
