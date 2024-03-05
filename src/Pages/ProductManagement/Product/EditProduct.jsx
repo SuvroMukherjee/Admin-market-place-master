@@ -8,6 +8,7 @@ import { MdCancel } from 'react-icons/md';
 import { AiTwotoneEdit } from "react-icons/ai";
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoIosAdd } from "react-icons/io";
+import { CKEditor } from "ckeditor4-react";
 
 const EditProduct = () => {
 
@@ -16,6 +17,7 @@ const EditProduct = () => {
         name: '',
         visibility_in_Catalog: '',
         desc: '',
+        full_desc: '',
         tax_status: '',
         regular_price: '',
         categoryId: '',
@@ -147,7 +149,7 @@ const EditProduct = () => {
             'visibility_in_Catalog',
             'desc',
             'tax_status',
-            'regular_price',
+            // 'regular_price',
             'categoryId',
             'subcategoryId',
             'image'
@@ -207,6 +209,20 @@ const EditProduct = () => {
             features: value.split(',').map((tag) => tag.trim()),
         }));
     }
+
+
+    function createMarkup(val) {
+        return { __html: val };
+    }
+
+
+    const handleEditorChange = (event) => {
+        
+        setFormData((prevData) => ({
+            ...prevData,
+            full_desc: event.editor.getData(),
+        }));
+    };
 
 
     return (
@@ -271,7 +287,7 @@ const EditProduct = () => {
 
                                 <Row className='mt-2'>
 
-                                    <Col>
+                                    {/* <Col>
                                         <Form.Group controlId="regular_price">
                                             <Form.Label>Regular Price</Form.Label>
                                             <Form.Control
@@ -283,7 +299,7 @@ const EditProduct = () => {
                                                 required
                                             />
                                         </Form.Group>
-                                    </Col>
+                                    </Col> */}
 
 
                                     <Col>
@@ -353,7 +369,7 @@ const EditProduct = () => {
                                 </Row>
 
                                 <Row className='mt-2'>
-                                    <Col>
+                                    {/* <Col>
                                         <Form.Group controlId="position">
                                             <Form.Label>Position</Form.Label>
                                             <Form.Control
@@ -381,7 +397,7 @@ const EditProduct = () => {
                                                 Separate tags with commas (e.g., tag1, tag2).
                                             </Form.Text>
                                         </Form.Group>
-                                    </Col>
+                                    </Col> */}
                                 </Row>
 
                                 <Row className='mt-2'>
@@ -402,11 +418,23 @@ const EditProduct = () => {
                                         </Form.Group>
                                     </Col>
                                 </Row> */}
+  
+                                <Row className='mt-4'>
+                                    <Col>
+                                        <Form.Group controlId="full_desc">
+                                            <Form.Label>Full Description</Form.Label>
+                                            <CKEditor
+                                                initData={formData?.full_desc || "<p>No content</p>"}
+                                                onChange={handleEditorChange}
+                                            />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
 
                                 <Row className='mt-2'>
                                     <Col>
                                         <Form.Group controlId="features">
-                                            {console.log(formData, 'formData?.specification')}
+                                       
                                             <Form.Label>Features</Form.Label>
                                             <Form.Control as="textarea" placeholder='Enter Product Features' name="features" value={formData.features?.join(', ')} onChange={handleFeaturesChange}  />
                                             <Form.Text className="text-muted">

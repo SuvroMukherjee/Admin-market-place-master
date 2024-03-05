@@ -796,6 +796,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
 
                                         <Row className='locationTagHeader mt-2'>
                                             <Col>Price</Col>
+                                            <Col>SKU ID</Col>
                                             {ele?.spec_det?.map((e) => (
                                                 <Col>{e?.title}</Col>
                                             ))}
@@ -803,6 +804,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                                         </Row>
                                         <Row className='locationTagvalue'>
                                             <Col >{ele?.price}</Col>
+                                            <Col>{ele?.skuId}</Col>
                                             {ele?.spec_det?.map((e) => (
                                                 <Col>{e?.value}</Col>
                                             ))}

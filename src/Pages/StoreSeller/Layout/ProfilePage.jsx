@@ -38,12 +38,12 @@ const ProfilePage = () => {
 
     async function getProfileData(){
         let res = await sellerDetails(auth?.userId)
-        
+        const { password, ...filteredData } = res?.data?.data;
         console.log(res?.data?.data)
-        setUserInfo(res?.data?.data)
+        setUserInfo(filteredData)
     }
 
-    
+    console.log({userInfo})
 
     const handleChange = (e) => {
         const { name, value } = e.target;

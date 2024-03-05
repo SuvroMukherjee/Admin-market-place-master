@@ -8,6 +8,7 @@ import { MdCancel } from "react-icons/md";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { IoMdCloseCircle } from "react-icons/io";
 import { IoIosAdd } from "react-icons/io";
+import { CKEditor } from "ckeditor4-react";
 
 const AddProduct = () => {
 
@@ -16,6 +17,7 @@ const AddProduct = () => {
         name: '',
         visibility_in_Catalog: '',
         desc: '',
+        full_desc : '',
         tax_status: '',
         regular_price: '',
         categoryId: '',
@@ -137,7 +139,7 @@ const AddProduct = () => {
             'visibility_in_Catalog',
             'desc',
             'tax_status',
-            'regular_price',
+            // 'regular_price',
             'categoryId',
             'subcategoryId',
             'image'
@@ -198,6 +200,21 @@ const AddProduct = () => {
             features: value.split(',').map((tag) => tag.trim()),
         }));
     }
+
+    function createMarkup(val) {
+        return { __html: val };
+    }
+
+
+    const handleEditorChange = (event) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            full_desc: event.editor.getData() ,
+        }));
+    };
+
+
+    console.log({ formData })
 
     return (
         <>
@@ -261,7 +278,7 @@ const AddProduct = () => {
 
                                 <Row className='mt-2'>
 
-                                    <Col>
+                                    {/* <Col>
                                         <Form.Group controlId="regular_price">
                                             <Form.Label>Regular Price</Form.Label>
                                             <Form.Control
@@ -273,7 +290,7 @@ const AddProduct = () => {
                                                 required
                                             />
                                         </Form.Group>
-                                    </Col>
+                                    </Col> */}
 
 
                                     <Col>
@@ -343,7 +360,7 @@ const AddProduct = () => {
                                 </Row>
 
                                 <Row className='mt-2'>
-                                    <Col>
+                                    {/* <Col>
                                         <Form.Group controlId="position">
                                             <Form.Label>Position</Form.Label>
                                             <Form.Control
@@ -355,8 +372,8 @@ const AddProduct = () => {
                                                 required
                                             />
                                         </Form.Group>
-                                    </Col>
-                                    <Col>
+                                    </Col> */}
+                                    {/* <Col>
                                         <Form.Group controlId="tags">
                                             <Form.Label>Tags</Form.Label>
                                             <Form.Control
@@ -371,7 +388,7 @@ const AddProduct = () => {
                                                 Separate tags with commas (e.g., tag1, tag2).
                                             </Form.Text>
                                         </Form.Group>
-                                    </Col>
+                                    </Col> */}
                                 </Row>
 
                                 <Row className='mt-2'>
@@ -379,6 +396,23 @@ const AddProduct = () => {
                                         <Form.Group controlId="desc">
                                             <Form.Label>Description</Form.Label>
                                             <Form.Control as="textarea" placeholder='Enter Product description' name="desc" value={formData.desc} onChange={handleChange} required />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <Row className='mt-2'>
+                                    <Col>
+                                        <Form.Group controlId="desc">
+                                            <Form.Label>Full Description</Form.Label>
+                                            <CKEditor
+                                                required
+                                                initData={
+                                                    <div
+                                                        dangerouslySetInnerHTML={createMarkup(formData?.full_desc)}
+                                                    />
+                                                }
+                                                onChange={handleEditorChange}
+                                            />
                                         </Form.Group>
                                     </Col>
                                 </Row>
@@ -397,7 +431,6 @@ const AddProduct = () => {
                                 <Row className='mt-2'>
                                     <Col>
                                         <Form.Group controlId="features">
-                                            {console.log(formData, 'formData?.specification')}
                                             <Form.Label>Features</Form.Label>
                                             <Form.Control as="textarea" placeholder='Enter Product Features' name="features" value={formData.features.join(', ')} onChange={handleFeaturesChange} />
                                             <Form.Text className="text-muted">

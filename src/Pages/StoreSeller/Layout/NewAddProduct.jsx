@@ -853,7 +853,8 @@ export default function NewAddProduct() {
                                                         </Row>
 
                                                         <Row className='locationTagHeader mt-2'>
-                                                            <Col xs={2}>MRP (₹)</Col>
+                                                            <Col xs={1}>MRP (₹)</Col>
+                                                            <Col xs={1}>SKUID</Col>
                                                             {ele?.spec_det?.map((e) => (
                                                                 <Col xs={2}>{e?.title}</Col>
                                                             ))}
@@ -863,7 +864,8 @@ export default function NewAddProduct() {
 
                                                         </Row>
                                                         <Row className='locationTagvalue mt-2'>
-                                                            <Col xs={2} >{ele?.price}</Col>
+                                                            <Col xs={1} >{ele?.price}</Col>
+                                                            <Col xs={1}>{ele?.skuId}</Col>
                                                             {ele?.spec_det?.map((e) => (
                                                                 <Col xs={2}>{e?.value}</Col>
                                                             ))}
