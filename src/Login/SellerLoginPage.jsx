@@ -9,7 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { getLocation } from '../Pages/KeyManager/Dashboard/Attendence';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-const LoginPage = () => {
+const SellerLoginPage = () => {
     const { setAuth } = useAuth()
 
     const [inputUsername, setInputUsername] = useState("");
@@ -17,7 +17,7 @@ const LoginPage = () => {
 
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [loginAsSeller, setLoginAsSeller] = useState(false);
+    const [loginAsSeller, setLoginAsSeller] = useState(true);
     const [isCaptchaVerified, setCaptchaVerified] = useState(false);
 
     const navigate = useNavigate()
@@ -37,114 +37,114 @@ const LoginPage = () => {
                 password: inputPassword
             };
 
-            if(!loginAsSeller){
+            if (!loginAsSeller) {
                 await AdminLogin(payload)
-                .then((res) => {
-                    console.log(res, 'res');
-                    if (res?.response?.data?.error == true) {
-                        toast.error(res?.response?.data?.message)
-                    } else {
-                        const accessToken = res?.data?.data[1]?.accessToken;
-                        const role = res?.data?.data[0]?.role;
-                        console.warn(role,'role')
-                        if (role?.name == "Key Account Maneger"){
-                            getLocation();
+                    .then((res) => {
+                        console.log(res, 'res');
+                        if (res?.response?.data?.error == true) {
+                            toast.error(res?.response?.data?.message)
+                        } else {
+                            const accessToken = res?.data?.data[1]?.accessToken;
+                            const role = res?.data?.data[0]?.role;
+                            console.warn(role, 'role')
+                            if (role?.name == "Key Account Maneger") {
+                                getLocation();
+                            }
+
+                            console.log(res?.data?.data[0]?.name, 'api name')
+
+                            setAuth((prevAuth) => ({
+                                ...prevAuth,
+                                username: res?.data?.data[0]?.name,
+                                password: res?.data?.data[0]?.password,
+                                email: res?.data?.data[0]?.email,
+                                userId: res?.data?.data[0]?._id,
+                                accessToken,
+                                role
+                            }));
+
+                            setLoading(false);
+
+                            const authData = {
+                                username: res?.data?.data[0]?.name,
+                                password: res?.data?.data[0]?.password,
+                                email: res?.data?.data[0]?.email,
+                                userId: res?.data?.data[0]?._id,
+                                accessToken,
+                                role
+                            };
+
+                            localStorage.clear();
+                            localStorage.setItem(
+                                "ACCESS_TOKEN",
+                                JSON.stringify(res?.data?.data[1].accessToken)
+                            );
+                            localStorage.setItem('auth', JSON.stringify(authData));
+                            navigate(from, { replace: true });
                         }
 
-                        console.log(res?.data?.data[0]?.name, 'api name')
-
-                        setAuth((prevAuth) => ({
-                            ...prevAuth,
-                            username: res?.data?.data[0]?.name,
-                            password: res?.data?.data[0]?.password,
-                            email: res?.data?.data[0]?.email,
-                            userId: res?.data?.data[0]?._id,
-                            accessToken,
-                            role
-                        }));
-
+                    })
+                    .catch((err) => {
+                        console.log(err);
                         setLoading(false);
-
-                        const authData = {
-                            username: res?.data?.data[0]?.name,
-                            password: res?.data?.data[0]?.password,
-                            email: res?.data?.data[0]?.email,
-                            userId: res?.data?.data[0]?._id,
-                            accessToken,
-                            role
-                        };
-
-                        localStorage.clear();
-                        localStorage.setItem(
-                            "ACCESS_TOKEN",
-                            JSON.stringify(res?.data?.data[1].accessToken)
-                        );
-                        localStorage.setItem('auth', JSON.stringify(authData));
-                        navigate(from, { replace: true });
-                    }
-
-                })
-                .catch((err) => {
-                    console.log(err);
-                    setLoading(false);
-                    setShow(true);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-            }else{
+                        setShow(true);
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
+            } else {
                 await SellerLogin(payload)
-                .then((res) => {
-                    console.log(res, 'res');
-                    if (res?.response?.data?.error == true) {
-                        toast.error(res?.response?.data?.message)
-                    } else {
-                        const accessToken = res?.data?.data[1]?.accessToken;
-                        const role = {
-                            _id : 'seller',
-                            name : 'Seller',
-                        };
+                    .then((res) => {
+                        console.log(res, 'res');
+                        if (res?.response?.data?.error == true) {
+                            toast.error(res?.response?.data?.message)
+                        } else {
+                            const accessToken = res?.data?.data[1]?.accessToken;
+                            const role = {
+                                _id: 'seller',
+                                name: 'Seller',
+                            };
 
-                        console.log(res?.data?.data[0]?.name, 'api name')
+                            console.log(res?.data?.data[0]?.name, 'api name')
 
-                        setAuth((prevAuth) => ({
-                            ...prevAuth,
-                            username: res?.data?.data[0]?.name,
-                            password: res?.data?.data[0]?.password,
-                            email: res?.data?.data[0]?.email,
-                            accessToken,
-                            role
-                        }));
+                            setAuth((prevAuth) => ({
+                                ...prevAuth,
+                                username: res?.data?.data[0]?.name,
+                                password: res?.data?.data[0]?.password,
+                                email: res?.data?.data[0]?.email,
+                                accessToken,
+                                role
+                            }));
 
+                            setLoading(false);
+
+                            const authData = {
+                                username: res?.data?.data[0]?.name,
+                                password: res?.data?.data[0]?.password,
+                                email: res?.data?.data[0]?.email,
+                                accessToken,
+                                role,
+                                userId: res?.data?.data[0]?._id
+                            };
+
+                            localStorage.clear();
+                            localStorage.setItem(
+                                "ACCESS_TOKEN",
+                                JSON.stringify(res?.data?.data[1].accessToken)
+                            );
+                            localStorage.setItem('auth', JSON.stringify(authData));
+                            navigate(from, { replace: true });
+                        }
+
+                    })
+                    .catch((err) => {
+                        console.log(err);
                         setLoading(false);
-
-                        const authData = {
-                            username: res?.data?.data[0]?.name,
-                            password: res?.data?.data[0]?.password,
-                            email: res?.data?.data[0]?.email,
-                            accessToken,
-                            role,
-                            userId : res?.data?.data[0]?._id
-                        };
-
-                        localStorage.clear();
-                        localStorage.setItem(
-                            "ACCESS_TOKEN",
-                            JSON.stringify(res?.data?.data[1].accessToken)
-                        );
-                        localStorage.setItem('auth', JSON.stringify(authData));
-                        navigate(from, { replace: true });
-                    }
-
-                })
-                .catch((err) => {
-                    console.log(err);
-                    setLoading(false);
-                    setShow(true);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
+                        setShow(true);
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
             }
         }
     };
@@ -175,7 +175,7 @@ const LoginPage = () => {
                     src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn0ivKSgxD_PljXFzpiZIDT-TXhcRNVo4g3Q&usqp=CAU'}
                     alt="logo"
                 />
-                <div className="h4 mb-2 text-center">Sign In</div>
+                <div className="h4 mb-2 text-center">Sign In Seller</div>
                 {show ? (
                     <Alert
                         className="mb-2"
@@ -224,7 +224,7 @@ const LoginPage = () => {
                     <Form.Check type="checkbox" label="Remember me" />
                 </Form.Group> */}
                 {!loading ? (
-                    <Button className="w-100 mt-2" variant="primary"  type="submit" disabled={!isCaptchaVerified}>
+                    <Button className="w-100 mt-2" variant="primary" type="submit" disabled={!isCaptchaVerified}>
                         Log In
                     </Button>
                 ) : (
@@ -251,4 +251,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default SellerLoginPage;

@@ -46,6 +46,9 @@ import ProfilePage from './Pages/StoreSeller/Layout/ProfilePage';
 import SellerDetails from './Pages/SellerManagment/SellerDetails';
 import KeySellerdetails from './Pages/KeyManager/Seller/Registration/KeySellerdetails';
 import ServicesFeedback from './Pages/StoreSeller/Layout/ServicesFeedback';
+import FrontPage from './Layouts/FrontPage/FrontPage';
+import SellerLoginPage from './Login/SellerLoginPage';
+
 
 
 
@@ -151,7 +154,15 @@ export default function Router() {
   const unauthenticatedRoute = [
     {
       path: '/',
+      element: <FrontPage />,
+    },
+    {
+      path: '/login',
       element: <LoginPage />,
+    },
+    {
+      path: '/seller-login',
+      element: <SellerLoginPage />,
     },
     {
       path: '/seller-registration',
