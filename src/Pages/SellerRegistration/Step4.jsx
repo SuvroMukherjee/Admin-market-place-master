@@ -19,7 +19,7 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
         setBankingDetails({ ...bankingDetails, [name]: value });
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // You can perform validation here before proceeding to the next step
         let payload = { "bank_details": bankingDetails }
@@ -44,7 +44,7 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                         <Col className='t1'>Update your bank details</Col>
                     </Row>
                     <Form onSubmit={handleSubmit}>
-                        <Row className='mt-2'>
+                        <Row className='mt-3'>
                             <Col xs={6}>
                                 <Form.Group controlId="bankName">
                                     <Form.Label className='frmLable'>Bank Name <span className="req">*</span></Form.Label>
@@ -60,7 +60,7 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             </Col>
 
                         </Row>
-                        <Row className='mt-2'>
+                        <Row className='mt-3'>
                             <Col xs={6}>
                                 <Form.Group controlId="accountNumber">
                                     <Form.Label className='frmLable'>Account Number <span className="req">*</span></Form.Label>
@@ -76,7 +76,7 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             </Col>
 
                         </Row>
-                        <Row className='mt-2'>
+                        <Row className='mt-3'>
                             <Col xs={6}>
                                 <Form.Group controlId="bankBranch">
                                     <Form.Label className='frmLable'>Bank Branch <span className="req">*</span></Form.Label>
@@ -93,9 +93,9 @@ const Step4 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
 
                         </Row>
                         {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
-                        <Row className='mt-4'>
-                            <Col>
-                                <Button  size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
+                        <Row className='mt-5'>
+                            <Col className="text-center">
+                                <Button size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
                             </Col>
                         </Row>
                     </Form>

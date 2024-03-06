@@ -59,7 +59,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
     };
 
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // You can perform validation here before proceeding to the next step
 
@@ -82,13 +82,13 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
             <Row>
                 <Col>
                     <div>
-                       <Row>
+                        <Row>
                             <Col className='t1'>
-                            Let's collect your indentity proof & documents
-                        </Col>
-                       </Row>
+                                Let's collect your indentity proof & documents
+                            </Col>
+                        </Row>
                         <Form onSubmit={handleSubmit}>
-                            <Row className='mt-2'>
+                            <Row className='mt-3'>
                                 <Col xs={6}>
                                     <Form.Group controlId="gst_no">
                                         <Form.Label className='frmLable'>GST Number <span className="req">*</span></Form.Label>
@@ -103,7 +103,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                 </Col>
                             </Row>
 
-                            <Row className='mt-2'>
+                            <Row className='mt-3'>
                                 <Col xs={6}>
                                     <Form.Group controlId="adhar_card">
                                         <Form.Label className='frmLable'>Aadhar Card <span className="req">*</span></Form.Label>
@@ -112,8 +112,8 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                 </Col>
                                 <Col xs={6}>
                                     <Form.Group controlId="gst_file">
-                                        
-                                        <Form.Label className='frmLable'>GST File <span className="req">*</span> 
+
+                                        <Form.Label className='frmLable'>GST File <span className="req">*</span>
                                             {documentation?.gst_file &&
                                                 <a
                                                     href={documentation?.gst_file}
@@ -129,7 +129,7 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                 </Col>
                             </Row>
 
-                            <Row className='mt-2'>
+                            <Row className='mt-3'>
                                 <Col xs={6}>
                                     <Form.Group controlId="cancelled_cheque">
                                         <Form.Label className='frmLable'>Cancelled Cheque <span className="req">*</span>
@@ -165,9 +165,9 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             </Row>
 
                             {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
-                            <Row className='mt-4'>
-                                <Col>
-                                    <Button  size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
+                            <Row className='mt-5'>
+                                <Col className="text-center">
+                                    <Button size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
                                 </Col>
                             </Row>
                         </Form>

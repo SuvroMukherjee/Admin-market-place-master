@@ -46,3 +46,76 @@
         transform: translate(0, 0);
     }
 }
+
+.login-page-background {
+    display: flex;
+    align-items: flex-end;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #DCDCDC;
+}
+
+.login-page-background img {
+    width: 100%;
+}
+
+.sign-in__wrapper form.loginForm {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: none !important;
+    width: 30rem;
+    padding: 24px 50px;
+}
+
+.sign-in__wrapper form.loginForm img {
+    display: block;
+    width: 80px;
+    margin: 0 auto 10px;
+}
+
+.sign-in__wrapper form.loginForm label {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.sign-in__wrapper form.loginForm input[type="text"],
+.sign-in__wrapper form.loginForm input[type="password"] {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 48px;
+    height: 48px;
+    width: 100%;
+    background: #e5faca;
+    border-radius: 0px;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    padding: 0 16px;
+}
+
+.sign-in__wrapper form.loginForm input[type="text"]::placeholder,
+.sign-in__wrapper form.loginForm input[type="password"]::placeholder {
+    color: #9C9C9C;
+}
+
+.sign-in__wrapper form.loginForm button[type="submit"] {
+    font-size: 16px;
+    font-weight: 600;
+    color: #9af064;
+    height: 48px;
+    background-color: #000;
+    border-radius: 0px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin-top: 30px !important;
+}
+
+.sign-in__wrapper form.loginForm .btn-forgot {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+    text-decoration: none;
+}

@@ -69,17 +69,17 @@ function SellerRegistrationPage() {
     const navbarStyle = {
         paddingLeft: '0px', // Adjust the left padding
         paddingRight: '10px', // Adjust the right padding
-        height: '10vh',
+        /* height: '10vh',*/
         backgroundColor:'#F3F3F3  !important'
     };
   
 
     return (
         <div className="App">
-            <Navbar expand="lg" className="nvbg" style={navbarStyle}>
+            <Navbar expand="lg" className="nvbg sellreg-navbar" style={navbarStyle}>
                 <Container>
-                    <Navbar.Brand ><img src={newlogo} width={80} /></Navbar.Brand>
-                    <Col style={{ color:'#236162',fontWeight:'500',textTransform:'uppercase',fontSize:'14px',letterSpacing:'1px'}}>Seller central</Col>
+                    {/* <Navbar.Brand ><img src={newlogo} width={80} /></Navbar.Brand> */}
+                    <Col style={{ color: '#9af064', fontWeight: '500', textTransform: 'uppercase', fontSize: '26px', letterSpacing: '1px' }}>Seller central <span style={{ color: 'rgb(193 240 1 / 98%)', fontWeight: '500', textTransform: 'uppercase', fontSize: '14px', letterSpacing: '1px' }}>seller registration</span></Col>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 </Container>
             </Navbar>
@@ -87,12 +87,12 @@ function SellerRegistrationPage() {
                 <Row>
                     <Col xs={12}>
                         <Stepper activeStep={step} styleConfig={{
-                            activeBgColor: '#1ec7d6',
-                            activeTextColor: '#fff',
-                            activeTitleColor:'#820300',
-                            inactiveBgColor: '#F5F7F8',
-                            inactiveTextColor: '#BFC2C6',
-                            completedBgColor: '#236162',
+                            activeBgColor: '#9af064',
+                            activeTextColor: '#000',
+                            activeTitleColor:'#000',
+                            inactiveBgColor: '#e5faca',
+                            inactiveTextColor: '#9C9C9C',
+                            completedBgColor: '#000',
                             completedTextColor: '#fff',
                             size: '2em'
                         }}>
@@ -105,7 +105,7 @@ function SellerRegistrationPage() {
                     </Col>
                 </Row>
             </Container>
-            <Container>
+            <Container className="stepContent">
                 <Row className='mt-2 ml-4 p-4'>
                     <Col xs={12}>
                         {step === 0 && <Step1 nextStep={nextStep} getUserdata={getUserdata} />}

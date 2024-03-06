@@ -46,7 +46,8 @@ const Step1 = ({ nextStep, getUserdata }) => {
                         <Col className='t1'>Register and Start Selling</Col>
                     </Row>
                     <Row>
-                        <Col className='tsmall'>Please have the following before you start register
+                        <Col className=''>
+                            <p>Please have the following before you start register</p>
                             <ul>
                                 <li>Shop related location,images </li>
                                 <li>Bank account details </li>
@@ -54,22 +55,19 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             </ul>
                         </Col>
                     </Row>
-                    <Row className='tt mt-2'>
+                    <Row className='tt mt-4'>
                         <Col>
-                            Enter details to strat your registration process
+                            <h4>Enter details to start your registration process</h4>
                         </Col>
                     </Row>
                     <Form onSubmit={handleSubmit}>
-                        <Row className='mt-2'>
+                        <Row className='mt-3'>
                             <Col xs={6}>
                                 <Form.Group controlId="user_name">
                                     <Form.Label className='frmLable'>Company Busniess Name <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="user_name" className='tapG' placeholder='Enter Your Username' size='sm' value={userInfo.user_name} onChange={handleChange} required autoComplete='off'/>
+                                    <Form.Control type="text" name="user_name" className='tapG' placeholder='Enter Your Username' size='sm' value={userInfo.user_name} onChange={handleChange} required autoComplete='off' />
                                 </Form.Group>
                             </Col>
-                        </Row>
-
-                        <Row className='mt-2'>
                             <Col xs={6}>
                                 <Form.Group controlId="email">
                                     <Form.Label className='frmLable'>Email <span className="req">*</span> </Form.Label>
@@ -78,16 +76,13 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             </Col>
                         </Row>
 
-                        <Row className='mt-2'>
+                        <Row className='mt-3'>
                             <Col xs={6}>
                                 <Form.Group controlId="phone_no">
                                     <Form.Label className='frmLable'>Phone Number <span className="req">*</span> </Form.Label>
                                     <Form.Control type="tel" name="phone_no" size='sm' className='tapG' placeholder='Enter Your Phone No.' value={userInfo.phone_no} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
-                        </Row>
-
-                        <Row className='mt-2'>
                             <Col xs={6}>
                                 <Form.Group controlId="password">
                                     <Form.Label className='frmLable'>Password <span className="req">*</span> </Form.Label>
@@ -96,14 +91,14 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             </Col>
                         </Row>
 
-                        <Row className='mt-4'>
-                            <Col>
-                                <Button  size='sm' className='frmLable grnbg' type="submit"> Next Step <span className='mx-2'><RiShareForwardFill /></span> </Button>
+                        <Row className='mt-5'>
+                            <Col className="text-center">
+                                <Button size='sm' className='frmLable grnbg' type="submit"> Next Step <span className='mx-2'><RiShareForwardFill /></span> </Button>
                             </Col>
                         </Row>
                     </Form>
                 </Col>
-               
+
             </Row>
             <Toaster position="top-right" />
         </Container>

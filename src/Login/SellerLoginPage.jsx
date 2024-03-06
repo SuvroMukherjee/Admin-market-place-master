@@ -8,6 +8,8 @@ import './loginpage.css';
 import toast, { Toaster } from 'react-hot-toast';
 import { getLocation } from '../Pages/KeyManager/Dashboard/Attendence';
 import ReCAPTCHA from 'react-google-recaptcha';
+import loginbackground from '../assets/wave6.png'
+import loginperson from '../assets/login.png'
 
 const SellerLoginPage = () => {
     const { setAuth } = useAuth()
@@ -166,16 +168,20 @@ const SellerLoginPage = () => {
     return (
         <div
             className="sign-in__wrapper"
-            style={{ backgroundImage: `url('https://img.freepik.com/free-photo/online-shopping-shopping-cart-placed-alongside-notebook-blue_1150-19158.jpg')` }}
+        // style={{ backgroundImage: `url('https://img.freepik.com/free-photo/online-shopping-shopping-cart-placed-alongside-notebook-blue_1150-19158.jpg')` }}
         >
-            <div className="sign-in__backdrop"></div>
-            <Form className="shadow p-4 bg-white rounded" onSubmit={handleSubmit}>
-                <img
+            {/* <div className="sign-in__backdrop"></div> */}
+            <div class="login-page-background">
+                <img src={loginbackground} alt="" />
+            </div>
+            <Form className="shadow loginForm" onSubmit={handleSubmit}>
+                {/* <img
                     className="img-thumbnail mx-auto d-block mb-2"
                     src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn0ivKSgxD_PljXFzpiZIDT-TXhcRNVo4g3Q&usqp=CAU'}
                     alt="logo"
-                />
-                <div className="h4 mb-2 text-center">Sign In Seller</div>
+                /> */}
+                <img src={loginperson} alt="" />
+                <div className="h4 mb-2 text-center">Seller</div>
                 {show ? (
                     <Alert
                         className="mb-2"
@@ -188,7 +194,7 @@ const SellerLoginPage = () => {
                 ) : (
                     <div />
                 )}
-                <Form.Group className="mb-2" controlId="username">
+                <Form.Group className="mb-3" controlId="username">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                         type="text"
@@ -198,7 +204,7 @@ const SellerLoginPage = () => {
                         required
                     />
                 </Form.Group>
-                <Form.Group className="mb-2" controlId="password">
+                <Form.Group className="mb-4" controlId="password">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type="password"
@@ -232,19 +238,19 @@ const SellerLoginPage = () => {
                         Logging In...
                     </Button>
                 )}
-                <div className="d-grid justify-content-end">
+                <div className="d-grid justify-content-center mt-3">
                     <Button
-                        className="text-muted px-0"
+                        className="p-0 btn-forgot"
                         variant="link"
                         onClick={handlePassword}
                     >
-                        Forgot password?
+                        Forgot password ?
                     </Button>
                 </div>
             </Form>
             <Toaster position="top-right" />
             {/* Footer */}
-            <div className="w-100 mb-2 position-absolute bottom-0 start-50 translate-middle-x text-white text-center">
+            <div className="w-100 mb-2 position-absolute bottom-0 start-50 translate-middle-x text-center">
                 Sant Sales| &copy;2023
             </div>
         </div>

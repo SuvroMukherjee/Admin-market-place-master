@@ -156,50 +156,51 @@
 }
 
 .Label-0-2-11 {
-        font-size: 10px !important;
-            font-weight: 550 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 2px !important;
-            background: #f7f7f7 !important;
-            padding: 5px !important;
-            border-radius: 5px !important;
-            color: #045558 !important;
+    font-size: 10px !important;
+    font-weight: 550 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    background: #f7f7f7 !important;
+    padding: 5px !important;
+    border-radius: 5px !important;
+    color: #045558 !important;
 }
 
-.nvbg{
+.nvbg {
     background-color: #F3F3F3 !important;
 }
 
-.t1{
+.t1 {
     color: #236162;
     font-size: 22px;
     font-weight: 500;
     letter-spacing: 0.5px;
 }
 
-.tsmall{
+.tsmall {
     color: #222222;
     font-size: 12px;
 }
 
-.tt{
+.tt {
     font-size: 14px;
     color: black;
     font-weight: bold;
 }
 
-.tapG:focus{
+.tapG:focus {
     border-color: #2D9596 !important;
     border-width: 2px;
     box-shadow: none !important;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px !important;
 }
 
-.grnbg{
+.grnbg {
     background-color: #2D9596 !important;
     border: 2px solid #236162 !important;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px !important;
 }
+
 /* .Label-d3-0-2-15 {
     font-size: 10px !important;
     font-weight: 550 !important;
@@ -218,3 +219,83 @@
         text-transform: uppercase !important;
         letter-spacing: 0.5px;
 } */
+.sellreg-navbar {
+    background-color: #000 !important;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+}
+
+.stepContent .t1 {
+    color: #000;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.stepContent p {
+    font-size: 16px;
+}
+
+.stepContent ul {
+    list-style-type: disc;
+}
+
+.stepContent ul li {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.stepContent label.form-label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stepContent input.form-control {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+    line-height: 48px;
+    height: 48px;
+    border-radius: 9px;
+    border: 1px solid #9C9C9C;
+    box-shadow: none;
+    outline: none;
+    padding: 0 20px;
+}
+
+.stepContent select.form-control {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+    height: 48px;
+    line-height: 48px;
+    border-radius: 9px;
+    border: 1px solid #9C9C9C;
+    box-shadow: none;
+    outline: none;
+    padding: 0 20px;
+}
+
+.stepContent button[type="submit"] {
+    height: 48px;
+    border-radius: 50px;
+    border: none !important;
+    background-color: #000 !important;
+    box-shadow: none !important;
+    font-size: 16px;
+    color: #9af064;
+    letter-spacing: 1px;
+    padding: 0 60px;
+}
+
+.stepContent .btn-final-submit {
+    height: 48px;
+    border-radius: 50px;
+    border: none !important;
+    background-color: #000 !important;
+    box-shadow: none !important;
+    font-size: 16px;
+    color: #9af064;
+    letter-spacing: 1px;
+    padding: 0 60px;
+}
