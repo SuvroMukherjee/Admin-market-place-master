@@ -149,7 +149,7 @@ export default function AttendenceComp() {
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
-                            <h3>Attendence Report</h3>
+                            <h3>Attendance Report</h3>
                         </Col>
                     </Row>
                     <Row className="justify-content-md-center">

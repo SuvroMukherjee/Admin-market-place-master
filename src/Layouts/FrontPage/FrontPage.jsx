@@ -519,7 +519,7 @@ const FrontPage = () => {
                           <div className="row">
                               <div className="col-lg-8 col-12">
                                   <div className="bottom-content-left">
-                                      <h2>Become a pround Zoofi seller</h2>
+                                      <h2>Become a proud Zoofi seller</h2>
                                       <p>
                                           Start your selling journey on Zoofi and become a part of our
                                           Seller community
