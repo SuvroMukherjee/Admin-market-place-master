@@ -313,6 +313,40 @@ export default function SellerListManage() {
                             </ButtonGroup>
                         </Col>
                     </Row>
+                    {/* <Row>
+                        <Col>
+                            <ButtonGroup>
+                                <Button
+                                    variant={activeButton === 'all' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('all')}
+                                    size="sm"
+                                >
+                                    All
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'pending' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('pending')}
+                                    size="sm"
+                                >
+                                   Imcomplete
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'approve' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('approve')}
+                                    size="sm"
+                                >
+                                    Complete
+                                </Button>
+                                <Button
+                                    variant={activeButton === 'reject' ? 'dark' : 'outline-dark'}
+                                    onClick={() => handleButtonClick('reject')}
+                                    size="sm"
+                                >
+                                    Reject
+                                </Button>
+                            </ButtonGroup>
+                        </Col>
+                    </Row> */}
                     {/* <Row className="justify-content-md-center">
                         <Col>
                             <DataGrid
@@ -352,7 +386,7 @@ export default function SellerListManage() {
                                             <td>{row?.Shop_Details_Info?.shope_name}</td>
                                             <td>
                                                 <div className="productListItem">
-                                                    <img className="productListImg" src={row?.Shop_Details_Info?.pic_of_shope?.[0]} alt="" />
+                                                    <img className="productListImg" src={row?.Shop_Details_Info?.pic_of_shope?.[0] || row?.Shop_Details_Info?.pic_of_shope?.[0]?.imag_path} alt="" />
                                                     {row?.Shop_Details_Info?.pic_of_shope?.length > 2 &&
                                                         <span>{row?.Shop_Details_Info?.pic_of_shope?.length - 1}+</span>}
                                                 </div>

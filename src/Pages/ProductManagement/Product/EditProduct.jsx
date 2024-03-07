@@ -418,18 +418,24 @@ const EditProduct = () => {
                                         </Form.Group>
                                     </Col>
                                 </Row> */}
-  
+                                {/* <p>{formData?.full_desc} </p> */}
+                                {formData?.full_desc &&
                                 <Row className='mt-4'>
                                     <Col>
                                         <Form.Group controlId="full_desc">
                                             <Form.Label>Full Description</Form.Label>
                                             <CKEditor
-                                                initData={formData?.full_desc || "<p>No content</p>"}
+                                                // initData={formData?.full_desc || "<p>No content</p>"}
+                                                    initData={
+                                                        <div
+                                                            dangerouslySetInnerHTML={createMarkup(formData?.full_desc)}
+                                                        />
+                                                    }
                                                 onChange={handleEditorChange}
                                             />
                                         </Form.Group>
                                     </Col>
-                                </Row>
+                                </Row>}
 
                                 <Row className='mt-2'>
                                     <Col>
