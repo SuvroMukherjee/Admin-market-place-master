@@ -109,7 +109,7 @@ const Dashboard = () => {
                         {/* <Attendence /> */}
                     
                 <div className="homeWidgets">
-                    <KeyWidgetSm user={seller} />
+                    {/* <KeyWidgetSm user={seller} /> */}
                     {/* <WidgetLg /> */}
                 </div>
             </div>

@@ -84,7 +84,7 @@ export const KeyManagerSidebarData = [
         cName: 'nav-text'
     },
     {
-        title: 'Attendence',
+        title: 'Attendance',
         path: '/key/attencdence',
         icon: BsShop,
         cName: 'nav-text'

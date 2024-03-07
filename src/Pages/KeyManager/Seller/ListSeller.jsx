@@ -305,14 +305,14 @@ export default function ListSeller() {
                                     onClick={() => handleButtonClick('approve')}
                                     size="sm"
                                 >
-                                    Approve
+                                    Approved
                                 </Button>
                                 <Button
                                     variant={activeButton === 'reject' ? 'dark' : 'outline-dark'}
                                     onClick={() => handleButtonClick('reject')}
                                     size="sm"
                                 >
-                                    Reject
+                                    Rejected
                                 </Button>
                             </ButtonGroup>
                         </Col>

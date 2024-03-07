@@ -26,17 +26,21 @@ export const ChangeFormatDate2 = (dateParams) => {
 export function splitDateTime(inputDateTime) {
     // Create a new Date object from the input string
     const dateTimeObject = new Date(inputDateTime);
+   
+    if (dateTimeObject){
+        // Extract date and time components
+        const dateComponent = dateTimeObject?.toISOString()?.split('T')?.[0];
 
-    // Extract date and time components
-    const dateComponent = dateTimeObject.toISOString().split('T')[0];
+        // Extract time components and remove seconds
+        const timeComponent = dateTimeObject?.toISOString()?.split('T')?.[1].split('.')?.[0];
 
-    // Extract time components and remove seconds
-    const timeComponent = dateTimeObject.toISOString().split('T')[1].split('.')[0];
-
-    return {
-        date: dateComponent,
-        time: timeComponent,
-    };
+        return {
+            date: dateComponent,
+            time: timeComponent,
+        };
+    }else{
+        return;
+    }
 }
 
 

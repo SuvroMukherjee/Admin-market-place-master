@@ -48,7 +48,7 @@ const Sidebar = () => {
         <div className="sidebar">
             <IconContext.Provider value={{ color: '#fff' }}>
                 {auth.role.name === "Admin" && renderSidebarData(AdminSidebarData, "Admin DashBoard")}
-                {auth.role.name === "Key Account Maneger" && renderSidebarData(KeyManagerSidebarData, "Key Account Maneger DashBoard")}
+                {auth.role.name === "Key Account Maneger" && renderSidebarData(KeyManagerSidebarData, "Key Account Manager DashBoard")}
                 {auth.role.name === "Seller" && renderSidebarData(SellerSidebarData, "Seller DashBoard")}
             </IconContext.Provider>
         </div>
