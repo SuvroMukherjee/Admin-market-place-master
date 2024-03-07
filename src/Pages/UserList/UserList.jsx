@@ -78,7 +78,7 @@ export default function UserList() {
             },
         },
         { field: "email", headerName: "Email", width: 200 },
-        { field: "phone_no", headerName: "Email", width: 200 },
+        { field: "phone_no", headerName: "Phone No.", width: 200 },
         {
             field: "role", headerName: "Role", width: 200, renderCell: (params) => {
                 return (
@@ -134,12 +134,12 @@ export default function UserList() {
             },
         },
         {
-            field: "Attendence", headerName: "Attence", width: 120,
+            field: "Attendance", headerName: "Attendance", width: 160,
             renderCell: (params) => {
                 return (
                     <div>
                         <Button variant="info" onClick={() => { setshow(true); setSelectedUserId(params?.row)}} size="sm">
-                            <FaClipboardList/> Attendence
+                            <FaClipboardList /> Attendance
                         </Button>
                     </div>
                 )

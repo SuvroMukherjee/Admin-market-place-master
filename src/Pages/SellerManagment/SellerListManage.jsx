@@ -308,7 +308,7 @@ export default function SellerListManage() {
                                     onClick={() => handleButtonClick('reject')}
                                     size="sm"
                                 >
-                                    Reject
+                                    Rejected
                                 </Button>
                             </ButtonGroup>
                         </Col>
