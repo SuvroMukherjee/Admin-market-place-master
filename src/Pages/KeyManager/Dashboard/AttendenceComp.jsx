@@ -45,8 +45,8 @@ export default function AttendenceComp() {
             renderCell: (params) => {
                 return (
                     <div>
-                        {params?.row?.log_in_time}
-                        {/* <span className="loglocation">{splitDateTime(params?.row?.log_in_time)?.date}</span> */}
+                        {params?.row?.log_in_time &&
+                        <span className="loglocation">{splitDateTime(params?.row?.log_in_time)?.date}</span> }
                     </div>
                 );
             }
@@ -58,8 +58,8 @@ export default function AttendenceComp() {
             renderCell: (params) => {
                 return (
                     <div>
-                        {params?.row?.log_in_time}
-                        {/* <span className="loglocation">{getDayOfWeek(splitDateTime(params?.row?.log_in_time)?.date)}</span> */}
+                        {params?.row?.log_in_time &&
+                         <span className="loglocation">{getDayOfWeek(splitDateTime(params?.row?.log_in_time)?.date)}</span> }
                     </div>
                 );
             }
@@ -71,8 +71,8 @@ export default function AttendenceComp() {
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        {params?.row?.log_in_time}
-                        {/* <span className="loginT">{splitDateTime(params?.row?.log_in_time)?.time}</span> */}
+                        {params?.row?.log_in_time && 
+                         <span className="loginT">{splitDateTime(params?.row?.log_in_time)?.time}</span> }
                     </div>
                 );
             }
