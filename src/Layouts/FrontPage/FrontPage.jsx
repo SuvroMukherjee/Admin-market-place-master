@@ -116,7 +116,7 @@ const FrontPage = () => {
                                       <div className="card-body">
                                           <div className="card-title">Crores of customers</div>
                                           <div className="card-text">
-                                              Reach crores of customers on Zoofi.in, India's most visited
+                                              Reach thousands of customers on Zoofi.in, India's one of the most visited
                                               shopping destination.
                                           </div>
                                       </div>
@@ -152,7 +152,7 @@ const FrontPage = () => {
                                       <div className="card-body">
                                           <div className="card-title">5.1K+</div>
                                           <div className="card-text">
-                                              5.1K+ sellers became crorepatis in 2022. You could be next.
+                                             Transforming Sellers into Crorepatis: Launching Your Path to Success.
                                           </div>
                                       </div>
                                   </div>
@@ -196,8 +196,7 @@ const FrontPage = () => {
                                       <div className="card-body">
                                           <div className="card-title">Unbeatable reach</div>
                                           <div className="card-text">
-                                              Deliver to 100% of India's serviceable pincodes, through Easy
-                                              Ship &amp; Fulfillment by Zoofi.
+                                              Deliver to 100% of India's serviceable pincodes .
                                           </div>
                                       </div>
                                   </div>
@@ -520,7 +519,7 @@ const FrontPage = () => {
                           <div className="row">
                               <div className="col-lg-8 col-12">
                                   <div className="bottom-content-left">
-                                      <h2>Beacome a pround Zoofi seller</h2>
+                                      <h2>Become a pround Zoofi seller</h2>
                                       <p>
                                           Start your selling journey on Zoofi and become a part of our
                                           Seller community
