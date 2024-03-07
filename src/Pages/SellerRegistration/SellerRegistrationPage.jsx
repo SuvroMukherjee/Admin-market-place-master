@@ -79,7 +79,7 @@ function SellerRegistrationPage() {
             <Navbar expand="lg" className="nvbg sellreg-navbar" style={navbarStyle}>
                 <Container>
                     {/* <Navbar.Brand ><img src={newlogo} width={80} /></Navbar.Brand> */}
-                    <Col style={{ color: '#9af064', fontWeight: '500', textTransform: 'uppercase', fontSize: '26px', letterSpacing: '1px' }}>Seller central <span style={{ color: 'rgb(193 240 1 / 98%)', fontWeight: '500', textTransform: 'uppercase', fontSize: '14px', letterSpacing: '1px' }}>seller registration</span></Col>
+                    <Col style={{ color: '#9af064', fontWeight: '500', textTransform: 'uppercase', fontSize: '26px', letterSpacing: '1px' }}><img src={newlogo}  alt='' width={120}/> <span className='mx-2' style={{ color: 'rgb(193 240 1 / 98%)', fontWeight: '500', textTransform: 'uppercase', fontSize: '14px', letterSpacing: '1px' }}>seller registration</span></Col>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 </Container>
             </Navbar>
@@ -100,7 +100,7 @@ function SellerRegistrationPage() {
                             <Step label="Shop Details" />
                             <Step label="Documentation" />
                             <Step label="Banking Details" />
-                            <Step label="Categoey & Comissions" />
+                            <Step label="Category & Commissions" />
                         </Stepper>
                     </Col>
                 </Row>

@@ -26,10 +26,10 @@ const FrontPage = () => {
                           <div className="row">
                               <div className="col-lg-6">
                                   <div className="banner-content-text">
-                                      <h2>Beacome a pround Appliance seller</h2>
+                                      <h2>Beacome a pround Zoofi seller</h2>
                                       <p>
-                                          Start your selling journey on Appliance and become a part of our
-                                          seller community
+                                          Start your selling journey on Zoofi and become a part of our
+                                          Seller community
                                       </p>
                                       <a className="banner-cta cursor" onClick={() => navigate('./seller-registration')}>
                                           Register
@@ -48,7 +48,7 @@ const FrontPage = () => {
                       <div className="container">
                           <div className="row section-heading">
                               <div className="col-12">
-                                  <h3>Why sellers best choice is Appliance ?</h3>
+                                  <h3>Why sellers best choice is Zoofi ?</h3>
                               </div>
                           </div>
                           <div className="row why-content">
@@ -116,7 +116,7 @@ const FrontPage = () => {
                                       <div className="card-body">
                                           <div className="card-title">Crores of customers</div>
                                           <div className="card-text">
-                                              Reach crores of customers on Amazon.in, India's most visited
+                                              Reach crores of customers on Zoofi.in, India's most visited
                                               shopping destination.
                                           </div>
                                       </div>
@@ -197,7 +197,7 @@ const FrontPage = () => {
                                           <div className="card-title">Unbeatable reach</div>
                                           <div className="card-text">
                                               Deliver to 100% of India's serviceable pincodes, through Easy
-                                              Ship &amp; Fulfillment by Amazon.
+                                              Ship &amp; Fulfillment by Zoofi.
                                           </div>
                                       </div>
                                   </div>
@@ -276,7 +276,7 @@ const FrontPage = () => {
                                           <div className="card-title">Ease of starting</div>
                                           <div className="card-text">
                                               From product photography to hassle free delivery &amp; returns
-                                              management, Amazon has a solution for you.
+                                              management, Zoofi has a solution for you.
                                           </div>
                                       </div>
                                   </div>
@@ -325,7 +325,7 @@ const FrontPage = () => {
                                       <div className="card-body">
                                           <div className="card-title">Sell to customers worldwide</div>
                                           <div className="card-text">
-                                              Sign up for Amazon Global Selling &amp; reach customers in upto
+                                              Sign up for Zoofi Global Selling &amp; reach customers in upto
                                               200+ countries.
                                           </div>
                                       </div>
@@ -338,7 +338,7 @@ const FrontPage = () => {
                       <div className="container">
                           <div className="row section-heading">
                               <div className="col-12">
-                                  <h3>How to start selling products on Appliance</h3>
+                                  <h3>How to start selling products on Zoofi</h3>
                               </div>
                           </div>
                           <div className="row how-content">
@@ -520,10 +520,10 @@ const FrontPage = () => {
                           <div className="row">
                               <div className="col-lg-8 col-12">
                                   <div className="bottom-content-left">
-                                      <h2>Beacome a pround Appliance seller</h2>
+                                      <h2>Beacome a pround Zoofi seller</h2>
                                       <p>
-                                          Start your selling journey on Appliance and become a part of our
-                                          seller community
+                                          Start your selling journey on Zoofi and become a part of our
+                                          Seller community
                                       </p>
                                   </div>
                               </div>

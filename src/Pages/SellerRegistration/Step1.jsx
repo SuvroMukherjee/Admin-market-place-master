@@ -51,7 +51,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <ul>
                                 <li>Shop related location,images </li>
                                 <li>Bank account details </li>
-                                <li>Busniess document with GSt and cancel cheque certificate</li>
+                                <li>Business document with GST and cancelled cheque certificate</li>
                             </ul>
                         </Col>
                     </Row>

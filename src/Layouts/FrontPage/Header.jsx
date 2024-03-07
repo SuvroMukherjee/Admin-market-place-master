@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
+import newlogo from '../../assets/newlogo.png'
 
 const Header = () => {
 
@@ -10,7 +11,7 @@ const Header = () => {
               <nav className="navbar navbar-expand-md">
                   <div className="container">
                       <a className="navbar-brand" href="#">
-                          Appliance
+                          <img src={newlogo} alt='newlogo' width={120}/>
                       </a>
                       <ul className="navbar-nav">
                           <li className="nav-item">
