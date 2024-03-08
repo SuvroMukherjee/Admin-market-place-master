@@ -94,12 +94,12 @@ const ServicesFeedback = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {currentItems?.length ? currentItems.map((row, index) => (
+                                {currentItems?.length > 0 ? currentItems.map((row, index) => (
                                     <tr key={row.id} className='cusfeedtd'>
 
                                         <td className='cusfeedtd'>
                                             <div>
-                                                <p className='cusfeedtd' style={{ width: '450px' }}>{row?.desc}</p>
+                                                <h4 className='cusfeedtd' style={{ width: '450px' }}>{row?.desc}</h4>
                                                 <p className='cusfeedtd'><img src={calender} width={20} />  {moment(row?.createdAt).fromNow()}</p>
                                             </div>
                                         </td>
