@@ -13,7 +13,7 @@ import newlogo from '../../assets/newlogo.png'
 
 
 function SellerRegistrationPage() {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(1);
     const [userData,setUserData] = useState();
 
     const reg_userdata = JSON.parse(localStorage.getItem('seller-registration'))
@@ -21,20 +21,20 @@ function SellerRegistrationPage() {
     console.log({ reg_userdata })
 
 
-    useEffect(()=>{
-        if (!reg_userdata?.Shop_Details_Info && reg_userdata?.password){
-            setStep(1)
-        }
-        else if (reg_userdata?.Shop_Details_Info && !reg_userdata?.doc_details) {
-            setStep(2)
-        }
-        else if (reg_userdata?.doc_details && !reg_userdata?.bank_details) {
-            setStep(3)
-        }
-        else if (reg_userdata?.bank_details && !reg_userdata?.interest_details) {
-            setStep(4)
-        }
-    },[])
+    // useEffect(()=>{
+    //     if (!reg_userdata?.Shop_Details_Info && reg_userdata?.password){
+    //         setStep(1)
+    //     }
+    //     else if (reg_userdata?.Shop_Details_Info && !reg_userdata?.doc_details) {
+    //         setStep(2)
+    //     }
+    //     else if (reg_userdata?.doc_details && !reg_userdata?.bank_details) {
+    //         setStep(3)
+    //     }
+    //     else if (reg_userdata?.bank_details && !reg_userdata?.interest_details) {
+    //         setStep(4)
+    //     }
+    // },[])
 
     // useEffect(()=>{
        

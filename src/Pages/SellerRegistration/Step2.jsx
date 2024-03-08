@@ -22,6 +22,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
     });
     const [allstates, setAllStates] = useState([])
 
+
     useEffect(() => {
         getallStates();
     }, [])
@@ -62,6 +63,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                     ...prevData,
                     pic_of_shope: [...prevData?.pic_of_shope, res?.data?.data?.fileurl],
                 }));
+
             }, 3000);
             // setBtnEnable(false)
         } catch (err) {
@@ -173,13 +175,23 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             </Col>
                             <Col xs={6}>
                                 <Form.Group controlId="shopImages">
-                                    <Form.Label className='frmLable'>Shop Images <span className="req">*</span></Form.Label>
-                                    <Form.Control type="file" name="pic_of_shope" className='tapG' onChange={handleFileChange} size='sm' multiple required />
+                                    <Form.Label className='frmLable'>Shop Image <span className="req">*</span>
+                                        {shopInfo?.pic_of_shope?.length > 0 &&
+                                            <a
+                                                href={shopInfo?.pic_of_shope?.[0]}
+                                                target="_blank"
+                                            >
+
+                                                <span className='mx-4'>Image successfully uploaded</span>
+                                            </a>
+                                        }
+                                    </Form.Label>
+                                    <Form.Control type="file" name="pic_of_shope" className='tapG' onChange={handleFileChange} size='sm'  required />
                                 </Form.Group>
                             </Col>
                         </Row>
 
-                        <Row className='mt-2'>
+                        {/* <Row className='mt-2'>
                             <Col>
                                 {shopInfo?.pic_of_shope?.length > 0 && (
                                     <Container>
@@ -198,14 +210,14 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                                         />
                                                     </span>
                                                     <Image src={fileUrl} thumbnail fluid />
-                                                    {/* Use fluid prop for responsive images */}
+                                                   
                                                 </Col>
                                             ))}
                                         </Row>
                                     </Container>
                                 )}
                             </Col>
-                        </Row>
+                        </Row> */}
 
 
                         <Row className='mt-2'>
