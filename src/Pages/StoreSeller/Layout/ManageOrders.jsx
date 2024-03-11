@@ -285,7 +285,7 @@ const ManageOrders = () => {
                                         <th>Image</th>
                                         <th>Order Quantity</th>
                                         <th>SKU</th>
-                                        <th>Order Quantity</th>
+                                        {/* <th>Order Quantity</th> */}
                                         <th>Price</th>
                                         <th>Shipping Cost</th>
                                         <th>Estimated Date & Time</th>
@@ -304,11 +304,11 @@ const ManageOrders = () => {
                                                 <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={100} style={{ objectFit: 'contain', height: '120px' }} /></td>
                                                 <td>{row?.qty}</td>
                                                 <td>{row?.proId?.specId?.skuId?.toUpperCase()}</td>
-                                                <td>
+                                                {/* <td>
                                                     {row?.proId?.specId?.spec_det?.map((ele) => (
                                                         <li>{ele?.title} : {ele?.value}</li>
                                                     ))}
-                                                </td>
+                                                </td> */}
                                                 <td>₹{row?.price?.toLocaleString()}</td>
                                                 <td>{row?.total_shipping_price}</td>
 
