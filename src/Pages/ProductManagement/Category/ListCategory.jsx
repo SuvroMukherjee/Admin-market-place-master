@@ -185,12 +185,24 @@ export default function ListCategory() {
                         </Col>
                     </Row>
                     <Row >
-                        <Col className="d-flex justify-content-end p-2">
-                            {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
-                            <Button className="addCategoryButton" variant="dark" onClick={() => handleNewCat()}>
-                                <AiOutlinePlus /> Add New Category
-                            </Button>
+                        <Col></Col>
+                        <Col xs={6} >
+                          <Row>
+                                <Col className="d-flex justify-content-end p-2">
+                                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
+                                    <Button className="addCategoryButton" variant="dark" size="sm" onClick={() => navigate('/Admin/category-commission')}>
+                                        <AiOutlinePlus /> Category Commission
+                                    </Button>
+                                </Col>
+                                <Col className="d-flex justify-content-end p-2">
+                                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
+                                    <Button className="addCategoryButton" variant="dark" size="sm" onClick={() => handleNewCat()}>
+                                        <AiOutlinePlus /> Add New Category
+                                    </Button>
+                                </Col>
+                          </Row>
                         </Col>
+                        
                     </Row>
                     <Row className="justify-content-md-center">
                         <Col>

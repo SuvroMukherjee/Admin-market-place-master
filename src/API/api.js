@@ -657,6 +657,16 @@ export async function createCommission(fromData) {
 }
 
 
+export async function updateCommission(fromData,id) {
+    try {
+        const response = await axios.patch(apiUrl + `/commission/update/${id}`, fromData)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 export async function getCommission(id) {
     try {
         const response = await axios.get(apiUrl + `/commission/list-by-sellerId/${id}`)
@@ -777,6 +787,15 @@ export async function UpdatesellerOwnRegistrationForm(formData, id) {
 export async function allcatList(){
     try {
         const response = await axios.get(apiUrl + `/category/all-list`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function allCommissionList() {
+    try {
+        const response = await axios.get(apiUrl + `/commission/list`)
         return response;
     } catch (error) {
         return error

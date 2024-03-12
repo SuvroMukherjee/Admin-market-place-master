@@ -48,6 +48,7 @@ import KeySellerdetails from './Pages/KeyManager/Seller/Registration/KeySellerde
 import ServicesFeedback from './Pages/StoreSeller/Layout/ServicesFeedback';
 import FrontPage from './Layouts/FrontPage/FrontPage';
 import SellerLoginPage from './Login/SellerLoginPage';
+import CategoryComissions from './Pages/ProductManagement/Category/CategoryComissions';
 
 
 
@@ -85,6 +86,7 @@ export default function Router() {
           element: <RequireAuth allowedRoles={['Admin']} />,
           children: [
             { path: 'category', element: <ListCategory /> },
+            { path: 'category-commission', element: <CategoryComissions /> },
             { path: 'AddCategory', element: <AddCategory /> },
             { path: 'subcategory', element: <ListSubCategory /> },
             { path: 'Addsubcategory', element: <AddSubCategory /> },
