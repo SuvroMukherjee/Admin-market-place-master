@@ -333,207 +333,6 @@ export default function NewAddProduct() {
         // You can now send formData to your server or perform any other desired actions
     };
 
-    console.log({ data })
-
-    // return (
-    //     <>
-    //         {loading &&
-    //             <div className="productList mt-2 p-4 contentLoader">
-    //                 <Row>
-    //                     <Col>
-    //                         <Spinner animation="border" size="lg" role="status">
-    //                             <span className="visually-hidden">Loading...</span>
-    //                         </Spinner>
-    //                     </Col>
-    //                 </Row>
-    //             </div>}
-    //         <Container style={{ background: 'black' }} className="productList">
-    //                 Add New Product
-    //             </Container>
-    //         <div className="productList mt-2 p-4">
-
-    //             <Container>
-    //                 <Row className="justify-content-md-center">
-    //                     <Col md="auto">
-    //                         <h3>Add Your Product</h3>
-    //                     </Col>
-    //                 </Row>
-    //                 <Row className="mb-3 mt-3">
-    //                     <Col className="text-dark fw-bold">Apply Filter</Col>
-    //                 </Row>
-    // <Row className="w-40 mb-2 mt-2">
-    //     <Col>
-    //         <Form.Group controlId="categoryId">
-    //             <Form.Label className="text-dark fw-bold">Category</Form.Label>
-    //             <Form.Control as="select" name="categoryId" onChange={handleCategoryChange} required>
-    //                 <option value="" disabled selected>
-    //                     Select Category
-    //                 </option>
-    //                 {allcategoryList?.length > 0 && allcategoryList?.map((ele) => (
-    //                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-    //                 ))}
-    //             </Form.Control>
-    //         </Form.Group>
-    //     </Col>
-    //     <Col>
-    //         <Form.Group controlId="categoryId">
-    //             <Form.Label className="text-dark fw-bold">Sub Category</Form.Label>
-    //             <Form.Control as="select" name="subcategoryId" onChange={handleSubChange} required>
-    //                 <option value="" disabled selected>
-    //                     Select Sub Category
-    //                 </option>
-    //                 {allSubcategorylist?.length > 0 && allSubcategorylist?.map((ele) => (
-    //                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-    //                 ))}
-    //             </Form.Control>
-    //         </Form.Group>
-    //     </Col>
-    //     <Col>
-    //         <Form.Group controlId="categoryId">
-    //             <Form.Label className="text-dark fw-bold">Brand</Form.Label>
-    //             <Form.Control as="select" name="brandId" onChange={handleBrandChange} >
-    //                 <option value="" disabled selected>
-    //                     Select Brand
-    //                 </option>
-    //                 {allbrandList?.length > 0 && allbrandList?.map((ele) => (
-    //                     <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-    //                 ))}
-    //             </Form.Control>
-    //         </Form.Group>
-    //     </Col>
-    //     <Col className="d-flex justify-content-center align-items-end">
-    //         <Button variant="dark" size="sm" className="w-10 p-2" onClick={() => { setLoading(true); getProductListFunc() }}>
-    //             <IoIosCloseCircle size={25} /> clear Filter</Button>
-    //     </Col>
-    // </Row>
-    //                 {/* <Row className="justify-content-md-center">
-    //                     <Col>
-    //                         <DataGrid
-    //                             rows={data}
-    //                             columns={columns}
-    //                             pageSize={8}
-    //                             // checkboxSelection
-    //                             // onSelectionModelChange={(ids) => {
-    //                             //     const selectedIDs = new Set(ids);
-    //                             //     const selectedRows = data.rows.filter((row) =>
-    //                             //         selectedIDs.has(row.id),
-    //                             //     );
-
-    //                             //     setSelectedRows(selectedRows);
-    //                             // }}
-    //                             noRowsOverlay={
-    //                                 data?.length === 0 && <div style={{ textAlign: 'center', padding: '20px' }}>No Data Found</div>
-    //                             }
-    //                         />
-    //                     </Col>
-    //                 </Row> */}
-    //                 <Toaster position="top-right" />
-    //             </Container>
-
-    //             <Container className="mt-4">
-    //                 <Row className="d-flex justify-content-md-center gap-4">
-    //                     {data?.length > 0 && data?.map((ele, index) => (
-    //                         <Col key={index} className="d-flex justify-content-md-center">
-    //                             <Card style={{ width: '18rem' }}>
-    //                                 {ele?.image?.[0]?.length < 15 ?
-    //                                     <Card.Img variant="top" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTf9vk9y50x6ZHHMLz9LHvwG-iUx0IUtLUmqg&usqp=CAU' style={{ height: '200px', objectFit: 'cover' }} /> :
-    //                                     <Card.Img variant="top" src={ele?.image?.[0]?.image_path} style={{ height: '250px', objectFit: 'cover' }} />
-    //                                 }
-    //                                 <Card.Body>
-    //                                     <Card.Title className="p-name">{ele?.name}</Card.Title>
-    //                                     <Card.Subtitle className="p-catname">{ele?.brandId?.title} | {ele?.categoryId?.title}</Card.Subtitle>
-    //                                     <Card.Text className="p-desc">
-    //                                         {ele?.desc?.slice(0, 100) + '.....'}
-    //                                     </Card.Text>
-    //                                     <div className="p-desc">
-    //                                         <ul>
-    //                                             {ele?.features?.length > 0 && ele?.features?.slice(0, 5)?.map((ele) => (
-    //                                                 <li>{ele}</li>
-    //                                             ))}
-    //                                         </ul>
-    //                                     </div>
-    //                                     <Card.Subtitle className="p-catname">M.R.P - {ele?.regular_price?.toLocaleString()}</Card.Subtitle>
-    //                                     {/* <Card.Subtitle className="p-catname">
-
-    //                                                 {ele?.specId?.length > 0 && ele?.specId?.map((ele) => (
-    //                                                     <span>{ele?.price} | </span>
-    //                                                 ))}
-
-    //                                     </Card.Subtitle> */}
-    //                                 </Card.Body>
-    //                                 <Card.Footer>
-    //                                     <Button variant="outline-success w-100" onClick={() => handleAddProduct(ele)}>Select Product</Button>
-    //                                 </Card.Footer>
-    //                             </Card>
-    //                         </Col>
-    //                     ))}
-    //                 </Row>
-
-    //                 <Row>
-    //                     <Modal size="md" show={show} onHide={handleClose}>
-    //                         <Modal.Header closeButton>
-    //                             <Modal.Title className="p-catname">{seletedProducrt?.name}</Modal.Title>
-    //                         </Modal.Header>
-    //                         <Modal.Body>
-    //                             <Form>
-    //                                 <Row>
-    //                                     <Col>
-    //                                         <ListGroup style={{ maxHeight: '250px', overflowY: 'auto' }}>
-    //                                             {seletedProducrt?.specId?.map((ele, index) => (
-    //                                                 <ListGroup.Item key={ele?._id}>
-    //                                                     <Row>
-    //                                                         <Col xs={10}>
-    //                                                             <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
-    //                                                         </Col>
-    //                                                         <Col xs={2}>
-    //                                                             <Button variant="outline-success" size="sm" onClick={() => AddSellerProduct(ele?.productId, ele?._id, formData[index]?.price)}>SAVE</Button>
-    //                                                         </Col>
-    //                                                     </Row>
-
-    //                                                     <Row className='locationTagHeader mt-2'>
-    //                                                         <Col xs={2}>MRP (₹)</Col>
-    //                                                         {ele?.spec_det?.map((e) => (
-    //                                                             <Col xs={2}>{e?.title}</Col>
-    //                                                         ))}
-    //                                                         <Col>Enter product price (₹)</Col>
-
-    //                                                     </Row>
-    //                                                     <Row className='locationTagvalue mt-2'>
-    //                                                         <Col xs={2} >{ele?.price}</Col>
-    //                                                         {ele?.spec_det?.map((e) => (
-    //                                                             <Col xs={2}>{e?.value}</Col>
-    //                                                         ))}
-    //                                                         <Col>
-    //                                                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-    //                                                                 <Form.Control
-    //                                                                     type="tel"
-    //                                                                     size="sm"
-    //                                                                     placeholder="Product Price"
-    //                                                                     name="price"
-    //                                                                     required
-    //                                                                     max={ele?.price}
-    //                                                                     value={formData[index]?.price}
-    //                                                                     onChange={(e) => handlePriceChange(index, e.target.value)}
-
-    //                                                                 />
-    //                                                             </Form.Group>
-    //                                                         </Col>
-    //                                                     </Row>
-    //                                                 </ListGroup.Item>
-    //                                             ))}
-    //                                         </ListGroup>
-    //                                     </Col>
-    //                                 </Row>
-    //                             </Form>
-    //                         </Modal.Body>
-    //                     </Modal>
-    //                 </Row>
-    //             </Container>
-
-    //         </div>
-    //     </>
-    // );
-
 
     const navbarStyle = {
         paddingLeft: '0px', // Adjust the left padding
@@ -585,7 +384,7 @@ export default function NewAddProduct() {
                             </Row>
 
                             <Row className="mt-4">
-                                <Col className="padd2">Search Your Product In Market Place Catalogue <br /> &  Start Selling</Col>
+                                <Col className="padd2">Search Your Product In Zoofi Catalogue <br /> &  Start Selling</Col>
                             </Row>
                             <Row className="mt-4 " >
                                 <Col xs={6} style={{ marginLeft: '-2%' }}>
@@ -618,6 +417,13 @@ export default function NewAddProduct() {
                                             onChange={handleCheckboxChange}
                                         />
                                     </Form>
+                                </Col>
+                            </Row>
+                            <Row className="mt-2">
+                                <Col className="padd4">
+                                    Can't find your product in the Zoofi catalog? <span className="mx-2"><Button size="sm" variant="outline-primary" onClick={()=>
+                                        navigate('/seller/seller-ownproduct-status')
+                                    }>Create a new listing</Button></span>
                                 </Col>
                             </Row>
                             {!isChecked && 

@@ -49,6 +49,7 @@ import ServicesFeedback from './Pages/StoreSeller/Layout/ServicesFeedback';
 import FrontPage from './Layouts/FrontPage/FrontPage';
 import SellerLoginPage from './Login/SellerLoginPage';
 import CategoryComissions from './Pages/ProductManagement/Category/CategoryComissions';
+import NewProductAdd from './Pages/StoreSeller/NewProductAddition/NewProductAdd';
 
 
 
@@ -126,8 +127,9 @@ export default function Router() {
           children: [
             // { path: 'seller-dashboard', element: <SellerDashboard /> },
             { path: 'seller-dashboard', element: <NewSellerDashboard /> },
-            { path: 'seller-ownproduct', element: <SellerOwnProduct /> },
-            { path: 'seller-ownproduct-status', element: <OwnproductStatus /> },
+            // { path: 'seller-ownproduct', element: <SellerOwnProduct /> },
+            // { path: 'seller-ownproduct-status', element: <OwnproductStatus /> },
+            { path: 'seller-ownproduct-status', element: <NewProductAdd /> },
             { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
             // { path: 'seller-addproduct', element: <SellerAddProduct /> },
             { path: 'seller-addproduct', element: <NewAddProduct /> },

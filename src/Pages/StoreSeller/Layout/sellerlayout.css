@@ -110,6 +110,14 @@ th {
     color: #596FB7;
     letter-spacing: 1px;
     font-weight: 500;
+} 
+
+.padd4 {
+    text-transform: uppercase;
+    color: #317506;
+    letter-spacing: 1px;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .padd2 {
