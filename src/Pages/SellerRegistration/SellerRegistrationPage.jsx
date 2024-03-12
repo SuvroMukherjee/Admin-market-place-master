@@ -13,7 +13,7 @@ import newlogo from '../../assets/newlogo.png'
 
 
 function SellerRegistrationPage() {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(0);
     const [userData,setUserData] = useState();
 
     const reg_userdata = JSON.parse(localStorage.getItem('seller-registration'))

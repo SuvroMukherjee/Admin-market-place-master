@@ -50,6 +50,9 @@ import FrontPage from './Layouts/FrontPage/FrontPage';
 import SellerLoginPage from './Login/SellerLoginPage';
 import CategoryComissions from './Pages/ProductManagement/Category/CategoryComissions';
 import NewProductAdd from './Pages/StoreSeller/NewProductAddition/NewProductAdd';
+import NewAddLayout from './Pages/StoreSeller/NewProductAddition/NewAddLayout';
+import CategoryRequest from './Pages/StoreSeller/NewProductAddition/CategoryRequest';
+import ApprovalPendingList from './Pages/StoreSeller/NewProductAddition/ApprovalPendingList';
 
 
 
@@ -129,7 +132,15 @@ export default function Router() {
             { path: 'seller-dashboard', element: <NewSellerDashboard /> },
             // { path: 'seller-ownproduct', element: <SellerOwnProduct /> },
             // { path: 'seller-ownproduct-status', element: <OwnproductStatus /> },
-            { path: 'seller-ownproduct-status', element: <NewProductAdd /> },
+            {
+              path: 'seller-ownproduct-status', element: <NewAddLayout />,
+              children : [
+                { path: 'new-add',element:<NewProductAdd/>},
+                
+              ]
+            },
+            {path : 'category-request',element: <CategoryRequest/>},
+            { path: 'approval-request-list', element: <ApprovalPendingList /> },
             { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
             // { path: 'seller-addproduct', element: <SellerAddProduct /> },
             { path: 'seller-addproduct', element: <NewAddProduct /> },
@@ -146,6 +157,7 @@ export default function Router() {
 
           ],
         },
+
       ],
     },
     {

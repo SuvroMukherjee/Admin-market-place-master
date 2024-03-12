@@ -422,7 +422,7 @@ export default function NewAddProduct() {
                             <Row className="mt-2">
                                 <Col className="padd4">
                                     Can't find your product in the Zoofi catalog? <span className="mx-2"><Button size="sm" variant="outline-primary" onClick={()=>
-                                        navigate('/seller/seller-ownproduct-status')
+                                        navigate('/seller/seller-ownproduct-status/new-add')
                                     }>Create a new listing</Button></span>
                                 </Col>
                             </Row>

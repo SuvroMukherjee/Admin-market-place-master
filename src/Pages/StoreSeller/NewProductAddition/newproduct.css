@@ -1,3 +1,36 @@
 .liststyle li a {
    text-decoration: none !important;
 }
+
+.activeNav {
+   color: red !important;
+   background-color: aquamarine !important;
+}
+
+.gotoBtn {
+   width: 200px;
+   background: white;
+   padding: 8px 0px;
+   border: 1px solid rgb(213, 212, 212);
+   border-radius: 7px;
+   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.gotoBtnYellow {
+   width: 200px;
+   background: #FFC700;
+   padding: 8px 0px;
+   border: 0px;
+   border-radius: 7px;
+}
+
+.bgColor{
+   background-color: lightgrey;
+   border-radius: 4px;
+   padding: 1%;
+}
+
+.aggree{
+   color: 222831;
+   font-weight: 500;
+}

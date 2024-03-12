@@ -825,3 +825,13 @@ export async function commandOnOrder(id,formData){
 }
 
 
+//seller requests apis
+
+export async function allCategoryeqList() {
+    try {
+        const response = await axios.get(apiUrl + `/category/cat-list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
