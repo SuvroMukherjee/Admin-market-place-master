@@ -95,85 +95,21 @@ const NewProductAdd = () => {
     }
 
 
-    // const handleFileChange = async (e) => {
-    //     onFileUpload(e.target.files[0])
-    // };
 
-
-    // const onFileUpload = async (data) => {
-    //     const formData = new FormData();
-    //     formData.append("file", data);
-    //     await FileUpload(formData)
-    //         .then((res) => {
-    //             console.log(res, "res");
-    //             setTimeout(() => {
-    //                 // setFile(res?.data?.data?.fileurl)
-    //                 setcatReqdata((prevData) => ({
-    //                     ...prevData,
-    //                     ['image']: {image_path : res?.data?.data?.fileurl}, 
-    //                 }));
-    //             }, 3000);
-    //             //setFile(res?.data?.data?.fileurl)
-    //         })
-    //         .catch((err) => {
-    //             console.log(err, "err");
-    //         });
-    // };
-
-
-    // const [categoryReqdata,setcatReqdata] = useState()
-
-
-    // const handleCatChange = (e) =>{
-    //     const { name, value } = e.target;
-
-    //     setcatReqdata((prevData) => ({
-    //         ...prevData,
-    //         [name]: value,
-    //     }));
-    // }
-
-
-    // const handleCategoryRequestSubmit = async(e) =>{
-    //     console.log('call')
-    //     e.preventDefault();
-    //     console.log({ categoryReqdata })
-    // }
 
     return (
         <div>
             <Container>
-                {/* <Row className='p-4'>
-                    <Col xs={10}>
-                        <ul className='d-flex justify-content-evenly liststyle'>
-                            <li>
-                                <NavLink to="/">Product Identity</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="service">Description</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="about">Product Details</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="about">Offers</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="about">Safety & Complains</NavLink>
-                            </li>
-                        </ul>
-                    </Col>
-                </Row> */}
-
+                
                 <Row className='m-4 p-4 justify-content-md-center stepContent'>
 
-                    <Container>
+                    <Container >
                         <Form onSubmit={handleSubmit} >
                             <Row className='mt-3'>
                                 <Col xs={12}>
                                     <Form.Group controlId="user_name">
                                         <Row>
-                                            <Col xs={3}>
+                                            <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                                 <Form.Label className='frmLable'> <span className="req mx-1">*</span> Prouduct Name</Form.Label>
                                             </Col>
                                             <Col xs={8}>
@@ -185,10 +121,10 @@ const NewProductAdd = () => {
                             </Row>
 
                             <Row className='mt-3'>
-                                <Col xs={12}>
+                                <Col xs={12} >
                                     <Form.Group controlId="email">
                                         <Row>
-                                            <Col xs={3}>
+                                            <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                                 <Form.Label className='frmLable'><span className="req mx-1">*</span> Product Type </Form.Label>
                                             </Col>
                                             <Col xs={8}>
@@ -200,12 +136,12 @@ const NewProductAdd = () => {
                             </Row>
 
                             <Row className='mt-3'>
-                                <Col xs={12}>
-                                    <Row>
-                                        <Col xs={5}>
+                                <Col xs={12} >
+                                    <Row >
+                                        <Col xs={12} >
                                             <Form.Group controlId="email">
                                                 <Row>
-                                                    <Col xs={3}>
+                                                    <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                                         <Form.Label className='frmLable'><span className="req mx-1">*</span> Category </Form.Label>
                                                     </Col>
                                                     <Col xs={8}>
@@ -222,10 +158,10 @@ const NewProductAdd = () => {
                                             </Form.Group>
 
                                         </Col>
-                                        <Col xs={6}>
+                                        <Col xs={12} className='mt-2'>
                                             <Form.Group controlId="email">
                                                 <Row>
-                                                    <Col xs={3}>
+                                                    <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                                         <Form.Label className='frmLable'><span className="req">*</span> subcategory  </Form.Label>
                                                     </Col>
                                                     <Col xs={8}>
@@ -247,57 +183,8 @@ const NewProductAdd = () => {
 
                             <Row className='mt-2'>
                                 <Col xs={6}></Col>
-                                <Col xs={5} className='text-end' onClick={() => navigate('/seller/category-request/')}>Request for New Category?</Col>
+                                <Col xs={5} className='text-end reqText' onClick={() => navigate('/seller/category-request/')}>Request for New Category?</Col>
                             </Row>
-
-                            {openNewCat &&
-                                <Row style={{backgroundColor:'grey'}}>
-                                    <Col xs={6}>
-                                        <Form onSubmit={handleCategoryRequestSubmit}>
-                                            <Row className='mt-2'>
-                                                <Form.Group controlId="title">
-                                                    <Form.Label>Category Name</Form.Label>
-                                                    <Form.Control
-                                                        type="text"
-                                                        size='sm'
-                                                        placeholder="Enter title"
-                                                        name="title"
-                                                        value={categoryReqdata?.title}
-                                                        onChange={handleCatChange}
-                                                    />
-                                                </Form.Group>
-                                            </Row>
-                                            <Row className='mt-2'>
-                                                <Form.Group controlId="image">
-                                                    <Form.Label>Image</Form.Label>
-                                                    <Col>
-                                                        {/* <img src={modalData?.image?.[0]?.image_path} alt={"category"} style={{ width: '100%' }} /> */}
-                                                    </Col>
-                                                    <Col>
-                                                        <Form.Control type='file' size='sm' onChange={handleFileChange} accept="image/jpeg, image/png, image/gif" />
-                                                    </Col>
-                                                </Form.Group>
-                                            </Row>
-                                            <Row className='mt-3'>
-                                                <Col>
-
-                                                    <Button
-                                                        variant="warning"
-                                                        size='sm'
-                                                        type='submit'
-                                                        
-                                                    >Update Category</Button>
-
-                                                </Col>
-                                            </Row>
-
-                                        </Form>
-                                    </Col>
-                                    
-
-                                </Row>
-                            }
-
 
                         
 
@@ -305,7 +192,7 @@ const NewProductAdd = () => {
                                 <Col xs={12}>
                                     <Form.Group controlId="email">
                                         <Row>
-                                            <Col xs={3}>
+                                            <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                                 <Form.Label className='frmLable'><span className="req mx-1">*</span> Brand </Form.Label>
                                             </Col>
                                             <Col xs={8}>
@@ -326,69 +213,21 @@ const NewProductAdd = () => {
 
                             <Row className='mt-2'>
                                 <Col xs={6}></Col>
-                                <Col className='text-end' onClick={() => setOpenNewCatBrand(!openNewBrand)}>Request for New Brand Listing?</Col>
+                                <Col xs={5} className='text-end reqText' onClick={() => setOpenNewCatBrand(!openNewBrand)}>Request for New Brand Listing?</Col>
                             </Row>
 
-                            {openNewBrand && 
-                            <Form >
-                                <Row className='mt-2'>
-                                    <Form.Group controlId="title">
-                                        <Form.Label>Title</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="Enter title"
-                                            name="title"
-                                            // value={modalData?.title}
-                                            // onChange={handleInputChange}
-                                        />
-                                    </Form.Group>
-                                </Row>
-                                <div className="addProductItem mt-2">
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            name='brand_origin'
-                                            // checked={modalData?.brand_origin}
-                                            // onChange={handleInputChange}
-                                        />
-                                        {' '}
-                                        Is It Indian Brand?
-                                    </label>
-                                </div>
-                                <Row className='mt-2'>
-                                    <Form.Group controlId="image">
-                                        <Form.Label>Image</Form.Label>
-                                        <Col>
-                                            {/* <img src={modalData?.image?.[0]?.image_path} alt={modalData?.image} style={{ width: '100%' }} /> */}
-                                        </Col>
-                                        <Col>
-                                          
-                                            <input type='file' onChange={handleFileChange} accept="image/jpeg, image/png, image/gif" />
-                                        </Col>
-                                    </Form.Group>
-                                </Row>
-                                <Row className='mt-3'>
-                                    <Col>
-                                      
-                                            <Button
-                                                className="btn-block mr-1 mt-1 btn-lg"
-                                                variant="warning"
-                                                type='submit'
-                                                block
-                                            >
-                                                Update Brand
-                                            </Button>
-                                       
-                                    </Col>
-                                </Row>
-                            </Form>}
+                           
 
                             <Row className='mt-4'>
-                                <Col>
-                                    <Button size='sm' variant='secondary'>CANCEL</Button>
-                                </Col>
-                                <Col>
-                                    <Button size='sm' variant='success' type="submit">NEXT <span className='mx-2'><RiShareForwardFill /></span> </Button>
+                                <Col xs={12} className='mt-4'>
+                                    <Row>
+                                        <Col>
+                                            <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
+                                        </Col>
+                                        <Col className='d-flex justify-content-end'>
+                                            <Button size='sm' variant='success' type="submit">NEXT </Button>
+                                        </Col>
+                                    </Row>        
                                 </Col>
                             </Row>
 

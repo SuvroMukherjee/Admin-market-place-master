@@ -3,8 +3,14 @@
 }
 
 .activeNav {
-   color: red !important;
-   background-color: aquamarine !important;
+     color: #266200;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 18px;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #266200;
+      padding: 38px;
 }
 
 .gotoBtn {
@@ -24,13 +30,80 @@
    border-radius: 7px;
 }
 
-.bgColor{
+.bgColor {
    background-color: lightgrey;
    border-radius: 4px;
    padding: 1%;
 }
 
-.aggree{
+.aggree {
    color: 222831;
    font-weight: 500;
+}
+
+.cancelbtn {
+   height: 48px;
+   border-radius: 50px !important;
+   border: none !important;
+   background-color: grey !important;
+   box-shadow: none !important;
+   font-size: 16px !important;
+   color: white !important;
+   letter-spacing: 1px;
+   padding: 0 60px !important;
+}
+
+
+.reqText {
+   color: #266200;
+   font-size: 15px;
+   font-weight: bold;
+   cursor: pointer;
+   letter-spacing: 1px;
+   text-transform: capitalize;
+
+}
+
+.reqText:hover{
+ text-decoration: underline;
+ color: black;
+}
+
+.inactivetab{
+      color: #676767 !important;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 18px;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+      text-decoration: none !important;
+}
+
+.inactivetab:hover{
+      color: #266200 !important;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 18px;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #266200;
+      padding: 38px;
+}
+
+.infotext{
+     font-weight: 700;
+      font-size: 15px;
+      color: #111;
+}
+
+.infotext2 {
+   font-weight: 400;
+   font-size: 15px;
+   color: #111;
+}
+
+.upback{
+   background-color: lightgray;
+   padding: 10%;
+   border-radius: 4px;
 }
