@@ -603,6 +603,8 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
             // user_choice:false,
         }
 
+        payload['product_type'] = 'products'
+
         console.log(payload)
 
         let res = await ProductSpecificationCreate(payload);
