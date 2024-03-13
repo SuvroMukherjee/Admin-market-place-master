@@ -11,7 +11,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiEdit2Line } from "react-icons/ri";
 import { FaRegTrashAlt } from "react-icons/fa";
-
+import { FaCodePullRequest } from "react-icons/fa6";
 
 export default function ListCategory() {
     const [data, setData] = useState(productRows || []);
@@ -186,7 +186,7 @@ export default function ListCategory() {
                     </Row>
                     <Row >
                         <Col></Col>
-                        <Col xs={6} >
+                        <Col xs={8} >
                           <Row>
                                 <Col className="d-flex justify-content-end p-2">
                                     {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
@@ -198,6 +198,12 @@ export default function ListCategory() {
                                     {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
                                     <Button className="addCategoryButton" variant="dark" size="sm" onClick={() => handleNewCat()}>
                                         <AiOutlinePlus /> Add New Category
+                                    </Button>
+                                </Col>
+                                <Col className="d-flex justify-content-end p-2">
+                                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
+                                    <Button className="addCategoryButton" variant="dark" size="sm" onClick={() => navigate('/Admin/category-request')}>
+                                        <FaCodePullRequest /> Requested Category
                                     </Button>
                                 </Col>
                           </Row>

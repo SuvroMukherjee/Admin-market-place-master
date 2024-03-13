@@ -53,6 +53,7 @@ import NewProductAdd from './Pages/StoreSeller/NewProductAddition/NewProductAdd'
 import NewAddLayout from './Pages/StoreSeller/NewProductAddition/NewAddLayout';
 import CategoryRequest from './Pages/StoreSeller/NewProductAddition/CategoryRequest';
 import ApprovalPendingList from './Pages/StoreSeller/NewProductAddition/ApprovalPendingList';
+import CatReqList from './Pages/ProductManagement/Category/CatReqList';
 
 
 
@@ -90,6 +91,7 @@ export default function Router() {
           element: <RequireAuth allowedRoles={['Admin']} />,
           children: [
             { path: 'category', element: <ListCategory /> },
+            { path: 'category-request', element: <CatReqList /> },
             { path: 'category-commission', element: <CategoryComissions /> },
             { path: 'AddCategory', element: <AddCategory /> },
             { path: 'subcategory', element: <ListSubCategory /> },

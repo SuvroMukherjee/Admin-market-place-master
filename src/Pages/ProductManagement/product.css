@@ -152,3 +152,8 @@
     text-decoration: underline;
     letter-spacing: 1px;
  }
+ .viewSeller{
+    cursor: pointer;
+    color: #007bff;
+    font-weight: 500;
+ }
