@@ -186,7 +186,6 @@ const NewProductAdd = () => {
                                 <Col xs={5} className='text-end reqText' onClick={() => navigate('/seller/category-request/')}>Request for New Category?</Col>
                             </Row>
 
-                        
 
                             <Row className='mt-3'>
                                 <Col xs={12}>
@@ -213,7 +212,7 @@ const NewProductAdd = () => {
 
                             <Row className='mt-2'>
                                 <Col xs={6}></Col>
-                                <Col xs={5} className='text-end reqText' onClick={() => setOpenNewCatBrand(!openNewBrand)}>Request for New Brand Listing?</Col>
+                                <Col xs={5} className='text-end reqText' onClick={() => navigate('/seller/brand-request/')}>Request for New Brand Listing?</Col>
                             </Row>
 
                            

@@ -836,6 +836,15 @@ export async function allCategoryeqList() {
     }
 }
 
+export async function allBrandreqList() {
+    try {
+        const response = await axios.get(apiUrl + `/brand/brand-list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 export async function categoryApproval(formdata,id){
     try {
         const response = await axios.patch(apiUrl + `/category/approval-update/${id}`, formdata, { headers: setAuthHeader() })
@@ -856,9 +865,27 @@ export async function SubcategoryApproval(formdata, id) {
 }
 
 
+export async function BrandApproval(formdata, id) {
+    try {
+        const response = await axios.patch(apiUrl + `/brand/approval-update/${id}`, formdata, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 export async function sellerCategoryRequestList(){
     try {
         const response = await axios.get(apiUrl + `/category/list-approval`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function sellerBrandRequestList() {
+    try {
+        const response = await axios.get(apiUrl + `/brand/list-approval`, { headers: setAuthHeader() })
         return response;
     } catch (error) {
         return error

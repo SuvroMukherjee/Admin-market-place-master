@@ -54,6 +54,8 @@ import NewAddLayout from './Pages/StoreSeller/NewProductAddition/NewAddLayout';
 import CategoryRequest from './Pages/StoreSeller/NewProductAddition/CategoryRequest';
 import ApprovalPendingList from './Pages/StoreSeller/NewProductAddition/ApprovalPendingList';
 import CatReqList from './Pages/ProductManagement/Category/CatReqList';
+import BrandRequest from './Pages/StoreSeller/NewProductAddition/BrandRequest';
+import BrandReqList from './Pages/ProductManagement/Brand/BrandReqList';
 
 
 
@@ -97,6 +99,7 @@ export default function Router() {
             { path: 'subcategory', element: <ListSubCategory /> },
             { path: 'Addsubcategory', element: <AddSubCategory /> },
             { path: 'brand', element: <ListBrand /> },
+            { path: 'brand-request', element: <BrandReqList /> },
             { path: 'Addbrand', element: <AddBrandPage /> },
             { path: 'product', element: <ListProduct /> },
             { path: 'Addproduct', element: <AddProduct /> },
@@ -142,6 +145,7 @@ export default function Router() {
               ]
             },
             {path : 'category-request',element: <CategoryRequest/>},
+            { path: 'brand-request', element: <BrandRequest /> },
             { path: 'approval-request-list', element: <ApprovalPendingList /> },
             { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
             // { path: 'seller-addproduct', element: <SellerAddProduct /> },

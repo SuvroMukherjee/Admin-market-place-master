@@ -11,6 +11,7 @@ import { UpdateStatusBrand, allBrandList, deleteBrand } from "../../../API/api";
 import { productRows } from "../../../dummyData";
 import "../product.css";
 import EditBrandPage from "./EditBrandPage";
+import { FaCodePullRequest } from "react-icons/fa6";
 
 
 export default function ListSubCategory() {
@@ -166,6 +167,11 @@ export default function ListSubCategory() {
                         <Col className="d-flex justify-content-end p-2">
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addbrand')}>
                                 <AiOutlinePlus /> Add New Brand
+                            </Button>
+                        </Col>
+                        <Col className="d-flex justify-content-end p-2">
+                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/brand-request')}>
+                                <FaCodePullRequest /> Brand Request
                             </Button>
                         </Col>
                     </Row>
