@@ -21,7 +21,7 @@ const NewAddLayout = () => {
                               <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
                           </li>
                           <li>
-                              <NavLink to="about">Offers</NavLink>
+                              <NavLink to="/seller/seller-ownproduct-status/new-offers" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')} >Offers</NavLink> 
                           </li>
                           <li>
                               <NavLink to="about">Safety & Complains</NavLink>

@@ -900,3 +900,22 @@ export async function sellerNewAddedProductDtails(id) {
         return error
     }
 }
+
+export async function offerTypeCreate(formData){
+    try {
+        const response = await axios.post(apiUrl + `/offer-type/create`,formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
+export async function offerCreate(formData) {
+    try {
+        const response = await axios.post(apiUrl + `/offer/create`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}

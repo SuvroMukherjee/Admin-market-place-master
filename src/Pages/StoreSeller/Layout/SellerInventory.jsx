@@ -449,6 +449,7 @@ export default function SellerInventory() {
                                     <th>Net Disbursement</th>
                                     <th>Add Stock</th>
                                     <th>Action</th>
+                                    <th>Offers</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -511,8 +512,12 @@ export default function SellerInventory() {
                                             />
 
                                         </td>
+                                       
                                         <td>
                                             <Button size="sm" variant="warning" onClick={() => handleUpdate(index)}>Save</Button>
+                                        </td>
+                                        <td onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>
+                                            <Button size="sm">Offer</Button>
                                         </td>
                                     </tr>
                                 ))}

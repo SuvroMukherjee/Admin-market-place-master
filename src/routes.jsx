@@ -58,6 +58,7 @@ import BrandRequest from './Pages/StoreSeller/NewProductAddition/BrandRequest';
 import BrandReqList from './Pages/ProductManagement/Brand/BrandReqList';
 import NewVariations from './Pages/StoreSeller/NewProductAddition/NewVariations';
 import NewDescription from './Pages/StoreSeller/NewProductAddition/NewDescription';
+import NewOffers from './Pages/StoreSeller/NewProductAddition/NewOffers';
 
 
 
@@ -145,7 +146,7 @@ export default function Router() {
                 { path: 'new-add',element:<NewProductAdd/>},
                 { path: 'new-variations/:id?', element: <NewVariations /> },
                 { path: 'new-description/:id?', element: <NewDescription /> },
-                { path: 'new-offers/:id?', element: <NewDescription /> },
+                { path: 'new-offers/:id?', element: <NewOffers /> },
                 
               ]
             },
@@ -160,6 +161,7 @@ export default function Router() {
             { path: 'product-deatils/:id', element: <SellerProductDetails /> },
             { path: 'seller-orderlist', element: <OrderList /> },
             { path: 'manage-orders', element: <ManageOrders /> },
+            { path: 'add-ofers/:id', element: <NewOffers /> },
             { path: 'customer-feedback', element: <Customerfeedback /> },
             { path: 'service-feedback', element: <ServicesFeedback /> },
             // { path: 'change-password', element: <ChangePassword /> },

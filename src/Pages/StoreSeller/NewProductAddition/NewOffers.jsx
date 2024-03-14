@@ -1,0 +1,305 @@
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate, useParams } from "react-router-dom";
+import { offerCreate, offerTypeCreate, sellerProductDeatils } from '../../../API/api';
+import useAuth from '../../../hooks/useAuth';
+
+const NewOffers = () => {
+
+    const [formData, setFormData] = useState();
+
+
+    const [offers, setOffers] = useState([])
+
+    const { id: productId } = useParams();
+
+    const { auth } = useAuth();
+
+    const navigate = useNavigate();
+
+
+    const [productData,setProductData] = useState()
+
+
+    useEffect(() => {
+        getProductdata()
+    }, [])
+
+
+    async function getProductdata() {
+        let res = await sellerProductDeatils(productId);
+        console.log(res?.data?.data,'data')
+        setProductData(res?.data?.data)
+        //setProductData(res?.data?.data?.)
+       // setFormData(res?.data?.data)
+    }
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+
+    function createMarkup(val) {
+        return { __html: val };
+    }
+
+
+    const handleSubmit = async () => {
+
+       
+        formData['sellerId'] = auth?.userId;
+        formData['productId'] = productId
+
+        console.log({ formData })
+
+        const res = await offerCreate(formData);
+
+        if (res?.response?.data?.error) {
+            toast.error(res?.response?.data?.message)
+        } else {
+            toast.success(`${formData?.offerId?.length} Offers Added successfully`)
+            // setTimeout(() => {
+            //     navigate(`/seller/seller-ownproduct-status/new-variations/${res?.data?.data?._id}`)
+            // }, 1500);
+            getProductdata();
+        }
+    }
+
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+
+            console.log(event.target.value);
+
+            // setFormData((prevData) => ({
+            //     ...prevData,
+            //     offerId: [...prevData.offerId, id],
+            // }));
+
+            setOffers([...offers, { 'offer_type_name': event.target.value }])
+
+        }
+    }
+
+
+    const getOfferId = (id) =>{
+
+        setFormData((prevData) => ({
+            ...prevData,
+            offerId: [...prevData?.offerId || [], id],
+        }));
+    }
+
+
+    
+
+    return (
+        <div>
+            <Container>
+              
+                <Row className='m-4 p-4 justify-content-md-center stepContent'>
+                    <Container>
+                        {/* <Form onSubmit={handleSubmit}> */}
+                        <Row className='mt-3'>
+                            <Col xs={12}>
+                                <Form.Group controlId="user_name">
+                                    <Row>
+                                        <Col xs={3} className='d-flex align-items-center justify-content-end'>
+                                            <Form.Label className='frmLable'>HSN Code</Form.Label>
+                                        </Col>
+                                        <Col xs={8}>
+                                            <Form.Control type="text" name="hsn_code" className='tapG' placeholder='Enter Product HSN Code' size='sm' value={formData?.hsn_code} onChange={handleChange} autoComplete='off' />
+                                        </Col>
+                                    </Row>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+
+                        <Row className='mt-3'>
+                            <Col xs={12}>
+                                <Form.Group controlId="user_name">
+                                    <Row>
+                                        <Col xs={3} className='d-flex align-items-center justify-content-end'>
+                                            <Form.Label className='frmLable'> <span className="req mx-1">*</span>Product SKU</Form.Label>
+                                        </Col>
+                                        <Col xs={8}>
+                                            <Form.Control type="text" name="desc" className='tapG' placeholder='Enter Product Descroption' size='sm' value={productData?.SellerProductData?.specId?.skuId} onChange={handleChange} disabled autoComplete='off' />
+                                        </Col>
+                                    </Row>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className='mt-3'>
+                            <Col xs={12}>
+                                <Form.Group controlId="user_name">
+                                    <Row>
+                                        <Col xs={3} className='d-flex align-items-center justify-content-end'>
+                                            <Form.Label className='frmLable' > <span className="req mx-1">*</span>Offer Type</Form.Label>
+                                        </Col>
+                                        <Col xs={8}>
+                                            <Form.Control
+                                                type="text"
+                                                name="type"
+                                                className='tapG'
+                                                placeholder='Enter Product offer Type'
+                                                size='sm'
+                                                // value={type}
+                                                //onChange={handleChange}
+                                                onKeyPress={handleKeyPress}  // Add this line
+
+                                                autoComplete='off'
+                                            />
+                                            <Form.Text className="text-muted">
+                                                examples (Bank offers,No cost EMI,Cashbacks,Partner Offers,etc...)
+                                            </Form.Text>
+
+                                            {/* <Row>
+                                                {offers?.map((ele) => (
+                                                    <Col>
+                                                        <OfferForm offer={ele} />
+                                                    </Col>
+                                                    
+                                                ))}
+                                            </Row> */}
+                                        </Col>
+
+                                    </Row>
+
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                         
+                        <Row>
+                            {offers?.map((ele) => (
+                                <Col xs={6}>
+                                    <OfferForm offer={ele} getOfferId={getOfferId} />
+                                </Col>
+
+                            ))}
+                        </Row>
+
+                        <Row className='mt-4'>
+                            <Col xs={12} className='mt-4'>
+                                <Row>
+                                    <Col>
+                                        <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
+                                    </Col>
+                                    <Col className='d-flex justify-content-end'>
+                                        <Button size='sm' variant='success' type="submit" onClick={() => handleSubmit()}>NEXT </Button>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                        {/* </Form> */}
+                    </Container>
+                </Row>
+            </Container>
+            <Toaster position="top-right" />
+        </div>
+    )
+}
+
+
+const OfferForm = ({ offer, getOfferId }) => {
+    const [formData, setFormData] = useState({
+        offer_type_name: offer?.offer_type_name,
+        discount_percentage: '',
+        offer_on: {
+            bank_name: '',
+            card_type: ''
+        },
+        max_amount: '',
+        min_amount: '',
+        offer_start_date: '',
+        offer_end_date: '',
+        terms_cond: ''
+    });
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        if (name.includes('.')) {
+            const [parent, child] = name.split('.');
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                [parent]: {
+                    ...prevFormData[parent],
+                    [child]: value
+                }
+            }));
+        } else {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                [name]: value
+            }));
+        }
+    };
+
+    const handleSubmit = async(event) => {
+        event.preventDefault();
+        console.log(formData);
+        let res = await offerTypeCreate(formData);
+
+        if (res?.response?.data?.error) {
+            toast.error(res?.response?.data?.message)
+        } else {
+            getOfferId(res?.data?.data?._id)
+            toast.success(`${formData?.offer_type_name} offer Added successfully`)
+        }
+
+
+    };
+
+    return (
+        <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="offerTypeName">
+                <Form.Label>Offer Type Name:</Form.Label>
+                <Form.Control type="text" className='tapG' name="offer_type_name" disabled value={formData.offer_type_name} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="discountPercentage">
+                <Form.Label>Discount Percentage:</Form.Label>
+                <Form.Control type="number" className='tapG' name="discount_percentage" value={formData.discount_percentage} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="offerOnBankName">
+                <Form.Label>Offer On Bank Name:</Form.Label>
+                <Form.Control type="text" className='tapG' name="offer_on.bank_name" value={formData.offer_on.bank_name} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="offerOnCardType">
+                <Form.Label>Offer On Card Type:</Form.Label>
+                <Form.Control type="text" className='tapG' name="offer_on.card_type" value={formData.offer_on.card_type} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="maxAmount">
+                <Form.Label>Max Amount:</Form.Label>
+                <Form.Control type="number" className='tapG' name="max_amount" value={formData.max_amount} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="minAmount">
+                <Form.Label>Min Amount:</Form.Label>
+                <Form.Control type="number" className='tapG' name="min_amount" value={formData.min_amount} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="offerStartDate">
+                <Form.Label>Offer Start Date:</Form.Label>
+                <Form.Control type="date" className='tapG' name="offer_start_date" value={formData.offer_start_date} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="offerEndDate">
+                <Form.Label>Offer End Date:</Form.Label>
+                <Form.Control type="date" className='tapG' name="offer_end_date" value={formData.offer_end_date} onChange={handleChange} />
+            </Form.Group>
+            <Form.Group controlId="termsCond">
+                <Form.Label>Terms and Conditions:</Form.Label>
+                <Form.Control type="text" className='tapG' name="terms_cond" value={formData.terms_cond} onChange={handleChange} />
+            </Form.Group>
+            <Button variant="primary" type="submit" className='mt-2'>
+                Submit
+            </Button>
+        </Form>
+    );
+};
+
+export default NewOffers
