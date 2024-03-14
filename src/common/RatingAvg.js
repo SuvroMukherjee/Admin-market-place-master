@@ -18,3 +18,30 @@ export const ratingCalculation = (id, reviewData) => {
     console.log({averageRating})
     return averageRating;
 };
+
+export function addOrdinalSuffix(number) {
+    if (typeof number !== 'number') {
+        return 'Input is not a number';
+    }
+
+    if (number === 11 || number === 12 || number === 13) {
+        return number + 'th';
+    }
+
+    var lastDigit = number % 10;
+    var suffix = 'th';
+
+    switch (lastDigit) {
+        case 1:
+            suffix = 'st';
+            break;
+        case 2:
+            suffix = 'nd';
+            break;
+        case 3:
+            suffix = 'rd';
+            break;
+    }
+
+    return number + suffix;
+}

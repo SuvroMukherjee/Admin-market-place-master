@@ -890,4 +890,13 @@ export async function sellerBrandRequestList() {
     } catch (error) {
         return error
     }
+}  
+
+export async function sellerNewAddedProductDtails(id) {
+    try {
+        const response = await axios.get(apiUrl + `/seller-new-product/detail/${id}`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
 }

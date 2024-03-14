@@ -56,6 +56,8 @@ import ApprovalPendingList from './Pages/StoreSeller/NewProductAddition/Approval
 import CatReqList from './Pages/ProductManagement/Category/CatReqList';
 import BrandRequest from './Pages/StoreSeller/NewProductAddition/BrandRequest';
 import BrandReqList from './Pages/ProductManagement/Brand/BrandReqList';
+import NewVariations from './Pages/StoreSeller/NewProductAddition/NewVariations';
+import NewDescription from './Pages/StoreSeller/NewProductAddition/NewDescription';
 
 
 
@@ -141,6 +143,9 @@ export default function Router() {
               path: 'seller-ownproduct-status', element: <NewAddLayout />,
               children : [
                 { path: 'new-add',element:<NewProductAdd/>},
+                { path: 'new-variations/:id?', element: <NewVariations /> },
+                { path: 'new-description/:id?', element: <NewDescription /> },
+                { path: 'new-offers/:id?', element: <NewDescription /> },
                 
               ]
             },

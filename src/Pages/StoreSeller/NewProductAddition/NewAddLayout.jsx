@@ -15,10 +15,10 @@ const NewAddLayout = () => {
                               <NavLink to="/seller/seller-ownproduct-status/new-add" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Identity</NavLink>
                           </li>
                           <li>
-                              <NavLink to="service">Description</NavLink>
+                              <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Variations</NavLink>
                           </li>
                           <li>
-                              <NavLink to="about">Product Details</NavLink>
+                              <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
                           </li>
                           <li>
                               <NavLink to="about">Offers</NavLink>

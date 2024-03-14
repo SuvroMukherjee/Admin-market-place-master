@@ -1,14 +1,11 @@
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import React, { useEffect } from 'react'
-import { NavLink } from "react-router-dom";
-import './newproduct.css'
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
-import { RiShareForwardFill } from "react-icons/ri";
-import '../../SellerRegistration/registration.css'
-import { FileUpload, SellerCreateOwn, allBrandList, allCategoryList, getSubCategoryByCategory } from '../../../API/api';
+import { useNavigate } from 'react-router-dom';
+import { SellerCreateOwn, allBrandList, allCategoryList, getSubCategoryByCategory } from '../../../API/api';
 import useAuth from '../../../hooks/useAuth';
-import { Outlet, useNavigate } from 'react-router-dom';
+import '../../SellerRegistration/registration.css';
+import './newproduct.css';
 
 const NewProductAdd = () => {
 
@@ -90,10 +87,12 @@ const NewProductAdd = () => {
         if (res?.response?.data?.error) {
             toast.error(res?.response?.data?.message)
         } else {
-            toast.success('Commission Added successfully')
+            toast.success('Product Added successfully')
+            setTimeout(() => {
+                navigate(`/seller/seller-ownproduct-status/new-variations/${res?.data?.data?._id}`)
+            }, 1500);
         }
     }
-
 
 
 
