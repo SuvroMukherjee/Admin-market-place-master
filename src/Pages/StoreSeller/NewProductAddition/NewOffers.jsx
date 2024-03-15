@@ -4,6 +4,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, useParams } from "react-router-dom";
 import { offerCreate, offerTypeCreate, sellerProductDeatils } from '../../../API/api';
 import useAuth from '../../../hooks/useAuth';
+import { ChangeFormatDate2 } from '../../../common/DateFormat';
+import { SlCalender } from "react-icons/sl";
+import './newproduct.css'
 
 const NewOffers = () => {
 
@@ -19,7 +22,7 @@ const NewOffers = () => {
     const navigate = useNavigate();
 
 
-    const [productData,setProductData] = useState()
+    const [productData, setProductData] = useState()
 
 
     useEffect(() => {
@@ -29,10 +32,10 @@ const NewOffers = () => {
 
     async function getProductdata() {
         let res = await sellerProductDeatils(productId);
-        console.log(res?.data?.data,'data')
+        console.log(res?.data?.data, 'data')
         setProductData(res?.data?.data)
         //setProductData(res?.data?.data?.)
-       // setFormData(res?.data?.data)
+        // setFormData(res?.data?.data)
     }
 
 
@@ -52,7 +55,7 @@ const NewOffers = () => {
 
     const handleSubmit = async () => {
 
-       
+
         formData['sellerId'] = auth?.userId;
         formData['productId'] = productId
 
@@ -88,7 +91,7 @@ const NewOffers = () => {
     }
 
 
-    const getOfferId = (id) =>{
+    const getOfferId = (id) => {
 
         setFormData((prevData) => ({
             ...prevData,
@@ -97,15 +100,45 @@ const NewOffers = () => {
     }
 
 
-    
+
 
     return (
         <div>
+            <Container className='pdis'>
+                <Row>
+                    <Col xs={3} className='bgofferProductName'>
+                        <h4>Add offers For Your Porduct</h4>
+                    </Col>
+                    <Col className='d-flex justify-content-end'>
+                        <img src={productData?.SellerProductData?.productId?.image?.[0]?.image_path} className='bgofferProductImg' alt='productImage' />
+                    </Col>
+                    <Col>
+                        <Row>
+                            <Col xs={12} className='bgofferProductName'>
+                                {productData?.SellerProductData?.productId?.brandId?.title} {productData?.SellerProductData?.name} {productData?.SellerProductData?.specId?.spec_det?.length > 0 && (
+                                    <span>
+                                        (
+                                        {productData?.SellerProductData.specId.spec_det.map((ele, index, array) => (
+                                            <span key={index}>
+                                                {ele.value}
+                                                {index < array.length - 1 ? ', ' : ''}
+                                            </span>
+                                        ))}
+                                        )
+                                    </span>
+                                )}
+                            </Col>
+                            <Col className='mt-2 bgofferProductName'>
+                                <span>Price</span> : {productData?.SellerProductData?.price?.toLocaleString()}
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col xs={2}></Col>
+                </Row>
+            </Container>
             <Container>
-              
                 <Row className='m-4 p-4 justify-content-md-center stepContent'>
-                    <Container>
-                        {/* <Form onSubmit={handleSubmit}> */}
+                    <Col>
                         <Row className='mt-3'>
                             <Col xs={12}>
                                 <Form.Group controlId="user_name">
@@ -115,6 +148,21 @@ const NewOffers = () => {
                                         </Col>
                                         <Col xs={8}>
                                             <Form.Control type="text" name="hsn_code" className='tapG' placeholder='Enter Product HSN Code' size='sm' value={formData?.hsn_code} onChange={handleChange} autoComplete='off' />
+                                        </Col>
+                                    </Row>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+
+                        <Row className='mt-3'>
+                            <Col xs={12}>
+                                <Form.Group controlId="user_name">
+                                    <Row>
+                                        <Col xs={3} className='d-flex align-items-center justify-content-end'>
+                                            <Form.Label className='frmLable'>Product-ID</Form.Label>
+                                        </Col>
+                                        <Col xs={8}>
+                                            <Form.Control type="text" name="hsn_code" className='tapG' placeholder='Enter Product HSN Code' size='sm' value={productData?.SellerProductData?.productId?.productId} onChange={handleChange} disabled autoComplete='off' />
                                         </Col>
                                     </Row>
                                 </Form.Group>
@@ -160,15 +208,6 @@ const NewOffers = () => {
                                             <Form.Text className="text-muted">
                                                 examples (Bank offers,No cost EMI,Cashbacks,Partner Offers,etc...)
                                             </Form.Text>
-
-                                            {/* <Row>
-                                                {offers?.map((ele) => (
-                                                    <Col>
-                                                        <OfferForm offer={ele} />
-                                                    </Col>
-                                                    
-                                                ))}
-                                            </Row> */}
                                         </Col>
 
                                     </Row>
@@ -176,30 +215,49 @@ const NewOffers = () => {
                                 </Form.Group>
                             </Col>
                         </Row>
-                         
+                    </Col>
+
+                    <Col xs={4} className='bgoffer'>
                         <Row>
-                            {offers?.map((ele) => (
-                                <Col xs={6}>
-                                    <OfferForm offer={ele} getOfferId={getOfferId} />
+                            <Col className='text-center specHeader2'>Current Offers</Col>
+                        </Row>
+                        <Row className='p-2'>
+                            {productData?.OfferData?.[0]?.offerId?.map((ele) => (
+                                <Col xs={12}>
+                                    <div className='specText2Rest'>
+                                        <span className='specText2'>{ele?.offer_type_name}</span> offer {ele?.discount_percentage}% discount on {ele?.offer_on?.bank_name}-
+                                        {ele?.offer_on.card_type} Card</ div>
+                                    <div className='specTextsmall'><span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_start_date)} - <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_end_date)}</div>
+                                    <hr />
                                 </Col>
+
+                                // <li class="_16eBzU col"><span class="u8dYXW">Bank Offer</span><span>10% Upto ₹2500 off on Samsung Axis Bank Signature credit card</span><div class="Bv11UC _1qNw3R"><span class="fGhUR2">T&amp;C</span></div></li>
 
                             ))}
                         </Row>
+                    </Col>
 
-                        <Row className='mt-4'>
-                            <Col xs={12} className='mt-4'>
-                                <Row>
-                                    <Col>
-                                        <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
-                                    </Col>
-                                    <Col className='d-flex justify-content-end'>
-                                        <Button size='sm' variant='success' type="submit" onClick={() => handleSubmit()}>NEXT </Button>
-                                    </Col>
-                                </Row>
+                    <Row>
+                        {offers?.map((ele) => (
+                            <Col xs={6}>
+                                <OfferForm offer={ele} getOfferId={getOfferId} />
                             </Col>
-                        </Row>
-                        {/* </Form> */}
-                    </Container>
+
+                        ))}
+                    </Row>
+
+                    <Row className='mt-4'>
+                        <Col xs={12} className='mt-4'>
+                            <Row>
+                                <Col>
+                                    <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
+                                </Col>
+                                <Col className='d-flex justify-content-end'>
+                                    <Button size='sm' variant='success' type="submit" onClick={() => handleSubmit()}>NEXT </Button>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
                 </Row>
             </Container>
             <Toaster position="top-right" />
@@ -242,7 +300,7 @@ const OfferForm = ({ offer, getOfferId }) => {
         }
     };
 
-    const handleSubmit = async(event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(formData);
         let res = await offerTypeCreate(formData);
