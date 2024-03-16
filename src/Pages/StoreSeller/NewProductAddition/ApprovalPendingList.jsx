@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Image, Row, Table } from 'react-bootstrap';
-import { allCategoryeqList, sellerBrandRequestList, sellerCategoryRequestList } from '../../../API/api';
+import { OwnProductSellerList, allCategoryeqList, sellerBrandRequestList, sellerCategoryRequestList } from '../../../API/api';
 import { ChangeFormatDate2 } from '../../../common/DateFormat';
 import { BsType } from 'react-icons/bs';
 import { useNavigate, useParams } from "react-router-dom";
+import useAuth from '../../../hooks/useAuth';
 
 const ApprovalPendingList = () => {
 
@@ -14,9 +15,12 @@ const ApprovalPendingList = () => {
   const [data,setData] = useState([])
   const [brandList, setBrandlist] = useState([])
 
+  const { auth } = useAuth();
+
   useEffect(() => {
     getCatsList();
     getbrandList();
+    getReqPorducts();
   }, [])
 
   const navigate = useNavigate();
@@ -48,6 +52,13 @@ const ApprovalPendingList = () => {
     })
     setSubCategoryApplication(newtypeadded)
 
+  }
+
+
+  const getReqPorducts = async() =>{
+    let res = await OwnProductSellerList(auth?.userId);
+    console.log(res?.data?.data,'pDara')
+    setData(res?.data?.data)
   }
 
   const filterSubCatdata = (id) => {
@@ -98,6 +109,12 @@ const ApprovalPendingList = () => {
       case 'all':
         getAllLists();
         setType('all')
+        break;
+      case 'product':
+        getReqPorducts();
+        setType('product')
+        break;
+
      }
 
   }

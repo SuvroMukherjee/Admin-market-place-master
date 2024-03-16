@@ -59,6 +59,7 @@ import BrandReqList from './Pages/ProductManagement/Brand/BrandReqList';
 import NewVariations from './Pages/StoreSeller/NewProductAddition/NewVariations';
 import NewDescription from './Pages/StoreSeller/NewProductAddition/NewDescription';
 import NewOffers from './Pages/StoreSeller/NewProductAddition/NewOffers';
+import NewCustomization from './Pages/StoreSeller/NewProductAddition/NewCustomization';
 
 
 
@@ -146,6 +147,7 @@ export default function Router() {
                 { path: 'new-add',element:<NewProductAdd/>},
                 { path: 'new-variations/:id?', element: <NewVariations /> },
                 { path: 'new-description/:id?', element: <NewDescription /> },
+                { path: 'new-customization/:id?', element: <NewCustomization /> },
                 { path: 'new-offers/:id?', element: <NewOffers /> },
                 
               ]
