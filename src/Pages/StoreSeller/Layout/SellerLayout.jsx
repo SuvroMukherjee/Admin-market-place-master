@@ -1,27 +1,29 @@
-import { AppBar, Box, Drawer, IconButton, List, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Drawer, List, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 // import Dropdown from 'react-bootstrap/Dropdown';
+import { Col, Dropdown } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import { FaUserCircle } from "react-icons/fa";
 import { GoArrowUpRight } from "react-icons/go";
-import { IoIosMenu } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
 import { Outlet, useNavigate } from 'react-router-dom';
-import cmp from '../../../assets/newlogo.png';
+// import cmp from '../../../assets/newlogo.png';
+import newlogo from '../../../assets/newlogo.png'
 import useAuth from '../../../hooks/useAuth';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { FaBars } from "react-icons/fa6";
 
 const MyNavbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const { auth, logout } = useAuth();
+    const [HeaderTitle, setHeaderTitle] = useState('Seller Dashboard')
 
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
@@ -51,7 +53,7 @@ const MyNavbar = () => {
     const navbarStyle = {
         paddingLeft: '0px', // Adjust the left padding
         paddingRight: '10px', // Adjust the right padding
-        height: '7vh',
+        height: 'vh',
         background: 'black'
     };
 
@@ -65,48 +67,95 @@ const MyNavbar = () => {
         setDropdownOpen(false);
     };
 
-    const navigateToChange = () =>{ 
+    const navigateToChange = () => {
         navigate('/seller/reset')
+    }
+
+    ///seller/brand-request/
+
+    const navigateFunction = (pathName) => {
+
+        switch (pathName) {
+            case 'Seller Dashboard':
+                navigate('/seller/seller-dashboard');
+                setHeaderTitle(pathName);
+                break;
+            case 'Add Product':
+                navigate('/seller/seller-addproduct')
+                setHeaderTitle(pathName);
+                break;
+            case 'Product Request':
+                navigate('/seller/seller-ownproduct-status/new-add')
+                setHeaderTitle(pathName);
+                break;
+            case 'Brand Request':
+                navigate('/seller/brand-request/')
+                setHeaderTitle(pathName);
+                break;
+            case 'Category Request':
+                navigate('/seller/category-request/')
+                setHeaderTitle(pathName);
+                break;
+            case 'Category Request':
+                navigate('/seller/category-request/')
+                setHeaderTitle(pathName);
+                break;
+            case 'Application lists':
+                navigate('/seller/approval-request-list/')
+                setHeaderTitle(pathName);
+                break;
+            case 'Inventory Manage':
+                navigate('/seller/seller-productList')
+                setHeaderTitle(pathName);
+                break;
+            case 'Recent Order List':
+                navigate('/seller/seller-orderlist')
+                setHeaderTitle(pathName);
+                break;
+            case 'Manage Orders':
+                navigate('/seller/manage-orders')
+                setHeaderTitle(pathName);
+                break;
+            case 'Customer Feedback':
+                navigate('/seller/customer-feedback')
+                setHeaderTitle(pathName);
+                break;
+            case 'Service Feedback':
+                navigate('/seller/service-feedback')
+                setHeaderTitle(pathName);
+                break;
+        }
     }
 
     return (
         <div>
+
             {/* AppBar for the top section */}
-            <AppBar position="static"  className='sellerheader'>
+            {/* <AppBar position="static"  className='sellerheader'>
                 <Toolbar>
-                    {/* <IconButton onClick={toggleDrawer} edge="start" color="inherit" aria-label="menu">
-                        <IoIosMenu size={20} />
-                    </IconButton> */}
+                   
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onClick={() => navigate('/seller/seller-dashboard')}>
-                        <img src={cmp} width={100} /> <span className='mx-4' style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
+                        <img src={newlogo} width={100} /> <span className='mx-4' style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', }}><strong>Seller central</strong></span>
                     </Typography>
-                    {/* <Button color="inherit" style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase' }}>Sign In as  */}
-                    
-                        {/* FaUserCircle icon that opens/closes the dropdown */}
                         <div onClick={handleDropdownToggle}>
                             <FaUserCircle size={25} />
                         </div>
-                       
-                        {/* Dropdown content */}
                         <Dropdown show={isDropdownOpen} onClose={handleDropdownClose}>
                             <Dropdown.Menu>
                                <Dropdown.Item onClick={() => navigate('/seller/reset')}>Change Passowrd</Dropdown.Item>
                             <Dropdown.Item onClick={() => navigate('/seller/profile')}>Update Profile</Dropdown.Item>
-                                {/* <Dropdown.Item onClick={() => navigate('/seller/changepassword')}>Another action</Dropdown.Item> */}
+                               
                                 <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-
-                        {/* Your other content goes here */}
-                    
                     <span style={{ fontSize: '12px', letterSpacing: '1px', textTransform: 'uppercase', fontWeight: 'bold', color: '#FF9843' }}>{auth?.email}</span>
                 </Toolbar>
-            </AppBar>
+            </AppBar> */}
 
 
-            {/* Drawer for the bottom section */}
-            <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
-                <Box
+
+            <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer} className='sidebatsellerBoard'>
+                {/* <Box
                     sx={250}
                     role="presentation"
                 >
@@ -126,9 +175,7 @@ const MyNavbar = () => {
 
                         <ListItem  >
                             <ListItemButton onClick={handleMenuClick}>
-                                {/* <ListItemIcon>
-                                        <InboxIcon/>
-                                    </ListItemIcon> */}
+                               
                                 <ListItemText primary={"Catalogue"} />
                             </ListItemButton>
 
@@ -146,9 +193,7 @@ const MyNavbar = () => {
 
                         <ListItem >
                             <ListItemButton onClick={handleMenuClick2}>
-                                {/* <ListItemIcon>
-                                        <InboxIcon />
-                                    </ListItemIcon> */}
+                              
                                 <ListItemText primary={"Inventory"} />
                             </ListItemButton>
 
@@ -165,19 +210,103 @@ const MyNavbar = () => {
                             <Divider />
                             <ListItem >
                                 <ListItemButton onClick={() => logout()}>
-                                    {/* <ListItemIcon>
-                                        <FaUnlockAlt />
-                                    </ListItemIcon> */}
+                                  
                                     <ListItemText primary={"logout"} />
                                 </ListItemButton>
 
                             </ListItem>
                         </ListItem>
                     </List>
-                </Box>
+                </Box> */}
+                <Row >
+                    <Col className='p-4 mx-4 sidebarHeader text-left' style={{ cursor: 'pointer' }} onClick={toggleDrawer}>
+                        <MdCancel size={20} /> <span>Close</span>
+                    </Col>
+                </Row>
+                <Row>
+                    <div className='sellSide mt-4 mb-4'>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Seller Dashboard')}>
+                            Home
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Add Product')}>
+                            Add Products
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Product Request')}>
+                            Request New Product
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Brand Request')}>
+                            Brand Request
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Category Request')}>
+                            Category Request
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Application List')}>
+                            View Applications
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Inventory Manage')}>
+                            Manage Inventory
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Recent Order List')}>
+                            Orders Lists
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Manage Orders')}>
+                            Manage Orders
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Customer Feedback')}>
+                            Customer Feedback
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Service Feedback')}>
+                            Service Feedback
+                        </Col>
+                    </div>
+                </Row>
             </Drawer>
 
-            <Navbar expand="lg" className="" style={navbarStyle}>
+            <Navbar expand="lg" >
+
+                {/* <Col xs={1} className='text-center' onClick={() => toggleDrawer()} style={{cursor:'pointer'}}>
+                    <FaBars color='white' size={25} />
+                </Col>
+                <Col xs={4} style={{ color: '#9af064', fontWeight: '500', textTransform: 'uppercase', fontSize: '26px', letterSpacing: '1px' }}><img src={newlogo} alt='' width={80} /> <span className='mx-2' style={{ color: 'rgb(193 240 1 / 98%)', fontWeight: '500', textTransform: 'uppercase', fontSize: '14px', letterSpacing: '1px' }}>{HeaderTitle}</span></Col>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+
+                <Col>
+                    <Row>
+                        <Col>
+                            <Row xs={8}> 
+                                <Col className='d-flex align-items-center justify-content-center' onClick={() => toggleDrawer()} style={{ cursor: 'pointer' }} xs={1}>
+                                    <FaBars color='white' size={20} />
+                                </Col>
+                                <Col xs={4} className='d-flex align-items-end justify-content-start'>
+                                    <span>
+                                        <img src={newlogo} alt='' width={100} height={40} />
+                                    </span>
+                                    <span className='mx-3'>
+                                        <Col className='d-flex align-items-center justify-content-center sidebarHeaderName'>{HeaderTitle}</Col>
+                                    </span>
+                                </Col>
+                                
+                            </Row>
+                        </Col>
+                        <Col xs={2}>
+                            <Row>
+                                <Col>
+                                    settings
+                                </Col>
+                                <Col>
+                                    user
+                                </Col>
+                            </Row> 
+                        </Col>
+                    </Row>
+                </Col>
+
+
+            </Navbar>
+
+
+
+            {/* <Navbar expand="lg" className="" style={navbarStyle}>
                 <Container>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ background: 'black' }} />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -197,22 +326,21 @@ const MyNavbar = () => {
                                 <Dropdown.Divider />
                                 <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders <GoArrowUpRight size={20} /> </NavDropdown.Item>
                             </NavDropdown>
-                            {/* <Nav.Link onClick={() => navigate('/seller/seller-orderlist')}>Orders</Nav.Link> */}
-                            {/* <Nav.Link onClick={() => navigate('/seller/customer-feedback')}>Customer Feedback</Nav.Link> */}
+
 
                             <NavDropdown title="Customer feedback" id="basic-nav-dropdown">
                                 <NavDropdown.Item onClick={() => navigate('/seller/customer-feedback')}>Selling Product <GoArrowUpRight size={20} /> </NavDropdown.Item>
                                 <Dropdown.Divider />
                                 <NavDropdown.Item onClick={() => navigate('/seller/service-feedback')}>Services <GoArrowUpRight size={20} /> </NavDropdown.Item>
                             </NavDropdown>
-                           
+
                         </Nav>
                     </Navbar.Collapse>
-                  
+
                 </Container>
-                
-            </Navbar>
-            <p onClick={() => navigate('/seller/reset')}></p>
+
+            </Navbar> */}
+            {/* <p onClick={() => navigate('/seller/reset')}></p> */}
             <Outlet />
         </div>
     );
