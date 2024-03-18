@@ -85,7 +85,7 @@ const NewDescription = () => {
   return (
     <div>
           <Container className='stepContent'>
-              <Row className='m-4 p-4 justify-content-md-center stepContent'>
+              <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
                   <Container>
                       <Form onSubmit={handleSubmit}>
                           <Row className='mt-3'>
@@ -154,7 +154,7 @@ const NewDescription = () => {
 
                                           </Col>
                                           <Col xs={8}>
-                                              <Form.Control type="text" as="textarea" rows={2} name="video_link" className='tapG' placeholder='Enter Product Video Link' size='sm' value={formData?.video_link} onChange={handleChange} required autoComplete='off' />
+                                              <Form.Control type="text" as="textarea" rows={2} name="video_link" className='tapG' placeholder='Enter Product Video Link' size='sm' value={formData?.video_link} onChange={handleChange}  autoComplete='off' />
                                               <Form.Text className="text-muted">
                                                  Add Youtube Video's Embedded Link .
                                               </Form.Text>
@@ -172,7 +172,7 @@ const NewDescription = () => {
                                           <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
                                       </Col>
                                       <Col className='d-flex justify-content-end'>
-                                          <Button size='sm' variant='success' type="submit">NEXT </Button>
+                                          <Button size='sm' variant='success' type="submit"> Save & NEXT </Button>
                                       </Col>
                                   </Row>
                               </Col>

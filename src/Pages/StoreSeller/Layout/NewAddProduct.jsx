@@ -367,12 +367,6 @@ export default function NewAddProduct() {
     return (
         <div style={{ background: '#ffffff', height: '100vh' }}>
             <div>
-
-                <Navbar expand="lg" className="bg-body-tertiary" style={navbarStyle}>
-                    <Container>
-                        <Navbar.Brand href="#home" className="Caption" >ADD PRODUCT</Navbar.Brand>
-                    </Container>
-                </Navbar>
                 <div className="mt-5" >
                     <Row className="mt-4">
                         <Col xs={4} className="mt-4 d-flex align-items-center justify-content-center p-4">
@@ -387,7 +381,7 @@ export default function NewAddProduct() {
                                 <Col className="padd2">Search Your Product In Zoofi Catalogue <br /> &  Start Selling</Col>
                             </Row>
                             <Row className="mt-4 " >
-                                <Col xs={6} style={{ marginLeft: '-2%' }}>
+                                <Col xs={7} style={{ marginLeft: '-2%' }}>
                                     <InputGroup>
                                         <InputGroup.Text id="basic-addon1">
                                             <FaSearch />
@@ -419,13 +413,24 @@ export default function NewAddProduct() {
                                     </Form>
                                 </Col>
                             </Row>
-                            <Row className="mt-2">
-                                <Col className="padd4">
-                                    Can't find your product in the Zoofi catalog? <span className="mx-2"><Button size="sm" variant="outline-primary" onClick={()=>
-                                        navigate('/seller/seller-ownproduct-status/new-add')
-                                    }>Create a new listing</Button></span>
+                            <Row className="mt-2 mb-2" xs={6}>
+                                <Col xs={3} className="optionCol" onClick={() =>
+                                    navigate('/seller/seller-ownproduct-status/new-add')
+                                }>
+                                    <p className="smalltextadd">Could not find your product in the Zoofi Catalogue ? <span>Create New Listing</span> </p>
+                                </Col>
+                                <Col xs={3} className="optionCol" onClick={() =>
+                                    navigate('/seller/category-request')
+                                }>
+                                    <p className="smalltextadd">Manage your selling applications by <span>requesting new Categories</span> </p>
+                                </Col>
+                                <Col xs={3} className="optionCol" onClick={() =>
+                                    navigate('/seller/brand-request')
+                                }>
+                                    <p className="smalltextadd">Start listing new brand ? <span>Create Brand Request</span> </p>
                                 </Col>
                             </Row>
+
                             {!isChecked && 
                             <Row className="mt-4 ml-2">
                                 <Col xs={6}>
@@ -450,10 +455,10 @@ export default function NewAddProduct() {
                                 </Col>
                             </Row>}
                             {isChecked &&
-                            <>
-                                <Row>
+                            <div className="mt-4">
+                                {/* <Row>
                                     <p className="seealltext">Select category , Subcategory or brand </p>
-                                </Row>
+                                </Row> */}
                                 <Row className="w-40 mb-2 mt-2">
                                     <Col>
                                         <Form.Group controlId="categoryId">
@@ -495,11 +500,11 @@ export default function NewAddProduct() {
                                         </Form.Group>
                                     </Col>
                                     <Col className="d-flex justify-content-center align-items-end">
-                                        {/* <Button variant="dark" size="sm" onClick={() => cleatFilter()}>
-                                            <IoIosCloseCircle size={17} />CLEAR FILTER</Button> */}
+                                        <Button variant="dark" size="sm" onClick={() => cleatFilter()}>
+                                            <IoIosCloseCircle size={17} />CLEAR FILTER</Button>
                                     </Col>
                                 </Row>
-                            </>
+                            </div>
                            
                             }
 
@@ -511,62 +516,9 @@ export default function NewAddProduct() {
                 </div>
                 {(data?.length > 0 && isChecked) && 
                     <Container>
-                        {/* <Row className="w-40 mb-2 mt-2">
-                            <Col>
-                                <Form.Group controlId="categoryId">
-                                    <Form.Label className="text-dark fw-bold dtext">Category</Form.Label>
-                                    <Form.Control as="select" size="sm" name="categoryId" onChange={handleCategoryChange} required>
-                                        <option value="" disabled selected>
-                                            Select Category
-                                        </option>
-                                        {allcategoryList?.length > 0 && allcategoryList?.map((ele) => (
-                                            <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-                                        ))}
-                                    </Form.Control>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group controlId="categoryId">
-                                    <Form.Label className="text-dark fw-bold dtext">Sub Category</Form.Label>
-                                    <Form.Control as="select" size="sm" name="subcategoryId" onChange={handleSubChange} required>
-                                        <option value="" disabled selected>
-                                            Select Sub Category
-                                        </option>
-                                        {allSubcategorylist?.length > 0 && allSubcategorylist?.map((ele) => (
-                                            <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-                                        ))}
-                                    </Form.Control>
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group controlId="categoryId">
-                                    <Form.Label className="text-dark fw-bold dtext">Brand</Form.Label>
-                                    <Form.Control as="select" size="sm" name="brandId" onChange={handleBrandChange} >
-                                        <option value="" disabled selected>
-                                            Select Brand
-                                        </option>
-                                        {allbrandList?.length > 0 && allbrandList?.map((ele) => (
-                                            <option key={ele?._id} value={ele?._id}>{ele?.title}</option>
-                                        ))}
-                                    </Form.Control>
-                                </Form.Group>
-                            </Col>
-                            <Col className="d-flex justify-content-center align-items-end">
-                                <Button variant="dark" size="sm" onClick={() => cleatFilter()}>
-                                    <IoIosCloseCircle size={17} />CLEAR FILTER</Button>
-                            </Col>
-                        </Row> */}
                         <Row>
                             <Col>
-                                {/* <DataGrid
-                                rows={data}
-                                columns={columns}
-                                pageSize={8}
-                                noRowsOverlay={
-                                    data?.length === 0 && <div style={{ textAlign: 'center', padding: '20px' }}>No Data Found</div>
-                                }
-                            /> */}
-
+                               
                                 <Table striped responsive bordered hover className="mt-4">
                                     <thead>
                                         <tr>
@@ -584,7 +536,9 @@ export default function NewAddProduct() {
                                             <th>Action</th>
                                         </tr>
                                     </thead>
+                                
                                     <tbody>
+
                                         {data.map((row) => (
                                             <tr key={row?.id}>
                                                 <td>{row?.id}</td>

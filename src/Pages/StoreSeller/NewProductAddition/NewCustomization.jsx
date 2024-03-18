@@ -63,7 +63,7 @@ const NewCustomization = () => {
   return (
     <div>
           <Container className='stepContent'>
-              <Row className='m-4 p-4 justify-content-md-center stepContent'>
+              <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
                   <Container>
                       <Form onSubmit={handleSubmit}>
                           <Row className='mt-3'>
@@ -128,6 +128,22 @@ const NewCustomization = () => {
                           </Row>
                           
                       </Form>
+
+
+                      <Row className='mt-2'>
+                          <Col xs={12} className='mt-4'>
+                              <Row>
+                                  <Col>
+                                      <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
+                                  </Col>
+                                  <Col className='d-flex justify-content-end'>
+                                      <Button size='sm' variant='success' type="submit">SAVE & NEXT </Button>
+                                  </Col>
+                              </Row>
+                          </Col>
+                      </Row>
+
+
                   </Container>
               </Row>
           </Container>

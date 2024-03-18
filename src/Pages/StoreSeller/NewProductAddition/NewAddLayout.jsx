@@ -15,11 +15,12 @@ const NewAddLayout = () => {
                               <NavLink to="/seller/seller-ownproduct-status/new-add" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Identity</NavLink>
                           </li>
                           <li>
-                              <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Variations</NavLink>
-                          </li>
-                          <li>
                               <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
                           </li>
+                          <li>
+                              <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Variations</NavLink>
+                          </li>
+                         
                           <li>
                               <NavLink to="/seller/seller-ownproduct-status/new-customization" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')} >Customized</NavLink> 
                           </li>
@@ -30,8 +31,9 @@ const NewAddLayout = () => {
                   </Col>
               </Row>
           </Container>
-          {/* <hr/> */}
-        <Outlet/>
+          <div className='productaddBack'>
+              <Outlet />
+          </div>
     </div>
   )
 }

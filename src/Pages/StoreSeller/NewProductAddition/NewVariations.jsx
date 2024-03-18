@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Image, ListGroup, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import toast from 'react-hot-toast';
-import { CiEdit } from "react-icons/ci";
-import { FaTrashAlt } from "react-icons/fa";
 import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
 import { MdCancel } from "react-icons/md";
-import { DeleteProductSpecification, FileUpload, GetProductDetails, ProductSpecificationCreate, UpdateProductSpecification, sellerBrandRequestList, sellerNewAddedProductDtails } from '../../../API/api';
 import { useNavigate, useParams } from "react-router-dom";
+import { DeleteProductSpecification, FileUpload, ProductSpecificationCreate, UpdateProductSpecification, sellerNewAddedProductDtails } from '../../../API/api';
 
-import './newproduct.css';
 import { addOrdinalSuffix } from '../../../common/RatingAvg';
+import './newproduct.css';
 
 const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProductListFunc }) => {
 
@@ -37,6 +35,8 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
         getProductdata()
     }, [])
 
+
+    const navigate = useNavigate()
 
     async function getProductdata() {
         let res = await sellerNewAddedProductDtails(productId);
@@ -96,8 +96,21 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
             }])
             setproductPrice('')
             setProductImages([])
+            // setTimeout(() => {
+            //     navigate(`/seller/seller-ownproduct-status/new-description/${res?.data?.data?._id}`)
+            // }, 1500);
+            // setTimeout(() => {
+            //     navigate(`/seller/seller-ownproduct-status/new-variations/${res?.data?.data?._id}`)
+            // }, 1500);
         }
     };
+
+
+    const nextToCustomized = () =>{
+        setTimeout(() => {
+            navigate(`/seller/seller-ownproduct-status/new-customization/${productId}`)
+        }, 1500);
+    }
 
 
     const EdithandleSubmit = async () => {
@@ -217,9 +230,9 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
 
     }
     return (
-        <div className='stepContent'>
-            <Container className='stepContent' style={{ padding: '5px 10px' }}>
-                <Row>
+        
+            <Container >
+            <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner' >
                     <Col>
                         <Row className='mt-2'>
                             <Col xs={12}>
@@ -312,6 +325,8 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
                                 </Col>
                             </Row>
 
+                           
+                            
                             <Row className="mt-4">
 
                                 <Col xs={12} className='d-flex justify-content-center'>
@@ -332,7 +347,7 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
                     <Col xs={2} >
                         <Row>
                             {addedVariants?.map((ele,index)=>(
-                                <Row className='mt-2 p-2 specborder '>
+                                <Row className='mt-2 p-2 specborder'>
                                     <Col xs={12} className='specHeader mb-2'>{addOrdinalSuffix(index+1)} Variatant</Col>
                                     <Col>
                                       <Row>
@@ -351,10 +366,25 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
                             )) }
                         </Row>
                     </Col>}
+
+                <Row className='mt-2'>
+                    <Col xs={12} className='mt-4'>
+                        <Row>
+                            <Col>
+                                <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
+                            </Col>
+                            <Col className='d-flex justify-content-end'>
+                                <Button size='sm' variant='success' type='submit' onClick={() => nextToCustomized()}>SAVE & NEXT </Button>
+                            </Col>
+                        </Row>
+                    </Col>
                 </Row>
 
+                </Row>
+
+                
+
             </Container>
-        </div>
     )
 }
 

@@ -10,6 +10,7 @@
    text-transform: capitalize;
    border-bottom: 2px solid #266200;
    padding: 20px;
+   background: #e6ffe6;
 }
 
 .gotoBtn {
@@ -160,9 +161,10 @@
 }
 
 .specText {
-   color: #505050;
+   color: #181818;
    font-weight: bold;
-   font-size: 12px;
+   font-size: 10px;
+   text-decoration: underline;
 }
 
 .specText2 {
@@ -208,5 +210,9 @@
 .paddingConatiner{
    background-color: white;
    padding: 10px 120px !important;
-   border: 1px solid;
+   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.productaddBack{
+   background-color: #EEEEEE;
 }

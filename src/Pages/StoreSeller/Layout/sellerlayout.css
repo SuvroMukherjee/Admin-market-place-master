@@ -392,3 +392,22 @@ display: flex;
         background: white;
         color: black;
 }
+
+.smalltextadd{
+    font-size: 12px;
+    text-align: center;
+    color: #036255;
+    font-weight: 400;
+    cursor: pointer;
+    
+}
+
+.smalltextadd:hover{
+   text-decoration: underline;
+   font-weight: 500;
+}
+
+.optionCol{
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+}
