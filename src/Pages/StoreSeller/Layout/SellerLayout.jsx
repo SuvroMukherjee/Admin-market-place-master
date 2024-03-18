@@ -202,13 +202,15 @@ const MyNavbar = () => {
                             </Row>
                         </Col>
                         <Col>
+                            {isDropdownOpen && 
                             <Dropdown show={isDropdownOpen} onClose={handleDropdownClose}>
                                 <Dropdown.Menu className='dropdownMenus'>
                                     <Dropdown.Item onClick={() => navigate('/seller/reset')}>Change Passowrd</Dropdown.Item>
                                     <Dropdown.Item onClick={() => navigate('/seller/profile')}>Update Profile</Dropdown.Item>
                                     <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
                                 </Dropdown.Menu>
-                            </Dropdown>
+                            </Dropdown>}
+                            {/* <div onClick={() => handleDropdownClose()}>close</div> */}
                             <Row>
                                 <Col></Col>
                                 <Col style={{ cursor: 'pointer' }} xs={2} onClick={handleDropdownToggle}>

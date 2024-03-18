@@ -58,7 +58,10 @@ const ApprovalPendingList = () => {
   const getReqPorducts = async() =>{
     let res = await OwnProductSellerList(auth?.userId);
     console.log(res?.data?.data,'pDara')
-    setData(res?.data?.data)
+    let newtypeadded = res?.data?.data?.map((ele) => {
+      return { ...ele, type: 'Product' }
+    })
+    setData(newtypeadded)
   }
 
   const filterSubCatdata = (id) => {
@@ -119,14 +122,16 @@ const ApprovalPendingList = () => {
 
   }
 
+
+
   console.log({data})
 
   return (
     <div>
-      <Container>
+      <Container className='mt-4'>
         <Row>
           <Col xs={12}>
-            <h4>View Selling Applications For {type?.toUpperCase()}</h4>
+            <h4>View Selling Applications Form</h4>
           </Col>
           <Col xs={12}>
             <p>Track and manage your selling application status. Use Add Products search to determine your eligibility to sell a product.</p>
@@ -137,7 +142,7 @@ const ApprovalPendingList = () => {
             <div><Button size='sm' variant={type != 'all' ? "outline-secondary" : "dark"} onClick={()=>handleFunctionCall('all')}> View All</Button></div>
             <div><Button size='sm' variant={type != 'category' ? "outline-secondary" : "dark" } onClick={() => handleFunctionCall('category')}>  Categories</Button></div>
             <div><Button size='sm' variant={type != 'brand' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('brand')} >Brands</Button></div>
-            <div><Button size='sm' variant="outline-secondary" onClick={() => handleFunctionCall('product')}>Products</Button></div>
+            <div><Button size='sm' variant={type != 'product' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('product')}>Products</Button></div>
           </Col>
           <Col>
 
@@ -163,19 +168,59 @@ const ApprovalPendingList = () => {
 
                 {data?.length > 0 && data?.map((ele) => (
                   <tr>
-                    <td>{ele?.title}</td>
+                    <td>{type === 'product' ? ele?.name : ele?.title}</td>
                     <td>{ele?.type}</td>
                     <td>{filterSubCatdata(ele?._id)?.title || 'N/A'}</td>
                     <td>{ChangeFormatDate2(ele?.createdAt)}</td>
-                    <td>{ele?.is_approved ? <span>Approved</span> : <span>Pending</span>}</td>
                     <td>
-                      {ele?.is_approved ?
-                        <button size='sm' className='gotoBtnYellow' variant='outline-dark' onClick={() => navigate('/seller/seller-addproduct')}>List Products</button>
-                        :
-                        <button size='sm' className='gotoBtn' variant='outline-dark'>Go to Application</button>
-                      }
-
+                      {type === 'product' ? (
+                        ele?.is_approved !== 'pending' ? (
+                          <span>Approved</span>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                      ) : (
+                        ele?.is_approved ? (
+                          <span>Approved</span>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                      )}
                     </td>
+                    <td>
+                      {type === 'product' ? (
+                        ele?.is_approved !== 'pending' ? (
+                          <button
+                            size='sm'
+                            className='gotoBtnYellow'
+                            variant='outline-dark'
+                            onClick={() => navigate('/seller/seller-addproduct')}
+                          >
+                            List Products
+                          </button>
+                        ) : (
+                          <button size='sm' className='gotoBtn' variant='outline-dark'>
+                            Go to Application
+                          </button>
+                        )
+                      ) : (
+                        ele?.is_approved ? (
+                          <button
+                            size='sm'
+                            className='gotoBtnYellow'
+                            variant='outline-dark'
+                            onClick={() => navigate('/seller/seller-addproduct')}
+                          >
+                            List Products
+                          </button>
+                        ) : (
+                          <button size='sm' className='gotoBtn' variant='outline-dark'>
+                            Go to Application
+                          </button>
+                        )
+                      )}
+                    </td>
+
                   </tr>
                 ))}
 

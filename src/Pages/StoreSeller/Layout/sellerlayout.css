@@ -381,10 +381,10 @@ th {
 
 }
 .dropdownMenus{
-display: flex;
+display: flex !important;
     flex-direction: column;
     gap: 15px;
-    border: 2px solid white;
+    border: 1px solid white !important;
 }
 .clos{
         cursor: pointer;

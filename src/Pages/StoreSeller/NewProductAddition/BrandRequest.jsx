@@ -140,7 +140,7 @@ const BrandRequest = () => {
                         <h4>Selling application for New Brand Listing </h4>
                     </Col>
                     <Col xs={3}></Col>
-                    <Col xs={3}>
+                    <Col xs={3} className='mt-4'>
                         <Button size='sm' variant='outline-dark' onClick={() => navigate('/seller/approval-request-list')}> <span className='mx-1'><FaList /></span> View All applications</Button>
                     </Col>
                 </Row>
