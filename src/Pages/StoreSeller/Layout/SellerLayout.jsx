@@ -19,11 +19,16 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import newlogo from '../../../assets/newlogo.png'
 import useAuth from '../../../hooks/useAuth';
 import { FaBars } from "react-icons/fa6";
+import { IoSettings } from "react-icons/io5";
+
+
 
 const MyNavbar = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const { auth, logout } = useAuth();
     const [HeaderTitle, setHeaderTitle] = useState('Seller Dashboard')
+
+    console.log({ auth })
 
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
@@ -126,6 +131,8 @@ const MyNavbar = () => {
                 break;
         }
     }
+
+    console.log({auth})
 
     return (
         <div>
@@ -262,6 +269,8 @@ const MyNavbar = () => {
                 </Row>
             </Drawer>
 
+            
+
             <Navbar expand="lg" >
 
                 {/* <Col xs={1} className='text-center' onClick={() => toggleDrawer()} style={{cursor:'pointer'}}>
@@ -277,7 +286,7 @@ const MyNavbar = () => {
                                 <Col className='d-flex align-items-center justify-content-center' onClick={() => toggleDrawer()} style={{ cursor: 'pointer' }} xs={1}>
                                     <FaBars color='white' size={20} />
                                 </Col>
-                                <Col xs={4} className='d-flex align-items-end justify-content-start'>
+                                <Col xs={6} className='d-flex align-items-end justify-content-start'>
                                     <span>
                                         <img src={newlogo} alt='' width={100} height={40} />
                                     </span>
@@ -288,13 +297,13 @@ const MyNavbar = () => {
                                 
                             </Row>
                         </Col>
-                        <Col xs={2}>
+                        <Col xs={3}>
                             <Row>
-                                <Col>
-                                    settings
+                                <Col className='' xs={1}>
+                                    <IoSettings color='grey' size={30} />
                                 </Col>
-                                <Col>
-                                    user
+                                <Col >
+                                    <span><FaUserCircle color='white' size={25} /></span> <span style={{color:'green'}}>{auth?.email}</span>
                                 </Col>
                             </Row> 
                         </Col>
