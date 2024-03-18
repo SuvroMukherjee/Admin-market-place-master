@@ -20,6 +20,7 @@ import newlogo from '../../../assets/newlogo.png'
 import useAuth from '../../../hooks/useAuth';
 import { FaBars } from "react-icons/fa6";
 import { IoSettings } from "react-icons/io5";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 
 
@@ -297,16 +298,27 @@ const MyNavbar = () => {
                                 
                             </Row>
                         </Col>
-                        <Col xs={3}>
-                            <Row>
-                                <Col className='' xs={1}>
-                                    <IoSettings color='grey' size={30} />
+                        <Col xs={4}>
+                            <Row className="subheadertitle">
+                                <Col className='' xs={2} onClick={handleDropdownToggle}>
+                                    <IoSettings color='#EEEEEE' size={25} /> <span><IoMdArrowDropdown color='#EEEEEE'/></span>
+                                    
                                 </Col>
-                                <Col >
-                                    <span><FaUserCircle color='white' size={25} /></span> <span style={{color:'green'}}>{auth?.email}</span>
+                                
+                                <Col className='d-flex justify-content-center' >
+                                    <span><FaUserCircle color='white' size={25} /></span> <span className='mx-2' style={{color:'green'}}>{auth?.email}</span>
                                 </Col>
+                                <Dropdown show={isDropdownOpen} onClose={handleDropdownClose}>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item onClick={() => navigate('/seller/reset')}>Change Passowrd</Dropdown.Item>
+                                        <Dropdown.Item onClick={() => navigate('/seller/profile')}>Update Profile</Dropdown.Item>
+
+                                        <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </Row> 
                         </Col>
+                        
                     </Row>
                 </Col>
 

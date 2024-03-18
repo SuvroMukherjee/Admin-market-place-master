@@ -369,3 +369,8 @@ th {
 .boredrLeft{
     border-right: 1px solid lightgrey;
 }
+
+.subheadertitle{
+    display: flex;
+    gap: 10px;
+}
