@@ -366,13 +366,6 @@ export default function SellerInventory() {
 
     return (
         <div>
-            <div>
-                <Navbar className="bg-body-tertiary" style={navbarStyle}>
-                    <Container>
-                        <Navbar.Brand href="#home" className="Caption">Manage Inventory</Navbar.Brand>
-                    </Container>
-                </Navbar>
-            </div>
             <Container className="mt-4">
                 <Row className="mt-4">
                     <Col className="dtext2">Manage Your Inventory : <span style={{ fontSize: '12px' }}>Total Products {data?.length}</span> </Col>

@@ -7,7 +7,7 @@ import './newproduct.css'
 const NewAddLayout = () => {
   return (
     <div>
-          <Container>
+          <Container className='mt-4'>
               <Row className=' p-1 justify-content-md-center'>
                   <Col xs={10}>
                       <ul className='d-flex justify-content-evenly liststyle'>
@@ -30,7 +30,7 @@ const NewAddLayout = () => {
                   </Col>
               </Row>
           </Container>
-          <hr/>
+          {/* <hr/> */}
         <Outlet/>
     </div>
   )

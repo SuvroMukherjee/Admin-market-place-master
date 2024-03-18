@@ -100,7 +100,7 @@ const NewProductAdd = () => {
         <div>
             <Container>
                 
-                <Row className='m-4 p-4 justify-content-md-center stepContent'>
+                <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
 
                     <Container >
                         <Form onSubmit={handleSubmit} >

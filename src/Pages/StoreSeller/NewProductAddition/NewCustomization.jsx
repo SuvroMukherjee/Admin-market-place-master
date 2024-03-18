@@ -71,7 +71,7 @@ const NewCustomization = () => {
                                   <Form.Group controlId="user_name">
                                       <Row>
                                           <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                              <Form.Label className='frmLable'>Max Order Quantity</Form.Label>
+                                              <Form.Label>Max Order Quantity</Form.Label>
                                           </Col>
                                           <Col xs={8}>
                                               <Form.Control type="text"  name="desc" className='tapG' placeholder='Enter Product Order Max Quantity' size='sm' value={formData?.desc} onChange={handleChange} required autoComplete='off' />
@@ -86,7 +86,7 @@ const NewCustomization = () => {
                                   <Form.Group controlId="user_name">
                                       <Row>
                                           <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                              <Form.Label className='frmLable'>Expected delivery time</Form.Label>
+                                              <Form.Label>Expected delivery time</Form.Label>
                                           </Col>
                                           <Col xs={8}>
                                               <Form.Control type="text" name="desc" className='tapG' placeholder='Enter in days' size='sm' value={formData?.desc} onChange={handleChange} required autoComplete='off' />
@@ -101,7 +101,23 @@ const NewCustomization = () => {
                                   <Form.Group controlId="user_name">
                                       <Row>
                                           <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                              <Form.Label className='frmLable'>Expected delivery time</Form.Label>
+                                              <Form.Label>Can Be Gift Messaged ?</Form.Label>
+                                          </Col>
+                                          <Col xs={8}>
+                                              <Form.Control type="text" name="desc" className='tapG' placeholder='Enter in days' size='sm' value={formData?.desc} onChange={handleChange} required autoComplete='off' />
+                                          </Col>
+                                      </Row>
+                                  </Form.Group>
+                              </Col>
+                          </Row>
+
+
+                          <Row className='mt-3'>
+                              <Col xs={12}>
+                                  <Form.Group controlId="user_name">
+                                      <Row>
+                                          <Col xs={3} className='d-flex align-items-center justify-content-end'>
+                                              <Form.Label>Is Gift Wrap Available ?</Form.Label>
                                           </Col>
                                           <Col xs={8}>
                                               <Form.Control type="text" name="desc" className='tapG' placeholder='Enter in days' size='sm' value={formData?.desc} onChange={handleChange} required autoComplete='off' />
