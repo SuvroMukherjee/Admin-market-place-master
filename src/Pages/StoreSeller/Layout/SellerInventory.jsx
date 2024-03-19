@@ -491,9 +491,7 @@ export default function SellerInventory() {
                     <Col className="customRadiolabel">Listing Status : </Col>
                     <Col xs={12}>
                         <Row>
-                            {/* <Col  className="customRadiolabel d-flex justify-content-center align-items-center">
-                                Listing Status :
-                            </Col> */}
+                           
                             <Col className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"

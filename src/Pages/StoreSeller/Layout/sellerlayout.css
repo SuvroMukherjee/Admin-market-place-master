@@ -491,3 +491,47 @@ display: flex !important;
 .adimg{
     width: 20px;
 }
+
+.selectedPname{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.campHead{
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; 
+padding: 2%;
+}
+
+.campback{
+    color: grey;
+    font-size: 16px;
+}
+
+.cmplunch {
+    background-color: #000;
+    color: #9af064;
+    padding: 2% 10%;
+    border-radius: 25px;
+    text-transform: capitalize;
+    border: none;
+}
+
+.cmplunch2{
+    background-color: #000;
+    color: #9af064;
+    padding: 4% 10%;
+    border-radius: 25px;
+    text-transform: capitalize;
+    border: none;
+}
+
+.boredrCol{
+    border: 2px solid rgb(181, 181, 181);
+    border-radius: 4px;
+}
+
+.plist{
+    height: 60vh;
+    overflow: scroll;
+    padding: 1%;
+}
