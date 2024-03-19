@@ -351,7 +351,9 @@ export default function NewAddProduct() {
             return ele?.name?.toLowerCase()?.includes(searchtext?.toLowerCase())
         })
         console.table({ filterproducts })
-        setSearchResults(filterproducts);
+       // setSearchResults(filterproducts);
+        setIsChecked(true)
+        setData(filterproducts)
 
     }
 
@@ -572,14 +574,10 @@ export default function NewAddProduct() {
                                                     </div>
                                                 </td>
                                                 <td>{row.type}</td>
-                                                <td>
-                                                    {/* <div className="buttonWrapper">
-                                                        <Button variant="success" size='sm' onClick={() => handleAddProduct(row)} >
-                                                             Add Item
-                                                        </Button>
-                                                    </div> */}
+                                                <td style={{width:'120px'}}>
+                                                    
 
-                                                    <Button onClick={() => handleAddProduct(row)} variant="success" size='sm' >Add</Button>
+                                                    <Button onClick={() => handleAddProduct(row)} variant="success" size='sm' >Add to Sell</Button>
                                                 </td>
                                             </tr>
                                         ))}

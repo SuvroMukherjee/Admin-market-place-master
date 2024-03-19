@@ -207,34 +207,24 @@ const NewOffers = () => {
                         </Row> */}
                         <Row>
                             {productData?.OfferData?.map((item) => (
-                                (
-                                    item?.offerId?.length > 0 && 
-                                    (
-                                        <>
-                                        <div className='mt-2'>
-                                            {item?.offerId?.map((ele,index) => (
-                                                <Col xs={12} key={index}>
-                                                    <div className='specText2Rest'>
-                                                        <span className='specText2'>{ele?.offer_type_name}</span> offer {ele?.discount_percentage}% discount on {ele?.offer_on?.bank_name}-{ele?.offer_on.card_type} Card
-                                                    </div>
-                                                    <div className='specTextsmall'>
-                                                        <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_start_date)} - <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_end_date)}
-                                                    </div>
-                                                   
-                                                </Col>
-                                            ))}
-                                            
-                                        </div>
-                                        <hr/>
-                                        </>
-                                    )
-
-                                    
-                                  
+                                item?.offerId?.length > 0 && (
+                                    <div className='mt-2' key={item.offerId.join()}>
+                                        {item.offerId.map((ele, index) => (
+                                            <Col xs={12} key={index}>
+                                                <div className='specText2Rest'>
+                                                    <span className='specText2'>{ele?.offer_type_name}</span> offer {ele?.discount_percentage}% discount on {ele?.offer_on?.bank_name}-{ele?.offer_on.card_type} Card
+                                                </div>
+                                                <div className='specTextsmall'>
+                                                    <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_start_date)} - <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_end_date)}
+                                                </div>
+                                            </Col>
+                                        ))}
+                                        <hr />
+                                    </div>
                                 )
-
                             ))}
                         </Row>
+
                     </Col>
 
                     <Row>
