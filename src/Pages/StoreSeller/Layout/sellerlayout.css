@@ -487,3 +487,7 @@ display: flex !important;
     border-radius: 50px;
     color: #000;
 }
+
+.adimg{
+    width: 20px;
+}

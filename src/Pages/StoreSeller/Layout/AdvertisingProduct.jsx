@@ -7,6 +7,7 @@ import { TiTickOutline } from "react-icons/ti";
 import { Outlet, useNavigate } from 'react-router-dom';
 
 const AdvertisingProduct = () => {
+    
     const [camplist, setcamplist] = useState([])
 
     useEffect(() => {
