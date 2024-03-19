@@ -1,24 +1,13 @@
-import { DataGrid } from "@mui/x-data-grid";
-import "./sellerlayout.css";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Form, Card, ListGroup, InputGroup, Image, Table } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Image, InputGroup, ListGroup, Row, Table } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
 import toast, { Toaster } from 'react-hot-toast';
-import { AiOutlinePlus } from "react-icons/ai";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { IoIosCloseCircle } from "react-icons/io";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { SellerProductAdd, StatusUpdateProduct, allBrandList, allCategoryList, allProductList, deleteProduct, getSubCategoryByCategory } from "../../../API/api";
-import Spinner from 'react-bootstrap/Spinner';
-import { categoryData, demoProductData, productRows } from "../../../dummyData";
-import Modal from 'react-bootstrap/Modal';
-import { IoIosCloseCircle } from "react-icons/io";
-import sellerback2 from '../../../assets/sellerback2.jpg'
-
-//new
-import Navbar from 'react-bootstrap/Navbar';
-import { height } from "@mui/system";
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import sellerback2 from '../../../assets/sellerback2.jpg';
+import "./sellerlayout.css";
 import { FaSearch } from "react-icons/fa";
 
 
@@ -575,8 +564,6 @@ export default function NewAddProduct() {
                                                 </td>
                                                 <td>{row.type}</td>
                                                 <td style={{width:'120px'}}>
-                                                    
-
                                                     <Button onClick={() => handleAddProduct(row)} variant="success" size='sm' >Add to Sell</Button>
                                                 </td>
                                             </tr>

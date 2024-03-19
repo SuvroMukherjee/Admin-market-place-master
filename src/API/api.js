@@ -937,3 +937,14 @@ export async function getLowestPriceProdut(id){
         return error
     }
 }
+
+{/** advertising */}
+
+export async function getAllCampaignList(){
+    try {
+        const response = await axios.get(apiUrl + `/campaign-type/list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}

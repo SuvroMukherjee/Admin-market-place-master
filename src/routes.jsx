@@ -61,6 +61,8 @@ import NewDescription from './Pages/StoreSeller/NewProductAddition/NewDescriptio
 import NewOffers from './Pages/StoreSeller/NewProductAddition/NewOffers';
 import NewCustomization from './Pages/StoreSeller/NewProductAddition/NewCustomization';
 import EditLayout from './Pages/StoreSeller/ProductEditPage/EditLayout';
+import AdvertisingProduct from './Pages/StoreSeller/Layout/AdvertisingProduct';
+import CampaignDetails from './Pages/StoreSeller/Layout/CampaignDetails';
 
 
 
@@ -178,6 +180,8 @@ export default function Router() {
             { path: 'add-ofers/:id', element: <NewOffers /> },
             { path: 'customer-feedback', element: <Customerfeedback /> },
             { path: 'service-feedback', element: <ServicesFeedback /> },
+            { path: 'advertising-campaign', element: <AdvertisingProduct /> },
+            { path: 'select-campaign/:id?', element: <CampaignDetails /> },
             // { path: 'change-password', element: <ChangePassword /> },
             { path: 'reset', element: <ResetPassComp /> },
             { path: 'profile', element: <ProfilePage /> },

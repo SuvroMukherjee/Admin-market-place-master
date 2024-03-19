@@ -135,6 +135,10 @@ const MyNavbar = () => {
                 navigate('/seller/service-feedback')
                 setHeaderTitle(pathName);
                 break;
+            case 'Advertising Campaign':
+                navigate('/seller/advertising-campaign')
+                setHeaderTitle(pathName);
+                break;
         }
     }
 
@@ -173,6 +177,9 @@ const MyNavbar = () => {
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Manage Orders')}>
                             Manage Orders
                         </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Advertising Campaign')}>
+                           Advertising
+                        </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Customer Feedback')}>
                             Customer Feedback
                         </Col>
@@ -196,7 +203,7 @@ const MyNavbar = () => {
                                 <Col xs={2} onClick={() => navigateFunction('Seller Dashboard')}>
                                     <img src={newlogo} alt='zoofi seller' width={120}  />
                                 </Col>
-                                <Col xs={3} className='d-flex align-items-center justify-content-center sidebarHeaderName'>
+                                <Col xs={4} className='d-flex align-items-center justify-content-center sidebarHeaderName'>
                                     {HeaderTitle}
                                 </Col>
                             </Row>
