@@ -7,14 +7,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { OwnProductSellerList, SellerProductAdd, SellerProductList, StatusUpdateProduct, UpdateSellerProduct, UpdateSellerProductDataStatus, allBrandList, allCategoryList, allProductList, deleteProduct, getSubCategoryByCategory } from "../../../API/api";
+import { OwnProductSellerList, SellerProductAdd, SellerProductList, StatusUpdateProduct, UpdateSellerProduct, UpdateSellerProductDataStatus, allBrandList, allCategoryList, allProductList, deleteProduct, getLowestPriceProdut, getSubCategoryByCategory } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { categoryData, demoProductData, productRows } from "../../../dummyData";
 import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
 import Image from 'react-bootstrap/Image';
 import './sellerlayout.css'
-import { ChangeFormatDate } from "../../../common/DateFormat";
+import { ChangeFormatDate, ChangeFormatDate2 } from "../../../common/DateFormat";
 import { CSVLink } from 'react-csv';
 import Papa from 'papaparse';
 import { useRef } from "react";
@@ -42,6 +42,8 @@ export default function SellerInventory() {
     const [importedData, setImportedData] = useState([]);
     const [stratuploading, setStartUploading] = useState(false)
     const [selectedOption, setSelectedOption] = useState('');
+    const [viewLowestPriceData,setViewLowestPriceData] = useState();
+    const [lowIndex,setLowIndex] = useState()
 
 
     const handleOptionChange = (e) => {
@@ -409,9 +411,26 @@ export default function SellerInventory() {
         let res = await UpdateSellerProductDataStatus(data?._id, paylod)
 
         getProductListFunc();
+    }
 
+    const getLowestPriceFunc = async(ele,index) =>{
 
+        console.log(ele)
 
+        let res = await getLowestPriceProdut(ele?.productId?._id);
+        
+        const lowestPriceProduct = res?.data?.data.reduce((minProduct, product) => {
+            return product.price < minProduct.price ? product : minProduct;
+        }, res?.data?.data[0]);
+
+        console.log('Lowest price:', lowestPriceProduct);
+
+        setViewLowestPriceData(lowestPriceProduct)
+
+        console.log(res?.data?.data)
+        setLowIndex(index)
+
+        // /setViewLowestPriceData
     }
 
     return (
@@ -568,14 +587,14 @@ export default function SellerInventory() {
                                         </td>
                                         <td onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>{ele?.specId?.skuId}</td>
                                         <td onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)} className="pname">{ele?.productId?.brandId?.title} {ele?.name}</td>
-                                        <td className="datecolor">{ChangeFormatDate(ele?.updatedAt)}</td>
+                                        <td className="datecolor">{ChangeFormatDate2(ele?.updatedAt)}</td>
                                         <td className="avaible">
                                             {ele?.available_qty || 0}
                                         </td>
                                         <td>
                                             {ele?.specId?.price}
                                         </td>
-                                        <td>
+                                        <td className="priceTD">
                                             <Form.Control
                                                 type="tel"
                                                 size="sm"
@@ -587,8 +606,15 @@ export default function SellerInventory() {
                                                 defaultValue={ele?.price}
 
                                             />
+                                            <br /> <span onClick={() => getLowestPriceFunc(ele,index)}>
+                                                <p className="viewLowestPrice" size="sm"> View Lowest Price</p>
+                                            </span>
+                                            {lowIndex == index && 
+                                            <span style={{fontWeight:'500'}}> 
+                                                Lowest Price :₹{viewLowestPriceData?.price?.toFixed(2)} + ₹ {viewLowestPriceData?.shipping_cost}
+                                            </span>}
                                         </td>
-                                        <td>
+                                        <td className="w-40">
                                             <Form.Control
                                                 type="tel"
                                                 size="sm"

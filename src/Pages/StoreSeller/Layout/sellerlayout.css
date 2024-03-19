@@ -430,3 +430,16 @@ display: flex !important;
 .inventoryBg{
     background: #EEEEEE;
 }
+
+.viewLowestPrice{
+    color: #036255;
+    cursor: pointer;
+}
+
+.viewLowestPrice:hover{
+    text-decoration: underline;
+    font-weight: 500;
+}
+.priceTD{
+    width: 120px;
+}

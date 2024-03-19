@@ -929,3 +929,11 @@ export async function offerCreate(formData) {
     }
 }
 
+export async function getLowestPriceProdut(id){
+    try {
+        const response = await axios.get(apiUrl + `/seller-product/lowest-prod/${id}`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
