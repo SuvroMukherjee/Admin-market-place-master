@@ -8,6 +8,7 @@ import { DeleteProductSpecification, FileUpload, ProductSpecificationCreate, Upd
 
 import { addOrdinalSuffix } from '../../../common/RatingAvg';
 import './newproduct.css';
+import { FaInfoCircle } from "react-icons/fa";
 
 const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProductListFunc }) => {
 
@@ -233,6 +234,10 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
         
             <Container >
             <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner' >
+                {!productId &&
+                    <Row>
+                        <Col className='text-center noproductIdText'><span className='mx-4'><FaInfoCircle color='#7D0A0A' size={25} /></span> Product Id is missing.Please Go the First Step and then try to uplaod or request for new Product</Col>
+                    </Row>}
                     <Col>
                         <Row className='mt-2'>
                             <Col xs={12}>

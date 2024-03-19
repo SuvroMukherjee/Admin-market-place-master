@@ -7,7 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { OwnProductSellerList, SellerProductAdd, SellerProductList, StatusUpdateProduct, UpdateSellerProduct, allBrandList, allCategoryList, allProductList, deleteProduct, getSubCategoryByCategory } from "../../../API/api";
+import { OwnProductSellerList, SellerProductAdd, SellerProductList, StatusUpdateProduct, UpdateSellerProduct, UpdateSellerProductDataStatus, allBrandList, allCategoryList, allProductList, deleteProduct, getSubCategoryByCategory } from "../../../API/api";
 import Spinner from 'react-bootstrap/Spinner';
 import { categoryData, demoProductData, productRows } from "../../../dummyData";
 import Navbar from 'react-bootstrap/Navbar';
@@ -43,18 +43,41 @@ export default function SellerInventory() {
     const [stratuploading, setStartUploading] = useState(false)
     const [selectedOption, setSelectedOption] = useState('');
 
+
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value);
         console.log('Selected option:', e.target.value);
-        if (e.target.value == 'Low Stocks'){
-          
-            let filterData = maindata?.filter((ele)=>{
+        if (e.target.value == 'Low Stocks') {
+
+            let filterData = maindata?.filter((ele) => {
                 return ele?.available_qty < 10;
+            })
+
+            setData(filterData)
+        }
+        else if (e.target.value == 'InActive') {
+
+            let filterData = maindata?.filter((ele) => {
+                return ele?.status !== true;
             })
 
             console.log({ filterData })
 
-        } 
+            setData(filterData)
+        }
+        else if (e.target.value == 'Active') {
+
+            let filterData = maindata?.filter((ele) => {
+                return ele?.status == true;
+            })
+
+            console.log({ filterData })
+
+            setData(filterData)
+        }
+        else {
+            getProductListFunc();
+        }
     };
 
     const handleFileUpload = (event) => {
@@ -101,12 +124,12 @@ export default function SellerInventory() {
 
 
     useEffect(() => {
-       
-            getProductListFunc();
-            getAllCats();
-            getBrandList();
-            //getAllOwnProducts();
-       
+
+        getProductListFunc();
+        getAllCats();
+        getBrandList();
+        //getAllOwnProducts();
+
     }, []);
 
 
@@ -377,6 +400,20 @@ export default function SellerInventory() {
         fileInputRef.current.click();
     };
 
+    const closeListingProduct = async (data) => {
+
+        let paylod = {
+            status: !data?.status
+        }
+
+        let res = await UpdateSellerProductDataStatus(data?._id, paylod)
+
+        getProductListFunc();
+
+
+
+    }
+
     return (
         <div>
             <Container className="mt-4">
@@ -402,7 +439,7 @@ export default function SellerInventory() {
                         <Button variant="dark" size="sm" onClick={() => { getProductListFunc(); setSearchtext('') }}>See All Products</Button>
                     </Col>
                 </Row>
-               
+
                 <div class="d-flex flex-row-reverse mt-4">
                     <div class="p-2">
                         {csvData?.length > 0 &&
@@ -431,10 +468,13 @@ export default function SellerInventory() {
                             </Row>}
                     </div>
                 </div>
-                <Row className="mt-2">
-                    <Col xs={6}>
+                <Row className="mt-2 mx-1 p-2 inventoryBg">
+                    <Col xs={10}>
                         <Row>
-                            <Col xs={2} className="d-flex justify-content-center align-items-center">
+                            <Col xs={2} className="customRadiolabel d-flex justify-content-center align-items-center">
+                                Listing Status :
+                            </Col>
+                            <Col xs={1} className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="All"
@@ -458,7 +498,7 @@ export default function SellerInventory() {
                                     onChange={handleOptionChange}
                                 />
                             </Col>
-                            <Col xs={2} className="d-flex justify-content-center align-items-center">
+                            <Col xs={1} className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="Active"
@@ -473,7 +513,19 @@ export default function SellerInventory() {
                             <Col xs={3} className="d-flex justify-content-center align-items-center">
                                 <Form.Check
                                     type="radio"
-                                    label="Low Stocks"
+                                    label="Listing Removed"
+                                    name="options"
+                                    className="customRadio"
+                                    id="activeRadio"
+                                    value="Active"
+                                    checked={selectedOption === 'InActive'}
+                                    onChange={handleOptionChange}
+                                />
+                            </Col>
+                            <Col className="d-flex justify-content-start align-items-center">
+                                <Form.Check
+                                    type="radio"
+                                    label="Low In Stocks"
                                     name="options"
                                     id="lowStocksRadio"
                                     className="customRadio"
@@ -509,7 +561,7 @@ export default function SellerInventory() {
                             <tbody>
                                 {data?.length > 0 && data?.map((ele, index) => (
                                     <tr style={{ background: 'red' }}>
-                                        <td>{ele?.status ? <span style={{ color: 'green' }}>Active</span> : <span style={{ color: 'red' }}>InActive</span>}<br />
+                                        <td>{ele?.status ? <span style={{ color: 'green' }}>Active</span> : <span style={{ color: 'red' }}>Not Active</span>}<br />
                                         </td>
                                         <td>
                                             <Image src={ele?.specId?.image?.[0]?.image_path} thumbnail width={60} height={60} />
@@ -573,9 +625,10 @@ export default function SellerInventory() {
                                         <td>
                                             {/* <Button size="sm">Offer</Button> */}
                                             <DropdownButton id="dropdown-basic-button" title="Edit" size="sm" variant="secondary">
-                                                <Dropdown.Item href="#/action-1" >View Details</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-2" onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Apply Offers</Dropdown.Item>
-                                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>View Details</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Apply Offers</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Edit Product</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => closeListingProduct(ele)}>{ele?.status ? 'Close Listing' : 'Start Listing'}</Dropdown.Item>
                                             </DropdownButton>
                                         </td>
                                     </tr>

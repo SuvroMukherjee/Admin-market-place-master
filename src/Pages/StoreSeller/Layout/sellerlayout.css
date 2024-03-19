@@ -419,3 +419,14 @@ display: flex !important;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+.customRadiolabel{
+    font-size: 12px;
+        color: #000;
+        font-weight: 400;
+        letter-spacing: 1px;
+}
+
+.inventoryBg{
+    background: #EEEEEE;
+}

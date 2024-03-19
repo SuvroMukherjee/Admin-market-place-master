@@ -9,6 +9,7 @@ import { DeleteProductSpecification, EditSellerOwnProduct, FileUpload, GetProduc
 import { useNavigate, useParams } from "react-router-dom";
 import { CKEditor } from "ckeditor4-react";
 import useAuth from '../../../hooks/useAuth';
+import { FaInfoCircle } from "react-icons/fa";
 
 const NewDescription = () => {
 
@@ -86,8 +87,13 @@ const NewDescription = () => {
     <div>
           <Container className='stepContent'>
               <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
+                  {!productId &&
+                      <Row>
+                          <Col className='text-center noproductIdText'><span className='mx-4'><FaInfoCircle color='#7D0A0A' size={25} /></span> Product Id is missing.Please Go the First Step and then try to uplaod or request for new Product</Col>
+                      </Row>}
                   <Container>
                       <Form onSubmit={handleSubmit}>
+                          <fieldset disabled={!productId}>
                           <Row className='mt-3'>
                               <Col xs={12}>
                                   <Form.Group controlId="user_name">
@@ -177,6 +183,7 @@ const NewDescription = () => {
                                   </Row>
                               </Col>
                           </Row>
+                              </fieldset>
                       </Form>
                   </Container>
             </Row>

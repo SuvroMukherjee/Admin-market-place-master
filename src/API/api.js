@@ -572,6 +572,15 @@ export async function EditSellerOwnProduct(id, formData) {
     }
 }
 
+export async function UpdateSellerProductDataStatus(id, formData){
+    try {
+        const response = await axios.patch(apiUrl + `/seller-product/status-update/${id}`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 export async function creteBannerType(formData) {
     try {
         const response = await axios.post(apiUrl + `/banner-type/create`, formData, { headers: setAuthHeader() })

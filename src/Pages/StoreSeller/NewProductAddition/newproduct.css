@@ -174,10 +174,10 @@
 }
 
 .specText2Rest {
-      line-height: 1.43;
-         color: #212121;
-         font-weight: 300;
-         font-size: 13px;
+   line-height: 1.43;
+   color: #212121;
+   font-weight: 300;
+   font-size: 13px;
 }
 
 .specTextsmall {
@@ -185,34 +185,44 @@
    font-size: 12px;
 }
 
-.bgoffer{
+.bgoffer {
    background: #EEEEEE;
 }
 
-.bgofferProductImg{
+.bgofferProductImg {
    width: 200px;
    height: 200px;
    object-fit: contain;
 }
 
-.bgofferProductName{
+.bgofferProductName {
 
    color: #2D9596;
-      font-size: 18px;
-      font-weight: 500;
+   font-size: 18px;
+   font-weight: 500;
 }
 
-.pdis{
+.pdis {
    border-bottom: 0.5px solid #505050;
    padding: 25px;
 }
 
-.paddingConatiner{
+.paddingConatiner {
    background-color: white;
    padding: 10px 120px !important;
    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.productaddBack{
+.productaddBack {
    background-color: #EEEEEE;
+}
+
+.noproductIdText {
+   color: #565454;
+   font-weight: 500;
+   text-transform: capitalize;
+   font-size: 14px;
+   background: #eedcde;
+   padding: 2%;
+   letter-spacing: 0.5px;
 }
