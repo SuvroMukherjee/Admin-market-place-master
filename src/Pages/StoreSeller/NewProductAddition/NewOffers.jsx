@@ -190,17 +190,48 @@ const NewOffers = () => {
                         <Row>
                             <Col className='text-center specHeader2'>Current Offers</Col>
                         </Row>
-                        <Row className='p-2'>
-                            {productData?.OfferData?.[0]?.offerId?.map((ele) => (
-                                <Col xs={12}>
-                                    <div className='specText2Rest'>
-                                        <span className='specText2'>{ele?.offer_type_name}</span> offer {ele?.discount_percentage}% discount on {ele?.offer_on?.bank_name}-
-                                        {ele?.offer_on.card_type} Card</ div>
-                                    <div className='specTextsmall'><span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_start_date)} - <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_end_date)}</div>
-                                    <hr />
-                                </Col>
+                        {/* <Row className='p-2'>
+                            {productData?.OfferData?.map((e) => (
+                                e?.offerId?.map((ele) => (
+                                    <Col xs={12} key={ele?.offerId}>
+                                        <div className='specText2Rest'>
+                                            <span className='specText2'>{ele?.offer_type_name}</span> offer {ele?.discount_percentage}% discount on {ele?.offer_on?.bank_name}-{ele?.offer_on.card_type} Card
+                                        </div>
+                                        <div className='specTextsmall'>
+                                            <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_start_date)} - <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_end_date)}
+                                        </div>
+                                        <hr />
+                                    </Col>
+                                ))
+                            ))}
+                        </Row> */}
+                        <Row>
+                            {productData?.OfferData?.map((item) => (
+                                (
+                                    item?.offerId?.length > 0 && 
+                                    (
+                                        <>
+                                        <div className='mt-2'>
+                                            {item?.offerId?.map((ele,index) => (
+                                                <Col xs={12} key={index}>
+                                                    <div className='specText2Rest'>
+                                                        <span className='specText2'>{ele?.offer_type_name}</span> offer {ele?.discount_percentage}% discount on {ele?.offer_on?.bank_name}-{ele?.offer_on.card_type} Card
+                                                    </div>
+                                                    <div className='specTextsmall'>
+                                                        <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_start_date)} - <span className='mx-1'><SlCalender size={12} /></span>{ChangeFormatDate2(ele?.offer_end_date)}
+                                                    </div>
+                                                   
+                                                </Col>
+                                            ))}
+                                            
+                                        </div>
+                                        <hr/>
+                                        </>
+                                    )
 
-                                // <li class="_16eBzU col"><span class="u8dYXW">Bank Offer</span><span>10% Upto ₹2500 off on Samsung Axis Bank Signature credit card</span><div class="Bv11UC _1qNw3R"><span class="fGhUR2">T&amp;C</span></div></li>
+                                    
+                                  
+                                )
 
                             ))}
                         </Row>
