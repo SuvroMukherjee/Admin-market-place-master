@@ -20,6 +20,8 @@ import Papa from 'papaparse';
 import { useRef } from "react";
 import { LuDownload } from "react-icons/lu";
 import { FaFileUpload } from "react-icons/fa";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 
 
@@ -50,7 +52,7 @@ export default function SellerInventory() {
                     setImportedData(result.data);
                     let Qarray = []
                     result?.data?.map((ele) => {
-                        if (ele?.['Add Quantity']){
+                        if (ele?.['Add Quantity']) {
                             Qarray.push(ele?.['Add Quantity'])
                         }
                     })
@@ -84,12 +86,12 @@ export default function SellerInventory() {
 
 
     useEffect(() => {
-        setTimeout(() => {
+       
             getProductListFunc();
             getAllCats();
             getBrandList();
             //getAllOwnProducts();
-        }, 5000)
+       
     }, []);
 
 
@@ -320,7 +322,7 @@ export default function SellerInventory() {
     };
 
 
-     console.log({quantities})
+    console.log({ quantities })
 
 
     const handleSearch = () => {
@@ -336,9 +338,9 @@ export default function SellerInventory() {
     const handleSaveAll = async () => {
         // Iterate through all rows and invoke handleUpdate for each
         setStartUploading(true)
-        console.log({formData})
+        console.log({ formData })
         for (let index = 0; index < formData?.length; index++) {
-            if (formData[index]?.quantity > 0){
+            if (formData[index]?.quantity > 0) {
                 await handleUpdate(index);
             }
         }
@@ -350,11 +352,11 @@ export default function SellerInventory() {
         setTimeout(() => {
             setClearInput(false);
         }, 100);
-       // getProductListFunc();
-       setTimeout(()=>{
-           toast.success(' 🚀 All inventory updated successfully...');
-           setStartUploading(false)
-       },2000)
+        // getProductListFunc();
+        setTimeout(() => {
+            toast.success(' 🚀 All inventory updated successfully...');
+            setStartUploading(false)
+        }, 2000)
     };
 
 
@@ -425,7 +427,25 @@ export default function SellerInventory() {
                 </div>
                 <Row className="mt-2">
                     <Col>
+                        <Row>
+                            <Col>
+                                All
+                            </Col>
+                            <Col>
+                                InActive
+                            </Col>
+                            <Col>
+                                Active
+                            </Col>
+                            <Col>
+                                Low Stocks
+                            </Col>
 
+                        </Row>
+                    </Col>
+                </Row>
+                <Row className="mt-2">
+                    <Col>
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
@@ -442,7 +462,7 @@ export default function SellerInventory() {
                                     <th>Net Disbursement</th>
                                     <th>Add Stock</th>
                                     <th>Action</th>
-                                    <th>Offers</th>
+                                    <th>Other Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -505,12 +525,17 @@ export default function SellerInventory() {
                                             />
 
                                         </td>
-                                       
+
                                         <td>
                                             <Button size="sm" variant="warning" onClick={() => handleUpdate(index)}>Save</Button>
                                         </td>
-                                        <td onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>
-                                            <Button size="sm">Offer</Button>
+                                        <td>
+                                            {/* <Button size="sm">Offer</Button> */}
+                                            <DropdownButton id="dropdown-basic-button" title="Edit" variant="secondary">
+                                                <Dropdown.Item href="#/action-1">View Details</Dropdown.Item>
+                                                <Dropdown.Item href="#/action-2" onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Apply Offers</Dropdown.Item>
+                                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                            </DropdownButton>
                                         </td>
                                     </tr>
                                 ))}
