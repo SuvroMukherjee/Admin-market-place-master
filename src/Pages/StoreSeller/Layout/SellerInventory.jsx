@@ -41,6 +41,21 @@ export default function SellerInventory() {
     const [csvData, setCsvData] = useState([]);
     const [importedData, setImportedData] = useState([]);
     const [stratuploading, setStartUploading] = useState(false)
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleOptionChange = (e) => {
+        setSelectedOption(e.target.value);
+        console.log('Selected option:', e.target.value);
+        if (e.target.value == 'Low Stocks'){
+          
+            let filterData = maindata?.filter((ele)=>{
+                return ele?.available_qty < 10;
+            })
+
+            console.log({ filterData })
+
+        } 
+    };
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
@@ -321,10 +336,6 @@ export default function SellerInventory() {
         });
     };
 
-
-    console.log({ quantities })
-
-
     const handleSearch = () => {
 
         let filterData = data?.filter((ele) => {
@@ -391,12 +402,7 @@ export default function SellerInventory() {
                         <Button variant="dark" size="sm" onClick={() => { getProductListFunc(); setSearchtext('') }}>See All Products</Button>
                     </Col>
                 </Row>
-                {/* <Row className="mt-4">
-                    <Col>
-                        <Button size="sm" variant="primary" onClick={handleChooseFile}>Choose CSV File</Button>
-                        <input type="file" ref={fileInputRef} accept=".csv" style={{ display: 'none' }} onChange={handleFileUpload} />
-                    </Col>
-                </Row> */}
+               
                 <div class="d-flex flex-row-reverse mt-4">
                     <div class="p-2">
                         {csvData?.length > 0 &&
@@ -426,21 +432,56 @@ export default function SellerInventory() {
                     </div>
                 </div>
                 <Row className="mt-2">
-                    <Col>
+                    <Col xs={6}>
                         <Row>
-                            <Col>
-                                All
+                            <Col xs={2} className="d-flex justify-content-center align-items-center">
+                                <Form.Check
+                                    type="radio"
+                                    label="All"
+                                    name="options"
+                                    id="allRadio"
+                                    className="customRadio"
+                                    value="All"
+                                    checked={selectedOption === 'All'}
+                                    onChange={handleOptionChange}
+                                />
                             </Col>
-                            <Col>
-                                InActive
+                            <Col xs={2} className="d-flex justify-content-center align-items-center">
+                                <Form.Check
+                                    type="radio"
+                                    label="InActive"
+                                    name="options"
+                                    id="inactiveRadio"
+                                    className="customRadio"
+                                    value="InActive"
+                                    checked={selectedOption === 'InActive'}
+                                    onChange={handleOptionChange}
+                                />
                             </Col>
-                            <Col>
-                                Active
+                            <Col xs={2} className="d-flex justify-content-center align-items-center">
+                                <Form.Check
+                                    type="radio"
+                                    label="Active"
+                                    name="options"
+                                    className="customRadio"
+                                    id="activeRadio"
+                                    value="Active"
+                                    checked={selectedOption === 'Active'}
+                                    onChange={handleOptionChange}
+                                />
                             </Col>
-                            <Col>
-                                Low Stocks
+                            <Col xs={3} className="d-flex justify-content-center align-items-center">
+                                <Form.Check
+                                    type="radio"
+                                    label="Low Stocks"
+                                    name="options"
+                                    id="lowStocksRadio"
+                                    className="customRadio"
+                                    value="Low Stocks"
+                                    checked={selectedOption === 'Low Stocks'}
+                                    onChange={handleOptionChange}
+                                />
                             </Col>
-
                         </Row>
                     </Col>
                 </Row>
@@ -531,8 +572,8 @@ export default function SellerInventory() {
                                         </td>
                                         <td>
                                             {/* <Button size="sm">Offer</Button> */}
-                                            <DropdownButton id="dropdown-basic-button" title="Edit" variant="secondary">
-                                                <Dropdown.Item href="#/action-1">View Details</Dropdown.Item>
+                                            <DropdownButton id="dropdown-basic-button" title="Edit" size="sm" variant="secondary">
+                                                <Dropdown.Item href="#/action-1" >View Details</Dropdown.Item>
                                                 <Dropdown.Item href="#/action-2" onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Apply Offers</Dropdown.Item>
                                                 <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                             </DropdownButton>
