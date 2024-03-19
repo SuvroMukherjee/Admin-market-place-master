@@ -90,7 +90,7 @@ const NewCustomization = () => {
                                           <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                               <Form.Label>Max Order Quantity</Form.Label>
                                           </Col>
-                                          <Col xs={8}>
+                                          <Col xs={6}>
                                               <Form.Control type="text" name="max_order_qty" className='tapG' placeholder='Enter Product Order Max Quantity' size='sm' value={formData?.max_order_qty} onChange={handleChange}  autoComplete='off' />
                                           </Col>
                                       </Row>
@@ -105,7 +105,7 @@ const NewCustomization = () => {
                                           <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                               <Form.Label>Expected delivery time</Form.Label>
                                           </Col>
-                                          <Col xs={8}>
+                                          <Col xs={6}>
                                               <Form.Control type="text" name="expected_delivery" className='tapG' placeholder='Enter in days' size='sm' value={formData?.expected_delivery} onChange={handleChange}  autoComplete='off' />
                                           </Col>
                                       </Row>
@@ -120,7 +120,7 @@ const NewCustomization = () => {
                                           <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                               <Form.Label>Can Be Gift Messaged ?</Form.Label>
                                           </Col>
-                                          <Col xs={8}>
+                                          <Col xs={6}>
                                               <Form.Control
                                                   as="select"
                                                   name="gift_message_avail"
@@ -148,7 +148,7 @@ const NewCustomization = () => {
                                           <Col xs={3} className='d-flex align-items-center justify-content-end'>
                                               <Form.Label>Is Gift Wrap Available ?</Form.Label>
                                           </Col>
-                                          <Col xs={8}>
+                                          <Col xs={6}>
                                               <Form.Control
                                                   as="select"
                                                   name="gift_wrap_avail"
