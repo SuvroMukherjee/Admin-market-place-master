@@ -488,12 +488,13 @@ export default function SellerInventory() {
                     </div>
                 </div>
                 <Row className="mt-2 mx-1 p-2 inventoryBg">
-                    <Col xs={10}>
+                    <Col className="customRadiolabel">Listing Status : </Col>
+                    <Col xs={12}>
                         <Row>
-                            <Col xs={2} className="customRadiolabel d-flex justify-content-center align-items-center">
+                            {/* <Col  className="customRadiolabel d-flex justify-content-center align-items-center">
                                 Listing Status :
-                            </Col>
-                            <Col xs={1} className="d-flex justify-content-start align-items-center">
+                            </Col> */}
+                            <Col className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="All"
@@ -505,7 +506,7 @@ export default function SellerInventory() {
                                     onChange={handleOptionChange}
                                 />
                             </Col>
-                            <Col xs={2} className="d-flex justify-content-center align-items-center">
+                            <Col  className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="InActive"
@@ -517,7 +518,7 @@ export default function SellerInventory() {
                                     onChange={handleOptionChange}
                                 />
                             </Col>
-                            <Col xs={1} className="d-flex justify-content-start align-items-center">
+                            <Col className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="Active"
@@ -529,7 +530,7 @@ export default function SellerInventory() {
                                     onChange={handleOptionChange}
                                 />
                             </Col>
-                            <Col xs={3} className="d-flex justify-content-center align-items-center">
+                            <Col  className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="Listing Removed"
@@ -552,6 +553,9 @@ export default function SellerInventory() {
                                     checked={selectedOption === 'Low Stocks'}
                                     onChange={handleOptionChange}
                                 />
+                            </Col>
+                            <Col className="d-flex justify-content-center align-items-center">
+                             <Button size="sm" variant="outline-dark">Additional Filters</Button>
                             </Col>
                         </Row>
                     </Col>
