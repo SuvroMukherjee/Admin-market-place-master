@@ -106,12 +106,11 @@ const NewOffers = () => {
         <div>
             <Container className='pdis'>
                 <Row>
-                    <Col xs={3} className='bgofferProductName'>
-                        <h4>Add offers For Your Porduct</h4>
-                    </Col>
+
                     <Col className='d-flex justify-content-end'>
                         <img src={productData?.SellerProductData?.productId?.image?.[0]?.image_path} className='bgofferProductImg' alt='productImage' />
                     </Col>
+                    <Col xs={1}></Col>
                     <Col>
                         <Row>
                             <Col xs={12} className='bgofferProductName'>
@@ -128,9 +127,25 @@ const NewOffers = () => {
                                     </span>
                                 )}
                             </Col>
-                            <Col className='mt-2 bgofferProductName'>
-                                <span>Price</span> : {productData?.SellerProductData?.price?.toLocaleString()}
+                            <Col className='mt-2 bgofferProductNameOthersValue' xs={12}>
+                                <span className='bgofferProductNameOthers'>Price</span> : {productData?.SellerProductData?.price?.toLocaleString()}
                             </Col>
+                            <Col className='mt-1 bgofferProductNameOthersValue' xs={12}>
+                                <span className='bgofferProductNameOthers'>M.R.P Price</span> : {productData?.SellerProductData?.specId?.price?.toLocaleString()}
+                            </Col>
+                            <Col className='mt-1 bgofferProductNameOthersValue' xs={12}>
+                                <span className='bgofferProductNameOthers'>SKU ID</span> : {productData?.SellerProductData?.specId?.skuId?.toUpperCase()}
+                            </Col>
+                            <Col className='mt-1 bgofferProductNameOthersValue' xs={12}>
+                                <span className='bgofferProductNameOthers'>Product ID</span> : {productData?.SellerProductData?.productId?.productId?.toUpperCase()}
+                            </Col>
+                            <Col className='mt-4 bgofferProductNameOthers' xs={12}>
+                                Competing Zoofi Offers
+                            </Col>
+                            <Col className='bgofferProductNameOthersValue' xs={12}>
+                                {productData?.OfferData?.length ? `${productData?.OfferData?.length} Offers created` : 'No Offers created Yet'}
+                            </Col>
+
                         </Row>
                     </Col>
                     <Col xs={2}></Col>
