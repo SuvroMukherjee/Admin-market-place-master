@@ -42,8 +42,8 @@ export default function SellerInventory() {
     const [importedData, setImportedData] = useState([]);
     const [stratuploading, setStartUploading] = useState(false)
     const [selectedOption, setSelectedOption] = useState('');
-    const [viewLowestPriceData,setViewLowestPriceData] = useState();
-    const [lowIndex,setLowIndex] = useState()
+    const [viewLowestPriceData, setViewLowestPriceData] = useState();
+    const [lowIndex, setLowIndex] = useState()
 
 
     const handleOptionChange = (e) => {
@@ -413,12 +413,12 @@ export default function SellerInventory() {
         getProductListFunc();
     }
 
-    const getLowestPriceFunc = async(ele,index) =>{
+    const getLowestPriceFunc = async (ele, index) => {
 
         console.log(ele)
 
         let res = await getLowestPriceProdut(ele?.productId?._id);
-        
+
         const lowestPriceProduct = res?.data?.data.reduce((minProduct, product) => {
             return product.price < minProduct.price ? product : minProduct;
         }, res?.data?.data[0]);
@@ -506,7 +506,7 @@ export default function SellerInventory() {
                                     onChange={handleOptionChange}
                                 />
                             </Col>
-                            <Col  className="d-flex justify-content-start align-items-center">
+                            <Col className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="InActive"
@@ -530,7 +530,7 @@ export default function SellerInventory() {
                                     onChange={handleOptionChange}
                                 />
                             </Col>
-                            <Col  className="d-flex justify-content-start align-items-center">
+                            <Col className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="Listing Removed"
@@ -555,7 +555,7 @@ export default function SellerInventory() {
                                 />
                             </Col>
                             <Col className="d-flex justify-content-center align-items-center">
-                             <Button size="sm" variant="outline-dark">Additional Filters</Button>
+                                <Button size="sm" variant="outline-dark">Additional Filters</Button>
                             </Col>
                         </Row>
                     </Col>
@@ -610,13 +610,13 @@ export default function SellerInventory() {
                                                 defaultValue={ele?.price}
 
                                             />
-                                            <br /> <span onClick={() => getLowestPriceFunc(ele,index)}>
+                                            <br /> <span onClick={() => getLowestPriceFunc(ele, index)}>
                                                 <p className="viewLowestPrice" size="sm"> View Lowest Price</p>
                                             </span>
-                                            {lowIndex == index && 
-                                            <span style={{fontWeight:'500'}}> 
-                                                Lowest Price :₹{viewLowestPriceData?.price?.toFixed(2)} + ₹ {viewLowestPriceData?.shipping_cost}
-                                            </span>}
+                                            {lowIndex == index &&
+                                                <span style={{ fontWeight: '500' }}>
+                                                    Lowest Price :₹{viewLowestPriceData?.price?.toFixed(2)} + ₹ {viewLowestPriceData?.shipping_cost}
+                                                </span>}
                                         </td>
                                         <td className="w-40">
                                             <Form.Control
@@ -656,7 +656,7 @@ export default function SellerInventory() {
                                             {/* <Button size="sm">Offer</Button> */}
                                             <DropdownButton id="dropdown-basic-button" title="Edit" size="sm" variant="secondary">
                                                 <Dropdown.Item onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>View Details</Dropdown.Item>
-                                                <Dropdown.Item onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Apply Offers</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => navigate(`/seller/seller-product-edit/${ele?._id}/new-offers/${ele?._id}`)}>Apply Offers</Dropdown.Item>
                                                 <Dropdown.Item onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Edit Product</Dropdown.Item>
                                                 <Dropdown.Item onClick={() => closeListingProduct(ele)}>{ele?.status ? 'Close Listing' : 'Start Listing'}</Dropdown.Item>
                                             </DropdownButton>

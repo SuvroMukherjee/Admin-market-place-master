@@ -6,10 +6,11 @@ import { offerCreate, offerTypeCreate, sellerProductDeatils } from '../../../API
 import useAuth from '../../../hooks/useAuth';
 import { ChangeFormatDate2 } from '../../../common/DateFormat';
 import { SlCalender } from "react-icons/sl";
-import './newproduct.css'
+import '../NewProductAddition/newproduct.css'
 import { NavLink } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 
-const NewOffers = () => {
+const EditLayout = () => {
 
     const [formData, setFormData] = useState();
 
@@ -105,7 +106,103 @@ const NewOffers = () => {
 
     return (
         <div>
-            <Container>
+
+            {/* <Container className='mt-4'>
+                <Row className=' p-1 justify-content-md-center'>
+                    <Col xs={10}>
+                        <ul className='d-flex justify-content-evenly liststyle'>
+                            <li>
+                                <NavLink to="/seller/seller-ownproduct-status/new-add" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Identity</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Variations</NavLink>
+                            </li>
+
+                            <li>
+                                <NavLink to="/seller/seller-ownproduct-status/new-customization" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')} >Customized</NavLink>
+                            </li>
+                        </ul>
+                    </Col>
+                </Row>
+            </Container> */}
+
+            <Container className='pdis'>
+                <Row>
+
+                    <Col className='d-flex justify-content-end'>
+                        <img src={productData?.SellerProductData?.productId?.image?.[0]?.image_path} className='bgofferProductImg' alt='productImage' />
+                    </Col>
+                    <Col xs={1}></Col>
+                    <Col>
+                        <Row>
+                            <Col xs={12} className='bgofferProductName'>
+                                {productData?.SellerProductData?.productId?.brandId?.title} {productData?.SellerProductData?.name} {productData?.SellerProductData?.specId?.spec_det?.length > 0 && (
+                                    <span>
+                                        (
+                                        {productData?.SellerProductData.specId.spec_det.map((ele, index, array) => (
+                                            <span key={index}>
+                                                {ele.value}
+                                                {index < array.length - 1 ? ', ' : ''}
+                                            </span>
+                                        ))}
+                                        )
+                                    </span>
+                                )}
+                            </Col>
+                            <Col className='mt-2 bgofferProductNameOthersValue' xs={12}>
+                                <span className='bgofferProductNameOthers'>Price</span> : {productData?.SellerProductData?.price?.toLocaleString()}
+                            </Col>
+                            <Col className='mt-1 bgofferProductNameOthersValue' xs={12}>
+                                <span className='bgofferProductNameOthers'>M.R.P Price</span> : {productData?.SellerProductData?.specId?.price?.toLocaleString()}
+                            </Col>
+                            <Col className='mt-1 bgofferProductNameOthersValue' xs={12}>
+                                <span className='bgofferProductNameOthers'>SKU ID</span> : {productData?.SellerProductData?.specId?.skuId?.toUpperCase()}
+                            </Col>
+                            <Col className='mt-1 bgofferProductNameOthersValue' xs={12}>
+                                <span className='bgofferProductNameOthers'>Product ID</span> : {productData?.SellerProductData?.productId?.productId?.toUpperCase()}
+                            </Col>
+                            <Col className='mt-4 bgofferProductNameOthers' xs={12}>
+                                Competing Zoofi Offers
+                            </Col>
+                            <Col className='bgofferProductNameOthersValue' xs={12}>
+                                {productData?.OfferData?.length ? `${productData?.OfferData?.length} Offers created` : 'No Offers created Yet'}
+                            </Col>
+
+                        </Row>
+                    </Col>
+                    <Col xs={2}></Col>
+                </Row>
+            </Container>
+            <Container className='mt-4'>
+                <Row className=' p-1 justify-content-md-center'>
+                    <Col xs={10}>
+                        <ul className='d-flex justify-content-evenly liststyle'>
+                            <li>
+                                <NavLink to="/seller/seller-ownproduct-status/new-add" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Identity</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Variations</NavLink>
+                            </li>
+
+                            <li>
+                                <NavLink to={`/seller/seller-product-edit/${productId}/new-offers/${productId}`} className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Offers</NavLink>
+                            </li>
+
+                            <li>
+                                <NavLink to="/seller/seller-ownproduct-status/new-customization" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')} >Customized</NavLink>
+                            </li>
+                        </ul>
+                    </Col>
+                </Row>
+            </Container>
+            <Outlet/>
+            {/* <Container>
                 <Row className='m-4 p-4 justify-content-md-center stepContent'>
                     <Col>
                         <Row className='mt-3'>
@@ -228,7 +325,7 @@ const NewOffers = () => {
                         </Col>
                     </Row>
                 </Row>
-            </Container>
+            </Container> */}
             <Toaster position="top-right" />
         </div>
     )
@@ -329,4 +426,4 @@ const OfferForm = ({ offer, getOfferId }) => {
     );
 };
 
-export default NewOffers
+export default EditLayout

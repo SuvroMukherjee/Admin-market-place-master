@@ -60,6 +60,7 @@ import NewVariations from './Pages/StoreSeller/NewProductAddition/NewVariations'
 import NewDescription from './Pages/StoreSeller/NewProductAddition/NewDescription';
 import NewOffers from './Pages/StoreSeller/NewProductAddition/NewOffers';
 import NewCustomization from './Pages/StoreSeller/NewProductAddition/NewCustomization';
+import EditLayout from './Pages/StoreSeller/ProductEditPage/EditLayout';
 
 
 
@@ -148,8 +149,19 @@ export default function Router() {
                 { path: 'new-variations/:id?', element: <NewVariations /> },
                 { path: 'new-description/:id?', element: <NewDescription /> },
                 { path: 'new-customization/:id?', element: <NewCustomization /> },
-                { path: 'new-offers/:id?', element: <NewOffers /> },
+                // { path: 'new-offers/:id?', element: <NewOffers /> },
                 
+              ]
+            },
+            {
+              path: 'seller-product-edit/:id?', element: <EditLayout />,
+              children: [
+                // { path: 'new-add', element: <NewProductAdd /> },
+                // { path: 'new-variations/:id?', element: <NewVariations /> },
+                // { path: 'new-description/:id?', element: <NewDescription /> },
+                // { path: 'new-customization/:id?', element: <NewCustomization /> },
+                { path: 'new-offers/:id?', element: <NewOffers /> },
+
               ]
             },
             {path : 'category-request',element: <CategoryRequest/>},
