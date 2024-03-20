@@ -355,6 +355,14 @@ export default function NewAddProduct() {
     }
 
 
+    function calculateApprovedVariantsLength(items,index) {
+        const approvedItems = items.filter(item => 'is_approved' in item && item?.is_approved);
+
+        console.log(approvedItems,index,'index')
+
+        return 0;
+    }
+
 
     return (
         <div style={{ background: '#ffffff', height: '100vh' }}>
@@ -532,9 +540,10 @@ export default function NewAddProduct() {
                                     <tbody>
 
                                         {data
-                                            .filter(row => row?.status) // Filter elements where status is true
-                                            .map(row => (
+                                            .filter((row) => row?.status) // Filter elements where status is true
+                                            .map((row, index) => (
                                                 <tr key={row?.id}>
+                                                    <td>{index + 1}</td>
                                                     <td>{row?.id}</td>
                                                     <td>{row?.name}</td>
                                                     <td>
@@ -542,7 +551,11 @@ export default function NewAddProduct() {
                                                             <Image className="productListImg" src={row.image?.[0]?.image_path} thumbnail alt="" />
                                                         </div>
                                                     </td>
-                                                    <td className="variants" onClick={() => showVariants(row?.specId)} style={{ cursor: 'pointer' }}>
+                                                    <td
+                                                        className="variants"
+                                                        onClick={() => showVariants(row?.specId)}
+                                                        style={{ cursor: 'pointer' }}
+                                                    >
                                                         ( {row?.specId?.length} ) variants
                                                     </td>
                                                     <td>{row?.desc?.substr(0, 50) + '...'}</td>
@@ -564,7 +577,11 @@ export default function NewAddProduct() {
                                                     </td>
                                                     <td>
                                                         <div className="productListItem">
-                                                            {row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+                                                            {row?.status ? (
+                                                                <span className="ActiveStatus">Active</span>
+                                                            ) : (
+                                                                <span className="DeactiveStatus">Not Active</span>
+                                                            )}
                                                         </div>
                                                     </td>
                                                     <td>{row.type}</td>
@@ -575,6 +592,7 @@ export default function NewAddProduct() {
                                                     </td>
                                                 </tr>
                                             ))}
+
                                     </tbody>
                                 </Table>
                             </Col>

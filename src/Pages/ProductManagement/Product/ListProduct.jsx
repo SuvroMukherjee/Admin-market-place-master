@@ -607,22 +607,22 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
         }
 
 
-        // payload['product_type'] = 'products'
-        
-        // payload['createdby'] = auth?.userId
-
-        // payload['created_type'] = 'admins'
-
-        // payload['is_approved'] = true
-
- 
         payload['product_type'] = 'products'
         
-        payload['createdby'] = '6596c039208925e1b3010b27'
+        payload['createdby'] = auth?.userId
 
-        payload['created_type'] = 'sellers'
+        payload['created_type'] = 'admins'
 
-        payload['is_approved'] = false
+        payload['is_approved'] = true
+
+ 
+        // payload['product_type'] = 'products'
+        
+        // payload['createdby'] = '6596c039208925e1b3010b27'
+
+        // payload['created_type'] = 'sellers'
+
+        // payload['is_approved'] = false
  
 
         console.log(payload)

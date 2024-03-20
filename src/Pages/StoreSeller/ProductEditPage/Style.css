@@ -1,0 +1,20 @@
+.infotab{
+color: #013e38;
+    font-weight: 500;
+    text-transform: capitalize;
+    font-size: 14px;
+    background: #cdf8e7;
+    padding: 2%;
+    letter-spacing: 0.5px;
+}
+.specborder2{
+        color: red !important;
+        font-weight: bold;
+        font-size: 10px;
+        text-align: center;
+        border-radius: 0px;
+}
+
+.specborderDIS {
+    background-color: lightgray;
+}

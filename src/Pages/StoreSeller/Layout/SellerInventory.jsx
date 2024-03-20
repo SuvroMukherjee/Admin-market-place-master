@@ -77,6 +77,15 @@ export default function SellerInventory() {
 
             setData(filterData)
         }
+        else if (e.target.value == "listRemoved") {
+            let filterData = maindata?.filter((ele) => {
+                return ele?.status !== true;
+            })
+
+            console.log({ filterData })
+
+            setData(filterData)
+        }
         else {
             getProductListFunc();
         }
@@ -491,7 +500,7 @@ export default function SellerInventory() {
                     <Col className="customRadiolabel">Listing Status : </Col>
                     <Col xs={12}>
                         <Row>
-                           
+
                             <Col className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
@@ -534,9 +543,9 @@ export default function SellerInventory() {
                                     label="Listing Removed"
                                     name="options"
                                     className="customRadio"
-                                    id="activeRadio"
-                                    value="Active"
-                                    checked={selectedOption === 'InActive'}
+                                    id="listRemovedRadio"
+                                    value="listRemoved"
+                                    checked={selectedOption === 'listRemoved'}
                                     onChange={handleOptionChange}
                                 />
                             </Col>
@@ -656,6 +665,7 @@ export default function SellerInventory() {
                                                 <Dropdown.Item onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>View Details</Dropdown.Item>
                                                 <Dropdown.Item onClick={() => navigate(`/seller/seller-product-edit/${ele?._id}/new-offers/${ele?._id}`)}>Apply Offers</Dropdown.Item>
                                                 <Dropdown.Item onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Edit Product</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => navigate(`/seller/seller-product-edit/${ele?._id}/new-mainVariants/${ele?._id}`)}>New Variations</Dropdown.Item>
                                                 <Dropdown.Item onClick={() => closeListingProduct(ele)}>{ele?.status ? 'Close Listing' : 'Start Listing'}</Dropdown.Item>
                                             </DropdownButton>
                                         </td>
