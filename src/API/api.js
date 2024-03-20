@@ -408,7 +408,8 @@ export async function ProductSpecificationCreate(formData) {
 }
 
 
-export async function UpdateProductSpecification(id) {
+export async function UpdateProductSpecification(id, formData) {
+    console.log(id, formData,'id, formData')
     try {
         const response = await axios.patch(apiUrl + `/specification/update/${id}`, formData, { headers: setAuthHeader() })
         return response;

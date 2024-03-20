@@ -21,6 +21,7 @@ import { FaCopy } from "react-icons/fa";
 import { LuClipboardSignature } from "react-icons/lu";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { FaCirclePlus } from "react-icons/fa6";
+import useAuth from "../../../hooks/useAuth";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -516,8 +517,8 @@ export default function ListProduct() {
                                 {variantsArray?.length > 0 && variantsArray?.map((ele, index) =>
                                     <Col key={index} className="d-flex justify-content-md-center">
                                         <Card style={{ width: '10rem' }}>
-
-
+                               
+                                               {! ele?.is_approved && 'New Variant Request' }
                                             <Card.Img className="p-2" variant="top" src={ele?.image?.[0]?.image_path} style={{ height: 'auto', objectFit: 'cover' }} />
 
                                             <Card.Body>
@@ -577,6 +578,8 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
         });
     };
 
+    const { auth, logout } = useAuth();
+
     const addSpecification = () => {
         setSpecifications((prevSpecifications) => [
             ...prevSpecifications,
@@ -603,7 +606,24 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
             // user_choice:false,
         }
 
+
+        // payload['product_type'] = 'products'
+        
+        // payload['createdby'] = auth?.userId
+
+        // payload['created_type'] = 'admins'
+
+        // payload['is_approved'] = true
+
+ 
         payload['product_type'] = 'products'
+        
+        payload['createdby'] = '6596c039208925e1b3010b27'
+
+        payload['created_type'] = 'sellers'
+
+        payload['is_approved'] = false
+ 
 
         console.log(payload)
 
@@ -639,12 +659,12 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
 
         console.log(payload)
 
-        let res = await UpdateProductSpecification(payload, selectedSpecId);
+        let res = await UpdateProductSpecification(selectedSpecId,payload);
 
         if (res?.data?.error) {
             toast.error('Something went wrong..')
         } else {
-            console.log({ payload })
+            console.log(res)
             getProductListFunc();
             setSpecifications([{
                 title: '',
@@ -772,6 +792,33 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
 
     }
 
+
+    const ApprovalVariant = async(data) =>{
+
+         data['is_approved'] = true
+
+        console.log(data)
+
+        let res = await UpdateProductSpecification(data?._id, data);
+
+        if (res?.data?.error) {
+            toast.error('Something went wrong..')
+        } else {
+            console.log(res)
+            getProductListFunc();
+            setSpecifications([{
+                title: '',
+                value: '',
+                //user_choice: false,
+            }])
+            setproductPrice('')
+            setProductImages([])
+            handleCloseModal(); // Close the modal after submitting
+        }
+
+
+    }
+
     return (
         <Modal show={showModal} onHide={handleCloseModal} size="lg">
             <Modal.Header closeButton>
@@ -784,6 +831,11 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                             <ListGroup style={{ maxHeight: '150px', overflowY: 'auto' }} className='p-2'>
                                 {selectedproductid?.specId?.map((ele, index) => (
                                     <ListGroup.Item key={ele?._id}>
+                                        <Row>
+                                            <Col>
+                                                {!ele?.is_approved && <button onClick={() => ApprovalVariant(ele)}>Approved</button> }
+                                            </Col>
+                                        </Row>
                                         <Row>
                                             <Col xs={9}>
                                                 <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>

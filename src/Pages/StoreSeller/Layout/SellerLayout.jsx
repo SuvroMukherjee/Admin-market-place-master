@@ -107,11 +107,11 @@ const MyNavbar = () => {
                 navigate('/seller/category-request/')
                 setHeaderTitle(pathName);
                 break;
-            case 'Category Request':
-                navigate('/seller/category-request/')
-                setHeaderTitle(pathName);
-                break;
-            case 'Application lists':
+            // case 'Category Request':
+            //     navigate('/seller/category-request/')
+            //     setHeaderTitle(pathName);
+            //     break;
+            case 'Application List':
                 navigate('/seller/approval-request-list/')
                 setHeaderTitle(pathName);
                 break;

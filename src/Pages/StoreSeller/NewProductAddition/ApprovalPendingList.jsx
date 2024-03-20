@@ -199,7 +199,7 @@ const ApprovalPendingList = () => {
                             List Products
                           </button>
                         ) : (
-                          <button size='sm' className='gotoBtn' variant='outline-dark'>
+                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/seller-ownproduct-status/new-variations/${ele?._id}`)}>
                             Go to Application
                           </button>
                         )
@@ -214,7 +214,7 @@ const ApprovalPendingList = () => {
                             List Products
                           </button>
                         ) : (
-                          <button size='sm' className='gotoBtn' variant='outline-dark'>
+                              <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
                             Go to Application
                           </button>
                         )
