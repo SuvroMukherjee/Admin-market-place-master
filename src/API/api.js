@@ -666,6 +666,16 @@ export async function createCommission(fromData) {
 }
 
 
+export async function deleteCommission(id) {
+    try {
+        const response = await axios.delete(apiUrl + `/commission/delete/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 export async function updateCommission(fromData,id) {
     try {
         const response = await axios.patch(apiUrl + `/commission/update/${id}`, fromData)

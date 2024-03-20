@@ -48,6 +48,9 @@ export default function CatReqList() {
             toast.error(res?.response?.data?.message)
         } else {
             toast.success('Category Request updated')
+            setTimeout(() => {
+                navigate('/Admin/category-commission')
+            }, 2000);
             getCatsList();
         }
 

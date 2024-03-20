@@ -309,6 +309,7 @@ export default function NewAddProduct() {
     // new
 
     const handleAddProduct = (product) => {
+        console.log(product,'product')
         setSelectedProduct(product)
         handleShow();
     }
@@ -530,44 +531,50 @@ export default function NewAddProduct() {
                                 
                                     <tbody>
 
-                                        {data.map((row) => (
-                                            <tr key={row?.id}>
-                                                <td>{row?.id}</td>
-                                                <td>{row?.name}</td>
-                                                <td>
-                                                    <div className="productListItem">
-                                                        <Image className="productListImg" src={row.image?.[0]?.image_path} thumbnail alt="" />
-                                                    </div>
-                                                </td>
-                                                <td className="variants" onClick={() => showVariants(row?.specId)} style={{ cursor: 'pointer' }}>( {row?.specId?.length} ) variants</td>
-                                                <td>{row?.desc?.substr(0, 50) + '...'}</td>
-                                                <td>
-                                                    <div className="productListItem">{row.categoryId?.title}</div>
-                                                </td>
-                                                <td>
-                                                    <div className="productListItem">{row.subcategoryId?.title}</div>
-                                                </td>
-                                                <td>
-                                                    <div className="productListItem">{row?.brandId?.title}</div>
-                                                </td>
-                                                <td>
-                                                    <div className="productListItem">
-                                                        {row?.tags?.map((ele, i) => (
-                                                            <p key={i}>{ele},</p>
-                                                        ))}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="productListItem">
-                                                        {row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
-                                                    </div>
-                                                </td>
-                                                <td>{row.type}</td>
-                                                <td style={{width:'120px'}}>
-                                                    <Button onClick={() => handleAddProduct(row)} variant="success" size='sm' >Add to Sell</Button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {data
+                                            .filter(row => row?.status) // Filter elements where status is true
+                                            .map(row => (
+                                                <tr key={row?.id}>
+                                                    <td>{row?.id}</td>
+                                                    <td>{row?.name}</td>
+                                                    <td>
+                                                        <div className="productListItem">
+                                                            <Image className="productListImg" src={row.image?.[0]?.image_path} thumbnail alt="" />
+                                                        </div>
+                                                    </td>
+                                                    <td className="variants" onClick={() => showVariants(row?.specId)} style={{ cursor: 'pointer' }}>
+                                                        ( {row?.specId?.length} ) variants
+                                                    </td>
+                                                    <td>{row?.desc?.substr(0, 50) + '...'}</td>
+                                                    <td>
+                                                        <div className="productListItem">{row.categoryId?.title}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="productListItem">{row.subcategoryId?.title}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="productListItem">{row?.brandId?.title}</div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="productListItem">
+                                                            {row?.tags?.map((ele, i) => (
+                                                                <p key={i}>{ele},</p>
+                                                            ))}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div className="productListItem">
+                                                            {row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+                                                        </div>
+                                                    </td>
+                                                    <td>{row.type}</td>
+                                                    <td style={{ width: '120px' }}>
+                                                        <Button onClick={() => handleAddProduct(row)} variant="success" size="sm">
+                                                            Add to Sell
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            ))}
                                     </tbody>
                                 </Table>
                             </Col>
@@ -593,7 +600,7 @@ export default function NewAddProduct() {
                                                                 <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
                                                             </Col>
                                                             <Col xs={2}>
-                                                                <Button variant="outline-success" size="sm" onClick={() => AddSellerProduct(ele?.productId, ele?._id, formData[index]?.price, formData[index]?.quantity, formData[index]?.shipping_cost)}>SAVE</Button>
+                                                                <Button variant="outline-success" size="sm" onClick={() => AddSellerProduct(seletedProducrt?._id, ele?._id, formData[index]?.price, formData[index]?.quantity, formData[index]?.shipping_cost)}>SAVE</Button>
                                                             </Col>
                                                         </Row>
 

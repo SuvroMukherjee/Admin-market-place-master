@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Button, Container, Row, Col, Table } from 'react-bootstrap';
-import { UpdatesellerOwnRegistrationForm, allCategoryList, allCommissionList, allcatList, createCommission, updateCommission } from '../../../API/api';
+import { UpdatesellerOwnRegistrationForm, allCategoryList, allCommissionList, allcatList, createCommission, deleteCommission, updateCommission } from '../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { IoIosAddCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { RiShareForwardFill } from "react-icons/ri";
 import { IoSaveSharp } from "react-icons/io5";
 import { FaCheckCircle } from "react-icons/fa";
 import useAuth from '../../../hooks/useAuth';
+import { AiFillDelete } from "react-icons/ai";
 
 
 const CategoryComissions = () => {
@@ -131,7 +132,7 @@ const CategoryComissions = () => {
     console.log({ updateformData })
 
 
-    const handleUpdate = async(index,ele) =>{
+    const handleUpdate = async (index, ele) => {
 
         let payload = {
 
@@ -145,12 +146,22 @@ const CategoryComissions = () => {
         } else {
             toast.success('Commission update successfully')
         }
-        
+
         setUpdateIndex('');
         const updatedFormData = [...updateformData]
         updatedFormData.splice(index, 1);
         setupdateFormData(updatedFormData);
         getAllCommissions();
+    }
+
+
+    const handleDeleteFromDB = async (id) => {
+
+        let res = await deleteCommission(id);
+
+        getAllCommissions();
+
+
     }
 
     return (
@@ -214,6 +225,7 @@ const CategoryComissions = () => {
                                     <th>Category</th>
                                     <th>Commissions</th>
                                     <th>Action</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -235,18 +247,21 @@ const CategoryComissions = () => {
                                             )}
                                         </td>
                                         <td>
-                                          
+
                                             {
                                                 updateformData[index]?.index === index ? (
                                                     // Render the Update button if the condition is true
-                                                    <Button size='sm' variant='success' onClick={() => handleUpdate(index,ele)}>Update</Button>
+                                                    <Button size='sm' variant='success' onClick={() => handleUpdate(index, ele)}>Update</Button>
                                                 ) : (
                                                     // Render the Edit button if the condition is false
                                                     <Button size='sm' onClick={() => setUpdateIndex(index)}>Edit</Button>
                                                 )
                                             }
 
-                                            </td>
+                                        </td>
+                                        <td>
+                                            <AiFillDelete color='red' size={25} onClick={() => handleDeleteFromDB(ele?._id)} />
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

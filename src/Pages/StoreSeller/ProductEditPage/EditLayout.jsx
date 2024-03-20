@@ -180,14 +180,14 @@ const EditLayout = () => {
                 <Row className=' p-1 justify-content-md-center'>
                     <Col xs={10}>
                         <ul className='d-flex justify-content-evenly liststyle'>
-                            <li>
+                            {/* <li>
                                 <NavLink to="/seller/seller-ownproduct-status/new-add" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Identity</NavLink>
-                            </li>
+                            </li> */}
                             <li>
                                 <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Variations</NavLink>
+                                <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Images</NavLink>
                             </li>
 
                             <li>

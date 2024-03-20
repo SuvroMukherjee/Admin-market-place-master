@@ -225,7 +225,7 @@ const MyNavbar = () => {
                                 </Col>
                                 
                                 <Col className='d-flex justify-content-center'  >
-                                    <span><FaUserCircle color='#9af064' size={30} /></span> <span style={{ color:'white' }} className='mx-2'>{userInfo?.shope_name}</span>
+                                    <span><FaUserCircle color='#9af064' size={30} /></span> <span style={{ color:'white' }} className='mx-2'>{userInfo?.email}</span>
                                 </Col>
                             </Row>
                         </Col>
