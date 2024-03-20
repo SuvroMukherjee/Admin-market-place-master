@@ -948,3 +948,23 @@ export async function getAllCampaignList(){
         return error
     }
 }
+
+
+export async function campaignCreate(formData){
+    try {
+        const response = await axios.post(apiUrl + `/campaign/create`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function getAllCampaignSellerList() {
+    try {
+        const response = await axios.get(apiUrl + `/campaign/list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+

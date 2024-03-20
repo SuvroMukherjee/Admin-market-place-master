@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { Button, Card, Col, Container, Form, Image, InputGroup, ListGroup, Row, Table, Accordion } from 'react-bootstrap';
-import { SellerProductList, getAllCampaignList } from '../../../API/api';
+import { SellerProductList, campaignCreate, getAllCampaignList } from '../../../API/api';
 import { useState } from 'react';
 import { MdArrowDropDown } from "react-icons/md";
 import { TiTickOutline } from "react-icons/ti";
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { demoProductData } from '../../../dummyData';
 import { ChangeFormatDate2 } from '../../../common/DateFormat';
 import { RxCross2 } from "react-icons/rx";
+import toast, { Toaster } from 'react-hot-toast';
 
 const CampaignDetails = () => {
 
@@ -21,11 +22,15 @@ const CampaignDetails = () => {
 
     const { userId } = JSON.parse(localStorage.getItem('auth'));
 
+    const { id: campID } = useParams();
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         getProductListFunc();
     }, []);
 
-    const navigate = useNavigate()
+
 
     async function getProductListFunc() {
         await SellerProductList(userId).then((res) => {
@@ -51,14 +56,52 @@ const CampaignDetails = () => {
         }));
     }
 
+    console.log({ formData })
+
+    const handleDateChange = (e) => {
+        const { name, value } = e.target;
+        setFormdata({
+            ...formData,
+            settings: {
+                ...formData.settings,
+                [name]: value,
+            },
+        });
+    };
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
+
+        formData['campaignTypeId'] = campID;
+
+        let res = await campaignCreate(formData);
+
+        console.log(res?.data?.data);
+
+        if (res?.response?.data?.error) {
+            toast.error(res?.response?.data?.message)
+        } else {
+            toast.success(`Product Campaign create successfully`)
+            setTimeout(() => {
+                navigate(`/seller/advertising-campaign/`)
+            }, 1500);
+        }
+           
     }
 
     const addProducttoList = (product) => {
 
         setproductlists([...productlists, product]);
+
+        setFormdata({
+            ...formData,
+            productId: [
+                ...formData.productId || [],
+                product?._id,
+            ],
+        });
 
     }
 
@@ -68,6 +111,12 @@ const CampaignDetails = () => {
             return ele?._id != id;
         })
         setproductlists(filterData)
+
+        setFormdata({
+            ...formData,
+            productId: formData.productId.filter((productId) => productId !== id),
+        });
+
     }
 
     const isAdded = (id) => {
@@ -88,7 +137,6 @@ const CampaignDetails = () => {
         setData(filterData);
     }
 
-    console.log({ productlists })
 
     return (
         <div className='stepContent'>
@@ -107,7 +155,7 @@ const CampaignDetails = () => {
                 <Form onSubmit={handleSubmit}>
                     <Row className='boredrCol mt-4'>
                         <Col className='mt-2'><h4>Products</h4></Col>
-                         <hr/>
+                        <hr />
                         <Row className='p-4 mx-2'>
                             <Col className='boredrCol'>
                                 <Row className="mt-4">
@@ -117,7 +165,6 @@ const CampaignDetails = () => {
                                             size="sm"
                                             placeholder="Search by SKU or Product name"
                                             name="searchtext"
-                                            required
                                             value={searchtext}
                                             onChange={(e) => setSearchtext(e.target.value)}
                                         />
@@ -129,7 +176,7 @@ const CampaignDetails = () => {
                                         <Button variant="dark" size="sm" onClick={() => { getProductListFunc(); setSearchtext('') }}>See All</Button>
                                     </Col>
                                 </Row>
-                                <hr/>
+                                <hr />
                                 <Row className='plist'>
                                     <Col>
                                         <Row className="mt-2">
@@ -163,7 +210,7 @@ const CampaignDetails = () => {
                                     <Col xs={8}>{productlists?.length} Products Selected</Col>
                                     <Col onClick={() => setproductlists([])}>Remove All</Col>
                                 </Row>
-                                <hr/>
+                                <hr />
                                 <Row className='mt-4 plist '>
                                     <Col >
                                         {productlists?.length > 0 && productlists?.map((ele, index) => (
@@ -200,20 +247,20 @@ const CampaignDetails = () => {
                         <Row>
                             <Col className='mt-2'>
                                 <h4>Targeting</h4>
-                                </Col>
+                            </Col>
                         </Row>
-                        <hr/>
+                        <hr />
                         <Row className='p-4'>
 
                             <Col xs={12} className="d-flex justify-content-start align-items-center">
                                 <Form.Check
                                     type="radio"
                                     label="Automatic targeting"
-                                    name="options"
+                                    name="targetValue"
                                     id="allRadio"
                                     className="customRadio"
-                                    value="All"
-                                    checked={selectedOption === 'All'}
+                                    value="auto"
+                                    checked={formData?.targetValue === 'auto'}
                                     onChange={handleChange}
                                 />
                                 <Form.Text className='mx-2'>Amazon will target keywords and products that are similar to the product in your ad.</Form.Text>
@@ -222,11 +269,11 @@ const CampaignDetails = () => {
                                 <Form.Check
                                     type="radio"
                                     label="Manual targeting"
-                                    name="options"
+                                    name="targetValue"
                                     id="inactiveRadio"
                                     className="customRadio"
-                                    value="InActive"
-                                    checked={selectedOption === 'InActive'}
+                                    value="manual"
+                                    checked={formData?.targetValue === 'manual'}
                                     onChange={handleChange}
                                 />
                                 <Form.Text>Choose keywords or products to target shopper searches and set custom bids.</Form.Text>
@@ -238,29 +285,29 @@ const CampaignDetails = () => {
                         <Row className='mt-2'>
                             <Col> <h4>Campaign Settings</h4></Col>
                         </Row>
-                        <hr/>
+                        <hr />
                         <Row className='p-4'>
                             <Col xs={4}>
                                 <Form.Group controlId="offerStartDate">
-                                    <Form.Label> Start Date:</Form.Label>
-                                    <Form.Control type="date" className='tapG' name="offer_start_date" value={formData.offer_start_date} onChange={handleChange} />
+                                    <Form.Label>Campaign Start Date:</Form.Label>
+                                    <Form.Control type="date" className='tapG' name="startdate" value={formData?.settings?.startdate} onChange={handleDateChange} />
                                 </Form.Group>
                             </Col>
                             <Col xs={4}>
                                 <Form.Group controlId="offerStartDate">
-                                    <Form.Label> Start Date:</Form.Label>
-                                    <Form.Control type="date" className='tapG' name="offer_start_date" value={formData.offer_start_date} onChange={handleChange} />
+                                    <Form.Label>Campaign End Date:</Form.Label>
+                                    <Form.Control type="date" className='tapG' name="enddate" value={formData?.settings?.enddate} onChange={handleDateChange} />
                                 </Form.Group>
                             </Col>
-                         </Row>
+                        </Row>
                     </Row>
                     <Row className='mt-4 mb-4'>
                         <Col xs={9}></Col>
-                        <Col xs={3} style={{textAlign:'right'}}>
-                            <button className='cmplunch2'>Launch Campaign</button></Col>
+                        <Col xs={3} style={{ textAlign: 'right' }}>
+                            <button type='submit'>Launch</button></Col>
                     </Row>
                 </Form>
-
+                <Toaster position="top-right" />
             </Container>
         </div>
     )

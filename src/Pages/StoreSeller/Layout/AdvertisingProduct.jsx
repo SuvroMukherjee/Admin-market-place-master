@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button, Card, Col, Container, Form, Image, InputGroup, ListGroup, Row, Table, Accordion } from 'react-bootstrap';
-import { getAllCampaignList } from '../../../API/api';
+import { getAllCampaignList, getAllCampaignSellerList } from '../../../API/api';
 import { useState } from 'react';
 import { MdArrowDropDown } from "react-icons/md";
 import { TiTickOutline } from "react-icons/ti";
@@ -12,13 +12,19 @@ const AdvertisingProduct = () => {
 
     useEffect(() => {
         getCampList();
+        getSellerCampaignList();
     }, [])
 
 
     async function getCampList() {
         let res = await getAllCampaignList();
-        console.log(res?.data?.data, 'data')
         setcamplist(res?.data?.data)
+    }
+
+
+    async function getSellerCampaignList(){
+        let res = await getAllCampaignSellerList();
+        console.log(res?.data?.data, 'data')
     }
 
     const navigate = useNavigate()
