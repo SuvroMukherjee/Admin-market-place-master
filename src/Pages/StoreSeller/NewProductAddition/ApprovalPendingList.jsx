@@ -14,6 +14,7 @@ const ApprovalPendingList = () => {
   const [type, setType] = useState('');
   const [data,setData] = useState([])
   const [brandList, setBrandlist] = useState([])
+  comst [tableHeader,setTableHeader] = useState()
 
   const { auth } = useAuth();
 
@@ -51,6 +52,7 @@ const ApprovalPendingList = () => {
       return {...ele, type:'SubCategory'}
     })
     setSubCategoryApplication(newtypeadded)
+    setTableHeader()
 
   }
 
@@ -141,6 +143,7 @@ const ApprovalPendingList = () => {
   }
 
 
+  let categoryHeader = ['Application Name', 'Application Type', 'SubCategory', 'Changed', 'Status','Action']
 
   console.log({data})
 
@@ -175,12 +178,13 @@ const ApprovalPendingList = () => {
             <Table responsive hover striped >
               <thead>
                 <tr>
-                  <th>Application Name</th>
+                  {/* <th>Application Name</th>
                   <th>Application Type</th>
                   <th>subCategory</th>
                   <th>Changed</th>
                   <th>Status</th>
-                  <th>Action</th>
+                  <th>Action</th> */}
+
                 </tr>
               </thead>
               <tbody className='mt-2 '>
