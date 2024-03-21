@@ -106,7 +106,7 @@ const NewOffers = () => {
     return (
         <div>
             <Container>
-                <Row className='m-4 p-4 justify-content-md-center stepContent'>
+                <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
                     <Col>
                         <Row className='mt-3'>
                             <Col xs={12}>

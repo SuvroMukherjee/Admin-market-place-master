@@ -178,7 +178,7 @@ const MyNavbar = () => {
                             Manage Orders
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Advertising Campaign')}>
-                           Advertising
+                           Advertising 
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Customer Feedback')}>
                             Customer Feedback

@@ -240,11 +240,11 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
     return (
 
         <Container >
-            <Row>
+            <Row className='mx-4'>
                 <Col className='text-center infotab'><span className='mx-4'><FaInfoCircle color='#013e38' size={25} /></span>Request for New Variations. New variations Need Zoofi's Approval. After Approval you can find your variation in <strong>{productData?.name}</strong>  Product ID :
                     <strong> {productData?.productId?.productId?.toUpperCase()}</strong></Col>
             </Row>
-            <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner' >
+            <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
                 <Col>
                     <Row className='mt-2'>
                         <Col xs={12}>

@@ -1,5 +1,5 @@
-.infotab{
-color: #013e38;
+.infotab {
+    color: #013e38;
     font-weight: 500;
     text-transform: capitalize;
     font-size: 14px;
@@ -7,14 +7,68 @@ color: #013e38;
     padding: 2%;
     letter-spacing: 0.5px;
 }
-.specborder2{
-        color: red !important;
-        font-weight: bold;
-        font-size: 10px;
-        text-align: center;
-        border-radius: 0px;
+
+.specborder2 {
+    color: red !important;
+    font-weight: bold;
+    font-size: 10px;
+    text-align: center;
+    border-radius: 0px;
 }
 
 .specborderDIS {
     background-color: lightgray;
+}
+
+.pimg {
+    object-fit: contain;
+}
+
+.live {
+    color: #027166;
+    font-weight: bold;
+    font-size: 18px;
+    word-spacing: 2px;
+}
+
+.live2 {
+    color: #027166;
+    font-weight: 400;
+    font-size: 14px;
+    word-spacing: 2px;
+}
+
+.live3 {
+    color: #027166;
+    font-weight: bold;
+    font-size: 16px;
+    word-spacing: 2px;
+}
+
+.infotabNw {
+    box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+    padding: 2%;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    background: #027166;
+    cursor: pointer;
+}
+
+.infotabNw:hover {
+    padding: 2%;
+    border: 2px solid #027166;
+    border-radius: 5px;
+    color: #027166;
+    font-weight: bold;
+    background: white;
+}
+
+.imgeCount {
+    font-size: 16px;
+    background: white;
+    padding: 0px 5px;
+    color: black;
+    border-radius: 50%;
+    font-weight: bold;
 }

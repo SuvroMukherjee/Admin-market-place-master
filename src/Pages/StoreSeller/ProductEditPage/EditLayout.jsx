@@ -186,9 +186,9 @@ const EditLayout = () => {
                             <li>
                                 <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
                             </li>
-                            <li>
+                            {/* <li>
                                 <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Images</NavLink>
-                            </li>
+                            </li> */}
 
                             <li>
                                 <NavLink to={`/seller/seller-product-edit/${productId}/new-offers/${productId}`} className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Offers</NavLink>
