@@ -508,8 +508,8 @@ export default function NewAddProduct() {
                            
                             }
 
+                            <Toaster position="top-right" />
                         </Col>
-                        <Toaster position="top-right" />
                     </Row>
 
 
@@ -618,7 +618,7 @@ export default function NewAddProduct() {
                                                                 <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
                                                             </Col>
                                                             <Col xs={2}>
-                                                                <Button variant="outline-success" size="sm" onClick={() => AddSellerProduct(seletedProducrt?._id, ele?._id, formData[index]?.price, formData[index]?.quantity, formData[index]?.shipping_cost)}>SAVE</Button>
+                                                                <Button variant="outline-success" size="sm" onClick={() => AddSellerProduct(seletedProducrt?._id, ele?._id, formData[index]?.price, formData[index]?.quantity, formData[index]?.shipping_cost)} disabled={!ele?.is_approved}>SAVE</Button>
                                                             </Col>
                                                         </Row>
 

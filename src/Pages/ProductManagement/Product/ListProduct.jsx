@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "../product.css";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row, Modal, Form, ListGroup, Image, Table,Card } from 'react-bootstrap';
+import { Button, Col, Container, Row, Modal, Form, ListGroup, Image, Table, Card } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -22,6 +22,7 @@ import { LuClipboardSignature } from "react-icons/lu";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { FaCirclePlus } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -310,6 +311,15 @@ export default function ListProduct() {
         handleShowModal2();
     }
 
+    const variationRequestCount = (data) => {
+
+        let filterData = data?.filter((ele) => {
+            return ele?.is_approved == false
+        })
+
+        return filterData?.length
+    }
+
     return (
         <>
             {loading &&
@@ -438,14 +448,14 @@ export default function ListProduct() {
                                         <td>{row?.productId?.substring(0, 15)}
                                             <span className="mx-2">
                                                 {(copied && copiedindex == index) ?
-                                                <>
-                                                        <BsClipboard2CheckFill size={20} color="green" /><br/> <span style={{fontSize:'10px',color:'green'}}>Copied</span>
-                                                </>
-                                                :
-                                                <>
+                                                    <>
+                                                        <BsClipboard2CheckFill size={20} color="green" /><br /> <span style={{ fontSize: '10px', color: 'green' }}>Copied</span>
+                                                    </>
+                                                    :
+                                                    <>
                                                         <LuClipboardSignature style={{ cursor: 'pointer' }} onClick={() => copyTextToClipboard(row?.productId, index)} size={18} />
-                                                </>
-                                                    }
+                                                    </>
+                                                }
                                             </span>
                                         </td>
                                         <td>{row?.name?.substring(0, 20) + '...'}</td>
@@ -454,10 +464,12 @@ export default function ListProduct() {
                                                 <img className="productListImg" src={row.image?.[0]?.image_path} alt="" />
                                             </div>
                                         </td>
-                                        <td>
+                                        <td style={{ width: '150px' }}>
                                             {row?.specId?.length}
                                             <p className="variCss" onClick={() => showVariants(row?.specId)}>VIEW</p>
-                                            </td>
+                                            {variationRequestCount(row?.specId) > 0 &&
+                                                <p className="newrqNo"><AiOutlineInfoCircle size={22}/> {variationRequestCount(row?.specId)} Requested </p>}
+                                        </td>
                                         {/* <td>{row?.desc}</td> */}
                                         <td>{row?.categoryId?.title}</td>
                                         <td>{row?.subcategoryId?.title}</td>
@@ -474,7 +486,7 @@ export default function ListProduct() {
                                             </div>
                                         </td> */}
                                         {/* <td>{row?.type}</td> */}
-                                        <td style={{ width: '305px' }}>
+                                        <td style={{ width: '275px' }}>
                                             <div className="buttonWrapper">
                                                 <Button variant="info" size="sm" onClick={() => { handleShowModal(); setSeledtedProductId(row) }}>
                                                     <FaCirclePlus />  Variants
@@ -516,9 +528,18 @@ export default function ListProduct() {
 
                                 {variantsArray?.length > 0 && variantsArray?.map((ele, index) =>
                                     <Col key={index} className="d-flex justify-content-md-center">
+
                                         <Card style={{ width: '10rem' }}>
-                               
-                                               {! ele?.is_approved && 'New Variant Request' }
+
+                                            {!ele?.is_approved && (
+                                                <p className="newrq">
+                                                    <span>
+                                                        <AiOutlineInfoCircle size={20} />
+                                                        {`New Request from - ${ele?.createdby?.shope_name}`}
+                                                    </span>
+                                                </p>
+                                            )}
+
                                             <Card.Img className="p-2" variant="top" src={ele?.image?.[0]?.image_path} style={{ height: 'auto', objectFit: 'cover' }} />
 
                                             <Card.Body>
@@ -608,22 +629,22 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
 
 
         payload['product_type'] = 'products'
-        
+
         payload['createdby'] = auth?.userId
 
         payload['created_type'] = 'admins'
 
         payload['is_approved'] = true
 
- 
+
         // payload['product_type'] = 'products'
-        
+
         // payload['createdby'] = '6596c039208925e1b3010b27'
 
         // payload['created_type'] = 'sellers'
 
         // payload['is_approved'] = false
- 
+
 
         console.log(payload)
 
@@ -659,7 +680,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
 
         console.log(payload)
 
-        let res = await UpdateProductSpecification(selectedSpecId,payload);
+        let res = await UpdateProductSpecification(selectedSpecId, payload);
 
         if (res?.data?.error) {
             toast.error('Something went wrong..')
@@ -793,9 +814,9 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
     }
 
 
-    const ApprovalVariant = async(data) =>{
+    const ApprovalVariant = async (data) => {
 
-         data['is_approved'] = true
+        data['is_approved'] = true
 
         console.log(data)
 
@@ -828,20 +849,18 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                 <Container>
                     <Row>
                         <Col>
-                            <ListGroup style={{ maxHeight: '150px', overflowY: 'auto' }} className='p-2'>
+                            <ListGroup style={{ maxHeight: '200px', overflowY: 'auto' }} className='p-2'>
                                 {selectedproductid?.specId?.map((ele, index) => (
                                     <ListGroup.Item key={ele?._id}>
                                         <Row>
-                                            <Col>
-                                                {!ele?.is_approved && <button onClick={() => ApprovalVariant(ele)}>Approved</button> }
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col xs={9}>
+                                            <Col xs={3}>
                                                 <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
                                             </Col>
+                                            <Col>
+                                                {!ele?.is_approved && <Button size="sm" variant="outline-secondary" onClick={() => ApprovalVariant(ele)}>Approved {ele?.skuId} variation</Button>}
+                                            </Col>
                                             <Col xs={2}>
-                                                <Button variant='success' size="sm" onClick={() => EditHandler(ele?._id)}><CiEdit /> EDIT</Button>
+                                                <Button variant='success' size="sm" onClick={() => EditHandler(ele?._id)}><CiEdit size={22} /></Button>
                                             </Col>
                                             <Col xs={1}>
                                                 <Button variant='danger' size="sm" onClick={() => deleteSpec(ele?._id)}><FaTrashAlt /></Button>
