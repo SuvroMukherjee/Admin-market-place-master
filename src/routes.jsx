@@ -64,6 +64,7 @@ import EditLayout from './Pages/StoreSeller/ProductEditPage/EditLayout';
 import AdvertisingProduct from './Pages/StoreSeller/Layout/AdvertisingProduct';
 import CampaignDetails from './Pages/StoreSeller/Layout/CampaignDetails';
 import NewProductVariation from './Pages/StoreSeller/ProductEditPage/NewProductVariation';
+import ManageVariationImages from './Pages/StoreSeller/ProductEditPage/ManageVariationImages';
 
 
 
@@ -165,6 +166,7 @@ export default function Router() {
                 // { path: 'new-customization/:id?', element: <NewCustomization /> },
                 { path: 'new-offers/:id?', element: <NewOffers /> },
                 { path: 'new-mainVariants/:id?', element: <NewProductVariation /> },
+                { path: 'manage-images/:id?', element: <ManageVariationImages /> },
 
               ]
             },

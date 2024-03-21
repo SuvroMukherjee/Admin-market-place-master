@@ -47,6 +47,9 @@ const SellerProductDetails = () => {
         height: '7vh'
     };
 
+    function createMarkup(val) {
+        return { __html: val };
+    }
 
     return (
         <div style={{ background: '#ffffff', height: '100vh' }}>
@@ -97,6 +100,15 @@ const SellerProductDetails = () => {
                                     ))}
                                 </Col>
                             </Row>
+                            <Row className="mt-2">
+                                <Col xs={12} className="sellerpName2"> Full Description</Col>
+                                <Col className="mt-2">
+                                    <p
+                                        dangerouslySetInnerHTML={createMarkup(product?.SellerProductData?.productId?.full_desc)}
+                                    />
+                                </Col>
+                            </Row>
+                            
                         </Col>
 
                     </Row>
@@ -109,13 +121,16 @@ const SellerProductDetails = () => {
 
 const SliderImage = ({ images }) => {
     return (
-        <Carousel fade>
-            {images?.length > 0 && images?.map((ele) => (
-                <Carousel.Item>
-                    <Image src={ele?.image_path} thumbnail fluid />
-                </Carousel.Item>
-            ))}
-        </Carousel>
+       
+            <Carousel fade>
+                {images?.length > 0 && images?.map((ele) => (
+                    <Carousel.Item className="d-flex justify-content-center align-items-center">
+                        <Image src={ele?.image_path}  fluid />
+                        {/* <img src={ele?.image_path} width={120} height={120} /> */}
+                    </Carousel.Item>
+                ))}
+            </Carousel>
+       
     )
 }
 

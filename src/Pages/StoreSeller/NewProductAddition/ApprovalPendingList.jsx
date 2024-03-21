@@ -74,6 +74,20 @@ const ApprovalPendingList = () => {
 
   }
 
+  const Reqvariations =  async() =>{
+
+    let res = await sellerCategoryRequestList();
+
+    console.log(res?.data?.data?.SpecificationData,'data')
+
+    let typeAdded = res?.data?.data?.SpecificationData.map((ele) => {
+      return { ...ele, type: 'Variation' };
+    });
+
+    setData(typeAdded)
+
+  }
+
 
   const getAllLists = () =>{
     let alldata = [...brandList, ...categoryApplicqation, ...SubcategoryApplicqation];
@@ -116,6 +130,10 @@ const ApprovalPendingList = () => {
       case 'product':
         getReqPorducts();
         setType('product')
+        break; 
+      case 'variation':
+        Reqvariations();
+        setType('variation')
         break;
 
      }
@@ -143,6 +161,7 @@ const ApprovalPendingList = () => {
             <div><Button size='sm' variant={type != 'category' ? "outline-secondary" : "dark" } onClick={() => handleFunctionCall('category')}>  Categories</Button></div>
             <div><Button size='sm' variant={type != 'brand' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('brand')} >Brands</Button></div>
             <div><Button size='sm' variant={type != 'product' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('product')}>Products</Button></div>
+            <div><Button size='sm' variant={type != 'variation' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('variation')}>Variations</Button></div>
           </Col>
           <Col>
 

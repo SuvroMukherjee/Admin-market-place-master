@@ -110,7 +110,7 @@ th {
     color: #596FB7;
     letter-spacing: 1px;
     font-weight: 500;
-} 
+}
 
 .padd4 {
     text-transform: uppercase;
@@ -323,21 +323,21 @@ th {
     padding: 1%;
 }
 
-.css-4t3x6l-MuiPaper-root-MuiDrawer-paper{
+.css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
     background-color: #080505 !important;
     width: 250px;
     overflow-x: hidden;
     color: #9af064 !important;
 }
 
-.sidebarHeader{
+.sidebarHeader {
     color: #9af064;
     /* border-bottom: 2px solid #9af064; */
     font-weight: bold;
     letter-spacing: 1px;
 }
 
-.sidebarHeaderName{
+.sidebarHeaderName {
     color: #9af064;
     font-weight: bold;
     text-transform: uppercase;
@@ -347,13 +347,13 @@ th {
 
 }
 
-.sellSide{
+.sellSide {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.sellSide .col:hover{
+.sellSide .col:hover {
     background-color: #9af064;
     cursor: pointer;
     color: #000 !important;
@@ -362,57 +362,59 @@ th {
     padding: 10px !important;
 }
 
-.boldtext{
+.boldtext {
     font-weight: bold;
     font-size: 14px;
 }
 
-.boredrLeft{
+.boredrLeft {
     border-right: 1px solid lightgrey;
 }
 
-.subheadertitle{
+.subheadertitle {
     display: flex;
     gap: 10px;
 }
 
-.newColor{
-   color: #9af064;
+.newColor {
+    color: #9af064;
 
 }
-.dropdownMenus{
-display: flex !important;
+
+.dropdownMenus {
+    display: flex !important;
     flex-direction: column;
     gap: 15px;
     border: 1px solid white !important;
 }
-.clos{
-        cursor: pointer;
-        border: 1px solid;
-        background: white;
-        color: black;
+
+.clos {
+    cursor: pointer;
+    border: 1px solid;
+    background: white;
+    color: black;
 }
 
-.smalltextadd{
+.smalltextadd {
     font-size: 12px;
     text-align: center;
     color: #036255;
     font-weight: 400;
     cursor: pointer;
-    
+
 }
 
-.smalltextadd:hover{
-   text-decoration: underline;
-   font-weight: 500;
+.smalltextadd:hover {
+    text-decoration: underline;
+    font-weight: 500;
 }
 
-.optionCol{
+.optionCol {
     border-left: 1px solid lightgray;
     border-right: 1px solid lightgray;
 }
 
-.customRadio label{
+.customRadio label {
     font-size: 12px;
     color: #000;
     font-weight: 400;
@@ -420,35 +422,36 @@ display: flex !important;
     letter-spacing: 1px;
 }
 
-.customRadiolabel{
+.customRadiolabel {
     font-size: 12px;
-        color: #000;
-        font-weight: 400;
-        letter-spacing: 1px;
+    color: #000;
+    font-weight: 400;
+    letter-spacing: 1px;
 }
 
-.inventoryBg{
+.inventoryBg {
     background: #EEEEEE;
 }
 
-.viewLowestPrice{
+.viewLowestPrice {
     color: #036255;
     cursor: pointer;
 }
 
-.viewLowestPrice:hover{
+.viewLowestPrice:hover {
     text-decoration: underline;
     font-weight: 500;
 }
-.priceTD{
+
+.priceTD {
     width: 120px;
 }
 
-.borderBottom{
+.borderBottom {
     border-bottom: 0.5px solid rgb(220, 220, 220);
 }
 
-.cmpgin-title{
+.cmpgin-title {
     font-size: 18px;
     font-weight: 500;
     text-transform: capitalize;
@@ -461,48 +464,48 @@ display: flex !important;
     text-transform: capitalize;
     color: black;
     letter-spacing: 0.5px;
-    
+
 }
 
-.cmpComtinue{
-         border: none;
-         background: #48ba01;
-         color: #000;
-        text-transform: uppercase;
-         font-size: 12px;
-         padding: 2%;
-         font-weight: bold;
-         border-radius: 15px;
-         letter-spacing: 1px;
+.cmpComtinue {
+    border: none;
+    background: #48ba01;
+    color: #000;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 2%;
+    font-weight: bold;
+    border-radius: 15px;
+    letter-spacing: 1px;
 }
 
-.accordion-button{
+.accordion-button {
     padding: 5px 10px !important;
     border: none !important;
     font-size: 14px !important;
 }
 
-.tickIcon{
+.tickIcon {
     background-color: lightgray;
     border-radius: 50px;
     color: #000;
 }
 
-.adimg{
+.adimg {
     width: 20px;
 }
 
-.selectedPname{
+.selectedPname {
     font-size: 14px;
     font-weight: 500;
 }
 
-.campHead{
-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; 
-padding: 2%;
+.campHead {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 2%;
 }
 
-.campback{
+.campback {
     color: grey;
     font-size: 16px;
 }
@@ -516,7 +519,7 @@ padding: 2%;
     border: none;
 }
 
-.cmplunch2{
+.cmplunch2 {
     background-color: #000;
     color: #9af064;
     padding: 4% 10%;
@@ -525,13 +528,23 @@ padding: 2%;
     border: none;
 }
 
-.boredrCol{
+.boredrCol {
     border: 2px solid rgb(181, 181, 181);
     border-radius: 4px;
 }
 
-.plist{
+.plist {
     height: 60vh;
     overflow: scroll;
     padding: 1%;
+}
+
+.w-100 button {
+    width: 100px;
+    background-color: lightgray !important;
+    color: #000 !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
 }
