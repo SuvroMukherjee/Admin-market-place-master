@@ -14,7 +14,7 @@ const ApprovalPendingList = () => {
   const [type, setType] = useState('');
   const [data,setData] = useState([])
   const [brandList, setBrandlist] = useState([])
-  comst [tableHeader,setTableHeader] = useState()
+  const [tableHeader,setTableHeader] = useState()
 
   const { auth } = useAuth();
 
@@ -178,12 +178,12 @@ const ApprovalPendingList = () => {
             <Table responsive hover striped >
               <thead>
                 <tr>
-                  {/* <th>Application Name</th>
+                  <th>Application Name</th>
                   <th>Application Type</th>
                   <th>subCategory</th>
                   <th>Changed</th>
                   <th>Status</th>
-                  <th>Action</th> */}
+                  <th>Action</th>
 
                 </tr>
               </thead>
