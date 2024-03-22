@@ -249,11 +249,57 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                     <strong> {productData?.productId?.productId?.toUpperCase()}</strong></Col>
             </Row>
             <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
-                {/* <Row className='mt-2'>
-                    <Col className='live mt-2' xs={12}>Live on Zoofi</Col>
-                    <Col className='live2 mt-2'> This images are currently used by Zoofi as part of this product listing.</Col>
-                </Row> */}
+                <Row className='mt-2'>
+                    <Col className='live mt-2' xs={12}>Available Variants on Zoofi</Col>
+                    <Col className='live2 mt-2'> This Variations are currently used by Zoofi as part of this product listing.</Col>
+                </Row>
+                {addedVariants?.length > 0 &&
+                    <Row className='d-flex gap-4 mt-4'>
+                        {addedVariants?.map((ele) => (
+                            <Col xs={4} className={("is_approved" in ele && !ele?.is_approved) ? 'othervariDiv-notApproved' : 'othervariDiv'}>
+                                <Row>
+                                    {("is_approved" in ele && !ele?.is_approved) &&
+                                        <Col className='mb-2 mt-2 specborder2' xs={12}><h6>Not Approved</h6></Col>}
+                                    <Col xs={4} className='d-flex justify-content-end align-items-center'>
+                                        <img src={ele?.image?.[0]?.image_path} width={100} className='bgofferProductImg2' alt='productImage' />
+                                    </Col>
+                                    <Col className='d-flex justify-content-end align-items-center mt-2 mb-2'>
+                                        <Row>
+                                            <Col xs={12} className='othervariDivName'>
+                                                {ele?.productId?.brandId?.title} {ele?.productId?.name} {ele?.spec_det?.length > 0 && (
+                                                    <span>
+                                                        (
+                                                        {ele?.spec_det.map((ele, index, array) => (
+                                                            <span key={index}>
+                                                                {ele?.value}
+                                                                {index < array.length - 1 ? ', ' : ''}
+                                                            </span>
+                                                        ))}
+                                                        )
+                                                    </span>
+                                                )}
+                                            </Col>
+                                            <Col xs={12} className='w-70'><StarRating value={ratingCalculation(ele?._id, reviewData)} /></Col>
+                                            <Col className='mt-1 othervariDivNameV' xs={12}>
+                                                <span className='othervariDivName'>M.R.P Price</span> : {ele?.price?.toLocaleString()}
+                                            </Col>
+                                            <Col className='mt-1 othervariDivNameV' xs={12}>
+                                                <span className='othervariDivName'>SKU ID</span> : {ele?.skuId?.toUpperCase()}
+                                            </Col>
+                                            <Col className='mt-1 othervariDivNameV' xs={12}>
+                                                <span className='othervariDivName'>Product ID</span> : {ele?.productId?.productId?.toUpperCase()}
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        ))}
+                    </Row>
+                }
                 <Col>
+                    <Row className='live mt-4'>
+                        <Col className='mt-4'>Request for New Variants</Col>
+                    </Row>
                     <Row className='mt-2'>
                         <Col xs={12}>
                             {specifications.map((specification, index) => (
@@ -286,9 +332,6 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                                     <Col xs={2} className='d-flex align-items-end justify-content-start'>
                                         <IoMdCloseCircle size={26} onClick={() => removeSpecification(index)} />
                                     </Col>
-                                    {/* <Col>
-                                    <IoMdCloseCircle size={26} onClick={() => removeSpecification(index)} />
-                                </Col> */}
                                 </Row>
                             ))}
                         </Col>
@@ -334,7 +377,6 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                                 <Row>
                                     {productImges?.length > 0 && productImges?.map((ele, index) => (
                                         <Col xs={2}>
-                                            {/* <span>{index + 1}</span> */}
                                             <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
                                                 onClick={() => deleteImage(index)}
                                             /></span>
@@ -362,36 +404,6 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                         </Row>
                     </Row>
                 </Col>
-
-                {addedVariants?.length > 0 &&
-                    <Col xs={2} >
-                        <Row className='live'>Available Variants</Row>
-                        <Row>
-                            <Col>
-                                {addedVariants?.map((ele, index) => (
-                                    <Row className={("is_approved" in ele && !ele?.is_approved) ? 'mt-2 p-2 specborderDIS' : 'mt-2 p-2 specborder'} >
-                                        {("is_approved" in ele && !ele?.is_approved) &&
-                                            <Col className='mb-2 specborder2' xs={12}>Not Approved</Col>}
-                                        <Col>
-                                            <Row>
-                                                {/* <StarRating value={ratingCalculation(ele?._id, reviewData)} />{ratingCalculation(ele?._id, reviewData)} {reviewData?.length} {ele?._id} */}
-                                                <Col xs={4}><Image src={ele?.image?.[0]?.image_path} style={{ width: '50px', height: '50px', objectFit: 'contain' }} /></Col>
-                                                <Col className='specText d-flex align-items-end'>Price : ₹ {ele?.price?.toLocaleString()}</Col>
-                                            </Row>
-                                            <Row className='mt-2'>
-
-                                                {ele?.spec_det?.map((e) => (
-                                                    <Col className='specText' xs={12}>{e?.title}: {e?.value}</Col>
-                                                ))}
-
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                ))}
-                            </Col>
-                        </Row>
-
-                    </Col>}
 
                 <Row className='mt-2'>
                     <Col xs={12} className='mt-4'>
