@@ -5,9 +5,10 @@ import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
 import { MdCancel } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeleteProductSpecification, FileUpload, ProductSpecificationCreate, UpdateProductSpecification, sellerNewAddedProductDtails, sellerProductDeatils } from '../../../API/api';
-import { addOrdinalSuffix } from '../../../common/RatingAvg';
+import { addOrdinalSuffix, ratingCalculation } from '../../../common/RatingAvg';
 import { FaInfoCircle } from "react-icons/fa";
 import './Style.css';
+import { StarRating } from '../../../Layouts/StarRating';
 
 const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, getProductListFunc }) => {
 
@@ -29,6 +30,8 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
 
     const [addedVariants, setAddedVariants] = useState([])
 
+    const [reviewData, setReviewData] = useState([])
+
     const { id: productId } = useParams();
 
     const [productData, setProductData] = useState([])
@@ -44,6 +47,7 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
         console.log(res?.data?.data?.SellerProductData, 'productData')
         setProductData(res?.data?.data?.SellerProductData)
         setAddedVariants(res?.data?.data?.specificationData)
+        setReviewData(res?.data?.data?.reviewData)
     }
 
     const handleChange = (index, title, value) => {
@@ -245,35 +249,10 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                     <strong> {productData?.productId?.productId?.toUpperCase()}</strong></Col>
             </Row>
             <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
-                <Row className='mt-2'>
+                {/* <Row className='mt-2'>
                     <Col className='live mt-2' xs={12}>Live on Zoofi</Col>
                     <Col className='live2 mt-2'> This images are currently used by Zoofi as part of this product listing.</Col>
-                </Row>
-                <Row className='mt-4'>
-                    {addedVariants?.map((ele, index) => (
-                        <Col xs={3}>
-                            <Row className={("is_approved" in ele && !ele?.is_approved) ? 'mt-2 p-2 specborderDIS' : 'mt-2 p-2 specborder'} >
-                                {("is_approved" in ele && !ele?.is_approved) &&
-                                    <Col className='mb-2 specborder2'>Not Approved</Col>}
-                                <Col>
-                                    <Row>
-                                        <Col xs={4}><Image src={ele?.image?.[0]?.image_path} style={{ width: '50px', height: '50px', objectFit: 'contain' }} /></Col>
-                                        <Col className='specText d-flex align-items-end'>Price : ₹ {ele?.price?.toLocaleString()}</Col>
-                                    </Row>
-                                    <Row className='mt-2'>
-
-                                        {ele?.spec_det?.map((e) => (
-                                            <Col className='specText' xs={12}>{e?.title}: {e?.value}</Col>
-                                        ))}
-
-                                    </Row>
-                                </Col>
-                            </Row>
-
-                           
-                        </Col>
-                    ))}
-                </Row>
+                </Row> */}
                 <Col>
                     <Row className='mt-2'>
                         <Col xs={12}>
@@ -384,17 +363,18 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                     </Row>
                 </Col>
 
-                {/* {addedVariants?.length > 0 &&
+                {addedVariants?.length > 0 &&
                     <Col xs={2} >
-                        <Row>Available Variants</Row>
+                        <Row className='live'>Available Variants</Row>
                         <Row>
                             <Col>
                                 {addedVariants?.map((ele, index) => (
                                     <Row className={("is_approved" in ele && !ele?.is_approved) ? 'mt-2 p-2 specborderDIS' : 'mt-2 p-2 specborder'} >
                                         {("is_approved" in ele && !ele?.is_approved) &&
-                                            <Col className='mb-2 specborder2'>Not Approved</Col>}
+                                            <Col className='mb-2 specborder2' xs={12}>Not Approved</Col>}
                                         <Col>
                                             <Row>
+                                                {/* <StarRating value={ratingCalculation(ele?._id, reviewData)} />{ratingCalculation(ele?._id, reviewData)} {reviewData?.length} {ele?._id} */}
                                                 <Col xs={4}><Image src={ele?.image?.[0]?.image_path} style={{ width: '50px', height: '50px', objectFit: 'contain' }} /></Col>
                                                 <Col className='specText d-flex align-items-end'>Price : ₹ {ele?.price?.toLocaleString()}</Col>
                                             </Row>
@@ -410,8 +390,8 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                                 ))}
                             </Col>
                         </Row>
-                        
-                    </Col>} */}
+
+                    </Col>}
 
                 <Row className='mt-2'>
                     <Col xs={12} className='mt-4'>
