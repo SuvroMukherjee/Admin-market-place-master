@@ -72,3 +72,9 @@
     border-radius: 50%;
     font-weight: bold;
 }
+
+.bgofferProductImg2{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}

@@ -115,9 +115,9 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
 
 
     const nextToCustomized = () => {
-        setTimeout(() => {
-            navigate(`/seller/seller-ownproduct-status/new-customization/${productId}`)
-        }, 1500);
+        // setTimeout(() => {
+        //     navigate(`/seller/seller-ownproduct-status/new-customization/${productId}`)
+        // }, 1500);
     }
 
 
@@ -245,6 +245,35 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                     <strong> {productData?.productId?.productId?.toUpperCase()}</strong></Col>
             </Row>
             <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
+                <Row className='mt-2'>
+                    <Col className='live mt-2' xs={12}>Live on Zoofi</Col>
+                    <Col className='live2 mt-2'> This images are currently used by Zoofi as part of this product listing.</Col>
+                </Row>
+                <Row className='mt-4'>
+                    {addedVariants?.map((ele, index) => (
+                        <Col xs={3}>
+                            <Row className={("is_approved" in ele && !ele?.is_approved) ? 'mt-2 p-2 specborderDIS' : 'mt-2 p-2 specborder'} >
+                                {("is_approved" in ele && !ele?.is_approved) &&
+                                    <Col className='mb-2 specborder2'>Not Approved</Col>}
+                                <Col>
+                                    <Row>
+                                        <Col xs={4}><Image src={ele?.image?.[0]?.image_path} style={{ width: '50px', height: '50px', objectFit: 'contain' }} /></Col>
+                                        <Col className='specText d-flex align-items-end'>Price : ₹ {ele?.price?.toLocaleString()}</Col>
+                                    </Row>
+                                    <Row className='mt-2'>
+
+                                        {ele?.spec_det?.map((e) => (
+                                            <Col className='specText' xs={12}>{e?.title}: {e?.value}</Col>
+                                        ))}
+
+                                    </Row>
+                                </Col>
+                            </Row>
+
+                           
+                        </Col>
+                    ))}
+                </Row>
                 <Col>
                     <Row className='mt-2'>
                         <Col xs={12}>
@@ -355,31 +384,34 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                     </Row>
                 </Col>
 
-                {addedVariants?.length > 0 &&
+                {/* {addedVariants?.length > 0 &&
                     <Col xs={2} >
+                        <Row>Available Variants</Row>
                         <Row>
-                            {addedVariants?.map((ele, index) => (
-                                <Row className={("is_approved" in ele && !ele?.is_approved) ? 'mt-2 p-2 specborderDIS' : 'mt-2 p-2 specborder'} >
-                                    {("is_approved" in ele && !ele?.is_approved) &&
-                                        <Col className='mb-2 specborder2'>Not Approved</Col>}
-                                    <Col xs={12} className='specHeader mb-2'>{addOrdinalSuffix(index + 1)} Variatant</Col>
-                                    <Col>
-                                        <Row>
-                                            <Col xs={4}><Image src={ele?.image?.[0]?.image_path} style={{ width: '50px', height: '50px', objectFit: 'contain' }} /></Col>
-                                            <Col className='specText d-flex align-items-end'>Price : ₹ {ele?.price?.toLocaleString()}</Col>
-                                        </Row>
-                                        <Row className='mt-2'>
+                            <Col>
+                                {addedVariants?.map((ele, index) => (
+                                    <Row className={("is_approved" in ele && !ele?.is_approved) ? 'mt-2 p-2 specborderDIS' : 'mt-2 p-2 specborder'} >
+                                        {("is_approved" in ele && !ele?.is_approved) &&
+                                            <Col className='mb-2 specborder2'>Not Approved</Col>}
+                                        <Col>
+                                            <Row>
+                                                <Col xs={4}><Image src={ele?.image?.[0]?.image_path} style={{ width: '50px', height: '50px', objectFit: 'contain' }} /></Col>
+                                                <Col className='specText d-flex align-items-end'>Price : ₹ {ele?.price?.toLocaleString()}</Col>
+                                            </Row>
+                                            <Row className='mt-2'>
 
-                                            {ele?.spec_det?.map((e) => (
-                                                <Col className='specText'>{e?.title}: {e?.value}</Col>
-                                            ))}
+                                                {ele?.spec_det?.map((e) => (
+                                                    <Col className='specText' xs={12}>{e?.title}: {e?.value}</Col>
+                                                ))}
 
-                                        </Row>
-                                    </Col>
-                                </Row>
-                            ))}
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                ))}
+                            </Col>
                         </Row>
-                    </Col>}
+                        
+                    </Col>} */}
 
                 <Row className='mt-2'>
                     <Col xs={12} className='mt-4'>

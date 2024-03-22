@@ -31,6 +31,8 @@ const ManageVariationImages = ({ selectedproductid, showModal, handleCloseModal,
 
     const [addedVariants, setAddedVariants] = useState([])
 
+    const [avaivleOptions, setAvaivleOptions] = useState([])
+
     const { id: productId } = useParams();
 
     const [formData, setFormData] = useState({})
@@ -48,44 +50,35 @@ const ManageVariationImages = ({ selectedproductid, showModal, handleCloseModal,
         console.log(res?.data?.data?.SellerProductData, 'productData')
         setProductData(res?.data?.data?.SellerProductData)
         setAddedVariants(res?.data?.data?.specificationData)
+        setAvaivleOptions(res?.data?.data?.additionalSpec)
+
     }
 
 
     const handleSubmit = async () => {
 
-        
+        console.log(productData?.specId?._id)
+
         let payload = {
-            productId: productData?.productId?._id,
-            image: formData?.image,
+            productId: productId,
+            image: [...productData?.specId?.image, ...formData?.image]
         }
-
-       
-
-        payload['product_type'] = 'products'
 
         payload['createdby'] = productData?.sellerId?._id
 
         payload['created_type'] = 'sellers'
 
-        payload['is_approved'] = false
+        payload['product_type'] = 'SellerProducts'
 
-        console.log(payload)
 
-        // let res = await ProductSpecificationCreate(payload);
+        let res = await ProductSpecificationCreate(payload);
 
-        // if (res?.data?.error) {
-        //     toast.error('Something went wrong..')
-        // } else {
-        //     console.log({ payload })
-        //     getProductdata();
-        //     setSpecifications([{
-        //         title: '',
-        //         value: '',
-        //         //user_choice: false,
-        //     }])
-        //     setproductPrice('')
-        //     setProductImages([])
-        // }
+        if (res?.data?.error) {
+            toast.error('Something went wrong..')
+        } else {
+            console.log({ payload })
+            getProductdata();
+        }
     };
 
     const handleFileUpload = (event) => {
@@ -130,13 +123,22 @@ const ManageVariationImages = ({ selectedproductid, showModal, handleCloseModal,
                     <Col className='live mt-2' xs={12}>Live on Zoofi</Col>
                     <Col className='live2 mt-2'> This images are currently used by Zoofi as part of this product listing.</Col>
                 </Row>
-                <Row className='mt-4'>
-                    {productData?.specId?.image?.map((ele) => (
-                        <Col xs={3}>
-                            <img src={ele?.image_path} width={150} height={150} className='pimg' alt='image' />
-                        </Col>
-                    ))}
-                </Row>
+                {avaivleOptions?.length > 0 ?
+                    <Row className='mt-4'>
+                        {[...productData?.specId?.image, ...avaivleOptions?.[0]?.image].map((ele) => (
+                            <Col xs={3} className='mt-3'>
+                                <img src={ele?.image_path} width={150} height={150} className='pimg' alt='image' />
+                            </Col>
+                        ))}
+                    </Row> :
+                    <Row className='mt-4'>
+                        {productData?.specId?.image?.map((ele) => (
+                            <Col xs={3} className='mt-3'>
+                                <img src={ele?.image_path} width={150} height={150} className='pimg' alt='image' />
+                            </Col>
+                        ))}
+                    </Row>
+                }
                 <Row className='mt-4'>
                     <Col xs={12} className='live3 mt-2'>Please upload your Recommanded Images for your prosduct</Col>
                     <Col className='mt-4' xs={6}>
