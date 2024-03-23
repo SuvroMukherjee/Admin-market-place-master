@@ -126,8 +126,8 @@ const ManageVariationImages = ({ selectedproductid, showModal, handleCloseModal,
                 {avaivleOptions?.length > 0 ?
                     <Row className='mt-4'>
                         {[...productData?.specId?.image, ...avaivleOptions?.[0]?.image].map((ele) => (
-                            <Col xs={3} className='mt-3'>
-                                <img src={ele?.image_path} width={150} height={150} className='pimg' alt='image' />
+                            <Col xs={2} className='mt-3'>
+                                <img src={ele?.image_path} width={100} height={100} className='pimg' alt='image' />
                             </Col>
                         ))}
                     </Row> :

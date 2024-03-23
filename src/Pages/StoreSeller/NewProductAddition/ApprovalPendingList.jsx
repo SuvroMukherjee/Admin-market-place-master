@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Form, Image, Row, Table } from 'react-bootstrap';
-import { OwnProductSellerList, allCategoryeqList, sellerBrandRequestList, sellerCategoryRequestList } from '../../../API/api';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
+import { CiClock2 } from "react-icons/ci";
+import { MdFileDownloadDone } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { OwnProductSellerList, sellerBrandRequestList, sellerCategoryRequestList } from '../../../API/api';
 import { ChangeFormatDate2 } from '../../../common/DateFormat';
-import { BsType } from 'react-icons/bs';
-import { useNavigate, useParams } from "react-router-dom";
 import useAuth from '../../../hooks/useAuth';
 
 const ApprovalPendingList = () => {
@@ -12,9 +13,10 @@ const ApprovalPendingList = () => {
   const [categoryApplicqation, setCategoryApplication] = useState()
   const [SubcategoryApplicqation, setSubCategoryApplication] = useState([])
   const [type, setType] = useState('');
-  const [data,setData] = useState([])
+  const [data, setData] = useState([])
   const [brandList, setBrandlist] = useState([])
-  const [tableHeader,setTableHeader] = useState()
+  const [variations, setVariations] = useState([])
+  const [tableHeader, setTableHeader] = useState()
 
   const { auth } = useAuth();
 
@@ -26,12 +28,12 @@ const ApprovalPendingList = () => {
 
   const navigate = useNavigate();
 
-  const getbrandList  = async() =>{
+  const getbrandList = async () => {
     setType('brand');
     let res = await sellerBrandRequestList();
-    console.log(res?.data?.data,'all brands')
-    let typeadded  = res?.data?.data?.map((ele)=>{
-      return {...ele, type:  'Brand'}
+    console.log(res?.data?.data, 'all brands')
+    let typeadded = res?.data?.data?.map((ele) => {
+      return { ...ele, type: 'Brand' }
     })
     setData(typeadded)
     setBrandlist(typeadded)
@@ -49,7 +51,7 @@ const ApprovalPendingList = () => {
     setCategoryApplication(typeAdded)
     setData(typeAdded)
     let newtypeadded = res?.data?.data?.subcategoryData.map((ele) => {
-      return {...ele, type:'SubCategory'}
+      return { ...ele, type: 'SubCategory' }
     })
     setSubCategoryApplication(newtypeadded)
     setTableHeader()
@@ -57,9 +59,9 @@ const ApprovalPendingList = () => {
   }
 
 
-  const getReqPorducts = async() =>{
+  const getReqPorducts = async () => {
     let res = await OwnProductSellerList(auth?.userId);
-    console.log(res?.data?.data,'pDara')
+    console.log(res?.data?.data, 'pDara')
     let newtypeadded = res?.data?.data?.map((ele) => {
       return { ...ele, type: 'Product' }
     })
@@ -76,11 +78,11 @@ const ApprovalPendingList = () => {
 
   }
 
-  const Reqvariations =  async() =>{
+  const Reqvariations = async () => {
 
     let res = await sellerCategoryRequestList();
 
-    console.log(res?.data?.data?.SpecificationData,'data')
+    setVariations(res?.data?.data?.SpecificationData)
 
     let typeAdded = res?.data?.data?.SpecificationData.map((ele) => {
       return { ...ele, type: 'Variation' };
@@ -91,8 +93,8 @@ const ApprovalPendingList = () => {
   }
 
 
-  const getAllLists = () =>{
-    let alldata = [...brandList, ...categoryApplicqation, ...SubcategoryApplicqation];
+  const getAllLists = () => {
+    let alldata = [...brandList, ...categoryApplicqation, ...SubcategoryApplicqation,];
 
     let sortedData = alldata.sort((a, b) => {
       const titleA = a?.title.toUpperCase(); // ignore upper and lowercase
@@ -114,14 +116,14 @@ const ApprovalPendingList = () => {
   }
 
 
-  const handleFunctionCall = (type) =>{
+  const handleFunctionCall = (type) => {
 
-    switch(type){
-      case 'category' :
+    switch (type) {
+      case 'category':
         getCatsList();
         setType('category');
         break;
-      case 'brand' :
+      case 'brand':
         getbrandList();
         setType('brand');
         break;
@@ -132,20 +134,19 @@ const ApprovalPendingList = () => {
       case 'product':
         getReqPorducts();
         setType('product')
-        break; 
+        break;
       case 'variation':
         Reqvariations();
         setType('variation')
         break;
 
-     }
+    }
 
   }
 
 
-  let categoryHeader = ['Application Name', 'Application Type', 'SubCategory', 'Changed', 'Status','Action']
 
-  console.log({data})
+  console.log({ data })
 
   return (
     <div>
@@ -155,13 +156,13 @@ const ApprovalPendingList = () => {
             <h4>View Selling Applications Form</h4>
           </Col>
           <Col xs={12}>
-            <p>Track and manage your selling application status. Use Add Products search to determine your eligibility to sell a product.</p>
+            <p>Track and manage your selling application status. Use <span className='addPHih' onClick={() => navigate('/seller/seller-addproduct')}>Add Products</span> search to determine your eligibility to sell a product.</p>
           </Col>
         </Row>
         <Row>
           <Col className='d-flex gap-2'>
-            <div><Button size='sm' variant={type != 'all' ? "outline-secondary" : "dark"} onClick={()=>handleFunctionCall('all')}> View All</Button></div>
-            <div><Button size='sm' variant={type != 'category' ? "outline-secondary" : "dark" } onClick={() => handleFunctionCall('category')}>  Categories</Button></div>
+            <div><Button size='sm' variant={type != 'all' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('all')}> View All</Button></div>
+            <div><Button size='sm' variant={type != 'category' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('category')}>  Categories</Button></div>
             <div><Button size='sm' variant={type != 'brand' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('brand')} >Brands</Button></div>
             <div><Button size='sm' variant={type != 'product' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('product')}>Products</Button></div>
             <div><Button size='sm' variant={type != 'variation' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('variation')}>Variations</Button></div>
@@ -175,80 +176,307 @@ const ApprovalPendingList = () => {
       <Container className='mt-4'>
         <Row>
           <Col>
-            <Table responsive hover striped >
-              <thead>
-                <tr>
-                  <th>Application Name</th>
-                  <th>Application Type</th>
-                  <th>subCategory</th>
-                  <th>Changed</th>
-                  <th>Status</th>
-                  <th>Action</th>
 
-                </tr>
-              </thead>
-              <tbody className='mt-2 '>
-
-                {data?.length > 0 && data?.map((ele) => (
+            {type == 'category' &&
+              <Table responsive hover striped >
+                <thead>
                   <tr>
-                    <td>{type === 'product' ? ele?.name : ele?.title}</td>
-                    <td>{ele?.type}</td>
-                    <td>{filterSubCatdata(ele?._id)?.title || 'N/A'}</td>
-                    <td>{ChangeFormatDate2(ele?.createdAt)}</td>
-                    <td>
-                      {type === 'product' ? (
-                        ele?.is_approved !== 'pending' ? (
-                          <span>Approved</span>
-                        ) : (
-                          <span>Pending</span>
-                        )
-                      ) : (
-                        ele?.is_approved ? (
-                          <span>Approved</span>
-                        ) : (
-                          <span>Pending</span>
-                        )
-                      )}
-                    </td>
-                    <td>
-                      {type === 'product' ? (
-                        ele?.is_approved !== 'pending' ? (
-                          <button
-                            size='sm'
-                            className='gotoBtnYellow'
-                            variant='outline-dark'
-                            onClick={() => navigate('/seller/seller-addproduct')}
-                          >
-                            List Products
-                          </button>
-                        ) : (
-                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/seller-ownproduct-status/new-variations/${ele?._id}`)}>
-                            Go to Application
-                          </button>
-                        )
-                      ) : (
-                        ele?.is_approved ? (
-                          <button
-                            size='sm'
-                            className='gotoBtnYellow'
-                            variant='outline-dark'
-                            onClick={() => navigate('/seller/seller-addproduct')}
-                          >
-                            List Products
-                          </button>
-                        ) : (
-                              <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
-                            Go to Application
-                          </button>
-                        )
-                      )}
-                    </td>
+                    <th>Application Name</th>
+                    <th>Image</th>
+                    <th>Application Type</th>
+                    <th>subCategory</th>
+                    <th>Changed</th>
+                    <th>Status</th>
+                    <th>Action</th>
 
                   </tr>
-                ))}
+                </thead>
+                <tbody className='mt-2 '>
 
-              </tbody>
-            </Table>
+                  {data?.length > 0 && data?.map((ele) => (
+                    <tr>
+                      <td>{ele?.title}</td>
+                      <td>
+                        <img src={ele?.image?.[0]?.image_path} width={30} className='appPhoto' height={30} />
+                      </td>
+                      <td>{ele?.type}</td>
+                      <td>{filterSubCatdata(ele?._id)?.title || 'N/A'}</td>
+                      <td>{ChangeFormatDate2(ele?.createdAt)}</td>
+                      <td>
+                        {(ele?.is_approved ? (
+                          <span>Approved</span>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                        )}
+                      </td>
+                      <td>
+                        {(
+                          ele?.is_approved ? (
+                            <button
+                              size='sm'
+                              className='gotoBtnYellow'
+                              variant='outline-dark'
+                              onClick={() => navigate('/seller/seller-addproduct')}
+                            >
+                              <span className='mx-2'><MdFileDownloadDone size={20} /></span>  List Products
+                            </button>
+                          ) : (
+                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
+                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                            </button>
+                          )
+                        )}
+                      </td>
+
+                    </tr>
+                  ))}
+
+                </tbody>
+              </Table>
+            }
+
+            {type == 'brand' &&
+              <Table responsive hover striped >
+                <thead>
+                  <tr>
+                    <th>Application Name</th>
+                    <th>Image</th>
+                    <th>Application Type</th>
+                    <th>Changed</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody className='mt-2 '>
+
+                  {data?.length > 0 && data?.map((ele) => (
+                    <tr>
+                      <td>{ele?.title}</td>
+                      <td>
+                        <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} />
+                      </td>
+                      <td>{ele?.type}</td>
+                      <td>{ChangeFormatDate2(ele?.createdAt)}</td>
+                      <td>
+                        {(ele?.is_approved ? (
+                          <span>Approved</span>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                        )}
+                      </td>
+                      <td>
+                        {(
+                          ele?.is_approved ? (
+                            <button
+                              size='sm'
+                              className='gotoBtnYellow'
+                              variant='outline-dark'
+                              onClick={() => navigate('/seller/seller-addproduct')}
+                            >
+                              <span className='mx-2'><MdFileDownloadDone size={20} /></span>  List Products
+                            </button>
+                          ) : (
+                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
+                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                            </button>
+                          )
+                        )}
+                      </td>
+
+                    </tr>
+                  ))}
+
+                </tbody>
+              </Table>
+            }
+
+            {type == 'product' &&
+              <Table responsive hover striped >
+                <thead>
+                  <tr>
+                    <th>Application Name</th>
+                    <th>Image</th>
+                    <th>Application Type</th>
+                    <th>Category</th>
+                    <th>SubCategory</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody className='mt-2 '>
+
+                  {data?.length > 0 && data?.map((ele) => (
+                    <tr>
+                      <td>{ele?.name}</td>
+                      <td>
+                        <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} />
+                      </td>
+                      <td>{ele?.type}</td>
+                      <td>{ele?.categoryId?.title}</td>
+                      <td>{ele?.subcategoryId?.title}</td>
+                      <td>
+                        {(ele?.is_approved == 'pending' ? (
+                          <span>Approved</span>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                        )}
+                      </td>
+                      <td>
+                        {(
+                          ele?.is_approved == 'pending' ? (
+                            <button
+                              size='sm'
+                              className='gotoBtnYellow'
+                              variant='outline-dark'
+                              onClick={() => navigate('/seller/seller-addproduct')}
+                            >
+                              <span className='mx-2'><MdFileDownloadDone size={20} /></span>  List Products
+                            </button>
+                          ) : (
+                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
+                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                            </button>
+                          )
+                        )}
+                      </td>
+
+                    </tr>
+                  ))}
+
+                </tbody>
+              </Table>
+            }
+
+            {type == 'variation' &&
+              <Table responsive hover striped >
+                <thead>
+                  <tr>
+                    <th>Application Name</th>
+                    <th>Image</th>
+                    <th>Application Type</th>
+                    <th>SKU ID</th>
+                    <th>Main Product</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody className='mt-2 '>
+
+                  {data?.length > 0 && data?.map((ele) => (
+                    <tr>
+                      <td>
+                        {ele?.spec_det?.length > 0 && ele?.spec_det?.map((ele, index, array) => (
+                          <span key={index}>
+                            {ele?.title} :  {ele?.value}
+                            {index < array.length - 1 ? ', ' : ''}<br/>
+                          </span>
+                        ))}
+                      </td>
+                      <td>
+                        <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} />
+                      </td>
+                      <td>{ele?.type}</td>
+                      <td>{ele?.skuId?.toUpperCase()}</td>
+                      <td>{ele?.productId?.name}</td>
+                      <td>
+                        {(ele?.is_approved ? (
+                          <span>Approved</span>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                        )}
+                      </td>
+                      <td>
+                        {(
+                          ele?.is_approved ? (
+                            <button
+                              size='sm'
+                              className='gotoBtnYellow'
+                              variant='outline-dark'
+                              onClick={() => navigate('/seller/seller-addproduct')}
+                            >
+                              <span className='mx-2'><MdFileDownloadDone size={20} /></span>  List Products
+                            </button>
+                          ) : (
+                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
+                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                            </button>
+                          )
+                        )}
+                      </td>
+
+                    </tr>
+                  ))}
+
+                </tbody>
+              </Table>
+            }
+
+            {type == 'all' && 
+              <Table responsive hover striped >
+                <thead>
+                  <tr>
+                    <th>Application Name</th>
+                    <th>Image</th>
+                    <th>Application Type</th>
+                    <th>Category</th>
+                    <th>SubCategory</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody className='mt-2 '>
+
+                  {data?.length > 0 && data?.map((ele) => (
+                    <tr>
+                      <td>{ele?.name}</td>
+                      <td>
+                        <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} />
+                      </td>
+                      <td>{ele?.type}</td>
+                      <td>{ele?.categoryId?.title}</td>
+                      <td>{ele?.subcategoryId?.title}</td>
+                      <td>
+                        {(ele?.is_approved == 'pending' ? (
+                          <span>Approved</span>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                        )}
+                      </td>
+                      <td>
+                        {(
+                          ele?.is_approved == 'pending' ? (
+                            <button
+                              size='sm'
+                              className='gotoBtnYellow'
+                              variant='outline-dark'
+                              onClick={() => navigate('/seller/seller-addproduct')}
+                            >
+                              <span className='mx-2'><MdFileDownloadDone size={20} /></span>  List Products
+                            </button>
+                          ) : (
+                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
+                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                            </button>
+                          )
+                        )}
+                      </td>
+
+                    </tr>
+                  ))}
+
+                </tbody>
+              </Table>
+            }
+
           </Col>
         </Row>
       </Container>

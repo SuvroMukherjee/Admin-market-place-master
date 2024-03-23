@@ -236,3 +236,7 @@
    padding: 2%;
    letter-spacing: 0.5px;
 }
+
+.appPhoto{
+   object-fit: contain;
+}

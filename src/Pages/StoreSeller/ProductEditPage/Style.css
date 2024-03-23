@@ -81,10 +81,10 @@
 
 .othervariDiv {
     border: 2px solid #DDDDDD;
-    border-radius: 7px ;
+    border-radius: 7px;
 }
 
-.othervariDiv-notApproved{
+.othervariDiv-notApproved {
     border: 1px solid #DDDDDD;
     border-radius: 7px;
     background-color: #bbbbbb;
@@ -102,6 +102,12 @@
     color: black;
 }
 
-.w-70{
+.w-70 {
     width: 70% !important;
+}
+
+.bgofferProductImg3 {
+    width: 70px;
+    height: 120px;
+    object-fit: contain;
 }

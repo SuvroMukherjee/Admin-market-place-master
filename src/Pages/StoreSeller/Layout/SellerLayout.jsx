@@ -107,11 +107,7 @@ const MyNavbar = () => {
                 navigate('/seller/category-request/')
                 setHeaderTitle(pathName);
                 break;
-            // case 'Category Request':
-            //     navigate('/seller/category-request/')
-            //     setHeaderTitle(pathName);
-            //     break;
-            case 'Application List':
+            case 'Track Your Application':
                 navigate('/seller/approval-request-list/')
                 setHeaderTitle(pathName);
                 break;
@@ -165,7 +161,7 @@ const MyNavbar = () => {
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Category Request')}>
                             Category Request
                         </Col>
-                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Application List')}>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Track Your Application')}>
                             View Applications
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Inventory Manage')}>

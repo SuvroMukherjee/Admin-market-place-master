@@ -106,29 +106,6 @@ const EditLayout = () => {
 
     return (
         <div>
-
-            {/* <Container className='mt-4'>
-                <Row className=' p-1 justify-content-md-center'>
-                    <Col xs={10}>
-                        <ul className='d-flex justify-content-evenly liststyle'>
-                            <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-add" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Identity</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Variations</NavLink>
-                            </li>
-
-                            <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-customization" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')} >Customized</NavLink>
-                            </li>
-                        </ul>
-                    </Col>
-                </Row>
-            </Container> */}
-
             <Container className='pdis'>
                 <Row>
 
@@ -180,28 +157,17 @@ const EditLayout = () => {
                 <Row className=' p-1 justify-content-md-center'>
                     <Col xs={10}>
                         <ul className='d-flex justify-content-evenly liststyle'>
-                            {/* <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-add" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Identity</NavLink>
-                            </li> */}
+                        
                             <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-description" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Details & Videos</NavLink>
-                            </li>
-                            {/* <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-variations" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Product Images</NavLink>
-                            </li> */}
-
-                            <li>
-                                <NavLink to={`/seller/seller-product-edit/${productId}/new-offers/${productId}`} className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Offers</NavLink>
+                                <NavLink to={`/seller/seller-product-edit/${productId}/new-offers/${productId}`} className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Apply Offers</NavLink>
                             </li>
                             <li>
-                                <NavLink to={`/seller/seller-product-edit/${productId}/new-mainVariants/${productId}`} className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>New Variations</NavLink>
+                                <NavLink to={`/seller/seller-product-edit/${productId}/new-mainVariants/${productId}`} className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}> New Variations</NavLink>
                             </li> 
                             <li>
                                 <NavLink to={`/seller/seller-product-edit/${productId}/manage-images/${productId}`} className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')}>Manage Images</NavLink>
                             </li>
-                            <li>
-                                <NavLink to="/seller/seller-ownproduct-status/new-customization" className={({ isActive }) => (isActive ? 'activeNav' : 'inactivetab')} >Customized</NavLink>
-                            </li>
+
                         </ul>
                     </Col>
                 </Row>

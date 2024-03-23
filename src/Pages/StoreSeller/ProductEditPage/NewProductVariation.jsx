@@ -261,7 +261,7 @@ const NewProductVariation = ({ selectedproductid, showModal, handleCloseModal, g
                                     {("is_approved" in ele && !ele?.is_approved) &&
                                         <Col className='mb-2 mt-2 specborder2' xs={12}><h6>Not Approved</h6></Col>}
                                     <Col xs={4} className='d-flex justify-content-end align-items-center'>
-                                        <img src={ele?.image?.[0]?.image_path} width={100} className='bgofferProductImg2' alt='productImage' />
+                                        <img src={ele?.image?.[0]?.image_path} width={100} className='bgofferProductImg3' alt='productImage' />
                                     </Col>
                                     <Col className='d-flex justify-content-end align-items-center mt-2 mb-2'>
                                         <Row>
