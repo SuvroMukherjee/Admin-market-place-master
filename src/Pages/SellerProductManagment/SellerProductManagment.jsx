@@ -247,20 +247,11 @@ export default function SellerProductManagment() {
                                 <tr>
                                     <th>Status</th>
                                     <th>Image</th>
-                                    {/* <th>SKU</th> */}
                                     <th>Product Name</th>
                                     <th>Variations</th>
                                     <th>Seller</th>
                                     <th>Request Day</th>
-                                    {/* <th>Available Quantity</th> */}
-                                    {/* <th>MRP price</th> */}
-                                    {/* <th>Selling Price</th>
-                                    <th>Shipping Price</th>
-                                    <th>Commission Price</th>
-                                    <th>Net Disbursement</th>
-                                    <th>Add Stock</th> */}
                                     <th>Action</th>
-                                    {/* <th>Other Action</th> */}
                                 </tr>
                             </thead>
                             <tbody >
