@@ -328,7 +328,7 @@ const ApprovalPendingList = () => {
                       </td>
                       <td>
                         {(
-                          ele?.is_approved == 'pending' ? (
+                          ele?.is_approved != 'pending' ? (
                             <button
                               size='sm'
                               className='gotoBtnYellow'

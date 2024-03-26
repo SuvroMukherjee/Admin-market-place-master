@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
-import { Button, Card, Col, Container, Form, Image, InputGroup, ListGroup, Row, Table, Accordion } from 'react-bootstrap';
-import { getAllCampaignList, getAllCampaignSellerList } from '../../../API/api';
-import { useState } from 'react';
-import { MdArrowDropDown } from "react-icons/md";
+import React, { useEffect, useState } from 'react';
+import { Accordion, Card, Col, Container, Row } from 'react-bootstrap';
 import { TiTickOutline } from "react-icons/ti";
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { getAllCampaignList, getAllCampaignSellerList } from '../../../API/api';
 
 const AdvertisingProduct = () => {
     

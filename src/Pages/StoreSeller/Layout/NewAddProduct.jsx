@@ -78,7 +78,7 @@ export default function NewAddProduct() {
             getProductListFunc();
             getAllCats();
             getBrandList();
-        }, 5000)
+        }, 2000)
     }, []);
 
 
@@ -364,6 +364,9 @@ export default function NewAddProduct() {
     }
 
 
+    console.log({ maindata })
+
+
     return (
         <div style={{ background: '#ffffff', height: '100vh' }}>
             <div>
@@ -380,25 +383,38 @@ export default function NewAddProduct() {
                             <Row className="mt-4">
                                 <Col className="padd2">Search Your Product In Zoofi Catalogue <br /> &  Start Selling</Col>
                             </Row>
-                            <Row className="mt-4 " >
-                                <Col xs={7} style={{ marginLeft: '-2%' }}>
-                                    <InputGroup>
-                                        <InputGroup.Text id="basic-addon1">
-                                            <FaSearch />
-                                        </InputGroup.Text>
-                                        <Form.Control
-                                            placeholder="Search product by enter product name.."
-                                            aria-label="Username"
-                                            className="p-2"
-                                            aria-describedby="basic-addon1"
-                                            onChange={(e) => setsearchrtext(e.target.value)}
-                                        />
-                                    </InputGroup>
-                                </Col>
-                                <Col className="d-flex align-items-center">
-                                    <Button onClick={() => searchproducts()} size="sm" variant="warning">SEARCH</Button>
-                                </Col>
-                            </Row>
+                            <Form>
+                                <Row className="mt-4">
+                                    <Col xs={7} style={{ marginLeft: '-2%' }}>
+                                        <InputGroup>
+                                            <InputGroup.Text id="basic-addon1">
+                                                <FaSearch />
+                                            </InputGroup.Text>
+                                            <Form.Control
+                                                placeholder="Search product by entering product name.."
+                                                aria-label="Username"
+                                                className="p-2"
+                                                list="browsers" // This associates the datalist with the input
+                                                aria-describedby="basic-addon1"
+                                                onChange={(e) => setsearchrtext(e.target.value)}
+                                            />
+                                            <datalist id="browsers" style={{background:'red'}}>
+                                                {maindata?.map((ele,index)=>(
+                                                <option value={ele?.name} />
+                                            ))}
+                                            </datalist>
+                                        </InputGroup>
+                                    </Col>
+                                    <Col className="d-flex align-items-center">
+                                        <Button onClick={() => searchproducts()} size="sm" variant="warning">
+                                            SEARCH
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </Form>
+
+                            
+                            
                             <Row className="mt-4">
                                 <Col>
                                     <Form>

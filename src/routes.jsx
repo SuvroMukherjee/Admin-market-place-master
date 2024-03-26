@@ -65,6 +65,7 @@ import AdvertisingProduct from './Pages/StoreSeller/Layout/AdvertisingProduct';
 import CampaignDetails from './Pages/StoreSeller/Layout/CampaignDetails';
 import NewProductVariation from './Pages/StoreSeller/ProductEditPage/NewProductVariation';
 import ManageVariationImages from './Pages/StoreSeller/ProductEditPage/ManageVariationImages';
+import BulkUploadProduct from './Pages/StoreSeller/Layout/BulkUploadProduct';
 
 
 
@@ -186,6 +187,7 @@ export default function Router() {
             { path: 'service-feedback', element: <ServicesFeedback /> },
             { path: 'advertising-campaign', element: <AdvertisingProduct /> },
             { path: 'select-campaign/:id?', element: <CampaignDetails /> },
+            { path: 'bulk-product-upload', element: <BulkUploadProduct /> },
             // { path: 'change-password', element: <ChangePassword /> },
             { path: 'reset', element: <ResetPassComp /> },
             { path: 'profile', element: <ProfilePage /> },

@@ -22,7 +22,7 @@ import { FaBars } from "react-icons/fa6";
 import { IoSettings } from "react-icons/io5";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { sellerDetails } from '../../../API/api';
-
+import { FaAngleRight } from "react-icons/fa";
 
 
 const MyNavbar = () => {
@@ -134,6 +134,10 @@ const MyNavbar = () => {
             case 'Advertising Campaign':
                 navigate('/seller/advertising-campaign')
                 setHeaderTitle(pathName);
+                break; 
+            case 'Add Product Via Upload':
+                navigate('/seller/bulk-product-upload')
+                setHeaderTitle(pathName);
                 break;
         }
     }
@@ -144,44 +148,90 @@ const MyNavbar = () => {
                 <Row>
                     <div className='sellSide mt-4 mb-4'>
                         <Col className='p-2 mx-2 text-left boldtext clos'  onClick={toggleDrawer}>
-                            <MdCancel size={20} /> <span className='mx-1'>Close</span>
+                            <Row>
+                                <Col xs={8} className='d-flex justify-content-start align-items-center'>CLOSE</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><MdCancel color='' size={25}/></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Seller Dashboard')}>
-                            Home
+                            <Row>
+                                <Col xs={8}>Home</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Add Product')}>
-                            Add Products
+                            <Row>
+                                <Col xs={8}>Add Products</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Product Request')}>
-                            Request New Product
+                            <Row>
+                                <Col xs={8}>Request New Product</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Add Product Via Upload')}>
+                            <Row>
+                                <Col xs={8}>Add Product via Upload</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Brand Request')}>
-                            Brand Request
+                            <Row>
+                                <Col xs={8}>Brand Request</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Category Request')}>
-                            Category Request
+                            <Row>
+                                <Col xs={8}>Category Request</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Track Your Application')}>
-                            View Applications
+                            <Row>
+                                <Col xs={8}>View Applications</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Inventory Manage')}>
-                            Manage Inventory
+                            <Row>
+                                <Col xs={8}>Manage Inventory</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Recent Order List')}>
-                            Orders Lists
+                            <Row>
+                                <Col xs={8}>Orders Lists</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Manage Orders')}>
-                            Manage Orders
+                            <Row>
+                                <Col xs={8}>Manage Orders</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Advertising Campaign')}>
-                           Advertising 
+                            <Row>
+                                <Col xs={8}>Advertising</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Customer Feedback')}>
-                            Customer Feedback
+                            <Row>
+                                <Col xs={8}>Customer Feedback</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Service Feedback')}>
-                            Service Feedback
+                            <Row>
+                                <Col xs={8}>Service Feedback</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
                         </Col>
+
                     </div>
                 </Row>
             </Drawer>
@@ -221,7 +271,7 @@ const MyNavbar = () => {
                                 </Col>
                                 
                                 <Col className='d-flex justify-content-center'  >
-                                    <span><FaUserCircle color='#9af064' size={30} /></span> <span style={{ color:'white' }} className='mx-2'>{userInfo?.email}</span>
+                                    <span><FaUserCircle color='#9af064' size={30} /></span> <span style={{ color:'white',fontSize:'12px' }} className='mx-2'>{userInfo?.email}<br/>{userInfo?.shope_name}</span>
                                 </Col>
                             </Row>
                         </Col>
