@@ -13,7 +13,7 @@ import { FaInfoCircle } from "react-icons/fa";
 
 const NewDescription = () => {
 
-    const [formData,setFormData] = useState([]);
+    const [formData, setFormData] = useState([]);
 
     const { id: productId } = useParams();
 
@@ -69,9 +69,9 @@ const NewDescription = () => {
         e.preventDefault();
         formData['sellerId'] = auth?.userId;
 
-        console.log({formData})
+        console.log({ formData })
 
-        const res = await EditSellerOwnProduct(productId,formData);
+        const res = await EditSellerOwnProduct(productId, formData);
 
         if (res?.response?.data?.error) {
             toast.error(res?.response?.data?.message)
@@ -83,113 +83,113 @@ const NewDescription = () => {
         }
     }
 
-  return (
-    <div>
-          <Container className='stepContent'>
-              <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
-                  {!productId &&
-                      <Row>
-                          <Col className='text-center noproductIdText'><span className='mx-4'><FaInfoCircle color='#7D0A0A' size={25} /></span> Product Id is missing.Please Go the First Step and then try to uplaod or request for new Product</Col>
-                      </Row>}
-                  <Container>
-                      <Form onSubmit={handleSubmit}>
-                          <fieldset disabled={!productId}>
-                          <Row className='mt-3'>
-                              <Col xs={12}>
-                                  <Form.Group controlId="user_name">
-                                      <Row>
-                                          <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                              <Form.Label className='frmLable'> <span className="req mx-1">*</span> Prouduct Description</Form.Label>
-                                          </Col>
-                                          <Col xs={8}>
-                                              <Form.Control type="text" as="textarea" rows={3} name="desc" className='tapG' placeholder='Enter Product Descroption' size='sm' value={formData?.desc} onChange={handleChange} required autoComplete='off' />
-                                          </Col>
-                                      </Row>
-                                  </Form.Group>
-                              </Col>
-                          </Row>
-                          <Row className='mt-3'>
-                              <Col xs={12}>
-                                  <Form.Group controlId="user_name">
-                                      <Row>
-                                          <Col xs={3} className='d-flex align-items-start justify-content-end'>
-                                              <Form.Label className='frmLable'> <span className="req mx-1">*</span> Full Description</Form.Label>
-                                          </Col>
-                                          <Col xs={8}>
-                                              <CKEditor
-                                                  required
-                                                  className='tapG'
-                                                  initData={
-                                                      <div
-                                                          dangerouslySetInnerHTML={createMarkup(formData?.full_desc)}
-                                                      />
-                                                  }
-                                                  onChange={handleEditorChange}
-                                              />
-                                          </Col>
-                                      </Row>
-                                  </Form.Group>
-                              </Col>
-                          </Row>
-                          <Row className='mt-3'>
-                              <Col xs={12}>
-                                  <Form.Group controlId="user_name">
-                                      <Row>
-                                          <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                              <Form.Label className='frmLable'> <span className="req mx-1">*</span>Features</Form.Label>
-                                              
-                                          </Col>
-                                          <Col xs={8}>
-                                              <Form.Control type="text" as="textarea" rows={3} name="features" className='tapG' placeholder='Enter Product Features' size='sm' value={formData?.features?.join(', ')} onChange={handleFeaturesChange} required autoComplete='off' />
-                                              <Form.Text className="text-muted">
-                                                  Separate Features with commas (e.g., features1, features2).
-                                              </Form.Text>
-                                          </Col>
-                                          
-                                      </Row>
-                                  </Form.Group>
-                              </Col>
-                          </Row>
+    return (
+        <div>
+            <Container className='stepContent'>
+                <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
+                    {!productId &&
+                        <Row>
+                            <Col className='text-center noproductIdText'><span className='mx-4'><FaInfoCircle color='#7D0A0A' size={25} /></span> Product Id is missing.Please Go the First Step and then try to uplaod or <span style={{ cursor: 'pointer', textDecoration: 'underline', color: 'darkred' }} onClick={() => navigate('/seller/seller-ownproduct-status/new-add')}>request for new Product</span></Col>
+                        </Row>}
+                    <Container>
+                        <Form onSubmit={handleSubmit}>
+                            <fieldset disabled={!productId}>
+                                <Row className='mt-3'>
+                                    <Col xs={12}>
+                                        <Form.Group controlId="user_name">
+                                            <Row>
+                                                <Col xs={3} className='d-flex align-items-center justify-content-end'>
+                                                    <Form.Label className='frmLable'> <span className="req mx-1">*</span> Prouduct Description</Form.Label>
+                                                </Col>
+                                                <Col xs={8}>
+                                                    <Form.Control type="text" as="textarea" rows={3} name="desc" className='tapG' placeholder='Enter Product Descroption' size='sm' value={formData?.desc} onChange={handleChange} required autoComplete='off' />
+                                                </Col>
+                                            </Row>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row className='mt-3'>
+                                    <Col xs={12}>
+                                        <Form.Group controlId="user_name">
+                                            <Row>
+                                                <Col xs={3} className='d-flex align-items-start justify-content-end'>
+                                                    <Form.Label className='frmLable'> <span className="req mx-1">*</span> Full Description</Form.Label>
+                                                </Col>
+                                                <Col xs={8}>
+                                                    <CKEditor
+                                                        required
+                                                        className='tapG'
+                                                        initData={
+                                                            <div
+                                                                dangerouslySetInnerHTML={createMarkup(formData?.full_desc)}
+                                                            />
+                                                        }
+                                                        onChange={handleEditorChange}
+                                                    />
+                                                </Col>
+                                            </Row>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row className='mt-3'>
+                                    <Col xs={12}>
+                                        <Form.Group controlId="user_name">
+                                            <Row>
+                                                <Col xs={3} className='d-flex align-items-center justify-content-end'>
+                                                    <Form.Label className='frmLable'> <span className="req mx-1">*</span>Features</Form.Label>
 
-                          <Row className='mt-3'>
-                              <Col xs={12}>
-                                  <Form.Group controlId="user_name">
-                                      <Row>
-                                          <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                              <Form.Label className='frmLable'> <span className="req mx-1">*</span>Add Video Link</Form.Label>
+                                                </Col>
+                                                <Col xs={8}>
+                                                    <Form.Control type="text" as="textarea" rows={3} name="features" className='tapG' placeholder='Enter Product Features' size='sm' value={formData?.features?.join(', ')} onChange={handleFeaturesChange} required autoComplete='off' />
+                                                    <Form.Text className="text-muted">
+                                                        Separate Features with commas (e.g., features1, features2).
+                                                    </Form.Text>
+                                                </Col>
 
-                                          </Col>
-                                          <Col xs={8}>
-                                              <Form.Control type="text" as="textarea" rows={2} name="video_link" className='tapG' placeholder='Enter Product Video Link' size='sm' value={formData?.video_link} onChange={handleChange}  autoComplete='off' />
-                                              <Form.Text className="text-muted">
-                                                 Add Youtube Video's Embedded Link .
-                                              </Form.Text>
-                                          </Col>
+                                            </Row>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
 
-                                      </Row>
-                                  </Form.Group>
-                              </Col>
-                          </Row>
+                                <Row className='mt-3'>
+                                    <Col xs={12}>
+                                        <Form.Group controlId="user_name">
+                                            <Row>
+                                                <Col xs={3} className='d-flex align-items-center justify-content-end'>
+                                                    <Form.Label className='frmLable'> <span className="req mx-1">*</span>Add Video Link</Form.Label>
 
-                          <Row className='mt-4'>
-                              <Col xs={12} className='mt-4'>
-                                  <Row>
-                                      <Col>
-                                          <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
-                                      </Col>
-                                      <Col className='d-flex justify-content-end'>
-                                          <Button size='sm' variant='success' type="submit"> Save & NEXT </Button>
-                                      </Col>
-                                  </Row>
-                              </Col>
-                          </Row>
-                              </fieldset>
-                      </Form>
-                  </Container>
-            </Row>
-          </Container>
-    </div>
-  )
+                                                </Col>
+                                                <Col xs={8}>
+                                                    <Form.Control type="text" as="textarea" rows={2} name="video_link" className='tapG' placeholder='Enter Product Video Link' size='sm' value={formData?.video_link} onChange={handleChange} autoComplete='off' />
+                                                    <Form.Text className="text-muted">
+                                                        Add Youtube Video's Embedded Link .
+                                                    </Form.Text>
+                                                </Col>
+
+                                            </Row>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+
+                                <Row className='mt-4'>
+                                    <Col xs={12} className='mt-4'>
+                                        <Row>
+                                            <Col>
+                                                <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
+                                            </Col>
+                                            <Col className='d-flex justify-content-end'>
+                                                <Button size='sm' variant='success' type="submit"> Save & NEXT </Button>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </fieldset>
+                        </Form>
+                    </Container>
+                </Row>
+            </Container>
+        </div>
+    )
 }
 
 export default NewDescription

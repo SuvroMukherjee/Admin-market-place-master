@@ -154,17 +154,12 @@ export default function Router() {
                 { path: 'new-variations/:id?', element: <NewVariations /> },
                 { path: 'new-description/:id?', element: <NewDescription /> },
                 { path: 'new-customization/:id?', element: <NewCustomization /> },
-                // { path: 'new-offers/:id?', element: <NewOffers /> },
                 
               ]
             },
             {
               path: 'seller-product-edit/:id?', element: <EditLayout />,
               children: [
-                // { path: 'new-add', element: <NewProductAdd /> },
-                // { path: 'new-variations/:id?', element: <NewVariations /> },
-                // { path: 'new-description/:id?', element: <NewDescription /> },
-                // { path: 'new-customization/:id?', element: <NewCustomization /> },
                 { path: 'new-offers/:id?', element: <NewOffers /> },
                 { path: 'new-mainVariants/:id?', element: <NewProductVariation /> },
                 { path: 'manage-images/:id?', element: <ManageVariationImages /> },
