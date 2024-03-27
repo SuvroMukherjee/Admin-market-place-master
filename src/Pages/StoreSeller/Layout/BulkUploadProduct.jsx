@@ -13,6 +13,7 @@ import useAuth from '../../../hooks/useAuth';
 import { LuClipboardSignature } from "react-icons/lu";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { FaRegCopy } from "react-icons/fa";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 const BulkUploadProduct = () => {
 
@@ -163,7 +164,7 @@ const BulkUploadProduct = () => {
     }
 
 
-   
+
 
     return (
         <div>
@@ -332,7 +333,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
     };
 
 
-    
+    const [clickIndex, setClickIndex] = useState();
 
     return (
         <div>
@@ -380,16 +381,60 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                                     </Col>
                                     <Col>{ele?.categoryId?.title}</Col>
                                     <Col>{ele?.brandId?.title}</Col>
-                                    <Col className='text-center'>{ele?.specId?.length}</Col>
+                                    <Col className='text-center'>
+                                        <Row>
+                                            <Col xs={12}>{ele?.specId?.length}</Col>
+                                            {ele?.specId?.length > 0 &&
+                                            <Col onClick={() => setClickIndex(index)}><span>view</span></Col>}
+                                        </Row>
+                                    </Col>
                                     <Col xs={2} className='d-flex align-items-center'>
                                         <Button className='cmpComtinue' size='sm' onClick={() => downloadVariationCSV(ele)}>Download</Button>
                                     </Col>
                                 </Row>
-                                <Row>
-                                    {ele?.specId?.map((item,index)=>(
-                                        <h6>{index}</h6>
-                                    ))}
-                                </Row>
+                                {clickIndex == index &&
+                                    <Row className='p-4'>
+                                        {ele?.specId?.map((item, index) => (
+                                           
+                                            <Col xs={4} className={("is_approved" in item && item?.is_approved == 'pending') ? 'othervariDiv-notApproved' : 'othervariDiv'}>
+                                                <Row>
+                                                    {console.log({ item })}
+                                                    {("is_approved" in item && item?.is_approved == 'pending') &&
+                                                        <Col className='mb-2 mt-2 specborder2' xs={12}><h6>Not Approved</h6></Col>}
+                                                    <Col xs={5} className='d-flex justify-content-end align-items-center'>
+                                                        <img src={item?.image?.[0]?.image_path} width={80} className='bgofferProductImg3' alt='productImage' />
+                                                    </Col>
+                                                    <Col className='d-flex justify-content-end align-items-center mt-2 mb-2'>
+                                                        <Row>
+                                                            <Col xs={12} className='othervariDivName'>
+                                                                {item?.productId?.brandId?.title} {item?.productId?.name} {item?.spec_det?.length > 0 && (
+                                                                    <span>
+                                                                        (
+                                                                        {item?.spec_det.map((item, index, array) => (
+                                                                            <span key={index}>
+                                                                                {item?.value}
+                                                                                {index < array.length - 1 ? ', ' : ''}
+                                                                            </span>
+                                                                        ))}
+                                                                        )
+                                                                    </span>
+                                                                )}
+                                                            </Col>
+                                                            <Col className='mt-1 othervariDivNameV' xs={12}>
+                                                                <span className='othervariDivName'>M.R.P Price</span> : {item?.price?.toLocaleString()}
+                                                            </Col>
+                                                            <Col className='mt-1 othervariDivNameV' xs={12}>
+                                                                <span className='othervariDivName'>SKU ID</span> : {item?.skuId?.toUpperCase()}
+                                                            </Col>
+                                                            <Col className='mt-1 othervariDivNameV' xs={12}>
+                                                                <span className='othervariDivName'>Product ID</span> : {item?.productId?.productId?.toUpperCase()}
+                                                            </Col>
+                                                        </Row>
+                                                    </Col>
+                                                </Row>
+                                            </Col>
+                                        ))}
+                                    </Row>}
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
