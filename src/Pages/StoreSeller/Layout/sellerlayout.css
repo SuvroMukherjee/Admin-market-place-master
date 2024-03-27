@@ -453,29 +453,53 @@ th {
 
 .cmpgin-title {
     font-size: 18px;
-    font-weight: 500;
+    font-weight: bold;
     text-transform: capitalize;
-    color: #000;
+    color: #134545;
 }
 
 .cmpgin-sub-title {
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 450;
     text-transform: capitalize;
-    color: black;
+    color: #0b8888;
     letter-spacing: 0.5px;
 
 }
 
 .cmpComtinue {
     border: none;
-    background: #48ba01;
-    color: #000;
+    background-color: #134545;
+    color: #4ab706;
     text-transform: uppercase;
     font-size: 12px;
     padding: 2%;
     font-weight: bold;
-    border-radius: 15px;
+    border-radius: 7px;
+    letter-spacing: 1px;
+}
+
+.cmpComtinue-temp {
+    border: none;
+    /* background-color: #000;
+    color: #9af064; */
+    background-color: lightgrey;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 2%;
+    font-weight: 500;
+    border-radius: 7px;
+    letter-spacing: 1px;
+}
+
+.cmpComtinue-temp:hover {
+    background-color: white;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4%;
+    font-weight: bold;
+    border-radius: 7px;
     letter-spacing: 1px;
 }
 
@@ -548,15 +572,15 @@ th {
     align-items: center;
 }
 
-.addPHih{
-        font-size: 16px;
-        font-weight: bold;
-        color: #027166;
-        cursor: pointer;
+.addPHih {
+    font-size: 16px;
+    font-weight: bold;
+    color: #027166;
+    cursor: pointer;
 }
 
-.upImg{
-    width: 200px;
+.upImg {
+    width: 315px;
     height: 150px;
     opacity: 0.7;
     object-fit: contain;

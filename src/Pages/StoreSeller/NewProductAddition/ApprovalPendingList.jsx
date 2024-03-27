@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { OwnProductSellerList, sellerBrandRequestList, sellerCategoryRequestList } from '../../../API/api';
 import { ChangeFormatDate2 } from '../../../common/DateFormat';
 import useAuth from '../../../hooks/useAuth';
+import { LuClipboardSignature } from "react-icons/lu";
+import { BsClipboard2CheckFill } from "react-icons/bs";
+import { FaRegCopy } from "react-icons/fa";
 
 const ApprovalPendingList = () => {
 
@@ -144,7 +147,32 @@ const ApprovalPendingList = () => {
 
   }
 
+  const [copied, setCopied] = useState(false);
+  const [copiedindex, setCopiedIndex] = useState('');
 
+  const copyTextToClipboard = (text, index) => {
+    setCopiedIndex(index)
+    const textToCopy = text;
+    // Create a temporary textarea element
+    const textarea = document.createElement('textarea');
+    // Set the text content to be copied
+    textarea.value = textToCopy;
+    // Append the textarea to the body
+    document.body.appendChild(textarea);
+    // Select the text within the textarea
+    textarea.select();
+    // Copy the selected text to the clipboard
+    document.execCommand('copy');
+    // Remove the temporary textarea
+    document.body.removeChild(textarea);
+    // Set copied state to true
+    setCopied(true);
+    // Reset copied state after 2 seconds
+    setTimeout(() => {
+      setCopied(false);
+      setCopiedIndex('');
+    }, 2000);
+  };
 
   console.log({ data })
 
@@ -299,6 +327,7 @@ const ApprovalPendingList = () => {
                   <tr>
                     <th>Application Name</th>
                     <th>Image</th>
+                    <th>product Id</th>
                     <th>Application Type</th>
                     <th>Category</th>
                     <th>SubCategory</th>
@@ -309,11 +338,24 @@ const ApprovalPendingList = () => {
                 </thead>
                 <tbody className='mt-2 '>
 
-                  {data?.length > 0 && data?.map((ele) => (
+                  {data?.length > 0 && data?.map((ele,index) => (
                     <tr>
                       <td>{ele?.name}</td>
                       <td>
                         <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} />
+                      </td>
+                      <td>{ele?.sellerProId} <br/>
+                      <span className='mx-2'>
+                          {(copied && copiedindex == index) ?
+                            <>
+                              <BsClipboard2CheckFill size={20} color="green" /><span style={{ fontSize: '10px', color: 'green' }}>Copied</span>
+                            </>
+                            :
+                            <>
+                              <FaRegCopy style={{ cursor: 'pointer',color:'darkgoldenrod' }} onClick={() => copyTextToClipboard(ele?.sellerProId, index)} size={18} />
+                            </>
+                          }
+                      </span>
                       </td>
                       <td>{ele?.type}</td>
                       <td>{ele?.categoryId?.title}</td>

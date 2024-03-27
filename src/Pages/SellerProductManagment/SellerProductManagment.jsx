@@ -248,6 +248,7 @@ export default function SellerProductManagment() {
                                     <th>Status</th>
                                     <th>Image</th>
                                     <th>Product Name</th>
+                                    <th>Product Id</th>
                                     <th>Variations</th>
                                     <th>Seller</th>
                                     <th>Request Day</th>
@@ -268,6 +269,7 @@ export default function SellerProductManagment() {
                                         <td>
                                               {ele?.name}
                                         </td>
+                                        <td>{ele?.sellerProId}</td>
                                         <td>
                                             {ele?.specId?.length} <br/>
 

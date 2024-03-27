@@ -979,3 +979,20 @@ export async function getAllCampaignSellerList() {
     }
 }
 
+export async function sellerProductBulkUpload(formData){
+    try {
+        const response = await axios.post(apiUrl + `/file/seller-new-product-csv-upload/Product`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function sellerVariationsBulkUpload(formData) {
+    try {
+        const response = await axios.post(apiUrl + `/file/seller-new-product-csv-upload/spec`, formData, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
