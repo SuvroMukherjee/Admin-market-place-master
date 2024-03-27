@@ -340,8 +340,26 @@ export default function ListProduct() {
                             <h3>Product List</h3>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col className="d-flex justify-content-end p-2">
+                    <Row className="mt-2">
+                        <Col xs={12}>Download Templete with Sample data</Col>
+                        <Col xs={6}>
+                            <Row>
+                                <Col>
+                                    <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535127298.csv?alt=media" >
+                                        <Button size="sm" variant="warning">Download Templete</Button>
+                                    </a>
+                                </Col>
+                                <Col>
+                                    <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535413092.csv?alt=media" >
+                                        <Button size="sm" >Download Variation Templete</Button>
+                                    </a>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row className="mt-4">
+                        <Col xs={4}></Col>
+                        <Col>
                             <Row>
                                 <Col >
                                     <div>
@@ -421,7 +439,7 @@ export default function ListProduct() {
                             }
                         </Col>
                     </Row> */}
-                    <Row>
+                    <Row className="mt-4">
                         <Table responsive striped bordered hover>
                             <thead>
                                 <tr>
@@ -468,7 +486,7 @@ export default function ListProduct() {
                                             {row?.specId?.length}
                                             <p className="variCss" onClick={() => showVariants(row?.specId)}>VIEW</p>
                                             {variationRequestCount(row?.specId) > 0 &&
-                                                <p className="newrqNo"><AiOutlineInfoCircle size={22}/> {variationRequestCount(row?.specId)} Requested </p>}
+                                                <p className="newrqNo"><AiOutlineInfoCircle size={22} /> {variationRequestCount(row?.specId)} Requested </p>}
                                         </td>
                                         {/* <td>{row?.desc}</td> */}
                                         <td>{row?.categoryId?.title}</td>
