@@ -432,7 +432,7 @@ export default function ListProduct() {
                             <Row>
                                 <Col className="text-center mt-2">
 
-                                    <p style={{ fontSize: "12px" }}><i>Upload Product's variation by downloading templete and copy product id from the product list</i></p>
+                                    <p style={{ fontSize: "12px" }}><i>Upload Product's variation by downloading templete and copy <strong>product id</strong> from the product list</i></p>
                                 </Col>
                             </Row>
                             <Row className="mt-2">
