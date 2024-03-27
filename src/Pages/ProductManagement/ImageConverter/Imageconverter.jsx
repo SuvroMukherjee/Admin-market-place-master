@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
-import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from "react-router-dom";
-import { AddNewProduct, FileUpload, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../../API/api';
-import { MdCancel } from "react-icons/md";
-import { MdOutlineFileUpload } from "react-icons/md";
-import { IoMdCloseCircle } from "react-icons/io";
-import { IoIosAdd } from "react-icons/io";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FaCheckCircle } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
+import { FileUpload } from '../../../API/api';
 
 
 

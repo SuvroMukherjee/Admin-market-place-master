@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, Card, Col, Container, Row, Modal, Button, ListGroup } from 'react-bootstrap';
+import { Accordion, Card, Col, Container, Row, Modal, Button, ListGroup,Form,Image } from 'react-bootstrap';
 import { TiTickOutline } from "react-icons/ti";
 import { useNavigate } from 'react-router-dom';
 import { FileUpload, getAllCampaignList, getAllCampaignSellerList, OwnProductSellerList, sellerProductBulkUpload, sellerVariationsBulkUpload } from '../../../API/api';
@@ -14,6 +14,13 @@ import { LuClipboardSignature } from "react-icons/lu";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { FaRegCopy } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { MdOutlineLaunch } from "react-icons/md";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { MdCancel } from "react-icons/md";
+import { IoMdCloseCircle } from "react-icons/io";
+import { IoIosAdd } from "react-icons/io";
+import { FaCheckCircle } from "react-icons/fa";
+import { SlClose } from "react-icons/sl";
 
 const BulkUploadProduct = () => {
 
@@ -23,6 +30,7 @@ const BulkUploadProduct = () => {
     const [productList, setProductList] = useState([])
 
     const [show, setShow] = useState(false);
+    const [showConverter, setshowConverter] = useState(false)
 
     const { auth } = useAuth();
 
@@ -258,8 +266,11 @@ const BulkUploadProduct = () => {
 
                     <Col>
                         <Card body>
-                            <Row className='borderBottom'>
-                                <Col className='p-2 cmpgin-title mx-4'>Mutliple Image converter and upload to spreedsheet</Col>
+                            <Row className='me-2'>
+                                <Col className='cmpgin-title'>Mutliple Image converter and upload to spreedsheet</Col>
+                            </Row>
+                            <Row className='mt-2 me-2'>
+                                <Col className='cmpgin-sub-title'>Provide your product details and offer information to create new products in Zoofi's catalogue.</Col>
                             </Row>
                             <Row>
                                 <Col className='text-center p-2'>
@@ -270,13 +281,19 @@ const BulkUploadProduct = () => {
                                 <Col className='cmpgin-sub-title'>{ }</Col>
                             </Row>
                             <Row>
-                                <Col className='mt-2'>
-                                    <button className='w-100 cmpComtinue'>Continue</button>
-                                </Col>
+                                {!showConverter ? <Col className='mt-2' onClick={() => setshowConverter(!showConverter)}>
+                                    <button className='w-100 cmpComtinue'><span><MdOutlineLaunch size={25} /></span> Launch Converter</button>
+                                </Col> : 
+                                <Col className='mt-2' onClick={() => setshowConverter(!showConverter)}>
+                                        <button className='w-100 cmpComtinue'><span><SlClose size={25}/></span> Close Converter</button>
+                                </Col>}
                             </Row>
                         </Card>
                     </Col>
                 </Row>
+            </Container>
+            <Container className='mt-4 p-4 mb-4'>
+                <ImageConveter showConverter={showConverter} />
             </Container>
             <Toaster />
         </div>
@@ -449,5 +466,131 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
         </div>
     )
 }
+
+
+const ImageConveter  = ({showConverter}) =>{
+
+    const [value, setValue] = useState('');
+    const [copied, setCopied] = useState(false);
+    const [storeData, setStoreData] = useState('')
+
+    const [formData, setFormData] = useState({
+        image: [],
+    });
+
+    const handleImageInputChange = (e) => {
+        const { files } = e.target;
+        const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+        const selectedFiles = Array.from(files).filter(file => allowedTypes.includes(file.type));
+
+
+        selectedFiles.forEach((file) => {
+            onFileUpload(file);
+        });
+    };
+
+    const onFileUpload = async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await FileUpload(formData);
+            setTimeout(() => {
+                setFormData((prevData) => ({
+                    ...prevData,
+                    image: [...prevData.image, res?.data?.data?.fileurl],
+                }));
+            }, 3000);
+        } catch (err) {
+            console.error(err, "err");
+        }
+    };
+
+
+    const handleCancelImage = (url) => {
+        let filterData = formData.image?.filter((e, index) => {
+            return e !== url;
+        })
+
+        setFormData((prevData) => ({
+            ...prevData,
+            image: filterData,
+        }));
+
+    }
+
+
+
+    return (
+        <div>
+            {showConverter && 
+              <div className='converterBack'>
+                    <Container className='mt-2'>
+                        <Row className="justify-content-md-center">
+                            <Col md="auto">
+                                <h3 className='cmpgin-title'>Convert Your Images {copied ? <span style={{ color: 'red' }}>Copied.</span> : null}</h3>
+                            </Col>
+                        </Row>
+                    </Container>
+                    <Container>
+                        <Row className='mt-2'>
+                            <Col xs={6}>
+                                <Form.Group controlId="formFileMultiple" className="mb-3">
+                                    <Form.Label className='cmpgin-title'>Multiple Images</Form.Label>
+                                    <Form.Control type="file" onChange={handleImageInputChange} multiple accept="image/jpeg, image/png, image/gif" />
+                                    <p className="cmpgin-sub-title" >
+                                        Add images one by one or Select multiple images.
+                                    </p>
+                                </Form.Group>
+                            </Col>
+                            <Row>
+                                <Col>
+                                    {formData.image.length > 0 && (
+                                        <Container>
+                                            <Row>
+                                                {formData?.image.map((fileUrl, index) => (
+                                                    <Col key={index} xs={4} md={2}>
+                                                        <span>{index + 1}</span>
+                                                        <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
+                                                            onClick={() => handleCancelImage(fileUrl)}
+                                                        /></span>
+                                                        <Image src={fileUrl} thumbnail />
+                                                    </Col>
+                                                ))}
+                                            </Row>
+                                        </Container>
+                                    )}
+                                </Col>
+                            </Row>
+                        </Row>
+                        <Row className='mt-4'>
+                            <Col>
+
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Copy & Paste"
+                                    style={{ height: '200px' }}
+                                    value={formData?.image?.toString()}
+                                    readOnly
+                                />
+
+                            </Col>
+                        </Row>
+                        <Row className='mt-4 mb-4'>
+                            <Col>
+                                <CopyToClipboard text={formData?.image?.toString()} onCopy={() => setCopied(true)}>
+                                    <Button size={copied ? 'md' : 'sm'} variant={copied ? 'success' : 'secondary'}>{copied && <FaCheckCircle />}  Copy to clipboard</Button>
+                                </CopyToClipboard>
+                            </Col>
+                        </Row>
+                    </Container>
+              </div>
+            
+            
+            }
+        </div>
+    )
+}
+
 
 export default BulkUploadProduct
