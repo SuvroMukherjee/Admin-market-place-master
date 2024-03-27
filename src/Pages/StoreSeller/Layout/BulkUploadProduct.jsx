@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, Card, Col, Container, Row } from 'react-bootstrap';
+import { Accordion, Card, Col, Container, Row, Modal, Button, ListGroup } from 'react-bootstrap';
 import { TiTickOutline } from "react-icons/ti";
 import { useNavigate } from 'react-router-dom';
-import { FileUpload, getAllCampaignList, getAllCampaignSellerList, sellerProductBulkUpload, sellerVariationsBulkUpload } from '../../../API/api';
+import { FileUpload, getAllCampaignList, getAllCampaignSellerList, OwnProductSellerList, sellerProductBulkUpload, sellerVariationsBulkUpload } from '../../../API/api';
 import { saveAs } from 'file-saver';
 import { MdOutlineFileUpload } from "react-icons/md";
 import { MdOutlineFileDownload } from "react-icons/md";
 import Spinner from 'react-bootstrap/Spinner';
 import Papa from 'papaparse';
 import toast, { Toaster } from 'react-hot-toast';
+import useAuth from '../../../hooks/useAuth';
+import { LuClipboardSignature } from "react-icons/lu";
+import { BsClipboard2CheckFill } from "react-icons/bs";
+import { FaRegCopy } from "react-icons/fa";
 
 const BulkUploadProduct = () => {
 
     const [loading, setLoading] = useState(false);
     const [uploadedFile, setUploadedFile] = useState()
     const [variloading, setvariLoading] = useState(false);
+    const [productList, setProductList] = useState([])
 
+    const [show, setShow] = useState(false);
+
+    const { auth } = useAuth();
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => {
+        getReqPorducts()
+        setShow(true)
+    };
 
 
     const downloadCSV = () => {
@@ -90,7 +104,7 @@ const BulkUploadProduct = () => {
     }
 
 
-    const handleFileChangeForVariations = (event) =>{
+    const handleFileChangeForVariations = (event) => {
         const file = event.target.files[0];
         if (file) {
             setvariLoading(true)
@@ -140,6 +154,12 @@ const BulkUploadProduct = () => {
             setvariLoading(false)
         }
 
+    }
+
+    const getReqPorducts = async () => {
+        let res = await OwnProductSellerList(auth?.userId);
+        console.log(res?.data?.data, 'pDara')
+        setProductList(res?.data?.data)
     }
 
 
@@ -211,7 +231,7 @@ const BulkUploadProduct = () => {
                             </Row>
                             <Row>
                                 <Col className='mt-2'>
-                                    <button className='w-100 cmpComtinue-temp' onClick={downloadCSV} ><span><MdOutlineFileDownload size={25} /></span>Download Template</button>
+                                    <button className='w-100 cmpComtinue-temp' onClick={handleShow} ><span><MdOutlineFileDownload size={25} /></span>Download Template</button>
                                 </Col>
                             </Row>
                             <Row>
@@ -230,7 +250,9 @@ const BulkUploadProduct = () => {
                                 </Col>
                             </Row>
                         </Card>
+                        <ShowVariationSheets show={show} handleClose={handleClose} productList={productList}/>
                     </Col>
+
                     <Col>
                         <Card body>
                             <Row className='borderBottom'>
@@ -253,7 +275,96 @@ const BulkUploadProduct = () => {
                     </Col>
                 </Row>
             </Container>
-            <Toaster/>
+            <Toaster />
+        </div>
+    )
+}
+
+
+const ShowVariationSheets = ({ show, handleClose, productList }) => {
+
+
+    const [copied, setCopied] = useState(false);
+    const [copiedindex, setCopiedIndex] = useState('');
+
+    const copyTextToClipboard = (text, index) => {
+        setCopiedIndex(index)
+        const textToCopy = text;
+        // Create a temporary textarea element
+        const textarea = document.createElement('textarea');
+        // Set the text content to be copied
+        textarea.value = textToCopy;
+        // Append the textarea to the body
+        document.body.appendChild(textarea);
+        // Select the text within the textarea
+        textarea.select();
+        // Copy the selected text to the clipboard
+        document.execCommand('copy');
+        // Remove the temporary textarea
+        document.body.removeChild(textarea);
+        // Set copied state to true
+        setCopied(true);
+        // Reset copied state after 2 seconds
+        setTimeout(() => {
+            setCopied(false);
+            setCopiedIndex('');
+        }, 2000);
+    };
+
+    return (
+        <div>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                size='lg'
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal title</Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{height:'70vh',overflow:'scroll'}}>
+                    <ListGroup size="sm">
+                        {productList?.length > 0 && productList?.map((ele,index)=>(
+                            <ListGroup.Item>
+                                <Row>
+                                    <Col>Product Name</Col>
+                                    <Col>Image</Col>
+                                    <Col>Product ID</Col>
+                                    <Col>Total Variant</Col>
+                                    <Col>Action</Col>
+                                </Row>
+                                <Row>
+                                    <Col>{ele?.name}</Col>
+                                    <Col> <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} /></Col>
+                                    <Col>
+                                        {ele?.sellerProId} <br />
+                                        <span className='mx-2'>
+                                            {(copied && copiedindex == index) ?
+                                                <>
+                                                    <BsClipboard2CheckFill size={20} color="green" /><span style={{ fontSize: '10px', color: 'green' }}>Copied</span>
+                                                </>
+                                                :
+                                                <>
+                                                    <FaRegCopy style={{ cursor: 'pointer', color: 'darkgoldenrod' }} onClick={() => copyTextToClipboard(ele?.sellerProId, index)} size={18} />
+                                                </>
+                                            }
+                                        </span>
+                                    </Col>
+                                    <Col>{ele?.specId?.length}</Col>
+                                    <Col>{ele?.name}</Col>
+                                </Row>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary">Understood</Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

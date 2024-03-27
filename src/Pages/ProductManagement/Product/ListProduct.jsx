@@ -531,7 +531,7 @@ export default function ListProduct() {
 
                                         <Card style={{ width: '10rem' }}>
 
-                                            {!ele?.is_approved && (
+                                            {(!ele?.is_approved && ele?.created_type != "admins") && (
                                                 <p className="newrq">
                                                     <span>
                                                         <AiOutlineInfoCircle size={20} />
@@ -857,7 +857,7 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
                                                 <strong style={{ fontSize: '12px' }}>Specification Details: {index + 1}</strong>
                                             </Col>
                                             <Col>
-                                                {!ele?.is_approved && <Button size="sm" variant="outline-secondary" onClick={() => ApprovalVariant(ele)}>Approved {ele?.skuId} variation</Button>}
+                                                {!ele?.is_approved && ele?.created_type != "admins" && <Button size="sm" variant="outline-secondary" onClick={() => ApprovalVariant(ele)}>Approved {ele?.skuId} variation</Button>}
                                             </Col>
                                             <Col xs={2}>
                                                 <Button variant='success' size="sm" onClick={() => EditHandler(ele?._id)}><CiEdit size={22} /></Button>
