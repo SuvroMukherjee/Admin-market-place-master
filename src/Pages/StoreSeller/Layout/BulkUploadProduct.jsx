@@ -163,6 +163,8 @@ const BulkUploadProduct = () => {
     }
 
 
+   
+
     return (
         <div>
             <Container>
@@ -250,7 +252,7 @@ const BulkUploadProduct = () => {
                                 </Col>
                             </Row>
                         </Card>
-                        <ShowVariationSheets show={show} handleClose={handleClose} productList={productList}/>
+                        <ShowVariationSheets show={show} handleClose={handleClose} productList={productList} />
                     </Col>
 
                     <Col>
@@ -311,6 +313,27 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
         }, 2000);
     };
 
+
+    const downloadVariationCSV = (ele) => {
+
+        const today = new Date();
+        const formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+
+        const data = [
+            ['productId', 'title', 'value', 'price', 'image'],
+            [`${ele?.sellerProId}`]
+        ];
+
+        const csvContent = data.map(row => row.join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+        saveAs(blob, `products_${ele?.sellerProId}.csv`);
+    };
+
+
+    
+
     return (
         <div>
             <Modal
@@ -321,24 +344,28 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <p className='cmpgin-title'>DownLoad Your Variation Sheet Accoding to Your Product</p>
                 </Modal.Header>
-                <Modal.Body style={{height:'70vh',overflow:'scroll'}}>
+                <Modal.Body style={{ height: '70vh', overflow: 'scroll' }}>
                     <ListGroup size="sm">
-                        {productList?.length > 0 && productList?.map((ele,index)=>(
-                            <ListGroup.Item>
-                                <Row>
+                        {productList?.length > 0 && productList?.map((ele, index) => (
+                            <ListGroup.Item className='mt-2'>
+                                <Row className='vHead'>
                                     <Col>Product Name</Col>
+                                    <Col>Status</Col>
                                     <Col>Image</Col>
                                     <Col>Product ID</Col>
+                                    <Col>Cateogry</Col>
+                                    <Col>Brand</Col>
                                     <Col>Total Variant</Col>
-                                    <Col>Action</Col>
+                                    <Col xs={2}>Action</Col>
                                 </Row>
-                                <Row>
+                                <Row className='vData mt-2'>
                                     <Col>{ele?.name}</Col>
+                                    <Col>{ele?.is_approved}</Col>
                                     <Col> <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} /></Col>
                                     <Col>
-                                        {ele?.sellerProId} <br />
+                                        {ele?.sellerProId}
                                         <span className='mx-2'>
                                             {(copied && copiedindex == index) ?
                                                 <>
@@ -351,18 +378,27 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                                             }
                                         </span>
                                     </Col>
-                                    <Col>{ele?.specId?.length}</Col>
-                                    <Col>{ele?.name}</Col>
+                                    <Col>{ele?.categoryId?.title}</Col>
+                                    <Col>{ele?.brandId?.title}</Col>
+                                    <Col className='text-center'>{ele?.specId?.length}</Col>
+                                    <Col xs={2} className='d-flex align-items-center'>
+                                        <Button className='cmpComtinue' size='sm' onClick={() => downloadVariationCSV(ele)}>Download</Button>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    {ele?.specId?.map((item,index)=>(
+                                        <h6>{index}</h6>
+                                    ))}
                                 </Row>
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" size='sm' onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary">Understood</Button>
+                    {/* <Button size='sm' variant="success">Understood</Button> */}
                 </Modal.Footer>
             </Modal>
         </div>

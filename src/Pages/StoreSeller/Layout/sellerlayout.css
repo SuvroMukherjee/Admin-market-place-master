@@ -585,3 +585,15 @@ th {
     opacity: 0.7;
     object-fit: contain;
 }
+
+.vData{
+    font-size: 12px;
+    color: #000;
+    font-weight: 500;
+}
+
+.vHead{
+       font-size: 12px;
+        color: #000;
+        font-weight: 500;
+}
