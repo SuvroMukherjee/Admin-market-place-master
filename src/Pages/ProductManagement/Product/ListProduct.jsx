@@ -23,6 +23,7 @@ import { BsClipboard2CheckFill } from "react-icons/bs";
 import { FaCirclePlus } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { LiaListSolid } from "react-icons/lia";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -340,7 +341,124 @@ export default function ListProduct() {
                             <h3>Product List</h3>
                         </Col>
                     </Row>
-                    <Row className="mt-2">
+
+                    {/* <Row>
+                        <Col>Download Templets</Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535127298.csv?alt=media" >
+                                <Button size="sm" variant="warning"><PiFileCsvLight size="20" /> Download Templete For Product</Button>
+                            </a>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535413092.csv?alt=media" >
+                                <Button size="sm" >Download Variations Templete</Button>
+                            </a>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col>Bulk Upload</Col>
+                    </Row>
+
+                    <Row>
+                        <Col >
+                            <div>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    style={{ display: 'none' }}
+                                    onChange={handleFileChange}
+                                />
+                                <Button size='sm' variant="success" onClick={() => fileInputRef.current.click()}><PiFileCsvLight size="20" />Upload Products via CSV</Button>
+                            </div>
+                        </Col>
+
+                    </Row>
+
+                    <Row>
+                        <Col>
+                            <div>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef2}
+                                    style={{ display: 'none' }}
+                                    onChange={handleFileChangeSpec}
+                                />
+                                <Button size='sm' variant="success" onClick={() => fileInputRef2.current.click()}><PiFileCsvLight size="20" />   Specification via CSV</Button>
+                            </div>
+                        </Col>
+                    </Row> */}
+
+
+                    <Row className="mt-4">
+
+                        <Col style={{ border: '1px solid lightgrey', padding: '2%', background: '#e5e5e5' }}>
+                            <Row className="text-center">
+                                <Col className="fontbold">Upload New Product</Col></Row>
+                            <Row>
+                                <Col className="text-center mt-2">
+
+                                    <p style={{ fontSize: "12px" }}><i>Upload New Product by downloading templete</i></p>
+                                </Col>
+                            </Row>
+                            <Row className="mt-4">
+                                <Col xs={12} className="text-center">
+                                    <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535127298.csv?alt=media" >
+                                        <Button size="sm" variant="success"><PiFileCsvLight size="20" /> Download Templete For Product</Button>
+                                    </a>
+                                </Col>
+                                <Col xs={12} className="text-center mt-3" >
+                                    <div>
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef}
+                                            style={{ display: 'none' }}
+                                            onChange={handleFileChange}
+                                        />
+                                        <Button size='sm' variant="success" onClick={() => fileInputRef.current.click()}><PiFileCsvLight size="20" />Upload Products via CSV</Button>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col style={{ border: '1px solid lightgrey', padding: '2%', background: '#e5e5e5' }} className="mx-4">
+                            <Row className="text-center">
+                                <Col className="fontbold">Upload Product's variation</Col></Row>
+                            <Row>
+                                <Col className="text-center mt-2">
+
+                                    <p style={{ fontSize: "12px" }}><i>Upload Product's variation by downloading templete and copy product id from the product list</i></p>
+                                </Col>
+                            </Row>
+                            <Row className="mt-2">
+                                <Col xs={12} className="text-center">
+                                    <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535413092.csv?alt=media" >
+                                        <Button size="sm" variant="warning"> <LiaListSolid size="20" />  Download Variations Templete</Button>
+                                    </a>
+                                </Col>
+                                <Col xs={12} className="text-center mt-3" >
+                                    <div>
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef2}
+                                            style={{ display: 'none' }}
+                                            onChange={handleFileChangeSpec}
+                                        />
+                                        <Button size='sm' variant="warning" onClick={() => fileInputRef2.current.click()}><LiaListSolid size="20" />   Specification via CSV</Button>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col xs={4}></Col>
+                    </Row>
+
+
+                    {/* <Row className="mt-2">
                         <Col xs={12}>Download Templete with Sample data</Col>
                         <Col xs={6}>
                             <Row>
@@ -356,12 +474,12 @@ export default function ListProduct() {
                                 </Col>
                             </Row>
                         </Col>
-                    </Row>
+                    </Row> */}
                     <Row className="mt-4">
-                        <Col xs={4}></Col>
+                        <Col xs={10}></Col>
                         <Col>
                             <Row>
-                                <Col >
+                                {/* <Col >
                                     <div>
                                         <input
                                             type="file"
@@ -382,7 +500,7 @@ export default function ListProduct() {
                                         />
                                         <Button size='sm' variant="success" onClick={() => fileInputRef2.current.click()}><PiFileCsvLight size="20" />   Specification via CSV</Button>
                                     </div>
-                                </Col>
+                                </Col> */}
                                 <Col>
                                     <Button size="sm" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
                                         <AiOutlinePlus /> Add New Product
@@ -390,37 +508,6 @@ export default function ListProduct() {
                                 </Col>
                             </Row>
                         </Col>
-
-                        {/* <Col className="d-flex justify-content-end p-2">
-                            
-                                
-                           
-                                    
-                                
-                            
-                            <Button className="addCategoryButton" variant="dark" >
-                                <div>
-                                    <input
-                                        type="file"
-                                        ref={fileInputRef}
-
-                                        onChange={handleFileChangeSpec}
-                                    />
-                                    <Button variant="dark" onClick={handleButtonClick}>
-                                        {uploading ? (
-                                            <Spinner animation="border" size="sm" />
-                                        ) : (
-                                            <>
-                                                <PiFileCsvDuotone /> CSV Upload Spec
-                                            </>
-                                        )}
-                                    </Button>
-                                </div>
-                            </Button>
-                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
-                                <AiOutlinePlus /> Add New Product
-                            </Button>
-                        </Col> */}
                     </Row>
                     {/* <Row className="justify-content-md-center">
                         <Col style={{ height: 400, width: '100%' }}>
