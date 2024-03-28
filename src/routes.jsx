@@ -67,6 +67,7 @@ import NewProductVariation from './Pages/StoreSeller/ProductEditPage/NewProductV
 import ManageVariationImages from './Pages/StoreSeller/ProductEditPage/ManageVariationImages';
 import BulkUploadProduct from './Pages/StoreSeller/Layout/BulkUploadProduct';
 import EditCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditCategoryRequest';
+import EditSubCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditSubCategoryRequest';
 
 
 
@@ -166,6 +167,7 @@ export default function Router() {
             },
             {path : 'category-request',element: <CategoryRequest/>},
             { path: 'category-request-edit/:id', element: <EditCategoryRequest /> },
+            { path: 'subcategory-request-edit/:id', element: <EditSubCategoryRequest /> },
             { path: 'brand-request', element: <BrandRequest /> },
             { path: 'approval-request-list', element: <ApprovalPendingList /> },
             { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },

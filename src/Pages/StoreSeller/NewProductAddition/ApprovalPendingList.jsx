@@ -32,7 +32,6 @@ const ApprovalPendingList = () => {
   const navigate = useNavigate();
 
   const getbrandList = async () => {
-    setType('brand');
     let res = await sellerBrandRequestList();
     console.log(res?.data?.data, 'all brands')
     let typeadded = res?.data?.data?.map((ele) => {
@@ -96,6 +95,10 @@ const ApprovalPendingList = () => {
   }
 
 
+  const getSubCategory = () => {
+    setData(SubcategoryApplicqation)
+  }
+
   const getAllLists = () => {
     let alldata = [...brandList, ...categoryApplicqation, ...SubcategoryApplicqation,];
 
@@ -125,6 +128,10 @@ const ApprovalPendingList = () => {
       case 'category':
         getCatsList();
         setType('category');
+        break;
+      case 'Sub-category':
+        getSubCategory();
+        setType('Sub-category');
         break;
       case 'brand':
         getbrandList();
@@ -191,6 +198,7 @@ const ApprovalPendingList = () => {
           <Col className='d-flex gap-2'>
             <div><Button size='sm' variant={type != 'all' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('all')}> View All</Button></div>
             <div><Button size='sm' variant={type != 'category' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('category')}>  Categories</Button></div>
+            <div><Button size='sm' variant={type != 'Sub-category' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('Sub-category')}>Subcategory</Button></div>
             <div><Button size='sm' variant={type != 'brand' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('brand')} >Brands</Button></div>
             <div><Button size='sm' variant={type != 'product' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('product')}>Products</Button></div>
             <div><Button size='sm' variant={type != 'variation' ? "outline-secondary" : "dark"} onClick={() => handleFunctionCall('variation')}>Variations</Button></div>
@@ -251,6 +259,63 @@ const ApprovalPendingList = () => {
                             </button>
                           ) : (
                             <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/category-request-edit/${ele?._id}`)}>
+                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                            </button>
+                          )
+                        )}
+                      </td>
+
+                    </tr>
+                  ))}
+
+                </tbody>
+              </Table>
+            }
+
+            {type == 'Sub-category' &&
+              <Table responsive hover striped >
+                <thead>
+                  <tr>
+                    <th>Application Name</th>
+                    <th>Image</th>
+                    <th>Application Type</th>
+                    <th>Changed</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody className='mt-2 '>
+
+                  {data?.length > 0 && data?.map((ele) => (
+                    <tr>
+                      <td>{ele?.title}</td>
+                      <td>
+                        <img src={ele?.image?.[0]?.image_path} width={30} className='appPhoto' height={30} />
+                      </td>
+                      <td>{ele?.type}</td>
+                      <td>{ChangeFormatDate2(ele?.createdAt)}</td>
+                      <td>
+                        {(ele?.is_approved ? (
+                          <span>Approved</span>
+                        ) : (
+                          <span>Pending</span>
+                        )
+                        )}
+                      </td>
+                      <td>
+                        {(
+                          ele?.is_approved ? (
+                            <button
+                              size='sm'
+                              className='gotoBtnYellow'
+                              variant='outline-dark'
+                              onClick={() => navigate('/seller/seller-addproduct')}
+                            >
+                              <span className='mx-2'><MdFileDownloadDone size={20} /></span>  List Products
+                            </button>
+                          ) : (
+                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/subcategory-request-edit/${ele?._id}`)}>
                               <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
                             </button>
                           )
