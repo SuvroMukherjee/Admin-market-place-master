@@ -558,9 +558,10 @@ th {
 }
 
 .plist {
-    height: 60vh;
+    height: 80vh;
     overflow: scroll;
     padding: 1%;
+    overflow-x: hidden;
 }
 
 .w-100 button {
@@ -624,4 +625,11 @@ th {
     color: #000;
     font-size: 12px;
     font-weight: 500;
+}
+
+.disAdText{
+    font-size: 12px;
+        font-weight: bold;
+        color: #003000;
+        letter-spacing: 0.5px;
 }

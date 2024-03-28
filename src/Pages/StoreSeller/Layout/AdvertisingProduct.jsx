@@ -27,6 +27,17 @@ const AdvertisingProduct = () => {
 
     const navigate = useNavigate()
 
+
+    const handleCampaingRedirec = (type,id) =>{
+     
+        if (type == 'Sponsored Products'){
+            navigate(`/seller/select-campaign/${id}`)
+        } else if(type == 'Sponsored Display'){
+            navigate(`/seller/display-campaign/${id}`)
+        }
+
+    }
+
     return (
         <div>
             <Container>
@@ -50,20 +61,10 @@ const AdvertisingProduct = () => {
                                 </Row>
                                 <Row>
                                     <Col className='mt-2'>
-                                        <button className='w-100 cmpComtinue' onClick={() => navigate(`/seller/select-campaign/${ele?._id}`)}>Continue</button>
+                                        <button className='w-100 cmpComtinue' onClick={() => handleCampaingRedirec(ele?.title,ele?._id)}>Continue</button>
                                     </Col>
                                 </Row>
                                 <Row>
-                                    {/* <Col xs={12} className='p-2'>
-                                        <Row>
-                                            <Col xs={10}>
-                                                Highlights
-                                            </Col>
-                                            <Col xs={2}>
-                                                <MdArrowDropDown size={20} />
-                                            </Col>
-                                        </Row>
-                                    </Col> */}
                                     <Col xs={12} className='mt-2'>
                                         <Accordion>
                                             <Accordion.Item eventKey="0">

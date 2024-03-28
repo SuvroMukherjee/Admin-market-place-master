@@ -68,6 +68,7 @@ import ManageVariationImages from './Pages/StoreSeller/ProductEditPage/ManageVar
 import BulkUploadProduct from './Pages/StoreSeller/Layout/BulkUploadProduct';
 import EditCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditCategoryRequest';
 import EditSubCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditSubCategoryRequest';
+import DisplayCampaign from './Pages/StoreSeller/Layout/DisplayCampaign';
 
 
 
@@ -181,6 +182,7 @@ export default function Router() {
             { path: 'service-feedback', element: <ServicesFeedback /> },
             { path: 'advertising-campaign', element: <AdvertisingProduct /> },
             { path: 'select-campaign/:id?', element: <CampaignDetails /> },
+            { path: 'display-campaign/:id?', element: <DisplayCampaign /> },
             { path: 'bulk-product-upload', element: <BulkUploadProduct /> },
             { path: 'reset', element: <ResetPassComp /> },
             { path: 'profile', element: <ProfilePage /> },
