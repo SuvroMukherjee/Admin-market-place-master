@@ -21,6 +21,7 @@ import { IoMdCloseCircle } from "react-icons/io";
 import { IoIosAdd } from "react-icons/io";
 import { FaCheckCircle } from "react-icons/fa";
 import { SlClose } from "react-icons/sl";
+import { HiDownload } from "react-icons/hi";
 
 const BulkUploadProduct = () => {
 
@@ -31,6 +32,7 @@ const BulkUploadProduct = () => {
 
     const [show, setShow] = useState(false);
     const [showConverter, setshowConverter] = useState(false)
+    const [blkProducts,SetBlkproducts] = useState([])
 
     const { auth } = useAuth();
 
@@ -67,10 +69,11 @@ const BulkUploadProduct = () => {
                 complete: (result) => {
                     // Access the parsed data in result.dat
                     console.log({ result })
+                    SetBlkproducts(result?.data)
                 },
                 header: true, // Set this to true if your CSV file has headers
             });
-            onFileUpload(file)
+           onFileUpload(file)
         }
     }
 
@@ -178,9 +181,9 @@ const BulkUploadProduct = () => {
         <div>
             <Container>
                 <Row className='mt-4'>
-                    <Col><h5>
+                    <Col><h4>
                         Choose a template to get started
-                    </h5></Col>
+                    </h4></Col>
                 </Row>
             </Container>
             <Container className='mt-4'>
@@ -221,6 +224,10 @@ const BulkUploadProduct = () => {
                                     />
                                 </Col>
                             </Row>
+                            {loading && 
+                            <Row className='mt-2'>
+                                <Col className='text-center upl'>Uploading... {blkProducts?.length - 1} Products</Col>
+                            </Row>}
                         </Card>
                     </Col>
 
@@ -362,7 +369,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <p className='cmpgin-title'>DownLoad Your Variation Sheet Accoding to Your Product</p>
+                    <p className='cmpgin-title'>Download Variation Template Sheet Accoding to Your Product</p>
                 </Modal.Header>
                 <Modal.Body style={{ height: '70vh', overflow: 'scroll' }}>
                     <ListGroup size="sm">
@@ -371,20 +378,20 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                                 <Row className='vHead'>
                                     <Col>Product Name</Col>
                                     <Col>Status</Col>
-                                    <Col>Image</Col>
+                                    <Col className='text-center'>Image</Col>
                                     <Col>Product ID</Col>
                                     <Col>Cateogry</Col>
                                     <Col>Brand</Col>
-                                    <Col>Total Variant</Col>
+                                    <Col>Variants</Col>
                                     <Col xs={2}>Action</Col>
                                 </Row>
                                 <Row className='vData mt-2'>
                                     <Col>{ele?.name}</Col>
                                     <Col>{ele?.is_approved}</Col>
-                                    <Col> <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} /></Col>
+                                    <Col className='text-center'> <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} /></Col>
                                     <Col>
                                         {ele?.sellerProId}
-                                        <span className='mx-2'>
+                                        <span className='mx-4'>
                                             {(copied && copiedindex == index) ?
                                                 <>
                                                     <BsClipboard2CheckFill size={20} color="green" /><span style={{ fontSize: '10px', color: 'green' }}>Copied</span>
@@ -402,11 +409,12 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                                         <Row>
                                             <Col xs={12}>{ele?.specId?.length}</Col>
                                             {ele?.specId?.length > 0 &&
-                                            <Col onClick={() => setClickIndex(index)}><span>view</span></Col>}
+                                                <Col className='variCss' onClick={() => setClickIndex(index)}><span>view</span></Col>}
                                         </Row>
                                     </Col>
                                     <Col xs={2} className='d-flex align-items-center'>
-                                        <Button className='cmpComtinue' size='sm' onClick={() => downloadVariationCSV(ele)}>Download</Button>
+                                        {/* <Button className='cmpComtinue' size='sm' onClick={() => downloadVariationCSV(ele)}>Download</Button> */}
+                                        <p className='downloadClass' onClick={() => downloadVariationCSV(ele)} ><span><HiDownload size={15}/></span> Download</p>
                                     </Col>
                                 </Row>
                                 {clickIndex == index &&

@@ -586,20 +586,42 @@ th {
     object-fit: contain;
 }
 
-.vData{
+.vData {
     font-size: 12px;
     color: #000;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.vHead{
-       font-size: 12px;
-        color: #000;
-        font-weight: 500;
+.vHead {
+    font-size: 12px;
+    color: #000;
+    font-weight: 500;
+    background-color: gainsboro;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.converterBack{
+.converterBack {
     background-color: #a8f9f2;
     padding: 5%;
-box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.downloadClass {
+    background: #01332e;
+    padding: 6px 12px;
+    color: whitesmoke;
+    border-radius: 2px;
+    color: #52cf04;
+    cursor: pointer;
+}
+
+.upl{
+    color: #000;
+    font-size: 12px;
+    font-weight: 500;
 }
