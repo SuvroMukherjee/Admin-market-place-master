@@ -250,7 +250,7 @@ const ApprovalPendingList = () => {
                               <span className='mx-2'><MdFileDownloadDone size={20} /></span>  List Products
                             </button>
                           ) : (
-                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
+                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/category-request-edit/${ele?._id}`)}>
                               <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
                             </button>
                           )
@@ -338,24 +338,24 @@ const ApprovalPendingList = () => {
                 </thead>
                 <tbody className='mt-2 '>
 
-                  {data?.length > 0 && data?.map((ele,index) => (
+                  {data?.length > 0 && data?.map((ele, index) => (
                     <tr>
                       <td>{ele?.name}</td>
                       <td>
                         <img src={ele?.image?.[0]?.image_path} className='appPhoto' width={30} height={30} />
                       </td>
-                      <td>{ele?.sellerProId} <br/>
-                      <span className='mx-2'>
+                      <td>{ele?.sellerProId} <br />
+                        <span className='mx-2'>
                           {(copied && copiedindex == index) ?
                             <>
                               <BsClipboard2CheckFill size={20} color="green" /><span style={{ fontSize: '10px', color: 'green' }}>Copied</span>
                             </>
                             :
                             <>
-                              <FaRegCopy style={{ cursor: 'pointer',color:'darkgoldenrod' }} onClick={() => copyTextToClipboard(ele?.sellerProId, index)} size={18} />
+                              <FaRegCopy style={{ cursor: 'pointer', color: 'darkgoldenrod' }} onClick={() => copyTextToClipboard(ele?.sellerProId, index)} size={18} />
                             </>
                           }
-                      </span>
+                        </span>
                       </td>
                       <td>{ele?.type}</td>
                       <td>{ele?.categoryId?.title}</td>
@@ -416,7 +416,7 @@ const ApprovalPendingList = () => {
                         {ele?.spec_det?.length > 0 && ele?.spec_det?.map((ele, index, array) => (
                           <span key={index}>
                             {ele?.title} :  {ele?.value}
-                            {index < array.length - 1 ? ', ' : ''}<br/>
+                            {index < array.length - 1 ? ', ' : ''}<br />
                           </span>
                         ))}
                       </td>
@@ -460,7 +460,7 @@ const ApprovalPendingList = () => {
               </Table>
             }
 
-            {type == 'all' && 
+            {type == 'all' &&
               <Table responsive hover striped >
                 <thead>
                   <tr>

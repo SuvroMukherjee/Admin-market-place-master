@@ -206,7 +206,8 @@ const BulkUploadProduct = () => {
                             </Row>
                             <Row>
                                 <Col className='mt-2'>
-                                    <button className='w-100 cmpComtinue-temp' onClick={downloadCSV} ><span><MdOutlineFileDownload size={25} /></span>Download Template</button>
+                                    <a href='https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711604427285.csv?alt=media'>
+                                    <button className='w-100 cmpComtinue-temp'><span><MdOutlineFileDownload size={25} /></span>Download Template</button> </a>
                                 </Col>
                             </Row>
                             <Row>

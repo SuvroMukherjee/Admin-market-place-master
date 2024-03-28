@@ -5,7 +5,6 @@ import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
 import { MdCancel } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeleteProductSpecification, FileUpload, ProductSpecificationCreate, UpdateProductSpecification, sellerNewAddedProductDtails } from '../../../API/api';
-
 import { addOrdinalSuffix } from '../../../common/RatingAvg';
 import './newproduct.css';
 import { FaInfoCircle } from "react-icons/fa";

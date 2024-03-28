@@ -813,6 +813,16 @@ export async function allcatList(){
     }
 }
 
+export async function categoryDetails(id) {
+    try {
+        const response = await axios.get(apiUrl + `/category/detail/${id}`)
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+
 export async function allCommissionList() {
     try {
         const response = await axios.get(apiUrl + `/commission/list`)

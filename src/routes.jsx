@@ -66,6 +66,7 @@ import CampaignDetails from './Pages/StoreSeller/Layout/CampaignDetails';
 import NewProductVariation from './Pages/StoreSeller/ProductEditPage/NewProductVariation';
 import ManageVariationImages from './Pages/StoreSeller/ProductEditPage/ManageVariationImages';
 import BulkUploadProduct from './Pages/StoreSeller/Layout/BulkUploadProduct';
+import EditCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditCategoryRequest';
 
 
 
@@ -143,10 +144,7 @@ export default function Router() {
         {
           element: <RequireAuth allowedRoles={['Seller']} />,
           children: [
-            // { path: 'seller-dashboard', element: <SellerDashboard /> },
             { path: 'seller-dashboard', element: <NewSellerDashboard /> },
-            // { path: 'seller-ownproduct', element: <SellerOwnProduct /> },
-            // { path: 'seller-ownproduct-status', element: <OwnproductStatus /> },
             {
               path: 'seller-ownproduct-status', element: <NewAddLayout />,
               children : [
@@ -167,12 +165,11 @@ export default function Router() {
               ]
             },
             {path : 'category-request',element: <CategoryRequest/>},
+            { path: 'category-request-edit/:id', element: <EditCategoryRequest /> },
             { path: 'brand-request', element: <BrandRequest /> },
             { path: 'approval-request-list', element: <ApprovalPendingList /> },
             { path: 'seller-editownproduct/:id', element: <EditOwnProduct /> },
-            // { path: 'seller-addproduct', element: <SellerAddProduct /> },
             { path: 'seller-addproduct', element: <NewAddProduct /> },
-            // { path: 'seller-productList', element: <SellerProductList /> }, /SellerInventory
             { path: 'seller-productList', element: <SellerInventory /> },
             { path: 'product-deatils/:id', element: <SellerProductDetails /> },
             { path: 'seller-orderlist', element: <OrderList /> },
@@ -183,7 +180,6 @@ export default function Router() {
             { path: 'advertising-campaign', element: <AdvertisingProduct /> },
             { path: 'select-campaign/:id?', element: <CampaignDetails /> },
             { path: 'bulk-product-upload', element: <BulkUploadProduct /> },
-            // { path: 'change-password', element: <ChangePassword /> },
             { path: 'reset', element: <ResetPassComp /> },
             { path: 'profile', element: <ProfilePage /> },
 
