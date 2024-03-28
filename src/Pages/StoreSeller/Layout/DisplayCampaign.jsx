@@ -86,60 +86,33 @@ const DisplayCampaign = () => {
 
         console.log({ payload });
 
-        // let res = await campaignCreate(formData);
+        let res = await campaignCreate(payload);
 
-        // console.log(res?.data?.data);
+        console.log(res?.data?.data);
 
-        // if (res?.response?.data?.error) {
-        //     toast.error(res?.response?.data?.message)
-        // } else {
-        //     toast.success(`Product Campaign create successfully`)
-        //     setTimeout(() => {
-        //         navigate(`/seller/advertising-campaign/`)
-        //     }, 1500);
-        // }
+        if (res?.response?.data?.error) {
+            toast.error(res?.response?.data?.message)
+        } else {
+            toast.success(`Display Sponser create successfully`)
+            // setTimeout(() => {
+            //     navigate(`/seller/advertising-campaign/`)
+            // }, 1500);
+        }
 
     }
 
     const addProducttoList = (product) => {
-
         setproductlists(product);
-
-        // setFormdata({
-        //     ...formData,
-        //     productId: [
-        //         ...formData.productId || [],
-        //         product?._id,
-        //     ],
-        // });
-
         setFormdata({
             ...formData,
             productId: product?._id || null,
         });
-
     }
 
     const handleRemove = (id) => {
+        setproductlists()
+        setFormdata();
 
-        let filterData = productlists?.filter((ele) => {
-            return ele?._id != id;
-        })
-        setproductlists(filterData)
-
-        setFormdata({
-            ...formData,
-            productId: formData.productId.filter((productId) => productId !== id),
-        });
-
-    }
-
-    const isAdded = (id) => {
-        let d = productlists?.find((ele) => {
-            return ele?._id == id
-        })
-
-        return d ? true : false;
     }
 
     const handleSearch = () => {
@@ -154,10 +127,14 @@ const DisplayCampaign = () => {
 
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        // Do something with the selected file
-        console.log('Selected file:', file);
-        onFileUpload(file)
+        const { files } = e.target;
+        const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
+        const selectedFiles = Array.from(files).filter(file => allowedTypes.includes(file.type));
+
+
+        selectedFiles.forEach((file) => {
+            onFileUpload(file);
+        });
     };
 
 
@@ -171,8 +148,8 @@ const DisplayCampaign = () => {
 
             setTimeout(() => {
                 setFormdata((prevData) => ({
-                    ...prevData || [],
-                    image: [...prevData.image, { image_path: res?.data?.data?.fileurl }],
+                    ...prevData,
+                    image: [...prevData.image || [], { image_path: res?.data?.data?.fileurl }],
                 }));
             }, 1500);
 

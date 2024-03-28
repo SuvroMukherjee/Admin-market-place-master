@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import { AddProductCategory, categoryDetails, FileUpload, getSubCategoryDetails, UpdateProductCategory } from '../../../API/api';
+import { AddProductCategory, categoryDetails, FileUpload, getSubCategoryDetails, UpdateProductCategory, UpdateProductSubCategory } from '../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { FaList } from "react-icons/fa6";
@@ -12,6 +12,7 @@ const EditSubCategoryRequest = () => {
     const [modalData, setModalData] = useState()
 
     const [selectedOption, setSelectedOption] = useState(null);
+    const [formData,setFormData] = useState([])
 
     const { id: SubcatId } = useParams();
 
@@ -22,13 +23,8 @@ const EditSubCategoryRequest = () => {
     const getSubCatData  = async() =>{
         let res = await getSubCategoryDetails(SubcatId);
         console.log(res?.data?.data,'subcat')
-
+        setFormData(res?.data?.data)
         getDataCategory(res?.data?.data?.category?._id)
-        // setModalData({
-        //     ...modalData,
-        //     subtitle: res?.data?.data?.title,
-        //     img: res?.data?.data?.image?.[0].image_path
-        // });
     }
 
     const getDataCategory = async (catId) => {
@@ -51,16 +47,16 @@ const EditSubCategoryRequest = () => {
 
         e.preventDefault();
 
-        console.log({ modalData })
+        console.log({ formData })
 
 
-        let res = await UpdateProductCategory(modalData, catId);
+        let res = await UpdateProductSubCategory(formData, SubcatId);
 
         if (res?.response?.data?.error) {
             toast.error(res?.response?.data?.message)
         } else {
 
-            toast.success('Category Request update Successfully')
+            toast.success('Subcategory Request update Successfully')
 
             setTimeout(() => {
                 navigate('/seller/approval-request-list')
@@ -78,7 +74,7 @@ const EditSubCategoryRequest = () => {
             setModalData({ ...modalData, ['seller_contc_info']: { ...modalData?.seller_contc_info, [name]: value } });
         }
         else {
-            setModalData({ ...modalData, [name]: value });
+            setFormData({ ...formData, [name]: value });
         }
 
     };
@@ -101,7 +97,10 @@ const EditSubCategoryRequest = () => {
                     });
                 } else {
                     setTimeout(() => {
-                        setModalData({ ...modalData, ['img']: { image_path: res?.data?.data?.fileurl } });
+                        setFormData((prevData) => ({
+                            ...prevData,
+                            image: [{ image_path: res?.data?.data?.fileurl }],
+                        }));
                     }, 3000);
                 }
             })
@@ -144,7 +143,7 @@ const EditSubCategoryRequest = () => {
     }
 
 
-    // console.log(modalData?.subtitle)
+    console.log({formData})
 
     return (
         <div>
@@ -215,16 +214,15 @@ const EditSubCategoryRequest = () => {
 
                                 <Row className='mt-2'>
                                     <Col xs={12}>
-                                        {console.log(modalData,'modaldata')}
                                         <Form.Group controlId="title">
                                             <Form.Label>Add Subcategory Title for your New Category</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className='tapG'
                                                 placeholder="Enter Subcategory Title"
-                                                name="subtitle"
+                                                name="title"
                                                 size='sm'
-                                                value={modalData?.subtitle}
+                                                value={formData?.title}
                                                 onChange={handleInputChange}
                                             />
                                         </Form.Group>
@@ -235,12 +233,11 @@ const EditSubCategoryRequest = () => {
                                     <Form.Group controlId="image">
                                         <Col xs={12}>
                                             <Form.Group controlId="title">
-                                                {console.log({ modalData })}
                                                 <Form.Label>SubCategory Image
 
-                                                    {modalData?.img?.image_path &&
+                                                    {formData?.image?.[0]?.image_path &&
                                                         <a
-                                                            href={modalData?.img?.image_path}
+                                                            href={formData?.image?.[0]?.image_path}
                                                             target="_blank"
                                                         >
 
