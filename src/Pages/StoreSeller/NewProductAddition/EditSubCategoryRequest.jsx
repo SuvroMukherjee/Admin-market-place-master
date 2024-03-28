@@ -22,7 +22,13 @@ const EditSubCategoryRequest = () => {
     const getSubCatData  = async() =>{
         let res = await getSubCategoryDetails(SubcatId);
         console.log(res?.data?.data,'subcat')
+
         getDataCategory(res?.data?.data?.category?._id)
+        // setModalData({
+        //     ...modalData,
+        //     subtitle: res?.data?.data?.title,
+        //     img: res?.data?.data?.image?.[0].image_path
+        // });
     }
 
     const getDataCategory = async (catId) => {
@@ -138,7 +144,7 @@ const EditSubCategoryRequest = () => {
     }
 
 
-    console.log({ modalData })
+    // console.log(modalData?.subtitle)
 
     return (
         <div>
@@ -207,8 +213,9 @@ const EditSubCategoryRequest = () => {
                                     </Form.Group>
                                 </Row>
 
-                                {/* <Row className='mt-2'>
+                                <Row className='mt-2'>
                                     <Col xs={12}>
+                                        {console.log(modalData,'modaldata')}
                                         <Form.Group controlId="title">
                                             <Form.Label>Add Subcategory Title for your New Category</Form.Label>
                                             <Form.Control
@@ -222,12 +229,13 @@ const EditSubCategoryRequest = () => {
                                             />
                                         </Form.Group>
                                     </Col>
-                                </Row> */}
+                                </Row>
 
-                                {/* <Row className='mt-2'>
+                                <Row className='mt-2'>
                                     <Form.Group controlId="image">
                                         <Col xs={12}>
                                             <Form.Group controlId="title">
+                                                {console.log({ modalData })}
                                                 <Form.Label>SubCategory Image
 
                                                     {modalData?.img?.image_path &&
@@ -252,7 +260,7 @@ const EditSubCategoryRequest = () => {
                                             </Form.Group>
                                         </Col>
                                     </Form.Group>
-                                </Row> */}
+                                </Row>
                             </Row>
                         </Col>
 
