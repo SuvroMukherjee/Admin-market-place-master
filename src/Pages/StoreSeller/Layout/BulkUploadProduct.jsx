@@ -198,7 +198,7 @@ const BulkUploadProduct = () => {
                             </Row>
                             <Row className='mb-2 mt-2'>
                                 <Col className='text-center'>
-                                    <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUno6QRWvDY5RAbL3R-uqbJR5VxAxYMrSIGP41rDa8Lw&s' className='upImg' alt='cmp_img' />
+                                    <img src='https://media.dev.to/cdn-cgi/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkfdzyhxhae8c95nwi6go.jpg' className='upImg' alt='cmp_img' />
                                 </Col>
                             </Row>
                             <Row>
