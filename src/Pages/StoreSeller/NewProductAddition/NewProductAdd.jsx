@@ -169,7 +169,7 @@ const NewProductAdd = () => {
                                 <Form.Group controlId="email">
                                     <Row>
                                         <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                            <Form.Label ><span className="req mx-1">*</span> Product Image </Form.Label>
+                                            <Form.Label ><span className="req mx-1">*</span>Product Front Image </Form.Label>
                                         </Col>
                                         <Col xs={6}>
                                             <span className='specTextsmall'> 
