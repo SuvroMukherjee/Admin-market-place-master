@@ -31,6 +31,8 @@ const MyNavbar = () => {
     const [HeaderTitle, setHeaderTitle] = useState('Seller Dashboard')
     const [userInfo,setUserInfo] = useState();
 
+
+
     useEffect(() => {
         if (auth) {
             getProfileData()
@@ -271,7 +273,7 @@ const MyNavbar = () => {
                                 </Col>
                                 
                                 <Col className='d-flex justify-content-center'  >
-                                    <span><FaUserCircle color='#9af064' size={30} /></span> <span style={{ color:'white',fontSize:'12px' }} className='mx-2'>{userInfo?.email}<br/>{userInfo?.shope_name}</span>
+                                    <span><FaUserCircle color='#9af064' size={30} /></span> <span style={{ color: 'white', fontSize: '12px' }} className='mx-2'>{userInfo?.email || auth?.email}<br/>{userInfo?.shope_name}</span>
                                 </Col>
                             </Row>
                         </Col>

@@ -86,6 +86,7 @@ const NewSellerDashboard = () => {
     }
 
     const getProfileDetails = async () => {
+        
         let res = await sellerDetails(userId)
         let totalRating = (res?.data?.sellerReviewData || []).reduce((acc, curr) => {
             return acc + parseInt(curr?.rating || 0);

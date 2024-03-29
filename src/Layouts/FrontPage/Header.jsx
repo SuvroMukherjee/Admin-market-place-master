@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
-import newlogo from '../../assets/newlogo.png'
+import newlogo from '../../assets/zoofilogo.png'
 
 const Header = () => {
 

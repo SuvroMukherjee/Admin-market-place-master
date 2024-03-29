@@ -94,21 +94,23 @@ const AdvertisingProduct = () => {
                 <Row className='mt-2'>
                     {createdCamp?.length > 0 && createdCamp?.map((ele) => (
                         <Col>
-                            <Row>
+                            <Row className='adhead'>
                                 <Col>Campaign Type</Col>
                                 <Col>Product</Col>
-                                <Col xs={1}>Banners</Col>
+                                <Col>Created</Col>
+                                <Col>Banners</Col>
                                 <Col>Start Date - End Date</Col>
                                 <Col>Tragetting</Col>
                             </Row>
-                            <Row>
+                            <Row className='adhead'>
                                 <Col>
                                     <h6>{ele?.campaignTypeId.title}</h6>
                                 </Col>
                                 <Col>
                                     {ele?.[ele?.campaignTypeId.camptype]?.productId?.name}
                                 </Col>
-                                <Col xs={1}>
+                                <Col>{ChangeFormatDate2(ele?.updatedAt)}</Col>
+                                <Col>
                                     <a href={ele?.[ele?.campaignTypeId.camptype]?.image?.[0]?.image_path} target="_blank"><span className=''>Banner</span></a>
                                 </Col>
                                 <Col>
