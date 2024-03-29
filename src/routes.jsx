@@ -69,6 +69,7 @@ import BulkUploadProduct from './Pages/StoreSeller/Layout/BulkUploadProduct';
 import EditCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditCategoryRequest';
 import EditSubCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditSubCategoryRequest';
 import DisplayCampaign from './Pages/StoreSeller/Layout/DisplayCampaign';
+import EditBrandRequest from './Pages/StoreSeller/NewProductAddition/EditBrandRequest';
 
 
 
@@ -168,6 +169,7 @@ export default function Router() {
             },
             {path : 'category-request',element: <CategoryRequest/>},
             { path: 'category-request-edit/:id', element: <EditCategoryRequest /> },
+            { path: 'brand-request-edit/:id', element: <EditBrandRequest /> },
             { path: 'subcategory-request-edit/:id', element: <EditSubCategoryRequest /> },
             { path: 'brand-request', element: <BrandRequest /> },
             { path: 'approval-request-list', element: <ApprovalPendingList /> },

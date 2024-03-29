@@ -372,7 +372,7 @@ const ApprovalPendingList = () => {
                               <span className='mx-2'><MdFileDownloadDone size={20} /></span>  List Products
                             </button>
                           ) : (
-                            <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
+                              <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/brand-request-edit/${ele?._id}`)}>
                               <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
                             </button>
                           )

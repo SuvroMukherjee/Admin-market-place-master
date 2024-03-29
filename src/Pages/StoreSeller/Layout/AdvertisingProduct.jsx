@@ -22,7 +22,7 @@ const AdvertisingProduct = () => {
 
     async function getSellerCampaignList(){
         let res = await getAllCampaignSellerList();
-        console.log(res?.data?.data, 'data')
+        console.log(res?.data?.data, 'getSellerCampaignList')
     }
 
     const navigate = useNavigate()

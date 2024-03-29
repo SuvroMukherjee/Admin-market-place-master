@@ -264,6 +264,15 @@ export async function allBrandList() {
     }
 }
 
+export async function BrandDetails(id) {
+    try {
+        const response = await axios.get(apiUrl + `/brand/detail/${id}`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
 export async function AddBrand(formData) {
     try {
         const response = await axios.post(apiUrl + "/brand/create", formData, { headers: setAuthHeader() })
