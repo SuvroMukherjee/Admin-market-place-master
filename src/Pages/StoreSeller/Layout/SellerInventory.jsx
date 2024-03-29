@@ -45,12 +45,12 @@ export default function SellerInventory() {
     const [selectedOption, setSelectedOption] = useState('');
     const [viewLowestPriceData, setViewLowestPriceData] = useState();
     const [lowIndex, setLowIndex] = useState()
-    const [aditional_filter, setadditional_filter] = useState()
+    const [aditional_filter, setadditional_filter] = useState([])
 
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value);
-        handleClearAdditional()
+        // handleClearAdditional()
         console.log('Selected option:', e.target.value);
         if (e.target.value == 'Low Stocks') {
 
@@ -446,28 +446,43 @@ export default function SellerInventory() {
     }
 
 
-    const handleDateChange = (e, type) => {
-        const { name, value } = e.target;
-        console.log({ value })
-        console.log({ maindata })
-        handledateOperation(value, type)
+    const handleDateChange = (e) => {
+         const { name, value } = e.target;
+        // console.log({ value })
+        // console.log({ maindata })
+        //handledateOperation(value, type)
+
+        setadditional_filter((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
-    const handledateOperation = (date, type) => {
-        const targetDate = new Date(date);
-        if (type == 'date-form') {
-            let filterData = maindata?.filter((ele) => {
+    console.log({ aditional_filter })
+
+    const handledateOperation = () => {
+        const targetDateStart = new Date(aditional_filter?.start);
+        const targetDateEnd = new Date(aditional_filter?.end);
+        // if (type == 'date-form') {
+        //     let filterData = maindata?.filter((ele) => {
+        //         const updatedAtDate = new Date(ele?.updatedAt);
+        //         return updatedAtDate > targetDate;
+        //     });
+        //     setData(filterData)
+        // } else {
+        //     let filterData = maindata?.filter((ele) => {
+        //         const updatedAtDate = new Date(ele?.updatedAt);
+        //         return updatedAtDate < targetDate;
+        //     });
+        //     setData(filterData)
+        // }
+
+        let filterData = maindata?.filter((ele) => {
                 const updatedAtDate = new Date(ele?.updatedAt);
-                return updatedAtDate > targetDate;
+            return updatedAtDate > targetDateStart && updatedAtDate < targetDateEnd ;
             });
+        console.log({ filterData })
             setData(filterData)
-        } else {
-            let filterData = maindata?.filter((ele) => {
-                const updatedAtDate = new Date(ele?.updatedAt);
-                return updatedAtDate < targetDate;
-            });
-            setData(filterData)
-        }
 
     }
 
@@ -604,6 +619,31 @@ export default function SellerInventory() {
                                     <Dropdown.Item onClick={() => setadditional_filter('date-to')}>Search Date to</Dropdown.Item>
                                 </DropdownButton>
                             </Col>
+                        </Row>
+                        <Row>
+                           
+                            <Col xs={2}>
+                                <Form.Group controlId="date-to">
+                                    <Form.Label className="customDatelable">Start Date:</Form.Label>
+                                    <Form.Control type="date" className='tapG' name="start" size="sm" onChange={(e) => handleDateChange(e)} />
+                                </Form.Group>
+                            </Col>
+                            <Col xs={2}>
+                                <Form.Group controlId="date-form">
+                                    <Form.Label className="customDatelable">End Date:</Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        className='tapG'
+                                        name="end"
+                                        size="sm"
+                                        onChange={(e) => handleDateChange(e)}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col className="d-flex justify-content-start align-items-end cursor">
+                                <Button size="sm" variant="secondary" onClick={() => handledateOperation()}>Apply</Button>
+                            </Col>
+                           
                         </Row>
                         <Row className="mt-2">
                             {aditional_filter == 'date-form' &&
