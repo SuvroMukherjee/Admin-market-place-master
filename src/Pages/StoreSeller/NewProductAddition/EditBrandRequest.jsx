@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import { AddBrand, AddProductCategory, BrandDetails, FileUpload } from '../../../API/api';
+import { AddBrand, AddProductCategory, BrandDetails, EditBrand, FileUpload } from '../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { FaList } from "react-icons/fa6";
@@ -25,6 +25,7 @@ const EditBrandRequest = () => {
         let res = await BrandDetails(brandID)
         console.log(res?.data?.data)
         setModalData(res?.data?.data)
+        setIsChecked(res?.data?.data?.brand_origin)
     }
 
 
@@ -43,13 +44,13 @@ const EditBrandRequest = () => {
         console.log({ modalData })
 
 
-        let res = await AddBrand(modalData);
+        let res = await EditBrand(modalData, brandID);
 
         if (res?.response?.data?.error) {
             toast.error(res?.response?.data?.message)
         } else {
 
-            toast.success('Brand Request sent Successfully')
+            toast.success('Brand Request update successfully')
 
             setTimeout(() => {
                 navigate('/seller/approval-request-list')
@@ -189,9 +190,9 @@ const EditBrandRequest = () => {
                                             <Form.Group controlId="title">
                                                 <Form.Label>Brand Image  <span className="req mx-1">*</span>
 
-                                                    {modalData?.image?.image_path &&
+                                                    {modalData?.image?.[0]?.image_path &&
                                                         <a
-                                                            href={modalData?.image?.image_path}
+                                                            href={modalData?.image?.[0]?.image_path}
                                                             target="_blank"
                                                         >
 
@@ -312,7 +313,7 @@ const EditBrandRequest = () => {
                                             placeholder="Enter Email..."
                                             name="email"
                                             size='sm'
-                                            // value={modalData?.subtitle}
+                                            value={modalData?.seller_contc_info?.email}
                                             onChange={handleInputChange}
                                         />
                                     </Form.Group>
@@ -327,7 +328,7 @@ const EditBrandRequest = () => {
                                             placeholder="Enter Phone..."
                                             name="phone_no"
                                             size='sm'
-                                            // value={modalData?.subtitle}
+                                            value={modalData?.seller_contc_info?.phone_no}
                                             onChange={handleInputChange}
                                         />
                                     </Form.Group>
@@ -502,48 +503,11 @@ const EditBrandRequest = () => {
                                     </Col>
                                 </Row>
                             </div>
-
-
-                            {/* <Row className='mt-4'>
-                                <Col> <h5>Provide your contact information</h5></Col>
-                            </Row>
-
-                            <Row className='mt-2'>
-                                <Col xs={12}>
-                                    <Form.Group controlId="title">
-                                        <Form.Label>Email addresses Best email to contact you for questions</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            className='tapG'
-                                            placeholder="Enter Email..."
-                                            name="email"
-                                            size='sm'
-                                            // value={modalData?.subtitle}
-                                            onChange={handleInputChange}
-                                        />
-                                    </Form.Group>
-                                </Col>
-
-                                <Col xs={12}>
-                                    <Form.Group controlId="title">
-                                        <Form.Label>Optional Phone Best number to call you for questions</Form.Label>
-                                        <Form.Control
-                                            type="phone"
-                                            className='tapG'
-                                            placeholder="Enter Phone..."
-                                            name="phone_no"
-                                            size='sm'
-                                            // value={modalData?.subtitle}
-                                            onChange={handleInputChange}
-                                        />
-                                    </Form.Group>
-                                </Col>
-                            </Row> */}
                         </Col>
                     </Row>
                     <Row className='mt-4 mb-4 bgColor stepContent' >
                         <Col xs={6} className='d-flex align-items-center aggree'>
-                            By clicking on Agree and Submit, I agree to the conditions.
+                            By clicking on Agree and Update, I agree to the conditions.
                         </Col>
                         <Col className='d-flex justify-content-center'>
                             <Button
@@ -552,7 +516,7 @@ const EditBrandRequest = () => {
                                 size='sm'
                                 type='submit'
                                 block
-                            >Agress & Submit</Button>
+                            >Agress & Update</Button>
                         </Col>
                     </Row>
                 </Form>
