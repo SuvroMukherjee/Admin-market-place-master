@@ -633,3 +633,9 @@ th {
         color: #003000;
         letter-spacing: 0.5px;
 }
+
+.customDatelable{
+    font-size: 12px;
+    color: #000;
+    font-weight: 500;
+}

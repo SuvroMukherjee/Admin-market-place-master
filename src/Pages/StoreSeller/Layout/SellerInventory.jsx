@@ -22,6 +22,7 @@ import { LuDownload } from "react-icons/lu";
 import { FaFileUpload } from "react-icons/fa";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { IoMdClose } from "react-icons/io";
 
 
 
@@ -44,10 +45,12 @@ export default function SellerInventory() {
     const [selectedOption, setSelectedOption] = useState('');
     const [viewLowestPriceData, setViewLowestPriceData] = useState();
     const [lowIndex, setLowIndex] = useState()
+    const [aditional_filter, setadditional_filter] = useState()
 
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value);
+        handleClearAdditional()
         console.log('Selected option:', e.target.value);
         if (e.target.value == 'Low Stocks') {
 
@@ -442,6 +445,39 @@ export default function SellerInventory() {
         // /setViewLowestPriceData
     }
 
+
+    const handleDateChange = (e, type) => {
+        const { name, value } = e.target;
+        console.log({ value })
+        console.log({ maindata })
+        handledateOperation(value, type)
+    };
+
+    const handledateOperation = (date, type) => {
+        const targetDate = new Date(date);
+        if (type == 'date-form') {
+            let filterData = maindata?.filter((ele) => {
+                const updatedAtDate = new Date(ele?.updatedAt);
+                return updatedAtDate > targetDate;
+            });
+            setData(filterData)
+        } else {
+            let filterData = maindata?.filter((ele) => {
+                const updatedAtDate = new Date(ele?.updatedAt);
+                return updatedAtDate < targetDate;
+            });
+            setData(filterData)
+        }
+
+    }
+
+
+    const handleClearAdditional = () =>{
+        setadditional_filter()
+        getProductListFunc();
+    } 
+
+
     return (
         <div>
             <Container className="mt-4">
@@ -497,7 +533,7 @@ export default function SellerInventory() {
                     </div>
                 </div>
                 <Row className="mt-2 mx-1 p-2 inventoryBg">
-                    <Col className="customRadiolabel">Listing Status : </Col>
+                    <Col className="customRadiolabel">Listing Status : {data?.length} </Col>
                     <Col xs={12}>
                         <Row>
 
@@ -562,8 +598,47 @@ export default function SellerInventory() {
                                 />
                             </Col>
                             <Col className="d-flex justify-content-center align-items-center">
-                                <Button size="sm" variant="outline-dark">Additional Filters</Button>
+
+                                <DropdownButton id="dropdown-basic-button2" title="Additional Filters" size="sm" variant="secondary">
+                                    <Dropdown.Item onClick={() => setadditional_filter('date-form')}>Search Date from</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setadditional_filter('date-to')}>Search Date to</Dropdown.Item>
+                                </DropdownButton>
                             </Col>
+                        </Row>
+                        <Row className="mt-2">
+                            {aditional_filter == 'date-form' &&
+                            <>
+                                <Col xs={3}>
+                                    <Form.Group controlId="date-form">
+                                        <Form.Label className="customDatelable">Search Date from:</Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            className='tapG'
+                                            name="date-form"
+                                            size="sm"
+                                            onChange={(e) => handleDateChange(e, 'date-form')}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col xs={1} onClick={() => handleClearAdditional()} className="d-flex justify-content-start align-items-end cursor">
+                                    <IoMdClose size={25} />
+                                </Col>
+                            </>
+                            }
+                            {aditional_filter == 'date-to' &&
+                            <>
+                                <Col xs={3}>
+                                    <Form.Group controlId="date-to">
+                                        <Form.Label className="customDatelable">Search Date to:</Form.Label>
+                                        <Form.Control type="date" className='tapG' name="date-to" size="sm" onChange={(e) => handleDateChange(e, 'date-to')} />
+                                    </Form.Group>
+                                </Col>
+                                <Col xs={1} onClick={() => handleClearAdditional()} className="d-flex justify-content-start align-items-center cursor">
+                                    <IoMdClose size={25} />
+                                </Col>
+                            </>
+                               
+                            }
                         </Row>
                     </Col>
                 </Row>
@@ -603,7 +678,7 @@ export default function SellerInventory() {
                                             {ele?.available_qty || 0}
                                         </td>
                                         <td>
-                                            {ele?.specId?.price}
+                                            ₹ {ele?.specId?.price}
                                         </td>
                                         <td className="priceTD">
                                             <Form.Control
@@ -641,7 +716,7 @@ export default function SellerInventory() {
                                         </td>
                                         <td>{Math.round(ele?.price - ele?.comission_price)}</td>
                                         <td>{Math.round(ele?.comission_price)?.toLocaleString()}</td>
-                                        <td>
+                                        <td className="priceTD">
 
                                             <Form.Control
                                                 type="number"
