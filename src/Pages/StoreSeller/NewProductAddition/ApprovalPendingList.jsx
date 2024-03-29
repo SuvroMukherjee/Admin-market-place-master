@@ -259,7 +259,7 @@ const ApprovalPendingList = () => {
                             </button>
                           ) : (
                             <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/category-request-edit/${ele?._id}`)}>
-                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                              <span className='mx-2'><CiClock2 size={20} /></span> RE-APPLY
                             </button>
                           )
                         )}
@@ -316,7 +316,7 @@ const ApprovalPendingList = () => {
                             </button>
                           ) : (
                             <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/subcategory-request-edit/${ele?._id}`)}>
-                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                              <span className='mx-2'><CiClock2 size={20} /></span> RE-APPLY
                             </button>
                           )
                         )}
@@ -373,7 +373,7 @@ const ApprovalPendingList = () => {
                             </button>
                           ) : (
                               <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`/seller/brand-request-edit/${ele?._id}`)}>
-                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                              <span className='mx-2'><CiClock2 size={20} /></span> RE-APPLY
                             </button>
                           )
                         )}
@@ -446,7 +446,7 @@ const ApprovalPendingList = () => {
                             </button>
                           ) : (
                             <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
-                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                              <span className='mx-2'><CiClock2 size={20} /></span> RE-APPLY
                             </button>
                           )
                         )}
@@ -512,7 +512,7 @@ const ApprovalPendingList = () => {
                             </button>
                           ) : (
                             <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
-                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                              <span className='mx-2'><CiClock2 size={20} /></span> RE-APPLY
                             </button>
                           )
                         )}
@@ -571,7 +571,7 @@ const ApprovalPendingList = () => {
                             </button>
                           ) : (
                             <button size='sm' className='gotoBtn' variant='outline-dark' onClick={() => navigate(`new-variations/${ele?._id}`)}>
-                              <span className='mx-2'><CiClock2 size={20} /></span> Go to Application
+                              <span className='mx-2'><CiClock2 size={20} /></span> RE-APPLY
                             </button>
                           )
                         )}
