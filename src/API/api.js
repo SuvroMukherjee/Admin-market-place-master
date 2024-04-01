@@ -1024,3 +1024,27 @@ export async function sellerVariationsBulkUpload(formData) {
         return error
     }
 }
+
+export async function ReportLists(){
+    try {
+        const response = await axios.get(apiUrl + `/seller-report/report-list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function ReportListsWithDate(startDate, endDate) {
+    try {
+        const response = await axios.get(apiUrl + '/seller-report/report-list', {
+            headers: setAuthHeader(),
+            params: {
+                startDate: startDate,
+                endDate: endDate
+            }
+        });
+        return response;
+    } catch (error) {
+        return error;
+    }
+}

@@ -646,3 +646,36 @@ th {
     font-weight: 500;
     letter-spacing: 0.5px;
 }
+
+.reptContainer{
+    border: 1px solid #DDDDDD;
+}
+
+.retext{
+        font-size: 18px;
+            font-weight: bold;
+            text-transform: capitalize;
+            color: #134545;
+}
+
+.retext2 {
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: capitalize;
+    color: #134545;
+}
+
+.retext3{
+    font-size: 18px;
+        font-weight: bold;
+        text-transform: capitalize;
+        color: #134545;
+}
+
+.reptContainerBtn{
+  border-bottom: 2px solid #DDDDDD;
+}
+
+.cont{
+    background-color: #d8edcb;
+}

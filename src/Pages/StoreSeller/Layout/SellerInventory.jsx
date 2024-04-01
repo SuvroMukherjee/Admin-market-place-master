@@ -463,20 +463,7 @@ export default function SellerInventory() {
     const handledateOperation = () => {
         const targetDateStart = new Date(aditional_filter?.start);
         const targetDateEnd = new Date(aditional_filter?.end);
-        // if (type == 'date-form') {
-        //     let filterData = maindata?.filter((ele) => {
-        //         const updatedAtDate = new Date(ele?.updatedAt);
-        //         return updatedAtDate > targetDate;
-        //     });
-        //     setData(filterData)
-        // } else {
-        //     let filterData = maindata?.filter((ele) => {
-        //         const updatedAtDate = new Date(ele?.updatedAt);
-        //         return updatedAtDate < targetDate;
-        //     });
-        //     setData(filterData)
-        // }
-
+    
         let filterData = maindata?.filter((ele) => {
                 const updatedAtDate = new Date(ele?.updatedAt);
             return updatedAtDate > targetDateStart && updatedAtDate < targetDateEnd ;
