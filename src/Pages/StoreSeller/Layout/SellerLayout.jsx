@@ -141,6 +141,9 @@ const MyNavbar = () => {
                 navigate('/seller/bulk-product-upload')
                 setHeaderTitle(pathName);
                 break;
+            case 'Busniess Report' :
+                navigate('/seller/seller-report')
+                setHeaderTitle(pathName);
         }
     }
 
@@ -218,6 +221,12 @@ const MyNavbar = () => {
                         <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Advertising Campaign')}>
                             <Row>
                                 <Col xs={8}>Advertising</Col>
+                                <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
+                            </Row>
+                        </Col>
+                        <Col className='p-2 mx-2 text-left boldtext' onClick={() => navigateFunction('Busniess Report')}>
+                            <Row>
+                                <Col xs={8}>Report</Col>
                                 <Col className='d-flex justify-content-end align-items-center'><FaAngleRight color='' /></Col>
                             </Row>
                         </Col>

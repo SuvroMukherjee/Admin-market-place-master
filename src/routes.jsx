@@ -70,6 +70,7 @@ import EditCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditCate
 import EditSubCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditSubCategoryRequest';
 import DisplayCampaign from './Pages/StoreSeller/Layout/DisplayCampaign';
 import EditBrandRequest from './Pages/StoreSeller/NewProductAddition/EditBrandRequest';
+import Report from './Pages/StoreSeller/Layout/Report';
 
 
 
@@ -186,6 +187,7 @@ export default function Router() {
             { path: 'select-campaign/:id?', element: <CampaignDetails /> },
             { path: 'display-campaign/:id?', element: <DisplayCampaign /> },
             { path: 'bulk-product-upload', element: <BulkUploadProduct /> },
+            { path: 'seller-report', element: <Report /> },
             { path: 'reset', element: <ResetPassComp /> },
             { path: 'profile', element: <ProfilePage /> },
 
