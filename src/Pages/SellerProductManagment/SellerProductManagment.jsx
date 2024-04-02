@@ -1,19 +1,45 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Button, Card, Carousel, Col, Container, ListGroup, Row, Table } from 'react-bootstrap';
+import { Button, Card, Carousel, Col, Container, ListGroup, Row, 
+    // Table,
+     Modal } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { Toaster, toast } from 'react-hot-toast';
 import { FaBox, FaEye, FaRegUser } from "react-icons/fa";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { AdminSellerProductLists, AdminSellerProductStatus } from "../../API/api";
-import { ChangeFormatDate2 } from "../../common/DateFormat";
+// import { ChangeFormatDate2 } from "../../common/DateFormat";
 
 
 export default function SellerProductManagment() {
     const [loading, setLoading] = useState(true);
     const [sellerOwnData, setSellerOwnData] = useState([])
-    const [sellerDetails, setSellerDeatils] = useState()
+
+    // seller data
+    const [sellerDetails, setSellerDetails] = useState()
+    // product data
     const [productDetails, setProductDetails] = useState()
+
+    // modal stats
+    const [showProductModal, setShowProductModal] = useState(false);
+    const [showSellerModal, setShowSellerModal] = useState(false);
+
+    // product and seller modal open close handlers
+    const handleProductModalOpen = (data) => {
+        setProductDetails(data);
+        setShowProductModal(true);
+    };
+    const handleProductModalClose = () => {
+        setShowProductModal(false);
+    }
+
+    const handleSellerModalOpen = (data) => {
+        setSellerDetails(data)
+        setShowSellerModal(true);
+    }
+    const handleSellerModalClose = () => {
+        setShowSellerModal(false);
+    }
 
 
     useEffect(() => {
@@ -26,7 +52,7 @@ export default function SellerProductManagment() {
     async function getAllOwnProducts() {
         setLoading(true)
         await AdminSellerProductLists().then((res) => {
-            console.log(res?.data?.data, 'own data');
+            // console.log(res?.data?.data, 'own data');
             const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
                 ...item,
                 id: index + 1,
@@ -34,20 +60,20 @@ export default function SellerProductManagment() {
             setSellerOwnData(dataWithUniqueIds)
             setLoading(false)
         }).catch((err) => {
-            console.log(err)
+            console.error(err)
         })
     }
 
 
-    const ShowDetails = (data) => {
-        console.log(data)
-        setSellerDeatils(data)
-    }
+    // const ShowDetails = (data) => {
+    //     console.log(data)
+    //     setSellerDetails(data)
+    // }
 
-    const ShowProductDetails = (data) => {
-        console.log(data)
-        setProductDetails(data)
-    }
+    // const ShowProductDetails = (data) => {
+    //     console.log(data)
+    //     setProductDetails(data)
+    // }
 
     const productStatusUpdate = async (data) => {
         let payload = {};
@@ -63,11 +89,11 @@ export default function SellerProductManagment() {
         }
 
         await AdminSellerProductStatus(data?._id, payload).then((res) => {
-            console.log(res?.data?.data)
+            // console.log(res?.data?.data)
             getAllOwnProducts()
             toast.success('Seller Product updated successfully!');
         }).catch((err) => {
-            console.log(err)
+            console.error(err)
             toast.error('Something went wrong!');
         })
 
@@ -87,19 +113,53 @@ export default function SellerProductManagment() {
         },
         { field: "name", headerName: "Product Name", width: 150 },
         {
+            field: "seller deatils",
+            headerName: "Seller Details",
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <>
+                        <div className="buttonWrapper">
+                            <Button variant="dark" onClick={() => handleSellerModalOpen(params?.row?.sellerId)} size="sm">
+                                <FaEye /> View
+                            </Button>
+                        </div>
+                    </>
+                );
+            },
+        },
+        {
             field: "image", headerName: "Product Image", width: 150, renderCell: (params) => {
                 return (
-                    <div className="productListItem" onClick={() => console.log(params?.row, 'roeDara')}>
+                    <div className="productListItem" 
+                    // onClick={() => console.log(params?.row, 'roeDara')}
+                    >
                         <img className="productListImg" src={params?.row?.image?.[0]?.image_path} alt="" />
                         {params?.row?.image?.length > 1 && <span>{params?.row?.image?.length - 1}+</span>}
                     </div>
                 );
             }
         },
-        { field: "regular_price", headerName: "Price", width: 150, },
-        { field: "desc", headerName: "Description", width: 150 },
         {
-            field: "category", headerName: "Category", width: 150, renderCell: (params) => {
+            field: "seller product",
+            headerName: "Product Details",
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <>
+                        <div className="buttonWrapper">
+                            <Button variant="dark" onClick={() => handleProductModalOpen(params?.row)} size="sm">
+                                <FaEye /> View
+                            </Button>
+                        </div>
+                    </>
+                );
+            },
+        },
+        // { field: "regular_price", headerName: "Price", width: 150},
+        // { field: "desc", headerName: "Description", width: 150 },
+        {
+            field: "category", headerName: "Category", width: 200, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         {params.row.categoryId?.title}
@@ -145,40 +205,8 @@ export default function SellerProductManagment() {
                 );
             }
         },
-        {
-            field: "seller deatils",
-            headerName: "Seller Details",
-            width: 150,
-            renderCell: (params) => {
-                return (
-                    <>
-
-                        <div className="buttonWrapper">
-                            <Button variant="dark" onClick={() => ShowDetails(params?.row?.sellerId)} size="sm">
-                                <FaEye /> View
-                            </Button>
-                        </div>
-                    </>
-                );
-            },
-        },
-        {
-            field: "seller product",
-            headerName: "Seller Product",
-            width: 150,
-            renderCell: (params) => {
-                return (
-                    <>
-
-                        <div className="buttonWrapper">
-                            <Button variant="dark" onClick={() => ShowProductDetails(params?.row)} size="sm">
-                                <FaEye /> View
-                            </Button>
-                        </div>
-                    </>
-                );
-            },
-        },
+        
+        
 
         // { field: "type", headerName: "Type", width: 150 },
         {
@@ -219,7 +247,6 @@ export default function SellerProductManagment() {
                     </Row>
                 </div>}
             <div className="productList mt-2 p-4">
-
                 <Container>
                     <Row className="justify-content-md-center">
                         <Col md="auto">
@@ -241,8 +268,8 @@ export default function SellerProductManagment() {
                         </Row>
                     </div>
 
-                    <Container className="mt-4">
-                        <Table  bordered hover responsive >
+                    {/* <Container className="mt-4">
+                        <Table bordered hover responsive >
                             <thead>
                                 <tr>
                                     <th>Status</th>
@@ -256,7 +283,7 @@ export default function SellerProductManagment() {
                                 </tr>
                             </thead>
                             <tbody >
-                                {sellerOwnData?.length > 0 && sellerOwnData?.map((ele)=>(
+                                {sellerOwnData?.length > 0 && sellerOwnData?.map((ele) => (
                                     <tr>
                                         <td>
                                             {ele?.is_approved == 'pending' ? <span className="DeactiveStatus">Pending</span> : <span className="ActiveStatus">Approved</span>}
@@ -267,11 +294,11 @@ export default function SellerProductManagment() {
                                             </div>
                                         </td>
                                         <td>
-                                              {ele?.name}
+                                            {ele?.name}
                                         </td>
                                         <td>{ele?.sellerProId}</td>
                                         <td>
-                                            {ele?.specId?.length} <br/>
+                                            {ele?.specId?.length} <br />
 
                                             <span>view</span>
                                         </td>
@@ -285,10 +312,10 @@ export default function SellerProductManagment() {
                                             <div className="buttonWrapper">
                                                 {ele?.is_approved == 'pending' ?
                                                     <Button variant="success" onClick={() => productStatusUpdate(ele)} size="sm">
-                                                         Approve
+                                                        Approve
                                                     </Button>
                                                     : <Button variant="danger" onClick={() => productStatusUpdate(ele)} size="sm">
-                                                         Reject
+                                                        Reject
                                                     </Button>}
 
                                             </div>
@@ -297,52 +324,109 @@ export default function SellerProductManagment() {
                                 ))}
                             </tbody>
                         </Table>
-                    </Container>
-                
-                <Container className="mt-4">
-                    <Row>
-                        <Col>
-                            {sellerDetails &&
-                                <UserCard user={sellerDetails} />}
-                        </Col>
-                        <Col>
-                            {productDetails &&
-                                <ProductCard product={productDetails} />}
-                        </Col>
-                    </Row>
+                    </Container> */}
+
+                    {/* <Container className="mt-4">
+                        <Row>
+                            <Col>
+                                {sellerDetails &&
+                                    <UserCard user={sellerDetails} />}
+                            </Col>
+                            <Col>
+                                {productDetails &&
+                                    <ProductCard product={productDetails} />}
+                            </Col>
+                        </Row>
+                    </Container> */}
+                    <Toaster position="top-right" />
                 </Container>
-                <Toaster position="top-right" />
-            </Container>
-        </div >
+
+                {/* modals */}
+                <Container>
+                    {/* product modal */}
+                    <Modal show={showProductModal} size="md" onHide={handleProductModalClose}>
+                        <Modal.Body>
+                            <div>
+                            {productDetails &&
+                                    <ProductCard product={productDetails} />}
+                            </div>
+                        </Modal.Body>
+                    </Modal>
+                    {/* seller modal  */}
+                    <Modal show={showSellerModal} size="md" onHide={handleSellerModalClose}>
+                        <Modal.Body>
+                            <div>
+                            {sellerDetails &&
+                                    <UserCard user={sellerDetails} />}
+                            </div>
+                        </Modal.Body>
+                    </Modal>
+                </Container>
+            </div >
         </>
     );
 }
 
+// user card here used to show seller details modal
 const UserCard = ({ user }) => {
-    console.log({ user })
+    // console.log("Inside User card");
+    // console.log({ user })
+
+    function isJSONString(str) {
+        try {
+            JSON.parse(str);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    if(isJSONString(user?.address)){
+        var addressData = JSON.parse(user?.address);
+
+        // Constructing the address string
+        var addressString = addressData?.city + ', ' + 
+                            addressData?.province +  ', ' +
+                            addressData?.state + ', ' + 
+                            addressData?.postal_code + ', ' +
+                            addressData?.country_code;
+    } else{
+        addressData = user?.address;
+    }
+
     return (
         <>
 
-            <Card style={{ width: '18rem' }}>
+            <Card style={{ width: '100%' }}>
                 <Card.Header><FaRegUser /> Seller Details</Card.Header>
                 <Card.Body>
                     <Card.Text>
-                        <strong>Phone:</strong> {user?.phone_no}
+                    <strong>Shop Name: </strong>{user?.shope_name}
                         <br />
-                        <strong>Email:</strong> {user?.email}
+                        <strong>Username: </strong>{user?.user_name}
                         <br />
-                        <strong>Address:</strong> {user?.address}
+                        <strong>Stuff ID: </strong>{user?.staffId}
                         <br />
-                        <strong>GST No:</strong> {user?.gst_no}
+                        <strong>Phone: </strong>{user?.phone_no}
                         <br />
-                        <strong>Pickup Location:</strong> {user?.picup_location}
+                        <strong>Email: </strong>{user?.email}
                         <br />
-                        <strong>Commission Rate:</strong> {user?.commission_rate}%
+                        <strong>Address: </strong>{addressString}
+                        <br />
+                        <strong>Pin Code: </strong>{user?.pin_code}
+                        <br />
+                        <strong>GST No: </strong>{user?.gst_no}
+                        <br />
+                        <strong>Pickup Location: </strong>{user?.picup_location}
+                        <br />
+                        <strong>Commission Rate: </strong>{user?.commission_data?.[0]?.commission_rate}%
                         <br />
                         <strong>Average Rating
-                            :</strong> {user?.rating || 0}
+                            : </strong> {user?.review || 0}
                         <br />
-                        <strong>Status:</strong> {user?.status}
+                        <strong>Status: </strong>{user?.status}
+                        <br />
+                        <strong>Total No of Unit: </strong>{user?.total_no_of_unit}
                     </Card.Text>
                     <Row>
                         <Col className="d-flex align-items-center"><strong>Shop Images</strong></Col>
@@ -363,16 +447,14 @@ const UserCard = ({ user }) => {
     );
 };
 
-
+//  product card here used to show product details modal
 const ProductCard = ({ product }) => {
 
     const [showDes, setShowDesc] = useState(false)
 
-    console.log({ product })
-
     return (
         <>
-            <Card style={{ width: '40rem' }}>
+            <Card style={{ width: "100%" }}>
                 <Card.Header className="text-center fw-bold"><FaBox /> Product Details</Card.Header>
                 <Card.Body>
                     <Row>
@@ -380,7 +462,7 @@ const ProductCard = ({ product }) => {
                             <Carousel>
                                 {product?.image?.map((image, index) => (
                                     <Carousel.Item key={index}>
-                                        <img className="d-block w-100" src={image} alt={`Shop Image ${index + 1}`} />
+                                        <img className="d-block w-100" src={image?.image_path} alt={`Shop Image ${index + 1}`} />
                                     </Carousel.Item>
                                 ))}
                             </Carousel>

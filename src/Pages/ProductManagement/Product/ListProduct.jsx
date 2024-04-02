@@ -1,7 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import "../product.css";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row, Modal, Form, ListGroup, Image, Table, Card } from 'react-bootstrap';
+import { Button, Col, Container, Row, Modal, Form, ListGroup, Image, Table, Card, InputGroup } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -24,6 +24,7 @@ import { FaCirclePlus } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { LiaListSolid } from "react-icons/lia";
+import { maxHeight } from "@mui/system";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -34,6 +35,7 @@ export default function ListProduct() {
 
     const [variantsArray, setVariantsArray] = useState([])
 
+    const [searchTerm , setSearchTerm] = useState('')
 
     const [showModal2, setShowModal2] = useState(false);
 
@@ -55,11 +57,7 @@ export default function ListProduct() {
     // };
 
 
-    useEffect(() => {
-        setTimeout(() => {
-            getProductListFunc();
-        }, 2500)
-    }, []);
+    
 
 
     const navigate = useNavigate()
@@ -106,113 +104,111 @@ export default function ListProduct() {
     }
 
 
+    // const columns = [
+    //     { field: "id", headerName: "ID", width: 100 },
+    //     { field: "productId", headerName: "Product Id", width: 150 },
+    //     { field: "name", headerName: "Name", width: 150 },
+    //     {
+    //         field: "image", headerName: "Image", width: 150, renderCell: (params) => {
+    //             return (
+    //                 <div className="productListItem">
+    //                     <img className="productListImg" src={params?.row?.image?.[0]?.image_path} alt="" />
+    //                     {params?.row?.image?.length > 1 && <span>{params?.row?.image?.length - 1}+</span>}
+    //                 </div>
+    //             );
+    //         }
+    //     },
+    //     // { field: "regular_price", headerName: "Price", width: 150, },
+    //     { field: "desc", headerName: "Description", width: 150 },
+    //     {
+    //         field: "category", headerName: "Category", width: 150, renderCell: (params) => {
+    //             return (
+    //                 <div className="productListItem">
+    //                     {params.row.categoryId?.title}
+    //                 </div>
+    //             );
+    //         }
+    //     },
+    //     {
+    //         field: "Subcategory", headerName: "Sub Category", width: 150, renderCell: (params) => {
+    //             return (
+    //                 <div className="productListItem">
+    //                     {params.row.subcategoryId?.title}
+    //                 </div>
+    //             );
+    //         }
+    //     },
+    //     {
+    //         field: "tags", headerName: "Tags", width: 150, renderCell: (params) => {
+    //             return (
+    //                 <div className="productListItem">
+    //                     {params.row?.tags?.map((ele, i) => (
+    //                         <p key={i}>{ele},</p>
+    //                     ))}
+    //                 </div>
+    //             );
+    //         }
+    //     },
+    //     {
+    //         field: "status", headerName: "Status", width: 100, renderCell: (params) => {
+    //             return (
+    //                 <div className="productListItem">
+    //                     {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+    //                 </div>
+    //             );
+    //         }
+    //     },
+    //     { field: "type", headerName: "Type", width: 100 },
+    //     {
+    //         field: "action",
+    //         headerName: "Actions",
+    //         width: 400,
+    //         renderCell: (params) => {
+    //             return (
+    //                 <>
 
-
-    const columns = [
-        { field: "id", headerName: "ID", width: 100 },
-        { field: "productId", headerName: "Product Id", width: 150 },
-        { field: "name", headerName: "Name", width: 150 },
-        {
-            field: "image", headerName: "Image", width: 150, renderCell: (params) => {
-                return (
-                    <div className="productListItem">
-                        <img className="productListImg" src={params?.row?.image?.[0]?.image_path} alt="" />
-                        {params?.row?.image?.length > 1 && <span>{params?.row?.image?.length - 1}+</span>}
-                    </div>
-                );
-            }
-        },
-        // { field: "regular_price", headerName: "Price", width: 150, },
-        { field: "desc", headerName: "Description", width: 150 },
-        {
-            field: "category", headerName: "Category", width: 150, renderCell: (params) => {
-                return (
-                    <div className="productListItem">
-                        {params.row.categoryId?.title}
-                    </div>
-                );
-            }
-        },
-        {
-            field: "Subcategory", headerName: "Sub Category", width: 150, renderCell: (params) => {
-                return (
-                    <div className="productListItem">
-                        {params.row.subcategoryId?.title}
-                    </div>
-                );
-            }
-        },
-        {
-            field: "tags", headerName: "Tags", width: 150, renderCell: (params) => {
-                return (
-                    <div className="productListItem">
-                        {params.row?.tags?.map((ele, i) => (
-                            <p key={i}>{ele},</p>
-                        ))}
-                    </div>
-                );
-            }
-        },
-        {
-            field: "status", headerName: "Status", width: 100, renderCell: (params) => {
-                return (
-                    <div className="productListItem">
-                        {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
-                    </div>
-                );
-            }
-        },
-        { field: "type", headerName: "Type", width: 100 },
-        {
-            field: "action",
-            headerName: "Actions",
-            width: 400,
-            renderCell: (params) => {
-                return (
-                    <>
-
-                        <div className="buttonWrapper">
-                            <Button variant="info" onClick={() => { handleShowModal(); setSeledtedProductId(params?.row) }} size="sm">
-                                <RiListSettingsFill /> Add Specification
-                            </Button>
-                            {/* <Button className="addCategoryButton" size="sm" variant="danger" >
-                                <div>
-                                    <input
-                                        type="file"
-                                        ref={fileInputRef}
-                                        style={{ display: 'none' }}
-                                        onChange={handleFileChange}
-                                    />
-                                    <Button variant="dark" onClick={handleButtonClick}>
-                                        {uploading ? (
-                                            <Spinner animation="border" size="sm" />
-                                        ) : (
-                                            <>
-                                                <PiFileCsvDuotone /> 
-                                            </>
-                                        )}
-                                    </Button>
-                                </div>
-                            </Button> */}
-                            <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)} size="sm">
-                                <RiEdit2Line /> Edit
-                            </Button>
-                            {params?.row?.status ?
-                                <Button variant="danger" onClick={() => handleStatus(params?.row)} size="sm">
-                                    Deactive
-                                </Button> :
-                                <Button variant="success" onClick={() => handleStatus(params?.row)} size="sm">
-                                    Active
-                                </Button>}
-                            <Button variant="outline-danger" onClick={() => handledeleteProduct(params?.row?._id)} size="sm">
-                                <FaRegTrashAlt />
-                            </Button>
-                        </div>
-                    </>
-                );
-            },
-        },
-    ];
+    //                     <div className="buttonWrapper">
+    //                         <Button variant="info" onClick={() => { handleShowModal(); setSeledtedProductId(params?.row) }} size="sm">
+    //                             <RiListSettingsFill /> Add Specification
+    //                         </Button>
+    //                         {/* <Button className="addCategoryButton" size="sm" variant="danger" >
+    //                             <div>
+    //                                 <input
+    //                                     type="file"
+    //                                     ref={fileInputRef}
+    //                                     style={{ display: 'none' }}
+    //                                     onChange={handleFileChange}
+    //                                 />
+    //                                 <Button variant="dark" onClick={handleButtonClick}>
+    //                                     {uploading ? (
+    //                                         <Spinner animation="border" size="sm" />
+    //                                     ) : (
+    //                                         <>
+    //                                             <PiFileCsvDuotone /> 
+    //                                         </>
+    //                                     )}
+    //                                 </Button>
+    //                             </div>
+    //                         </Button> */}
+    //                         <Button variant="warning" onClick={() => navigate(`/Admin/Editproduct/${params?.row?._id}`)} size="sm">
+    //                             <RiEdit2Line /> Edit
+    //                         </Button>
+    //                         {params?.row?.status ?
+    //                             <Button variant="danger" onClick={() => handleStatus(params?.row)} size="sm">
+    //                                 Deactive
+    //                             </Button> :
+    //                             <Button variant="success" onClick={() => handleStatus(params?.row)} size="sm">
+    //                                 Active
+    //                             </Button>}
+    //                         <Button variant="outline-danger" onClick={() => handledeleteProduct(params?.row?._id)} size="sm">
+    //                             <FaRegTrashAlt />
+    //                         </Button>
+    //                     </div>
+    //                 </>
+    //             );
+    //         },
+    //     },
+    // ];
 
 
     const fileInputRef = useRef(null);
@@ -236,11 +232,11 @@ export default function ListProduct() {
         }
     };
 
-    const handleButtonClick = () => {
-        // Trigger the hidden file input
-        console.log({ fileInputRef })
-        fileInputRef.current.click();
-    };
+    // const handleButtonClick = () => {
+    //     // Trigger the hidden file input
+    //     console.log({ fileInputRef })
+    //     fileInputRef.current.click();
+    // };
 
 
     const onFileUpload = async (file, type) => {
@@ -320,6 +316,17 @@ export default function ListProduct() {
 
         return filterData?.length
     }
+
+    useEffect(() => {
+        setTimeout(() => {
+            getProductListFunc();
+        }, 5000)
+    }, []);
+
+    // filter data based on search term
+    const filterData = data.filter((ele) => {
+        return ele?.productId?.toString().includes(searchTerm) || ele?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    });
 
     return (
         <>
@@ -435,94 +442,111 @@ export default function ListProduct() {
                         </Col>
                     </Row> */}
                     <Row className="mt-4">
-                        <Table responsive striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Product Id</th>
-                                    <th>Name</th>
-                                    <th>Image</th>
-                                    <th>Variants</th>
-                                    {/* <th>Description</th> */}
-                                    <th>Category</th>
-                                    <th>Sub Category</th>
-                                    {/* <th>Tags</th> */}
-                                    {/* <th>Status</th> */}
-                                    {/* <th>Type</th> */}
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data.map((row, index) => (
-                                    <tr key={index}>
-                                        <td>{row?.id}</td>
-                                        {/* <td>{row?.productId}</td> */}
-                                        {/** TEMP */}
-                                        <td>{row?.productId?.substring(0, 15)}
-                                            <span className="mx-2">
-                                                {(copied && copiedindex == index) ?
-                                                    <>
-                                                        <BsClipboard2CheckFill size={20} color="green" /><br /> <span style={{ fontSize: '10px', color: 'green' }}>Copied</span>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <LuClipboardSignature style={{ cursor: 'pointer' }} onClick={() => copyTextToClipboard(row?.productId, index)} size={18} />
-                                                    </>
-                                                }
-                                            </span>
-                                        </td>
-                                        <td>{row?.name?.substring(0, 20) + '...'}</td>
-                                        <td>
-                                            <div className="productListItem">
-                                                <img className="productListImg" src={row.image?.[0]?.image_path} alt="" />
-                                            </div>
-                                        </td>
-                                        <td style={{ width: '150px' }}>
-                                            {row?.specId?.length}
-                                            <p className="variCss" onClick={() => showVariants(row?.specId)}>VIEW</p>
-                                            {variationRequestCount(row?.specId) > 0 &&
-                                                <p className="newrqNo"><AiOutlineInfoCircle size={22} /> {variationRequestCount(row?.specId)} Requested </p>}
-                                        </td>
-                                        {/* <td>{row?.desc}</td> */}
-                                        <td>{row?.categoryId?.title}</td>
-                                        <td>{row?.subcategoryId?.title}</td>
-                                        {/* <td>
-                                            <div className="productListItem">
-                                                {row?.tags?.map((ele, i) => (
-                                                    <p key={i}>{ele},</p>
-                                                ))}
-                                            </div>
-                                        </td> */}
-                                        {/* <td>
-                                            <div className="productListItem">
-                                                {row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
-                                            </div>
-                                        </td> */}
-                                        {/* <td>{row?.type}</td> */}
-                                        <td style={{ width: '275px' }}>
-                                            <div className="buttonWrapper">
-                                                <Button variant="info" size="sm" onClick={() => { handleShowModal(); setSeledtedProductId(row) }}>
-                                                    <FaCirclePlus />  Variants
-                                                </Button>
-                                                <Button variant="success" size="sm" onClick={() => navigate(`/Admin/Editproduct/${row?._id}`)}>
-                                                    Edit
-                                                </Button>
-                                                {row?.status ?
-                                                    <Button variant="danger" size="sm" onClick={() => handleStatus(row)}>
-                                                        Deactive
-                                                    </Button> :
-                                                    <Button variant="success" size="sm" onClick={() => handleStatus(row)}>
-                                                        Active
-                                                    </Button>}
-                                                {/* <Button variant="outline-danger" size="sm">
-                                                    Delete
-                                                </Button> */}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                        <div>
+                            <div>
+                                <InputGroup className="mb-3">
+                                    <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
+                                    <Form.Control
+                                        placeholder="search product by id or name"
+                                        aria-label="Search-Product"
+                                        aria-describedby="basic-addon1"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </InputGroup>
+                            </div>
+                            <div style={{height: 1000, overflowY: 'auto', }}>
+                                <Table responsive striped bordered hover>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Product Id</th>
+                                            <th>Name</th>
+                                            <th>Image</th>
+                                            <th>Variants</th>
+                                            {/* <th>Description</th> */}
+                                            <th>Category</th>
+                                            <th>Sub Category</th>
+                                            {/* <th>Tags</th> */}
+                                            {/* <th>Status</th> */}
+                                            {/* <th>Type</th> */}
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {filterData.map((row, index) => (
+                                            <tr key={index}>
+                                                <td>{row?.id}</td>
+                                                {/* <td>{row?.productId}</td> */}
+                                                {/** TEMP */}
+                                                <td>{row?.productId?.substring(0, 15)}
+                                                    <span className="mx-2">
+                                                        {(copied && copiedindex == index) ?
+                                                            <>
+                                                                <BsClipboard2CheckFill size={20} color="green" /><br /> <span style={{ fontSize: '10px', color: 'green' }}>Copied</span>
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <LuClipboardSignature style={{ cursor: 'pointer' }} onClick={() => copyTextToClipboard(row?.productId, index)} size={18} />
+                                                            </>
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td>{row?.name?.substring(0, 20) + '...'}</td>
+                                                <td>
+                                                    <div className="productListItem">
+                                                        <img className="productListImg" src={row.image?.[0]?.image_path} alt="" />
+                                                    </div>
+                                                </td>
+                                                <td style={{ width: '150px' }}>
+                                                    {row?.specId?.length}
+                                                    <p className="variCss" onClick={() => showVariants(row?.specId)}>VIEW</p>
+                                                    {variationRequestCount(row?.specId) > 0 &&
+                                                        <p className="newrqNo"><AiOutlineInfoCircle size={22} /> {variationRequestCount(row?.specId)} Requested </p>}
+                                                </td>
+                                                {/* <td>{row?.desc}</td> */}
+                                                <td>{row?.categoryId?.title}</td>
+                                                <td>{row?.subcategoryId?.title}</td>
+                                                {/* <td>
+                                                    <div className="productListItem">
+                                                        {row?.tags?.map((ele, i) => (
+                                                            <p key={i}>{ele},</p>
+                                                        ))}
+                                                    </div>
+                                                </td> */}
+                                                {/* <td>
+                                                    <div className="productListItem">
+                                                        {row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
+                                                    </div>
+                                                </td> */}
+                                                {/* <td>{row?.type}</td> */}
+                                                <td style={{ width: '275px' }}>
+                                                    <div className="buttonWrapper">
+                                                        <Button variant="info" size="sm" onClick={() => { handleShowModal(); setSeledtedProductId(row) }}>
+                                                            <FaCirclePlus />  Variants
+                                                        </Button>
+                                                        <Button variant="success" size="sm" onClick={() => navigate(`/Admin/Editproduct/${row?._id}`)}>
+                                                            Edit
+                                                        </Button>
+                                                        {row?.status ?
+                                                            <Button variant="danger" size="sm" onClick={() => handleStatus(row)}>
+                                                                Deactive
+                                                            </Button> :
+                                                            <Button variant="success" size="sm" onClick={() => handleStatus(row)}>
+                                                                Active
+                                                            </Button>}
+                                                        {/* <Button variant="outline-danger" size="sm">
+                                                            Delete
+                                                        </Button> */}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </div>
+                        
                     </Row>
                     <Row>
                         <ProductSpecificationForm
@@ -586,7 +610,7 @@ export default function ListProduct() {
 
 const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseModal, getProductListFunc }) => {
 
-    console.log({ selectedproductid })
+    // console.log({ selectedproductid })
 
     const [specifications, setSpecifications] = useState([
         {
@@ -809,8 +833,6 @@ const ProductSpecificationForm = ({ selectedproductid, showModal, handleCloseMod
         setproductPrice(filterSpecData?.price)
         console.log(filterSpecData)
     }
-
-    console.table(productImges)
 
 
     const deleteSpec = async (id) => {
