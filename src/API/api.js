@@ -958,6 +958,14 @@ export async function offerTypeCreate(formData){
     }
 }
 
+export async function offerTypeList() {
+    try {
+        const response = await axios.get(apiUrl + `/offer-type/list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
 
 export async function offerCreate(formData) {
     try {
@@ -1022,5 +1030,29 @@ export async function sellerVariationsBulkUpload(formData) {
         return response;
     } catch (error) {
         return error
+    }
+}
+
+export async function ReportLists(){
+    try {
+        const response = await axios.get(apiUrl + `/seller-report/report-list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
+
+export async function ReportListsWithDate(startDate, endDate) {
+    try {
+        const response = await axios.get(apiUrl + '/seller-report/report-list', {
+            headers: setAuthHeader(),
+            params: {
+                startDate: startDate,
+                endDate: endDate
+            }
+        });
+        return response;
+    } catch (error) {
+        return error;
     }
 }

@@ -349,60 +349,7 @@ export default function ListProduct() {
                         </Col>
                     </Row>
 
-                    {/* <Row>
-                        <Col>Download Templets</Col>
-                    </Row>
-
-                    <Row>
-                        <Col>
-                            <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535127298.csv?alt=media" >
-                                <Button size="sm" variant="warning"><PiFileCsvLight size="20" /> Download Templete For Product</Button>
-                            </a>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col>
-                            <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535413092.csv?alt=media" >
-                                <Button size="sm" >Download Variations Templete</Button>
-                            </a>
-                        </Col>
-                    </Row>
-
-                    <Row>
-                        <Col>Bulk Upload</Col>
-                    </Row>
-
-                    <Row>
-                        <Col >
-                            <div>
-                                <input
-                                    type="file"
-                                    ref={fileInputRef}
-                                    style={{ display: 'none' }}
-                                    onChange={handleFileChange}
-                                />
-                                <Button size='sm' variant="success" onClick={() => fileInputRef.current.click()}><PiFileCsvLight size="20" />Upload Products via CSV</Button>
-                            </div>
-                        </Col>
-
-                    </Row>
-
-                    <Row>
-                        <Col>
-                            <div>
-                                <input
-                                    type="file"
-                                    ref={fileInputRef2}
-                                    style={{ display: 'none' }}
-                                    onChange={handleFileChangeSpec}
-                                />
-                                <Button size='sm' variant="success" onClick={() => fileInputRef2.current.click()}><PiFileCsvLight size="20" />   Specification via CSV</Button>
-                            </div>
-                        </Col>
-                    </Row> */}
-
-
+                   
                     <Row className="mt-4">
 
                         <Col style={{ border: '1px solid lightgrey', padding: '2%', background: '#e5e5e5' }}>
@@ -465,49 +412,10 @@ export default function ListProduct() {
                     </Row>
 
 
-                    {/* <Row className="mt-2">
-                        <Col xs={12}>Download Templete with Sample data</Col>
-                        <Col xs={6}>
-                            <Row>
-                                <Col>
-                                    <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535127298.csv?alt=media" >
-                                        <Button size="sm" variant="warning">Download Templete</Button>
-                                    </a>
-                                </Col>
-                                <Col>
-                                    <a href="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1711535413092.csv?alt=media" >
-                                        <Button size="sm" >Download Variation Templete</Button>
-                                    </a>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row> */}
                     <Row className="mt-4">
                         <Col xs={10}></Col>
                         <Col>
                             <Row>
-                                {/* <Col >
-                                    <div>
-                                        <input
-                                            type="file"
-                                            ref={fileInputRef}
-                                            style={{ display: 'none' }}
-                                            onChange={handleFileChange}
-                                        />
-                                        <Button size='sm' variant="success" onClick={() => fileInputRef.current.click()}><PiFileCsvLight size="20" /> Product via CSV</Button>
-                                    </div>
-                                </Col>
-                                <Col>
-                                    <div>
-                                        <input
-                                            type="file"
-                                            ref={fileInputRef2}
-                                            style={{ display: 'none' }}
-                                            onChange={handleFileChangeSpec}
-                                        />
-                                        <Button size='sm' variant="success" onClick={() => fileInputRef2.current.click()}><PiFileCsvLight size="20" />   Specification via CSV</Button>
-                                    </div>
-                                </Col> */}
                                 <Col>
                                     <Button size="sm" variant="dark" onClick={() => navigate('/Admin/Addproduct')}>
                                         <AiOutlinePlus /> Add New Product

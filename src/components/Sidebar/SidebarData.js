@@ -64,6 +64,12 @@ export const AdminSidebarData = [
         cName: 'nav-text'
     },
     {
+        title: 'Offers',
+        path: '/Admin/product-offer',
+        icon: FaCartArrowDown,
+        cName: 'nav-text'
+    },
+    {
         title: 'Banner Managment',
         path: '/bannermanagment',
         icon: GiVerticalBanner,

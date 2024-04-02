@@ -68,3 +68,9 @@ export function getDayOfWeek(dateString) {
 
     return dayOfWeek;
 }
+
+export function formatDateRemoveTime(timestamp) {
+    const date = new Date(timestamp);
+    const formattedDate = date.toISOString().split('T')[0];
+    return formattedDate;
+}
