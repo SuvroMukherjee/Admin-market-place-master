@@ -11,12 +11,17 @@ import { RxCross2 } from "react-icons/rx";
 import toast, { Toaster } from 'react-hot-toast';
 // import { Bar } from 'react-chartjs-2';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { TfiReload } from "react-icons/tfi";
+import { MdDownload } from "react-icons/md";
+import { CSVLink } from 'react-csv';
 
 const Report = () => {
 
     const [reports, setReports] = useState([])
     const [reportDate, setReportDate] = useState([])
     const [allorders, setAllorders] = useState([])
+    const [type, setType] = useState('1')
+    const [csvData, setCsvData] = useState([]);
 
     useEffect(() => {
         getReportListFunc();
@@ -28,15 +33,24 @@ const Report = () => {
         setReports(res?.data)
         let d = [];
         res?.data?.data.forEach((ele) => {
-            ele?.order_details?.forEach((item,index) => {
+            ele?.order_details?.forEach((item, index) => {
                 if (item?.order_status == 'delivered') {
-                    console.log(item,index)
-                    d.push({ order_id: item?._id, sales: item?.price * item?.qty, income: (item?.proId?.comission_price) * item?.qty, Quantiy: item?.qty, date: item?.order_delivery ? formatDateRemoveTime(item?.order_delivery) : formatDateRemoveTime(new Date()) })
+                    console.log(item, index)
+                    d.push(
+                        {
+                            order_id: item?._id,
+                            sales: item?.price * item?.qty,
+                            income: (item?.proId?.comission_price) * item?.qty,
+                            Quantiy: item?.qty,
+                            date: item?.order_delivery ? formatDateRemoveTime(item?.order_delivery) : formatDateRemoveTime(new Date()),
+                            product: item?.proId?.name 
+                        })
                 }
             })
         })
 
         setAllorders(d)
+        setCsvData(d)
     }
 
 
@@ -58,30 +72,38 @@ const Report = () => {
             ele?.order_details?.forEach((item, index) => {
                 if (item?.order_status == 'delivered') {
                     console.log(item, index)
-                    d.push({ order_id: item?._id, sales: item?.price * item?.qty, income: (item?.proId?.comission_price) * item?.qty, Quantiy: item?.qty, date: item?.order_delivery ? formatDateRemoveTime(item?.order_delivery) : formatDateRemoveTime(new Date()) })
+                    d.push({ order_id: item?._id, sales: item?.price * item?.qty, income: (item?.proId?.comission_price) * item?.qty, Quantiy: item?.qty, date: item?.order_delivery ? formatDateRemoveTime(item?.order_delivery) : formatDateRemoveTime(new Date()), product: item?.proId?.name })
                 }
             })
         })
 
         setAllorders(d)
+        setCsvData(d)
         setReports(res?.data)
 
     }
 
-    console.log({ allorders })
+    const handleChangeView = (value) => {
+        console.log(value)
+        setType(value)
+    }
 
     return (
         <div>
             <Container className='mt-4'>
                 <Row>
                     <Col className='retext'>Sales Dashboard</Col>
-                    <Col xs={4}>
+                    <Col xs={4}></Col>
+                    <Col xs={3}>
                         <Row>
                             <Col>
-                                <Button>Refresh</Button>
+                                <p className='not-select-view'><span onClick={() => getReportListFunc()}><TfiReload /> </span> Refresh</p>
                             </Col>
                             <Col>
-                                <Button>Download</Button>
+                                {csvData?.length > 0 &&
+                                    <CSVLink size="sm" data={csvData} filename={`report.csv`}>
+                                        <p className='select-view'><span ><MdDownload /></span> Download</p>
+                                    </CSVLink>}
                             </Col>
                         </Row>
                     </Col>
@@ -108,7 +130,7 @@ const Report = () => {
                             </Form.Group>
                         </Col>
                         <Col className="d-flex justify-content-start align-items-end cursor">
-                            <Button size="sm" variant="secondary" onClick={() => handledateOperation()}>Apply</Button>
+                            <Button variant="secondary" onClick={() => handledateOperation()}>APPLY</Button>
                         </Col>
 
                     </Row>
@@ -144,64 +166,98 @@ const Report = () => {
                     <Col className='d-flex align-items-center retext'>Campare Sales</Col>
                     <Col xs={6}></Col>
                     <Col xs={3}>
-                      <Row>
-                            <Col className='select-view'>Graph View</Col>
-                            <Col className='not-select-view'>Table View</Col>
-                      </Row>
+                        <Row>
+                            <Col className={type == '1' ? 'select-view' : 'not-select-view'} onClick={() => handleChangeView('1')}>Graph View</Col>
+                            <Col className={type == '2' ? 'select-view' : 'not-select-view'} onClick={() => handleChangeView('2')}>Table View</Col>
+                        </Row>
                     </Col>
                 </Row>
-                <Row className='mt-4'>
-                    <Col className='text-center ght'>Sale's Graph</Col>
-                    <Col className='text-center ght'>Order's Graph</Col>
-                </Row>
-                <Row style={{ height: '100vh' }} className='mt-2'>
-                    <Col  >
-                        <ResponsiveContainer width="100%" height="60%">
-                            <BarChart
-                                width={1600}
-                                height={600}
-                                data={allorders}
-                                margin={{
-                                    top: 5,
-                                    right: 30,
-                                    left: 20,
-                                    bottom: 5,
-                                }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="date" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="sales" fill="#31363F" activeBar={<Rectangle fill="orange" stroke="blue" />} />
-                                <Bar dataKey="income" fill="#43ae00" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </Col>
+                {type == 1 &&
+                    <Row className='mt-4'>
+                        <Col className='text-center ght'>Ordered Product Sale's Graph</Col>
+                        <Col className='text-center ght'>Units Ordere's Graph</Col>
+                    </Row>}
+                {type == 1 &&
+                    <Row style={{ height: '100vh' }} className='mt-2'>
+                        <Col  >
+                            <ResponsiveContainer width="100%" height="60%">
+                                <BarChart
+                                    width={1600}
+                                    height={600}
+                                    data={allorders}
+                                    margin={{
+                                        top: 5,
+                                        right: 30,
+                                        left: 20,
+                                        bottom: 5,
+                                    }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar dataKey="sales" fill="#31363F" activeBar={<Rectangle fill="orange" stroke="blue" />} />
+                                    <Bar dataKey="income" fill="#43ae00" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </Col>
 
-                    <Col>
-                        <ResponsiveContainer width="100%" height="60%">
-                            <BarChart
-                                width={1600}
-                                height={600}
-                                data={allorders}
-                                margin={{
-                                    top: 5,
-                                    right: 30,
-                                    left: 20,
-                                    bottom: 5,
-                                }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="date" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="Quantiy" fill="#007F73" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </Col>
-                </Row>
+                        <Col>
+                            <ResponsiveContainer width="100%" height="60%">
+                                <BarChart
+                                    width={1600}
+                                    height={600}
+                                    data={allorders}
+                                    margin={{
+                                        top: 5,
+                                        right: 30,
+                                        left: 20,
+                                        bottom: 5,
+                                    }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar dataKey="Quantiy" fill="#007F73" activeBar={<Rectangle fill="pink" stroke="blue" />} />
+                                    <Bar dataKey="product" fill="#43ae00" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </Col>
+                    </Row>}
+                {type == '2' &&
+                    <Row className='mt-4'>
+                        <Col>
+                            <Table responsive striped bordered hover>
+                                <thead>
+                                    <tr>
+                                        <th>Order Id</th>
+                                        <th>Product Name</th>
+                                        <th>Order date</th>
+                                        <th>Qunatity</th>
+                                        <th>Sales</th>
+                                        <th>Revenue</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {allorders.map((ele, index) => (
+                                        <tr key={index}>
+                                            <td>{ele?.order_id}</td>
+                                            <td>{ele?.product}</td>
+                                            <td>{ele?.date}</td>
+                                            <td>{ele?.Quantiy}</td>
+                                            <td>₹ {ele?.sales?.toLocaleString()}</td>
+                                            <td>₹ {ele?.income?.toLocaleString()}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+
+                            
+                        </Col>
+                    </Row>}
             </Container>
         </div>
     )
