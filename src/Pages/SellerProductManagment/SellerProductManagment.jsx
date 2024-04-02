@@ -267,77 +267,6 @@ export default function SellerProductManagment() {
                             </Col>
                         </Row>
                     </div>
-
-                    {/* <Container className="mt-4">
-                        <Table bordered hover responsive >
-                            <thead>
-                                <tr>
-                                    <th>Status</th>
-                                    <th>Image</th>
-                                    <th>Product Name</th>
-                                    <th>Product Id</th>
-                                    <th>Variations</th>
-                                    <th>Seller</th>
-                                    <th>Request Day</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody >
-                                {sellerOwnData?.length > 0 && sellerOwnData?.map((ele) => (
-                                    <tr>
-                                        <td>
-                                            {ele?.is_approved == 'pending' ? <span className="DeactiveStatus">Pending</span> : <span className="ActiveStatus">Approved</span>}
-                                        </td>
-                                        <td>
-                                            <div className="productListItem" onClick={() => console.log(ele, 'roeDara')}>
-                                                <img className="productListImg" src={ele?.image?.[0]?.image_path} alt="" />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {ele?.name}
-                                        </td>
-                                        <td>{ele?.sellerProId}</td>
-                                        <td>
-                                            {ele?.specId?.length} <br />
-
-                                            <span>view</span>
-                                        </td>
-                                        <td>
-                                            {ele?.sellerId?.email}
-                                        </td>
-                                        <td>
-                                            {ChangeFormatDate2(ele?.updatedAt)}
-                                        </td>
-                                        <td>
-                                            <div className="buttonWrapper">
-                                                {ele?.is_approved == 'pending' ?
-                                                    <Button variant="success" onClick={() => productStatusUpdate(ele)} size="sm">
-                                                        Approve
-                                                    </Button>
-                                                    : <Button variant="danger" onClick={() => productStatusUpdate(ele)} size="sm">
-                                                        Reject
-                                                    </Button>}
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Container> */}
-
-                    {/* <Container className="mt-4">
-                        <Row>
-                            <Col>
-                                {sellerDetails &&
-                                    <UserCard user={sellerDetails} />}
-                            </Col>
-                            <Col>
-                                {productDetails &&
-                                    <ProductCard product={productDetails} />}
-                            </Col>
-                        </Row>
-                    </Container> */}
                     <Toaster position="top-right" />
                 </Container>
 
@@ -458,7 +387,7 @@ const ProductCard = ({ product }) => {
                 <Card.Header className="text-center fw-bold"><FaBox /> Product Details</Card.Header>
                 <Card.Body>
                     <Row>
-                        <Col>
+                        <Col xs={4} className="d-flex align-items-center">
                             <Carousel>
                                 {product?.image?.map((image, index) => (
                                     <Carousel.Item key={index}>
