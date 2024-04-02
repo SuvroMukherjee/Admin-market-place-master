@@ -65,7 +65,7 @@ export const AdminSidebarData = [
     },
     {
         title: 'Offers',
-        path: '/Admin/offer',
+        path: '/Admin/product-offer',
         icon: FaCartArrowDown,
         cName: 'nav-text'
     },

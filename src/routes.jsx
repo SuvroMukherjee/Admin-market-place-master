@@ -71,11 +71,8 @@ import EditSubCategoryRequest from './Pages/StoreSeller/NewProductAddition/EditS
 import DisplayCampaign from './Pages/StoreSeller/Layout/DisplayCampaign';
 import EditBrandRequest from './Pages/StoreSeller/NewProductAddition/EditBrandRequest';
 import Report from './Pages/StoreSeller/Layout/Report';
+import Offer from './Pages/ProductManagement/Offer/Offer';
 import ProductOffer from './Pages/ProductManagement/Offer/ProductOffer';
-
-
-
-
 
 
 export default function Router() {
@@ -120,7 +117,8 @@ export default function Router() {
             { path: 'product', element: <ListProduct /> },
             { path: 'Addproduct', element: <AddProduct /> },
             { path: 'Editproduct/:id', element: <EditProduct /> },
-            { path: 'offer', element: <ProductOffer /> },
+            { path: 'product-offer', element: <ProductOffer /> },
+            { path: 'offer/:id', element: <Offer /> },
           ],
         },
       ],
