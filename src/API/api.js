@@ -958,6 +958,14 @@ export async function offerTypeCreate(formData){
     }
 }
 
+export async function offerTypeList() {
+    try {
+        const response = await axios.get(apiUrl + `/offer-type/list`, { headers: setAuthHeader() })
+        return response;
+    } catch (error) {
+        return error
+    }
+}
 
 export async function offerCreate(formData) {
     try {
