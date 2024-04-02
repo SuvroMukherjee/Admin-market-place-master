@@ -216,9 +216,23 @@ const Report = () => {
                     </Row>
                 </div>
                 {/* <OrdersChart orders={allorders} /> */}
-                <Row style={{ height: '100vh' }} className='mt-4'>
-                    <Col xs={1} className='d-flex align-items-start justify-content-center'>Sales</Col>
-                    <Col>
+                <Row className='mt-4 p-2'>
+                    <Col className='d-flex align-items-center retext'>Campare Sales</Col>
+                    <Col xs={6}></Col>
+                    <Col xs={3}>
+                      <Row>
+                            <Col className='select-view'>Graph View</Col>
+                            <Col className='not-select-view'>Table View</Col>
+                      </Row>
+                    </Col>
+                </Row>
+                <Row className='mt-4'>
+                    <Col className='text-center ght'>Sale's Graph</Col>
+                    <Col className='text-center ght'>Order's Graph</Col>
+                </Row>
+                <Row style={{ height: '100vh' }} className='mt-2'>
+                    {/* <Col xs={1} className='d-flex align-items-center justify-content-center'>Sales</Col> */}
+                    <Col  >
                         <ResponsiveContainer width="100%" height="60%">
                             <BarChart
                                 width={1600}
@@ -241,7 +255,7 @@ const Report = () => {
                             </BarChart>
                         </ResponsiveContainer>
                     </Col>
-                    <Col xs={1} className='d-flex align-items-center justify-content-center'>Orders</Col>
+                    {/* <Col xs={1} className='d-flex align-items-center justify-content-center'>Orders</Col> */}
                     <Col>
                         <ResponsiveContainer width="100%" height="60%">
                             <BarChart
