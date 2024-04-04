@@ -185,7 +185,7 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
     selectedFiles.forEach((file) => {
         onFileUpload(file);
     });
-};
+ };
 
 
     const onFileUpload = async (file) => {
@@ -199,7 +199,7 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
             setTimeout(() => {
                 setShopInfo((prevData) => ({
                     ...prevData,
-                    pic_of_shope: [...prevData?.pic_of_shope, res?.data?.data?.fileurl],
+                    pic_of_shope: [...prevData?.pic_of_shope || [], res?.data?.data?.fileurl],
                 }));
             }, 3000);
             // setBtnEnable(false)
