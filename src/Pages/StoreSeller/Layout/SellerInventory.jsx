@@ -765,7 +765,7 @@ export default function SellerInventory() {
                                             {/* <Button size="sm">Offer</Button> */}
                                             <DropdownButton className="w-100" id="dropdown-basic-button" title="Edit" size="sm" variant="secondary">
                                                 <Dropdown.Item onClick={() => navigate(`/seller/product-deatils/${ele?._id}`)}>View Details</Dropdown.Item>
-                                                <Dropdown.Item onClick={() => navigate(`/seller/seller-product-edit/${ele?._id}/new-offers/${ele?._id}`)}>Apply Offers</Dropdown.Item>
+                                                {/* <Dropdown.Item onClick={() => navigate(`/seller/seller-product-edit/${ele?._id}/new-offers/${ele?._id}`)}>Apply Offers</Dropdown.Item> */}
                                                 <Dropdown.Item onClick={() => navigate(`/seller/add-ofers/${ele?._id}`)}>Edit Product</Dropdown.Item>
                                                 <Dropdown.Item onClick={() => navigate(`/seller/seller-product-edit/${ele?._id}/manage-images/${ele?._id}`)}>Manage Images</Dropdown.Item>
                                                 <Dropdown.Item onClick={() => navigate(`/seller/seller-product-edit/${ele?._id}/new-mainVariants/${ele?._id}`)}>New Variations</Dropdown.Item>

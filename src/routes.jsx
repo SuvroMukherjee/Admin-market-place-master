@@ -73,6 +73,7 @@ import EditBrandRequest from './Pages/StoreSeller/NewProductAddition/EditBrandRe
 import Report from './Pages/StoreSeller/Layout/Report';
 import Offer from './Pages/ProductManagement/Offer/Offer';
 import ProductOffer from './Pages/ProductManagement/Offer/ProductOffer';
+import SellerEditForm from './Pages/KeyManager/Seller/SellerEditForm';
 
 
 export default function Router() {
@@ -135,7 +136,8 @@ export default function Router() {
             { path: 'seller', element: <ListSeller /> },
             { path: 'AddSeller', element: <Addseller /> },
             { path: 'keysellerdetails/:id', element: <KeySellerdetails /> },
-            { path: 'EditSeller/:id', element: <EditSeller /> },
+            // { path: 'EditSeller/:id', element: <EditSeller /> },
+            { path: 'EditSeller/:id', element: <SellerEditForm /> }
           ],
         },
       ],
