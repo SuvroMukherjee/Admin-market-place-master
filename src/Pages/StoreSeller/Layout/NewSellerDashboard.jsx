@@ -188,11 +188,15 @@ const NewSellerDashboard = () => {
                         <NumberBox label={'Total Sales'} number={totalSales?.toLocaleString()} />
                     </Col>
                     <Col>
+                        <NumberBox label={'Returned Orders'} number={0} />
+                    </Col>
+                    <Col>
                         <NumberBox label={'Customer Feedback'} number={avgCustomerRating} />
                     </Col>
                     <Col>
                         <NumberBox label={'Total Balance'} number={totalcommission?.toLocaleString()} />
                     </Col>
+                    
                 </Row>
             </Container>
             <Container className='mt-4'>
