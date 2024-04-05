@@ -24,6 +24,7 @@ const MyNavbar = () => {
     if (auth) {
       getProfileData();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getProfileData() {
@@ -148,202 +149,206 @@ const MyNavbar = () => {
         onClose={toggleDrawer}
         className="sidebatsellerBoard"
       >
-        <Row>
-          <div className="sellSide mt-4 mb-4">
-            <Col
-              className="p-2 mx-2 text-left boldtext clos"
-              onClick={toggleDrawer}
-            >
-              <Row>
-                <Col
-                  xs={8}
-                  className="d-flex justify-content-start align-items-center"
-                >
-                  CLOSE
-                </Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <MdCancel color="" size={25} />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Seller Dashboard")}
-            >
-              <Row>
-                <Col xs={8}>Home</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Add Product")}
-            >
-              <Row>
-                <Col xs={8}>Add Products</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Product Request")}
-            >
-              <Row>
-                <Col xs={8}>Request New Product</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Add Product Via Upload")}
-            >
-              <Row>
-                <Col xs={8}>Add Product via Upload</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Brand Request")}
-            >
-              <Row>
-                <Col xs={8}>Brand Request</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Category Request")}
-            >
-              <Row>
-                <Col xs={8}>Category Request</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Track Your Application")}
-            >
-              <Row>
-                <Col xs={8}>View Applications</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Inventory Manage")}
-            >
-              <Row>
-                <Col xs={8}>Manage Inventory</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Recent Order List")}
-            >
-              <Row>
-                <Col xs={8}>Orders Lists</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Return Orders Request List")}
-            >
-              <Row>
-                <Col xs={8}>Return Order Request</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Return Orders List")}
-            >
-              <Row>
-                <Col xs={8}>Return Orders</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Manage Orders")}
-            >
-              <Row>
-                <Col xs={8}>Manage Orders</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Advertising Campaign")}
-            >
-              <Row>
-                <Col xs={8}>Advertising</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Busniess Report")}
-            >
-              <Row>
-                <Col xs={8}>Report</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Customer Feedback")}
-            >
-              <Row>
-                <Col xs={8}>Customer Feedback</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
-            <Col
-              className="p-2 mx-2 text-left boldtext"
-              onClick={() => navigateFunction("Service Feedback")}
-            >
-              <Row>
-                <Col xs={8}>Service Feedback</Col>
-                <Col className="d-flex justify-content-end align-items-center">
-                  <FaAngleRight color="" />
-                </Col>
-              </Row>
-            </Col>
+        <div className="sellSide mt-4 mb-4">
+          <div className="text-center">
+            <img src={newlogo} alt="zoofi seller" width={120} />
           </div>
-        </Row>
+          <div className="">
+            <h5 className="text-center">Seller Dashboard</h5>
+          </div>
+          <Col
+            className="p-2 mx-2 text-left boldtext clos"
+            onClick={toggleDrawer}
+          >
+            <Row >
+              <Col
+                xs={8}
+                className="d-flex justify-content-start align-items-center"
+              >
+                CLOSE
+              </Col>
+              <Col className="d-flex justify-content-end align-items-center">
+              <MdCancel color="" size={25} />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Seller Dashboard")}
+          >
+            <Row>
+              <Col xs={8}>Home</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Add Product")}
+          >
+            <Row>
+              <Col xs={8}>Add Products</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Product Request")}
+          >
+            <Row>
+              <Col xs={8}>Request New Product</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Add Product Via Upload")}
+          >
+            <Row>
+              <Col xs={8}>Add Product via Upload</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Brand Request")}
+          >
+            <Row>
+              <Col xs={8}>Brand Request</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Category Request")}
+          >
+            <Row>
+              <Col xs={8}>Category Request</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Track Your Application")}
+          >
+            <Row>
+              <Col xs={8}>View Applications</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Inventory Manage")}
+          >
+            <Row>
+              <Col xs={8}>Manage Inventory</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Recent Order List")}
+          >
+            <Row>
+              <Col xs={8}>Orders Lists</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Return Orders Request List")}
+          >
+            <Row>
+              <Col xs={8}>Return Request</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Return Orders List")}
+          >
+            <Row>
+              <Col xs={8}>Return Orders</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Manage Orders")}
+          >
+            <Row>
+              <Col xs={8}>Manage Orders</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Advertising Campaign")}
+          >
+            <Row>
+              <Col xs={8}>Advertising</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Busniess Report")}
+          >
+            <Row>
+              <Col xs={8}>Report</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Customer Feedback")}
+          >
+            <Row>
+              <Col xs={8}>Customer Feedback</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+          <Col
+            className="p-2 mx-2 text-left boldtext"
+            onClick={() => navigateFunction("Service Feedback")}
+          >
+            <Row>
+              <Col xs={8}>Service Feedback</Col>
+              <Col className="d-flex justify-content-end align-items-center">
+                <FaAngleRight color="" />
+              </Col>
+            </Row>
+          </Col>
+        </div>
       </Drawer>
 
       <Navbar expand="lg">
