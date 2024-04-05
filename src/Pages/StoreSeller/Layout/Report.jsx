@@ -43,7 +43,8 @@ const Report = () => {
                             income: (item?.proId?.comission_price) * item?.qty,
                             Quantiy: item?.qty,
                             date: item?.order_delivery ? formatDateRemoveTime(item?.order_delivery) : formatDateRemoveTime(new Date()),
-                            product: item?.proId?.name 
+                            product: item?.proId?.name,
+                            spec: item?.proId?.specId
                         })
                 }
             })
@@ -72,7 +73,7 @@ const Report = () => {
             ele?.order_details?.forEach((item, index) => {
                 if (item?.order_status == 'delivered') {
                     console.log(item, index)
-                    d.push({ order_id: item?._id, sales: item?.price * item?.qty, income: (item?.proId?.comission_price) * item?.qty, Quantiy: item?.qty, date: item?.order_delivery ? formatDateRemoveTime(item?.order_delivery) : formatDateRemoveTime(new Date()), product: item?.proId?.name })
+                    d.push({ order_id: item?._id, sales: item?.price * item?.qty, income: (item?.proId?.comission_price) * item?.qty, Quantiy: item?.qty, date: item?.order_delivery ? formatDateRemoveTime(item?.order_delivery) : formatDateRemoveTime(new Date()), product: item?.proId?.name, spec: item?.proId?.specId  })
                 }
             })
         })
@@ -87,6 +88,9 @@ const Report = () => {
         console.log(value)
         setType(value)
     }
+
+
+    console.log({ allorders })
 
     return (
         <div>
@@ -245,7 +249,20 @@ const Report = () => {
                                     {allorders.map((ele, index) => (
                                         <tr key={index}>
                                             <td>{ele?.order_id}</td>
-                                            <td>{ele?.product}</td>
+                                            <td> <span>
+                                                <img src={ele?.spec?.image?.[0]?.image_path} width={25} height={25}   style={{objectFit:'contain'}}  alt='product_image' />
+                                                </span> {ele?.product} {ele?.spec?.spec_det?.length > 0 && (
+                                                <span>
+                                                    (
+                                                    {ele?.spec?.spec_det?.map((ele, index, array) => (
+                                                        <span key={index}>
+                                                            {ele?.value}
+                                                            {index < array.length - 1 ? ', ' : ''}
+                                                        </span>
+                                                    ))}
+                                                    )
+                                                </span>
+                                            )}</td>
                                             <td>{ele?.date}</td>
                                             <td>{ele?.Quantiy}</td>
                                             <td>₹ {ele?.sales?.toLocaleString()}</td>

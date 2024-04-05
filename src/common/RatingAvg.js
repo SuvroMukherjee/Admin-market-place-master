@@ -45,3 +45,18 @@ export function addOrdinalSuffix(number) {
 
     return number + suffix;
 }
+
+// {
+//     row?.proId?.specId?.spec_det?.length > 0 && (
+//         <span>
+//             (
+//             {row?.proId?.specId?.spec_det.map((ele, index, array) => (
+//                 <span key={index}>
+//                     {ele.value}
+//                     {index < array.length - 1 ? ', ' : ''}
+//                 </span>
+//             ))}
+//             )
+//         </span>
+//     )
+// }
