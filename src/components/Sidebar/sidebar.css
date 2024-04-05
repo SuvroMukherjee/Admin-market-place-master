@@ -7,9 +7,17 @@
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   font-weight: bold;
   margin: 0px 10px;
+  border-bottom: 0.5px solid #9af064;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar-menu-option .Icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-menu-option:hover {
@@ -19,6 +27,7 @@
 }
 
 .sidebar-menu-option-close {
+  border: none;
   background-color: #fff;
   color: black;
 }

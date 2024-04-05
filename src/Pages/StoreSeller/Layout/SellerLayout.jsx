@@ -154,7 +154,7 @@ const MyNavbar = () => {
           <div className="text-center">
             <img src={newlogo} alt="zoofi seller" width={120} />
           </div>
-          <div className="">
+          <div>
             <h5 className="text-center">Seller Dashboard</h5>
           </div>
           <div
