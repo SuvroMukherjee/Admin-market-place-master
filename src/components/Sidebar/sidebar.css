@@ -7,11 +7,14 @@
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  border-radius: 10px;
   font-weight: bold;
   margin: 0px 10px;
-  border-bottom: 0.5px solid #9af064;
+  border-bottom: 0.3px solid #9af064;
   transition: all 0.2s ease-in-out;
+}
+
+.sidebatsellerBoard {
+  width: 500px !important;
 }
 
 .sidebar-menu-option .Icon {
