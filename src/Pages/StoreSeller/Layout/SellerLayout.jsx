@@ -24,7 +24,7 @@ const MyNavbar = () => {
     if (auth) {
       getProfileData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getProfileData() {
@@ -139,6 +139,7 @@ const MyNavbar = () => {
         navigate("/seller/seller-report");
         setHeaderTitle(pathName);
     }
+    toggleDrawer();
   };
 
   return (
@@ -149,18 +150,190 @@ const MyNavbar = () => {
         onClose={toggleDrawer}
         className="sidebatsellerBoard"
       >
-        <div className="sellSide mt-4 mb-4">
+        <div className="sellSide">
           <div className="text-center">
             <img src={newlogo} alt="zoofi seller" width={120} />
           </div>
           <div className="">
             <h5 className="text-center">Seller Dashboard</h5>
           </div>
-          <Col
+          <div
+            className="sidebar-menu-option sidebar-menu-option-close"
+            onClick={() => {
+              toggleDrawer();
+            }}
+          >
+            <div className="title">Close</div>
+            <div className="Icon">
+              <MdCancel size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Seller Dashboard")}
+          >
+            <div className="title">Home</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Add Product")}
+          >
+            <div className="title">Add Products</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Product Request")}
+          >
+            <div className="title">Request New Product</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Add Product Via Upload")}
+          >
+            <div className="title">Add Product via Upload</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Brand Request")}
+          >
+            <div className="title">Brand Request</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Category Request")}
+          >
+            <div className="title">Category Request</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Track Your Application")}
+          >
+            <div className="title">View Applications</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Inventory Manage")}
+          >
+            <div className="title">Manage Inventory</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Recent Order List")}
+          >
+            <div className="title">Orders Lists</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Return Orders Request List")}
+          >
+            <div className="title">Return Request</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Return Orders List")}
+          >
+            <div className="title">Return Orders</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Manage Orders")}
+          >
+            <div className="title">Manage Orders</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Advertising Campaign")}
+          >
+            <div className="title">Advertising</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Busniess Report")}
+          >
+            <div className="title">Report</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Customer Feedback")}
+          >
+            <div className="title">Customer Feedback</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Service Feedback")}
+          >
+            <div className="title">Service Feedback</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          {/* <Col
             className="p-2 mx-2 text-left boldtext clos"
             onClick={toggleDrawer}
           >
-            <Row >
+            <Row>
               <Col
                 xs={8}
                 className="d-flex justify-content-start align-items-center"
@@ -168,7 +341,7 @@ const MyNavbar = () => {
                 CLOSE
               </Col>
               <Col className="d-flex justify-content-end align-items-center">
-              <MdCancel color="" size={25} />
+                <MdCancel color="" size={25} />
               </Col>
             </Row>
           </Col>
@@ -347,7 +520,7 @@ const MyNavbar = () => {
                 <FaAngleRight color="" />
               </Col>
             </Row>
-          </Col>
+          </Col> */}
         </div>
       </Drawer>
 
