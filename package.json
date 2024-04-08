@@ -39,7 +39,9 @@
     "react-icons": "^4.12.0",
     "react-papaparse": "^4.4.0",
     "react-router-dom": "^6.20.1",
-    "recharts": "^2.12.3"
+    "recharts": "^2.12.3",
+    "socket.io-client": "^4.7.5",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
