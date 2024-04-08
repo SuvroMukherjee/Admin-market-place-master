@@ -1,24 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { allIndiaCities, allcatList, sellerDetails } from '../../API/api';
+import React, { useEffect, useState } from 'react';
+import { Col, Container, Form, Image, Row, Table } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { Button, Col, Container, Row, Form, ButtonGroup, Card, Image, Table } from 'react-bootstrap';
-import { GrUpdate } from "react-icons/gr";
-import { MdCancel, MdOutlineFileUpload } from 'react-icons/md';
-import { IoIosAddCircle } from "react-icons/io";
-import { IoSaveSharp } from "react-icons/io5";
+import { allIndiaCities, allcatList, sellerDetails } from '../../API/api';
 // import '../../Layouts/sellerlayout.css';
-import { ImProfile } from "react-icons/im";
-import { GiShop } from "react-icons/gi";
-import { TiDocumentText } from "react-icons/ti";
-import { BsBank } from "react-icons/bs";
-import { TbCategoryPlus } from "react-icons/tb";
-import { BsShop } from "react-icons/bs";
 import Spinner from 'react-bootstrap/Spinner';
-import { FaFileAlt } from "react-icons/fa";
-import { FaFileInvoice } from "react-icons/fa";
-import { FaFilePdf } from "react-icons/fa";
+import { BsBank, BsShop } from "react-icons/bs";
+import { FaFileAlt, FaFileInvoice, FaFilePdf, FaHouseUser } from "react-icons/fa";
+import { ImProfile } from "react-icons/im";
+import { TbCategoryPlus } from "react-icons/tb";
+import { TiDocumentText } from "react-icons/ti";
 import { ChangeFormatDate2 } from '../../common/DateFormat';
-import { FaHouseUser } from "react-icons/fa";
 
 
 const SellerDetails = () => {
@@ -43,7 +34,7 @@ const SellerDetails = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">
@@ -313,7 +304,7 @@ const Documentation = ({ userInfo }) => {
                                 </Form.Label>
                                 <p>
                                     {documentation?.gst_file &&
-                                        <a href={documentation?.gst_file} target="_blank">
+                                        <a href={documentation?.gst_file} target="_blank" rel="noreferrer">
                                             <span><FaFileAlt size={25} /></span>
                                         </a>
                                     }</p>
@@ -327,7 +318,7 @@ const Documentation = ({ userInfo }) => {
                                     {documentation?.cancelled_cheque &&
                                         <a
                                             href={documentation?.cancelled_cheque}
-                                            target="_blank"
+                                            target="_blank" rel="noreferrer"
                                         >
 
                                             <span><FaFileInvoice size={25} /></span>
@@ -344,7 +335,7 @@ const Documentation = ({ userInfo }) => {
                                     {documentation?.msme_certificate &&
                                         <a
                                             href={documentation?.msme_certificate}
-                                            target="_blank"
+                                            target="_blank" rel="noreferrer"
                                         >
 
                                             <span><FaFilePdf size={25} /></span>

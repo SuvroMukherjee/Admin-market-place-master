@@ -1,14 +1,13 @@
+import { CKEditor } from "ckeditor4-react";
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate, useParams } from "react-router-dom";
-import { AddNewProduct, FileUpload, GetProductDetails, UpdateProduct, allBrandList, allCategoryList, allSubCategoryList } from '../../../API/api';
 import Spinner from 'react-bootstrap/Spinner';
-import { MdCancel } from 'react-icons/md';
+import toast, { Toaster } from 'react-hot-toast';
 import { AiTwotoneEdit } from "react-icons/ai";
-import { IoMdCloseCircle } from "react-icons/io";
-import { IoIosAdd } from "react-icons/io";
-import { CKEditor } from "ckeditor4-react";
+import { IoIosAdd, IoMdCloseCircle } from "react-icons/io";
+import { MdCancel } from 'react-icons/md';
+import { useNavigate, useParams } from "react-router-dom";
+import { FileUpload, GetProductDetails, UpdateProduct, allBrandList, allCategoryList, allSubCategoryList } from '../../../API/api';
 
 const EditProduct = () => {
 
@@ -67,7 +66,7 @@ const EditProduct = () => {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     async function getSubCategoryList() {
         await allSubCategoryList().then((res) => {
@@ -78,7 +77,7 @@ const EditProduct = () => {
         }).finally(() => [
             setLoading(false)
         ])
-    };
+    }
 
     async function getAllBrandLists() {
         await allBrandList().then((res) => {
@@ -89,7 +88,7 @@ const EditProduct = () => {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -228,7 +227,7 @@ const EditProduct = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

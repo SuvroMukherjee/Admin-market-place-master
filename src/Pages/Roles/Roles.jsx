@@ -4,7 +4,6 @@ import { Button, ButtonGroup, Col, Container, Form, Modal, Row } from 'react-boo
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { allRoleList, createRole, deleteApiRole, updateRole, updateStatusRole } from "../../API/api";
 import { ChangeFormatDate2 } from '../../common/DateFormat';
@@ -190,7 +189,7 @@ export function Roles() {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

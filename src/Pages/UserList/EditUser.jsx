@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
-import { StaffCreateByAdmin, StaffDetails, StaffUpdatedDetails, allRoleList } from '../../API/api';
+import { Col, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { useNavigate, useParams } from "react-router-dom";
+import { StaffDetails, StaffUpdatedDetails, allRoleList } from '../../API/api';
 
 const EditUser = () => {
     const [formData, setFormData] = useState();
@@ -58,7 +58,7 @@ const EditUser = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

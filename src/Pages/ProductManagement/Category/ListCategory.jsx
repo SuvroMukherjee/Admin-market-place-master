@@ -1,17 +1,17 @@
-import "../product.css";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { productRows } from "../../../dummyData";
-import { Button, Container, Row, Col } from 'react-bootstrap';
-import { DeleteProductCategory, FileUpload, UpdateStatusProductCategory, allCategoryList } from "../../../API/api";
-import EditCategory from "./EditCategory";
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
-import { RiEdit2Line } from "react-icons/ri";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaCodePullRequest } from "react-icons/fa6";
+import { RiEdit2Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { DeleteProductCategory, UpdateStatusProductCategory, allCategoryList } from "../../../API/api";
+import { productRows } from "../../../dummyData";
+import "../product.css";
+import EditCategory from "./EditCategory";
 
 export default function ListCategory() {
     const [data, setData] = useState(productRows || []);
@@ -53,7 +53,7 @@ export default function ListCategory() {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     const handleStatus = async (data) => {
         let payload = {
@@ -163,7 +163,7 @@ export default function ListCategory() {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

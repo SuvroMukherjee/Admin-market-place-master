@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
+import { MdCancel, MdOutlineFileUpload } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
-import { AddNewProduct, EditSellerOwnProduct, FileUpload, SellerCreateOwn, SellerOwnProductDetails, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../API/api';
-import { MdCancel } from "react-icons/md";
-import { MdOutlineFileUpload } from "react-icons/md";
+import { EditSellerOwnProduct, FileUpload, SellerOwnProductDetails, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../API/api';
 
 const EditOwnProduct = () => {
 
@@ -69,7 +68,7 @@ const EditOwnProduct = () => {
         }).finally(() => [
             setLoading(false)
         ])
-    };
+    }
 
     async function getSubCategoryList(CategoryId) {
         console.log(CategoryId)
@@ -81,7 +80,7 @@ const EditOwnProduct = () => {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     async function getAllBrandLists() {
         await allBrandList().then((res) => {
@@ -92,7 +91,7 @@ const EditOwnProduct = () => {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
 
     async function getSubCategoryList() {
@@ -104,7 +103,7 @@ const EditOwnProduct = () => {
         }).finally(() => [
             setLoading(false)
         ])
-    };
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -214,7 +213,7 @@ const EditOwnProduct = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

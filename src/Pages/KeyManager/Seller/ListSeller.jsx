@@ -107,7 +107,7 @@ export default function ListSeller() {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     const calculateAverageCommission = (data) => {
         const commissionRates = data.map(item => item.commission_rate);
@@ -259,7 +259,7 @@ export default function ListSeller() {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

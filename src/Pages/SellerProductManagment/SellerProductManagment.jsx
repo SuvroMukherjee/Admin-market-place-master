@@ -270,7 +270,7 @@ export default function SellerProductManagment() {
   return (
     <>
       {loading && (
-        <div className="productList mt-2 p-4 contentLoader">
+        <div className="productList p-4 contentLoader">
           <Row>
             <Col>
               <Spinner animation="border" size="lg" role="status">

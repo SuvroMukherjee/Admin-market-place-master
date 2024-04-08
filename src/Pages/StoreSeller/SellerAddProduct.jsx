@@ -1,17 +1,14 @@
-import { DataGrid } from "@mui/x-data-grid";
-import "./Seller.css";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Form, Card, ListGroup } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, ListGroup, Row } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
-import { AiOutlinePlus } from "react-icons/ai";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { IoIosCloseCircle } from "react-icons/io";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { SellerProductAdd, StatusUpdateProduct, allBrandList, allCategoryList, allProductList, deleteProduct, getSubCategoryByCategory } from "../../API/api";
-import Spinner from 'react-bootstrap/Spinner';
-import { categoryData, demoProductData, productRows } from "../../dummyData";
-import Modal from 'react-bootstrap/Modal';
-import { IoIosCloseCircle } from "react-icons/io";
+import { demoProductData } from "../../dummyData";
+import "./Seller.css";
 
 
 
@@ -75,7 +72,7 @@ export default function SellerAddProduct() {
         }).finally((data) => {
             setLoading(false)
         })
-    };
+    }
 
     async function getAllCats() {
         await allCategoryList().then((res) => {
@@ -289,7 +286,7 @@ export default function SellerAddProduct() {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

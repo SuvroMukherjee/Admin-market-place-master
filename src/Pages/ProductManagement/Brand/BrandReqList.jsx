@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react'
-import { BrandApproval, SubcategoryApproval, allBrandreqList, allCategoryeqList, categoryApproval } from '../../../API/api';
-import { Button, Container, Row, Col, Table } from 'react-bootstrap';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { ChangeFormatDate2 } from '../../../common/DateFormat';
-import "../product.css";
 import toast, { Toaster } from 'react-hot-toast';
-import { Link, useNavigate } from "react-router-dom";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { BrandApproval, allBrandreqList } from '../../../API/api';
+import { ChangeFormatDate2 } from '../../../common/DateFormat';
+import "../product.css";
 
 export default function BrandReqList() {
     const [loading, setLoading] = useState(true)
@@ -52,7 +51,7 @@ export default function BrandReqList() {
 
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">
@@ -88,7 +87,7 @@ export default function BrandReqList() {
                                             <td>{ele?.title}<br />
                                                 <a
                                                     href={ele?.image?.[0]?.image_path}
-                                                    target="_blank"
+                                                    target="_blank" rel="noreferrer"
                                                 >
 
                                                     <span className=''>image</span>
@@ -102,7 +101,7 @@ export default function BrandReqList() {
                                                         {ele?.manu_doc?.doc_file &&
                                                             <a
                                                                 href={ele?.manu_doc?.doc_file}
-                                                                target="_blank"
+                                                                target="_blank" rel="noreferrer"
                                                             >
 
                                                                 <span className=''><IoDocumentTextOutline size={20} /> <span>{ele?.manu_doc?.doc}</span> </span>
@@ -113,7 +112,7 @@ export default function BrandReqList() {
                                                         {ele?.dis_doc?.doc_file &&
                                                             <a
                                                                 href={ele?.dis_doc?.doc_file}
-                                                                target="_blank"
+                                                                target="_blank" rel="noreferrer"
                                                             >
 
                                                                 <span className=''><IoDocumentTextOutline size={20} /> <span>{ele?.dis_doc?.doc}</span> </span>

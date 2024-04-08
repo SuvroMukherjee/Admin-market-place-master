@@ -1,35 +1,27 @@
-import { useState } from "react";
-import Spinner from "react-bootstrap/Spinner";
-import { Toaster, toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import "./Seller.css";
-import { useEffect } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+import { useEffect, useState } from "react";
 import {
   Button,
+  ButtonGroup,
+  Card, Carousel,
   Col,
   Container,
-  Row,
-  ButtonGroup,
   Form,
+  Row,
   Table,
 } from "react-bootstrap";
-import { DataGrid } from "@mui/x-data-grid";
-import { RiEdit2Line } from "react-icons/ri";
-import { productRows } from "../../dummyData";
+import Modal from "react-bootstrap/Modal";
+import Spinner from "react-bootstrap/Spinner";
+import { Toaster, toast } from "react-hot-toast";
+import { FaEye, FaRegUser, FaStar } from "react-icons/fa";
+import { IoIosEye } from "react-icons/io";
+import { MdAutorenew } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import {
   AdminSellerLists,
-  UpdateSellerStatus,
-  allSellerList,
+  UpdateSellerStatus
 } from "../../API/api";
-import { FaEye } from "react-icons/fa";
-import { Card, Carousel } from "react-bootstrap";
-import { FaRegUser } from "react-icons/fa";
-import { Overlay, Popover } from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import { MdAutorenew } from "react-icons/md";
-import { FaStar } from "react-icons/fa";
-import { IoIosEye } from "react-icons/io";
+import { productRows } from "../../dummyData";
+import "./Seller.css";
 
 export default function SellerListManage() {
   const [data, setData] = useState(productRows);
@@ -294,7 +286,7 @@ export default function SellerListManage() {
   return (
     <>
       {loading && (
-        <div className="productList mt-2 p-4 contentLoader">
+        <div className="productList p-4 contentLoader">
           <Row>
             <Col>
               <Spinner animation="border" size="lg" role="status">

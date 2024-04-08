@@ -5,13 +5,12 @@ import './Seller.css';
 // import { allSellerList } from '../../../API/api'
 // import WidgetSm from '../../components/widgetSm/WidgetSm'
 // import WidgetLg from '../../components/WidgetLg/WidgetLg'
+import { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { OwnProductSellerList, SellerProductList } from '../../API/api';
-import { FaUsers } from 'react-icons/fa';
 import { CiShop } from 'react-icons/ci';
+import { FaUsers } from 'react-icons/fa';
+import { OwnProductSellerList, SellerProductList } from '../../API/api';
 // import KeyWidgetSm from '../../../components/widgetSm/KeyWidgetSm';
 
 
@@ -43,7 +42,7 @@ const SellerDashboard = () => {
         }).finally((data) => {
             setLoading(false)
         })
-    };
+    }
 
     async function getAllOwnProducts() {
         setLoading(true)
@@ -60,7 +59,7 @@ const SellerDashboard = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">
