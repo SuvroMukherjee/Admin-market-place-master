@@ -14,16 +14,18 @@ import {
 import Spinner from "react-bootstrap/Spinner";
 import { Toaster, toast } from "react-hot-toast";
 import { FaBox, FaEye, FaRegUser } from "react-icons/fa";
-import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import {
   AdminSellerProductLists,
   AdminSellerProductStatus,
 } from "../../API/api";
+import { Link, useParams } from "react-router-dom";
 // import { ChangeFormatDate2 } from "../../common/DateFormat";
 
-export default function SellerProductManagment() {
+export default function ProductListBySeller() {
   const [loading, setLoading] = useState(true);
   const [sellerOwnData, setSellerOwnData] = useState([]);
+
+  const { id: sellerID } = useParams();
 
   // seller data
   const [sellerDetails, setSellerDetails] = useState();
@@ -55,6 +57,7 @@ export default function SellerProductManagment() {
     setTimeout(() => {
       getAllOwnProducts();
     }, 5000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getAllOwnProducts() {
@@ -66,23 +69,17 @@ export default function SellerProductManagment() {
           ...item,
           id: index + 1,
         }));
-        setSellerOwnData(dataWithUniqueIds);
+
+        const filteredDataAsSellerAndApproved = dataWithUniqueIds.filter(
+          (item) => item?.sellerId?._id === sellerID && item?.is_approved === "approved"
+        );
+        setSellerOwnData(filteredDataAsSellerAndApproved);
         setLoading(false);
       })
       .catch((err) => {
         console.error(err);
       });
   }
-
-  // const ShowDetails = (data) => {
-  //     console.log(data)
-  //     setSellerDetails(data)
-  // }
-
-  // const ShowProductDetails = (data) => {
-  //     console.log(data)
-  //     setProductDetails(data)
-  // }
 
   const productStatusUpdate = async (data) => {
     let payload = {};
@@ -98,8 +95,7 @@ export default function SellerProductManagment() {
     }
 
     await AdminSellerProductStatus(data?._id, payload)
-      .then((res) => {
-        // console.log(res?.data?.data)
+      .then(() => {
         getAllOwnProducts();
         toast.success("Seller Product updated successfully!");
       })
@@ -111,7 +107,6 @@ export default function SellerProductManagment() {
 
   const columns = [
     { field: "id", headerName: "ID", width: 100 },
-    // { field: "productId", headerName: "Product Id", width: 150 },
     {
       field: "seller",
       headerName: "Seller",
@@ -185,8 +180,6 @@ export default function SellerProductManagment() {
         );
       },
     },
-    // { field: "regular_price", headerName: "Price", width: 150},
-    // { field: "desc", headerName: "Description", width: 150 },
     {
       field: "category",
       headerName: "Category",
@@ -235,36 +228,6 @@ export default function SellerProductManagment() {
         );
       },
     },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 300,
-      renderCell: (params) => {
-        return (
-          <>
-            <div className="buttonWrapper">
-              {params?.row?.is_approved == "pending" ? (
-                <Button
-                  variant="outline-success"
-                  onClick={() => productStatusUpdate(params?.row)}
-                  size="sm"
-                >
-                  <IoCheckmarkDoneSharp /> Approve
-                </Button>
-              ) : (
-                <Button
-                  variant="outline-danger"
-                  onClick={() => productStatusUpdate(params?.row)}
-                  size="sm"
-                >
-                  <IoCheckmarkDoneSharp /> Reject
-                </Button>
-              )}
-            </div>
-          </>
-        );
-      },
-    },
   ];
 
   return (
@@ -282,9 +245,14 @@ export default function SellerProductManagment() {
       )}
       <div className="productList mt-2 p-4">
         <Container>
+          <Row className="justify-content-md-start">
+            <Col md="auto">
+            <Link to={"/SellerReport"}>Back</Link>
+            </Col>
+          </Row>
           <Row className="justify-content-md-center">
             <Col md="auto">
-              <h3>Seller Product List</h3>
+              <h3>Product List By Seller</h3>
             </Col>
           </Row>
           <div className="mt-4">
@@ -443,6 +411,8 @@ const UserCard = ({ user }) => {
 //  product card here used to show product details modal
 const ProductCard = ({ product }) => {
   const [showDes, setShowDesc] = useState(false);
+
+  console.log(product, "product");
 
   return (
     <>
