@@ -64,7 +64,7 @@ export default function SellerReport() {
   return (
     <>
       {loading && (
-        <div className="productList mt-2 p-4 contentLoader">
+        <div className="productList p-4 contentLoader">
           <Row>
             <Col>
               <Spinner animation="border" size="lg" role="status">
@@ -93,7 +93,6 @@ export default function SellerReport() {
                     <th>Shop Name</th>
                     <th>Shop Image</th>
                     <th>Seller Name</th>
-                    {/* <th>Count Selling Products</th> */}
                     <th>Show Products</th>
                     <th>Seller Details</th>
                   </tr>
@@ -129,7 +128,6 @@ export default function SellerReport() {
                             </div>
                           </td>
                           <td>{row?.user_name}</td>
-                          {/* <td>{countProductBySeller(row?._id)}</td> */}
                           <td>
                             <Button
                               size="sm"

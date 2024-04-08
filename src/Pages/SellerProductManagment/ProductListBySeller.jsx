@@ -1,4 +1,3 @@
-import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -6,24 +5,23 @@ import {
   Carousel,
   Col,
   Container,
+  Form,
+  InputGroup,
   ListGroup,
-  Row,
-  // Table,
   Modal,
+  Row,
+  Table,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import { Toaster, toast } from "react-hot-toast";
-import { FaBox, FaEye, FaRegUser } from "react-icons/fa";
-import {
-  AdminSellerProductLists,
-  AdminSellerProductStatus,
-} from "../../API/api";
+import { FaBox, FaEye, FaRegUser, FaStar } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import { SellerProductList } from "../../API/api";
+import { ratingCalculation } from "../../common/RatingAvg";
 // import { ChangeFormatDate2 } from "../../common/DateFormat";
 
 export default function ProductListBySeller() {
   const [loading, setLoading] = useState(true);
-  const [sellerOwnData, setSellerOwnData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { id: sellerID } = useParams();
 
@@ -60,180 +58,44 @@ export default function ProductListBySeller() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const [data, setdata] = useState([]);
+  const [reviewData, setReviewData] = useState([]);
+
   async function getAllOwnProducts() {
     setLoading(true);
-    await AdminSellerProductLists()
+    await SellerProductList(sellerID)
       .then((res) => {
-        // console.log(res?.data?.data, 'own data');
-        const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
-          ...item,
-          id: index + 1,
-        }));
-
-        const filteredDataAsSellerAndApproved = dataWithUniqueIds.filter(
-          (item) => item?.sellerId?._id === sellerID && item?.is_approved === "approved"
-        );
-        setSellerOwnData(filteredDataAsSellerAndApproved);
-        setLoading(false);
+        setdata(res?.data?.data?.SellerProductData);
+        setReviewData(res?.data?.data?.reviewData);
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
-  const productStatusUpdate = async (data) => {
-    let payload = {};
-
-    if (data?.is_approved == "approved") {
-      payload = {
-        is_approved: "pending",
-      };
-    } else {
-      payload = {
-        is_approved: "approved",
-      };
-    }
-
-    await AdminSellerProductStatus(data?._id, payload)
-      .then(() => {
-        getAllOwnProducts();
-        toast.success("Seller Product updated successfully!");
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Something went wrong!");
-      });
-  };
-
-  const columns = [
-    { field: "id", headerName: "ID", width: 100 },
-    {
-      field: "seller",
-      headerName: "Seller",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">{params?.row?.sellerId?.email}</div>
-        );
-      },
-    },
-    { field: "name", headerName: "Product Name", width: 150 },
-    {
-      field: "seller deatils",
-      headerName: "Seller Details",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <div className="buttonWrapper">
-              <Button
-                variant="dark"
-                onClick={() => handleSellerModalOpen(params?.row?.sellerId)}
-                size="sm"
-              >
-                <FaEye /> View
-              </Button>
-            </div>
-          </>
-        );
-      },
-    },
-    {
-      field: "image",
-      headerName: "Product Image",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div
-            className="productListItem"
-            // onClick={() => console.log(params?.row, 'roeDara')}
-          >
-            <img
-              className="productListImg"
-              src={params?.row?.image?.[0]?.image_path}
-              alt=""
-            />
-            {params?.row?.image?.length > 1 && (
-              <span>{params?.row?.image?.length - 1}+</span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "seller product",
-      headerName: "Product Details",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <div className="buttonWrapper">
-              <Button
-                variant="dark"
-                onClick={() => handleProductModalOpen(params?.row)}
-                size="sm"
-              >
-                <FaEye /> View
-              </Button>
-            </div>
-          </>
-        );
-      },
-    },
-    {
-      field: "category",
-      headerName: "Category",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">{params.row.categoryId?.title}</div>
-        );
-      },
-    },
-    {
-      field: "Subcategory",
-      headerName: "Sub Category",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params.row.subcategoryId?.title}
-          </div>
-        );
-      },
-    },
-    {
-      field: "Brand",
-      headerName: "Brand",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">{params.row?.brandId?.title}</div>
-        );
-      },
-    },
-    {
-      field: "approved",
-      headerName: "Is Approved",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params?.row?.is_approved == "pending" ? (
-              <span className="DeactiveStatus">Pending</span>
-            ) : (
-              <span className="ActiveStatus">Approved</span>
-            )}
-          </div>
-        );
-      },
-    },
-  ];
+  let filteredData = [];
+  if (data && data.length > 0) {
+    filteredData = data.filter((item) => {
+      if (searchTerm === "") {
+        return item;
+      } else if (
+        item?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.sellerId?.user_name
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      ) {
+        return item;
+      }
+    });
+  }
 
   return (
     <>
       {loading && (
-        <div className="productList mt-2 p-4 contentLoader">
+        <div className="productList p-4 contentLoader">
           <Row>
             <Col>
               <Spinner animation="border" size="lg" role="status">
@@ -245,35 +107,95 @@ export default function ProductListBySeller() {
       )}
       <div className="productList mt-2 p-4">
         <Container>
-          <Row className="justify-content-md-start">
-            <Col md="auto">
-            <Link to={"/SellerReport"}>Back</Link>
+          <Row>
+            <Col>
+              <Link to={"/SellerReport"}>Back</Link>
             </Col>
           </Row>
-          <Row className="justify-content-md-center">
-            <Col md="auto">
-              <h3>Product List By Seller</h3>
+          <Row>
+            <Col>
+              <h3 className="text-center">Product List By Seller</h3>
             </Col>
           </Row>
-          <div className="mt-4">
-            <Row className="justify-content-md-center mt-4">
-              <Col>
-                <DataGrid
-                  rows={sellerOwnData}
-                  columns={columns}
-                  pageSize={8}
-                  noRowsOverlay={
-                    sellerOwnData?.length === 0 && (
-                      <div style={{ textAlign: "center", padding: "20px" }}>
-                        No Data Found
-                      </div>
-                    )
-                  }
-                />
-              </Col>
-            </Row>
-          </div>
-          <Toaster position="top-right" />
+        </Container>
+        <Container>
+          <Row className="justify-content-md-center mt-4">
+            <Col>
+              <div className="">
+                <InputGroup className="mb-3">
+                  <Form.Control
+                    placeholder="Search Using Product Name"
+                    aria-label="search"
+                    aria-describedby="basic-addon1"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </InputGroup>
+              </div>
+              <div className="table-max-height">
+                <Table bordered hover responsive>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <td>Seller</td>
+                      <td>Product Name</td>
+                      <td>Seller Details</td>
+                      <td>Product Image</td>
+                      <td>Product Details</td>
+                      <td>Review Data</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredData.map((row) => (
+                      <tr key={row._id}>
+                        <td>{row._id}</td>
+                        <td>{row?.sellerId?.user_name}</td>
+                        <td>{row?.name}</td>
+                        <td>
+                          <Button
+                            variant="primary"
+                            onClick={() => handleSellerModalOpen(row?.sellerId)}
+                          >
+                            <FaRegUser />
+                          </Button>
+                        </td>
+                        <td>
+                          <div className="productListItem">
+                            <img
+                              className="productListImg"
+                              src={row?.productId?.image?.[0]?.image_path}
+                              alt=""
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <Button
+                            variant="primary"
+                            onClick={() => handleProductModalOpen(row)}
+                          >
+                            <FaEye />
+                          </Button>
+                        </td>
+                        <td>
+                          <div className="ratingDiv">
+                            <FaStar color="gold" size={15} />
+                            {ratingCalculation(row?._id, reviewData)}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    {filteredData.length === 0 && (
+                      <tr>
+                        <td colSpan="12" style={{ textAlign: "center" }}>
+                          No Data Found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
+            </Col>
+          </Row>
         </Container>
 
         {/* modals */}
@@ -412,8 +334,6 @@ const UserCard = ({ user }) => {
 const ProductCard = ({ product }) => {
   const [showDes, setShowDesc] = useState(false);
 
-  console.log(product, "product");
-
   return (
     <>
       <Card style={{ width: "100%" }}>
@@ -424,7 +344,7 @@ const ProductCard = ({ product }) => {
           <Row>
             <Col xs={4} className="d-flex align-items-center">
               <Carousel>
-                {product?.image?.map((image, index) => (
+                {product?.productId?.image?.map((image, index) => (
                   <Carousel.Item key={index}>
                     <img
                       className="d-block w-100"
@@ -449,7 +369,7 @@ const ProductCard = ({ product }) => {
                         fontWeight: "bold",
                       }}
                     >
-                      {product?.name}
+                      {product?.productId?.name}
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -458,7 +378,7 @@ const ProductCard = ({ product }) => {
                     <Col xs={4} style={{ fontSize: "14px", color: "black" }}>
                       description
                     </Col>
-                    {product?.desc?.length < 25 ? (
+                    {product?.productId?.desc?.length < 25 ? (
                       <Col
                         style={{
                           fontSize: "14px",
@@ -466,7 +386,7 @@ const ProductCard = ({ product }) => {
                           fontWeight: "bold",
                         }}
                       >
-                        {product?.desc}
+                        {product?.productId?.desc}
                       </Col>
                     ) : (
                       <Col
@@ -477,8 +397,8 @@ const ProductCard = ({ product }) => {
                         }}
                       >
                         {!showDes
-                          ? product?.desc?.slice(0, 20) + "...."
-                          : product?.desc}
+                          ? product?.productId?.desc?.slice(0, 20) + "...."
+                          : product?.productId?.desc}
 
                         <span
                           style={{
@@ -506,7 +426,7 @@ const ProductCard = ({ product }) => {
                         fontWeight: "bold",
                       }}
                     >
-                      {product?.categoryId?.title}
+                      {product?.productId?.categoryId?.title}
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -522,7 +442,7 @@ const ProductCard = ({ product }) => {
                         fontWeight: "bold",
                       }}
                     >
-                      {product?.subcategoryId?.title}
+                      {product?.productId?.subcategoryId?.title}
                     </Col>
                   </Row>
                 </ListGroup.Item>
@@ -538,7 +458,7 @@ const ProductCard = ({ product }) => {
                         fontWeight: "bold",
                       }}
                     >
-                      {product?.brandId?.title}
+                      {product?.productId?.brandId?.title}
                     </Col>
                   </Row>
                 </ListGroup.Item>
