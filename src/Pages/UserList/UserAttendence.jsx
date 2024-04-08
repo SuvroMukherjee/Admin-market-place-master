@@ -1,16 +1,13 @@
 import { useState } from "react";
-import Spinner from 'react-bootstrap/Spinner';
-import { Toaster } from 'react-hot-toast';
 // import "../Seller/listStyle.css";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import { useEffect } from "react";
 import { Col, Container, Row } from 'react-bootstrap';
-import { calculateTimeDifference, getDayOfWeek, splitDateTime } from "../../common/DateFormat";
 import { attendenceList } from "../../API/api";
-import { GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
+import { calculateTimeDifference } from "../../common/DateFormat";
 
 
-export default function UserAttendence({ userId }) {
+function UserAttendence({ userId }) {
     const [attendenceadata, setAttendencedata] = useState();
     const [loading, setLoading] = useState(true)
 
@@ -40,8 +37,8 @@ export default function UserAttendence({ userId }) {
             renderCell: (params) => {
                 return (
                     <div>
-
-                        <span className="loglocation">{splitDateTime(params?.row?.log_in_time)?.date}</span>
+                        {/* {params?.row?.log_in_time} */}
+                        <span className="loglocation">{params?.row?.log_in_time ? formatDate(params?.row?.log_in_time) : ''}</span>
                     </div>
                 );
             }
@@ -54,7 +51,7 @@ export default function UserAttendence({ userId }) {
                 return (
                     <div>
 
-                        <span className="loglocation">{getDayOfWeek(splitDateTime(params?.row?.log_in_time)?.date)}</span>
+                        <span className="loglocation">{params?.row?.log_in_time ? new Date(params?.row?.log_in_time).toLocaleDateString('en-US', { weekday: 'long' }) : ''}</span>
                     </div>
                 );
             }
@@ -67,7 +64,7 @@ export default function UserAttendence({ userId }) {
                 return (
                     <div className="productListItem">
 
-                        <span className="loginT">{splitDateTime(params?.row?.log_in_time)?.time}</span>
+                        <span className="loginT">{params?.row?.log_in_time?.slice(11, 16)}</span>
                     </div>
                 );
             }
@@ -75,7 +72,7 @@ export default function UserAttendence({ userId }) {
         {
             field: "log_in_loce",
             headerName: "Login Location",
-            width: 200,
+            width: 250,
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
@@ -93,7 +90,20 @@ export default function UserAttendence({ userId }) {
                 return (
                     <div className="productListItem">
                         {params?.row?.log_out_time &&
-                            <span className="logoutT">{splitDateTime(params?.row?.log_out_time)?.time}</span>}
+                            <span className="logoutT">{params?.row?.log_out_time?.slice(11, 16)}</span>}
+                    </div>
+                );
+            }
+        },
+        {
+            field: "log_out_day",
+            headerName: "Logout Day",
+            width: 100,
+            renderCell: (params) => {
+                return (
+                    <div className="productListItem">
+                        {params?.row?.log_out_time &&
+                            <span className="logoutT">{params?.row?.log_out_time ? new Date(params?.row?.log_out_time).toLocaleDateString('en-US', { weekday: 'long' }) : ''}</span>}
                     </div>
                 );
             }
@@ -136,6 +146,51 @@ export default function UserAttendence({ userId }) {
     }
 
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            return '';
+        }
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+        return `${day}-${month < 10 ? '0' + month : month}-${year}`;
+    };
+
+    // Calculate difference between two times
+    const getTimeDifference = (startTime, endTime) => {
+        const start = new Date(startTime);
+        const end = new Date(endTim1234546e);
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            return '';
+        }
+        const diff = end.getTime() - start.getTime();
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        return `${hours}h ${minutes}m`;
+    };
+
+    // Extract relevant data
+    const { log_in_time, log_in_loc, log_out_time, log_out_loc } = attendenceadata || {};
+
+    // Calculate date and day for login and logout times if data exists
+    const loginDate = log_in_time ? formatDate(log_in_time) : '';
+    const loginDay = log_in_time ? new Date(log_in_time).toLocaleDateString('en-US', { weekday: 'long' }) : '';
+    const logoutDate = log_out_time ? formatDate(log_out_time) : '';
+    const logoutDay = log_out_time ? new Date(log_out_time).toLocaleDateString('en-US', { weekday: 'long' }) : '';
+
+    // Calculate time difference if login and logout times exist
+    const timeDiff = log_in_time && log_out_time ? getTimeDifference(log_in_time, log_out_time) : '';
+
+    // Create table data if all necessary data exists
+    let tableData = [];
+    if (loginDate && loginDay && logoutDate && logoutDay && timeDiff) {
+        tableData = [
+            [loginDate, loginDay, log_in_time.slice(11, 16), log_in_loc?.location, log_out_time.slice(11, 16), log_out_loc?.location, timeDiff]
+        ];
+    }
+
+
     return (
         <>
 
@@ -156,6 +211,7 @@ export default function UserAttendence({ userId }) {
                                 }
                             />}
                     </Col>
+                  
                 </Row>
             </Container>
 
@@ -163,4 +219,7 @@ export default function UserAttendence({ userId }) {
 
 
     );
+
 }
+
+export default UserAttendence;
