@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
+import { MdCancel, MdOutlineFileUpload } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { AddNewProduct, FileUpload, SellerCreateOwn, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../API/api';
-import { MdCancel } from "react-icons/md";
-import { MdOutlineFileUpload } from "react-icons/md";
+import { FileUpload, SellerCreateOwn, allBrandList, allCategoryList, getSubCategoryByCategory } from '../../API/api';
 
 const SellerOwnProduct = () => {
 
@@ -50,7 +49,7 @@ const SellerOwnProduct = () => {
         }).finally(() => [
             setLoading(false)
         ])
-    };
+    }
 
     async function getSubCategoryList(CategoryId) {
         console.log(CategoryId)
@@ -62,7 +61,7 @@ const SellerOwnProduct = () => {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     async function getAllBrandLists() {
         await allBrandList().then((res) => {
@@ -73,7 +72,7 @@ const SellerOwnProduct = () => {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -183,7 +182,7 @@ const SellerOwnProduct = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

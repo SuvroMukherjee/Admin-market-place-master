@@ -34,7 +34,7 @@ const Dashboard = () => {
                 setLoading(false)
             }, 3000);
         })
-    };
+    }
 
     // const getLocation = () => {
     //     if (navigator.geolocation) {
@@ -93,7 +93,7 @@ const Dashboard = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

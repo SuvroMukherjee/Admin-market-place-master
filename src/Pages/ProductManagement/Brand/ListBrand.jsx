@@ -5,13 +5,13 @@ import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { FaRegTrashAlt } from "react-icons/fa";
+import { FaCodePullRequest } from "react-icons/fa6";
 import { RiEdit2Line } from 'react-icons/ri';
 import { useNavigate } from "react-router-dom";
 import { UpdateStatusBrand, allBrandList, deleteBrand } from "../../../API/api";
 import { productRows } from "../../../dummyData";
 import "../product.css";
 import EditBrandPage from "./EditBrandPage";
-import { FaCodePullRequest } from "react-icons/fa6";
 
 
 export default function ListSubCategory() {
@@ -42,7 +42,7 @@ export default function ListSubCategory() {
         }).finally(()=>{
             setLoading(false)
         })
-    };
+    }
 
 
     const handleStatus = async (data) => {
@@ -142,7 +142,7 @@ export default function ListSubCategory() {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

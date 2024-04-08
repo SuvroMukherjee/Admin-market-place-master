@@ -1,30 +1,22 @@
-import { DataGrid } from "@mui/x-data-grid";
-import "../product.css";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Row, Modal, Form, ListGroup, Image, Table, Card, InputGroup } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Image, InputGroup, ListGroup, Modal, Row, Table } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
-import { AiOutlinePlus } from "react-icons/ai";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { RiEdit2Line } from "react-icons/ri";
+import { AiOutlineInfoCircle, AiOutlinePlus } from "react-icons/ai";
+import { BsClipboard2CheckFill } from "react-icons/bs";
+import { CiEdit } from "react-icons/ci";
+import { FaTrashAlt } from "react-icons/fa";
+import { FaCirclePlus } from "react-icons/fa6";
+import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
+import { LiaListSolid } from "react-icons/lia";
+import { LuClipboardSignature } from "react-icons/lu";
+import { MdCancel } from "react-icons/md";
+import { PiFileCsvLight } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { BulkProductUpload, DeleteProductSpecification, FileUpload, ProductSpecificationCreate, SpecBulkProductUpload, StatusUpdateProduct, UpdateProductSpecification, allProductList, deleteProduct } from "../../../API/api";
-import Spinner from 'react-bootstrap/Spinner';
 import { productRows } from "../../../dummyData";
-import { PiFileCsvDuotone } from "react-icons/pi";
-import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
-import { RiListSettingsFill } from "react-icons/ri";
-import { MdCancel } from "react-icons/md";
-import { CiEdit } from "react-icons/ci";
-import { PiFileCsvLight } from "react-icons/pi";
-import { FaTrashAlt } from "react-icons/fa";
-import { FaCopy } from "react-icons/fa";
-import { LuClipboardSignature } from "react-icons/lu";
-import { BsClipboard2CheckFill } from "react-icons/bs";
-import { FaCirclePlus } from "react-icons/fa6";
 import useAuth from "../../../hooks/useAuth";
-import { AiOutlineInfoCircle } from "react-icons/ai";
-import { LiaListSolid } from "react-icons/lia";
-import { maxHeight } from "@mui/system";
+import "../product.css";
 
 export default function ListProduct() {
     const [data, setData] = useState(productRows);
@@ -76,7 +68,7 @@ export default function ListProduct() {
         }).finally((data) => {
             setLoading(false)
         })
-    };
+    }
 
     const handleStatus = async (dataset) => {
         let payload = {
@@ -331,7 +323,7 @@ export default function ListProduct() {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

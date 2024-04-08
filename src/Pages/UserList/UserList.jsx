@@ -1,17 +1,17 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from 'react-bootstrap';
+import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
+import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
+import { FaClipboardList } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { AdminCreateUserList, StaffStatusUpdateByAdmin } from "../../API/api";
 import { productRows } from "../../dummyData";
-import "./userlist.css";
-import Spinner from 'react-bootstrap/Spinner';
-import toast, { Toaster } from 'react-hot-toast';
-import { FaClipboardList } from "react-icons/fa";
-import Modal from 'react-bootstrap/Modal';
 import UserAttendence from "./UserAttendence";
+import "./userlist.css";
 
 export default function UserList() {
     const [data, setData] = useState(productRows || []);
@@ -151,7 +151,7 @@ export default function UserList() {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

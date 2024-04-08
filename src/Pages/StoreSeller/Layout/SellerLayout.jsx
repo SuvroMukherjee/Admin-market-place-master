@@ -1,15 +1,10 @@
 import { Drawer } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Row } from "react-bootstrap";
-import { Col, Dropdown } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
-import { FaUserCircle } from "react-icons/fa";
+import { FaAngleRight, FaUserCircle } from "react-icons/fa";
+import { FaBars } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
-import { FaAngleRight } from "react-icons/fa";
-import { FaBars } from "react-icons/fa6";
-import { IoMdArrowDropdown } from "react-icons/io";
-import { IoSettings } from "react-icons/io5";
 import { sellerDetails } from "../../../API/api";
 import newlogo from "../../../assets/zoofilogo.png";
 import useAuth from "../../../hooks/useAuth";
@@ -29,9 +24,12 @@ const MyNavbar = () => {
 
   async function getProfileData() {
     let res = await sellerDetails(auth?.userId);
-    const { password, ...filteredData } = res?.data?.data;
-    console.log(filteredData, "ss");
-    setUserInfo(filteredData);
+    if (res) {
+      // eslint-disable-next-line no-unsafe-optional-chaining
+      const { ...filteredData } = res?.data?.data;
+      console.log(filteredData, "ss");
+      setUserInfo(filteredData);
+    }
   }
 
   const toggleDrawer = () => {
@@ -72,6 +70,21 @@ const MyNavbar = () => {
   const handleDropdownClose = () => {
     setDropdownOpen(false);
   };
+
+  useEffect(() => {
+    // close menu on click outside
+    const handleClick = (e) => {
+      if (
+        e.target.closest(".custom-nav-right .profile") ||
+        e.target.closest(".dropdown")
+      ) {
+        return;
+      }
+      handleDropdownClose();
+    };
+
+    document.addEventListener("click", handleClick);
+  }, []);
 
   const navigateFunction = (pathName) => {
     switch (pathName) {
@@ -525,7 +538,7 @@ const MyNavbar = () => {
       </Drawer>
 
       <Navbar expand="lg">
-        <Col>
+        {/* <Col>
           <Row className="d-flex justify-content-center align-items-center">
             <Col xs={8}>
               <Row>
@@ -567,7 +580,6 @@ const MyNavbar = () => {
                   </Dropdown.Menu>
                 </Dropdown>
               )}
-              {/* <div onClick={() => handleDropdownClose()}>close</div> */}
               <Row>
                 <Col></Col>
                 <Col
@@ -597,7 +609,66 @@ const MyNavbar = () => {
               </Row>
             </Col>
           </Row>
-        </Col>
+        </Col> */}
+
+        <div className="custom-nav">
+          <div className="custom-nav-left">
+            <div className="menu">
+              <FaBars size={25} onClick={toggleDrawer} />
+            </div>
+            <div
+              className="logo"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              <img src={newlogo} alt="zoofi seller" width={120} />
+            </div>
+            <div className="page-desc">
+              <h5>{HeaderTitle}</h5>
+            </div>
+          </div>
+          <div className="custom-nav-right">
+            <div className="profile">
+              <FaUserCircle size={30} onClick={handleDropdownToggle} />
+            </div>
+            {isDropdownOpen && (
+              <div className="dropdown">
+                <div className="profile-info">
+                  {userInfo?.email || auth?.email}
+                  <br />
+                  {userInfo?.shope_name}
+                </div>
+                <ul>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/reset");
+                      handleDropdownClose();
+                    }}
+                  >
+                    Change Password
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/profile");
+                      handleDropdownClose();
+                    }}
+                  >
+                    Update Profile
+                  </li>
+                  <li
+                    onClick={() => {
+                      logout();
+                      handleDropdownClose();
+                    }}
+                  >
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
       </Navbar>
       <Outlet />
     </div>

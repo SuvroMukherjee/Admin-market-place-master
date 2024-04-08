@@ -318,6 +318,38 @@ th {
   padding: 1%;
 }
 
+.sidebar-menu-option {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  font-weight: bold;
+  margin: 0px 10px;
+  border-bottom: 0.3px solid #9af064;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebatsellerBoard {
+  width: 500px !important;
+}
+
+.sidebar-menu-option .Icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-menu-option:hover {
+  background-color: #9af064;
+  color: black;
+  cursor: pointer;
+}
+
+.sidebar-menu-option-close {
+  border: none;
+  background-color: #fff;
+  color: black;
+}
+
 .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
   background-color: #080505 !important;
   width: 300px;
@@ -325,9 +357,119 @@ th {
   color: #9af064 !important;
 }
 
+.custom-nav {
+  background-color: black;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  padding: 10px;
+  z-index: 99;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-nav .custom-nav-left {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.custom-nav .custom-nav-left .menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-nav .custom-nav-left .menu:hover {
+  cursor: pointer;
+  color: #9af064;
+}
+
+.custom-nav .custom-nav-left .page-desc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-nav .custom-nav-right {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+}
+
+.custom-nav .custom-nav-right .settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.custom-nav .custom-nav-right .dropdown {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  top: 70px;
+  background-color: black;
+  padding: 15px;
+  border-radius: 5px;
+  gap: 10px;
+}
+
+.custom-nav .custom-nav-right .dropdown .profile-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #9af064;
+  padding: 10px;
+  color: #000;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.custom-nav .custom-nav-right .dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.custom-nav .custom-nav-right .dropdown ul li {
+  padding: 10px;
+  border-bottom: 1px solid #9af064;
+  cursor: pointer;
+  text-align: center;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-nav .custom-nav-right .dropdown ul li:hover {
+  background-color: #9af064;
+  color: black;
+}
+
+.custom-nav .custom-nav-right .settings:hover {
+  color: #9af064;
+}
+
+.custom-nav .custom-nav-right .profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-nav .custom-nav-right .profile:hover {
+  cursor: pointer;
+  color: #9af064;
+}
+
 .sidebarHeader {
   color: #9af064;
-  /* border-bottom: 2px solid #9af064; */
   font-weight: bold;
   letter-spacing: 1px;
 }

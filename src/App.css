@@ -1,18 +1,22 @@
 .contentLoader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100%;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.32);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(3px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100%;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.32);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(3px);
 }
 
 .contentLoaderAnimate {
-    z-index: 11;
+  z-index: 11;
 }
 
+.table-max-height {
+  max-height: 800px;
+  overflow-y: auto;
+}

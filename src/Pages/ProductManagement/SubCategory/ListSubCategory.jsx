@@ -1,17 +1,17 @@
 
 import { DataGrid } from "@mui/x-data-grid";
-import "../product.css";
-import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { productRows } from "../../../dummyData";
-import { Button, Container, Row, Col } from 'react-bootstrap';
-import { DeleteProductSubCategory, UpdateStatusProductSubCategory, allCategoryList, allSubCategoryList } from "../../../API/api";
-import EditSubCategory from "./EditSubCategory";
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
-import { RiEdit2Line } from "react-icons/ri";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { AiOutlinePlus } from "react-icons/ai";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { RiEdit2Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { DeleteProductSubCategory, UpdateStatusProductSubCategory, allSubCategoryList } from "../../../API/api";
+import { productRows } from "../../../dummyData";
+import "../product.css";
+import EditSubCategory from "./EditSubCategory";
 
 export default function ListSubCategory() {
     const [data, setData] = useState(productRows);
@@ -38,7 +38,7 @@ export default function ListSubCategory() {
             console.log(err)
             setLoading(false)
         })
-    };
+    }
 
 
     const handleEdit = (dataSet) => {
@@ -166,7 +166,7 @@ export default function ListSubCategory() {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

@@ -43,7 +43,7 @@ const KeySellerdetails = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">
@@ -313,7 +313,7 @@ const Documentation = ({ userInfo }) => {
                                 </Form.Label>
                                 <p>
                                     {documentation?.gst_file &&
-                                        <a href={documentation?.gst_file} target="_blank">
+                                        <a href={documentation?.gst_file} target="_blank" rel="noreferrer">
                                             <span><FaFileAlt size={25} /></span>
                                         </a>
                                     }</p>
@@ -327,7 +327,7 @@ const Documentation = ({ userInfo }) => {
                                     {documentation?.cancelled_cheque &&
                                         <a
                                             href={documentation?.cancelled_cheque}
-                                            target="_blank"
+                                            target="_blank" rel="noreferrer"
                                         >
 
                                             <span><FaFileInvoice size={25} /></span>
@@ -344,7 +344,7 @@ const Documentation = ({ userInfo }) => {
                                     {documentation?.msme_certificate &&
                                         <a
                                             href={documentation?.msme_certificate}
-                                            target="_blank"
+                                            target="_blank" rel="noreferrer"
                                         >
 
                                             <span><FaFilePdf size={25} /></span>

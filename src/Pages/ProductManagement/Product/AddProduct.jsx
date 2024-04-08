@@ -1,14 +1,12 @@
+import { CKEditor } from "ckeditor4-react";
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
+import { IoIosAdd, IoMdCloseCircle } from "react-icons/io";
+import { MdCancel, MdOutlineFileUpload } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { AddNewProduct, FileUpload, allBrandList, allCategoryList, allSubCategoryList, getSubCategoryByCategory } from '../../../API/api';
-import { MdCancel } from "react-icons/md";
-import { MdOutlineFileUpload } from "react-icons/md";
-import { IoMdCloseCircle } from "react-icons/io";
-import { IoIosAdd } from "react-icons/io";
-import { CKEditor } from "ckeditor4-react";
+import { AddNewProduct, FileUpload, allBrandList, allCategoryList, getSubCategoryByCategory } from '../../../API/api';
 
 const AddProduct = () => {
 
@@ -54,7 +52,7 @@ const AddProduct = () => {
         }).finally(() => [
             setLoading(false)
         ])
-    };
+    }
 
     async function getSubCategoryList(CategoryId) {
         console.log(CategoryId)
@@ -66,7 +64,7 @@ const AddProduct = () => {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     async function getAllBrandLists() {
         await allBrandList().then((res) => {
@@ -77,7 +75,7 @@ const AddProduct = () => {
         }).finally(() => {
             setLoading(false)
         })
-    };
+    }
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -219,7 +217,7 @@ const AddProduct = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">

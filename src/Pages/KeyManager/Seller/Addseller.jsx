@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Image, Row, ListGroup, Table } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { Toaster, toast } from 'react-hot-toast';
 import { IoIosAddCircle } from "react-icons/io";
-import { MdCancel, MdOutlineFileUpload } from 'react-icons/md';
-import { FileUpload, addNewsSeller, allCategoryList, getLocationByZipCoder } from "../../../API/api";
-import { categoryData } from "../../../dummyData";
-import "./listStyle.css";
 import { useNavigate } from 'react-router-dom';
-import { FaSearch } from "react-icons/fa";
-import SellerRegistrationPage from '../../SellerRegistration/SellerRegistrationPage';
+import { FileUpload, addNewsSeller, allCategoryList, getLocationByZipCoder } from "../../../API/api";
+import "./listStyle.css";
 import KeySellerRegistration from './Registration/KeySellerRegistration';
 
 
@@ -174,7 +170,7 @@ const Addseller = () => {
     return (
         <>
             {loading &&
-                <div className="productList mt-2 p-4 contentLoader">
+                <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
                             <Spinner animation="border" size="lg" role="status">
