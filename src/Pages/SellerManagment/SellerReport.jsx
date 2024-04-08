@@ -95,6 +95,7 @@ export default function SellerReport() {
                     <th>Shop Image</th>
                     <th>Seller Name</th>
                     <th>Selling Products</th>
+                    <th>Selling Report</th>
                     <th>Seller Details</th>
                     <th>View Selling</th>
                   </tr>
@@ -107,7 +108,6 @@ export default function SellerReport() {
                           <td>{row?.id}</td>
                           <td>{row?.staffId ? row?.staffId?.name : "Own"}</td>
                           <td>{row?.Shop_Details_Info?.shope_name}</td>
-
                           <td>
                             <div className="productListItem">
                               <img
@@ -146,15 +146,30 @@ export default function SellerReport() {
                               size="sm"
                               variant="dark"
                               onClick={() =>
+                                navigate(`/Seller/SalesReport/${row?._id}`)
+                              }
+                            >
+                              <IoIosEye />
+                            </Button>
+                          </td>
+                          <td>
+                            <Button
+                              size="sm"
+                              variant="dark"
+                              onClick={() =>
                                 navigate(`/SellerDetails/${row?._id}`)
                               }
                             >
                               <IoIosEye />
                             </Button>
                           </td>
-                          <td onClick={() =>
-                            navigate(`/Seller/SalesReport/${row?._id}`)
-                          }>view sellings</td>
+                          <td
+                            onClick={() =>
+                              navigate(`/Seller/SalesReport/${row?._id}`)
+                            }
+                          >
+                            view sellings
+                          </td>
                         </tr>
                       );
                     })}

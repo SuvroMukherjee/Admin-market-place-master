@@ -1,25 +1,19 @@
 // App.js
-import React,{useEffect} from 'react';
+// import React,{useEffect} from 'react';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
-import { AuthProvider } from './context/auth';
-import Router from './routes';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import io from 'socket.io-client';
-
-
+import "./App.css";
+import { AuthProvider } from "./context/auth";
+import Router from "./routes";
+import "bootstrap/dist/css/bootstrap.min.css";
+// import io from 'socket.io-client';
 
 function App() {
-
-  
   return (
     <>
       <AuthProvider>
-          <Router />
+        <Router />
       </AuthProvider>
-
     </>
-
   );
 }
 

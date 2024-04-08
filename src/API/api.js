@@ -1304,3 +1304,35 @@ export async function ReportListsWithDate(startDate, endDate) {
     return error;
   }
 }
+
+export async function getReportListBySellerId(id) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/seller-report/report-list/${id}`,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getReportListBySellerIdWithDate(id, startDate, endDate) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/seller-report/report-list/${id}`,
+      {
+        headers: setAuthHeader(),
+        params: {
+          startDate: startDate,
+          endDate: endDate,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
