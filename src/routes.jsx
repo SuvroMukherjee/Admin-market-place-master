@@ -78,6 +78,7 @@ import ReturnOrderList from "./Pages/StoreSeller/Layout/ReturnOrderList";
 import ReturnOrderRequestList from "./Pages/StoreSeller/Layout/ReturnOrderRequestList";
 import SellerReport from "./Pages/SellerManagment/SellerReport";
 import ProductListBySeller from "./Pages/SellerProductManagment/ProductListBySeller";
+import SellerSalesReport from "./Pages/SellerManagment/SellerSalesReport";
 
 export default function Router() {
   const { auth } = useAuth();
@@ -105,6 +106,7 @@ export default function Router() {
             { path: "SellerReport", element: <SellerReport /> },
             { path: "SellerDetails/:id", element: <SellerDetails /> },
             { path: "/Seller/ProductList/:id", element: <ProductListBySeller /> },
+            { path: "/Seller/SalesReport/:id", element: <SellerSalesReport /> },
             { path: "bannermanagment", element: <BannerManagment /> },
             { path: "image-convert", element: <Imageconverter /> },
           ],

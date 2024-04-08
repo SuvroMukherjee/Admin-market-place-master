@@ -31,6 +31,7 @@ export default function SellerReport() {
         const filteredDataAsApproved = dataWithUniqueIds.filter(
           (item) => item?.status === "approved"
         );
+
         setData(filteredDataAsApproved);
         setLoading(false);
       })
@@ -93,8 +94,9 @@ export default function SellerReport() {
                     <th>Shop Name</th>
                     <th>Shop Image</th>
                     <th>Seller Name</th>
-                    <th>Show Products</th>
+                    <th>Selling Products</th>
                     <th>Seller Details</th>
+                    <th>View Selling</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -150,6 +152,9 @@ export default function SellerReport() {
                               <IoIosEye />
                             </Button>
                           </td>
+                          <td onClick={() =>
+                            navigate(`/Seller/SalesReport/${row?._id}`)
+                          }>view sellings</td>
                         </tr>
                       );
                     })}
