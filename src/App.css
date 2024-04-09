@@ -27,6 +27,43 @@
   align-items: center;
 }
 
+.flex-justify-center-align-end {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
 .custom-font-size-lg {
   font-size: 1.5rem;
+}
+
+.custom-gap-10 {
+  gap: 10px;
+}
+
+.custom-bg-green-color {
+  background-color: #027166;
+}
+
+.custom-btn-1{
+  background-color: #027166;
+  color: white;
+  border: none;
+  padding: 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.custom-btn-1:hover {
+  background-color: #025c5c;
+  color: white;
 }
