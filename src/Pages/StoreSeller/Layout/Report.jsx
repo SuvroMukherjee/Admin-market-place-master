@@ -19,7 +19,11 @@ import {
 
 const Report = () => {
   const [reports, setReports] = useState([]);
-  const [reportDate, setReportDate] = useState([]);
+  const [reportDate, setReportDate] = useState({
+    start: "",
+    end: "",
+  });
+  const [reportDateRange, setReportDateRange] = useState("Select Date Range");
   const [allorders, setAllorders] = useState([]);
   const [type, setType] = useState("1");
   const [csvData, setCsvData] = useState([]);
@@ -98,6 +102,88 @@ const Report = () => {
     setType(value);
   };
 
+  const handleDateRangeChange = (e) => {
+    setReportDateRange(e.target.value);
+    if (e.target.value == "Today") {
+      setReportDate({
+        start: formatDateRemoveTime(new Date()),
+        end: formatDateRemoveTime(new Date()),
+      });
+    } else if (e.target.value == "This Week") {
+      // from last sunday to today
+      let date = new Date();
+      let day = date.getDay();
+      let diff = date.getDate() - day + (day == 0 ? -6 : 1);
+      let start = new Date(date.setDate(diff - 1));
+      let end = new Date();
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "Last Week") {
+      // from last sunday to last saturday
+      let date = new Date();
+      let day = date.getDay();
+      let diff = date.getDate() - day - 6;
+      let start = new Date(date.setDate(diff - 1));
+      let end = new Date(date.setDate(diff + 6 - 1));
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "This Month") {
+      // from 1st to today
+      let date = new Date();
+      let start = new Date(date.getFullYear(), date.getMonth(), 2);
+      let end = new Date();
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "Last Month") {
+      // from 1st to last day of last month
+      let date = new Date();
+      let start = new Date(date.getFullYear(), date.getMonth() - 1, 2);
+      let end = new Date(date.getFullYear(), date.getMonth(), 1);
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "This Financial Year") {
+      // from 1st jan to today
+      let date = new Date();
+      let start = new Date(date.getFullYear(), 0, 2);
+      let end = new Date();
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "Last Financial Year") {
+      // from 1st jan to 31st dec
+      let date = new Date();
+      let start = new Date(date.getFullYear() - 1, 0, 2);
+      let end = new Date(date.getFullYear() - 1, 11, 32);
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else {
+      setReportDate({
+        start: "",
+        end: "",
+      });
+    }
+  };
+
+  const resetDate = () => {
+    setReportDate({
+      start: "",
+      end: "",
+    });
+    setReportDateRange("Select Date Range");
+    getReportListFunc();
+  };
+
   console.log({ allorders });
 
   return (
@@ -109,8 +195,8 @@ const Report = () => {
           <Col xs={3}>
             <Row>
               <Col>
-                <p className="not-select-view">
-                  <span onClick={() => getReportListFunc()}>
+                <p className="not-select-view" onClick={() => resetDate()}>
+                  <span>
                     <TfiReload />{" "}
                   </span>{" "}
                   Refresh
@@ -118,7 +204,14 @@ const Report = () => {
               </Col>
               <Col>
                 {csvData?.length > 0 && (
-                  <CSVLink size="sm" data={csvData} filename={`report.csv`}>
+                  <CSVLink
+                    size="sm"
+                    data={csvData}
+                    filename={`report.csv`}
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
                     <p className="select-view">
                       <span>
                         <MdDownload />
@@ -133,32 +226,70 @@ const Report = () => {
         </Row>
         <Row className="p-4 mt-4 mx-2 cont">
           <Row className="cont">
-            <Col xs={4}>
+            <Col xs={3}>
               <Form.Group controlId="date-to">
                 <Form.Label className="customDatelable">Start Date:</Form.Label>
                 <Form.Control
                   type="date"
                   className="tapG"
                   name="start"
+                  value={reportDate?.start}
                   onChange={(e) => handleDateChange(e)}
                 />
               </Form.Group>
             </Col>
-            <Col xs={4}>
+            <Col xs={3}>
               <Form.Group controlId="date-form">
                 <Form.Label className="customDatelable">End Date:</Form.Label>
                 <Form.Control
                   type="date"
                   className="tapG"
                   name="end"
-                  // size="sm"
+                  value={reportDate?.end}
                   onChange={(e) => handleDateChange(e)}
                 />
               </Form.Group>
             </Col>
-            <Col className="d-flex justify-content-start align-items-end cursor">
+            <Col xs={3}>
+              <Form.Group controlId="date-range">
+                <Form.Label className="customDatelable">
+                  Select Date Range:
+                </Form.Label>
+                <Form.Select
+                  value={reportDateRange}
+                  onChange={handleDateRangeChange}
+                >
+                  <option disabled selected value={"Select Date Range"}>
+                    Select Date Range
+                  </option>
+                  <option value={"Today"}>Today</option>
+                  <option value={"This Week"}>This Week</option>
+                  <option value={"Last Week"}>Last Week</option>
+                  <option value={"This Month"}>This Month</option>
+                  <option value={"Last Month"}>Last Month</option>
+                  <option value={"This Financial Year"}>
+                    This Financial Year
+                  </option>
+                  <option value={"Last Financial Year"}>
+                    Last Financial Year
+                  </option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col
+              xs={3}
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "center",
+                gap: "10px",
+              }}
+            >
               <Button variant="secondary" onClick={() => handledateOperation()}>
                 APPLY
+              </Button>
+              <Button variant="warning" onClick={() => resetDate()}>
+                Reset
               </Button>
             </Col>
           </Row>
