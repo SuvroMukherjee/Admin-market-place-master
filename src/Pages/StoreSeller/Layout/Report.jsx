@@ -56,8 +56,19 @@ const Report = () => {
       });
     });
 
+    const filteredCsvData = d.map((ele) => {
+      return {
+        "Order Id": ele?.order_id,
+        "Product Name": ele?.product,
+        "Order Date": ele?.date,
+        Quantity: ele?.Quantiy,
+        Sales: ele?.sales,
+        Income: ele?.income,
+      };
+    });
+
     setAllorders(d);
-    setCsvData(d);
+    setCsvData(filteredCsvData);
   };
 
   const handleDateChange = (e) => {
@@ -92,8 +103,19 @@ const Report = () => {
       });
     });
 
+    const filteredCsvData = d.map((ele) => {
+      return {
+        "Order Id": ele?.order_id,
+        "Product Name": ele?.product,
+        "Order Date": ele?.date,
+        Quantity: ele?.Quantiy,
+        Sales: ele?.sales,
+        Income: ele?.income,
+      };
+    });
+
     setAllorders(d);
-    setCsvData(d);
+    setCsvData(filteredCsvData);
     setReports(res?.data);
   };
 
