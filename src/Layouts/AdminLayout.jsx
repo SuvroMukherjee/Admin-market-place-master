@@ -1,20 +1,16 @@
-import React from 'react'
-import Topbar from '../components/Topbar/Topbar'
-import Sidebar from '../components/Sidebar/Sidebar'
-import Home from '../Pages/Home/Home'
-import { Outlet } from 'react-router-dom'
+import { Outlet } from "react-router-dom";
+import { ScrollToTop } from "../components/scrollToTop/ScrollToTop";
+import Sidebar from "../components/Sidebar/Sidebar";
 const AdminLayout = () => {
-    return (
-        <div>
-            {/* <div>
-                <Topbar />
-            </div> */}
-            <div className="containerLayout">
-                <Sidebar />
-                <Outlet />
-            </div>
-        </div>
-    )
-}
+  return (
+    <div>
+      <div className="containerLayout">
+        <ScrollToTop />
+        <Sidebar />
+        <Outlet />
+      </div>
+    </div>
+  );
+};
 
-export default AdminLayout
+export default AdminLayout;
