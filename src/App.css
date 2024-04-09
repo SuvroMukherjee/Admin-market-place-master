@@ -20,3 +20,13 @@
   max-height: 800px;
   overflow-y: auto;
 }
+
+.flex-justify-center-align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-font-size-lg {
+  font-size: 1.5rem;
+}
