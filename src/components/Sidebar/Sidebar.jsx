@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from "react";
+import classnames from "classnames";
 import { IconContext } from "react-icons";
 import { LuUnlock } from "react-icons/lu";
 import { Link, useLocation } from "react-router-dom";
-import classnames from "classnames";
 import useAuth from "../../hooks/useAuth";
+import "./Navbar.css";
+import "./sidebar.css";
 import {
   AdminSidebarData,
   KeyManagerSidebarData,
   SellerSidebarData,
 } from "./SidebarData";
-import "./Navbar.css";
-import "./sidebar.css";
 
 const Sidebar = () => {
   const { auth, logout } = useAuth();
   const location = useLocation();
 
-  const [sidebar, setSidebar] = useState(true);
-
-  const showSidebar = () => setSidebar(!sidebar);
-
-  useEffect(() => {}, [auth, sidebar]);
-
   const renderSidebarData = (sidebarData, title) => (
-    <nav className={classnames("nav-menu", { active: sidebar })}>
+    <nav className={classnames("nav-menu", { active: true })}>
       <ul className="nav-menu-items">
         <li className="navbar-toggle">
           <h4 className="sidebar-ttile">{title}</h4>
