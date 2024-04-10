@@ -30,31 +30,6 @@ const ManageOrders = () => {
 
         console.log({ dataWithUniqueIds })
 
-        // let filteredOrders = dataWithUniqueIds?.map((ele) => {
-        //     // Filter out order_details array based on sellerId
-        //     ele.order_details = ele.order_details?.filter((item) => {
-        //         return item.sellerId === "65bb2b0949aa020e01f2c1cb";
-        //     });
-
-        //     return ele;
-        // }).filter(ele => ele.order_details.length > 0); // Remove objects with empty order_details array
-
-        // console.log({filteredOrders});
-
-        // let f = dataWithUniqueIds?.map((ele) => {
-        //     ele?.order_details?.filter((item) => {
-        //         if (item?.sellerId != "65bb2b0949aa020e01f2c1cb") {
-        //             // console.log(ele, 'ele');
-        //             return ele;
-        //         }
-        //         // Make sure to return something from the filter callback
-
-        //     });
-        // });
-
-
-        // console.log({f})
-
         setList(dataWithUniqueIds)
     }
 
@@ -75,11 +50,6 @@ const ManageOrders = () => {
         console.log(res)
         // window.location.reload();
         getOrdersist();
-
-
-
-
-
     }
 
 
@@ -179,26 +149,18 @@ const ManageOrders = () => {
     return (
         <div>
             <Container className='mt-4'>
-                <Row>
-                    <Col className='dtext'>
-                        Order List
-                    </Col>
-                </Row>
+                
                 <Row className='mt-4'>
                     <Col>
                         <Table striped bordered hover responsive>
                             <thead>
                                 <tr>
                                     <th>Order ID</th>
+                                    <th>Order Quantiy</th>
                                     <th>Order Amount</th>
                                     <th>Order date & time</th>
-                                    {/* <th>Customer Name</th>
-                                    <th>Customer Phone</th>
-                                    <th>Locality</th>
-                                    <th>City</th> */}
                                     <th>Pincode</th>
                                     <th>Address</th>
-                                    {/* <th>Shipping Place</th> */}
                                     <th>Payment Status</th>
                                 </tr>
                             </thead>
@@ -206,15 +168,11 @@ const ManageOrders = () => {
                                 {currentItems?.length > 0 && currentItems.map((row, index) => (
                                     <tr key={row.id}>
                                         <td className='orderId' onClick={() => setSelectIndex(index)}>{row?.order_no} <MdArrowDropDownCircle size={20} /> </td>
+                                        <td>{row?.order_details?.length}</td>
                                         <td className='orderPrice'>₹ {row?.order_price?.toLocaleString()}</td>
                                         <td>{ChangeFormatDate(row?.createdAt)}</td>
-                                        {/* <td>{row?.name}</td>
-                                        <td>{row?.addressId?.ph_no}</td>
-                                        <td>{row?.addressId?.locality}</td>
-                                        <td>{row?.addressId?.city}</td> */}
                                         <td>{row?.addressId?.pincode}</td>
                                         <td>{row?.addressId?.address}</td>
-                                        {/* <td>{row?.addressId?.address_type?.toUpperCase()}</td> */}
                                         <td>{row?.payment_status == 'unpaid' ? 'COD' : ''}</td>
                                     </tr>
                                 ))}

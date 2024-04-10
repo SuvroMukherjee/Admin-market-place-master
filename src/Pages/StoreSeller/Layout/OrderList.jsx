@@ -26,7 +26,7 @@ const OrderList = () => {
 
   console.log({ list });
 
-  // const columns = [
+
   //     { field: "id", headerName: "ID", width: 50 },
   //     {
   //         field: "product name", headerName: "Product Name", width: 200, renderCell: (params) => {
@@ -106,9 +106,7 @@ const OrderList = () => {
   return (
     <div>
       <Container className="mt-4">
-        <Row>
-          <Col className="dtext">Order List</Col>
-        </Row>
+       
         <Row className="mt-4">
           <Col>
             <Table striped bordered hover responsive>
