@@ -1,14 +1,15 @@
 import { Drawer } from "@mui/material";
 import { useEffect, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
-import { FaAngleRight, FaUserCircle } from "react-icons/fa";
+import { FaAngleRight, FaBell, FaUserCircle } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdCircleNotifications } from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
 import { sellerDetails } from "../../../API/api";
 import newlogo from "../../../assets/zoofilogo.png";
 import useAuth from "../../../hooks/useAuth";
 import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
+import { IoNotificationsCircle } from "react-icons/io5";
 
 const MyNavbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -40,13 +41,22 @@ const MyNavbar = () => {
   const navigate = useNavigate();
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isNotificationOpen, setNotificationOpen] = useState(false);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  const handleNotificationDropDown = () => {
+    setNotificationOpen(!isNotificationOpen);
+  };
+
   const handleDropdownClose = () => {
     setDropdownOpen(false);
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationOpen(false);
   };
 
   useEffect(() => {
@@ -54,10 +64,14 @@ const MyNavbar = () => {
     const handleClick = (e) => {
       if (
         e.target.closest(".custom-nav-right .profile") ||
-        e.target.closest(".dropdown")
+        e.target.closest(".dropdown") ||
+        e.target.closest(".custom-nav-right .notify") ||
+        e.target.closest(".notification-dropdown")
       ) {
         return;
       }
+
+      handleNotificationClose();
       handleDropdownClose();
     };
 
@@ -344,6 +358,70 @@ const MyNavbar = () => {
             </div>
           </div>
           <div className="custom-nav-right">
+            {/* notification */}
+            <div className="notify">
+              <MdCircleNotifications
+                size={36}
+                onClick={handleNotificationDropDown}
+              />
+              <span>6</span>
+            </div>
+            {isNotificationOpen && (
+              <div className="notification-dropdown">
+                <ul>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-orderlist");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new order. Go to the order page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-return-order-request-list");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new return request go to the return request page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-orderlist");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new order. Go to the order page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-return-order-request-list");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new return request go to the return request page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-orderlist");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new order. Go to the order page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-return-order-request-list");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new return request go to the return request page.
+                  </li>
+                </ul>
+              </div>
+            )}
+
+            {/* profile */}
             <div className="profile">
               <FaUserCircle size={30} onClick={handleDropdownToggle} />
             </div>

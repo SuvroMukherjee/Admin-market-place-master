@@ -396,7 +396,7 @@ th {
 .custom-nav .custom-nav-right {
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 30px;
   align-items: center;
   padding: 0 10px;
   position: relative;
@@ -451,7 +451,6 @@ th {
   background-color: #9af064;
   color: black;
 }
-
 .custom-nav .custom-nav-right .settings:hover {
   color: #9af064;
 }
@@ -466,6 +465,83 @@ th {
 .custom-nav .custom-nav-right .profile:hover {
   cursor: pointer;
   color: #9af064;
+}
+
+.custom-nav .custom-nav-right .notify {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.custom-nav .custom-nav-right .notify:hover {
+  cursor: pointer;
+  color: #9af064;
+}
+
+.custom-nav .custom-nav-right .notify span {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-nav .custom-nav-right .notification-dropdown {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  top: 70px;
+  background-color: black;
+  padding: 15px;
+  border-radius: 5px;
+  gap: 10px;
+  width: 300px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* scrollbar for the notification-dropdown  */
+.custom-nav .custom-nav-right .notification-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-nav .custom-nav-right .notification-dropdown::-webkit-scrollbar-thumb {
+  background-color: #9af064;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.custom-nav .custom-nav-right .notification-dropdown::-webkit-scrollbar-track {
+  background-color: #bababa;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.custom-nav .custom-nav-right .notification-dropdown ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.custom-nav .custom-nav-right .notification-dropdown ul li {
+  padding: 10px;
+  border-bottom: 1px solid #9af064;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-nav .custom-nav-right .notification-dropdown ul li:hover {
+  background-color: #9af064;
+  color: black;
 }
 
 .sidebarHeader {
