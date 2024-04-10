@@ -10,8 +10,9 @@ import {
   KeyManagerSidebarData,
   SellerSidebarData,
 } from "./SidebarData";
+import { FaBell } from "react-icons/fa";
 
-const Sidebar = () => {
+const Sidebar = ({ notifications }) => {
   const { auth, logout } = useAuth();
   const location = useLocation();
 
@@ -19,7 +20,7 @@ const Sidebar = () => {
     <nav className={classnames("nav-menu", { active: true })}>
       <ul className="nav-menu-items">
         <li className="navbar-toggle">
-          <h4 className="sidebar-ttile">{title}</h4>
+          <h4 className="sidebar-ttile mb-4 mt-2">{title} <span><FaBell /> <div className="adminNotification">{notifications?.length}</div></span> </h4>
         </li>
         {sidebarData.map((item, index) => (
           <li
@@ -30,7 +31,7 @@ const Sidebar = () => {
           >
             <Link to={item.path}>
               <item.icon />
-              <span className="m-2">{item.title}</span>
+              <span className="m-2">{item.title}  </span>
             </Link>
           </li>
         ))}

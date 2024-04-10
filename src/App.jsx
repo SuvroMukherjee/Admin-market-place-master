@@ -7,47 +7,41 @@ import Router from "./routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import io from 'socket.io-client';
 import { io } from 'socket.io-client';
-import { socket } from './socket';
+import toast, { Toaster } from 'react-hot-toast';
+import useAuth from './hooks/useAuth';
 
 
 
 function App() {
 
-  const [isConnected, setIsConnected] = useState(socket.connected);
-  const [fooEvents, setFooEvents] = useState([]);
+  const [username, setUsername] = useState("");
+  const [user, setUser] = useState("");
+  const [socket, setSocket] = useState(null);
+
+  const { auth } = useAuth();
 
   useEffect(() => {
-    function onConnect() {
-      setIsConnected(true);
-    }
-
-    function onDisconnect() {
-      setIsConnected(false);
-    }
-
-    function onFooEvent(value) {
-      console.warn({ value });
-      setFooEvents(previous => [...previous, value]);
-    }
-
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
-    socket.on('chat message', onFooEvent);
-
-    return () => {
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-      socket.off('foo', onFooEvent);
-    };
+    setSocket(io("http://localhost:5000"));
   }, []);
 
-   
- 
+  useEffect(() => {
+    socket?.emit("newUser", auth?.email);
+  }, [socket, user]);
+
+  const send = () => {
+    console.log('Sending notification...');
+    socket.emit("sendNotification", {
+      senderName: "user",
+      receiverName: "marketplace.admin@gmail.com",
+      type: "1000",
+    });
+  }
 
   return (
     <>
       <AuthProvider>
-        <Router />
+        <button onClick={()=>send()} style={{height:'50vh',width:'800px',background:'blue',color:'white'}}>Click</button>
+        <Router    socket = {socket } />
       </AuthProvider>
     </>
   );
