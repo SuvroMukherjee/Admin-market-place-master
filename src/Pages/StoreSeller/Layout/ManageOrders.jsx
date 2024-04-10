@@ -259,7 +259,7 @@ const ManageOrders = () => {
                                             <tr>
 
                                                 <td>{row?.proId?.name}</td>
-                                                <td><Image src={row?.proId?.specId?.image?.[0]?.image_path} thumbnail width={100} style={{ objectFit: 'contain', height: '120px' }} /></td>
+                                                <td><img src={row?.proId?.specId?.image?.[0]?.image_path}  width={100} style={{ objectFit: 'contain', height: '120px' }} /></td>
                                                 <td>{row?.qty}</td>
                                                 <td>{row?.proId?.specId?.skuId?.toUpperCase()}</td>
                                                 {/* <td>
