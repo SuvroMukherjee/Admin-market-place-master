@@ -307,7 +307,18 @@ const Report = () => {
                 gap: "10px",
               }}
             >
-              <Button variant="secondary" onClick={() => handledateOperation()}>
+              <Button
+                variant="secondary"
+                onClick={() => handledateOperation()}
+                disabled={!reportDate?.start || !reportDate?.end ? true : false}
+                style={{
+                  backgroundColor:
+                    !reportDate?.start || !reportDate?.end ? "gray" : "#9af064",
+                  color:
+                    !reportDate?.start || !reportDate?.end ? "white" : "black",
+                  fontWeight: "bold",
+                }}
+              >
                 APPLY
               </Button>
               <Button variant="warning" onClick={() => resetDate()}>

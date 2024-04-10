@@ -98,6 +98,10 @@ const MyNavbar = () => {
         navigate("/seller/seller-orderlist");
         setHeaderTitle(pathName);
         break;
+      case "Manage Orders":
+        navigate("/seller/manage-orders");
+        setHeaderTitle(pathName);
+        break;
       case "Return Orders Request List":
         navigate("/seller/seller-return-order-request-list");
         setHeaderTitle(pathName);
@@ -106,10 +110,7 @@ const MyNavbar = () => {
         navigate("/seller/seller-return-order-list");
         setHeaderTitle(pathName);
         break;
-      case "Manage Orders":
-        navigate("/seller/manage-orders");
-        setHeaderTitle(pathName);
-        break;
+
       case "Customer Feedback":
         navigate("/seller/customer-feedback");
         setHeaderTitle(pathName);
@@ -254,6 +255,16 @@ const MyNavbar = () => {
 
           <div
             className="sidebar-menu-option"
+            onClick={() => navigateFunction("Manage Orders")}
+          >
+            <div className="title">Manage Orders</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
             onClick={() => navigateFunction("Return Orders Request List")}
           >
             <div className="title">Return Request</div>
@@ -267,16 +278,6 @@ const MyNavbar = () => {
             onClick={() => navigateFunction("Return Orders List")}
           >
             <div className="title">Return Orders</div>
-            <div className="Icon">
-              <FaAngleRight size={25} />
-            </div>
-          </div>
-
-          <div
-            className="sidebar-menu-option"
-            onClick={() => navigateFunction("Manage Orders")}
-          >
-            <div className="title">Manage Orders</div>
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>

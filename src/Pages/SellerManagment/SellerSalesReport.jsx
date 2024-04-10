@@ -329,11 +329,31 @@ const SellerSalesReport = () => {
                 <div className="flex-justify-center-align-end custom-gap-10">
                   <Button
                     variant="secondary"
+                    disabled={
+                      !reportDate?.start || !reportDate?.end ? true : false
+                    }
+                    style={{
+                      backgroundColor:
+                        !reportDate?.start || !reportDate?.end
+                          ? "gray"
+                          : "#9af064",
+                      color:
+                        !reportDate?.start || !reportDate?.end
+                          ? "white"
+                          : "black",
+                      fontWeight: "bold",
+                    }}
                     onClick={() => handledateOperation()}
                   >
                     APPLY
                   </Button>
-                  <Button variant="warning" onClick={() => resetDate()}>
+                  <Button
+                    variant="warning"
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => resetDate()}
+                  >
                     Reset
                   </Button>
 
@@ -341,7 +361,7 @@ const SellerSalesReport = () => {
                     size="sm"
                     data={csvData}
                     filename={`report.csv`}
-                    style={{ textDecoration: "none" }}
+                    style={{ textDecoration: "none", fontWeight: "bold" }}
                     onClick={() => resetDate()}
                     className="custom-btn-1"
                   >
