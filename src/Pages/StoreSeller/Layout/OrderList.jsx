@@ -227,7 +227,12 @@ const OrderList = () => {
         </Row>
 
         <Row className="mt-4">
-          <Col>
+          <Col
+            style={{
+              overflowY: "auto",
+              maxHeight: "500px",
+            }}
+          >
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
