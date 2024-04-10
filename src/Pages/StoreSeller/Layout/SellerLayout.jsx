@@ -1,15 +1,14 @@
 import { Drawer } from "@mui/material";
 import { useEffect, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
-import { FaAngleRight, FaBell, FaUserCircle } from "react-icons/fa";
+import { FaAngleRight, FaUserCircle } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 import { MdCancel, MdCircleNotifications } from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
 import { sellerDetails } from "../../../API/api";
 import newlogo from "../../../assets/zoofilogo.png";
-import useAuth from "../../../hooks/useAuth";
 import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
-import { IoNotificationsCircle } from "react-icons/io5";
+import useAuth from "../../../hooks/useAuth";
 
 const MyNavbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
