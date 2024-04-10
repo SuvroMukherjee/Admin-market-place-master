@@ -214,7 +214,7 @@ const SellerSalesReport = () => {
         start: formatDateRemoveTime(start),
         end: formatDateRemoveTime(end),
       });
-    } else if (e.target.value == "This Financial Year") {
+    } else if (e.target.value == "This Year") {
       // from 1st jan to today
       let date = new Date();
       let start = new Date(date.getFullYear(), 0, 2);
@@ -223,7 +223,7 @@ const SellerSalesReport = () => {
         start: formatDateRemoveTime(start),
         end: formatDateRemoveTime(end),
       });
-    } else if (e.target.value == "Last Financial Year") {
+    } else if (e.target.value == "Last Year") {
       // from 1st jan to 31st dec
       let date = new Date();
       let start = new Date(date.getFullYear() - 1, 0, 2);
@@ -314,12 +314,8 @@ const SellerSalesReport = () => {
                     <option value={"Last Week"}>Last Week</option>
                     <option value={"This Month"}>This Month</option>
                     <option value={"Last Month"}>Last Month</option>
-                    <option value={"This Financial Year"}>
-                      This Financial Year
-                    </option>
-                    <option value={"Last Financial Year"}>
-                      Last Financial Year
-                    </option>
+                    <option value={"This Year"}>This Year</option>
+                    <option value={"Last Year"}>Last Year</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -329,11 +325,31 @@ const SellerSalesReport = () => {
                 <div className="flex-justify-center-align-end custom-gap-10">
                   <Button
                     variant="secondary"
+                    disabled={
+                      !reportDate?.start || !reportDate?.end ? true : false
+                    }
+                    style={{
+                      backgroundColor:
+                        !reportDate?.start || !reportDate?.end
+                          ? "gray"
+                          : "#9af064",
+                      color:
+                        !reportDate?.start || !reportDate?.end
+                          ? "white"
+                          : "black",
+                      fontWeight: "bold",
+                    }}
                     onClick={() => handledateOperation()}
                   >
                     APPLY
                   </Button>
-                  <Button variant="warning" onClick={() => resetDate()}>
+                  <Button
+                    variant="warning"
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                    onClick={() => resetDate()}
+                  >
                     Reset
                   </Button>
 
@@ -341,7 +357,7 @@ const SellerSalesReport = () => {
                     size="sm"
                     data={csvData}
                     filename={`report.csv`}
-                    style={{ textDecoration: "none" }}
+                    style={{ textDecoration: "none", fontWeight: "bold" }}
                     onClick={() => resetDate()}
                     className="custom-btn-1"
                   >

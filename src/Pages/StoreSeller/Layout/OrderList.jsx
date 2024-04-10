@@ -1,114 +1,238 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { sellerStockoutlist } from "../../../API/api";
-import { ChangeFormatDate } from "../../../common/DateFormat";
+import {
+  ChangeFormatDate,
+  formatDateRemoveTime,
+} from "../../../common/DateFormat";
 
 const OrderList = () => {
   const { userId } = JSON.parse(localStorage.getItem("auth"));
 
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [reportDate, setReportDate] = useState({
+    start: "",
+    end: "",
+  });
+  const [reportDateRange, setReportDateRange] = useState("Select Date Range");
+
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    setReportDate((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleDateRangeChange = (e) => {
+    setReportDateRange(e.target.value);
+    if (e.target.value == "Today") {
+      setReportDate({
+        start: formatDateRemoveTime(new Date()),
+        end: formatDateRemoveTime(new Date()),
+      });
+    } else if (e.target.value == "This Week") {
+      // from last sunday to today
+      let date = new Date();
+      let day = date.getDay();
+      let diff = date.getDate() - day + (day == 0 ? -6 : 1);
+      let start = new Date(date.setDate(diff - 1));
+      let end = new Date();
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "Last Week") {
+      // from last sunday to last saturday
+      let date = new Date();
+      let day = date.getDay();
+      let diff = date.getDate() - day - 6;
+      let start = new Date(date.setDate(diff - 1));
+      let end = new Date(date.setDate(diff + 6 - 1));
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "This Month") {
+      // from 1st to today
+      let date = new Date();
+      let start = new Date(date.getFullYear(), date.getMonth(), 2);
+      let end = new Date();
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "Last Month") {
+      // from 1st to last day of last month
+      let date = new Date();
+      let start = new Date(date.getFullYear(), date.getMonth() - 1, 2);
+      let end = new Date(date.getFullYear(), date.getMonth(), 1);
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "This Year") {
+      // from 1st jan to today
+      let date = new Date();
+      let start = new Date(date.getFullYear(), 0, 2);
+      let end = new Date();
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else if (e.target.value == "Last Year") {
+      // from 1st jan to 31st dec
+      let date = new Date();
+      let start = new Date(date.getFullYear() - 1, 0, 2);
+      let end = new Date(date.getFullYear() - 1, 11, 32);
+      setReportDate({
+        start: formatDateRemoveTime(start),
+        end: formatDateRemoveTime(end),
+      });
+    } else {
+      setReportDate({
+        start: "",
+        end: "",
+      });
+    }
+  };
+
+  const resetDate = () => {
+    setReportDate({
+      start: "",
+      end: "",
+    });
+    setReportDateRange("Select Date Range");
+  };
 
   useEffect(() => {
     getOrdersist();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getOrdersist = async () => {
-    let res = await sellerStockoutlist(userId);
-    console.log(res?.data?.data, "order");
-    const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
-      ...item,
-      id: index + 1,
-    }));
-    setList(dataWithUniqueIds);
+    try {
+      setLoading(true);
+      let res = await sellerStockoutlist(userId);
+      console.log(res?.data?.data, "order");
+      const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
+        ...item,
+        id: index + 1,
+      }));
+
+      setList(dataWithUniqueIds);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   console.log({ list });
 
+  let filteredListByDate = [];
+  if (list.length > 0) {
+    if (
+      reportDateRange === "Select Date Range" &&
+      reportDate.start === "" &&
+      reportDate.end === ""
+    ) {
+      filteredListByDate = list;
+    } else {
+      filteredListByDate = list.filter((item) => {
+        const orderDate = new Date(item.createdAt);
+        const startDate = new Date(reportDate.start);
+        const endDate = new Date(reportDate.end);
 
-  //     { field: "id", headerName: "ID", width: 50 },
-  //     {
-  //         field: "product name", headerName: "Product Name", width: 200, renderCell: (params) => {
-  //             return (
-  //                 <div>
-  //                     {params?.row?.productId?.name}
-  //                 </div>
-  //             );
-  //         }
-  //     },
-  //     {
-  //         field: "product Image", headerName: "Product Image", width: 150, renderCell: (params) => {
-  //             return (
-  //                 <div>
-  //                     <Image src={params?.row?.productId?.specId?.image?.[0]?.image_path}  thumbnail width={40} height={40}/>
-  //                 </div>
-  //             );
-  //         }
-  //     },
-  //     {
-  //         field: "SKU", headerName: "SKU", width: 100, renderCell: (params) => {
-  //             return (
-  //                 <div>
-  //                     {params?.row?.productId?.specId?.skuId}
-  //                 </div>
-  //             );
-  //         }
-  //     },
-  //     {
-  //         field: "Order Quantity", headerName: "Order Quantity", width: 150, renderCell: (params) => {
-  //             return (
-  //                 <div>
-  //                     {params?.row?.quantity}
-  //                 </div>
-  //             );
-  //         }
-  //     },
-  //     {
-  //         field: "Price", headerName: "Price", width: 150, renderCell: (params) => {
-  //             return (
-  //                 <div>
-  //                     {params?.row?.productId?.price}
-  //                 </div>
-  //             );
-  //         }
-  //     },
-  //     {
-  //         field: "Shipping Cost", headerName: "Shipping Cost", width: 150, renderCell: (params) => {
-  //             return (
-  //                 <div>
-  //                     {params?.row?.productId?.price}
-  //                 </div>
-  //             );
-  //         }
-  //     },
-  //     {
-  //         field: "Commission Price", headerName: "Commission Price", width: 150, renderCell: (params) => {
-  //             return (
-  //                 <div>
-  //                     {params?.row?.productId?.shipping_cost}
-  //                 </div>
-  //             );
-  //         }
-  //     },
-  //     {
-  //         field: "Order Time", headerName: "Order Time", width: 200, renderCell: (params) => {
-  //             return (
-  //                 <div>
-  //                     {ChangeFormatDate(params?.row?.createdAt)}
-  //                 </div>
-  //             );
-  //         }
-  //     },
-
-  // ];
+        return orderDate >= startDate && orderDate <= endDate;
+      });
+    }
+  }
 
   return (
     <div>
       <Container className="mt-4">
-       
+        <Row>
+          <Col className="dtext">Order List</Col>
+        </Row>
+        <Row className="cont" style={{ padding: "10px", marginTop: "10px" }}>
+          {/* start date */}
+          <Col xs={4}>
+            <Form.Group controlId="date-to">
+              <Form.Label className="customDatelable">Start Date:</Form.Label>
+              <Form.Control
+                type="date"
+                className="tapG"
+                name="start"
+                value={reportDate?.start}
+                onChange={(e) => handleDateChange(e)}
+              />
+            </Form.Group>
+          </Col>
+          {/* end date */}
+          <Col xs={4}>
+            <Form.Group controlId="date-form">
+              <Form.Label className="customDatelable">End Date:</Form.Label>
+              <Form.Control
+                type="date"
+                className="tapG"
+                name="end"
+                value={reportDate?.end}
+                onChange={(e) => handleDateChange(e)}
+              />
+            </Form.Group>
+          </Col>
+          {/* select date range */}
+          <Col xs={4}>
+            <Form.Group controlId="date-range">
+              <Form.Label className="customDatelable">
+                Select Date Range:
+              </Form.Label>
+              <Form.Select
+                value={reportDateRange}
+                onChange={handleDateRangeChange}
+              >
+                <option disabled selected value={"Select Date Range"}>
+                  Select Date Range
+                </option>
+                <option value={"Today"}>Today</option>
+                <option value={"This Week"}>This Week</option>
+                <option value={"Last Week"}>Last Week</option>
+                <option value={"This Month"}>This Month</option>
+                <option value={"Last Month"}>Last Month</option>
+                <option value={"This Year"}>This Year</option>
+                <option value={"Last Year"}>Last Year</option>
+              </Form.Select>
+            </Form.Group>
+          </Col>
+          {/* btnS */}
+          <Row>
+            <Col className="mt-2">
+              <div className="flex-justify-center-align-end custom-gap-10">
+                <Button
+                  variant="warning"
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                  onClick={() => resetDate()}
+                >
+                  Reset
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Row>
+
         <Row className="mt-4">
-          <Col>
+          <Col
+            style={{
+              overflowY: "auto",
+              maxHeight: "500px",
+            }}
+          >
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
@@ -122,39 +246,55 @@ const OrderList = () => {
                   <th>Shipping Cost</th>
                   <th>Net Disbursement</th>
                   <th>Order Date & Time</th>
-                  {/* <th>Available Quantiy</th> */}
                 </tr>
               </thead>
               <tbody>
-                {list.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.id}</td>
-                    <td>{row.productId ? row.productId.name : ""}</td>
-                    <td>
-                      <Image
-                        src={row.productId?.specId?.image?.[0]?.image_path}
-                        thumbnail
-                        width={40}
-                        height={40}
-                      />
+                {!loading &&
+                  filteredListByDate.length > 0 &&
+                  filteredListByDate.map((row) => (
+                    <tr key={row.id}>
+                      <td>{row.id}</td>
+                      <td>{row.productId ? row.productId.name : ""}</td>
+                      <td>
+                        <Image
+                          src={row.productId?.specId?.image?.[0]?.image_path}
+                          thumbnail
+                          width={40}
+                          height={40}
+                        />
+                      </td>
+                      <td>{row.productId?.specId?.skuId}</td>
+                      <td className="avaible">
+                        {row.productId?.available_qty}
+                      </td>
+                      <td className="amount">{row.quantity}</td>
+                      <td className="amount">
+                        {" "}
+                        {row.productId?.price?.toLocaleString()}
+                      </td>
+                      <td className="amount">{row.productId?.shipping_cost}</td>
+                      <td className="amount">
+                        {row.productId?.comission_price?.toLocaleString()}
+                      </td>
+                      <td className="datecolor">
+                        {ChangeFormatDate(row.createdAt)}
+                      </td>
+                    </tr>
+                  ))}
+                {!loading && filteredListByDate.length === 0 && (
+                  <tr>
+                    <td colSpan={10} className="text-center">
+                      No Data Found
                     </td>
-                    <td>{row.productId?.specId?.skuId}</td>
-                    <td className="avaible">{row.productId?.available_qty}</td>
-                    <td className="amount">{row.quantity}</td>
-                    <td className="amount">
-                      {" "}
-                      {row.productId?.price?.toLocaleString()}
-                    </td>
-                    <td className="amount">{row.productId?.shipping_cost}</td>
-                    <td className="amount">
-                      {row.productId?.comission_price?.toLocaleString()}
-                    </td>
-                    <td className="datecolor">
-                      {ChangeFormatDate(row.createdAt)}
-                    </td>
-                    {/* <td className='avaible'>{row.productId?.available_qty}</td> */}
                   </tr>
-                ))}
+                )}
+                {loading && (
+                  <tr>
+                    <td colSpan={10} className="text-center">
+                      Loading...
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </Table>
           </Col>

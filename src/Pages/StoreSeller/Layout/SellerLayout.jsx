@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import { FaAngleRight, FaUserCircle } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdCircleNotifications } from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
 import { sellerDetails } from "../../../API/api";
 import newlogo from "../../../assets/zoofilogo.png";
-import useAuth from "../../../hooks/useAuth";
 import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
+import useAuth from "../../../hooks/useAuth";
 
 const MyNavbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -40,13 +40,22 @@ const MyNavbar = () => {
   const navigate = useNavigate();
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isNotificationOpen, setNotificationOpen] = useState(false);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  const handleNotificationDropDown = () => {
+    setNotificationOpen(!isNotificationOpen);
+  };
+
   const handleDropdownClose = () => {
     setDropdownOpen(false);
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationOpen(false);
   };
 
   useEffect(() => {
@@ -54,10 +63,14 @@ const MyNavbar = () => {
     const handleClick = (e) => {
       if (
         e.target.closest(".custom-nav-right .profile") ||
-        e.target.closest(".dropdown")
+        e.target.closest(".dropdown") ||
+        e.target.closest(".custom-nav-right .notify") ||
+        e.target.closest(".notification-dropdown")
       ) {
         return;
       }
+
+      handleNotificationClose();
       handleDropdownClose();
     };
 
@@ -98,6 +111,10 @@ const MyNavbar = () => {
         navigate("/seller/seller-orderlist");
         setHeaderTitle(pathName);
         break;
+      case "Manage Orders":
+        navigate("/seller/manage-orders");
+        setHeaderTitle(pathName);
+        break;
       case "Return Orders Request List":
         navigate("/seller/seller-return-order-request-list");
         setHeaderTitle(pathName);
@@ -106,10 +123,7 @@ const MyNavbar = () => {
         navigate("/seller/seller-return-order-list");
         setHeaderTitle(pathName);
         break;
-      case "Manage Orders":
-        navigate("/seller/manage-orders");
-        setHeaderTitle(pathName);
-        break;
+
       case "Customer Feedback":
         navigate("/seller/customer-feedback");
         setHeaderTitle(pathName);
@@ -254,6 +268,16 @@ const MyNavbar = () => {
 
           <div
             className="sidebar-menu-option"
+            onClick={() => navigateFunction("Manage Orders")}
+          >
+            <div className="title">Manage Orders</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
             onClick={() => navigateFunction("Return Orders Request List")}
           >
             <div className="title">Return Request</div>
@@ -267,16 +291,6 @@ const MyNavbar = () => {
             onClick={() => navigateFunction("Return Orders List")}
           >
             <div className="title">Return Orders</div>
-            <div className="Icon">
-              <FaAngleRight size={25} />
-            </div>
-          </div>
-
-          <div
-            className="sidebar-menu-option"
-            onClick={() => navigateFunction("Manage Orders")}
-          >
-            <div className="title">Manage Orders</div>
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
@@ -343,6 +357,70 @@ const MyNavbar = () => {
             </div>
           </div>
           <div className="custom-nav-right">
+            {/* notification */}
+            <div className="notify">
+              <MdCircleNotifications
+                size={36}
+                onClick={handleNotificationDropDown}
+              />
+              <span>6</span>
+            </div>
+            {isNotificationOpen && (
+              <div className="notification-dropdown">
+                <ul>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-orderlist");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new order. Go to the order page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-return-order-request-list");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new return request go to the return request page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-orderlist");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new order. Go to the order page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-return-order-request-list");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new return request go to the return request page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-orderlist");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new order. Go to the order page.
+                  </li>
+                  <li
+                    onClick={() => {
+                      navigate("/seller/seller-return-order-request-list");
+                      handleNotificationClose();
+                    }}
+                  >
+                    There is a new return request go to the return request page.
+                  </li>
+                </ul>
+              </div>
+            )}
+
+            {/* profile */}
             <div className="profile">
               <FaUserCircle size={30} onClick={handleDropdownToggle} />
             </div>
