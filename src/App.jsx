@@ -18,21 +18,14 @@ function App() {
   const { auth } = useAuth();
 
   useEffect(() => {
-   // setSocket(io("http://localhost:5000"));
+   setSocket(io("http://localhost:5000"));
   }, []);
 
   useEffect(() => {
     socket?.emit("newUser", auth?.email);
   }, [socket, user]);
 
-  const send = () => {
-    console.log("Sending notification...");
-    socket.emit("sendNotification", {
-      senderName: "user",
-      receiverName: "marketplace.admin@gmail.com",
-      type: "1000",
-    });
-  };
+
 
   return (
     <>
