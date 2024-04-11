@@ -18,7 +18,7 @@ function App() {
   const { auth } = useAuth();
 
   useEffect(() => {
-    setSocket(io("http://localhost:5000"));
+   // setSocket(io("http://localhost:5000"));
   }, []);
 
   useEffect(() => {

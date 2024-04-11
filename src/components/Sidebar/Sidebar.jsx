@@ -16,69 +16,9 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ notifications }) => {
   const { auth, logout } = useAuth();
   const location = useLocation();
-
-  const [notifications] = useState([
-    {
-      id: 1,
-      title: "New Order Created",
-      message:
-        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
-      type: "order-created",
-    },
-    {
-      id: 1,
-      title: "New Order Created",
-      message:
-        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
-      type: "order-created",
-    },
-    {
-      id: 1,
-      title: "New Order Created",
-      message:
-        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
-      type: "order-created",
-    },
-    {
-      id: 1,
-      title: "New Order Created",
-      message:
-        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
-      type: "order-created",
-    },
-
-    {
-      id: 1,
-      title: "New Order Created",
-      message:
-        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
-      type: "order-created",
-    },
-    {
-      id: 1,
-      title: "New Order Created",
-      message:
-        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
-      type: "order-created",
-    },
-    {
-      id: 1,
-      title: "New Order Created",
-      message:
-        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
-      type: "order-created",
-    },
-    {
-      id: 1,
-      title: "New Order Created",
-      message:
-        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
-      type: "order-created",
-    },
-  ]);
 
   const navigate = useNavigate();
 
@@ -103,6 +43,18 @@ const Sidebar = () => {
 
     document.addEventListener("click", handleClick);
   }, []);
+
+
+  const handleRedirection = (type) =>{
+    switch(type){
+      case "reg_type" : 
+        navigate('/SellerManagment');
+         break;
+      default : 
+         navigate('/');
+    }
+    toggleNotification()
+  }
 
   const renderSidebarData = (sidebarData, title) => (
     <nav className={classnames("nav-menu", { active: true })}>
@@ -167,10 +119,10 @@ const Sidebar = () => {
                 key={index}
                 className="notification-item"
                 onClick={() => {
-                  navigate("/seller/manage-orders");
+                  handleRedirection(notification?.notification_type);
                 }}
               >
-                <span className="notification-title">{notification.title}</span>
+                <span className="notification-title">{index + 1}.{" "} {notification?.message} </span>
               </li>
             ))}
           </ul>
