@@ -1336,3 +1336,15 @@ export async function getReportListBySellerIdWithDate(id, startDate, endDate) {
     return error;
   }
 }
+
+
+export async function getAdminNotification() {
+  try {
+    const response = await axios.get(apiUrl + `/notification/list`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

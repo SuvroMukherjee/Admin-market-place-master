@@ -40,8 +40,7 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <button onClick={()=>send()} style={{height:'50vh',width:'800px',background:'blue',color:'white'}}>Click</button>
-        <Router    socket = {socket } />
+        <Router socket = {socket } />
       </AuthProvider>
     </>
   );

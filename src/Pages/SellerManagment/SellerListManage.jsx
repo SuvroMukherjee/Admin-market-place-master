@@ -304,7 +304,7 @@ export default function SellerListManage() {
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col xs={4}>
               <ButtonGroup>
                 <Button
                   variant={activeButton === "all" ? "dark" : "outline-dark"}
@@ -336,50 +336,8 @@ export default function SellerListManage() {
                 </Button>
               </ButtonGroup>
             </Col>
+            <Col xs={2}> Total : {data?.length}</Col>
           </Row>
-          {/* <Row>
-                        <Col>
-                            <ButtonGroup>
-                                <Button
-                                    variant={activeButton === 'all' ? 'dark' : 'outline-dark'}
-                                    onClick={() => handleButtonClick('all')}
-                                    size="sm"
-                                >
-                                    All
-                                </Button>
-                                <Button
-                                    variant={activeButton === 'pending' ? 'dark' : 'outline-dark'}
-                                    onClick={() => handleButtonClick('pending')}
-                                    size="sm"
-                                >
-                                   Imcomplete
-                                </Button>
-                                <Button
-                                    variant={activeButton === 'approve' ? 'dark' : 'outline-dark'}
-                                    onClick={() => handleButtonClick('approve')}
-                                    size="sm"
-                                >
-                                    Complete
-                                </Button>
-                                <Button
-                                    variant={activeButton === 'reject' ? 'dark' : 'outline-dark'}
-                                    onClick={() => handleButtonClick('reject')}
-                                    size="sm"
-                                >
-                                    Reject
-                                </Button>
-                            </ButtonGroup>
-                        </Col>
-                    </Row> */}
-          {/* <Row className="justify-content-md-center">
-                        <Col>
-                            <DataGrid
-                                rows={data}
-                                columns={columns}
-                                pageSize={8}
-                            />
-                        </Col>
-                    </Row> */}
         </Container>
         <Container>
           <Row className="justify-content-md-center mt-4">
