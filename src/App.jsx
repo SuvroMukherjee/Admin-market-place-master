@@ -7,8 +7,9 @@ import Router from "./routes";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import io from 'socket.io-client';
 import { io } from "socket.io-client";
-import toast, { Toaster } from "react-hot-toast";
 import useAuth from "./hooks/useAuth";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [username, setUsername] = useState("");
@@ -18,12 +19,12 @@ function App() {
   const { auth } = useAuth();
 
   useEffect(() => {
-   setSocket(io("http://localhost:5000"));
+   setSocket(io("http://localhost:10000"));
   }, []);
 
-  useEffect(() => {
-    socket?.emit("newUser", auth?.email);
-  }, [socket, user]);
+  // useEffect(() => {
+  //   socket?.emit("newUser", auth?.email);
+  // }, [socket, user]);
 
 
 
@@ -31,6 +32,7 @@ function App() {
     <>
       <AuthProvider>
         <Router socket = {socket } />
+        <ToastContainer />
       </AuthProvider>
     </>
   );
