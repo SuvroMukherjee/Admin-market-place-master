@@ -4,6 +4,7 @@ import { sellerOwnRegistrationForm } from '../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { RiShareForwardFill } from "react-icons/ri";
 
+
 const Step1 = ({ nextStep, getUserdata }) => {
     const [userInfo, setUserInfo] = useState({
         user_name: '',
@@ -37,6 +38,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
             nextStep();
         }
     };
+
 
     return (
         <Container>

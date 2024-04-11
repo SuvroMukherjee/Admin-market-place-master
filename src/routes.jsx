@@ -75,14 +75,14 @@ import EditUser from "./Pages/UserList/EditUser";
 import UserList from "./Pages/UserList/UserList";
 import { SellerNotification } from "./Pages/Notification/SellerNotification";
 
-export default function Router() {
+export default function Router({socket}) {
   const { auth } = useAuth();
 
   // For authenticated routes
   const authenticatedRoutes = [
     {
       path: "/",
-      element: <AdminLayout />,
+      element: <AdminLayout socket={socket}/>,
       children: [
         {
           path: "/",
