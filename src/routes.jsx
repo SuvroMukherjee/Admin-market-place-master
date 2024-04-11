@@ -73,6 +73,7 @@ import ManageVariationImages from "./Pages/StoreSeller/ProductEditPage/ManageVar
 import NewProductVariation from "./Pages/StoreSeller/ProductEditPage/NewProductVariation";
 import EditUser from "./Pages/UserList/EditUser";
 import UserList from "./Pages/UserList/UserList";
+import { SellerNotification } from "./Pages/Notification/SellerNotification";
 
 export default function Router({socket}) {
   const { auth } = useAuth();
@@ -200,6 +201,7 @@ export default function Router({socket}) {
             { path: "seller-editownproduct/:id", element: <EditOwnProduct /> },
             { path: "seller-addproduct", element: <NewAddProduct /> },
             { path: "seller-productList", element: <SellerInventory /> },
+            { path: "notification", element: <SellerNotification />},
             { path: "product-deatils/:id", element: <SellerProductDetails /> },
             { path: "seller-orderlist", element: <OrderList /> },
             {

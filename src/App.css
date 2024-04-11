@@ -46,7 +46,7 @@
   background-color: #027166;
 }
 
-.custom-btn-1{
+.custom-btn-1 {
   background-color: #027166;
   color: white;
   border: none;
@@ -68,3 +68,37 @@
   color: white;
 }
 
+.custom-btn-2 {
+  background-color: #9af064;
+  font-weight: bold;
+  color: black;
+  border: none;
+  padding: 7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.custom-btn-2:hover {
+  background-color: #70bb42;
+  color: white;
+}
+
+.notification-div {
+  max-width: 1000px;
+  margin: auto;
+  padding: 10px;
+  padding-top: 50px;
+}
+
+.notification-div .notification-link {
+  font-weight: bold;
+  color: inherit;
+}

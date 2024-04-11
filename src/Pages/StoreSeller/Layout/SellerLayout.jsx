@@ -417,6 +417,15 @@ const MyNavbar = () => {
                     There is a new return request go to the return request page.
                   </li>
                 </ul>
+
+                <button
+                  onClick={() => {
+                    navigate("/seller/notification");
+                  }}
+                  className="custom-btn-2"
+                >
+                  View All
+                </button>
               </div>
             )}
 

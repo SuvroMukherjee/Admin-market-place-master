@@ -11,17 +11,115 @@ import {
   SellerSidebarData,
 } from "./SidebarData";
 import { FaBell } from "react-icons/fa";
+import newlogo from "../../assets/zoofilogo.png";
+import { useEffect, useState } from "react";
 
-const Sidebar = ({ notifications }) => {
+import { useNavigate } from "react-router-dom";
+
+const Sidebar = () => {
   const { auth, logout } = useAuth();
   const location = useLocation();
+
+  const [notifications] = useState([
+    {
+      id: 1,
+      title: "New Order Created",
+      message:
+        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
+      type: "order-created",
+    },
+    {
+      id: 1,
+      title: "New Order Created",
+      message:
+        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
+      type: "order-created",
+    },
+    {
+      id: 1,
+      title: "New Order Created",
+      message:
+        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
+      type: "order-created",
+    },
+    {
+      id: 1,
+      title: "New Order Created",
+      message:
+        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
+      type: "order-created",
+    },
+
+    {
+      id: 1,
+      title: "New Order Created",
+      message:
+        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
+      type: "order-created",
+    },
+    {
+      id: 1,
+      title: "New Order Created",
+      message:
+        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
+      type: "order-created",
+    },
+    {
+      id: 1,
+      title: "New Order Created",
+      message:
+        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
+      type: "order-created",
+    },
+    {
+      id: 1,
+      title: "New Order Created",
+      message:
+        "A new Order has been created by the customer. Please go to the mange order page to view the details and perform actions.",
+      type: "order-created",
+    },
+  ]);
+
+  const navigate = useNavigate();
+
+  const [showNotification, setShowNotification] = useState(false);
+
+  const toggleNotification = () => {
+    setShowNotification(!showNotification);
+  };
+
+  useEffect(() => {
+    // close menu on click outside
+    const handleClick = (e) => {
+      if (
+        e.target.closest(".admin-notification-dropdown") ||
+        e.target.closest(".notification-nav-item")
+      ) {
+        return;
+      }
+
+      setShowNotification(false);
+    };
+
+    document.addEventListener("click", handleClick);
+  }, []);
 
   const renderSidebarData = (sidebarData, title) => (
     <nav className={classnames("nav-menu", { active: true })}>
       <ul className="nav-menu-items">
-        <li className="navbar-toggle">
-          <h4 className="sidebar-ttile mb-4 mt-2">{title} <span><FaBell /> <div className="adminNotification">{notifications?.length}</div></span> </h4>
+        <li className="header-nav-item">
+          <img src={newlogo} alt="zoofi seller" width={120} />
+          <h4 className="sidebar-ttile mb-4 mt-2">{title} </h4>
         </li>
+
+        <li className="notification-nav-item" onClick={toggleNotification}>
+          <span>
+            <FaBell color="red" />
+          </span>
+          <span>Notifications</span>
+          <span className="notification-badge">{notifications?.length}</span>
+        </li>
+
         {sidebarData.map((item, index) => (
           <li
             key={index}
@@ -31,7 +129,7 @@ const Sidebar = ({ notifications }) => {
           >
             <Link to={item.path}>
               <item.icon />
-              <span className="m-2">{item.title}  </span>
+              <span className="m-2">{item.title} </span>
             </Link>
           </li>
         ))}
@@ -46,19 +144,39 @@ const Sidebar = ({ notifications }) => {
   );
 
   return (
-    <div className="sidebar">
-      <IconContext.Provider value={{ color: "#fff" }}>
-        {auth.role.name === "Admin" &&
-          renderSidebarData(AdminSidebarData, "Admin DashBoard")}
-        {auth.role.name === "Key Account Maneger" &&
-          renderSidebarData(
-            KeyManagerSidebarData,
-            "Key Account Manager DashBoard"
-          )}
-        {auth.role.name === "Seller" &&
-          renderSidebarData(SellerSidebarData, "Seller DashBoard")}
-      </IconContext.Provider>
-    </div>
+    <>
+      <div className="sidebar">
+        <IconContext.Provider value={{ color: "#fff" }}>
+          {auth.role.name === "Admin" &&
+            renderSidebarData(AdminSidebarData, "Admin DashBoard")}
+          {auth.role.name === "Key Account Maneger" &&
+            renderSidebarData(
+              KeyManagerSidebarData,
+              "Key Account Manager DashBoard"
+            )}
+          {auth.role.name === "Seller" &&
+            renderSidebarData(SellerSidebarData, "Seller DashBoard")}
+        </IconContext.Provider>
+      </div>
+
+      {showNotification && (
+        <div className="admin-notification-dropdown">
+          <ul>
+            {notifications?.map((notification, index) => (
+              <li
+                key={index}
+                className="notification-item"
+                onClick={() => {
+                  navigate("/seller/manage-orders");
+                }}
+              >
+                <span className="notification-title">{notification.title}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 };
 

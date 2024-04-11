@@ -69,7 +69,6 @@
   justify-content: start;
   align-items: center;
   list-style: none;
-
   border-radius: 10px;
 }
 
@@ -100,6 +99,7 @@
   align-items: start;
   flex-direction: column;
   gap: 10px;
+  position: relative;
 }
 
 .navbar-toggle {
@@ -109,6 +109,108 @@
   display: flex;
   justify-content: start;
   align-items: center;
+}
+
+.notification-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: yellow;
+  color: black;
+  font-weight: bold;
+  width: 90%;
+  position: relative;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.header-nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  width: 90%;
+  position: relative;
+  gap: 8px;
+  cursor: pointer;
+  flex-direction: column;
+}
+
+.notification-nav-item > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-notification-dropdown {
+  position: fixed;
+  top: 160px;
+  left: 320px;
+  background-color: black;
+  width: 300px;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 15px;
+  z-index: 2000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.admin-notification-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-notification-dropdown::-webkit-scrollbar-thumb {
+  background-color: #9af064;
+  border-radius: 0px 6px 6px 0px;
+}
+
+.admin-notification-dropdown::-webkit-scrollbar-track {
+  background-color: #707070;
+  border-radius: 0px 6px 6px 0px;
+}
+
+.admin-notification-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.admin-notification-dropdown ul li {
+  width: 100%;
+  padding: 10px;
+  /* background-color: #9af064; */
+  color: white;
+  border-bottom: 2px solid #9af064;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.admin-notification-dropdown ul li:hover {
+  background-color: #9af064;
+  color: black;
+}
+
+.notification-nav-item .notification-badge {
+  color: red;
+  padding: 5px;
+  border-radius: 50%;
+  font-weight: bold;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 10px;
 }
 
 /* .navbar-toggle .nav-text span {
