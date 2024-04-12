@@ -18,8 +18,9 @@ import { FaUserCircle } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { makeSeenNotification } from "../../API/api";
 
-const Sidebar = ({ notifications }) => {
+const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
   const { auth, logout } = useAuth();
   const location = useLocation();
 
@@ -48,7 +49,7 @@ const Sidebar = ({ notifications }) => {
   }, []);
 
 
-  const handleRedirection = (type) => {
+  const handleRedirection = (type,id) => {
     switch (type) {
       case "reg_type":
         navigate('/SellerManagment'); 
@@ -56,26 +57,45 @@ const Sidebar = ({ notifications }) => {
       case "product_create":
         navigate('/SellerProductManagment'); 
         break;
+      case "brand_created":
+        navigate('/Admin/brand-request');
+        break;
+      case "category_created":
+        navigate('/Admin/category-request');
+        break;
       default:
         navigate('/');
     }
+    updateNotification(id)
     toggleNotification()
   }
 
 
-  const handleNotificationTitle = (type) => {
+  const handleNotificationTitle = (type,id) => {
     switch (type) {
       case "reg_type":
          return "Registred a new shop - "
         break;
       case "product_create":
-        return 'Requested new product for -';
+        return 'Requested for new product for -';
         break;
+      case "brand_created":
+        return 'Requested for new brand for -';
+        break; 
+      case "category_created":
+        return "Request for new category"
+        break; 
       default:
         return "New notification"
     }
   }
 
+  const updateNotification = async(id) =>{
+    
+    let res = await makeSeenNotification(id);
+    getAdminNotificationHandler()
+
+  }
 
   const renderSidebarData = (sidebarData, title) => (
     <nav className={classnames("nav-menu", { active: true })}>
@@ -85,7 +105,7 @@ const Sidebar = ({ notifications }) => {
           <h4 className="sidebar-ttile mb-4 mt-2">{title} </h4>
         </li>
 
-        <li className="notification-nav-item" onClick={toggleNotification}>
+        <li className="notification-nav-item" onClick={(notifications?.length >0) &&  toggleNotification}>
           <span>
             <FaBell color="red" />
           </span>
@@ -141,7 +161,8 @@ const Sidebar = ({ notifications }) => {
                 key={index}
                 className="notification-item"
                 onClick={() => {
-                  handleRedirection(notification?.notification_type);
+
+                  handleRedirection(notification?.notification_type, notification?._id);
                 }}
               >
                 

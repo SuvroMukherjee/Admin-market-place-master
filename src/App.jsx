@@ -23,7 +23,8 @@ function App() {
 
     socket.on("connect", () => {
       console.log("Socket connected successfully");
-      setSocket(socket);
+      //setSocket(socket);
+      settingSocket(socket)
     });
 
     socket.on("connect_error", (err) => {
@@ -36,8 +37,11 @@ function App() {
       console.log("Cleaning up socket connection");
       socket.disconnect();
     };
-  }, []);
+  }, []); 
 
+   function settingSocket(){
+     setSocket(socket);
+   }
 
  
   return (

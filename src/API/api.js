@@ -1359,3 +1359,19 @@ export async function deleteSellerById(sellerId) {
     return error;
   }
 }
+
+export async function makeSeenNotification(id){
+  ///notification/update/6618d98e1586d609501dec3d
+  try {
+    const response = await axios.get(apiUrl + `/notification/update/${id}`, {
+      headers: setAuthHeader(),
+      // params: {
+      //   startDate: startDate,
+      //   endDate: endDate,
+      // },
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
