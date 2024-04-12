@@ -18,7 +18,7 @@ import { FaUserCircle } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { makeSeenNotification } from "../../API/api";
+import { makeAllSeenNotification, makeSeenNotification } from "../../API/api";
 
 const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
   const { auth, logout } = useAuth();
@@ -33,7 +33,6 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
   };
 
   useEffect(() => {
-    // close menu on click outside
     const handleClick = (e) => {
       if (
         e.target.closest(".admin-notification-dropdown") ||
@@ -94,6 +93,21 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
     
     let res = await makeSeenNotification(id);
     getAdminNotificationHandler()
+    
+  }
+
+
+  const MarkAllRead = async() =>{
+    let res = await makeAllSeenNotification();
+
+    if (res?.response?.data?.error){
+      console.log('Something went wrong')
+    }else{
+      getAdminNotificationHandler();
+      setTimeout(() => {
+         toggleNotification();
+      }, 1500);
+    }
 
   }
 
@@ -154,7 +168,7 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
 
       {showNotification && (
         <div className="admin-notification-dropdown">
-          <div className="markRead">Mark As All Read</div>
+          <div className="markRead" onClick={() => MarkAllRead()}>Mark As All Read</div>
           <ul>
             {notifications?.map((notification, index) => (
               <li

@@ -44,7 +44,7 @@ const AdminLayout = ({ socket }) => {
     <div>
       <div className="containerLayout">
         <ScrollToTop />
-        <Sidebar notifications={notifications}/>
+        <Sidebar notifications={notifications} getAdminNotificationHandler={getAdminNotificationHandler}/>
         <Outlet />
       </div>
     </div>
