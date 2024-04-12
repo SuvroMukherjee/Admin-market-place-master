@@ -19,8 +19,25 @@ function App() {
   const { auth } = useAuth();
 
   useEffect(() => {
-   setSocket(io("http://localhost:10000"));
+    const socket = io("https://zoofi-393f46d84893.herokuapp.com");
+
+    socket.on("connect", () => {
+      console.log("Socket connected successfully");
+      setSocket(socket);
+    });
+
+    socket.on("connect_error", (err) => {
+      console.error("Socket connection error:", err.message);
+      // Optionally handle the error here, such as displaying a message to the user or retrying after a delay
+    });
+
+    // Clean up the socket on component unmount
+    return () => {
+      console.log("Cleaning up socket connection");
+      socket.disconnect();
+    };
   }, []);
+
 
  
   return (
