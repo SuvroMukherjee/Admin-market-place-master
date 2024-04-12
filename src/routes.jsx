@@ -152,7 +152,7 @@ export default function Router({socket}) {
     {
       path: "/seller",
       // element: <AdminLayout />,
-      element: <SellerLayout />,
+      element: <SellerLayout socket={socket} />,
       children: [
         {
           element: <RequireAuth allowedRoles={["Seller"]} />,

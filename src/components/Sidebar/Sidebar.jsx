@@ -181,7 +181,7 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
               >
                 
                 <Row>
-                  <Col className="d-flex align-items-center justify-content-center" xs={2}>
+                  <Col className="d-flex align-items-center justify-content-center" xs={1}>
                     {notification?.notifyFrom_Id?.Shop_Details_Info?.pic_of_shope ? <img src={notification?.notifyFrom_Id?.Shop_Details_Info?.pic_of_shope?.[0]} alt="shopImage" className="shopNotiImg" /> : <FaUserCircle size={20} />}
                   </Col>
                   <Col>

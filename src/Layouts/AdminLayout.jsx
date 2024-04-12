@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import { getAdminNotification } from "../API/api";
 import { ToastContainer, toast } from 'react-toastify';
-import notification from '../assets/notification.wav'
+import notificationSoundTone from '../assets/notification.wav'
 const AdminLayout = ({ socket }) => {
 
   const [notifications, setNotifications] = useState([]);
@@ -23,7 +23,7 @@ const AdminLayout = ({ socket }) => {
     if (socket) {
       const handleAdminNotification = (data) => {
         console.log(data, 'ADMIN_NOTIFICATION')
-        const notificationSound = new Audio(notification);
+        const notificationSound = new Audio(notificationSoundTone);
         notificationSound.play();
         setTimeout(() => {
           toast.info(data)
