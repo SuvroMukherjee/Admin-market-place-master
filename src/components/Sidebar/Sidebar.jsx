@@ -13,8 +13,11 @@ import {
 import { FaBell } from "react-icons/fa";
 import newlogo from "../../assets/zoofilogo.png";
 import { useEffect, useState } from "react";
+import { Col, Container, Form, Image, Row, Table } from 'react-bootstrap';
+import { FaUserCircle } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const Sidebar = ({ notifications }) => {
   const { auth, logout } = useAuth();
@@ -45,16 +48,34 @@ const Sidebar = ({ notifications }) => {
   }, []);
 
 
-  const handleRedirection = (type) =>{
-    switch(type){
-      case "reg_type" : 
-        navigate('/SellerManagment');
-         break;
-      default : 
-         navigate('/');
+  const handleRedirection = (type) => {
+    switch (type) {
+      case "reg_type":
+        navigate('/SellerManagment'); 
+        break;
+      case "product_create":
+        navigate('/SellerProductManagment'); 
+        break;
+      default:
+        navigate('/');
     }
     toggleNotification()
   }
+
+
+  const handleNotificationTitle = (type) => {
+    switch (type) {
+      case "reg_type":
+         return "Registred a new shop - "
+        break;
+      case "product_create":
+        return 'Requested new product for -';
+        break;
+      default:
+        return "New notification"
+    }
+  }
+
 
   const renderSidebarData = (sidebarData, title) => (
     <nav className={classnames("nav-menu", { active: true })}>
@@ -113,6 +134,7 @@ const Sidebar = ({ notifications }) => {
 
       {showNotification && (
         <div className="admin-notification-dropdown">
+          <div className="markRead">Mark As All Read</div>
           <ul>
             {notifications?.map((notification, index) => (
               <li
@@ -122,7 +144,24 @@ const Sidebar = ({ notifications }) => {
                   handleRedirection(notification?.notification_type);
                 }}
               >
-                <span className="notification-title">{index + 1}.{" "} {notification?.message} </span>
+                
+                <Row>
+                  <Col className="d-flex align-items-center justify-content-center" xs={2}>
+                    {notification?.notifyFrom_Id?.Shop_Details_Info?.pic_of_shope ? <img src={notification?.notifyFrom_Id?.Shop_Details_Info?.pic_of_shope?.[0]} alt="shopImage" className="shopNotiImg" /> : <FaUserCircle size={20} />}
+                  </Col>
+                  <Col>
+                    <Row>
+                      <Col xs={12} className="notlist-tilte">{notification?.message}</Col>
+                      <Col xs={12} className="notlist-main">
+                        <strong>{notification?.notifyFrom_Id?.user_name} {" "}</strong>
+                        {handleNotificationTitle(notification?.notification_type)} <strong>
+                          {notification?.notifyFrom_Id?.Shop_Details_Info?.shope_name} 
+                          </strong></Col>
+                      <Col className="notlist-loc">Kolkata, West Bengal</Col>
+                      <Col xs={12} className="notlist-time">{moment(notification?.updatedAt).fromNow()}</Col>
+                    </Row>
+                  </Col>
+                </Row>
               </li>
             ))}
           </ul>

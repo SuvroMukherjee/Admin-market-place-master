@@ -146,7 +146,7 @@
 
 .admin-notification-dropdown {
   position: fixed;
-  top: 160px;
+  top: 120px;
   left: 320px;
   background-color: black;
   width: 300px;
@@ -157,6 +157,17 @@
   z-index: 2000;
   max-height: 300px;
   overflow-y: auto;
+}
+
+.admin-notification-dropdown::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  /* Adjust as needed */
+  left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent black transparent transparent;
 }
 
 .admin-notification-dropdown::-webkit-scrollbar {
@@ -189,13 +200,13 @@
   padding: 10px;
   /* background-color: #9af064; */
   color: white;
-  border-bottom: 2px solid #9af064;
+  border-bottom: 1px solid #9af064;
   font-weight: bold;
   cursor: pointer;
 }
 
 .admin-notification-dropdown ul li:hover {
-  background-color: #9af064;
+  background-color: #2e481e;
   color: black;
 }
 
@@ -212,6 +223,7 @@
   align-items: center;
   right: 10px;
   background-color: wheat;
+  font-size: 12px;
 }
 
 /* .navbar-toggle .nav-text span {

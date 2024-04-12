@@ -22,12 +22,7 @@ function App() {
    setSocket(io("http://localhost:10000"));
   }, []);
 
-  // useEffect(() => {
-  //   socket?.emit("newUser", auth?.email);
-  // }, [socket, user]);
-
-
-
+ 
   return (
     <>
       <AuthProvider>

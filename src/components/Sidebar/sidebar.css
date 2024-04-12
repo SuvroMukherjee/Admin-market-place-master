@@ -80,6 +80,53 @@
   right: 54px;
 }
 
+.notlist-tilte{
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: #8ad9e2;
+  font-weight: 450;
+}
+
+.notlist-main{
+  font-size: 12px;
+  font-weight: normal;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.notlist-time{
+  font-size: 10px;
+    letter-spacing: 0.5px;
+    color: Yellow;
+    font-weight: 400;
+    
+}
+
+.notlist-loc{
+   font-size: 11px;
+    font-weight: 500;
+    color: #9e9e9e;
+    letter-spacing: 0.5px;
+}
+
+.shopNotiImg{
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.markRead{
+  color: white;
+  font-weight: 500;
+  text-align: right;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.markRead:hover{
+   color: #555;
+}
 /* ::-webkit-scrollbar {
     width: 5px;
 }
