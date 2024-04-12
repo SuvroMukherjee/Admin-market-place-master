@@ -3,6 +3,8 @@ import { ScrollToTop } from "../components/scrollToTop/ScrollToTop";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import { getAdminNotification } from "../API/api";
+import { ToastContainer, toast } from 'react-toastify';
+
 const AdminLayout = ({ socket }) => {
 
   const [notifications, setNotifications] = useState([]);
@@ -18,13 +20,21 @@ const AdminLayout = ({ socket }) => {
   }
 
   useEffect(() => {
-    if (socket){
-      socket.on("ADMIN_NOTIFICATION", (data) => {
+    if (socket) {
+      const handleAdminNotification = (data) => {
         console.log(data, 'ADMIN_NOTIFICATION')
+        toast.info(data)
         getAdminNotificationHandler();
-      });
+      };
+
+      socket.on("ADMIN_NOTIFICATION", handleAdminNotification);
+
+      return () => {
+        socket.off("ADMIN_NOTIFICATION", handleAdminNotification);
+      };
     }
-  }, [socket, notifications]);
+  }, [socket]);
+
 
   return (
     <div>
