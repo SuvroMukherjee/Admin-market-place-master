@@ -1348,3 +1348,14 @@ export async function getAdminNotification() {
     return error;
   }
 }
+
+export async function deleteSellerById(sellerId) {
+  try {
+    const response = await axios.delete(apiUrl + `/seller/delete/` + sellerId, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

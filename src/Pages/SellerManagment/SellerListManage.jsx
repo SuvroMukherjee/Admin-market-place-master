@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import {
   Button,
   ButtonGroup,
-  Card, Carousel,
+  Card,
+  Carousel,
   Col,
   Container,
   Form,
@@ -18,7 +19,8 @@ import { MdAutorenew } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import {
   AdminSellerLists,
-  UpdateSellerStatus
+  deleteSellerById,
+  UpdateSellerStatus,
 } from "../../API/api";
 import { productRows } from "../../dummyData";
 import "./Seller.css";
@@ -108,6 +110,19 @@ export default function SellerListManage() {
       .then((res) => {
         getAllSellersList();
         toast.success("Seller updated successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong!");
+      });
+  };
+
+  const handleDelete = async (data) => {
+    await deleteSellerById(data?._id)
+      .then((res) => {
+        console.log(res);
+        getAllSellersList();
+        toast.success("Seller deleted successfully!");
       })
       .catch((err) => {
         console.log(err);
@@ -358,6 +373,7 @@ export default function SellerListManage() {
                                         <th>Edit</th> */}
                     <th>View</th>
                     <th>Action</th>
+                    <th>Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -456,6 +472,15 @@ export default function SellerListManage() {
                           </Button>
                         )}
                       </td>
+                      <td>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleDelete(row)}
+                          size="sm"
+                        >
+                          Delete
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                   {data.length === 0 && (
@@ -474,7 +499,7 @@ export default function SellerListManage() {
           <Modal centered size="md" show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>
-                {selectedSeller?.email} {console.log(selectedSeller)}
+                {selectedSeller?.email}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
