@@ -1,7 +1,11 @@
 import classnames from "classnames";
+import { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import { IconContext } from "react-icons";
+import { FaBell, FaUserCircle } from "react-icons/fa";
 import { LuUnlock } from "react-icons/lu";
 import { Link, useLocation } from "react-router-dom";
+import newlogo from "../../assets/zoofilogo.png";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 import "./sidebar.css";
@@ -10,14 +14,9 @@ import {
   KeyManagerSidebarData,
   SellerSidebarData,
 } from "./SidebarData";
-import { FaBell } from "react-icons/fa";
-import newlogo from "../../assets/zoofilogo.png";
-import { useEffect, useState } from "react";
-import { Col, Container, Form, Image, Row, Table } from "react-bootstrap";
-import { FaUserCircle } from "react-icons/fa";
 
-import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 import { makeAllSeenNotification, makeSeenNotification } from "../../API/api";
 
 const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
