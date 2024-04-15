@@ -192,7 +192,7 @@ const MyNavbar = ({ socket }) => {
   const handleRedirection = (type, id) => {
     switch (type) {
       case "cat_apprv":
-        navigate("/seller/approval-request-list/");
+        navigate("/seller/approval-request-list?tabtype=product");
         break;
       case "brand_apprv":
         navigate("/seller/approval-request-list/");
@@ -581,16 +581,29 @@ const MyNavbar = ({ socket }) => {
                       </Row>
                     </li>
                   ))}
+                  {notifications?.length === 0 && (
+                    <li className="notification-item">
+                      <Row>
+                        <Col>
+                          <Row>
+                            <Col xs={12} className="notlist-tilte">
+                              No Notification Found
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </li>
+                  )}
                 </ul>
 
-                <button
+                {/* <button
                   onClick={() => {
                     navigate("/seller/notification");
                   }}
                   className="custom-btn-2"
                 >
                   View All
-                </button>
+                </button> */}
               </div>
             )}
 

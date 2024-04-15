@@ -1,5 +1,5 @@
 // App.js
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -9,14 +9,14 @@ import Router from "./routes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { io } from "socket.io-client";
-import useAuth from "./hooks/useAuth";
+// import useAuth from "./hooks/useAuth";
 
 function App() {
-  const [username, setUsername] = useState("");
-  const [user, setUser] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [user, setUser] = useState("");
   const [socket, setSocket] = useState(null);
 
-  const { auth } = useAuth();
+  // const { auth } = useAuth();
 
   useEffect(() => {
     const socket = io("https://zoofi-393f46d84893.herokuapp.com");
@@ -41,9 +41,9 @@ function App() {
     };
   }, []);
 
-  function settingSocket() {
-    setSocket(socket);
-  }
+  // function settingSocket() {
+  //   setSocket(socket);
+  // }
 
   return (
     <>
