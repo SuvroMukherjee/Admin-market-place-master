@@ -1,4 +1,5 @@
 import { attendenceList, getUserLoginLocation, setAttendenceLogin, setAttendenceLogout } from "../../../API/api";
+import { toast } from "react-toastify";
 
 const getLocationForLogout = async () => {
     try {
@@ -23,6 +24,7 @@ const getLocationForLogout = async () => {
         return logoutResponse?.data;
     } catch (error) {
         console.error("Error during logout:", error);
+        toast.error('Please Allow your Browser Location')
         return null;
     }
 };

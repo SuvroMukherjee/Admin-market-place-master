@@ -753,7 +753,7 @@ return (
                 </Row>
                 <Row className='mt-2'>
                     <Row>
-                        {categorylist.map((option) => (
+                        {categorylist?.length > 0 && categorylist.map((option) => (
                             <Col key={option?._id} xs={4} className='mt-2 '>
                                 <input
                                     type="checkbox"
@@ -769,13 +769,11 @@ return (
                 </Row>
             </Col>
         </Row>
-        <Row className='mt-2'>
+        {/* <Row className='mt-2'>
             <Row>
-                {/* <Col className='frmLable hd'>
-                   Category & Commission
-                </Col> */}
+              
             </Row>
-            {/*  */}
+           
             <Row className='mt-2'>
                 <Col xs={8} >
                     <Form.Group controlId="commissionRate">
@@ -808,12 +806,7 @@ return (
                                         required
                                     />
                                 </Col>
-                                {/* <Col className='d-flex align-items-end'>
-                                      <Button variant='success' size='sm' onClick={() => handlecreateCommissionFunc(formData?.commission_data?.[index])}>save</Button>
-                                  </Col>
-                                  <Col className='d-flex align-items-end'>
-                                      <Button variant='danger' size='sm' onClick={() => handleDelete(index)}>cancel</Button>
-                                  </Col> */}
+                              
                             </Row>
                         ))}
                         <IoIosAddCircle size={20} onClick={addCategory} />
@@ -821,7 +814,7 @@ return (
                     </Form.Group>
                 </Col>
             </Row>
-        </Row>
+        </Row> */}
         <Row className='mt-4'>
             <Col>
                 {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
