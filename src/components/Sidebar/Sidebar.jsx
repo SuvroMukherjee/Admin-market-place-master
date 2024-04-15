@@ -1,8 +1,8 @@
 import classnames from "classnames";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { IconContext } from "react-icons";
-import { FaBell, FaUserCircle } from "react-icons/fa";
+import { FaBell, FaUserCircle, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { LuUnlock } from "react-icons/lu";
 import { Link, useLocation } from "react-router-dom";
 import newlogo from "../../assets/zoofilogo.png";
@@ -18,6 +18,7 @@ import {
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { makeAllSeenNotification, makeSeenNotification } from "../../API/api";
+import { notificationContext } from "../../context/context";
 
 const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
   const { auth, logout } = useAuth();
@@ -31,11 +32,17 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
     setShowNotification(!showNotification);
   };
 
+  const { adminNotification, setAdminNotificationCustom } =
+    useContext(notificationContext);
+
+  console.log("notifications", notifications);
+
   useEffect(() => {
     const handleClick = (e) => {
       if (
         e.target.closest(".admin-notification-dropdown") ||
-        e.target.closest(".notification-nav-item")
+        e.target.closest(".notification-nav-item") ||
+        e.target.closest(".notification-mute-unmute")
       ) {
         return;
       }
@@ -111,8 +118,9 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
 
         <li
           className="notification-nav-item"
-          onClick={() => {
+          onClick={(e) => {
             if (notifications?.length > 0) {
+              if (e.target.closest(".notification-mute-unmute")) return;
               toggleNotification();
             } else {
               return;
@@ -123,6 +131,18 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
             <FaBell color="red" />
           </span>
           <span>Notifications</span>
+          <span
+            className="notification-mute-unmute"
+            onClick={() => {
+              setAdminNotificationCustom(!adminNotification);
+            }}
+          >
+            {adminNotification ? (
+              <FaVolumeUp color="black" size={17} />
+            ) : (
+              <FaVolumeMute color="black" size={17} />
+            )}
+          </span>
           <span className="notification-badge">{notifications?.length}</span>
         </li>
 
