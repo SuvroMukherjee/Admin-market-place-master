@@ -19,9 +19,9 @@ function App() {
   const { auth } = useAuth();
 
   useEffect(() => {
-    // const socket = io("https://zoofi-393f46d84893.herokuapp.com");
+    const socket = io("https://zoofi-393f46d84893.herokuapp.com");
 
-    const socket = io("http://localhost:10000");
+    // const socket = io("http://localhost:10000");
 
     socket.on("connect", () => {
       console.log("Socket connected successfully");
