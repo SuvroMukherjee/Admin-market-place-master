@@ -3,30 +3,37 @@ import { ScrollToTop } from "../components/scrollToTop/ScrollToTop";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import { getAdminNotification } from "../API/api";
-import { ToastContainer, toast } from 'react-toastify';
-import notificationSoundTone from '../assets/notification.wav'
+import { toast } from "react-toastify";
+import notificationSoundTone from "../assets/notification.wav";
 const AdminLayout = ({ socket }) => {
-
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     getAdminNotificationHandler();
-  },[])
+  }, []);
 
-  async function getAdminNotificationHandler(){
+  async function getAdminNotificationHandler() {
     let res = await getAdminNotification();
-    console.log(res?.data?.data,'notice')
-    setNotifications(res?.data?.data)
+    console.log(res?.data?.data, "notice");
+    setNotifications(res?.data?.data);
   }
 
   useEffect(() => {
     if (socket) {
       const handleAdminNotification = (data) => {
-        console.log(data, 'ADMIN_NOTIFICATION')
-        const notificationSound = new Audio(notificationSoundTone);
-        notificationSound.play();
+        console.log(data, "ADMIN_NOTIFICATION");
+
+        // Assuming this code is inside a function that is triggered by a user interaction, such as a click event
+        try {
+          const notificationSound = new Audio(notificationSoundTone);
+          notificationSound.play();
+        } catch {
+          console.log("Error in playing sound");
+        }
+
         setTimeout(() => {
-          toast.info(data)
+          // toast.info(data);
+          toast.info("New Notification");
         }, 1000);
         getAdminNotificationHandler();
       };
@@ -39,12 +46,14 @@ const AdminLayout = ({ socket }) => {
     }
   }, [socket]);
 
-
   return (
     <div>
       <div className="containerLayout">
         <ScrollToTop />
-        <Sidebar notifications={notifications} getAdminNotificationHandler={getAdminNotificationHandler}/>
+        <Sidebar
+          notifications={notifications}
+          getAdminNotificationHandler={getAdminNotificationHandler}
+        />
         <Outlet />
       </div>
     </div>

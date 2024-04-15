@@ -13,7 +13,7 @@ import {
 import { FaBell } from "react-icons/fa";
 import newlogo from "../../assets/zoofilogo.png";
 import { useEffect, useState } from "react";
-import { Col, Container, Form, Image, Row, Table } from 'react-bootstrap';
+import { Col, Container, Form, Image, Row, Table } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
@@ -47,69 +47,63 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
     document.addEventListener("click", handleClick);
   }, []);
 
-
-  const handleRedirection = (type,id) => {
+  const handleRedirection = (type, id) => {
     switch (type) {
       case "reg_type":
-        navigate('/SellerManagment'); 
+        navigate("/SellerManagment");
         break;
       case "product_create":
-        navigate('/SellerProductManagment'); 
+        navigate("/SellerProductManagment");
         break;
       case "brand_created":
-        navigate('/Admin/brand-request');
+        navigate("/Admin/brand-request");
         break;
       case "category_created":
-        navigate('/Admin/category-request');
+        navigate("/Admin/category-request");
         break;
       default:
-        navigate('/');
+        navigate("/");
     }
-    updateNotification(id)
-    toggleNotification()
-  }
+    updateNotification(id);
+    toggleNotification();
+  };
 
-
-  const handleNotificationTitle = (type,id) => {
+  const handleNotificationTitle = (type, id) => {
     switch (type) {
       case "reg_type":
-         return "Registred a new shop - "
+        return "Registred a new shop - ";
         break;
       case "product_create":
-        return 'Requested for new product for -';
+        return "Requested for new product for -";
         break;
       case "brand_created":
-        return 'Requested for new brand for -';
-        break; 
+        return "Requested for new brand for -";
+        break;
       case "category_created":
-        return "Request for new category"
-        break; 
+        return "Request for new category";
+        break;
       default:
-        return "New notification"
+        return "New notification";
     }
-  }
+  };
 
-  const updateNotification = async(id) =>{
-    
+  const updateNotification = async (id) => {
     let res = await makeSeenNotification(id);
-    getAdminNotificationHandler()
-    
-  }
+    getAdminNotificationHandler();
+  };
 
-
-  const MarkAllRead = async() =>{
+  const MarkAllRead = async () => {
     let res = await makeAllSeenNotification();
 
-    if (res?.response?.data?.error){
-      console.log('Something went wrong')
-    }else{
+    if (res?.response?.data?.error) {
+      console.log("Something went wrong");
+    } else {
       getAdminNotificationHandler();
       setTimeout(() => {
-         toggleNotification();
+        toggleNotification();
       }, 1500);
     }
-
-  }
+  };
 
   const renderSidebarData = (sidebarData, title) => (
     <nav className={classnames("nav-menu", { active: true })}>
@@ -119,7 +113,16 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
           <h4 className="sidebar-ttile mb-4 mt-2">{title} </h4>
         </li>
 
-        <li className="notification-nav-item" onClick={(notifications?.length >0) &&  toggleNotification}>
+        <li
+          className="notification-nav-item"
+          onClick={() => {
+            if (notifications?.length > 0) {
+              toggleNotification();
+            } else {
+              return;
+            }
+          }}
+        >
           <span>
             <FaBell color="red" />
           </span>
@@ -168,32 +171,63 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
 
       {showNotification && (
         <div className="admin-notification-dropdown">
-          <div className="markRead" onClick={() => MarkAllRead()}>Mark As All Read</div>
+          <div className="markRead" onClick={() => MarkAllRead()}>
+            Mark As All Read
+          </div>
           <ul>
             {notifications?.map((notification, index) => (
               <li
                 key={index}
                 className="notification-item"
                 onClick={() => {
-
-                  handleRedirection(notification?.notification_type, notification?._id);
+                  handleRedirection(
+                    notification?.notification_type,
+                    notification?._id
+                  );
                 }}
               >
-                
                 <Row>
-                  <Col className="d-flex align-items-center justify-content-center" xs={1}>
-                    {notification?.notifyFrom_Id?.Shop_Details_Info?.pic_of_shope ? <img src={notification?.notifyFrom_Id?.Shop_Details_Info?.pic_of_shope?.[0]} alt="shopImage" className="shopNotiImg" /> : <FaUserCircle size={20} />}
+                  <Col
+                    className="d-flex align-items-center justify-content-center"
+                    xs={1}
+                  >
+                    {notification?.notifyFrom_Id?.Shop_Details_Info
+                      ?.pic_of_shope ? (
+                      <img
+                        src={
+                          notification?.notifyFrom_Id?.Shop_Details_Info
+                            ?.pic_of_shope?.[0]
+                        }
+                        alt="shopImage"
+                        className="shopNotiImg"
+                      />
+                    ) : (
+                      <FaUserCircle size={20} />
+                    )}
                   </Col>
                   <Col>
                     <Row>
-                      <Col xs={12} className="notlist-tilte">{notification?.message}</Col>
+                      <Col xs={12} className="notlist-tilte">
+                        {notification?.message}
+                      </Col>
                       <Col xs={12} className="notlist-main">
-                        <strong>{notification?.notifyFrom_Id?.user_name} {" "}</strong>
-                        {handleNotificationTitle(notification?.notification_type)} <strong>
-                          {notification?.notifyFrom_Id?.Shop_Details_Info?.shope_name} 
-                          </strong></Col>
+                        <strong>
+                          {notification?.notifyFrom_Id?.user_name}{" "}
+                        </strong>
+                        {handleNotificationTitle(
+                          notification?.notification_type
+                        )}{" "}
+                        <strong>
+                          {
+                            notification?.notifyFrom_Id?.Shop_Details_Info
+                              ?.shope_name
+                          }
+                        </strong>
+                      </Col>
                       <Col className="notlist-loc">Kolkata, West Bengal</Col>
-                      <Col xs={12} className="notlist-time">{moment(notification?.updatedAt).fromNow()}</Col>
+                      <Col xs={12} className="notlist-time">
+                        {moment(notification?.updatedAt).fromNow()}
+                      </Col>
                     </Row>
                   </Col>
                 </Row>
