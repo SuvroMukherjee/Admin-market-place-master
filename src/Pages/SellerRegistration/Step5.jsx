@@ -69,7 +69,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
 
     const handleSubmit = async () => {
 
-        let payload = { "interest_details": { "commission_data": formData?.commission_data, "categoryId": selectedCategories } }
+        let payload = { "interest_details": {"categoryId": selectedCategories } }
 
         console.log(payload)
 
@@ -115,7 +115,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                     </Row>
                 </Col>
             </Row>
-            <Row className='mt-4'>
+            {/* <Row className='mt-4'>
                 <Row>
                     <Col className='t1'>Add commission accoding to categories</Col>
                 </Row>
@@ -153,12 +153,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                                             required
                                         />
                                     </Col>
-                                    {/* <Col className='d-flex align-items-end'>
-                                      <Button variant='success' size='sm' onClick={() => handlecreateCommissionFunc(formData?.commission_data?.[index])}>save</Button>
-                                  </Col>
-                                  <Col className='d-flex align-items-end'>
-                                      <Button variant='danger' size='sm' onClick={() => handleDelete(index)}>cancel</Button>
-                                  </Col> */}
+                                   
                                 </Row>
                             ))}
                             <IoIosAddCircle size={20} onClick={addCategory} />
@@ -166,7 +161,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                         </Form.Group>
                     </Col>
                 </Row>
-            </Row>
+            </Row> */}
             <Row className='mt-5'>
                 <Col className="text-center">
                     {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
