@@ -100,6 +100,7 @@
   flex-direction: column;
   gap: 10px;
   position: relative;
+  padding: 0 0 0 20px;
 }
 
 .navbar-toggle {
