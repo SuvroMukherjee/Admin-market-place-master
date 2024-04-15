@@ -1,15 +1,15 @@
 // App.js
 import React, { useEffect, useState } from "react";
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { AuthProvider } from "./context/auth";
 import Router from "./routes";
-import "bootstrap/dist/css/bootstrap.min.css";
 // import io from 'socket.io-client';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { io } from "socket.io-client";
 import useAuth from "./hooks/useAuth";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [username, setUsername] = useState("");
@@ -24,7 +24,7 @@ function App() {
     socket.on("connect", () => {
       console.log("Socket connected successfully");
       //setSocket(socket);
-      settingSocket(socket)
+      settingSocket(socket);
     });
 
     socket.on("connect_error", (err) => {
@@ -37,17 +37,16 @@ function App() {
       console.log("Cleaning up socket connection");
       socket.disconnect();
     };
-  }, []); 
+  }, []);
 
-   function settingSocket(){
-     setSocket(socket);
-   }
+  function settingSocket() {
+    setSocket(socket);
+  }
 
- 
   return (
     <>
       <AuthProvider>
-        <Router socket = {socket } />
+        <Router socket={socket} />
         <ToastContainer />
       </AuthProvider>
     </>

@@ -1,20 +1,25 @@
 import { Drawer } from "@mui/material";
+import moment from "moment";
 import { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
+import { toast } from "react-toastify";
 import { FaAngleRight, FaUserCircle } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 import { MdCancel, MdCircleNotifications } from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
-import { getAdminNotification, makeAllSeenNotification, makeSeenNotification, sellerDetails } from "../../../API/api";
+import {
+  getAdminNotification,
+  makeAllSeenNotification,
+  makeSeenNotification,
+  sellerDetails,
+} from "../../../API/api";
+import notificationSoundTone from "../../../assets/notification.wav";
 import newlogo from "../../../assets/zoofilogo.png";
 import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
 import useAuth from "../../../hooks/useAuth";
-import notificationSoundTone from '../../../assets/notification.wav'
-import { Col, Container, Form, Image, Row, Table } from 'react-bootstrap';
-import moment from "moment";
 
-
-const MyNavbar = ({ socket  }) => {
+const MyNavbar = ({ socket }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { auth, logout } = useAuth();
   const [HeaderTitle, setHeaderTitle] = useState("Seller Dashboard");
@@ -31,22 +36,22 @@ const MyNavbar = ({ socket  }) => {
 
   useEffect(() => {
     getAdminNotificationHandler();
-  }, [])
+  }, []);
 
   async function getAdminNotificationHandler() {
     let res = await getAdminNotification();
-    console.log(res?.data?.data, 'notice')
-    setNotifications(res?.data?.data)
+    console.log(res?.data?.data, "notice");
+    setNotifications(res?.data?.data);
   }
 
   useEffect(() => {
     if (socket) {
       const handleAdminNotification = (data) => {
-        console.log(data, 'SELLER_NOTIFICATION')
+        console.log(data, "SELLER_NOTIFICATION");
         const notificationSound = new Audio(notificationSoundTone);
         notificationSound.play();
         setTimeout(() => {
-          toast.info(data)
+          toast.info(data);
         }, 1000);
         getAdminNotificationHandler();
       };
@@ -183,108 +188,136 @@ const MyNavbar = ({ socket  }) => {
     toggleDrawer();
   };
 
-
- //Notidfication
+  //Notidfication
   const handleRedirection = (type, id) => {
     switch (type) {
       case "cat_apprv":
-        navigate('/seller/approval-request-list/');
+        navigate("/seller/approval-request-list/");
         break;
       case "brand_apprv":
-        navigate('/seller/approval-request-list/');
+        navigate("/seller/approval-request-list/");
         break;
       case "product_apprv":
-        navigate('/seller/approval-request-list/');
+        navigate("/seller/approval-request-list/");
         break;
       case "pro_review":
-        navigate('/Admin/category-request');
+        navigate("/Admin/category-request");
         break;
       default:
-        navigate('/');
+        navigate("/");
     }
-    updateNotification(id)
-    handleNotificationDropDown()
-  }
-
+    updateNotification(id);
+    handleNotificationDropDown();
+  };
 
   const handleNotificationTitle = (type, data) => {
     switch (type) {
       case "cat_apprv":
-        return "Your Category has benn approved by Zoofi"
-        break;
+        return "Your Category has benn approved by Zoofi";
       case "brand_apprv":
-        return 'Your Brand has benn approved by Zoofi';
-        break;
+        return "Your Brand has benn approved by Zoofi";
       case "product_apprv":
-        return 'Your Product has benn approved by Zoofi';
-        break;
+        return "Your Product has benn approved by Zoofi";
       case "pro_review":
-        return `${data?.notifyFrom_Id?.name}  gives rating and review your product`
-        break;
+        return `${data?.notifyFrom_Id?.name}  gives rating and review your product`;
       case "seller_rev":
-        return `${data?.notifyFrom_Id?.name} shares service related feedback`
-        break; 
+        return `${data?.notifyFrom_Id?.name} shares service related feedback`;
       case "placed_order":
-        return `New Order Requested from ${data?.notifyFrom_Id?.name}`
-        break;  
+        return `New Order Requested from ${data?.notifyFrom_Id?.name}`;
       case "return_req":
-        return `Return Order from ${data?.notifyFrom_Id?.name}`
-        break; 
+        return `Return Order from ${data?.notifyFrom_Id?.name}`;
       default:
-        return "New notification" 
+        return "New notification";
     }
-  }
+  };
 
   const updateNotification = async (id) => {
-
     let res = await makeSeenNotification(id);
-    getAdminNotificationHandler()
-
-  }
-
+    getAdminNotificationHandler();
+  };
 
   const MarkAllRead = async () => {
     let res = await makeAllSeenNotification();
 
     if (res?.response?.data?.error) {
-      console.log('Something went wrong')
+      console.log("Something went wrong");
     } else {
       getAdminNotificationHandler();
       setTimeout(() => {
         handleNotificationDropDown();
       }, 1500);
     }
+  };
 
-  }
-
-
-  const RenderIconHandler = (type) =>{
+  const RenderIconHandler = (type) => {
     switch (type) {
       case "cat_apprv":
-        return <img src="https://cdn-icons-png.flaticon.com/512/6781/6781224.png" alt="category Image" className="shopNotiImg" />
-        break;
+        return (
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/6781/6781224.png"
+            alt="category Image"
+            className="shopNotiImg"
+          />
+        );
       case "brand_apprv":
-        return <img src="https://cdn-icons-png.flaticon.com/512/5309/5309779.png" alt="category Image" className="shopNotiImg" />;
-        break;
+        return (
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/5309/5309779.png"
+            alt="category Image"
+            className="shopNotiImg"
+          />
+        );
       case "product_apprv":
-        return <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1WNR-p4FoKdaYCwUb1-59r5_qeerIhA7VEhjQGbRV8w&s" alt="category Image" className="shopNotiImg" />;
-        break;
+        return (
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1WNR-p4FoKdaYCwUb1-59r5_qeerIhA7VEhjQGbRV8w&s"
+            alt="category Image"
+            className="shopNotiImg"
+          />
+        );
       case "pro_review":
-        return <img src="https://i.pinimg.com/originals/a3/6b/42/a36b422bb2bebcbd77bba846b83ddf5d.png" alt="category Image" className="shopNotiImg" />
-        break;
+        return (
+          <img
+            src="https://i.pinimg.com/originals/a3/6b/42/a36b422bb2bebcbd77bba846b83ddf5d.png"
+            alt="category Image"
+            className="shopNotiImg"
+          />
+        );
       case "seller_rev":
-        return <img src="https://cdn-icons-png.flaticon.com/512/470/470238.png" alt="category Image" className="shopNotiImg" />
-        break;
+        return (
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/470/470238.png"
+            alt="category Image"
+            className="shopNotiImg"
+          />
+        );
       case "placed_order":
-        return <img src="https://cdn-icons-png.flaticon.com/512/8865/8865579.png" alt="category Image" className="shopNotiImg" />
-        break; 
+        return (
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/8865/8865579.png"
+            alt="category Image"
+            className="shopNotiImg"
+          />
+        );
       case "return_req":
-        return <img src="https://cdn-icons-png.flaticon.com/512/1440/1440524.png" alt="category Image" className="shopNotiImg" />
-        break;
+        return (
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/1440/1440524.png"
+            alt="category Image"
+            className="shopNotiImg"
+          />
+        );
+
       default:
-        return <img src="https://static.vecteezy.com/system/resources/previews/009/394/760/original/bell-icon-transparent-notification-free-png.png" alt="category Image" className="shopNotiImg" />
+        return (
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/009/394/760/original/bell-icon-transparent-notification-free-png.png"
+            alt="category Image"
+            className="shopNotiImg"
+          />
+        );
     }
-  }
+  };
 
   return (
     <div>
@@ -506,29 +539,42 @@ const MyNavbar = ({ socket  }) => {
             </div>
             {isNotificationOpen && (
               <div className="notification-dropdown">
-                <div className="markRead" onClick={() => MarkAllRead()}>Mark As All Read</div>
+                <div className="markRead" onClick={() => MarkAllRead()}>
+                  Mark As All Read
+                </div>
                 <ul>
                   {notifications?.map((notification, index) => (
                     <li
                       key={index}
                       className="notification-item"
                       onClick={() => {
-
-                        handleRedirection(notification?.notification_type, notification?._id);
+                        handleRedirection(
+                          notification?.notification_type,
+                          notification?._id
+                        );
                       }}
                     >
-
                       <Row>
-                        <Col className="d-flex align-items-center justify-content-center" xs={2}>
+                        <Col
+                          className="d-flex align-items-center justify-content-center"
+                          xs={2}
+                        >
                           {RenderIconHandler(notification?.notification_type)}
                         </Col>
                         <Col>
                           <Row>
-                            <Col xs={12} className="notlist-tilte">{notification?.message}</Col>
-                            <Col xs={12} className="notlist-main">
-                              {handleNotificationTitle(notification?.notification_type,notification)}
+                            <Col xs={12} className="notlist-tilte">
+                              {notification?.message}
                             </Col>
-                            <Col xs={12} className="notlist-time">{moment(notification?.updatedAt).fromNow()}</Col>
+                            <Col xs={12} className="notlist-main">
+                              {handleNotificationTitle(
+                                notification?.notification_type,
+                                notification
+                              )}
+                            </Col>
+                            <Col xs={12} className="notlist-time">
+                              {moment(notification?.updatedAt).fromNow()}
+                            </Col>
                           </Row>
                         </Col>
                       </Row>
