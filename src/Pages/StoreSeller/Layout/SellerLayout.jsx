@@ -60,7 +60,6 @@ const MyNavbar = ({ socket }) => {
         console.log(data, "SELLER_NOTIFICATION");
 
         if (adminNotification) {
-          console.log("asdfasdfasdfasdfasd", adminNotification);
           try {
             const notificationSound = new Audio(notificationSoundTone);
             notificationSound.play();
@@ -340,8 +339,6 @@ const MyNavbar = ({ socket }) => {
         );
     }
   };
-
-  console.log(adminNotification, "adminNotification from seller layout");
 
   return (
     <div>

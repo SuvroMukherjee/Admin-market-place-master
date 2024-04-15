@@ -20,7 +20,7 @@ const AdminLayout = ({ socket }) => {
   }
 
   const { adminNotification } = useContext(notificationContext);
-  console.log(adminNotification, "adminNotification");
+  
 
   useEffect(() => {
     if (socket) {
