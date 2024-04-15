@@ -21,10 +21,12 @@ function App() {
   useEffect(() => {
     const socket = io("https://zoofi-393f46d84893.herokuapp.com");
 
+    // const socket = io("http://localhost:10000");
+
     socket.on("connect", () => {
       console.log("Socket connected successfully");
-      //setSocket(socket);
-      settingSocket(socket);
+      setSocket(socket);
+     // settingSocket(socket);
     });
 
     socket.on("connect_error", (err) => {

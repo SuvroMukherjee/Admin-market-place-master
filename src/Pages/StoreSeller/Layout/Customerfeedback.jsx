@@ -7,10 +7,15 @@ import { SellerProductList } from '../../../API/api';
 import calender from '../../../assets/calendar.png'
 import user from '../../../assets/user.png'
 import placeholder from '../../../assets/placeholder.png'
+import useAuth from '../../../hooks/useAuth';
 
 const Customerfeedback = () => {
 
-    const { userId } = JSON.parse(localStorage.getItem('auth'));
+    // const { userId } = JSON.parse(localStorage.getItem('auth'));
+
+    const { auth } = useAuth();
+
+    console.log({ auth })
 
     const [productData,setProductData] = useState();
     const [reviewData,setReviewData] = useState([]);
