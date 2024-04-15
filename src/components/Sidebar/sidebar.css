@@ -122,11 +122,15 @@
   cursor: pointer;
   font-size: 12px;
   letter-spacing: 0.5px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
 }
 
-.markRead:hover{
+/* .markRead:hover{
    color: #555;
-}
+} */
 /* ::-webkit-scrollbar {
     width: 5px;
 }

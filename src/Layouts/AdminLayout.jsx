@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { ScrollToTop } from "../components/scrollToTop/ScrollToTop";
 import Sidebar from "../components/Sidebar/Sidebar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAdminNotification } from "../API/api";
 import { toast } from "react-toastify";
 import notificationSoundTone from "../assets/notification.wav";
+import { notificationContext } from "../context/context";
 const AdminLayout = ({ socket }) => {
   const [notifications, setNotifications] = useState([]);
 
@@ -18,17 +19,23 @@ const AdminLayout = ({ socket }) => {
     setNotifications(res?.data?.data);
   }
 
+  const { adminNotification } = useContext(notificationContext);
+  console.log(adminNotification, "adminNotification");
+
   useEffect(() => {
     if (socket) {
       const handleAdminNotification = (data) => {
         console.log(data, "ADMIN_NOTIFICATION");
 
-        // Assuming this code is inside a function that is triggered by a user interaction, such as a click event
-        try {
-          const notificationSound = new Audio(notificationSoundTone);
-          notificationSound.play();
-        } catch {
-          console.log("Error in playing sound");
+        if (adminNotification) {
+          // Assuming this code is inside a function that is triggered by a user interaction, such as a click event
+          try {
+            const notificationSound = new Audio(notificationSoundTone);
+            notificationSound.play();
+            console.log("New Notification from seller!");
+          } catch {
+            console.log("Error in playing sound");
+          }
         }
 
         setTimeout(() => {
@@ -44,6 +51,7 @@ const AdminLayout = ({ socket }) => {
         socket.off("ADMIN_NOTIFICATION", handleAdminNotification);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
 
   return (

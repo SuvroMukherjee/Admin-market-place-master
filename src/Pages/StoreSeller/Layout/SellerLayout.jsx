@@ -1,10 +1,15 @@
 import { Drawer } from "@mui/material";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import { toast } from "react-toastify";
-import { FaAngleRight, FaUserCircle } from "react-icons/fa";
+import {
+  FaAngleRight,
+  FaUserCircle,
+  FaVolumeMute,
+  FaVolumeUp,
+} from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 import { MdCancel, MdCircleNotifications } from "react-icons/md";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -18,6 +23,7 @@ import notificationSoundTone from "../../../assets/notification.wav";
 import newlogo from "../../../assets/zoofilogo.png";
 import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
 import useAuth from "../../../hooks/useAuth";
+import { notificationContext } from "../../../context/context";
 
 const MyNavbar = ({ socket }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -44,15 +50,29 @@ const MyNavbar = ({ socket }) => {
     setNotifications(res?.data?.data);
   }
 
+  const { adminNotification, setAdminNotificationCustom } =
+    useContext(notificationContext);
+  console.log(adminNotification, "adminNotification from seller layout");
+
   useEffect(() => {
     if (socket) {
       const handleAdminNotification = (data) => {
         console.log(data, "SELLER_NOTIFICATION");
-        const notificationSound = new Audio(notificationSoundTone);
-        notificationSound.play();
+
+        if (adminNotification) {
+          console.log("asdfasdfasdfasdfasd", adminNotification);
+          try {
+            const notificationSound = new Audio(notificationSoundTone);
+            notificationSound.play();
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
         setTimeout(() => {
           toast.info(data);
         }, 1000);
+
         getAdminNotificationHandler();
       };
 
@@ -62,6 +82,7 @@ const MyNavbar = ({ socket }) => {
         socket.off("SELLER_NOTIFICATION", handleAdminNotification);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket]);
 
   async function getProfileData() {
@@ -320,6 +341,8 @@ const MyNavbar = ({ socket }) => {
     }
   };
 
+  console.log(adminNotification, "adminNotification from seller layout");
+
   return (
     <div>
       <ScrollToTop />
@@ -540,8 +563,20 @@ const MyNavbar = ({ socket }) => {
             </div>
             {isNotificationOpen && (
               <div className="notification-dropdown">
-                <div className="markRead" onClick={() => MarkAllRead()}>
-                  Mark As All Read
+                <div className="markRead">
+                  <span
+                    onClick={() => {
+                      setAdminNotificationCustom(!adminNotification);
+                    }}
+                    className="notification-mute-unmute"
+                  >
+                    {adminNotification ? (
+                      <FaVolumeUp color="white" size={17} />
+                    ) : (
+                      <FaVolumeMute color="white" size={17} />
+                    )}
+                  </span>
+                  <span onClick={() => MarkAllRead()}>Mark As All Read</span>
                 </div>
                 <ul>
                   {notifications?.map((notification, index) => (
