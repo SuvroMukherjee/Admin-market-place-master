@@ -69,7 +69,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
 
     const handleSubmit = async () => {
 
-        let payload = { "interest_details": { "commission_data": formData?.commission_data, "categoryId": selectedCategories, "feedback" : feedback} }
+        let payload = { "interest_details": { "categoryId": selectedCategories, "feedback" : feedback} }
 
         console.log(payload)
 
@@ -118,7 +118,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                     </Row>
                 </Col>
             </Row>
-            <Row className='mt-2'>
+            {/* <Row className='mt-2'>
                 <Row>
                     <Col className='frmLable'>
                         Commission  <span className="req">*</span>
@@ -156,12 +156,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                                             required
                                         />
                                     </Col>
-                                    {/* <Col className='d-flex align-items-end'>
-                                      <Button variant='success' size='sm' onClick={() => handlecreateCommissionFunc(formData?.commission_data?.[index])}>save</Button>
-                                  </Col>
-                                  <Col className='d-flex align-items-end'>
-                                      <Button variant='danger' size='sm' onClick={() => handleDelete(index)}>cancel</Button>
-                                  </Col> */}
+                                   
                                 </Row>
                             ))}
                             <IoIosAddCircle size={20} onClick={addCategory} />
@@ -169,7 +164,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
                         </Form.Group>
                     </Col>
                 </Row>
-            </Row>
+            </Row> */}
             <Row className='mt-2'>
                 <Col>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">

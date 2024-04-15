@@ -83,7 +83,9 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
             localStorage.clear();
             toast.success(response?.data?.message)
             //nextStep();
-            navigate('/login')
+           setTimeout(() => {
+               navigate('/login')
+           }, 3000);
 
         }
 
