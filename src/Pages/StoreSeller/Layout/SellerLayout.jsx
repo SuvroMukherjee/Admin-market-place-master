@@ -232,6 +232,7 @@ const MyNavbar = ({ socket }) => {
   };
 
   const updateNotification = async (id) => {
+    // eslint-disable-next-line no-unused-vars
     let res = await makeSeenNotification(id);
     getAdminNotificationHandler();
   };

@@ -67,26 +67,23 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
     toggleNotification();
   };
 
-  const handleNotificationTitle = (type, id) => {
+  const handleNotificationTitle = (type) => {
     switch (type) {
       case "reg_type":
         return "Registred a new shop - ";
-        break;
       case "product_create":
         return "Requested for new product for -";
-        break;
       case "brand_created":
         return "Requested for new brand for -";
-        break;
       case "category_created":
         return "Request for new category";
-        break;
       default:
         return "New notification";
     }
   };
 
   const updateNotification = async (id) => {
+    // eslint-disable-next-line no-unused-vars
     let res = await makeSeenNotification(id);
     getAdminNotificationHandler();
   };
