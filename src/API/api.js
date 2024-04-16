@@ -1384,11 +1384,29 @@ export async function makeAllSeenNotification() {
 }
 
 
-export async function EmailSendForgot(payload) {
+export async function EmailSendForgotSeler(payload) {
   try {
-    const response = await axios.post(apiUrl + `/notification/markallasread`, {
-      headers: setAuthHeader(),
-    });
+    const response = await axios.post(apiUrl + `/seller/forget-password`, payload);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+export async function SellerVerifyOtp(payload) {
+  try {
+    const response = await axios.post(apiUrl + `/seller/verify-otp`, payload);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+export async function SellerResetPassword(payload) {
+  try {
+    const response = await axios.patch(apiUrl + `/seller/reset-password`, payload);
     return response;
   } catch (error) {
     return error;

@@ -75,6 +75,7 @@ import EditUser from "./Pages/UserList/EditUser";
 import UserList from "./Pages/UserList/UserList";
 import { SellerNotification } from "./Pages/Notification/SellerNotification";
 import ForgotPassword from "./Login/ForgotPassword";
+import SellerForgotPassword from "./Login/SellerForgotPassword";
 
 export default function Router({socket}) {
   const { auth } = useAuth();
@@ -97,7 +98,7 @@ export default function Router({socket}) {
             { path: "SellerManagment", element: <SellerListManage /> },
             {
               path: "SellerProductManagment",
-              element: <SellerProductManagment />,
+              element: <SellerProductManagment />
             },
             { path: "SellerReport", element: <SellerReport /> },
             { path: "SellerDetails/:id", element: <SellerDetails /> },
@@ -252,6 +253,10 @@ export default function Router({socket}) {
     {
       path: "/forgot",
       element: <ForgotPassword />,
+    },
+    {
+      path: "/seller-login/forgot",
+      element: <SellerForgotPassword />,
     },
     {
       path: "*",

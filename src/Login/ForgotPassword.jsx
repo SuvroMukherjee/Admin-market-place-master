@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Alert, Button, Form } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AdminLogin, EmailSendForgot, SellerLogin } from '../API/api';
+import { AdminLogin, SellerLogin } from '../API/api';
 import useAuth from '../hooks/useAuth';
 import './loginpage.css';
 import toast, { Toaster } from 'react-hot-toast';
@@ -75,7 +75,7 @@ const ForgotPassword = () => {
                    
 
                     <Form.Group className="mb-3" controlId="username">
-                        <Form.Label>Enter Your Email</Form.Label>
+                        <Form.Label>Enter Your Registred Email</Form.Label>
                         <Form.Control
                             type="text"
                             value={userEmail}
