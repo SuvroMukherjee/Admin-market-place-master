@@ -46,19 +46,15 @@ const MyNavbar = ({ socket }) => {
 
   async function getAdminNotificationHandler() {
     let res = await getAdminNotification();
-    console.log(res?.data?.data, "notice");
     setNotifications(res?.data?.data);
   }
 
   const { adminNotification, setAdminNotificationCustom } =
     useContext(notificationContext);
-  console.log(adminNotification, "adminNotification from seller layout");
 
   useEffect(() => {
     if (socket) {
       const handleAdminNotification = (data) => {
-        console.log(data, "SELLER_NOTIFICATION");
-
         if (adminNotification) {
           try {
             const notificationSound = new Audio(notificationSoundTone);
@@ -89,7 +85,6 @@ const MyNavbar = ({ socket }) => {
     if (res) {
       // eslint-disable-next-line no-unsafe-optional-chaining
       const { ...filteredData } = res?.data?.data;
-      console.log(filteredData, "ss");
       setUserInfo(filteredData);
     }
   }
@@ -261,7 +256,7 @@ const MyNavbar = ({ socket }) => {
     let res = await makeAllSeenNotification();
 
     if (res?.response?.data?.error) {
-      console.log("Something went wrong");
+      console.error("Something went wrong");
     } else {
       getAdminNotificationHandler();
       setTimeout(() => {
