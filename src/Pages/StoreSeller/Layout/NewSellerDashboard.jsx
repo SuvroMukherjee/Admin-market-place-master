@@ -1,82 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { Card, Col, Container, Image, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Card, Col, Container, Image, Row, Spinner } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { FaArrowUpRightDots } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import {
+  ReportLists,
   SellerProductList,
   sellerDetails,
-  sellerStockoutlist,
 } from "../../../API/api";
-import { ChangeFormatDate } from "../../../common/DateFormat";
 import { ratingCalculation } from "../../../common/RatingAvg";
 import { StarRating } from "../../../Layouts/StarRating";
 
 const NewSellerDashboard = () => {
-  const navbarStyle = {
-    paddingLeft: "0px", // Adjust the left padding
-    paddingRight: "10px", // Adjust the right padding
-    height: "7vh",
-    background: "black",
-  };
-
-  const navigate = useNavigate();
-
-  const [sellingProducts, setSellingProducts] = useState(0);
   const [data, setdata] = useState();
-  const [list, setList] = useState([]);
-
-  const [totalSales, setTotalSales] = useState(0);
-  const [totalcommission, settotalcommission] = useState(0);
   const [reviewData, setReviewData] = useState();
   const [avgCustomerRating, setAvgCustomerRating] = useState(0);
-  const [profileData, setProfiledata] = useState();
 
   const { userId } = JSON.parse(localStorage.getItem("auth"));
-
-  useEffect(() => {
-    SellingProducts();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const SellingProducts = async () => {
     await SellerProductList(userId)
       .then((res) => {
-        console.log(res?.data?.data, "data");
-        setSellingProducts(res?.data?.data?.SellerProductData?.length);
         setdata(res?.data?.data?.SellerProductData);
         setReviewData(res?.data?.data?.reviewData);
         getProfileDetails();
         // CalculateAvgRating(res?.data?.data?.SellerProductData, res?.data?.data?.reviewData)
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       })
-      .finally((data) => {});
-  };
-
-  const CalculateAvgRating = (pdata, rData) => {
-    const filteredData = rData?.filter((ele) => {
-      // Use some to check if there is any matching item in pdata
-      return pdata?.some((item) => item?._id == ele?.proId?._id);
-    });
-
-    console.log({ filteredData });
-
-    let totalRating = filteredData?.reduce((acc, curr) => {
-      return acc + parseInt(curr?.rating);
-    }, 0);
-
-    console.log({ totalRating });
-    if (totalRating != 0) {
-      setAvgCustomerRating((totalRating / filteredData?.length)?.toFixed(2));
-      getProfileDetails((totalRating / filteredData?.length)?.toFixed(2));
-    }
+      .finally(() => {});
   };
 
   const getProfileDetails = async () => {
     let res = await sellerDetails(userId);
+
     let totalRating = (res?.data?.sellerReviewData || []).reduce(
       (acc, curr) => {
         return acc + parseInt(curr?.rating || 0);
@@ -84,15 +43,29 @@ const NewSellerDashboard = () => {
       0
     );
 
-    console.log(
-      totalRating / res?.data?.sellerReviewData?.length,
-      "totalRating"
-    );
     setAvgCustomerRating(totalRating / res?.data?.sellerReviewData?.length);
   };
 
-  const NumberBox = ({ icon, number, label }) => {
-    console.log(number, label);
+  const [reportData, setReportData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const getSellerReport = async () => {
+    try {
+      setLoading(true);
+      const res = await ReportLists();
+      if (res.status === 200) {
+        setReportData(res?.data);
+      } else {
+        console.error(res);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const NumberBox = ({ number, label }) => {
     return (
       <Card style={{ width: "12rem" }} className="shadowbox">
         <Card.Body>
@@ -118,82 +91,61 @@ const NewSellerDashboard = () => {
   };
 
   useEffect(() => {
-    getOrdersist();
+    SellingProducts();
+    getSellerReport();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getOrdersist = async () => {
-    let res = await sellerStockoutlist(userId);
-    console.log(res?.data?.data, "order");
-    const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
-      ...item,
-      id: index + 1,
-    }));
-
-    setTotalSales(Math.round(res?.data?.totalsellingAmount));
-    settotalcommission(Math.round(res?.data?.totalcommission));
-
-    setList(dataWithUniqueIds);
-  };
-
   return (
-    <div style={{ background: "#f5f1f1" }}>
-      {/* <Navbar expand="lg" className="" style={navbarStyle}>
-                <Container>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ background: 'black' }} />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link onClick={() => navigate('/seller/seller-dashboard')} className='dtext'>Home</Nav.Link>
-                            <NavDropdown title="Catalogue" id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={() => navigate('/seller/seller-addproduct')}>Add Product <GoArrowUpRight size={20} /> </NavDropdown.Item>
-                                <Dropdown.Divider />
-                                <NavDropdown.Item onClick={() => navigate('/seller/seller-ownproduct-status')}>Sell Your Product <GoArrowUpRight size={20} /> </NavDropdown.Item>
-                            </NavDropdown>
-                            <NavDropdown title="Inventory" id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={() => navigate('/seller/seller-productList')}>Manage Inventory <GoArrowUpRight size={20} /> </NavDropdown.Item>
-                                <Dropdown.Divider />
-                            </NavDropdown>
-                            <NavDropdown title="Orders" id="basic-nav-dropdown">
-                                <NavDropdown.Item onClick={() => navigate('/seller/seller-orderlist')}>Orders Lists <GoArrowUpRight size={20} /> </NavDropdown.Item>
-                                <Dropdown.Divider />
-                                <NavDropdown.Item onClick={() => navigate('/seller/manage-orders')}>Manage Orders <GoArrowUpRight size={20} /> </NavDropdown.Item>
-                            </NavDropdown>
-                         
-                            <Nav.Link >Customer Feedback</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar> */}
-      <Container className="mt-4">
+    <div
+      className="pt-4"
+      style={{
+        background: "#f5f1f1",
+      }}
+    >
+      <Container>
         <Row>
-          <Col>
-            <NumberBox label={"Total Orders"} number={list?.length} />
-          </Col>
-          <Col>
-            <NumberBox label={"Selling Products"} number={sellingProducts} />
-          </Col>
-          <Col>
-            <NumberBox
-              label={"Total Sales"}
-              number={totalSales?.toLocaleString()}
-            />
-          </Col>
-          <Col>
-            <NumberBox label={"Returned Orders"} number={0} />
-          </Col>
-          <Col>
-            <NumberBox label={"Customer Feedback"} number={avgCustomerRating} />
-          </Col>
-          <Col>
-            <NumberBox
-              label={"Total Balance"}
-              number={totalcommission?.toLocaleString()}
-            />
-          </Col>
+          {!loading && Object.keys(reportData) !== 0 && (
+            <div className="d-flex justify-content-center flex-wrap gap-4">
+              <NumberBox
+                label={"Total Orders"}
+                number={reportData?.totalOrder}
+              />
+              <NumberBox
+                label={"Selling Products"}
+                number={reportData?.totalDeliver}
+              />
+              <NumberBox
+                label={"Total Sales"}
+                number={reportData?.totalsell.toFixed(2)}
+              />
+              {/* return order to be implemented */}
+              {/* <NumberBox label={"Returned Orders"} number={0} /> */}
+              <NumberBox
+                label={"Customer Feedback"}
+                number={avgCustomerRating}
+              />
+              <NumberBox
+                label={"Total Profit"}
+                number={reportData?.totalProfit.toFixed(2)}
+              />
+            </div>
+          )}
+          {loading && (
+            <div className="d-flex justify-content-center flex-wrap gap-4">
+              <Spinner animation="border" />
+            </div>
+          )}
+          {!loading && Object.keys(reportData) === 0 && (
+            <div className="d-flex justify-content-center flex-wrap gap-4">
+              <p>Error Fetching Data</p>
+            </div>
+          )}
         </Row>
       </Container>
       <Container className="mt-4">
         <Row>
-          <Col className="p-2" xs={8}>
+          <Col className="p-2">
             <Container>
               <Row className="mt-4">
                 <Col className="dtext2">
@@ -212,79 +164,65 @@ const NewSellerDashboard = () => {
               </Row>
             </Container>
           </Col>
-          {/* <Col  className='p-2'>
-                        <Container>
-                            <Row className='mt-4'>
-                                <Col className='dtext2'>Recent Orders <span><FaCartFlatbed color='red' size={24} /></span></Col>
-                            </Row>
-                            <hr />
-                            <Row className='mt-2'>
-                                <Col>
-                                    <OrderConatiner list={list} />
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Col> */}
         </Row>
       </Container>
     </div>
   );
 };
 
-const OrderConatiner = ({ list }) => {
-  const navigate = useNavigate();
-  return (
-    <>
-      <Table striped bordered hover responsive className="shadowbox2">
-        <thead>
-          <tr>
-            <th>Product Name</th>
-            <th className="pname">Product Image</th>
-            <th className="pname">SKU</th>
-            <th>Order Quantity</th>
-            <th>Price</th>
-            <th>Order Date & Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {list.map((row) => (
-            <tr key={row.id}>
-              <td
-                className="pname"
-                onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}
-              >
-                {row.productId ? row.productId.name : ""}
-              </td>
-              <td>
-                <Image
-                  src={row.productId?.specId?.image?.[0]?.image_path}
-                  thumbnail
-                  width={40}
-                  height={40}
-                />
-              </td>
-              <td
-                className="pname"
-                onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}
-              >
-                {row.productId?.specId?.skuId?.toUpperCase()}
-              </td>
-              <td className="avaible">{row.quantity}</td>
-              <td className="avaible">
-                {" "}
-                {row.productId?.price?.toLocaleString()}
-              </td>
-              <td className="datecolor">{ChangeFormatDate(row.createdAt)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </>
-  );
-};
+// const OrderConatiner = ({ list }) => {
+//   const navigate = useNavigate();
+//   return (
+//     <>
+//       <Table striped bordered hover responsive className="shadowbox2">
+//         <thead>
+//           <tr>
+//             <th>Product Name</th>
+//             <th className="pname">Product Image</th>
+//             <th className="pname">SKU</th>
+//             <th>Order Quantity</th>
+//             <th>Price</th>
+//             <th>Order Date & Time</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {list.map((row) => (
+//             <tr key={row.id}>
+//               <td
+//                 className="pname"
+//                 onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}
+//               >
+//                 {row.productId ? row.productId.name : ""}
+//               </td>
+//               <td>
+//                 <Image
+//                   src={row.productId?.specId?.image?.[0]?.image_path}
+//                   thumbnail
+//                   width={40}
+//                   height={40}
+//                 />
+//               </td>
+//               <td
+//                 className="pname"
+//                 onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}
+//               >
+//                 {row.productId?.specId?.skuId?.toUpperCase()}
+//               </td>
+//               <td className="avaible">{row.quantity}</td>
+//               <td className="avaible">
+//                 {" "}
+//                 {row.productId?.price?.toLocaleString()}
+//               </td>
+//               <td className="datecolor">{ChangeFormatDate(row.createdAt)}</td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </Table>
+//     </>
+//   );
+// };
 
 const SellingProductList = ({ data, reviewData }) => {
-  console.log(data, "selllingproductdata");
   const navigate = useNavigate();
   return (
     <div>
