@@ -235,7 +235,7 @@ const LoginPage = () => {
                         Logging In...
                     </Button>
                 )}
-                {/* <div className="d-grid justify-content-center mt-3" onClick={()=>navigate('/forgot')}>
+                <div className="d-grid justify-content-center mt-3" onClick={()=>navigate('/forgot')}>
                     <Button
                         className="p-0 btn-forgot"
                         variant="link"
@@ -243,7 +243,7 @@ const LoginPage = () => {
                     >
                         Forgot password ?
                     </Button>
-                </div> */}
+                </div>
             </Form>
             <Toaster position="top-right" />
             {/* Footer */}

@@ -27,7 +27,7 @@ const SellerForgotPassword = () => {
     const [resetForm, SetResetForm] = useState(false)
     const [newPassword, setNewPassword] = useState()
     const [confirmPassword, setConfirmPassword] = useState()
-    const [error,setError] = useState('')
+    const [error, setError] = useState('')
 
     const SendEmailHandler = async (e) => {
 
@@ -103,14 +103,14 @@ const SellerForgotPassword = () => {
 
     }
 
-    const handleChnageConfirmPassword = (e) =>{
-     
+    const handleChnageConfirmPassword = (e) => {
+
         console.log(e?.target?.value)
 
-        if(e?.target?.value !== newPassword){
+        if (e?.target?.value !== newPassword) {
             console.log("Confirm password is not matching")
             setError('Confirm password is not matching')
-        }else{
+        } else {
             setError('')
         }
 
@@ -180,51 +180,43 @@ const SellerForgotPassword = () => {
                     }
 
                 </> :
-                
-
-                    <Form className="shadow loginForm" onSubmit={ResetPassHandler}>
-                        <img src={key} alt="" />
 
 
-                        <Form.Group className="mb-3" controlId="username">
-                            <Form.Label>Enter New Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                value={newPassword}
-                                placeholder="Enter your email"
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                required
-                            />
-                        </Form.Group>
+                <Form className="shadow loginForm" onSubmit={ResetPassHandler}>
+                    <img src={key} alt="" />
 
 
-                        <Form.Group className="mb-3" controlId="username">
-                            <Form.Label>Confirm New Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                value={confirmPassword}
-                                placeholder="Enter your email"
-                                onChange={(e) => handleChnageConfirmPassword(e)}
-                                required
-                            />
-                         <Form.Text className='mt-2' style={{color:'red'}}>{error}</Form.Text>
-                        </Form.Group>
+                    <Form.Group className="mb-3" controlId="username">
+                        <Form.Label>Enter New Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            value={newPassword}
+                            placeholder="Enter your email"
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
 
 
+                    <Form.Group className="mb-3" controlId="username">
+                        <Form.Label>Confirm New Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            value={confirmPassword}
+                            placeholder="Enter your email"
+                            onChange={(e) => handleChnageConfirmPassword(e)}
+                            required
+                        />
+                        <Form.Text className='mt-2' style={{ color: 'red' }}>{error}</Form.Text>
+                    </Form.Group>
 
-                        <Button className="w-100 mt-2" variant="primary" type="submit" disabled={error}>
-                            Save
-                        </Button>
+                    <Button className="w-100 mt-2" variant="primary" type="submit" disabled={error}>
+                        Save
+                    </Button>
 
-                    </Form>
+                </Form>
 
-
-
-
-
-               
             }
-
 
 
             <Toaster position="top-right" />
