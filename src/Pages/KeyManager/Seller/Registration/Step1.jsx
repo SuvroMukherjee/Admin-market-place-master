@@ -66,7 +66,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="phone_no">
                                     <Form.Label className='frmLable'>Phone Number <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="tel" name="phone_no" size='sm' placeholder='Enter Your Phone No.' value={userInfo.phone_no} onChange={handleChange} required />
+                                    <Form.Control type="tel" name="phone_no" size='sm' placeholder='Enter Your Phone No.' value={userInfo.phone_no} onChange={handleChange} pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
                                 </Form.Group>
                             </Col>
                         </Row>
