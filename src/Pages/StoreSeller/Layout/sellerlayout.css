@@ -350,12 +350,12 @@ th {
   color: black;
 }
 
-.css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+/* .css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
   background-color: #080505 !important;
   width: 300px;
   overflow-x: hidden;
   color: #9af064 !important;
-}
+} */
 
 .custom-nav {
   background-color: black;
@@ -562,10 +562,14 @@ th {
 .sellSide {
   display: flex;
   flex-direction: column;
+  width: 300px;
   gap: 10px;
   overflow-y: auto;
   padding-top: 10px;
   padding-bottom: 10px;
+  background-color: #080505 !important;
+  overflow-x: hidden;
+  color: #9af064 !important;
 }
 
 .sellSide::-webkit-scrollbar {
