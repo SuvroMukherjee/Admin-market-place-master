@@ -119,3 +119,17 @@
     color: #000000;
     text-decoration: none;
 }
+
+.otp-input-container {
+    /* background-color: rgb(249, 248, 248); */
+    padding: 1%;
+    justify-content: space-evenly;
+    /* height: 25vh; */
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+}
+
+.otp-input {
+    width: 2.5rem !important;
+    height: 40px;
+    font-size: 16px;
+}

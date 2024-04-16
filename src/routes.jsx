@@ -74,6 +74,7 @@ import NewProductVariation from "./Pages/StoreSeller/ProductEditPage/NewProductV
 import EditUser from "./Pages/UserList/EditUser";
 import UserList from "./Pages/UserList/UserList";
 import { SellerNotification } from "./Pages/Notification/SellerNotification";
+import ForgotPassword from "./Login/ForgotPassword";
 
 export default function Router({socket}) {
   const { auth } = useAuth();
@@ -247,6 +248,10 @@ export default function Router({socket}) {
     {
       path: "/seller-registration",
       element: <SellerRegistrationPage />,
+    },
+    {
+      path: "/forgot",
+      element: <ForgotPassword />,
     },
     {
       path: "*",

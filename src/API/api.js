@@ -1382,3 +1382,17 @@ export async function makeAllSeenNotification() {
     return error;
   }
 }
+
+
+export async function EmailSendForgot(payload) {
+  try {
+    const response = await axios.post(apiUrl + `/notification/markallasread`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+

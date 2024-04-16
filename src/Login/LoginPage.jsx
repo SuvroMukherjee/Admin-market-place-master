@@ -169,19 +169,14 @@ const LoginPage = () => {
     return (
         <div
             className="sign-in__wrapper"
-        // style={{ backgroundImage: `url('https://img.freepik.com/free-photo/online-shopping-shopping-cart-placed-alongside-notebook-blue_1150-19158.jpg')` }}
+     
         >
 
-            {/* <div className="sign-in__backdrop"></div> */}
+          
             <div class="login-page-background">
                 <img src={loginbackground} alt="" />
             </div>
             <Form className="shadow loginForm" onSubmit={handleSubmit}>
-                {/* <img
-                    className="img-thumbnail mx-auto d-block mb-2"
-                    src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn0ivKSgxD_PljXFzpiZIDT-TXhcRNVo4g3Q&usqp=CAU'}
-                    alt="logo"
-                /> */}
                 <img src={loginperson} alt="" />
                 <div className="h4 mb-2 text-center">Member</div>
                 {show ? (
@@ -240,7 +235,7 @@ const LoginPage = () => {
                         Logging In...
                     </Button>
                 )}
-                <div className="d-grid justify-content-center mt-3">
+                <div className="d-grid justify-content-center mt-3" onClick={()=>navigate('/forgot')}>
                     <Button
                         className="p-0 btn-forgot"
                         variant="link"
