@@ -1382,3 +1382,65 @@ export async function makeAllSeenNotification() {
     return error;
   }
 }
+
+
+export async function EmailSendForgotSeler(payload) {
+  try {
+    const response = await axios.post(apiUrl + `/seller/forget-password`, payload);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+export async function SellerVerifyOtp(payload) {
+  try {
+    const response = await axios.post(apiUrl + `/seller/verify-otp`, payload);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+export async function SellerResetPassword(payload) {
+  try {
+    const response = await axios.patch(apiUrl + `/seller/reset-password`, payload);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+//
+
+export async function EmailSendForgotUser(payload) {
+  try {
+    const response = await axios.post(apiUrl + `/admin/forget-password`, payload);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+export async function UserVerifyOtp(payload) {
+  try {
+    const response = await axios.post(apiUrl + `/admin/verify-otp`, payload);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+export async function UserResetPassword(payload) {
+  try {
+    const response = await axios.patch(apiUrl + `/admin/reset-password`, payload);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

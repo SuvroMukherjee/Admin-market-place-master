@@ -238,7 +238,7 @@ const SellerLoginPage = () => {
                         Logging In...
                     </Button>
                 )}
-                <div className="d-grid justify-content-center mt-3">
+                <div className="d-grid justify-content-center mt-3" onClick={() => navigate('/seller-login/forgot')}>
                     <Button
                         className="p-0 btn-forgot"
                         variant="link"
