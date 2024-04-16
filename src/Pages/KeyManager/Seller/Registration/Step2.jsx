@@ -156,7 +156,18 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="pincode">
                                     <Form.Label className='frmLable'>Pincode <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="pin_code" placeholder="Enter pincode" size='sm' value={shopInfo.pin_code} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="number"
+                                        name="pin_code"
+                                        placeholder="Enter pincode"
+                                        size='sm'
+                                        value={shopInfo.pin_code}
+                                        onChange={handleChange}
+                                        pattern="[0-9]{6}"
+                                        title="Pin code must be a 6-digit number"
+                                        required
+                                    />
+
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -227,14 +238,14 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="old_shope_desc">
                                     <Form.Label className='frmLable'>Total Year of Busniess Experience <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" size='sm' name="old_shope_desc" placeholder='Total Year of Busniess Experience' value={shopInfo.old_shope_desc} onChange={handleChange} required />
+                                    <Form.Control type="number" size='sm' name="old_shope_desc" placeholder='Total Year of Busniess Experience' value={shopInfo.old_shope_desc} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={6}>
                                 <Form.Group controlId="total_no_of_unit">
                                     <Form.Label className='frmLable'> Total of Units Sold Each Year <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" size='sm' name="total_no_of_unit" placeholder='Total of Units Sold Each Year' value={shopInfo.total_no_of_unit} onChange={handleChange} required />
+                                    <Form.Control type="number" size='sm' name="total_no_of_unit" placeholder='Total of Units Sold Each Year' value={shopInfo.total_no_of_unit} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
 

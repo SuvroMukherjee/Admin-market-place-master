@@ -66,7 +66,18 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="phone_no">
                                     <Form.Label className='frmLable'>Phone Number <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="tel" name="phone_no" size='sm' placeholder='Enter Your Phone No.' value={userInfo.phone_no} onChange={handleChange} pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
+                                    <Form.Control
+                                        type="tel"
+                                        name="phone_no"
+                                        size='sm'
+                                        placeholder='Enter Your Phone No.'
+                                        value={userInfo.phone_no}
+                                        onChange={handleChange}
+                                        pattern="[0-9]{0,10}"
+                                        title="Please enter a valid phone number with at most 10 digits"
+                                        required
+                                    />
+
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -75,7 +86,18 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="password">
                                     <Form.Label className='frmLable'>Password <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="password" name="password" size='sm' placeholder='Enter Your Password' value={userInfo.password} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="password"
+                                        name="password"
+                                        size='sm'
+                                        placeholder='Enter Your Password'
+                                        value={userInfo.password}
+                                        onChange={handleChange}
+                                        pattern=".{6,}"
+                                        title="Password must be at least 6 characters long"
+                                        required
+                                    />
+
                                 </Form.Group>
                             </Col>
                         </Row>
