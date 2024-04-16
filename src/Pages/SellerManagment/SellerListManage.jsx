@@ -12,8 +12,8 @@ import {
 } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
-import { Toaster, toast } from "react-hot-toast";
-import { FaEye, FaRegUser, FaStar } from "react-icons/fa";
+import { toast, Toaster } from "react-hot-toast";
+import { FaInfoCircle, FaRegUser } from "react-icons/fa";
 import { IoIosEye } from "react-icons/io";
 import { MdAutorenew } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -27,8 +27,8 @@ import "./Seller.css";
 
 export default function SellerListManage() {
   const [data, setData] = useState(productRows);
-  const [modalData, setModalData] = useState({});
-  const [showModal, setShowModal] = useState(false);
+  // const [modalData, setModalData] = useState({});
+  // const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [sellerDetails, setSellerDeatils] = useState();
   const [activeButton, setActiveButton] = useState("all");
@@ -107,7 +107,7 @@ export default function SellerListManage() {
     }
 
     await UpdateSellerStatus(data?._id, payload)
-      .then((res) => {
+      .then(() => {
         getAllSellersList();
         toast.success("Seller updated successfully!");
       })
@@ -155,148 +155,165 @@ export default function SellerListManage() {
   //     setShowModal(false)
   // };
 
-  const columns = [
-    { field: "id", headerName: "ID", width: 90 },
-    {
-      field: "shope_name",
-      headerName: "Shop Name",
-      width: 200,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      width: 200,
-    },
-    {
-      field: "phone_no",
-      headerName: "Phone No.",
-      width: 150,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      width: 150,
-    },
-    {
-      field: "gst_no",
-      headerName: "Gst No.",
-      width: 200,
-    },
-    {
-      field: "pic_of_shope",
-      headerName: "Image",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            <img
-              className="productListImg"
-              src={params?.row?.pic_of_shope?.[0]}
-              alt=""
-            />
-            <span>{params?.row?.pic_of_shope?.length - 1}+</span>
-          </div>
-        );
-      },
-    },
-    {
-      field: "rating",
-      headerName: "Rating by Buyer(avg)",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="ratingDiv">
-            <FaStar color="gold" size={15} /> {params?.row?.review}
-          </div>
-        );
-      },
-    },
-    {
-      field: "picup_location",
-      headerName: "Pickup Location",
-      width: 150,
-    },
-    {
-      field: "commission_rate",
-      headerName: "Commission Rate(%)",
-      width: 200,
-    },
-    {
-      field: "manager",
-      headerName: "Manager",
-      width: 150,
-      renderCell: (params) => {
-        return <div>{params?.row?.staffId?.name}</div>;
-      },
-    },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div>
-            {params?.row?.status == "approved" && (
-              <span className="ActiveStatus">Approved</span>
-            )}
-            {params?.row?.status == "rejected" && (
-              <span className="DeactiveStatus">Reject</span>
-            )}
-            {params?.row?.status == "pending" && (
-              <span className="PendingStatus">Pending</span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="buttonWrapper">
-            <Button
-              variant="dark"
-              onClick={() => ShowDetails(params?.row)}
-              size="sm"
-            >
-              <FaEye /> View
-            </Button>
-            {params?.row?.status == "approved" ? (
-              <Button
-                variant="danger"
-                onClick={() => handleStatus(params?.row)}
-                size="sm"
-              >
-                Reject
-              </Button>
-            ) : (
-              // <Button variant="success"   onClick={() => handleStatus(params?.row)} size="sm">
-              //     Approve
-              // </Button>
-              <Button
-                variant="success"
-                onClick={() => handleShow(params?.row)}
-                size="sm"
-              >
-                Approve
-              </Button>
-            )}
-          </div>
-        );
-      },
-    },
-  ];
+  // const columns = [
+  //   { field: "id", headerName: "ID", width: 90 },
+  //   {
+  //     field: "shope_name",
+  //     headerName: "Shop Name",
+  //     width: 200,
+  //   },
+  //   {
+  //     field: "email",
+  //     headerName: "Email",
+  //     width: 200,
+  //   },
+  //   {
+  //     field: "phone_no",
+  //     headerName: "Phone No.",
+  //     width: 150,
+  //   },
+  //   {
+  //     field: "address",
+  //     headerName: "Address",
+  //     width: 150,
+  //   },
+  //   {
+  //     field: "gst_no",
+  //     headerName: "Gst No.",
+  //     width: 200,
+  //   },
+  //   {
+  //     field: "pic_of_shope",
+  //     headerName: "Image",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div className="productListItem">
+  //           <img
+  //             className="productListImg"
+  //             src={params?.row?.pic_of_shope?.[0]}
+  //             alt=""
+  //           />
+  //           <span>{params?.row?.pic_of_shope?.length - 1}+</span>
+  //         </div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "rating",
+  //     headerName: "Rating by Buyer(avg)",
+  //     width: 200,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div className="ratingDiv">
+  //           <FaStar color="gold" size={15} /> {params?.row?.review}
+  //         </div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "picup_location",
+  //     headerName: "Pickup Location",
+  //     width: 150,
+  //   },
+  //   {
+  //     field: "commission_rate",
+  //     headerName: "Commission Rate(%)",
+  //     width: 200,
+  //   },
+  //   {
+  //     field: "manager",
+  //     headerName: "Manager",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return <div>{params?.row?.staffId?.name}</div>;
+  //     },
+  //   },
+  //   {
+  //     field: "status",
+  //     headerName: "Status",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div>
+  //           {params?.row?.status == "approved" && (
+  //             <span className="ActiveStatus">Approved</span>
+  //           )}
+  //           {params?.row?.status == "rejected" && (
+  //             <span className="DeactiveStatus">Reject</span>
+  //           )}
+  //           {params?.row?.status == "pending" && (
+  //             <span className="PendingStatus">Pending</span>
+  //           )}
+  //         </div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "action",
+  //     headerName: "Action",
+  //     width: 200,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div className="buttonWrapper">
+  //           <Button
+  //             variant="dark"
+  //             onClick={() => ShowDetails(params?.row)}
+  //             size="sm"
+  //           >
+  //             <FaEye /> View
+  //           </Button>
+  //           {params?.row?.status == "approved" ? (
+  //             <Button
+  //               variant="danger"
+  //               onClick={() => handleStatus(params?.row)}
+  //               size="sm"
+  //             >
+  //               Reject
+  //             </Button>
+  //           ) : (
+  //             // <Button variant="success"   onClick={() => handleStatus(params?.row)} size="sm">
+  //             //     Approve
+  //             // </Button>
+  //             <Button
+  //               variant="success"
+  //               onClick={() => handleShow(params?.row)}
+  //               size="sm"
+  //             >
+  //               Approve
+  //             </Button>
+  //           )}
+  //         </div>
+  //       );
+  //     },
+  //   },
+  // ];
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [registeredByType, setRegisteredByType] = useState("all");
+
+  console.log(registeredByType);
 
   const generatePassword = () => {
     // Generate a random password of length 6
     const newPassword = Math.random().toString(36).slice(-6);
     setPassword(newPassword);
   };
+
+  const filteredList = data.filter((item) => {
+    if (registeredByType === "own") {
+      if(!item?.staffId){
+        return item;
+      }
+    } else if (registeredByType === "kam") {
+      if(item?.staffId){
+        return item;
+      }
+    } else {
+      return item;
+    }
+  });
 
   return (
     <>
@@ -352,155 +369,198 @@ export default function SellerListManage() {
               </ButtonGroup>
             </Col>
             <Col xs={2}> Total : {data?.length}</Col>
+            <Col>
+              <FaInfoCircle /> Use `shift+scroll` to scroll left-right if
+              needed.
+            </Col>
+          </Row>
+          <Row className="mt-2">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <span>Filter by register by :</span>
+              <Form.Check
+                type="radio"
+                label="All"
+                name="registeredBy"
+                checked={registeredByType === "all"}
+                onChange={() => setRegisteredByType("all")}
+              />
+              <Form.Check
+                type="radio"
+                label="Own"
+                checked={registeredByType === "own"}
+                name="registeredBy"
+                onChange={() => setRegisteredByType("own")}
+              />
+              <Form.Check
+                type="radio"
+                label="Kam"
+                checked={registeredByType === "kam"}
+                name="registeredBy"
+                onChange={() => setRegisteredByType("kam")}
+              />
+            </div>
           </Row>
         </Container>
         <Container>
           <Row className="justify-content-md-center mt-4">
             <Col>
-              <Table bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <td>Registered By</td>
-                    <th>Shop Name</th>
-                    <th>Shop Image</th>
-                    <th>Seller Name</th>
-                    <th>Seller Email</th>
-                    <th>Seller Phone No.</th>
-                    <th>Registration</th>
-                    <th>Status</th>
-                    {/* <th>Commission</th>
-                                        <th>Edit</th> */}
-                    <th>View</th>
-                    <th>Action</th>
-                    <th>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((row) => (
-                    <tr key={row?.id}>
-                      <td>{row?.id}</td>
-                      <td>{row?.staffId ? row?.staffId?.name : "Own"}</td>
-                      <td>{row?.Shop_Details_Info?.shope_name}</td>
-                      <td>
-                        <div className="productListItem">
-                          <img
-                            className="productListImg"
-                            src={
-                              row?.Shop_Details_Info?.pic_of_shope?.[0] ||
-                              row?.Shop_Details_Info?.pic_of_shope?.[0]
-                                ?.imag_path
-                            }
-                            alt=""
-                          />
-                          {row?.Shop_Details_Info?.pic_of_shope?.length > 2 && (
-                            <span>
-                              {row?.Shop_Details_Info?.pic_of_shope?.length - 1}
-                              +
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td>{row?.user_name}</td>
-                      <td>{row?.email}</td>
-                      <td>{row?.phone_no}</td>
-                      <td>
-                        {row?.interest_details ? (
-                          <p style={{ color: "white", background: "green" }}>
-                            Complete
-                          </p>
-                        ) : (
-                          <p style={{ color: "black", background: "#FAA300" }}>
-                            Incomplete
-                          </p>
-                        )}
-                      </td>
-                      <td>
-                        {row?.status === "approved" && (
-                          <span className="ActiveStatus">Approved</span>
-                        )}
-                        {row?.status === "rejected" && (
-                          <span className="DeactiveStatus">Reject</span>
-                        )}
-                        {row?.status === "pending" && (
-                          <span className="PendingStatus">Pending</span>
-                        )}
-                      </td>
-                      {/* <td>
-                                                <Button size="sm" onClick={() => handleShow(row?._id)}>Add</Button>
-                                            </td>
-                                            <td>
-                                                <div className="buttonWrapper">
-                                                    <Button variant="success" onClick={() => navigate(`/key/EditSeller/${row?._id}`)} size="sm">
-                                                        <RiEdit2Line />
-                                                    </Button>
-                                                </div>
-                                            </td> */}
-                      <td>
-                        <Button
-                          size="sm"
-                          variant="dark"
-                          onClick={() => navigate(`/SellerDetails/${row?._id}`)}
-                        >
-                          <IoIosEye />
-                        </Button>
-                      </td>
-                      <td>
-                        {row?.status == "approved" ? (
-                          <Button
-                            variant="danger"
-                            onClick={() => handleStatus(row)}
-                            size="sm"
-                          >
-                            Reject
-                          </Button>
-                        ) : row?.staffId ? (
-                          <Button
-                            variant="success"
-                            onClick={() => handleShow(row)}
-                            size="sm"
-                          >
-                            Approve
-                          </Button>
-                        ) : (
-                          <Button
-                            variant="success"
-                            onClick={() => handleStatus(row)}
-                            size="sm"
-                          >
-                            Approve
-                          </Button>
-                        )}
-                      </td>
-                      <td>
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDelete(row)}
-                          size="sm"
-                        >
-                          Delete
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                  {data.length === 0 && (
+              <div
+                style={{
+                  overflowY: "auto",
+                  maxHeight: "600px",
+                  border: "1px solid #ccc",
+                }}
+              >
+                <Table bordered hover responsive>
+                  <thead>
                     <tr>
-                      <td colSpan="12" style={{ textAlign: "center" }}>
-                        No Data Found
-                      </td>
+                      <th>ID</th>
+                      <td>Registered By</td>
+                      <th>Shop Name</th>
+                      <th>Shop Image</th>
+                      <th>Seller Name</th>
+                      <th>Seller Email</th>
+                      <th>Seller Phone No.</th>
+                      <th>Registration</th>
+                      <th>Status</th>
+                      <th>View</th>
+                      <th>Action</th>
+                      <th>Delete</th>
                     </tr>
-                  )}
-                </tbody>
-              </Table>
+                  </thead>
+                  <tbody>
+                    {filteredList.length > 0 &&
+                      filteredList.map((row) => (
+                        <tr key={row?.id}>
+                          <td>{row?.id}</td>
+                          <td>{row?.staffId ? row?.staffId?.name : "Own"}</td>
+                          <td>{row?.Shop_Details_Info?.shope_name}</td>
+                          <td>
+                            <div className="productListItem">
+                              <img
+                                className="productListImg"
+                                src={
+                                  row?.Shop_Details_Info?.pic_of_shope?.[0] ||
+                                  row?.Shop_Details_Info?.pic_of_shope?.[0]
+                                    ?.imag_path
+                                }
+                                alt=""
+                              />
+                              {row?.Shop_Details_Info?.pic_of_shope?.length >
+                                2 && (
+                                <span>
+                                  {row?.Shop_Details_Info?.pic_of_shope
+                                    ?.length - 1}
+                                  +
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                          <td>{row?.user_name}</td>
+                          <td>{row?.email}</td>
+                          <td>{row?.phone_no}</td>
+                          <td>
+                            {row?.interest_details ? (
+                              <p
+                                style={{ color: "white", background: "green" }}
+                              >
+                                Complete
+                              </p>
+                            ) : (
+                              <p
+                                style={{
+                                  color: "black",
+                                  background: "#FAA300",
+                                }}
+                              >
+                                Incomplete
+                              </p>
+                            )}
+                          </td>
+                          <td>
+                            {row?.status === "approved" && (
+                              <span className="ActiveStatus">Approved</span>
+                            )}
+                            {row?.status === "rejected" && (
+                              <span className="DeactiveStatus">Reject</span>
+                            )}
+                            {row?.status === "pending" && (
+                              <span className="PendingStatus">Pending</span>
+                            )}
+                          </td>
+                          <td>
+                            <Button
+                              size="sm"
+                              variant="dark"
+                              onClick={() =>
+                                navigate(`/SellerDetails/${row?._id}`)
+                              }
+                            >
+                              <IoIosEye />
+                            </Button>
+                          </td>
+                          <td>
+                            {row?.status == "approved" ? (
+                              <Button
+                                variant="danger"
+                                onClick={() => handleStatus(row)}
+                                size="sm"
+                              >
+                                Reject
+                              </Button>
+                            ) : row?.staffId ? (
+                              <Button
+                                variant="success"
+                                onClick={() => handleShow(row)}
+                                size="sm"
+                              >
+                                Approve
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="success"
+                                onClick={() => handleStatus(row)}
+                                size="sm"
+                              >
+                                Approve
+                              </Button>
+                            )}
+                          </td>
+                          <td>
+                            <Button
+                              variant="danger"
+                              onClick={() => handleDelete(row)}
+                              size="sm"
+                            >
+                              Delete
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    {filteredList.length === 0 && (
+                      <tr>
+                        <td colSpan="12" style={{ textAlign: "center" }}>
+                          No Data Found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
             </Col>
           </Row>
         </Container>
         <Container>
           <Modal centered size="md" show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>
-                {selectedSeller?.email}
-              </Modal.Title>
+              <Modal.Title>{selectedSeller?.email}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Row>
