@@ -120,13 +120,31 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="shopName">
                                     <Form.Label className='frmLable'>Shop Name <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="text" name="shope_name" className='tapG' placeholder="Enter shop name" size='sm' value={shopInfo.shope_name} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="text"
+                                        name="shop_name"
+                                        className='tapG'
+                                        placeholder="Enter shop name"
+                                        size='sm'
+                                        value={shopInfo.shop_name}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                             <Col xs={6}>
                                 <Form.Group controlId="shopAddress1">
                                     <Form.Label className='frmLable'>Shop Address 1 <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="shop_address1" className='tapG' placeholder="Enter shop address 1" size='sm' value={shopInfo.shop_address1} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="text"
+                                        name="shop_address1"
+                                        className='tapG'
+                                        placeholder="Enter shop address 1"
+                                        size='sm'
+                                        value={shopInfo.shop_address1}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -135,13 +153,30 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="shopAddress2">
                                     <Form.Label className='frmLable'>Shop Address 2</Form.Label>
-                                    <Form.Control type="text" name="shop_address2" className='tapG' placeholder="Enter shop address 2" size='sm' value={shopInfo.shop_address2} onChange={handleChange} />
+                                    <Form.Control
+                                        type="text"
+                                        name="shop_address2"
+                                        className='tapG'
+                                        placeholder="Enter shop address 2"
+                                        size='sm'
+                                        value={shopInfo.shop_address2}
+                                        onChange={handleChange}
+                                    />
                                 </Form.Group>
                             </Col>
                             <Col xs={6}>
                                 <Form.Group controlId="pickupLocation">
                                     <Form.Label className='frmLable'>Pickup Location <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="picup_location" className='tapG' placeholder="Enter pickup location" size='sm' value={shopInfo.picup_location} onChange={handleChange} />
+                                    <Form.Control
+                                        type="text"
+                                        name="pickup_location"
+                                        className='tapG'
+                                        placeholder="Enter pickup location"
+                                        size='sm'
+                                        value={shopInfo.pickup_location}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -150,13 +185,33 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="pincode">
                                     <Form.Label className='frmLable'>Pincode <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="pin_code" className='tapG' placeholder="Enter pincode" size='sm' value={shopInfo.pin_code} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="text"
+                                        name="pincode"
+                                        className='tapG'
+                                        placeholder="Enter pincode"
+                                        size='sm'
+                                        value={shopInfo.pincode}
+                                        onChange={handleChange}
+                                        pattern="[0-9]{6}"
+                                        title="Pincode must be a 6-digit number"
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                             <Col xs={6}>
                                 <Form.Group controlId="district">
                                     <Form.Label className='frmLable'>District <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="disict" className='tapG' placeholder="Enter district" size='sm' value={shopInfo.disict} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="text"
+                                        name="district"
+                                        className='tapG'
+                                        placeholder="Enter district"
+                                        size='sm'
+                                        value={shopInfo.district}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -165,95 +220,78 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="state">
                                     <Form.Label className='frmLable'>State <span className="req">*</span></Form.Label>
-                                    <Form.Control as="select" name="state" className='tapG' size='sm' value={shopInfo.state} onChange={handleChange} required>
+                                    <Form.Control
+                                        as="select"
+                                        name="state"
+                                        className='tapG'
+                                        size='sm'
+                                        value={shopInfo.state}
+                                        onChange={handleChange}
+                                        required
+                                    >
                                         <option disabled selected>Select State</option>
-                                        {allstates?.length > 0 && allstates?.map((ele) => (
-                                            <option value={ele?.name}>{ele?.name}</option>
+                                        {allstates?.length > 0 && allstates?.map((ele, index) => (
+                                            <option key={index} value={ele?.name}>{ele?.name}</option>
                                         ))}
                                     </Form.Control>
                                 </Form.Group>
                             </Col>
                             <Col xs={6}>
                                 <Form.Group controlId="shopImages">
-                                    <Form.Label className='frmLable'>Shop Image <span className="req">*</span>
-                                        {shopInfo?.pic_of_shope?.length > 0 &&
-                                            <a
-                                                href={shopInfo?.pic_of_shope?.[0]}
-                                                target="_blank"
-                                            >
-
-                                                <span className='mx-4'>Image successfully uploaded</span>
-                                            </a>
-                                        }
-                                    </Form.Label>
-                                    <Form.Control type="file" name="pic_of_shope" className='tapG' onChange={handleFileChange} size='sm'  required />
+                                    <Form.Label className='frmLable'>Shop Image <span className="req">*</span></Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        name="shop_image"
+                                        className='tapG'
+                                        onChange={handleFileChange}
+                                        size='sm'
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                         </Row>
 
-                        {/* <Row className='mt-2'>
-                            <Col>
-                                {shopInfo?.pic_of_shope?.length > 0 && (
-                                    <Container>
-                                        <Row>
-                                            {shopInfo?.pic_of_shope.map((fileUrl, index) => (
-                                                <Col key={index} xs={4} md={2}>
-                                                    <span>{index + 1}</span>
-                                                    <span>
-                                                        <MdCancel
-                                                            style={{
-                                                                color: 'red',
-                                                                fontSize: '20px',
-                                                                cursor: 'pointer',
-                                                            }}
-                                                            onClick={() => handleCancelImage(fileUrl)}
-                                                        />
-                                                    </span>
-                                                    <Image src={fileUrl} thumbnail fluid />
-                                                   
-                                                </Col>
-                                            ))}
-                                        </Row>
-                                    </Container>
-                                )}
-                            </Col>
-                        </Row> */}
-
-
-                        <Row className='mt-2'>
+                        <Row className='mt-3'>
                             <Col xs={6}>
-                                <Form.Group controlId="old_shope_desc">
-                                    <Form.Label className='frmLable'>Total Year of Busniess Experience <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" size='sm' className='tapG' name="old_shope_desc" placeholder='Total Year of Busniess Experience' value={shopInfo.old_shope_desc} onChange={handleChange} required />
+                                <Form.Group controlId="totalYearOfBusinessExperience">
+                                    <Form.Label className='frmLable'>Total Year of Business Experience <span className="req">*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        size='sm'
+                                        className='tapG'
+                                        name="total_year_of_business_experience"
+                                        placeholder='Total Year of Business Experience'
+                                        value={shopInfo.total_year_of_business_experience}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
 
                             <Col xs={6}>
-                                <Form.Group controlId="total_no_of_unit">
-                                    <Form.Label className='frmLable'> Total of Units Sold Each Year <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" size='sm' className='tapG' name="total_no_of_unit" placeholder='Total of Units Sold Each Year' value={shopInfo.total_no_of_unit} onChange={handleChange} required />
+                                <Form.Group controlId="totalNumberOfUnits">
+                                    <Form.Label className='frmLable'>Total Number of Units Sold Each Year <span className="req">*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        size='sm'
+                                        className='tapG'
+                                        name="total_number_of_units"
+                                        placeholder='Total Number of Units Sold Each Year'
+                                        value={shopInfo.total_number_of_units}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
-
                         </Row>
 
-                        {/* <Row className='mt-2'>
-                            <Col xs={6}>
-                                <Form.Group controlId="total_no_of_unit">
-                                    <Form.Label className='frmLable'> Total of Units Sold Each Year</Form.Label>
-                                    <Form.Control type="text" size='sm' name="total_no_of_unit" placeholder='Total of Units Sold Each Year' value={shopInfo.total_no_of_unit} onChange={handleChange}  required />
-                                </Form.Group>
-                            </Col>
-                        </Row> */}
-
-
-                        {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                         <Row className='mt-5'>
                             <Col className="text-center">
                                 <Button size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
                             </Col>
                         </Row>
                     </Form>
+
                 </Col>
             </Row>
             <Toaster position="top-right" />

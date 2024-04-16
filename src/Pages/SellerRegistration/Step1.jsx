@@ -66,14 +66,33 @@ const Step1 = ({ nextStep, getUserdata }) => {
                         <Row className='mt-3'>
                             <Col xs={6}>
                                 <Form.Group controlId="user_name">
-                                    <Form.Label className='frmLable'>Company Busniess Name <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="user_name" className='tapG' placeholder='Enter Your Username' size='sm' value={userInfo.user_name} onChange={handleChange} required autoComplete='off' />
+                                    <Form.Label className='frmLable'>Company Business Name <span className="req">*</span></Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="user_name"
+                                        className='tapG'
+                                        placeholder='Enter Your Username'
+                                        size='sm'
+                                        value={userInfo.user_name}
+                                        onChange={handleChange}
+                                        required
+                                        autoComplete='off'
+                                    />
                                 </Form.Group>
                             </Col>
                             <Col xs={6}>
                                 <Form.Group controlId="email">
                                     <Form.Label className='frmLable'>Email <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="email" name="email" size='sm' className='tapG' placeholder='Enter Your Email' value={userInfo.email} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="email"
+                                        name="email"
+                                        size='sm'
+                                        className='tapG'
+                                        placeholder='Enter Your Email'
+                                        value={userInfo.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -82,13 +101,35 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="phone_no">
                                     <Form.Label className='frmLable'>Phone Number <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="tel" name="phone_no" size='sm' className='tapG' placeholder='Enter Your Phone No.' value={userInfo.phone_no} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="tel"
+                                        name="phone_no"
+                                        size='sm'
+                                        className='tapG'
+                                        placeholder='Enter Your Phone No.'
+                                        value={userInfo.phone_no}
+                                        onChange={handleChange}
+                                        pattern="[0-9]{10}"
+                                        title="Phone number must be a 10-digit number"
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                             <Col xs={6}>
                                 <Form.Group controlId="password">
                                     <Form.Label className='frmLable'>Password <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="password" name="password" size='sm' className='tapG' placeholder='Enter Your Password' value={userInfo.password} onChange={handleChange} required />
+                                    <Form.Control
+                                        type="password"
+                                        name="password"
+                                        size='sm'
+                                        className='tapG'
+                                        placeholder='Enter Your Password'
+                                        value={userInfo.password}
+                                        onChange={handleChange}
+                                        pattern=".{6,}"
+                                        title="Password must be at least 6 characters long"
+                                        required
+                                    />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -99,6 +140,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             </Col>
                         </Row>
                     </Form>
+
                 </Col>
 
             </Row>

@@ -92,13 +92,35 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                 <Col xs={6}>
                                     <Form.Group controlId="gst_no">
                                         <Form.Label className='frmLable'>GST Number <span className="req">*</span></Form.Label>
-                                        <Form.Control type="text" name="gst_no" className='tapG' size='sm' placeholder="Enter GST number" value={documentation.gst_no} onChange={handleChange} required />
+                                        <Form.Control
+                                            type="text"
+                                            name="gst_no"
+                                            className='tapG'
+                                            size='sm'
+                                            placeholder="Enter GST number"
+                                            value={documentation.gst_no}
+                                            onChange={handleChange}
+                                            pattern="[0-9]{15}"
+                                            title="GST number must be a 15-digit number"
+                                            required
+                                        />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={6}>
                                     <Form.Group controlId="pan_no">
                                         <Form.Label className='frmLable'>PAN Card <span className="req">*</span></Form.Label>
-                                        <Form.Control type="text" name="pan_no" size='sm' className='tapG' placeholder="Enter PAN card number" value={documentation.pan_no} onChange={handleChange} required />
+                                        <Form.Control
+                                            type="text"
+                                            name="pan_no"
+                                            size='sm'
+                                            className='tapG'
+                                            placeholder="Enter PAN card number"
+                                            value={documentation.pan_no}
+                                            onChange={handleChange}
+                                            pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                                            title="PAN card number must be in the format ABCDE1234F"
+                                            required
+                                        />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -107,24 +129,31 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                 <Col xs={6}>
                                     <Form.Group controlId="adhar_card">
                                         <Form.Label className='frmLable'>Aadhar Card <span className="req">*</span></Form.Label>
-                                        <Form.Control type="text" name="adhar_card" className='tapG' size='sm' placeholder="Enter Aadhar card number" value={documentation.adhar_card} onChange={handleChange} required />
+                                        <Form.Control
+                                            type="text"
+                                            name="adhar_card"
+                                            className='tapG'
+                                            size='sm'
+                                            placeholder="Enter Aadhar card number"
+                                            value={documentation.adhar_card}
+                                            onChange={handleChange}
+                                            pattern="[0-9]{12}"
+                                            title="Aadhar card number must be a 12-digit number"
+                                            required
+                                        />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={6}>
                                     <Form.Group controlId="gst_file">
-
-                                        <Form.Label className='frmLable'>GST File <span className="req">*</span>
-                                            {documentation?.gst_file &&
-                                                <a
-                                                    href={documentation?.gst_file}
-                                                    target="_blank"
-                                                >
-
-                                                    <span className='mx-4'>SHOW FILE</span>
-                                                </a>
-                                            }
-                                        </Form.Label>
-                                        <Form.Control type="file" name="gst_file" className='tapG' size='sm' onChange={handleFileChange} required />
+                                        <Form.Label className='frmLable'>GST File <span className="req">*</span></Form.Label>
+                                        <Form.Control
+                                            type="file"
+                                            name="gst_file"
+                                            className='tapG'
+                                            size='sm'
+                                            onChange={handleFileChange}
+                                            required
+                                        />
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -132,45 +161,39 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                             <Row className='mt-3'>
                                 <Col xs={6}>
                                     <Form.Group controlId="cancelled_cheque">
-                                        <Form.Label className='frmLable'>Cancelled Cheque <span className="req">*</span>
-                                            {documentation?.cancelled_cheque &&
-                                                <a
-                                                    href={documentation?.cancelled_cheque}
-                                                    target="_blank"
-                                                >
-
-                                                    <span className='mx-4'>SHOW FILE</span>
-                                                </a>
-                                            }
-                                        </Form.Label>
-                                        <Form.Control type="file" name="cancelled_cheque" className='tapG' size='sm' onChange={handleFileChange} required />
+                                        <Form.Label className='frmLable'>Cancelled Cheque <span className="req">*</span></Form.Label>
+                                        <Form.Control
+                                            type="file"
+                                            name="cancelled_cheque"
+                                            className='tapG'
+                                            size='sm'
+                                            onChange={handleFileChange}
+                                            required
+                                        />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={6}>
                                     <Form.Group controlId="msme_certificate">
-                                        <Form.Label className='frmLable'>MSME Certificate <span className="req">*</span>
-                                            {documentation?.msme_certificate &&
-                                                <a
-                                                    href={documentation?.msme_certificate}
-                                                    target="_blank"
-                                                >
-
-                                                    <span className='mx-4'>SHOW FILE</span>
-                                                </a>
-                                            }
-                                        </Form.Label>
-                                        <Form.Control type="file" name="msme_certificate" className='tapG' size='sm' onChange={handleFileChange} required />
+                                        <Form.Label className='frmLable'>MSME Certificate <span className="req">*</span></Form.Label>
+                                        <Form.Control
+                                            type="file"
+                                            name="msme_certificate"
+                                            className='tapG'
+                                            size='sm'
+                                            onChange={handleFileChange}
+                                            required
+                                        />
                                     </Form.Group>
                                 </Col>
                             </Row>
 
-                            {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                             <Row className='mt-5'>
                                 <Col className="text-center">
                                     <Button size='sm' className='frmLable grnbg' type="submit">Next Step <span className='mx-2'><RiShareForwardFill /></span></Button>
                                 </Col>
                             </Row>
                         </Form>
+
                     </div>
                 </Col>
             </Row>
