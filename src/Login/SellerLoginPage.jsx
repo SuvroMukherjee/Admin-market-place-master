@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Alert, Button, Form } from "react-bootstrap";
+import { Alert, Button, Form,Row,Col } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AdminLogin, SellerLogin } from '../API/api';
 import useAuth from '../hooks/useAuth';
@@ -222,10 +222,14 @@ const SellerLoginPage = () => {
                         onChange={(e) => setLoginAsSeller(e.target.checked)}
                     />
                 </Form.Group> */}
-                <ReCAPTCHA
-                    sitekey="6Lf2Y4EpAAAAAMIJJIvzy88IybLMRSIjSWS2H7sq"
-                    onChange={handleCaptchaChange}
-                />
+                <Row>
+                    <Col className='d-flex justify-content-center'>
+                        <ReCAPTCHA
+                            sitekey="6Lf2Y4EpAAAAAMIJJIvzy88IybLMRSIjSWS2H7sq"
+                            onChange={handleCaptchaChange}
+                        />
+                    </Col>
+                </Row>
                 {/* <Form.Group className="mb-2" controlId="checkbox">
                     <Form.Check type="checkbox" label="Remember me" />
                 </Form.Group> */}
