@@ -1,22 +1,21 @@
 import { saveAs } from "file-saver";
 import Papa from "papaparse";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
   Col,
   Container,
   Form,
-  Image,
   ListGroup,
   Modal,
   Row,
+  Table,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import toast, { Toaster } from "react-hot-toast";
 import { BsClipboard2CheckFill } from "react-icons/bs";
-import { FaCheckCircle, FaRegCopy } from "react-icons/fa";
+import { FaRegCopy } from "react-icons/fa";
 import { HiDownload } from "react-icons/hi";
 import {
   MdCancel,
@@ -631,7 +630,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
 
 const ImageConveter = ({ showConverter }) => {
   //   const [value, setValue] = useState("");
-  const [copied, setCopied] = useState(false);
+  //   const [copied, setCopied] = useState(false);
   //   const [storeData, setStoreData] = useState("");
 
   const [formData, setFormData] = useState({
@@ -667,6 +666,10 @@ const ImageConveter = ({ showConverter }) => {
     }
   };
 
+  console.log(formData, "formData");
+
+  const fileInputRef = useRef(null);
+
   const handleCancelImage = (url) => {
     let filterData = formData.image?.filter((e) => {
       return e !== url;
@@ -678,6 +681,14 @@ const ImageConveter = ({ showConverter }) => {
     }));
   };
 
+  useEffect(() => {
+    if (formData.image.length === 0) {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  }, [formData]);
+
   return (
     <div>
       {showConverter && (
@@ -685,16 +696,12 @@ const ImageConveter = ({ showConverter }) => {
           <Container className="mt-2">
             <Row className="justify-content-md-center">
               <Col md="auto">
-                <h3 className="cmpgin-title">
-                  Convert Your Images{" "}
-                  {copied ? (
-                    <span style={{ color: "red" }}>Copied.</span>
-                  ) : null}
-                </h3>
+                <h3 className="cmpgin-title">Convert Your Images</h3>
               </Col>
             </Row>
           </Container>
           <Container>
+            {/* image upload */}
             <Row className="mt-2">
               <Col xs={6}>
                 <Form.Group controlId="formFileMultiple" className="mb-3">
@@ -703,6 +710,7 @@ const ImageConveter = ({ showConverter }) => {
                   </Form.Label>
                   <Form.Control
                     type="file"
+                    ref={fileInputRef}
                     onChange={handleImageInputChange}
                     multiple
                     accept="image/jpeg, image/png, image/gif"
@@ -712,7 +720,21 @@ const ImageConveter = ({ showConverter }) => {
                   </p>
                 </Form.Group>
               </Col>
-              <Row>
+              <Col className="d-flex justify-content-start align-items-center">
+                <button
+                  onClick={() => {
+                    setFormData({ image: [] });
+                  }}
+                  className="cmpComtinue"
+                  style={{
+                    padding: "10px 20px",
+                  }}
+                >
+                  Reset
+                </button>
+              </Col>
+
+              {/* <Row>
                 <Col>
                   {formData.image.length > 0 && (
                     <Container>
@@ -737,9 +759,10 @@ const ImageConveter = ({ showConverter }) => {
                     </Container>
                   )}
                 </Col>
-              </Row>
+              </Row> */}
             </Row>
-            <Row className="mt-4">
+
+            {/* <Row className="mt-4">
               <Col>
                 <Form.Control
                   as="textarea"
@@ -749,9 +772,12 @@ const ImageConveter = ({ showConverter }) => {
                   readOnly
                 />
               </Col>
-            </Row>
-            <Row className="mt-4 mb-4">
-              <Col>
+            </Row> */}
+            {/* <Row className="mt-4 mb-4">
+              <div
+                className="d-flex justify-content-start gap-4"
+                style={{ width: "100%" }}
+              >
                 <CopyToClipboard
                   text={formData?.image?.toString()}
                   onCopy={() => setCopied(true)}
@@ -763,8 +789,90 @@ const ImageConveter = ({ showConverter }) => {
                     {copied && <FaCheckCircle />} Copy to clipboard
                   </Button>
                 </CopyToClipboard>
-              </Col>
-            </Row>
+                <Button size="sm">Reset</Button>
+              </div>
+            </Row> */}
+
+            <Table
+              responsive
+              style={{
+                border: "1px solid #ccc",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Preview</th>
+                  <th>Url</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {formData?.image?.map((fileUrl, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <img
+                        src={fileUrl}
+                        alt="productImage"
+                        width={50}
+                        height={50}
+                      />
+                    </td>
+                    <td>
+                      <a href={fileUrl} target="_blank" rel="noreferrer">
+                        {fileUrl}
+                      </a>
+                    </td>
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <MdCancel
+                          style={{
+                            color: "red",
+                            fontSize: "20px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => handleCancelImage(fileUrl)}
+                        />
+
+                        <FaRegCopy
+                          style={{
+                            color: "blue",
+                            fontSize: "15px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            navigator.clipboard.writeText(fileUrl);
+                            toast.dismiss();
+                            toast.success("Copied url to clipboard", {
+                              position: "bottom-right",
+                              style: {
+                                background: "green",
+                                color: "#fff",
+                              },
+                            });
+                          }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {formData?.image?.length == 0 && (
+                  <tr>
+                    <td colSpan="4" className="text-center">
+                      No Images Uploaded Start Uploading some
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
           </Container>
         </div>
       )}
