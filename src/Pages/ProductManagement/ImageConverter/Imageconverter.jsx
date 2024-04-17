@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
+import { FaRegCopy } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import { toast } from "react-toastify";
 import { FileUpload } from "../../../API/api";
-import { FaRegCopy } from "react-icons/fa";
 
 const Imageconverter = () => {
   const [formData, setFormData] = useState({
@@ -137,32 +137,6 @@ const Imageconverter = () => {
               </Button>
             )}
           </Col>
-          {/* <Row>
-            <Col>
-              {formData.image.length > 0 && (
-                <Container>
-                  <Row>
-                    {formData?.image.map((fileUrl, index) => (
-                      <Col key={index} xs={4} md={2}>
-                        <span>{index + 1}</span>
-                        <span>
-                          <MdCancel
-                            style={{
-                              color: "red",
-                              fontSize: "20px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => handleCancelImage(fileUrl)}
-                          />
-                        </span>
-                        <Image src={fileUrl} thumbnail />
-                      </Col>
-                    ))}
-                  </Row>
-                </Container>
-              )}
-            </Col>
-          </Row> */}
         </Row>
 
         <Table
@@ -245,33 +219,6 @@ const Imageconverter = () => {
             )}
           </tbody>
         </Table>
-
-        {/* <Row className="mt-4">
-          <Col>
-            <Form.Control
-              as="textarea"
-              placeholder="Copy & Paste"
-              style={{ height: "200px" }}
-              value={formData?.image?.toString()}
-              readOnly
-            />
-          </Col>
-        </Row> */}
-        {/* <Row className="mt-4">
-          <Col>
-            <CopyToClipboard
-              text={formData?.image?.toString()}
-              onCopy={() => setCopied(true)}
-            >
-              <Button
-                size={copied ? "md" : "sm"}
-                variant={copied ? "success" : "secondary"}
-              >
-                {copied && <FaCheckCircle />} Copy to clipboard
-              </Button>
-            </CopyToClipboard>
-          </Col>
-        </Row> */}
       </Container>
     </div>
   );

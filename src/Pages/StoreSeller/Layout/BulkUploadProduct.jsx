@@ -34,7 +34,6 @@ import useAuth from "../../../hooks/useAuth";
 
 const BulkUploadProduct = () => {
   const [loading, setLoading] = useState(false);
-  //   const [uploadedFile, setUploadedFile] = useState();
   const [variloading, setvariLoading] = useState(false);
   const [productList, setProductList] = useState([]);
 
@@ -49,30 +48,6 @@ const BulkUploadProduct = () => {
     getReqPorducts();
     setShow(true);
   };
-
-  //   const downloadCSV = () => {
-  //     const today = new Date();
-  //     const formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1)
-  //       .toString()
-  //       .padStart(2, "0")}-${today.getDate().toString().padStart(2, "0")}`;
-
-  //     const data = [
-  //       [
-  //         "type",
-  //         "name",
-  //         "desc",
-  //         "categoryId",
-  //         "subcategoryId",
-  //         "brandId",
-  //         "image",
-  //         "tags",
-  //       ],
-  //     ];
-
-  //     const csvContent = data.map((row) => row.join(",")).join("\n");
-  //     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
-  //     saveAs(blob, `products_${formattedDate}.csv`);
-  //   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -422,11 +397,6 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
   };
 
   const downloadVariationCSV = (ele) => {
-    // const today = new Date();
-    // const formattedDate = `${today.getFullYear()}-${(today.getMonth() + 1)
-    //   .toString()
-    //   .padStart(2, "0")}-${today.getDate().toString().padStart(2, "0")}`;
-
     const data = [
       ["productId", "title", "value", "price", "image"],
       [`${ele?.sellerProId}`],
@@ -522,7 +492,6 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                       </Row>
                     </Col>
                     <Col xs={2} className="d-flex align-items-center">
-                      {/* <Button className='cmpComtinue' size='sm' onClick={() => downloadVariationCSV(ele)}>Download</Button> */}
                       <p
                         className="downloadClass"
                         onClick={() => downloadVariationCSV(ele)}
@@ -621,7 +590,6 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
           <Button variant="secondary" size="sm" onClick={handleClose}>
             Close
           </Button>
-          {/* <Button size='sm' variant="success">Understood</Button> */}
         </Modal.Footer>
       </Modal>
     </div>
@@ -629,10 +597,6 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
 };
 
 const ImageConveter = ({ showConverter }) => {
-  //   const [value, setValue] = useState("");
-  //   const [copied, setCopied] = useState(false);
-  //   const [storeData, setStoreData] = useState("");
-
   const [formData, setFormData] = useState({
     image: [],
   });
@@ -701,7 +665,6 @@ const ImageConveter = ({ showConverter }) => {
             </Row>
           </Container>
           <Container>
-            {/* image upload */}
             <Row className="mt-2">
               <Col xs={6}>
                 <Form.Group controlId="formFileMultiple" className="mb-3">
@@ -758,65 +721,7 @@ const ImageConveter = ({ showConverter }) => {
                   </Button>
                 )}
               </Col>
-
-              {/* <Row>
-                <Col>
-                  {formData.image.length > 0 && (
-                    <Container>
-                      <Row>
-                        {formData?.image.map((fileUrl, index) => (
-                          <Col key={index} xs={4} md={2}>
-                            <span>{index + 1}</span>
-                            <span>
-                              <MdCancel
-                                style={{
-                                  color: "red",
-                                  fontSize: "20px",
-                                  cursor: "pointer",
-                                }}
-                                onClick={() => handleCancelImage(fileUrl)}
-                              />
-                            </span>
-                            <Image src={fileUrl} thumbnail />
-                          </Col>
-                        ))}
-                      </Row>
-                    </Container>
-                  )}
-                </Col>
-              </Row> */}
             </Row>
-
-            {/* <Row className="mt-4">
-              <Col>
-                <Form.Control
-                  as="textarea"
-                  placeholder="Copy & Paste"
-                  style={{ height: "200px" }}
-                  value={formData?.image?.toString()}
-                  readOnly
-                />
-              </Col>
-            </Row> */}
-            {/* <Row className="mt-4 mb-4">
-              <div
-                className="d-flex justify-content-start gap-4"
-                style={{ width: "100%" }}
-              >
-                <CopyToClipboard
-                  text={formData?.image?.toString()}
-                  onCopy={() => setCopied(true)}
-                >
-                  <Button
-                    size={copied ? "md" : "sm"}
-                    variant={copied ? "success" : "secondary"}
-                  >
-                    {copied && <FaCheckCircle />} Copy to clipboard
-                  </Button>
-                </CopyToClipboard>
-                <Button size="sm">Reset</Button>
-              </div>
-            </Row> */}
 
             <Table
               responsive
