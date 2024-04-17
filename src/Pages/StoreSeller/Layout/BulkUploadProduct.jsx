@@ -720,18 +720,43 @@ const ImageConveter = ({ showConverter }) => {
                   </p>
                 </Form.Group>
               </Col>
-              <Col className="d-flex justify-content-start align-items-center">
-                <button
+              <Col className="d-flex justify-content-start align-items-center gap-4">
+                <Button
                   onClick={() => {
                     setFormData({ image: [] });
                   }}
-                  className="cmpComtinue"
-                  style={{
-                    padding: "10px 20px",
-                  }}
                 >
                   Reset
-                </button>
+                </Button>
+                {formData?.image?.length > 1 && (
+                  <Button
+                    onClick={() => {
+                      if (formData?.image?.length == 0) {
+                        toast.error("No Images to Copy", {
+                          position: "bottom-right",
+                          style: {
+                            background: "red",
+                            color: "#fff",
+                          },
+                        });
+                        return;
+                      }
+                      navigator.clipboard.writeText(
+                        formData?.image?.toString()
+                      );
+                      toast.dismiss();
+                      toast.success("Copied All urls to clipboard", {
+                        position: "bottom-right",
+                        style: {
+                          background: "green",
+                          color: "#fff",
+                        },
+                      });
+                    }}
+                  >
+                    Copy All
+                  </Button>
+                )}
               </Col>
 
               {/* <Row>
