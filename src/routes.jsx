@@ -76,6 +76,7 @@ import UserList from "./Pages/UserList/UserList";
 import { SellerNotification } from "./Pages/Notification/SellerNotification";
 import ForgotPassword from "./Login/ForgotPassword";
 import SellerForgotPassword from "./Login/SellerForgotPassword";
+import TempleteUploader from "./Pages/ProductManagement/ImageConverter/TempleteUploader";
 
 export default function Router({socket}) {
   const { auth } = useAuth();
@@ -109,6 +110,7 @@ export default function Router({socket}) {
             { path: "/Seller/SalesReport/:id", element: <SellerSalesReport /> },
             { path: "bannermanagment", element: <BannerManagment /> },
             { path: "image-convert", element: <Imageconverter /> },
+            { path: "templete-upload", element: <TempleteUploader /> },
           ],
         },
         {

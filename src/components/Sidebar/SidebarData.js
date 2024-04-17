@@ -7,6 +7,7 @@ import { RiUserSettingsFill } from "react-icons/ri";
 import { BsShop } from "react-icons/bs";
 import { GiVerticalBanner } from "react-icons/gi";
 import { IoMdImages } from "react-icons/io";
+import { RiFileExcel2Line } from "react-icons/ri";
 
 export const AdminSidebarData = [
   {
@@ -88,9 +89,15 @@ export const AdminSidebarData = [
     cName: "nav-text",
   },
   {
-    title: "Image Converter",
+    title: "Image Converter",  //templete-upload
     path: "/image-convert",
     icon: IoMdImages,
+    cName: "nav-text",
+  },
+  {
+    title: "Template Upload",
+    path: "/templete-upload",
+    icon: RiFileExcel2Line,
     cName: "nav-text",
   },
 ];
