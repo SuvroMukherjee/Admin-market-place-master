@@ -179,7 +179,7 @@ const Offer = () => {
                 </Row>
             </Container>
             <Container className='mt-4'>
-                <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
+                <Row className='m-2 p-2 justify-content-md-center stepContent'>
                     <Col>
                         <Row className='mt-3'>
                             <Col xs={12}>
