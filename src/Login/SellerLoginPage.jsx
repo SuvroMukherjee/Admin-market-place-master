@@ -195,11 +195,11 @@ const SellerLoginPage = () => {
                     <div />
                 )}
                 <Form.Group className="mb-3" controlId="username">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>Email / Phone Number</Form.Label>
                     <Form.Control
                         type="text"
                         value={inputUsername}
-                        placeholder="Enter your email"
+                        placeholder="Enter your email or phone number"
                         onChange={(e) => setInputUsername(e.target.value)}
                         required
                     />
