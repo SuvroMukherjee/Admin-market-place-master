@@ -41,10 +41,12 @@
     "react-otp-input": "^3.1.1",
     "react-papaparse": "^4.4.0",
     "react-router-dom": "^6.20.1",
+    "react-select": "^5.8.0",
     "react-toastify": "^10.0.5",
     "recharts": "^2.12.3",
     "socket.io-client": "^4.7.5",
-    "websocket": "^1.0.34"
+    "websocket": "^1.0.34",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
