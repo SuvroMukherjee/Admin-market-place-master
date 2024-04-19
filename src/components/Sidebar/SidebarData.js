@@ -94,12 +94,12 @@ export const AdminSidebarData = [
     icon: IoMdImages,
     cName: "nav-text",
   },
-  {
-    title: "Template Upload",
-    path: "/templete-upload",
-    icon: RiFileExcel2Line,
-    cName: "nav-text",
-  },
+  // {
+  //   title: "Template Upload",
+  //   path: "/templete-upload",
+  //   icon: RiFileExcel2Line,
+  //   cName: "nav-text",
+  // },
 ];
 
 export const KeyManagerSidebarData = [
