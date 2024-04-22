@@ -36,7 +36,7 @@ const BrandRequest = () => {
             toast.success('Brand Request sent Successfully')
 
             setTimeout(() => {
-                navigate('/seller/approval-request-list')
+                navigate('/seller/approval-request-list?tabtype=brand')
             }, 3000);
         }
 

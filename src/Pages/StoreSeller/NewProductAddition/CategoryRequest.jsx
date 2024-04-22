@@ -27,6 +27,7 @@ const CategoryRequest = () => {
 
         console.log({ modalData })
 
+        
 
         let res = await AddProductCategory(modalData);
 
@@ -37,7 +38,7 @@ const CategoryRequest = () => {
             toast.success('Category Request sent Successfully')
 
             setTimeout(() => {
-                navigate('/seller/approval-request-list')
+                navigate('/seller/approval-request-list?tabtype=category')
             }, 2000);
         }
 

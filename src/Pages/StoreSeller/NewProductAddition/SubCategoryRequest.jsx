@@ -109,7 +109,7 @@ const SubCategoryRequest = () => {
         } else {
             toast.success('Sub-Category Request Sent Successfully')
             setTimeout(() => {
-                navigate('/seller/approval-request-list')
+                navigate('/seller/approval-request-list?tabtype=Sub-category')
             }, 2000);
         }
     };

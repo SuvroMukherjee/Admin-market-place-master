@@ -66,7 +66,7 @@ const NewCustomization = () => {
         } else {
             toast.success('Customization Added successfully')
             setTimeout(() => {
-                navigate(`/seller/approval-request-list/`)
+                navigate(`/seller/approval-request-list?tabtype=product`)
             }, 1500);
         }
     }
