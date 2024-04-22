@@ -9,6 +9,7 @@ import {
   OwnProductSellerList,
   sellerBrandRequestList,
   sellerCategoryRequestList,
+  subCategoryReqList,
 } from "../../../API/api";
 import { ChangeFormatDate2 } from "../../../common/DateFormat";
 import useAuth from "../../../hooks/useAuth";
@@ -21,8 +22,7 @@ const ApprovalPendingList = () => {
   const [type, setType] = useState("");
   const [data, setData] = useState([]);
   const [brandList, setBrandlist] = useState([]);
-  // const [variations, setVariations] = useState([]);
-  // const [tableHeader, setTableHeader] = useState();
+  const [singleAddedSubCat,setSingleAddedSubCart] = useState([])
 
   const { auth } = useAuth();
 
@@ -38,6 +38,7 @@ const ApprovalPendingList = () => {
     getCatsList();
     getbrandList();
     getReqPorducts();
+    getRequestedSubCats();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -79,6 +80,17 @@ const ApprovalPendingList = () => {
     setData(newtypeadded);
   };
 
+
+  const getRequestedSubCats= async() =>{
+    let res = await subCategoryReqList();
+    let newtypeadded = res?.data?.data?.map((ele) => {
+      return { ...ele, type: "SubCategory" };
+    });
+    setSingleAddedSubCart(newtypeadded)
+    
+
+  }
+
   const filterSubCatdata = (id) => {
     let find = SubcategoryApplicqation?.find((ele) => {
       return ele?.category?._id == id;
@@ -100,7 +112,12 @@ const ApprovalPendingList = () => {
   };
 
   const getSubCategory = () => {
-    setData(SubcategoryApplicqation);
+  
+    let all = [...singleAddedSubCat,...SubcategoryApplicqation]?.sort((a,b)=>{
+      return new Date(b?.updatedAt) - new Date(a.updatedAt)
+    })
+    console.table(all)
+    setData(all);
   };
 
   const getAllLists = () => {
@@ -163,21 +180,13 @@ const ApprovalPendingList = () => {
   const copyTextToClipboard = (text, index) => {
     setCopiedIndex(index);
     const textToCopy = text;
-    // Create a temporary textarea element
     const textarea = document.createElement("textarea");
-    // Set the text content to be copied
     textarea.value = textToCopy;
-    // Append the textarea to the body
     document.body.appendChild(textarea);
-    // Select the text within the textarea
     textarea.select();
-    // Copy the selected text to the clipboard
     document.execCommand("copy");
-    // Remove the temporary textarea
     document.body.removeChild(textarea);
-    // Set copied state to true
     setCopied(true);
-    // Reset copied state after 2 seconds
     setTimeout(() => {
       setCopied(false);
       setCopiedIndex("");
