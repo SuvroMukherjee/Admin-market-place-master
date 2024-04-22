@@ -7,67 +7,53 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import {
   SubcategoryApproval,
-  allCategoryeqList,
-  categoryApproval,
+  subCategoryReqList,
 } from "../../../API/api";
 import { ChangeFormatDate2 } from "../../../common/DateFormat";
 import "../product.css";
 
-export default function CatReqList() {
-  const [loading, setLoading] = useState(true);
-  const [categoryApplicqation, setCategoryApplication] = useState([]);
-  const [SubcategoryApplicqation, setSubCategoryApplication] = useState([]);
+const SubCatReqList = () => {
 
-  useEffect(() => {
-    getCatsList();
-  }, []);
+    const navigate = useNavigate();
 
-  const getCatsList = async () => {
-    let res = await allCategoryeqList();
+    const [loading, setLoading] = useState(true);
+    const [SubcategoryApplicqation, setSubCategoryApplication] = useState([]);
 
-    // console.log(res?.data?.data, "all cats list");
-    setCategoryApplication(res?.data?.data?.categoryData);
-    setSubCategoryApplication(res?.data?.data?.subcategoryData);
-    setLoading(false);
-  };
+    useEffect(() => {
+        getCatsList();
+      }, []);
 
-  const navigate = useNavigate();
+      const getCatsList = async () => {
+        let res = await subCategoryReqList();
+        console.log(res?.data?.data, "all cats list");
+        setSubCategoryApplication(res?.data?.data);
+        setLoading(false);
+      };
 
-  const handleUpdateFunction = async (data) => {
-    console.log(data);
+      const handleUpdateFunction = async (data) => {
+        console.log(data);
+        
+        let payload = {
+          is_approved: !data?.is_approved,
+        };
     
-    let payload = {
-      is_approved: !data?.is_approved,
-    };
-
-    let res = await categoryApproval(payload, data?._id);
-
-    let res2 = await SubcategoryApproval(
-      payload,
-      filterSubCatdata(data?._id)?._id
-    );
-
-    if (res?.response?.data?.error && res2?.response?.data?.error) {
-      toast.error(res?.response?.data?.message);
-    } else {
-      toast.success("Category Request updated");
-      setTimeout(() => {
-        navigate("/Admin/category-commission");
-      }, 2000);
-      getCatsList();
-    }
-  };
-
-  const filterSubCatdata = (id) => {
-    let find = SubcategoryApplicqation?.find((ele) => {
-      return ele?.category?._id == id;
-    });
-    return find;
-  };
+        let res2 = await SubcategoryApproval(payload,data?._id)
+    
+        if (res2?.response?.data?.error) {
+          toast.error(res2?.response?.data?.message);
+        } else {
+          toast.success("Sub Category Request updated");
+          setTimeout(() => {
+            navigate("/Admin/subcategory");
+          }, 2000);
+          getCatsList();
+        }
+      };
+    
 
   return (
-    <>
-      {loading && (
+   <>
+    {loading && (
         <div className="productList p-4 contentLoader">
           <Row>
             <Col>
@@ -78,13 +64,13 @@ export default function CatReqList() {
           </Row>
         </div>
       )}
-      <div className="productList mt-2 p-4">
+       <div className="productList mt-2 p-4">
         <div className="text-center">
-          <h4>Category Request Lists</h4>
+          <h4>Sub Category Request Lists</h4>
         </div>
         <Container className="mt-4">
           <Row>
-            <Col xs={12} className="fw-bold fs-5 text-center mb-2">Total Data : {categoryApplicqation?.length}</Col>
+            <Col xs={12} className="fw-bold fs-5 text-center mb-2">Total Data : {SubcategoryApplicqation?.length}</Col>
             <Col>
               <Table responsive hover striped>
                 <thead>
@@ -92,7 +78,7 @@ export default function CatReqList() {
                     <th>Requestd By (seller)</th>
                     <th> Name</th>
                     <th>Changed</th>
-                    <th>Subcategory</th>
+                    <th>category</th>
                     <th>Contact Details</th>
                     <th>Documents</th>
                     <th>Status</th>
@@ -100,8 +86,8 @@ export default function CatReqList() {
                   </tr>
                 </thead>
                 <tbody className="mt-2 ">
-                  {categoryApplicqation?.length > 0 &&
-                    categoryApplicqation?.map((ele, index) => (
+                  {SubcategoryApplicqation?.length > 0 &&
+                    SubcategoryApplicqation?.map((ele, index) => (
                       <tr key={index}>
                         <td>
                           {ele?.user?.user_name} <br />{" "}
@@ -124,22 +110,11 @@ export default function CatReqList() {
                             rel="noreferrer"
                           >
                             <span className="text-primary">image_link<FaLongArrowAltRight /></span>
-                          
                           </a>
                         </td>
                         <td>{ChangeFormatDate2(ele?.createdAt)}</td>
                         <td>
-                          {filterSubCatdata(ele?._id)?.title}
-                          <br />
-                          <a
-                            href={
-                              filterSubCatdata(ele?._id)?.image?.[0]?.image_path
-                            }
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <span className="">image</span>
-                          </a>
+                         {ele?.category?.title}
                         </td>
                         <th>
                           {ele?.seller_contc_info?.email} |{" "}
@@ -194,6 +169,8 @@ export default function CatReqList() {
         </Container>
         <Toaster position="top-right" />
       </div>
-    </>
-  );
+   </>
+  )
 }
+
+export default SubCatReqList

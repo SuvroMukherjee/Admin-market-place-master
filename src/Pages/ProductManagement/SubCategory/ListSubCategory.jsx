@@ -12,6 +12,7 @@ import { DeleteProductSubCategory, UpdateStatusProductSubCategory, allSubCategor
 import { productRows } from "../../../dummyData";
 import "../product.css";
 import EditSubCategory from "./EditSubCategory";
+import { FaCodePullRequest } from "react-icons/fa6";
 
 export default function ListSubCategory() {
     const [data, setData] = useState(productRows);
@@ -187,11 +188,14 @@ export default function ListSubCategory() {
                             <h3>Sub Category List</h3>
                         </Col>
                     </Row>
-                    <Row >
-                        <Col className="d-flex justify-content-end p-2">
+                    <Row className="mb-2">
+                        <Col className="d-flex justify-content-end px-1 gap-4">
                             {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addsubcategory')}>Add New Sub Category</button> */}
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addsubcategory')}>
                                 <AiOutlinePlus /> Add New Sub Category
+                            </Button>
+                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/subcategory-request')}>
+                            <FaCodePullRequest /> Requested Sub Category
                             </Button>
                         </Col>
                     </Row>

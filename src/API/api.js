@@ -255,7 +255,8 @@ export async function DeleteProductCategory(id) {
   }
 }
 
-/** Sub-Category Apis */
+/********* Sub-Category Apis *********/
+
 export async function allSubCategoryList() {
   try {
     const response = await axios.get(apiUrl + "/sub-category/list", {
@@ -317,7 +318,39 @@ export async function DeleteProductSubCategory(id) {
   }
 }
 
-/** Brand Apis */
+export async function getSubCategoryByCategory(id) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/sub-category/list-by-catId/${id}`,
+      { headers: setAuthHeader() }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function subCategoryReqList() {
+  try {
+    const response = await axios.get(apiUrl + `/sub-category/subcat-list`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getSubCategoryDetails(id) {
+  try {
+    const response = await axios.get(apiUrl + `/sub-category/detail/${id}`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+/********* Brand Apis ***********/
 
 export async function allBrandList() {
   try {
@@ -437,28 +470,6 @@ export async function GetProductDetails(id) {
   }
 }
 
-export async function getSubCategoryByCategory(id) {
-  try {
-    const response = await axios.get(
-      apiUrl + `/sub-category/list-by-catId/${id}`,
-      { headers: setAuthHeader() }
-    );
-    return response;
-  } catch (error) {
-    return error;
-  }
-}
-
-export async function getSubCategoryDetails(id) {
-  try {
-    const response = await axios.get(apiUrl + `/sub-category/detail/${id}`, {
-      headers: setAuthHeader(),
-    });
-    return response;
-  } catch (error) {
-    return error;
-  }
-}
 
 export async function StatusUpdateProduct(id, fromData) {
   try {
@@ -656,7 +667,7 @@ export async function attendenceList(id) {
 }
 
 {
-  /** seller api */
+  /******** Seller api *********/
 }
 
 export async function SellerLogin(fromData) {
@@ -846,7 +857,7 @@ export async function PasswordReset(id, fromData) {
 }
 
 {
-  /** commission create  */
+  /****** Commission api  *******/
 }
 
 export async function createCommission(fromData) {
@@ -1337,6 +1348,17 @@ export async function getReportListBySellerIdWithDate(id, startDate, endDate) {
   }
 }
 
+export async function deleteSellerById(sellerId) {
+  try {
+    const response = await axios.delete(apiUrl + `/seller/delete/` + sellerId, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
 
 export async function getAdminNotification() {
   try {
@@ -1349,16 +1371,6 @@ export async function getAdminNotification() {
   }
 }
 
-export async function deleteSellerById(sellerId) {
-  try {
-    const response = await axios.delete(apiUrl + `/seller/delete/` + sellerId, {
-      headers: setAuthHeader(),
-    });
-    return response;
-  } catch (error) {
-    return error;
-  }
-}
 
 export async function makeSeenNotification(id){
   try {
@@ -1412,7 +1424,6 @@ export async function SellerResetPassword(payload) {
     return error;
   }
 }
-
 
 //
 

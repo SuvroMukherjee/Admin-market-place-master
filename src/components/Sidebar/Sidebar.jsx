@@ -67,6 +67,9 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
       case "category_created":
         navigate("/Admin/category-request");
         break;
+      case "subcategory_created":
+        navigate("/Admin/subcategory-request");
+        break;
       default:
         navigate("/");
     }
@@ -84,6 +87,8 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
         return "Requested for new brand for -";
       case "category_created":
         return "Request for new category";
+      case "subcategory_created":
+        return "Request for new sub category";
       default:
         return "New notification";
     }
@@ -125,8 +130,7 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
             } else {
               return;
             }
-          }}
-        >
+          }}>
           <span>
             <FaBell color="red" />
           </span>

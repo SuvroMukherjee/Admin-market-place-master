@@ -77,6 +77,8 @@ import { SellerNotification } from "./Pages/Notification/SellerNotification";
 import ForgotPassword from "./Login/ForgotPassword";
 import SellerForgotPassword from "./Login/SellerForgotPassword";
 import TempleteUploader from "./Pages/ProductManagement/ImageConverter/TempleteUploader";
+import SubCategoryRequest from "./Pages/StoreSeller/NewProductAddition/SubCategoryRequest";
+import SubCatReqList from "./Pages/ProductManagement/SubCategory/SubCatReqList";
 
 export default function Router({socket}) {
   const { auth } = useAuth();
@@ -122,6 +124,7 @@ export default function Router({socket}) {
             { path: "category-commission", element: <CategoryComissions /> },
             { path: "AddCategory", element: <AddCategory /> },
             { path: "subcategory", element: <ListSubCategory /> },
+            { path: "subcategory-request", element: <SubCatReqList/> },
             { path: "Addsubcategory", element: <AddSubCategory /> },
             { path: "brand", element: <ListBrand /> },
             { path: "brand-request", element: <BrandReqList /> },
@@ -195,6 +198,8 @@ export default function Router({socket}) {
               path: "category-request-edit/:id",
               element: <EditCategoryRequest />,
             },
+        { path: "subcategory-request", element: <SubCategoryRequest/> },
+
             { path: "brand-request-edit/:id", element: <EditBrandRequest /> },
             {
               path: "subcategory-request-edit/:id",

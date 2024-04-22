@@ -155,6 +155,10 @@ const MyNavbar = ({ socket }) => {
         navigate("/seller/category-request/");
         setHeaderTitle(pathName);
         break;
+        case "Sub Category Request":
+          navigate("/seller/subcategory-request/");
+          setHeaderTitle(pathName);
+          break;
       case "Track Your Application":
         navigate("/seller/approval-request-list/");
         setHeaderTitle(pathName);
@@ -419,6 +423,15 @@ const MyNavbar = ({ socket }) => {
             onClick={() => navigateFunction("Category Request")}
           >
             <div className="title">Category Request</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Sub Category Request")}
+          >
+            <div className="title">Sub Category Request</div>
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
