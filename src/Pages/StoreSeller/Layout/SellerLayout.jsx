@@ -547,6 +547,9 @@ const MyNavbar = ({ socket }) => {
             </div>
             <div
               className="logo"
+              style={{
+                cursor: "pointer",
+              }}
               onClick={() => {
                 navigate("/");
               }}
