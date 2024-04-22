@@ -119,7 +119,6 @@ export default function SellerReport() {
                     <th>Selling Products</th>
                     <th>Selling Report</th>
                     <th>Seller Details</th>
-                    <th>View Selling</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -184,13 +183,6 @@ export default function SellerReport() {
                             >
                               <IoIosEye />
                             </Button>
-                          </td>
-                          <td
-                            onClick={() =>
-                              navigate(`/Seller/SalesReport/${row?._id}`)
-                            }
-                          >
-                            view sellings
                           </td>
                         </tr>
                       );
