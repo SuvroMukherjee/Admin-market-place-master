@@ -279,7 +279,7 @@ const ManageOrders = () => {
     <div>
       <Container className="mt-4">
         <Row>
-          <Col className="dtext">Order List</Col>
+          <Col className="dtext">Manage Orders</Col>
         </Row>
 
         <Row className="cont" style={{ padding: "10px", marginTop: "10px" }}>

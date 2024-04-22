@@ -6,9 +6,12 @@ import {
   ChangeFormatDate,
   formatDateRemoveTime,
 } from "../../../common/DateFormat";
+import { useNavigate } from "react-router-dom";
 
 const OrderList = () => {
   const { userId } = JSON.parse(localStorage.getItem("auth"));
+
+  const navigate = useNavigate();
 
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -226,11 +229,29 @@ const OrderList = () => {
           </Row>
         </Row>
 
+        <Row
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button
+            style={{
+              width: "200px",
+            }}
+            onClick={() => navigate("/seller/manage-orders")}
+          >
+            Go to Manage Orders
+          </Button>
+        </Row>
+
         <Row className="mt-4">
           <Col
             style={{
               overflowY: "auto",
               maxHeight: "500px",
+              border: "1px solid #ccc",
             }}
           >
             <Table striped bordered hover responsive>
