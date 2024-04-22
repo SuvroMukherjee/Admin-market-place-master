@@ -16,11 +16,11 @@ const BannerManagment = () => {
         type: ""
     })
     const [BannerImages, SetbannerImages] = useState([])
-    const [allbannerImages,setAllBannerImages] = useState([])
-    const [bannerUpdateid,setbannerupdateId] = useState('')
-    const [isNew,setIsNew] = useState(true)
+    const [allbannerImages, setAllBannerImages] = useState([])
+    const [bannerUpdateid, setbannerupdateId] = useState('')
+    const [isNew, setIsNew] = useState(true)
     const [inputFields, setInputFields] = useState([]);
-    const [isImage,seIsImage] = useState(true)
+    const [isImage, seIsImage] = useState(true)
 
     const handleAddInput = () => {
         seIsImage(false)
@@ -29,7 +29,7 @@ const BannerManagment = () => {
 
     const handleInputChange = (index, value) => {
         const updatedInputs = [...inputFields];
-        updatedInputs[index] = {image_path : value};
+        updatedInputs[index] = { image_path: value };
         setInputFields(updatedInputs);
     };
 
@@ -38,15 +38,15 @@ const BannerManagment = () => {
         getbannerImageslist();
     }, [])
 
-    async function getbannerImageslist(){
+    async function getbannerImageslist() {
         await BannerImagesLists().then((res) => {
             //console.log(res?.data?.data,'imgs')
             setAllBannerImages(res?.data?.data)
-           // setBannerTypelist(res?.data?.data)
+            // setBannerTypelist(res?.data?.data)
         }).catch((err) => [
             console.log(err)
         ])
-       
+
     }
 
     async function getBannerType() {
@@ -64,7 +64,7 @@ const BannerManagment = () => {
 
         let res = await creteBannerType(payload);
 
-        if(res?.data?.error == false){
+        if (res?.data?.error == false) {
             toast.success('Banner Type create successfully...');
             setBannerType('')
             getBannerType();
@@ -104,7 +104,7 @@ const BannerManagment = () => {
             setTimeout(() => {
                 SetbannerImages((prevData) => [
                     ...prevData,
-                    {image_path : res?.data?.data?.fileurl}
+                    { image_path: res?.data?.data?.fileurl }
                 ]);
             }, 3000);
         } catch (err) {
@@ -119,19 +119,19 @@ const BannerManagment = () => {
         // setInputFields([])
         const selectedOption = e.target.selectedOptions[0];
 
-        let filterDataImges = allbannerImages?.find((ele)=>{
-            return ele?.banner_typeId?._id == selectedOption.value 
+        let filterDataImges = allbannerImages?.find((ele) => {
+            return ele?.banner_typeId?._id == selectedOption.value
         })
 
-        console.warn({filterDataImges})
+        console.warn({ filterDataImges })
 
-        if (filterDataImges?.banner_typeId?.banner_type == "indian grown product videos new"){
+        if (filterDataImges?.banner_typeId?.banner_type == "indian grown product videos new") {
             console.log('herererere')
-            
+
             setInputFields(filterDataImges?.image)
         }
 
-        if(filterDataImges){
+        if (filterDataImges) {
             //setIsNew(false)
             SetbannerImages(filterDataImges?.image)
             setbannerupdateId(filterDataImges?._id)
@@ -150,22 +150,22 @@ const BannerManagment = () => {
         console.log({ inputFields })
         let payload = {};
 
-        if(!isImage){
-             payload = {
+        if (!isImage) {
+            payload = {
                 banner_typeId: selectBannerType?.id,
                 image: inputFields,
             };
-        }else{
-             payload = {
+        } else {
+            payload = {
                 banner_typeId: selectBannerType?.id,
                 image: BannerImages,
             };
 
         }
-        console.log({payload})
+        console.log({ payload })
 
         let res;
-        if (BannerImages?.length > 0 || inputFields?.length > 0){
+        if (BannerImages?.length > 0 || inputFields?.length > 0) {
 
             // if (isNew) {
             //     res = await createBannerImages(payload);
@@ -203,16 +203,16 @@ const BannerManagment = () => {
     console.log({ BannerImages })
 
 
-   const deleteBanner = async(id) =>{
-       let res = await DeleteBanner(id);
-       resetState();
-       getBannerType();
-       getbannerImageslist();
+    const deleteBanner = async (id) => {
+        let res = await DeleteBanner(id);
+        resetState();
+        getBannerType();
+        getbannerImageslist();
 
-       console.log(res)
-   }
+        console.log(res)
+    }
 
-    console.log({inputFields})
+    console.log({ inputFields })
 
 
     return (
@@ -271,47 +271,47 @@ const BannerManagment = () => {
                                             </Col>
                                             <Col>
                                                 <Button variant="dark" size="sm" onClick={() => BannerUpload()} disabled={BannerImages?.length == 0 && inputFields?.length == 0}>SAVE BANNER</Button>
-                                            <Button variant="danger" size="sm" onClick={() => deleteBanner(bannerUpdateid)} disabled={BannerImages?.length == 0 && inputFields?.length == 0}>DELETE BANNER</Button>
+                                                <Button variant="danger" size="sm" onClick={() => deleteBanner(bannerUpdateid)} disabled={BannerImages?.length == 0 && inputFields?.length == 0}>DELETE BANNER</Button>
                                             </Col>
                                         </Row>
                                         <Row className='mt-2'>
                                             <Col xs={12}>
                                                 <Row>
-                                                {BannerImages?.length > 0 && BannerImages?.map((ele, index) => (
-                                                    <Col xs={2}>
-                                                        <span>{index + 1}</span>
-                                                        <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
-                                                            onClick={() => deleteImage(index)}
-                                                        /></span>
-                                                        <Image src={ele?.image_path} thumbnail />
-                                                    </Col>
-                                                ))}
-                                                {inputFields?.length > 0 && inputFields?.map((input, index) => (
-                                                    <Form.Control
-                                                        key={index}
-                                                        type="text"
-                                                        placeholder={`Enter video link ${index + 1}`}
-                                                        value={input?.image_path}
-                                                        onChange={(e) => handleInputChange(index, e.target.value)}
-                                                    />
-                                                ))}
+                                                    {BannerImages?.length > 0 && BannerImages?.map((ele, index) => (
+                                                        <Col xs={2}>
+                                                            <span>{index + 1}</span>
+                                                            <span><MdCancel style={{ color: 'red', fontSize: '20px', cursor: 'pointer' }}
+                                                                onClick={() => deleteImage(index)}
+                                                            /></span>
+                                                            <Image src={ele?.image_path} thumbnail />
+                                                        </Col>
+                                                    ))}
+                                                    {inputFields?.length > 0 && inputFields?.map((input, index) => (
+                                                        <Form.Control
+                                                            key={index}
+                                                            type="text"
+                                                            placeholder={`Enter video link ${index + 1}`}
+                                                            value={input?.image_path}
+                                                            onChange={(e) => handleInputChange(index, e.target.value)}
+                                                        />
+                                                    ))}
                                                 </Row>
                                             </Col>
                                             <Col xs={6} className='mt-2'>
-                                            <input
-                                                type="file"
-                                                ref={fileInputRef}
-                                                style={{ display: 'none' }}
-                                                onChange={handleFileChange}
-                                                accept='image/*'
-                                            />
+                                                <input
+                                                    type="file"
+                                                    ref={fileInputRef}
+                                                    style={{ display: 'none' }}
+                                                    onChange={handleFileChange}
+                                                    accept='image/*'
+                                                />
                                                 <div className="d-grid">
-                                                <Button variant="dark" size="sm" onClick={handleButtonClick}>
+                                                    <Button variant="dark" size="sm" onClick={handleButtonClick}>
                                                         <FaImages /> Upload Images
                                                     </Button>
-                                                    <span style={{textAlign:'center'}}>OR</span>
-                                                <Button variant="dark" size="sm" onClick={handleAddInput}>
-                                                       <FaYoutube /> Upload Video Link
+                                                    <span style={{ textAlign: 'center' }}>OR</span>
+                                                    <Button variant="dark" size="sm" onClick={handleAddInput}>
+                                                        <FaYoutube /> Upload Video Link
                                                     </Button>
                                                 </div>
                                             </Col>
@@ -337,55 +337,81 @@ const BannerManagment = () => {
 
 const BannerCMS = () => {
     return (
-        <div class="border border-dark p-4">
-            <Row className='text-center bg-primary text-white'>
-                <Col>Header</Col>
-            </Row>
-            <Row className="bg-secondary p-4 text-center mt-1">
-                <Col>
-                    Top Banner
-                </Col>
-            </Row>
-            <Row className='mt-2'>
-                <Col>Indian grown product videos</Col>
-            </Row>
-            <Row className="d-flex justify-content-between gap-2 mt-1">
-                <Col className="bg-dark p-2 text-white">
-                    Video1
-                </Col>
-                <Col className="bg-dark p-2 text-white">
-                    Video2
-                </Col>
-                <Col className="bg-dark p-2 text-white">
-                    Video3
-                </Col>
-            </Row>
-            <Row className='mt-2 d-flex justify-content-center bg-success text-center p-1 m-2'>
-                <Col>
-                    Explore All
-                </Col>
-            </Row>
+        <>
+            {/* <div class="border border-dark p-4">
+                <Row className='text-center bg-primary text-white'>
+                    <Col>Header</Col>
+                </Row>
+                <Row className="bg-secondary p-4 text-center mt-1">
+                    <Col>
+                        Top Banner
+                    </Col>
+                </Row>
+                <Row className='mt-2'>
+                    <Col>Indian grown product videos</Col>
+                </Row>
+                <Row className="d-flex justify-content-between gap-2 mt-1">
+                    <Col className="bg-dark p-2 text-white">
+                        Video1
+                    </Col>
+                    <Col className="bg-dark p-2 text-white">
+                        Video2
+                    </Col>
+                    <Col className="bg-dark p-2 text-white">
+                        Video3
+                    </Col>
+                </Row>
+                <Row className='mt-2 d-flex justify-content-center bg-success text-center p-1 m-2'>
+                    <Col>
+                        Explore All
+                    </Col>
+                </Row>
 
-            <Row className='d-flex justify-content-between gap-2 mb-4'>
-                <Col className='bg-info'>
-                    Middle ban 1
-                </Col>
-                <Col className='bg-info'>
-                    Middle ban 2
-                </Col>
-            </Row>
+                <Row className='d-flex justify-content-between gap-2 mb-4'>
+                    <Col className='bg-info'>
+                        Middle ban 1
+                    </Col>
+                    <Col className='bg-info'>
+                        Middle ban 2
+                    </Col>
+                </Row>
 
 
-            <Row className='d-flex justify-content-between gap-2 mt-4'>
-                <Col className='bg-warning p-2 text-center'>
-                    footer ban 1
-                </Col>
-                <Col className='bg-warning p-2 text-center'>
-                    footer ban 2
-                </Col>
-            </Row>
+                <Row className='d-flex justify-content-between gap-2 mt-4'>
+                    <Col className='bg-warning p-2 text-center'>
+                        footer ban 1
+                    </Col>
+                    <Col className='bg-warning p-2 text-center'>
+                        footer ban 2
+                    </Col>
+                </Row>
 
-        </div>
+            </div> */}
+
+            <div class="border border-dark p-4">
+                <Row>
+                     <h6>Top Video Section</h6>
+                    <video width="auto" height="auto" controls autoPlay>
+                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                </Row>
+                <Row className='mt-4'>
+                    <iframe
+                        width="640"
+                        height="360"
+                        src="http://localhost:5173/"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                    ></iframe>
+                </Row>
+                <Row className='mt-4'>
+                    <h6>Buttom Video Section</h6>
+                </Row>
+            </div>
+        </>
     )
 }
 

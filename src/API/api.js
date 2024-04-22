@@ -1455,3 +1455,26 @@ export async function UserResetPassword(payload) {
     return error;
   }
 }
+
+// new-banner
+export async function bannerTypesdata() {
+  try {
+    const response = await axios.get(apiUrl + `/video-type/list`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function creteBannerTypeNew(payload) {
+  try {
+    const response = await axios.post(apiUrl + `/video-type/create`, payload,{
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
