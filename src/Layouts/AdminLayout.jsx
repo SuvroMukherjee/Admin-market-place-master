@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import notificationSoundTone from "../assets/notification.wav";
 import { notificationContext } from "../context/context";
 
-
 const AdminLayout = ({ socket }) => {
   const [notifications, setNotifications] = useState([]);
 
@@ -22,7 +21,6 @@ const AdminLayout = ({ socket }) => {
   }
 
   const { adminNotification } = useContext(notificationContext);
-  
 
   useEffect(() => {
     if (socket) {

@@ -470,7 +470,6 @@ export async function GetProductDetails(id) {
   }
 }
 
-
 export async function StatusUpdateProduct(id, fromData) {
   try {
     const response = await axios.patch(
@@ -1359,7 +1358,6 @@ export async function deleteSellerById(sellerId) {
   }
 }
 
-
 export async function getAdminNotification() {
   try {
     const response = await axios.get(apiUrl + `/notification/list`, {
@@ -1371,8 +1369,7 @@ export async function getAdminNotification() {
   }
 }
 
-
-export async function makeSeenNotification(id){
+export async function makeSeenNotification(id) {
   try {
     const response = await axios.get(apiUrl + `/notification/update/${id}`, {
       headers: setAuthHeader(),
@@ -1382,7 +1379,6 @@ export async function makeSeenNotification(id){
     return error;
   }
 }
-
 
 export async function makeAllSeenNotification() {
   try {
@@ -1395,16 +1391,17 @@ export async function makeAllSeenNotification() {
   }
 }
 
-
 export async function EmailSendForgotSeler(payload) {
   try {
-    const response = await axios.post(apiUrl + `/seller/forget-password`, payload);
+    const response = await axios.post(
+      apiUrl + `/seller/forget-password`,
+      payload
+    );
     return response;
   } catch (error) {
     return error;
   }
 }
-
 
 export async function SellerVerifyOtp(payload) {
   try {
@@ -1415,10 +1412,12 @@ export async function SellerVerifyOtp(payload) {
   }
 }
 
-
 export async function SellerResetPassword(payload) {
   try {
-    const response = await axios.patch(apiUrl + `/seller/reset-password`, payload);
+    const response = await axios.patch(
+      apiUrl + `/seller/reset-password`,
+      payload
+    );
     return response;
   } catch (error) {
     return error;
@@ -1429,13 +1428,15 @@ export async function SellerResetPassword(payload) {
 
 export async function EmailSendForgotUser(payload) {
   try {
-    const response = await axios.post(apiUrl + `/admin/forget-password`, payload);
+    const response = await axios.post(
+      apiUrl + `/admin/forget-password`,
+      payload
+    );
     return response;
   } catch (error) {
     return error;
   }
 }
-
 
 export async function UserVerifyOtp(payload) {
   try {
@@ -1446,10 +1447,60 @@ export async function UserVerifyOtp(payload) {
   }
 }
 
-
 export async function UserResetPassword(payload) {
   try {
-    const response = await axios.patch(apiUrl + `/admin/reset-password`, payload);
+    const response = await axios.patch(
+      apiUrl + `/admin/reset-password`,
+      payload
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function fetchTestimonialList() {
+  try {
+    const response = await axios.get(apiUrl + `/testimonial/list`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function deleteTestimonial(id) {
+  try {
+    const response = await axios.delete(apiUrl + `/testimonial/delete/${id}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function editTestimonial(id, formData) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/testimonial/update/${id}`,
+      formData
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function fetchSingleTestimonial(id) {
+  try {
+    const response = await axios.get(apiUrl + `/testimonial/detail/${id}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function addTestimonial(formData){
+  try {
+    const response = await axios.post(apiUrl + `/testimonial/create`, formData);
     return response;
   } catch (error) {
     return error;

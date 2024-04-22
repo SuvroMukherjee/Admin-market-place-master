@@ -1,13 +1,13 @@
 import * as AiIcons from "react-icons/ai";
 import { BiSolidCategory } from "react-icons/bi";
+import { BsShop } from "react-icons/bs";
 import { FaCartArrowDown, FaUsers } from "react-icons/fa";
+import { GiVerticalBanner } from "react-icons/gi";
+import { IoMdImages } from "react-icons/io";
 import { IoPricetagsSharp } from "react-icons/io5";
 import { MdCategory } from "react-icons/md";
 import { RiUserSettingsFill } from "react-icons/ri";
-import { BsShop } from "react-icons/bs";
-import { GiVerticalBanner } from "react-icons/gi";
-import { IoMdImages } from "react-icons/io";
-import { RiFileExcel2Line } from "react-icons/ri";
+import { VscFeedback } from "react-icons/vsc";
 
 export const AdminSidebarData = [
   {
@@ -46,12 +46,12 @@ export const AdminSidebarData = [
     icon: BsShop,
     cName: "nav-text",
   },
-//   {
-//     title: `Seller's Product`,
-//     path: "/SellerProductManagment",
-//     icon: BsShop,
-//     cName: "nav-text",
-//   },
+  //   {
+  //     title: `Seller's Product`,
+  //     path: "/SellerProductManagment",
+  //     icon: BsShop,
+  //     cName: "nav-text",
+  //   },
   {
     title: "Category",
     path: "/Admin/category",
@@ -83,13 +83,19 @@ export const AdminSidebarData = [
     cName: "nav-text",
   },
   {
+    title: "Testimonial",
+    path: "/Admin/testimonial",
+    icon: VscFeedback,
+    cName: "nav-text",
+  },
+  {
     title: "Banner Managment",
     path: "/bannermanagment",
     icon: GiVerticalBanner,
     cName: "nav-text",
   },
   {
-    title: "Image Converter",  //templete-upload
+    title: "Image Converter", //templete-upload
     path: "/image-convert",
     icon: IoMdImages,
     cName: "nav-text",
