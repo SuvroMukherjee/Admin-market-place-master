@@ -11,6 +11,8 @@ const CategoryRequest = () => {
 
     const [modalData, setModalData] = useState()
     const [loading, setLoading] = useState(false);
+    const [subloading, setSubLoading] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
 
     const handleOptionChange = (event) => {
@@ -26,8 +28,6 @@ const CategoryRequest = () => {
         e.preventDefault();
 
         console.log({ modalData })
-
-        
 
         let res = await AddProductCategory(modalData);
 
@@ -64,21 +64,21 @@ const CategoryRequest = () => {
 
 
     const onFileUpload = async (data, type) => {
-        setLoading(true);
         const formData = new FormData();
         formData.append("file", data);
         await FileUpload(formData)
             .then((res) => {
-        setLoading(false);
                 console.log(res, "res");
                 if (type == "1") {
+                    setLoading(false);
                     setTimeout(() => {
                         setModalData({ ...modalData, ['image']: { image_path: res?.data?.data?.fileurl } });
-                    }, 400);
+                    }, 300);
                 } else {
+                    setSubLoading(false)
                     setTimeout(() => {
                         setModalData({ ...modalData, ['img']: { image_path: res?.data?.data?.fileurl } });
-                    }, 400);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -90,23 +90,27 @@ const CategoryRequest = () => {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleFileChange2 = (e,type) => {
+        setUploading(true)
         onFileUpload2(e.target.files[0], type)
     };
 
     const onFileUpload2 = async (data, type) => {
+        setUploading(true)
         const formData = new FormData();
         formData.append("file", data);
         await FileUpload(formData)
             .then((res) => {
                 console.log(res, "res");
                 if (type == "distributer") {
+                  setUploading(false);                
                     setTimeout(() => {
                         setModalData({ ...modalData, ['seller_doc']: { ...modalData?.seller_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 400);
+                    }, 300);
                 } else {
+               setUploading(false);                
                     setTimeout(() => {
                         setModalData({ ...modalData, ['seller_doc']: { ...modalData?.seller_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 400);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -160,7 +164,6 @@ const CategoryRequest = () => {
                                             <Col xs={12}>
                                                 <Form.Group controlId="title">
                                                     <Form.Label><span className="req">*</span> Category Image
-
                                                         {modalData?.image?.image_path ?
                                                            (<a
                                                                 href={modalData?.image?.image_path}
@@ -183,7 +186,9 @@ const CategoryRequest = () => {
                                                         size='sm'
                                                         required
                                                         // value={modalData?.image}
-                                                        onChange={(e) => handleFileChange(e, '1')}
+                                                        onChange={(e) => {
+                                                      setLoading(true);      
+                                                    handleFileChange(e, '1')}}
                                                     />
                                                 </Form.Group>
                                             </Col>
@@ -214,14 +219,18 @@ const CategoryRequest = () => {
                                                 <Form.Group controlId="title">
                                                     <Form.Label><span className="req">*</span> SubCategory Image
 
-                                                        {modalData?.img?.image_path &&
-                                                            <a
+                                                        {modalData?.img?.image_path ?
+                                                            (<a
                                                                 href={modalData?.img?.image_path}
                                                                 target="_blank"
                                                             >
-
                                                                 <span className='mx-4'>SHOW IMAGE</span>
-                                                            </a>
+                                                            </a>) :
+                                                            <> { subloading &&
+                                                                <Spinner className='ms-2' animation="border" size="sm" role="status">
+                                                                <span className="visually-hidden">Loading...</span>
+                                                            </Spinner>}
+                                                            </> 
                                                         }
                                                     </Form.Label>
                                                     <Form.Control
@@ -231,7 +240,9 @@ const CategoryRequest = () => {
                                                         name="img"
                                                         size='sm'
                                                         // value={modalData?.image}
-                                                        onChange={(e) => handleFileChange(e, '2')}
+                                                        onChange={(e) =>{
+                                                            setSubLoading(true)   
+                                                        handleFileChange(e, '2')}}
                                                         required
                                                     />
                                                 </Form.Group>
@@ -264,7 +275,8 @@ const CategoryRequest = () => {
                             </Row>
                             <Row>
                                 <Col xs={12} className='mt-2 infotext'>
-                                    Are you a reseller/distributor or a manufacturer for the products you want to list?
+                                <span className="req">*</span> Are you a reseller/distributor or a manufacturer of your products?
+                                
                                 </Col>
                                 <div className='mt-2'>
                                     <Col xs={6} className='infotext2'>
@@ -272,6 +284,7 @@ const CategoryRequest = () => {
                                             <Form.Check
                                                 type='radio'
                                                 id='reseller'
+                                                name='sellertype'
                                                 label='Reseller/Distributor'
                                                 value='distributer'
                                                 checked={selectedOption === 'distributer'}
@@ -286,6 +299,7 @@ const CategoryRequest = () => {
                                                 type='radio'
                                                 id='manufacturer'
                                                 label='Manufacturer'
+                                                name='sellertype'
                                                 value='manufracturer'
                                                 checked={selectedOption === 'manufracturer'}
                                                 onChange={handleOptionChange}
@@ -314,14 +328,20 @@ const CategoryRequest = () => {
                                         <Col>
                                             {modalData?.seller_doc?.doc == 'distributer' && 
                                               <span>
-                                                    {modalData?.seller_doc?.doc_file &&
-                                                        <a
+                                                    {modalData?.seller_doc?.doc_file ?
+                                                        (<a
                                                             href={modalData?.seller_doc?.doc_file}
                                                             target="_blank"
                                                         >
 
-                                                            <span className='mx-4'>SHOW FILE</span>
-                                                        </a>
+                                                            <span className='mx-4 fw-bold'>SHOW FILE</span>
+                                                        </a>)
+                                                        :
+                                                        <> { uploading &&
+                                                            <Spinner className='ms-2' animation="border" size="sm" role="status">
+                                                            <span className="visually-hidden">Loading...</span>
+                                                        </Spinner>}
+                                                        </> 
                                                     }
 
                                               </span>
@@ -333,7 +353,8 @@ const CategoryRequest = () => {
                                                     type="file"
                                                     id="fileInput"
                                                     style={{ display: 'none' }}
-                                                    onChange={(e) => handleFileChange2(e,'distributer')}
+                                                    onChange={(e) => {   
+                                                    handleFileChange2(e,'distributer')}}
                                                     required
                                                 />
                                                 <label htmlFor="fileInput">
@@ -380,14 +401,20 @@ const CategoryRequest = () => {
                                         <Col>
                                             {modalData?.seller_doc?.doc == 'manufracturer' &&
                                                 <span>
-                                                    {modalData?.seller_doc?.doc_file &&
-                                                        <a
+                                                    {modalData?.seller_doc?.doc_file ?
+                                                        (<a
                                                             href={modalData?.seller_doc?.doc_file}
                                                             target="_blank"
                                                         >
 
-                                                            <span className='mx-4'>SHOW FIle</span>
-                                                        </a>
+                                                            <span className='mx-4 fw-bold'>SHOW FILE</span>
+                                                        </a>)
+                                                        :
+                                                        <> { uploading &&
+                                                            <Spinner className='ms-2' animation="border" size="sm" role="status">
+                                                            <span className="visually-hidden">Loading...</span>
+                                                        </Spinner>}
+                                                        </> 
                                                     }
 
                                                 </span>
@@ -400,7 +427,9 @@ const CategoryRequest = () => {
                                                     id="fileInput"
                                                     style={{ display: 'none' }}
                                                     required
-                                                    onChange={(e) => handleFileChange2(e, 'manufracturer')}
+                                                    onChange={(e) => {
+                                                     setUploading(true);    
+                                                    handleFileChange2(e, 'manufracturer')}}
                                                 />
                                                 <label htmlFor="fileInput">
                                                     <Button variant="secondary" className='w-100' size='sm' as="span">
