@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row, Form, ListGroup, Image } from 'react-bootstrap';
-import { bannerTypesdata, creteBannerTypeNew, FileUpload } from '../../API/api';
+import { bannerTypesdata, creteBannerTypeNew, DeleteVideoType, FileUpload } from '../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { BannerImagesLists, DeleteBanner, bannerTypeList, createBannerImages, creteBannerType, updateBannerImages } from '../../API/api';
 import { useRef } from 'react';
@@ -102,18 +102,26 @@ const NewBannermanager = () => {
         if (file) {
             console.log('Selected File:', file);
             const formData = new FormData();
-            formData.append("file", formData);
+            formData.append("file", file); // Corrected formData usage
+
             try {
-                const res = await FileUpload(file);
-                console.log(res?.data?.data)
+                const res = await FileUpload(formData); // Assuming FileUpload expects FormData
+                console.log(res?.data?.data);
 
                 setTimeout(() => {
-                    setTopVideo(res?.data?.data?.fileurl)
+                    setTopVideo(res?.data?.data?.fileurl);
                 }, 1000);
             } catch (err) {
                 console.error(err, "err");
             }
         }
+    };
+
+
+
+    const deleteType = async (id) => {
+        let res = await DeleteVideoType(id);
+        getBannerTypes()
     }
 
     return (
@@ -137,7 +145,7 @@ const NewBannermanager = () => {
                         </div>
                     </Col>
                     {types?.length > 0 && types?.map((ele) => (
-                        <li value={ele} label={ele?.video_type}>{ele?.video_type}</li>
+                        <li value={ele} label={ele?.video_type}>{ele?.video_type} <button onClick={() => deleteType(ele?._id)}>Delete</button> </li>
                     ))}
                 </Row>
             </Container>
@@ -165,9 +173,9 @@ const NewBannermanager = () => {
             </Container>
 
             {selectedType?.video_type == 'Top_Bannner' &&
-                <Container>
-                    <h4>Upload Your Video File</h4>
-                    <Row>
+                <Container className='mt-4'>
+                    <h6>Upload Your Video File</h6>
+                    <Row className='mt-2'>
                         <Col>
                             <Form.Control type="file" size="sm" id="thumbnailUpload"
                                 label="Choose Thumbnail Image"
@@ -177,35 +185,33 @@ const NewBannermanager = () => {
                     </Row>
                 </Container>}
 
-            <Container>
-                <h6>Bottom Videos Section <span>Add New</span></h6>
-                <Row>
-                    <Col>data</Col>
-                </Row>
+            {selectedType?.video_type == 'Bottom_Bannner' &&
+                <Container className='mt-4'>
+                    <h6>Bottom Videos Section <span>Add New</span></h6>
+                  
+                    <Row>
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group controlId="thumbnail">
+                                <Form.Label>Thumbnail Image</Form.Label>
+                                <Form.Control type="file" size="sm" id="thumbnailUpload"
+                                    label="Choose Thumbnail Image"
+                                    accept="image/*"
+                                    onChange={handleThumbnailChange} />
+                                {thumbnail && <img src={thumbnail} alt="Thumbnail" style={{ maxWidth: '100%', marginTop: '10px' }} />}
+                            </Form.Group>
 
-                <Row>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="thumbnail">
-                            <Form.Label>Thumbnail Image</Form.Label>
-                            <Form.Control type="file" size="sm" id="thumbnailUpload"
-                                label="Choose Thumbnail Image"
-                                accept="image/*"
-                                onChange={handleThumbnailChange} />
-                            {thumbnail && <img src={thumbnail} alt="Thumbnail" style={{ maxWidth: '100%', marginTop: '10px' }} />}
-                        </Form.Group>
+                            <Form.Group controlId="videoLink">
+                                <Form.Label>Video Link</Form.Label>
+                            </Form.Group>
+                            <Form.Control as="textarea" rows={3} placeholder="Enter Video Link" value={videoLink} onChange={handleVideoLinkChange} />
 
-                        <Form.Group controlId="videoLink">
-                            <Form.Label>Video Link</Form.Label>
-                        </Form.Group>
-                        <Form.Control as="textarea" rows={3} placeholder="Enter Video Link" value={videoLink} onChange={handleVideoLinkChange} />
+                            <Button variant="success" size='sm' type="submit" className='w-100 mt-4' >
+                                Upload
+                            </Button>
+                        </Form>
+                    </Row>
 
-                        <Button variant="primary" type="submit">
-                            Upload
-                        </Button>
-                    </Form>
-                </Row>
-
-            </Container>
+                </Container>}
             <Toaster position="top-right" />
         </div>
     )
