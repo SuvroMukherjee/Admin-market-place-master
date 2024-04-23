@@ -269,4 +269,7 @@ const NewBannermanager = () => {
     </div>
   );
 
-                }
+}
+
+
+export default NewBannermanager;

@@ -79,7 +79,8 @@ import TempleteUploader from "./Pages/ProductManagement/ImageConverter/TempleteU
 import SubCategoryRequest from "./Pages/StoreSeller/NewProductAddition/SubCategoryRequest";
 import SubCatReqList from "./Pages/ProductManagement/SubCategory/SubCatReqList";
 import { Testimonial } from "./Pages/Testimonials/Testimonial";
-import { NewBannermanager } from "./Pages/BannerManagemnt/NewBannermanager";
+import NewBannermanager from "./Pages/BannerManagemnt/NewBannermanager";
+
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -111,7 +112,7 @@ export default function Router({ socket }) {
               element: <ProductListBySeller />,
             },
             { path: "/Seller/SalesReport/:id", element: <SellerSalesReport /> },
-            { path: "bannermanagment", element: <NewBannermanager /> },
+            { path: "bannermanagment", element: <NewBannermanager/> },
             { path: "image-convert", element: <Imageconverter /> },
             { path: "templete-upload", element: <TempleteUploader /> },
           ],
