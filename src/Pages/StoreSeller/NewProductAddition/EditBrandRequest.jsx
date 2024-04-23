@@ -154,7 +154,7 @@ const EditBrandRequest = () => {
             <Container>
                 <Row>
                     <Col xs={6} className='mt-4'>
-                        <h4>Selling application for New Brand Listing </h4>
+                        <h4>Selling application for Brand Listing </h4>
                     </Col>
                     <Col xs={3}></Col>
                     <Col xs={3} className='mt-4'>
@@ -169,7 +169,7 @@ const EditBrandRequest = () => {
                                 <Row className='mt-2'>
                                     <Col xs={12}>
                                         <Form.Group controlId="title">
-                                            <Form.Label>Brand Title <span className="req mx-1">*</span></Form.Label>
+                                            <Form.Label><span className="req mx-1">*</span>Brand Title</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className='tapG'
@@ -188,7 +188,7 @@ const EditBrandRequest = () => {
                                     <Form.Group controlId="image">
                                         <Col xs={12}>
                                             <Form.Group controlId="title">
-                                                <Form.Label>Brand Image  <span className="req mx-1">*</span>
+                                                <Form.Label><span className="req mx-1">*</span>Brand Image
 
                                                     {modalData?.image?.[0]?.image_path &&
                                                         <a
@@ -219,7 +219,7 @@ const EditBrandRequest = () => {
 
                                     <Form.Group controlId="title">
                                         <Col xs={12}>
-                                            <Form.Label>Brand Origin  <span className="req mx-1">*</span>  </Form.Label>
+                                            <Form.Label><span className="req mx-1">*</span>Brand Origin</Form.Label>
 
                                             <Form.Check
                                                 type="checkbox"
@@ -306,7 +306,8 @@ const EditBrandRequest = () => {
                             <Row className='mt-2 stepContent'>
                                 <Col xs={12}>
                                     <Form.Group controlId="title">
-                                        <Form.Label>Email addresses Best email to contact you for questions</Form.Label>
+                                        <Form.Label><span className="req">*</span> Alternate Email to contact
+                                 you</Form.Label>
                                         <Form.Control
                                             type="email"
                                             className='tapG'
@@ -320,8 +321,9 @@ const EditBrandRequest = () => {
                                 </Col>
 
                                 <Col xs={12}>
-                                    <Form.Group controlId="title">
-                                        <Form.Label>Optional Phone Best number to call you for questions</Form.Label>
+                                    <Form.Group controlId="title" className='mt-2'>
+                                        <Form.Label><span className="req">*</span> Alternate Phone to call you
+                      for query</Form.Label>
                                         <Form.Control
                                             type="phone"
                                             className='tapG'
@@ -342,7 +344,7 @@ const EditBrandRequest = () => {
                             </Row>
                             <Row>
                                 <Col xs={12} className='mt-2 infotext'>
-                                    You are requesting approval to sell  brand items
+                                    You are requesting approval to sell brand items
                                 </Col>
                                 {/* <div className='mt-2'>
                                     <Col xs={6} className='infotext2'>
@@ -371,9 +373,7 @@ const EditBrandRequest = () => {
                                     </Col>
                                 </div> */}
 
-
                             </Row>
-
 
                             <div className='mt-4'>
                                 <Row>
@@ -425,9 +425,9 @@ const EditBrandRequest = () => {
                                         <Form.Group controlId="title">
                                             <Form.Label>Optional Comments</Form.Label>
                                             <Form.Control
-                                                type="phone"
+                                                type="text"
                                                 className='tapG'
-                                                placeholder="Enter Phone..."
+                                                placeholder="Add Comments..."
                                                 name="phone"
                                                 size='sm'
                                                 onChange={(e) => handleOptionInput(e?.target?.value, 'distributer')}
@@ -461,7 +461,7 @@ const EditBrandRequest = () => {
                                                         target="_blank"
                                                     >
 
-                                                        <span className='mx-4'>SHOW FIle</span>
+                                                        <span className='mx-4'>SHOW FILE</span>
                                                     </a>
                                                 }
 
@@ -491,9 +491,9 @@ const EditBrandRequest = () => {
                                         <Form.Group controlId="title">
                                             <Form.Label>Optional Comments</Form.Label>
                                             <Form.Control
-                                                type="phone"
+                                                type="text"
                                                 className='tapG'
-                                                placeholder="Enter Phone..."
+                                                placeholder="Add Comments..."
                                                 name="phone"
                                                 size='sm'
                                                 // value={modalData?.subtitle}
@@ -516,11 +516,10 @@ const EditBrandRequest = () => {
                                 size='sm'
                                 type='submit'
                                 block
-                            >Agress & Update</Button>
+                            >Agree & Update</Button>
                         </Col>
                     </Row>
                 </Form>
-
 
             </Container>
             <Toaster position="top-right" />

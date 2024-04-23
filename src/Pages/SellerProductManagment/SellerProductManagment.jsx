@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { Toaster, toast } from "react-hot-toast";
-import { FaBox, FaEye, FaRegUser } from "react-icons/fa";
+import { FaBox, FaEye, FaInfoCircle, FaRegUser } from "react-icons/fa";
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import {
   AdminSellerProductLists,
@@ -47,6 +47,7 @@ export default function SellerProductManagment() {
     setSellerDetails(data);
     setShowSellerModal(true);
   };
+
   const handleSellerModalClose = () => {
     setShowSellerModal(false);
   };
@@ -61,12 +62,14 @@ export default function SellerProductManagment() {
     setLoading(true);
     await AdminSellerProductLists()
       .then((res) => {
-        // console.log(res?.data?.data, 'own data');
+        console.log(res?.data?.data, 'own data');
         const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
           ...item,
           id: index + 1,
         }));
         setSellerOwnData(dataWithUniqueIds);
+        
+        
         setLoading(false);
       })
       .catch((err) => {
@@ -286,7 +289,12 @@ export default function SellerProductManagment() {
             <Col md="auto">
               <h3>Seller Product List</h3>
             </Col>
+            <Col xs={3}></Col>
+            <Col xs={5} className="">
+              <FaInfoCircle /> Use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right
+            </Col>
           </Row>
+          
           <div className="mt-4">
             <Row className="justify-content-md-center mt-4">
               <Col>

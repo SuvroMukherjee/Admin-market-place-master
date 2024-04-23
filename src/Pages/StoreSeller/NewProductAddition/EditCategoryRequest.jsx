@@ -52,7 +52,7 @@ const EditCategoryRequest = () => {
 
             setTimeout(() => {
                 navigate('/seller/approval-request-list')
-            }, 3000);
+            }, 300);
         }
 
     };
@@ -90,7 +90,7 @@ const EditCategoryRequest = () => {
                 } else {
                     setTimeout(() => {
                         setModalData({ ...modalData, ['img']: { image_path: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -114,11 +114,11 @@ const EditCategoryRequest = () => {
                 if (type == "distributer") {
                     setTimeout(() => {
                         setModalData({ ...modalData, ['seller_doc']: { ...modalData?.seller_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 } else {
                     setTimeout(() => {
                         setModalData({ ...modalData, ['seller_doc']: { ...modalData?.seller_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -336,9 +336,9 @@ const EditCategoryRequest = () => {
                                             <Form.Group controlId="title">
                                                 <Form.Label>Optional Comments</Form.Label>
                                                 <Form.Control
-                                                    type="phone"
+                                                    type="text"
                                                     className='tapG'
-                                                    placeholder="Enter Phone..."
+                                                    placeholder="Add Comments..."
                                                     name="phone"
                                                     size='sm'
                                                     onChange={(e) => handleOptionInput(e?.target?.value, 'distributer')}
@@ -372,7 +372,7 @@ const EditCategoryRequest = () => {
                                                             target="_blank"
                                                         >
 
-                                                            <span className='mx-4'>SHOW FIle</span>
+                                                            <span className='mx-4'>SHOW FILE</span>
                                                         </a>
                                                     }
 
@@ -404,7 +404,7 @@ const EditCategoryRequest = () => {
                                                 <Form.Control
                                                     type="phone"
                                                     className='tapG'
-                                                    placeholder="Enter Phone..."
+                                                    placeholder="Add Comments..."
                                                     name="phone"
                                                     size='sm'
                                                     // value={modalData?.subtitle}
@@ -423,7 +423,8 @@ const EditCategoryRequest = () => {
                             <Row className='mt-2'>
                                 <Col xs={12}>
                                     <Form.Group controlId="title">
-                                        <Form.Label>Email addresses Best email to contact you for questions</Form.Label>
+                                        <Form.Label><span className="req">*</span> Alternate Email to contact
+                                 you</Form.Label>
                                         <Form.Control
                                             type="email"
                                             className='tapG'
@@ -438,7 +439,8 @@ const EditCategoryRequest = () => {
 
                                 <Col xs={12}>
                                     <Form.Group controlId="title">
-                                        <Form.Label>Optional Phone Best number to call you for questions</Form.Label>
+                                        <Form.Label><span className="req">*</span> Alternate Phone to call you
+                      for query</Form.Label>
                                         <Form.Control
                                             type="phone"
                                             className='tapG'
@@ -464,7 +466,7 @@ const EditCategoryRequest = () => {
                                 size='sm'
                                 type='submit'
                                 block
-                            >Agress & Update</Button>
+                            >Agree & Update</Button>
                         </Col>
                     </Row>
                 </Form>

@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import { AddBrand, AddProductCategory, FileUpload } from '../../../API/api';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { AddBrand, FileUpload } from '../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FaList } from "react-icons/fa6";
 import Spinner from 'react-bootstrap/Spinner';
 
 
 const BrandRequest = () => {
-
 
     const [modalData, setModalData] = useState()
     const [brandimgloading, setBrandImgLoading] = useState(false);

@@ -370,7 +370,7 @@ export default function SellerListManage() {
             </Col>
             <Col xs={2}> Total : {data?.length}</Col>
             <Col>
-              <FaInfoCircle /> Use `shift+scroll` to scroll left-right if
+              <FaInfoCircle /> Use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right if
               needed.
             </Col>
           </Row>
