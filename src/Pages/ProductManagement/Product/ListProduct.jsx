@@ -527,9 +527,9 @@ export default function ListProduct() {
                                                             <Button variant="success" size="sm" onClick={() => handleStatus(row)}>
                                                                 Active
                                                             </Button>}
-                                                        {/* <Button variant="outline-danger" size="sm">
+                                                        <Button variant="outline-danger" size="sm">
                                                             Delete
-                                                        </Button> */}
+                                                        </Button>
                                                     </div>
                                                 </td>
                                             </tr>

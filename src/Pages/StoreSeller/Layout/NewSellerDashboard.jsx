@@ -123,7 +123,7 @@ const NewSellerDashboard = () => {
               />
               <NumberBox
                 label={"Total Sales"}
-                number={reportData?.totalsell.toFixed(2)}
+                number={reportData?.totalsell?.toFixed(2)}
               />
               {/* return order to be implemented */}
               {/* <NumberBox label={"Returned Orders"} number={0} /> */}
@@ -133,7 +133,7 @@ const NewSellerDashboard = () => {
               />
               <NumberBox
                 label={"Total Profit"}
-                number={reportData?.totalProfit.toFixed(2)}
+                number={reportData?.totalProfit?.toFixed(2)}
               />
             </div>
           )}

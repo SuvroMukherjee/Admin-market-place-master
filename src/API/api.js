@@ -1541,6 +1541,19 @@ export async function DeleteVideoType(id) {
   }
 }
 
+
+
+export async function VideoByTypeList(id) {
+  try {
+    const response = await axios.get(apiUrl + `/video/list-by-typeId/${id}`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function UpdateVideoData(id, payload) {
   try {
     const response = await axios.patch(apiUrl + `/video/update/${id}`, payload, {
