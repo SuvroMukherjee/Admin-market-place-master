@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row,
+  Table,
+} from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { Toaster } from "react-hot-toast";
 import { IoIosEye } from "react-icons/io";
@@ -43,24 +51,18 @@ export default function SellerReport() {
       });
   }
 
-  // async function countProductBySellerApiCall(sellerID) {
-  //   const res = await SellerProductList(sellerID);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  //   return await res?.data?.data?.SellerProductData?.length;
-  // }
-
-  // function countProductBySeller(sellerID) {
-  //   if (!sellerID) return 0;
-
-  //   countProductBySellerApiCall(sellerID).then((res) => {
-  //     return res;
-  //   });
-
-  //   return 0;
-  //   // const res = await SellerProductList(sellerID);
-
-  //   // return await res?.data?.data?.SellerProductData?.length;
-  // }
+  let filteredList = [...data];
+  if (searchTerm.length > 0) {
+    filteredList = data.filter(
+      (item) =>
+        item?.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item?.Shop_Details_Info?.shope_name
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase())
+    );
+  }
 
   return (
     <>
@@ -85,7 +87,27 @@ export default function SellerReport() {
         </Container>
         <Container>
           <Row className="justify-content-md-center mt-4">
-            <Col>
+            <InputGroup size="sm" className="mb-3">
+              <InputGroup.Text id="inputGroup-sizing-sm">
+                Search
+              </InputGroup.Text>
+              <Form.Control
+                aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Search by Seller Name"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </InputGroup>
+          </Row>
+          <Row className="justify-content-md-center mt-4">
+            <Col
+              style={{
+                overflowY: "scroll",
+                maxHeight: "600px",
+                border: "1px solid #ccc",
+              }}
+            >
               <Table bordered hover responsive>
                 <thead>
                   <tr>
@@ -97,12 +119,11 @@ export default function SellerReport() {
                     <th>Selling Products</th>
                     <th>Selling Report</th>
                     <th>Seller Details</th>
-                    <th>View Selling</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.length > 0 &&
-                    data.map((row) => {
+                  {filteredList.length > 0 &&
+                    filteredList.map((row) => {
                       return (
                         <tr key={row?.id}>
                           <td>{row?.id}</td>
@@ -163,17 +184,10 @@ export default function SellerReport() {
                               <IoIosEye />
                             </Button>
                           </td>
-                          <td
-                            onClick={() =>
-                              navigate(`/Seller/SalesReport/${row?._id}`)
-                            }
-                          >
-                            view sellings
-                          </td>
                         </tr>
                       );
                     })}
-                  {data.length === 0 && (
+                  {filteredList.length === 0 && (
                     <tr>
                       <td colSpan="12" style={{ textAlign: "center" }}>
                         No Data Found

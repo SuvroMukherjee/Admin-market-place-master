@@ -80,15 +80,16 @@ import TempleteUploader from "./Pages/ProductManagement/ImageConverter/TempleteU
 import SubCategoryRequest from "./Pages/StoreSeller/NewProductAddition/SubCategoryRequest";
 import SubCatReqList from "./Pages/ProductManagement/SubCategory/SubCatReqList";
 import NewBannermanager from "./Pages/BannerManagemnt/NewBannermanager";
+import { Testimonial } from "./Pages/Testimonials/Testimonial";
 
-export default function Router({socket}) {
+export default function Router({ socket }) {
   const { auth } = useAuth();
 
   // For authenticated routes
   const authenticatedRoutes = [
     {
       path: "/",
-      element: <AdminLayout socket={socket}/>,
+      element: <AdminLayout socket={socket} />,
       children: [
         {
           path: "/",
@@ -102,7 +103,7 @@ export default function Router({socket}) {
             { path: "SellerManagment", element: <SellerListManage /> },
             {
               path: "SellerProductManagment",
-              element: <SellerProductManagment />
+              element: <SellerProductManagment />,
             },
             { path: "SellerReport", element: <SellerReport /> },
             { path: "SellerDetails/:id", element: <SellerDetails /> },
@@ -125,7 +126,7 @@ export default function Router({socket}) {
             { path: "category-commission", element: <CategoryComissions /> },
             { path: "AddCategory", element: <AddCategory /> },
             { path: "subcategory", element: <ListSubCategory /> },
-            { path: "subcategory-request", element: <SubCatReqList/> },
+            { path: "subcategory-request", element: <SubCatReqList /> },
             { path: "Addsubcategory", element: <AddSubCategory /> },
             { path: "brand", element: <ListBrand /> },
             { path: "brand-request", element: <BrandReqList /> },
@@ -134,6 +135,7 @@ export default function Router({socket}) {
             { path: "Addproduct", element: <AddProduct /> },
             { path: "Editproduct/:id", element: <EditProduct /> },
             { path: "product-offer", element: <ProductOffer /> },
+            { path: "testimonial", element: <Testimonial /> },
             { path: "offer/:id", element: <Offer /> },
           ],
         },
@@ -199,7 +201,7 @@ export default function Router({socket}) {
               path: "category-request-edit/:id",
               element: <EditCategoryRequest />,
             },
-        { path: "subcategory-request", element: <SubCategoryRequest/> },
+            { path: "subcategory-request", element: <SubCategoryRequest /> },
 
             { path: "brand-request-edit/:id", element: <EditBrandRequest /> },
             {
@@ -211,7 +213,7 @@ export default function Router({socket}) {
             { path: "seller-editownproduct/:id", element: <EditOwnProduct /> },
             { path: "seller-addproduct", element: <NewAddProduct /> },
             { path: "seller-productList", element: <SellerInventory /> },
-            { path: "notification", element: <SellerNotification />},
+            { path: "notification", element: <SellerNotification /> },
             { path: "product-deatils/:id", element: <SellerProductDetails /> },
             { path: "seller-orderlist", element: <OrderList /> },
             {

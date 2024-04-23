@@ -70,9 +70,9 @@ const NewSellerDashboard = () => {
       <Card style={{ width: "12rem" }} className="shadowbox">
         <Card.Body>
           <p className="dtext">{label?.toUpperCase()}</p>
-          {label != "Customer Feedback" && (
+          {/* {label != "Customer Feedback" && (
             <h6 className="dtextNumber">{number}</h6>
-          )}
+          )} */}
           {label == "Customer Feedback" &&
             (number != 0 ? (
               <StarRating value={number} />
@@ -85,6 +85,12 @@ const NewSellerDashboard = () => {
                 <FaRegStar color="#FF9843" />
               </>
             ))}
+          {label == "Total Sales" && <p className="dtextNumber">₹ {number}</p>}
+          {label == "Total Profit" && <p className="dtextNumber">₹ {number}</p>}
+          {label == "Total Orders" && <p className="dtextNumber">{number}</p>}
+          {label == "Selling Products" && (
+            <p className="dtextNumber">{number}</p>
+          )}
         </Card.Body>
       </Card>
     );
