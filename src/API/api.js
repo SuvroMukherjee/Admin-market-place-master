@@ -1541,11 +1541,9 @@ export async function DeleteVideoType(id) {
   }
 }
 
-///video/update
-
-export async function UpdateVideoData(id,payload) {
+export async function UpdateVideoData(id, payload) {
   try {
-    const response = await axios.patch(apiUrl + `/video/update/${id}`, payload,{
+    const response = await axios.patch(apiUrl + `/video/update/${id}`, payload, {
       headers: setAuthHeader(),
     });
     return response;

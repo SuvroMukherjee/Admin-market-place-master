@@ -4,12 +4,14 @@ import { AddBrand, AddProductCategory, FileUpload } from '../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { FaList } from "react-icons/fa6";
+import Spinner from 'react-bootstrap/Spinner';
+
 
 const BrandRequest = () => {
 
 
     const [modalData, setModalData] = useState()
-
+    const [brandimgloading, setBrandImgLoading] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
 
     const handleOptionChange = (event) => {
@@ -60,21 +62,22 @@ const BrandRequest = () => {
         onFileUpload(e.target.files[0], type)
     };
 
-
     const onFileUpload = async (data, type) => {
+        setBrandImgLoading(true)
         const formData = new FormData();
         formData.append("file", data);
         await FileUpload(formData)
             .then((res) => {
                 console.log(res, "res");
                 if (type == "1") {
+              setBrandImgLoading(false)
                     setTimeout(() => {
                         setModalData({ ...modalData, ['image']: { image_path: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 } else {
                     setTimeout(() => {
                         setModalData({ ...modalData, ['img']: { image_path: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -100,11 +103,11 @@ const BrandRequest = () => {
                 if (type == "distributer") {
                     setTimeout(() => {
                         setModalData({ ...modalData, ['dis_doc']: { ...modalData?.dis_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 } else {
                     setTimeout(() => {
                         setModalData({ ...modalData, ['manu_doc']: { ...modalData?.manu_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -119,8 +122,7 @@ const BrandRequest = () => {
             setModalData({ ...modalData, ['dis_doc']: { ...modalData?.dis_doc, comment: value } });
         }else{
             setModalData({ ...modalData, ['manu_doc']: { ...modalData?.manu_doc, comment: value } });
-        }
-        
+        } 
     }
 
 
@@ -152,7 +154,7 @@ const BrandRequest = () => {
                                 <Row className='mt-2'>
                                     <Col xs={12}>
                                         <Form.Group controlId="title">
-                                            <Form.Label>Brand Title <span className="req mx-1">*</span></Form.Label>
+                                            <Form.Label><span className="req mx-1">*</span>Brand Title</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className='tapG'
@@ -171,16 +173,24 @@ const BrandRequest = () => {
                                     <Form.Group controlId="image">
                                         <Col xs={12}>
                                             <Form.Group controlId="title">
-                                                <Form.Label>Brand Image  <span className="req mx-1">*</span>
+                                                <Form.Label><span className="req mx-1">*</span>Brand Image
 
-                                                    {modalData?.image?.image_path &&
-                                                        <a
+                                                    {modalData?.image?.image_path ?
+                                                        (<a
                                                             href={modalData?.image?.image_path}
                                                             target="_blank"
                                                         >
 
                                                             <span className='mx-4'>SHOW IMAGE</span>
-                                                        </a>
+                                                        </a>)
+                                                        :
+                                                        <>
+                                                        {brandimgloading &&
+                                                          <Spinner className='ms-2' animation="border" size="sm" role="status">
+                                                          <span className="visually-hidden">Loading...</span>
+                                                      </Spinner>
+                                                        }
+                                                        </>
                                                     }
                                                 </Form.Label>
                                                 <Form.Control
@@ -202,14 +212,14 @@ const BrandRequest = () => {
 
                                     <Form.Group controlId="title">
                                         <Col xs={12}>
-                                            <Form.Label>Brand Origin  <span className="req mx-1">*</span>  </Form.Label>
+                                            <Form.Label><span className="req mx-1">*</span>Brand Origin  </Form.Label>
 
                                             <Form.Check
                                                 type="checkbox"
                                                 id="indianBrandCheckbox"
                                                 name="brand_origin"
                                                 label="Is It Indian Brand?"
-                                                
+                                                required
                                                 checked={isChecked}
                                                 onChange={handleCheckboxChange}
                                             />
@@ -289,7 +299,7 @@ const BrandRequest = () => {
                             <Row className='mt-2 stepContent'>
                                 <Col xs={12}>
                                     <Form.Group controlId="title">
-                                        <Form.Label>Email addresses Best email to contact you for questions</Form.Label>
+                                        <Form.Label><span className="req">*</span> Alternate Email to contact you</Form.Label>
                                         <Form.Control
                                             type="email"
                                             className='tapG'
@@ -298,19 +308,21 @@ const BrandRequest = () => {
                                             size='sm'
                                             // value={modalData?.subtitle}
                                             onChange={handleInputChange}
+                                            required
                                         />
                                     </Form.Group>
                                 </Col>
 
                                 <Col xs={12}>
                                     <Form.Group controlId="title">
-                                        <Form.Label>Optional Phone Best number to call you for questions</Form.Label>
+                                        <Form.Label><span className="req">*</span> Alternate Phone to call you for query</Form.Label>
                                         <Form.Control
                                             type="phone"
                                             className='tapG'
                                             placeholder="Enter Phone..."
                                             name="phone_no"
                                             size='sm'
+                                            required
                                             // value={modalData?.subtitle}
                                             onChange={handleInputChange}
                                         />
@@ -379,7 +391,7 @@ const BrandRequest = () => {
                                                             target="_blank"
                                                         >
 
-                                                            <span className='mx-4'>SHOW FILE</span>
+                                                            <span className='mx-4 fw-bold'>SHOW FILE</span>
                                                         </a>
                                                     }
 
@@ -393,6 +405,7 @@ const BrandRequest = () => {
                                                     id="fileInput"
                                                     style={{ display: 'none' }}
                                                     onChange={(e) => handleFileChange2(e, 'distributer')}
+                                                    required
                                                 />
                                                 <label htmlFor="fileInput">
                                                     <Button variant="secondary" className='w-100' size='sm' as="span">
@@ -410,7 +423,7 @@ const BrandRequest = () => {
                                                 <Form.Control
                                                     type="phone"
                                                     className='tapG'
-                                                    placeholder="Enter Phone..."
+                                                    placeholder="Add Comments..."
                                                     name="phone"
                                                     size='sm'
                                                     onChange={(e) => handleOptionInput(e?.target?.value, 'distributer')}
@@ -444,7 +457,7 @@ const BrandRequest = () => {
                                                             target="_blank"
                                                         >
 
-                                                            <span className='mx-4'>SHOW FIle</span>
+                                                            <span className='mx-4 fw-bold'>SHOW FILE</span>
                                                         </a>
                                                     }
 
@@ -458,6 +471,7 @@ const BrandRequest = () => {
                                                     id="fileInput2"
                                                     style={{ display: 'none' }}
                                                     onChange={(e) => handleFileChange2(e, 'manufracturer')}
+                                                    required
                                                 />
                                                 <label htmlFor="fileInput2">
                                                     <Button variant="secondary" className='w-100' size='sm' as="span">
@@ -476,7 +490,7 @@ const BrandRequest = () => {
                                                 <Form.Control
                                                     type="phone"
                                                     className='tapG'
-                                                    placeholder="Enter Phone..."
+                                                    placeholder="Add Comments..."
                                                     name="phone"
                                                     size='sm'
                                                     // value={modalData?.subtitle}
@@ -536,7 +550,7 @@ const BrandRequest = () => {
                                 size='sm'
                                 type='submit'
                                 block
-                            >Agress & Submit</Button>
+                            >Agree & Submit</Button> 
                         </Col>
                     </Row>
                 </Form>

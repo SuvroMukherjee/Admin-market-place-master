@@ -78,8 +78,8 @@ import SellerForgotPassword from "./Login/SellerForgotPassword";
 import TempleteUploader from "./Pages/ProductManagement/ImageConverter/TempleteUploader";
 import SubCategoryRequest from "./Pages/StoreSeller/NewProductAddition/SubCategoryRequest";
 import SubCatReqList from "./Pages/ProductManagement/SubCategory/SubCatReqList";
-import NewBannermanager from "./Pages/BannerManagemnt/NewBannermanager";
 import { Testimonial } from "./Pages/Testimonials/Testimonial";
+import { NewBannermanager } from "./Pages/BannerManagemnt/NewBannermanager";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();

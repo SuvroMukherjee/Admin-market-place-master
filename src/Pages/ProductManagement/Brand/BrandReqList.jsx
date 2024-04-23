@@ -17,7 +17,6 @@ export default function BrandReqList() {
         getCatsList();
     }, [])
 
-
     const getCatsList = async () => {
 
         let res = await allBrandreqList();
@@ -28,7 +27,6 @@ export default function BrandReqList() {
     }
 
     const navigate = useNavigate()
-
 
     const handleUpdateFunction = async (data) => {
 
@@ -46,7 +44,6 @@ export default function BrandReqList() {
 
     }
 
-
     return (
 
         <>
@@ -61,7 +58,7 @@ export default function BrandReqList() {
                     </Row>
                 </div>}
             <div className="productList mt-2 p-4">
-                <div className='text-center'><h4>Category Request Lists</h4></div>
+                <div className='text-center'><h4>Brand Request Lists</h4></div>
                 <Container className='mt-4'>
                     <Row>
                         <Col xs={12}>Total Data : {BrandApplicqation?.length}</Col>
@@ -82,7 +79,7 @@ export default function BrandReqList() {
 
                                     {BrandApplicqation?.length > 0 && BrandApplicqation?.map((ele) => (
                                         <tr>
-                                            <td>{ele?.user?.shope_name} <br /> <span className='viewSeller' onClick={() => navigate(`/SellerDetails/${ele?.user?._id}`)}>view
+                                            <td>{ele?.user?.user_name} <br /> <span className='viewSeller' onClick={() => navigate(`/SellerDetails/${ele?.user?._id}`)}>view
                                                 <FaLongArrowAltRight /> </span></td>
                                             <td>{ele?.title}<br />
                                                 <a

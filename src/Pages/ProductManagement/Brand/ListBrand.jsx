@@ -171,7 +171,7 @@ export default function ListSubCategory() {
                         </Col>
                         <Col className="d-flex justify-content-end p-2">
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/brand-request')}>
-                                <FaCodePullRequest /> Brand Request
+                                <FaCodePullRequest /> Requested Brand
                             </Button>
                         </Col>
                     </Row>
