@@ -8,7 +8,6 @@ const EditSubCategory = ({ showModal, handleClose, data }) => {
     const [categorylist, setCategorylist] = useState([]);
 
 
-
     useEffect(() => {
         setModalData(data);
         getCategoryList();

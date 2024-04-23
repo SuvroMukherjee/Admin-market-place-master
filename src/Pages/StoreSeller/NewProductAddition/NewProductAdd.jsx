@@ -172,7 +172,7 @@ const NewProductAdd = () => {
                                             <Form.Label ><span className="req mx-1">*</span>Product Front Image </Form.Label>
                                         </Col>
                                         <Col xs={6}>
-                                            <span className='specTextsmall'> 
+                                            <span className='specTextsmall ms-2'> 
                                                 {formData?.image?.length || 0} images Uploaded
                                             </span> 
                                             <Form.Control type="file" onChange={handleImageInputChange} multiple accept="image/jpeg, image/png, image/gif" />
@@ -208,11 +208,15 @@ const NewProductAdd = () => {
                                         </Form.Group>
 
                                     </Col>
+                                    <Row className='mt-1'>
+                            <Col xs={3}></Col>
+                            <Col xs={6} className='text-end reqText' onClick={() => navigate('/seller/category-request/')}>Request for New Category?</Col>
+                              </Row>
                                     <Col xs={12} className='mt-2'>
                                         <Form.Group controlId="email">
                                             <Row>
                                                 <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                                    <Form.Label ><span className="req">*</span> subcategory  </Form.Label>
+                                                    <Form.Label ><span className="req">*</span> Subcategory  </Form.Label>
                                                 </Col>
                                                 <Col xs={6}>
                                                     <Form.Control as="select" name="subcategoryId" size='sm' value={formData?.subcategoryId} onChange={handleChange} >
@@ -230,10 +234,9 @@ const NewProductAdd = () => {
                                 </Row>
                             </Col>
                         </Row>
-
-                        <Row className='mt-2'>
+                        <Row className='mt-1'>
                             <Col xs={3}></Col>
-                            <Col xs={6} className='text-end reqText' onClick={() => navigate('/seller/category-request/')}>Request for New Category?</Col>
+                            <Col xs={6} className='text-end reqText' onClick={() => navigate('/seller/subcategory-request/')}>Request for New Sub Category?</Col>
                         </Row>
 
 
@@ -242,7 +245,7 @@ const NewProductAdd = () => {
                                 <Form.Group controlId="email">
                                     <Row>
                                         <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                            <Form.Label ><span className="req mx-1">*</span> Brand </Form.Label>
+                                            <Form.Label ><span className="req mx-1">*</span>Brand </Form.Label>
                                         </Col>
                                         <Col xs={6}>
                                             <Form.Control as="select" name="brandId" size='sm' value={formData?.brandId} onChange={handleChange} >
@@ -260,7 +263,7 @@ const NewProductAdd = () => {
                         </Row>
 
 
-                        <Row className='mt-2'>
+                        <Row className='mt-1'>
                             <Col xs={3}></Col>
                             <Col xs={6} className='text-end reqText' onClick={() => navigate('/seller/brand-request/')}>Request for New Brand Listing?</Col>
                         </Row>

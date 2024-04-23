@@ -133,7 +133,8 @@ const NewSellerDashboard = () => {
               />
               <NumberBox
                 label={"Total Profit"}
-                number={reportData?.totalProfit.toFixed(2)}
+                // number={reportData?.totalProfit.toFixed(2)}
+                number={reportData?.totalProfit}
               />
             </div>
           )}

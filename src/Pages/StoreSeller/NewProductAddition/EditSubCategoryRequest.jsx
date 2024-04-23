@@ -56,11 +56,11 @@ const EditSubCategoryRequest = () => {
             toast.error(res?.response?.data?.message)
         } else {
 
-            toast.success('Subcategory Request update Successfully')
+            toast.success('Subcategory Request Updated Successfully')
 
             setTimeout(() => {
                 navigate('/seller/approval-request-list')
-            }, 3000);
+            }, 300);
         }
 
     };
@@ -101,7 +101,7 @@ const EditSubCategoryRequest = () => {
                             ...prevData,
                             image: [{ image_path: res?.data?.data?.fileurl }],
                         }));
-                    }, 3000);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -125,11 +125,11 @@ const EditSubCategoryRequest = () => {
                 if (type == "distributer") {
                     setTimeout(() => {
                         setModalData({ ...modalData, ['seller_doc']: { ...modalData?.seller_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 } else {
                     setTimeout(() => {
                         setModalData({ ...modalData, ['seller_doc']: { ...modalData?.seller_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 3000);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -150,7 +150,7 @@ const EditSubCategoryRequest = () => {
             <Container>
                 <Row>
                     <Col xs={4} className='mt-4'>
-                        <h4>Selling application for Category </h4>
+                        <h4>Selling application for Sub Category </h4>
                     </Col>
                     <Col xs={5}></Col>
                     <Col xs={3} className='mt-4'>
@@ -165,7 +165,7 @@ const EditSubCategoryRequest = () => {
                                 <Row className='mt-2'>
                                     <Col xs={12}>
                                         <Form.Group controlId="title">
-                                            <Form.Label>Category Title <span className="req mx-1">*</span></Form.Label>
+                                            <Form.Label><span className="req">*</span> Category Title </Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className='tapG'
@@ -185,7 +185,7 @@ const EditSubCategoryRequest = () => {
                                     <Form.Group controlId="image">
                                         <Col xs={12}>
                                             <Form.Group controlId="title">
-                                                <Form.Label>Category Image  <span className="req mx-1">*</span>
+                                                <Form.Label><span className="req">*</span> Category Image  
 
                                                     {modalData?.image?.[0]?.image_path &&
                                                         <a
@@ -211,11 +211,10 @@ const EditSubCategoryRequest = () => {
                                         </Col>
                                     </Form.Group>
                                 </Row>
-
                                 <Row className='mt-2'>
                                     <Col xs={12}>
                                         <Form.Group controlId="title">
-                                            <Form.Label>Add Subcategory Title for your New Category</Form.Label>
+                                            <Form.Label><span className="req">*</span> Subcategory Title for your Category</Form.Label>
                                             <Form.Control
                                                 type="text"
                                                 className='tapG'
@@ -233,14 +232,13 @@ const EditSubCategoryRequest = () => {
                                     <Form.Group controlId="image">
                                         <Col xs={12}>
                                             <Form.Group controlId="title">
-                                                <Form.Label>SubCategory Image
+                                                <Form.Label><span className="req">*</span> Subcategory Image
 
                                                     {formData?.image?.[0]?.image_path &&
                                                         <a
                                                             href={formData?.image?.[0]?.image_path}
                                                             target="_blank"
                                                         >
-
                                                             <span className='mx-4'>SHOW IMAGE</span>
                                                         </a>
                                                     }
@@ -267,7 +265,8 @@ const EditSubCategoryRequest = () => {
                             </Row>
                             <Row>
                                 <Col xs={12} className='mt-2 infotext'>
-                                    Are you a reseller/distributor or a manufacturer for the products you want to list?
+                                <span className="req">*</span> Are you a reseller/distributor
+                  or a manufacturer of your products?
                                 </Col>
                                 <div className='mt-2'>
                                     <Col xs={6} className='infotext2'>
@@ -352,7 +351,7 @@ const EditSubCategoryRequest = () => {
                                                 <Form.Control
                                                     type="phone"
                                                     className='tapG'
-                                                    placeholder="Enter Phone..."
+                                                    placeholder="Add Comments..."
                                                     name="phone"
                                                     size='sm'
                                                     onChange={(e) => handleOptionInput(e?.target?.value, 'distributer')}
@@ -386,7 +385,7 @@ const EditSubCategoryRequest = () => {
                                                             target="_blank"
                                                         >
 
-                                                            <span className='mx-4'>SHOW FIle</span>
+                                                            <span className='mx-4'>SHOW FILE</span>
                                                         </a>
                                                     }
 
@@ -418,7 +417,7 @@ const EditSubCategoryRequest = () => {
                                                 <Form.Control
                                                     type="phone"
                                                     className='tapG'
-                                                    placeholder="Enter Phone..."
+                                                    placeholder="Add Comments..."
                                                     name="phone"
                                                     size='sm'
                                                     // value={modalData?.subtitle}
@@ -437,7 +436,8 @@ const EditSubCategoryRequest = () => {
                             <Row className='mt-2'>
                                 <Col xs={12}>
                                     <Form.Group controlId="title">
-                                        <Form.Label>Email addresses Best email to contact you for questions</Form.Label>
+                                        <Form.Label><span className="req">*</span> Alternate Email to contact
+                                 you</Form.Label>
                                         <Form.Control
                                             type="email"
                                             className='tapG'
@@ -452,7 +452,8 @@ const EditSubCategoryRequest = () => {
 
                                 <Col xs={12}>
                                     <Form.Group controlId="title">
-                                        <Form.Label>Optional Phone Best number to call you for questions</Form.Label>
+                                        <Form.Label><span className="req">*</span> Alternate Phone to call you
+                      for query</Form.Label>
                                         <Form.Control
                                             type="phone"
                                             className='tapG'
@@ -478,7 +479,7 @@ const EditSubCategoryRequest = () => {
                                 size='sm'
                                 type='submit'
                                 block
-                            >Agress & Update</Button>
+                            >Agree & Update</Button>
                         </Col>
                     </Row>
                 </Form>
