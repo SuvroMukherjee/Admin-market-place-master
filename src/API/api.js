@@ -1540,16 +1540,3 @@ export async function DeleteVideoType(id) {
     return error;
   }
 }
-
-///video/update
-
-export async function DeleteVideoType(id) {
-  try {
-    const response = await axios.delete(apiUrl + `/video-type/delete/${id}`, {
-      headers: setAuthHeader(),
-    });
-    return response;
-  } catch (error) {
-    return error;
-  }
-}
