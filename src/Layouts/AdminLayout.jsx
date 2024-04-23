@@ -19,6 +19,8 @@ const AdminLayout = ({ socket }) => {
     let res = await getAdminNotification();
     console.log(res?.data?.data, "notice");
     setNotifications(res?.data?.data);
+    console.log(notifications);
+    
   }
 
   const { adminNotification } = useContext(notificationContext);

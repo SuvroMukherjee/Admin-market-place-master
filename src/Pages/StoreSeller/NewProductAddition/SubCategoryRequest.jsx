@@ -3,6 +3,7 @@ import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import { AddProductSubCategory, FileUpload, allCategoryList } from '../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { FaList } from "react-icons/fa6";
+import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate } from 'react-router-dom';
 
 const SubCategoryRequest = () => {
@@ -13,6 +14,7 @@ const SubCategoryRequest = () => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [subloading, setSubLoading] = useState(false);
     
     useEffect(() => {
         getCategoryList();
@@ -46,14 +48,16 @@ const SubCategoryRequest = () => {
     };
 
     const onFileUpload = async (data) => {
+        setSubLoading(true)
         const formDataVal = new FormData();
         formDataVal.append("file", data);
         await FileUpload(formDataVal)
-            .then((res) => {
+        .then((res) => {
+                setSubLoading(false)
                 console.log(res, "res");
                     setTimeout(() => {
                         setFormData({ ...formData, ['image']: { image_path: res?.data?.data?.fileurl } });
-                    }, 800);
+                    }, 300);
             })
             .catch((err) => {
                 console.log(err, "err");
@@ -74,11 +78,11 @@ const SubCategoryRequest = () => {
                 if (type === "distributer") {
                     setTimeout(() => {
                         setFormData({ ...formData, ['seller_doc']: { ...formData?.seller_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 900);
+                    }, 300);
                 } else {
                     setTimeout(() => {
                         setFormData({ ...formData, ['seller_doc']: { ...formData?.seller_doc, doc: type, doc_file: res?.data?.data?.fileurl } });
-                    }, 900);
+                    }, 300);
                 }
             })
             .catch((err) => {
@@ -177,13 +181,20 @@ const SubCategoryRequest = () => {
                                             <Col xs={12}>
                                                 <Form.Group controlId="title">
                                                     <Form.Label><span className="req">*</span> SubCategory Image
-                                                        {formData?.image?.image_path &&
-                                                            <a
+                                                        {formData?.image?.image_path ? 
+                                                            (<a
                                                                 href={formData?.image?.image_path}
                                                                 target="_blank"
                                                             >
                                                                 <span className='mx-4'>SHOW IMAGE</span>
-                                                            </a>
+                                                            </a>) 
+                                                            :                                                          
+                                                            <> 
+                                                            {subloading &&
+                                                                <Spinner className='ms-2' animation="border" size="sm" role="status">
+                                                                <span className="visually-hidden">Loading...</span>
+                                                            </Spinner>}
+                                                            </> 
                                                         }
                                                     </Form.Label>
                                                     <Form.Control
@@ -208,7 +219,7 @@ const SubCategoryRequest = () => {
                             </Row>
                             <Row>
                                 <Col xs={12} className='mt-2 infotext'>
-                                    Are you a reseller/distributor or a manufacturer for the products you want to list?
+                                <span className="req">*</span> Are you a reseller/distributor or a manufacturer of your products?
                                 </Col>
                                 <div className='mt-2'>
                                     <Col xs={6} className='infotext2'>
@@ -216,6 +227,7 @@ const SubCategoryRequest = () => {
                                             <Form.Check
                                                 type='radio'
                                                 id='reseller'
+                                                name='sellertype'
                                                 label='Reseller/Distributor'
                                                 value='distributer'
                                                 checked={selectedOption === 'distributer'}
@@ -229,6 +241,7 @@ const SubCategoryRequest = () => {
                                             <Form.Check
                                                 type='radio'
                                                 id='manufacturer'
+                                                name='sellertype'
                                                 label='Manufacturer'
                                                 value='manufracturer'
                                                 checked={selectedOption === 'manufracturer'}
@@ -263,7 +276,7 @@ const SubCategoryRequest = () => {
                                                             href={formData?.seller_doc?.doc_file}
                                                             target="_blank"
                                                         >
-                                                            <span className='mx-4'>SHOW FILE</span>
+                                                            <span className='mx-4 fw-bold'>SHOW FILE</span>
                                                         </a>
                                                     }
 
@@ -327,7 +340,7 @@ const SubCategoryRequest = () => {
                                                             href={formData?.seller_doc?.doc_file}
                                                             target="_blank"
                                                         >
-                                                            <span className='mx-4'>SHOW FIle</span>
+                                                            <span className='mx-4 fw-bold'>SHOW FILE</span>
                                                         </a>
                                                     }
                                                 </span>
