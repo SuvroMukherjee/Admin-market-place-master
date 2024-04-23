@@ -6,7 +6,6 @@ import FrontPage from "./Layouts/FrontPage/FrontPage";
 import LoginPage from "./Login/LoginPage";
 import SellerLoginPage from "./Login/SellerLoginPage";
 import AddUser from "./Pages/AddUser/AddUser";
-import BannerManagment from "./Pages/BannerManagemnt/BannerManagment";
 import Home from "./Pages/Home/Home";
 import AttendenceComp from "./Pages/KeyManager/Dashboard/AttendenceComp";
 import Dashboard from "./Pages/KeyManager/Dashboard/Dashboard";

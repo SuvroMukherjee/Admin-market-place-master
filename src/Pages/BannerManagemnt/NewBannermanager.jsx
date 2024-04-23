@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Row, Form, ListGroup, Image } from 'react-bootstrap';
-import { bannerTypesdata, creteBannerTypeNew, DeleteVideoType, FileUpload } from '../../API/api';
+import { bannerTypesdata, creteBannerTypeNew, DeleteVideoType, FileUpload, UpdateVideoData } from '../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
 import { BannerImagesLists, DeleteBanner, bannerTypeList, createBannerImages, creteBannerType, updateBannerImages } from '../../API/api';
 import { useRef } from 'react';
@@ -57,7 +57,7 @@ const NewBannermanager = () => {
         setVideoLink(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
         // Process the uploaded thumbnail and video link here
         console.log('Thumbnail:', thumbnail);
@@ -66,6 +66,15 @@ const NewBannermanager = () => {
         let payload = {
             image: thumbnail,
             video_link: videoLink
+        }
+
+
+        let res = await UpdateVideoData(selectedType?._id,payload);
+
+        if(res?.response?.data?.error){
+          toast.error("Something went wrong")
+        }else{
+            toast.success("Banner Added Successfully")
         }
 
 
