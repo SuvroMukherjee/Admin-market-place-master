@@ -831,6 +831,7 @@ const ProductSpecificationForm = ({
     } else {
       toast.success("Spec delete successfully");
       setCopyFrom(0);
+      handleReset();
       handleCloseModal();
     }
   };
