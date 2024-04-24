@@ -497,7 +497,10 @@ export default function ListProduct() {
                                 setSeledtedProductId(row);
                               }}
                             >
-                              <FaCirclePlus /> Variants
+                              <span>
+                                <FaCirclePlus />
+                              </span>{" "}
+                              <span>Variants</span>
                             </Button>
                             <Button
                               variant="success"
@@ -548,7 +551,7 @@ export default function ListProduct() {
           <Toaster position="top-right" />
         </Container>
         <Container>
-          <Modal show={showModal2} size="md" onHide={handleCloseModal2}>
+          <Modal show={showModal2} size="xl" onHide={handleCloseModal2}>
             <Modal.Body>
               <Row className="d-flex justify-content-md-center gap-4">
                 {variantsArray?.length > 0 &&
@@ -557,7 +560,7 @@ export default function ListProduct() {
                       key={index}
                       className="d-flex justify-content-md-center"
                     >
-                      <Card style={{ width: "10rem" }}>
+                      <Card style={{ width: "18rem" }}>
                         {!ele?.is_approved && ele?.created_type != "admins" && (
                           <p className="newrq">
                             <span>
@@ -577,10 +580,10 @@ export default function ListProduct() {
                         <Card.Body>
                           <Row>
                             {ele?.spec_det?.length > 0 &&
-                              ele?.spec_det?.map((ele, index) => (
-                                <Col key={index} className="p-desc">
-                                  {ele?.title} : {ele?.value}
-                                </Col>
+                              ele?.spec_det?.slice(0, 5).map((ele, index) => (
+                                <div key={index} className="p-desc">
+                                  <strong>{ele?.title} :</strong> {ele?.value}
+                                </div>
                               ))}
                           </Row>
                           <Row className="mt-2">
@@ -948,7 +951,7 @@ const ProductSpecificationForm = ({
                     <Row>
                       <Col>
                         <span style={{ fontSize: "16px" }}>
-                          <strong>Specification Title:</strong>
+                          <strong>Variant Title:</strong>
                           {" ( "}
                           {ele?.spec_det?.length > 0 &&
                             ele?.spec_det?.slice(0, 3).map((ele, index) => (
