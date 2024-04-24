@@ -400,7 +400,7 @@ export default function SellerListManage() {
               />
               <Form.Check
                 type="radio"
-                label="Kam"
+                label="KAM"
                 checked={registeredByType === "kam"}
                 name="registeredBy"
                 onChange={() => setRegisteredByType("kam")}

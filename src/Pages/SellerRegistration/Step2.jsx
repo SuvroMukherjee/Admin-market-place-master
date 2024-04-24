@@ -122,11 +122,11 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                     <Form.Label className='frmLable'>Shop Name <span className="req">*</span> </Form.Label>
                                     <Form.Control
                                         type="text"
-                                        name="shop_name"
+                                        name="shope_name"
                                         className='tapG'
                                         placeholder="Enter shop name"
                                         size='sm'
-                                        value={shopInfo.shop_name}
+                                        value={shopInfo?.shope_name}
                                         onChange={handleChange}
                                         required
                                     />
@@ -169,11 +169,11 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                     <Form.Label className='frmLable'>Pickup Location <span className="req">*</span></Form.Label>
                                     <Form.Control
                                         type="text"
-                                        name="pickup_location"
+                                        name="picup_location"
                                         className='tapG'
                                         placeholder="Enter pickup location"
                                         size='sm'
-                                        value={shopInfo.pickup_location}
+                                        value={shopInfo.picup_location}
                                         onChange={handleChange}
                                         required
                                     />
@@ -183,15 +183,15 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
 
                         <Row className='mt-3'>
                             <Col xs={6}>
-                                <Form.Group controlId="pincode">
+                                <Form.Group controlId="pin_code">
                                     <Form.Label className='frmLable'>Pincode <span className="req">*</span></Form.Label>
                                     <Form.Control
                                         type="text"
-                                        name="pincode"
+                                        name="pin_code"
                                         className='tapG'
                                         placeholder="Enter pincode"
                                         size='sm'
-                                        value={shopInfo.pincode}
+                                        value={shopInfo.pin_code}
                                         onChange={handleChange}
                                         pattern="[0-9]{6}"
                                         title="Pincode must be a 6-digit number"
@@ -204,11 +204,11 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                     <Form.Label className='frmLable'>District <span className="req">*</span></Form.Label>
                                     <Form.Control
                                         type="text"
-                                        name="district"
+                                        name="disict"
                                         className='tapG'
                                         placeholder="Enter district"
                                         size='sm'
-                                        value={shopInfo.district}
+                                        value={shopInfo.disict}
                                         onChange={handleChange}
                                         required
                                     />
@@ -259,9 +259,9 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                         type="text"
                                         size='sm'
                                         className='tapG'
-                                        name="total_year_of_business_experience"
+                                        name="old_shope_desc"
                                         placeholder='Total Year of Business Experience'
-                                        value={shopInfo.total_year_of_business_experience}
+                                        value={shopInfo.old_shope_desc}
                                         onChange={handleChange}
                                         required
                                     />
@@ -275,9 +275,9 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                         type="text"
                                         size='sm'
                                         className='tapG'
-                                        name="total_number_of_units"
+                                        name="total_no_of_unit"
                                         placeholder='Total Number of Units Sold Each Year'
-                                        value={shopInfo.total_number_of_units}
+                                        value={shopInfo.total_no_of_unit}
                                         onChange={handleChange}
                                         required
                                     />
