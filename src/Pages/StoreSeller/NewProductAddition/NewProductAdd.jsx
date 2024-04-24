@@ -104,14 +104,14 @@ const NewProductAdd = () => {
 
 
 
-
     const handleSubmit = async (e) => {
 
         e.preventDefault();
         formData['sellerId'] = auth?.userId;
-
+          console.log('formdata details',formData);
+          
         const res = await SellerCreateOwn(formData);
-
+         
         if (res?.response?.data?.error) {
             toast.error(res?.response?.data?.message)
         } else {
@@ -124,7 +124,6 @@ const NewProductAdd = () => {
             }, 1500);
         }
     }
-
 
 
     return (

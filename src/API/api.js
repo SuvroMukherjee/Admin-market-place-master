@@ -666,7 +666,7 @@ export async function attendenceList(id) {
 }
 
 {
-  /******** Seller api *********/
+  /********** Seller api ***********/
 }
 
 export async function SellerLogin(fromData) {
