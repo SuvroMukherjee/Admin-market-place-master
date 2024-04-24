@@ -779,8 +779,8 @@ const ProductSpecificationForm = ({
 
       setTimeout(() => {
         setProductImages((prevData) => [
-          ...prevData,
           { image_path: res?.data?.data?.fileurl },
+          ...prevData,
         ]);
       }, 3000);
     } catch (err) {
