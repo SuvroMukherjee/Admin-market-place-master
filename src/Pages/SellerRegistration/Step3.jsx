@@ -95,15 +95,16 @@ const Step3 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                                         <Form.Control
                                             type="text"
                                             name="gst_no"
-                                            className='tapG'
-                                            size='sm'
+                                            className="tapG"
+                                            size="sm"
                                             placeholder="Enter GST number"
                                             value={documentation.gst_no}
                                             onChange={handleChange}
-                                            pattern="[0-9]{15}"
-                                            title="GST number must be a 15-digit number"
+                                            pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$"
+                                            title="GST number must be in the format: 12ABCDE1234F1"
                                             required
                                         />
+
                                     </Form.Group>
                                 </Col>
                                 <Col xs={6}>

@@ -84,7 +84,7 @@ const Step5 = ({ prevStep, reg_userdata, getUserdata }) => {
             toast.success(response?.data?.message)
             //nextStep();
            setTimeout(() => {
-               navigate('/login')
+               navigate('/seller-login')
            }, 3000);
 
         }

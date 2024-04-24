@@ -17,6 +17,9 @@ const NewSellerDashboard = () => {
   const [reviewData, setReviewData] = useState();
   const [avgCustomerRating, setAvgCustomerRating] = useState(0);
 
+  const navigate = useNavigate();
+
+
   const { userId } = JSON.parse(localStorage.getItem("auth"));
 
   const SellingProducts = async () => {
@@ -43,7 +46,7 @@ const NewSellerDashboard = () => {
       0
     );
 
-    setAvgCustomerRating(totalRating / res?.data?.sellerReviewData?.length);
+    setAvgCustomerRating(totalRating / res?.data?.sellerReviewData?.length || 0);
   };
 
   const [reportData, setReportData] = useState({});
@@ -153,6 +156,7 @@ const NewSellerDashboard = () => {
         <Row>
           <Col className="p-2">
             <Container>
+              {data?.length > 0 && 
               <Row className="mt-4">
                 <Col className="dtext2">
                   Top Selling Products{" "}
@@ -160,14 +164,23 @@ const NewSellerDashboard = () => {
                     <FaArrowUpRightDots color="red" size={24} />
                   </span>
                 </Col>
-                {/* <p onClick={() => navigate('/seller/reset')}>ffffffff</p> */}
-              </Row>
+              </Row>}
               <hr />
+              {data?.length > 0 ? 
               <Row className="mt-2">
                 <Col>
                   <SellingProductList data={data} reviewData={reviewData} />
                 </Col>
-              </Row>
+              </Row> : 
+                <Row className="stratAdd">
+                  <Col xs={2}>
+                    <img src="https://5.imimg.com/data5/SELLER/Default/2023/1/MH/CQ/PR/3553409/corrugated-paper-electronics-packaging-box-500x500.jpg" width={200} />
+                  </Col>
+                <Col xs={4}>
+                  Start Adding Products <br/>
+                    <span onClick={() => navigate('/seller/seller-addproduct')}>GO</span>
+                </Col>
+              </Row>}
             </Container>
           </Col>
         </Row>

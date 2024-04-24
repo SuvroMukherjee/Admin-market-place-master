@@ -933,3 +933,20 @@ th {
   padding: 5px;
   cursor: pointer;
 }
+
+.stratAdd{
+        text-align: center;
+        padding: 2%;
+        /* background: black; */
+        color: #484847;
+        font-size: 22px;
+        font-weight: 500;
+}
+
+.stratAdd span{
+  background: black;
+    font-size: 18px;
+    padding: 2px 50px;
+    color: wheat;
+    cursor: pointer;
+}  
