@@ -16,10 +16,9 @@ import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineInfoCircle, AiOutlinePlus } from "react-icons/ai";
 import { BsClipboard2CheckFill } from "react-icons/bs";
-import { CiEdit } from "react-icons/ci";
-import { FaTrashAlt } from "react-icons/fa";
-import { FaCirclePlus } from "react-icons/fa6";
-import { IoIosAdd, IoMdCloseCircle } from "react-icons/io";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { FaCircleInfo, FaCirclePlus } from "react-icons/fa6";
+import { IoIosAdd } from "react-icons/io";
 import { LiaListSolid } from "react-icons/lia";
 import { LuClipboardSignature } from "react-icons/lu";
 import { MdCancel } from "react-icons/md";
@@ -636,6 +635,7 @@ const ProductSpecificationForm = ({
   const [productImges, setProductImages] = useState([]);
 
   const [selectedSpecId, setSelectedSpecId] = useState();
+  const [copyFrom, setCopyFrom] = useState(0);
 
   const handleChange = (index, title, value) => {
     setSpecifications((prevSpecifications) => {
@@ -699,6 +699,7 @@ const ProductSpecificationForm = ({
       ]);
       setproductPrice("");
       setProductImages([]);
+      setCopyFrom(0);
       handleCloseModal(); // Close the modal after submitting
     }
   };
@@ -727,11 +728,11 @@ const ProductSpecificationForm = ({
         {
           title: "",
           value: "",
-          //user_choice: false,
         },
       ]);
       setproductPrice("");
       setProductImages([]);
+      setCopyFrom(0);
       handleCloseModal(); // Close the modal after submitting
     }
   };
@@ -794,6 +795,7 @@ const ProductSpecificationForm = ({
   };
 
   const EditHandler = (id) => {
+    handleReset();
     setSelectedSpecId(id);
     setIsEdit(true);
     let filterSpecData = selectedproductid?.specId?.find((ele) => {
@@ -805,6 +807,19 @@ const ProductSpecificationForm = ({
     console.log(filterSpecData);
   };
 
+  const handleEditCancel = () => {
+    setCopyFrom(0);
+    setIsEdit(false);
+    setSpecifications([
+      {
+        title: "",
+        value: "",
+      },
+    ]);
+    setproductPrice("");
+    setProductImages([]);
+  };
+
   const deleteSpec = async (id) => {
     let res = await DeleteProductSpecification(id);
     console.log(res);
@@ -812,6 +827,7 @@ const ProductSpecificationForm = ({
       toast.error("Something went wrong..");
     } else {
       toast.success("Spec delete successfully");
+      setCopyFrom(0);
       handleCloseModal();
     }
   };
@@ -841,8 +857,64 @@ const ProductSpecificationForm = ({
     }
   };
 
+  const handleCopySpecification = (e) => {
+    let filterData = selectedproductid?.specId?.find((ele) => {
+      return ele?._id == e.target.value;
+    });
+
+    console.log(filterData);
+
+    setSpecifications(filterData?.spec_det);
+    setproductPrice(filterData?.price);
+    setProductImages(filterData?.image);
+  };
+
+  const handleReset = () => {
+    setCopyFrom(0);
+    setIsEdit(false);
+    setSpecifications([
+      {
+        title: "",
+        value: "",
+      },
+    ]);
+    setproductPrice("");
+    setProductImages([]);
+  };
+
+  const handleSpecificationsArrayUp = (index) => {
+    console.log(index, "Up");
+
+    const SpecificationsArray = [...specifications];
+
+    let temp = SpecificationsArray[index];
+    SpecificationsArray[index] = SpecificationsArray[index - 1];
+    SpecificationsArray[index - 1] = temp;
+
+    setSpecifications([...SpecificationsArray]);
+  };
+
+  const handleSpecificationsArrayDown = (index) => {
+    console.log(index, "Down");
+
+    const SpecificationsArray = [...specifications];
+
+    let temp = SpecificationsArray[index];
+    SpecificationsArray[index] = SpecificationsArray[index + 1];
+    SpecificationsArray[index + 1] = temp;
+
+    setSpecifications([...SpecificationsArray]);
+  };
+
   return (
-    <Modal show={showModal} onHide={handleCloseModal} size="lg">
+    <Modal
+      show={showModal}
+      onHide={() => {
+        handleCloseModal();
+        handleReset();
+      }}
+      size="xl"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Product Specification Form</Modal.Title>
       </Modal.Header>
@@ -851,14 +923,48 @@ const ProductSpecificationForm = ({
           <Row>
             <Col>
               <ListGroup
-                style={{ maxHeight: "200px", overflowY: "auto" }}
+                style={{
+                  maxHeight: "400px",
+                  overflowY: "auto",
+                  overflowX: "auto",
+                  border: "1px solid black",
+                  borderRadius: "0px",
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  gap: "10px",
+                  flexDirection: "column",
+                }}
                 className="p-2"
               >
                 {selectedproductid?.specId?.map((ele, index) => (
-                  <ListGroup.Item key={ele?._id}>
+                  <ListGroup.Item
+                    key={ele?._id}
+                    style={{
+                      border: "1px solid black",
+                      width: "100%",
+                    }}
+                  >
                     <Row>
+                      <Col>
+                        <span style={{ fontSize: "16px" }}>
+                          <strong>Specification Title:</strong>
+                          {" ( "}
+                          {ele?.spec_det?.length > 0 &&
+                            ele?.spec_det?.slice(0, 3).map((ele, index) => (
+                              <span key={index} className="p-desc">
+                                {ele?.title} : {ele?.value}
+                                {index !== 2 && ", "}
+                              </span>
+                            ))}
+                          {" )"}
+                        </span>
+                      </Col>
+                    </Row>
+
+                    <Row className="mt-2">
                       <Col xs={3}>
-                        <strong style={{ fontSize: "12px" }}>
+                        <strong style={{ fontSize: "16px" }}>
                           Specification Details: {index + 1}
                         </strong>
                       </Col>
@@ -875,20 +981,20 @@ const ProductSpecificationForm = ({
                       </Col>
                       <Col xs={2}>
                         <Button
-                          variant="success"
+                          variant="success btn-sm"
                           size="sm"
                           onClick={() => EditHandler(ele?._id)}
                         >
-                          <CiEdit size={22} />
+                          Edit
                         </Button>
                       </Col>
                       <Col xs={1}>
                         <Button
-                          variant="danger"
+                          variant="danger btn-sm"
                           size="sm"
                           onClick={() => deleteSpec(ele?._id)}
                         >
-                          <FaTrashAlt />
+                          Delete
                         </Button>
                       </Col>
                     </Row>
@@ -915,11 +1021,73 @@ const ProductSpecificationForm = ({
             </Col>
           </Row>
           <Row className="mt-2">
+            <Row>
+              <Col>
+                <h5>Add Specifications of the variant</h5>
+              </Col>
+              <Col
+                style={{
+                  textAlign: "justify",
+                }}
+              >
+                <span>
+                  <FaCircleInfo />
+                </span>
+                <span>
+                  {" "}
+                  You should add at least 3 specifications for the product and
+                  the first 3 specification should be the main differentiator of
+                  the variant as it will show as the specification title.
+                </span>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col xs={6}>
+                <h6>Copy Specification from existing variants</h6>
+                <Form.Select
+                  aria-label="Default select example"
+                  onChange={(e) => {
+                    handleCopySpecification(e);
+                    setCopyFrom(e.target.value);
+                  }}
+                  value={copyFrom}
+                >
+                  <option disabled value={0}>
+                    open select
+                  </option>
+                  {selectedproductid?.specId?.map((ele, index) => (
+                    <option key={index} value={ele?._id}>
+                      Specification : {index + 1} (SKU ID : {ele?.skuId})
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>
+              <Col
+                xs={3}
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => {
+                    handleReset();
+                  }}
+                >
+                  Reset
+                </Button>
+              </Col>
+            </Row>
+
             {specifications.map((specification, index) => (
               <Row key={index}>
                 <Col>
                   <Form.Group controlId={`key-${index}`}>
-                    <Form.Label>Title :</Form.Label>
+                    <Form.Label>Specification Title:</Form.Label>
                     <Form.Control
                       type="text"
                       value={specification.title}
@@ -931,7 +1099,7 @@ const ProductSpecificationForm = ({
                 </Col>
                 <Col>
                   <Form.Group controlId={`value-${index}`}>
-                    <Form.Label>Option :</Form.Label>
+                    <Form.Label>Specification Value :</Form.Label>
                     <Form.Control
                       type="text"
                       value={specification.value}
@@ -941,14 +1109,40 @@ const ProductSpecificationForm = ({
                     />
                   </Form.Group>
                 </Col>
-                <Col className="d-flex align-items-start">
+                <Col className="d-flex align-items-end justify-content-start gap-2">
                   <Button
                     variant="danger"
                     size="sm"
                     onClick={() => removeSpecification(index)}
                   >
-                    <IoMdCloseCircle size={26} />
+                    Delete
                   </Button>
+                  {specifications.length > 1 && (
+                    <>
+                      {index !== specifications.length - 1 && (
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          onClick={() => {
+                            handleSpecificationsArrayDown(index);
+                          }}
+                        >
+                          <FaArrowDown />
+                        </Button>
+                      )}
+                      {index !== 0 && (
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          onClick={() => {
+                            handleSpecificationsArrayUp(index);
+                          }}
+                        >
+                          <FaArrowUp />
+                        </Button>
+                      )}
+                    </>
+                  )}
                 </Col>
               </Row>
             ))}
@@ -956,7 +1150,7 @@ const ProductSpecificationForm = ({
           <Row className="mt-2">
             <Col xs={3}>
               <Button variant="dark" size="sm" onClick={addSpecification}>
-                <IoIosAdd /> Add Title
+                <IoIosAdd /> Add Specification
               </Button>
             </Col>
           </Row>
@@ -1010,19 +1204,33 @@ const ProductSpecificationForm = ({
             </Col>
           </Row>
           <Row className="mt-2">
-            {/* <Col xs={3}>
-                            <Button variant="dark" size="sm" onClick={addSpecification}>
-                                <IoIosAdd /> Add Title
-                            </Button>
-                        </Col> */}
-            <Col xs={2}>
+            <Col>
               {isEdit ? (
-                <Button variant="dark" size="sm" onClick={EdithandleSubmit}>
-                  Update Form
-                </Button>
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    gap: "10px",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button variant="dark" size="sm" onClick={EdithandleSubmit}>
+                    Update Specification
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => {
+                      handleEditCancel();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </div>
               ) : (
                 <Button variant="dark" size="sm" onClick={handleSubmit}>
-                  Submit Form
+                  Submit Specification
                 </Button>
               )}
             </Col>
@@ -1032,17 +1240,3 @@ const ProductSpecificationForm = ({
     </Modal>
   );
 };
-
-// const FileUploadButton = ({ onFileSelect }) => {
-//     const handleFileChange = (e) => {
-//         const selectedFiles = Array.from(e.target.files);
-//         onFileSelect(selectedFiles);
-//     };
-
-//     return (
-//         <Form.Group controlId="formFileMultiple" className="mb-3">
-//             <Form.Label>Choose Multiple Files</Form.Label>
-//             <Form.Control type="file" multiple onChange={handleFileChange} />
-//         </Form.Group>
-//     );
-// };
