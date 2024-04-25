@@ -103,17 +103,17 @@ export default function ListCategory() {
         {
             field: "title",
             headerName: "Title",
-            width: 160,
+            width: 170,
         },
         {
             field: "description",
             headerName: "Description",
-            width: 200,
+            width: 170,
         },
         {
             field: "status",
             headerName: "Status",
-            width: 120,
+            width: 100,
             renderCell: (params) => {
                 return (
                     <div>

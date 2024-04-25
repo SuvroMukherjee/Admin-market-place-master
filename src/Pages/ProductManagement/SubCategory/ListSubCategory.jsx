@@ -80,8 +80,6 @@ export default function ListSubCategory() {
         })
     }
 
-
-
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
         {
@@ -97,7 +95,7 @@ export default function ListSubCategory() {
             },
         },
         {
-            field: "category", headerName: "Category", width: 100, renderCell: (params) => {
+            field: "category", headerName: "Category", width: 160, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         {params?.row?.category?.title}
@@ -108,17 +106,17 @@ export default function ListSubCategory() {
         {
             field: "title",
             headerName: "Title",
-            width: 150,
+            width: 160,
         },
         {
             field: "description",
             headerName: "Description",
-            width: 200,
+            width: 170,
         },
         {
             field: "status",
             headerName: "Status",
-            width: 120,
+            width: 90,
             renderCell: (params) => {
                 return (
                     <div>

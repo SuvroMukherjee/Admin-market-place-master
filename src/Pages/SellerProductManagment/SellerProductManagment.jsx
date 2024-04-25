@@ -291,7 +291,7 @@ export default function SellerProductManagment() {
             </Col>
             <Col xs={3}></Col>
             <Col xs={5} className="">
-              <FaInfoCircle /> Use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right
+              <FaInfoCircle /> Keep the cursor pointer inside the table and use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right
             </Col>
           </Row>
           

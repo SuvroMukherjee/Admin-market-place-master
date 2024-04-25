@@ -23,9 +23,11 @@ export default function SellerReport() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
+   const timer = setTimeout(() => {
       getAllSellersList();
-    }, 3000);
+    }, 2000);
+
+    return ()=> clearTimeout(timer)
   }, []);
 
   async function getAllSellersList() {
