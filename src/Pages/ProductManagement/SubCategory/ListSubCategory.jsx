@@ -189,7 +189,7 @@ export default function ListSubCategory() {
                         </Col>
                     </Row>
                     <Row className="mb-2">
-                        <Col className="d-flex justify-content-end px-1 gap-4">
+                        <Col className="d-flex justify-content-end p-2 gap-4">
                             {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addsubcategory')}>Add New Sub Category</button> */}
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addsubcategory')}>
                                 <AiOutlinePlus /> Add New Sub Category

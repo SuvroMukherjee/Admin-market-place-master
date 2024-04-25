@@ -8,11 +8,11 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
     const [modalData, setModalData] = useState({});
     const [isChecked, setChecked] = useState(false);
 
-    console.log({data})
+    console.log(data)
 
-    const handleCheckboxChange = () => {
-        setChecked(!isChecked);
-    };
+    // const handleCheckboxChange = () => {
+    //     setChecked(!isChecked);
+    // };
 
     
 
@@ -63,7 +63,7 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
                 setTimeout(() => {
                     //setFile(res?.data?.data?.fileurl)
                     setModalData({ ...modalData, ['image']: {image_path : res?.data?.data?.fileurl} });
-                }, 5000);
+                }, 500);
             })
             .catch((err) => {
                 console.log(err, "err");
@@ -108,7 +108,7 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
                             <Form.Group controlId="image">
                                 <Form.Label>Image</Form.Label>
                                 <Col>
-                                    <img src={modalData?.image?.[0]?.image_path} alt={modalData?.image} style={{ width: '100%' }} />
+                                    <img src={modalData?.image?.[0]?.image_path} alt='brandlogo' style={{ width: '100%' }} />
                                 </Col>
                                 <Col>
                                     <label>Upload New Image</label>

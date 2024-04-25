@@ -179,12 +179,12 @@ export default function ListCategory() {
                         handleClose={handleClose}
                         data={modalData}
                     />
-                    <Row className="justify-content-md-center">
+                    <Row className="justify-content-md-center mb-2">
                         <Col md="auto">
                             <h3>Category List</h3>
                         </Col>
                     </Row>
-                    <Row >
+                    <Row  className="mb-2">
                         <Col></Col>
                         <Col xs={8} >
                           <Row>
