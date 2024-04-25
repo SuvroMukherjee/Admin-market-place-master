@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, useParams } from "react-router-dom";
-import { offerCreate, offerTypeCreate, sellerNewAddedProductDtails, sellerProductDeatils } from '../../../API/api';
+import { EditSellerOwnProduct, offerCreate, offerTypeCreate, sellerNewAddedProductDtails, sellerProductDeatils } from '../../../API/api';
 import useAuth from '../../../hooks/useAuth';
 import { ChangeFormatDate2 } from '../../../common/DateFormat';
 import { SlCalender } from "react-icons/sl";
@@ -60,7 +60,7 @@ const NewCustomization = () => {
         console.log({ formData })
 
         const res = await EditSellerOwnProduct(productId, formData);
-
+            console.log(res?.response?.data);    
         if (res?.response?.data?.error) {
             toast.error(res?.response?.data?.message)
         } else {
@@ -183,12 +183,10 @@ const NewCustomization = () => {
                       </Form>
 
 
-                     
-
-
                   </Container>
               </Row>
           </Container>
+          <Toaster position="top-right" />
     </div>
   )
 }

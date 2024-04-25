@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { IoIosAdd, IoMdCloseCircle } from 'react-icons/io';
 import { MdCancel } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
@@ -87,6 +87,7 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
         if (res?.data?.error) {
             toast.error('Something went wrong..')
         } else {
+            toast.success('Variations Added successfully')
             console.log({ payload })
             getProductdata();
             setSpecifications([{
@@ -230,7 +231,7 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
 
     }
     return (
-        
+          <>
             <Container >
             <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner' >
                 {!productId &&
@@ -385,10 +386,9 @@ const NewVariations = ({ selectedproductid, showModal, handleCloseModal, getProd
                 </Row>
 
                 </Row>
-
-                
-
             </Container>
+          <Toaster position="top-right" />
+            </>
     )
 }
 
