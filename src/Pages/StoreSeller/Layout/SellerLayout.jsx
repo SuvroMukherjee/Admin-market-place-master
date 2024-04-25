@@ -25,6 +25,7 @@ import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
 import useAuth from "../../../hooks/useAuth";
 import { notificationContext } from "../../../context/context";
 
+
 const MyNavbar = ({ socket }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { auth, logout } = useAuth();
@@ -339,6 +340,9 @@ const MyNavbar = ({ socket }) => {
     }
   };
 
+  
+  console.log({ userInfo })
+
   return (
     <div>
       <ScrollToTop />
@@ -651,9 +655,11 @@ const MyNavbar = ({ socket }) => {
             )}
 
             {/* profile */}
-            <div className="profile">
-              <FaUserCircle size={30} onClick={handleDropdownToggle} />
+            {!auth?.userId ? 'Loading' : 
+            <div className="profile" style={{border:'2px solid white',borderRadius:'50%'}}>
+                <img className="pfImg" src={userInfo?.Shop_Details_Info?.pic_of_shope?.[0]} alt="profile_image" width={30} height={30} onClick={handleDropdownToggle} />
             </div>
+            }
             {isDropdownOpen && (
               <div className="dropdown">
                 <div className="profile-info">
@@ -672,7 +678,7 @@ const MyNavbar = ({ socket }) => {
                   </li>
                   <li
                     onClick={() => {
-                      navigate("/seller/profile");
+                      navigate(`/seller/profile/${auth?.userId}`);
                       handleDropdownClose();
                     }}
                   >

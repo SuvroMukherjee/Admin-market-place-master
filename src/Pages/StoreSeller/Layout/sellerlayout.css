@@ -950,3 +950,10 @@ th {
     color: wheat;
     cursor: pointer;
 }  
+
+.pfImg{
+      width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+      }

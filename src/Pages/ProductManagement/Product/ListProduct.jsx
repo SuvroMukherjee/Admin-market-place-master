@@ -931,7 +931,7 @@ const ProductSpecificationForm = ({
                   maxHeight: "400px",
                   overflowY: "auto",
                   overflowX: "auto",
-                  border: "1px solid black",
+                  border: "1px solid #ccc",
                   borderRadius: "0px",
                   display: "flex",
                   justifyContent: "flex-start",
@@ -945,7 +945,7 @@ const ProductSpecificationForm = ({
                   <ListGroup.Item
                     key={ele?._id}
                     style={{
-                      border: "1px solid black",
+                      border: "1px solid #ccc",
                       width: "100%",
                     }}
                   >
