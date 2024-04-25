@@ -231,7 +231,7 @@ export default function Router({ socket }) {
             { path: "bulk-product-upload", element: <BulkUploadProduct /> },
             { path: "seller-report", element: <Report /> },
             { path: "reset", element: <ResetPassComp /> },
-            { path: "profile", element: <ProfilePage /> },
+            { path: "profile/:id", element: <ProfilePage /> },
           ],
         },
       ],

@@ -15,11 +15,16 @@ import { TiDocumentText } from "react-icons/ti";
 import { BsBank } from "react-icons/bs";
 import { TbCategoryPlus } from "react-icons/tb";
 import { BsShop } from "react-icons/bs";
-
+import Spinner from 'react-bootstrap/Spinner';
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProfilePage = () => {
 
     const { auth } = useAuth();
+
+    const { id: userId } = useParams()
+
+    const [loading, setloading] = useState(true);
 
     const [userInfo, setUserInfo] = useState({
         user_name: '',
@@ -28,22 +33,23 @@ const ProfilePage = () => {
         password: ''
     });
 
-    
 
-    useEffect(()=>{
-        if(auth){
+
+    useEffect(() => {
+        if (auth) {
             getProfileData()
         }
-    },[])
+    }, [])
 
-    async function getProfileData(){
-        let res = await sellerDetails(auth?.userId)
+    async function getProfileData() {
+        let res = await sellerDetails(userId)
         const { password, ...filteredData } = res?.data?.data;
         console.log(res?.data?.data)
         setUserInfo(filteredData)
+        setloading(false)
     }
 
-    console.log({userInfo})
+    console.log({ userInfo })
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -70,74 +76,87 @@ const ProfilePage = () => {
         }
     }
 
-  return (
-    <Container className='mb-4 mt-4'>
-       
-        <div className='mt-4'>
-              <Container>              
-                <Row>
-                  <Col className='hd'> <span className='mx-2'><ImProfile size={25}/></span> Personal Information</Col>
-              </Row>
-              <Row>
-                  <Form onSubmit={handleSubmit}>
-                      <Row className='mt-2'>
-                          <Col xs={6}>
-                              <Form.Group controlId="user_name">
-                                  <Form.Label className='frmLable'>User Name <span className="req">*</span></Form.Label>
-                                  <Form.Control type="text" name="user_name" placeholder='Enter Your Username' size='sm' value={userInfo?.user_name} onChange={handleChange} required />
-                              </Form.Group>
-                          </Col>
-                          <Col xs={6}>
-                              <Form.Group controlId="email">
-                                  <Form.Label className='frmLable'>Email <span className="req">*</span> </Form.Label>
-                                  <Form.Control type="email" name="email" size='sm' placeholder='Enter Your Email' value={userInfo?.email} onChange={handleChange} required />
-                              </Form.Group>
-                          </Col>
-                      </Row>
+    return (
+        <Container className='mb-4 mt-4'>
+            {loading ?
+                <Container className='mt-4'>
+                    <Row>
+                        <Col className='d-flex justify-content-center align-items-center'>
+                            <Spinner animation="border" size="lg" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner>
+                        </Col>
+                    </Row>
+                </Container>
+                :
+                <>
+                    <div className='mt-4'>
+                        <Container>
+                            <Row>
+                                <Col className='hd'> <span className='mx-2'><ImProfile size={25} /></span> Personal Information</Col>
+                            </Row>
+                            <Row>
+                                <Form onSubmit={handleSubmit}>
+                                    <Row className='mt-2'>
+                                        <Col xs={6}>
+                                            <Form.Group controlId="user_name">
+                                                <Form.Label className='frmLable'>User Name <span className="req">*</span></Form.Label>
+                                                <Form.Control type="text" name="user_name" placeholder='Enter Your Username' size='sm' value={userInfo?.user_name} onChange={handleChange} required />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={6}>
+                                            <Form.Group controlId="email">
+                                                <Form.Label className='frmLable'>Email <span className="req">*</span> </Form.Label>
+                                                <Form.Control type="email" name="email" size='sm' placeholder='Enter Your Email' value={userInfo?.email} onChange={handleChange} required />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
 
-                      <Row className='mt-2'>
-                          <Col xs={6}>
-                              <Form.Group controlId="phone_no">
-                                  <Form.Label className='frmLable'>Phone Number <span className="req">*</span> </Form.Label>
-                                  <Form.Control type="tel" name="phone_no" size='sm' placeholder='Enter Your Phone No.' value={userInfo?.phone_no} onChange={handleChange} required />
-                              </Form.Group>
-                          </Col>
-                      </Row>
+                                    <Row className='mt-2'>
+                                        <Col xs={6}>
+                                            <Form.Group controlId="phone_no">
+                                                <Form.Label className='frmLable'>Phone Number <span className="req">*</span> </Form.Label>
+                                                <Form.Control type="tel" name="phone_no" size='sm' placeholder='Enter Your Phone No.' value={userInfo?.phone_no} onChange={handleChange} required />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
 
-                     
-                      <Row className='mt-4'>
-                          <Col className='d-flex justify-content-start'>
-                                  <Button variant="dark" size='sm' className='frmLable w-30' type="submit"> Update <span className='mx-2'><GrUpdate /></span> </Button>
-                          </Col>
-                      </Row>
-                  </Form>
-              </Row>
-              </Container>
 
-        </div>
-        
-          <div className='mt-4'>
-              <ShopInfo userInfo={userInfo} getProfileData={getProfileData}/>
-        </div>
-         
-          <div className='mt-4'>
-              <Documentation userInfo={userInfo} getProfileData={getProfileData} />
-          </div>
-          
-          <div className='mt-4'>
-              <Bankdata userInfo={userInfo} getProfileData={getProfileData} />
-          </div>
-         
-          <div className='mt-4'>
-              <CategoryAndCommission userInfo={userInfo} getProfileData={getProfileData} />
-          </div>
-          <Toaster position="top-right" />
-    </Container>
-  )
+                                    <Row className='mt-4'>
+                                        <Col className='d-flex justify-content-start'>
+                                            <Button variant="dark" size='sm' className='frmLable w-30' type="submit"> Update <span className='mx-2'><GrUpdate /></span> </Button>
+                                        </Col>
+                                    </Row>
+                                </Form>
+                            </Row>
+                        </Container>
+
+                    </div>
+
+                    <div className='mt-4'>
+                        <ShopInfo userInfo={userInfo} getProfileData={getProfileData} />
+                    </div>
+
+                    <div className='mt-4'>
+                        <Documentation userInfo={userInfo} getProfileData={getProfileData} />
+                    </div>
+
+                    <div className='mt-4'>
+                        <Bankdata userInfo={userInfo} getProfileData={getProfileData} />
+                    </div>
+
+                    <div className='mt-4'>
+                        <CategoryAndCommission userInfo={userInfo} getProfileData={getProfileData} />
+                    </div>
+                </>
+            }
+            <Toaster position="top-right" />
+        </Container>
+    )
 }
 
 
-const ShopInfo = ({ userInfo, getProfileData }) =>{
+const ShopInfo = ({ userInfo, getProfileData }) => {
 
     const [shopInfo, setShopInfo] = useState({
         shope_name: '',
@@ -155,9 +174,9 @@ const ShopInfo = ({ userInfo, getProfileData }) =>{
     const [allstates, setAllStates] = useState([])
 
 
-    
 
-    useEffect(()=>{
+
+    useEffect(() => {
         setShopInfo(userInfo?.Shop_Details_Info)
     }, [userInfo])
 
@@ -192,7 +211,7 @@ const ShopInfo = ({ userInfo, getProfileData }) =>{
         const formData = new FormData();
         formData.append("file", file);
 
-       
+
 
         try {
             const res = await FileUpload(formData);
@@ -226,7 +245,7 @@ const ShopInfo = ({ userInfo, getProfileData }) =>{
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-      
+
         let payload = { "Shop_Details_Info": shopInfo }
         let response = await UpdatesellerOwnRegistrationForm(payload, userInfo?._id);
 
@@ -323,7 +342,7 @@ const ShopInfo = ({ userInfo, getProfileData }) =>{
                         <Col xs={6}>
                             <Form.Group controlId="shopImages">
                                 <Form.Label className='frmLable'>Shop Images <span className="req">*</span></Form.Label>
-                                <Form.Control type="file" name="pic_of_shope" onChange={handleFileChange} size='sm' multiple  />
+                                <Form.Control type="file" name="pic_of_shope" onChange={handleFileChange} size='sm' multiple />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -388,7 +407,7 @@ const ShopInfo = ({ userInfo, getProfileData }) =>{
 }
 
 
-const Documentation = ({ userInfo, getProfileData }) =>{
+const Documentation = ({ userInfo, getProfileData }) => {
 
 
     const [documentation, setDocumentation] = useState({
@@ -400,9 +419,9 @@ const Documentation = ({ userInfo, getProfileData }) =>{
         msme_certificate: null
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         setDocumentation(userInfo?.doc_details)
-    },[userInfo])
+    }, [userInfo])
     const handleChange = (e) => {
         const { name, value } = e.target;
         setDocumentation({ ...documentation, [name]: value });
@@ -488,7 +507,7 @@ const Documentation = ({ userInfo, getProfileData }) =>{
                         <Col xs={6}>
                             <Form.Group controlId="adhar_card">
                                 <Form.Label className='frmLable'>Aadhar Card <span className="req">*</span></Form.Label>
-                                <Form.Control type="text" name="adhar_card" size='sm' placeholder="Enter Aadhar card number" value={documentation?.adhar_card} onChange={handleChange}  required />
+                                <Form.Control type="text" name="adhar_card" size='sm' placeholder="Enter Aadhar card number" value={documentation?.adhar_card} onChange={handleChange} required />
                             </Form.Group>
                         </Col>
                         <Col xs={6}>
@@ -501,7 +520,7 @@ const Documentation = ({ userInfo, getProfileData }) =>{
                                         </a>
                                     }
                                 </Form.Label>
-                                <Form.Control type="file" name="gst_file" size='sm' onChange={handleFileChange}  />
+                                <Form.Control type="file" name="gst_file" size='sm' onChange={handleFileChange} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -520,7 +539,7 @@ const Documentation = ({ userInfo, getProfileData }) =>{
                                         </a>
                                     }
                                 </Form.Label>
-                                <Form.Control type="file" name="cancelled_cheque" size='sm' onChange={handleFileChange}  />
+                                <Form.Control type="file" name="cancelled_cheque" size='sm' onChange={handleFileChange} />
                             </Form.Group>
                         </Col>
                         <Col xs={6}>
@@ -536,7 +555,7 @@ const Documentation = ({ userInfo, getProfileData }) =>{
                                         </a>
                                     }
                                 </Form.Label>
-                                <Form.Control type="file" name="msme_certificate" size='sm' onChange={handleFileChange}  />
+                                <Form.Control type="file" name="msme_certificate" size='sm' onChange={handleFileChange} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -554,7 +573,7 @@ const Documentation = ({ userInfo, getProfileData }) =>{
 }
 
 
-const Bankdata = ({ userInfo, getProfileData }) =>{
+const Bankdata = ({ userInfo, getProfileData }) => {
     const [bankingDetails, setBankingDetails] = useState({
         bank_name: '',
         beneficiary_name: '',
@@ -564,9 +583,9 @@ const Bankdata = ({ userInfo, getProfileData }) =>{
         micr_code: ''
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         setBankingDetails(userInfo?.bank_details)
-    },[userInfo])
+    }, [userInfo])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -589,9 +608,9 @@ const Bankdata = ({ userInfo, getProfileData }) =>{
         }
     };
     return (
-         <Container>
+        <Container>
             <Row>
-                <Col className='hd'> <span className='mx-2'><BsBank size={25}/></span> Bank Details</Col>
+                <Col className='hd'> <span className='mx-2'><BsBank size={25} /></span> Bank Details</Col>
             </Row>
             <Row>
                 <Form onSubmit={handleSubmit}>
@@ -646,16 +665,16 @@ const Bankdata = ({ userInfo, getProfileData }) =>{
                     {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
                     <Row className='mt-4'>
                         <Col>
-                            <Button variant="dark"  size='sm' className='frmLable' type="submit">Update <span className='mx-2'><GrUpdate /></span></Button>
+                            <Button variant="dark" size='sm' className='frmLable' type="submit">Update <span className='mx-2'><GrUpdate /></span></Button>
                         </Col>
                     </Row>
                 </Form>
             </Row>
-         </Container>
+        </Container>
     )
 }
 
-const CategoryAndCommission = ({ userInfo, getProfileData }) =>{
+const CategoryAndCommission = ({ userInfo, getProfileData }) => {
 
     const [formData, setFormData] = useState({
         commission_data: [{ categoryId: '', commission_rate: '' }]
@@ -668,12 +687,12 @@ const CategoryAndCommission = ({ userInfo, getProfileData }) =>{
     }, [])
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setFormData(userInfo?.interest_details)
-        console.log(userInfo?.interest_details?.categoryId,'cats')
+        console.log(userInfo?.interest_details?.categoryId, 'cats')
         setSelectedCategories(userInfo?.interest_details?.categoryId)
-    },[userInfo])
-   
+    }, [userInfo])
+
 
     async function getAllCats() {
         await allcatList().then((res) => {
@@ -734,42 +753,42 @@ const CategoryAndCommission = ({ userInfo, getProfileData }) =>{
             toast.success(response?.data?.message)
             getProfileData()
             //nextStep();
-           
+
 
         }
 
 
-    } 
+    }
 
 
     console.log({ formData })
 
-return (
-    <Container>
-        <Row>
-            <Col>
-                <Row>
-                    <Col className='hd'> <span className='mx-2'><TbCategoryPlus size={25}/></span>Interest  Category & Commission</Col>
-                </Row>
-                <Row className='mt-2'>
+    return (
+        <Container>
+            <Row>
+                <Col>
                     <Row>
-                        {categorylist?.length > 0 && categorylist.map((option) => (
-                            <Col key={option?._id} xs={4} className='mt-2 '>
-                                <input
-                                    type="checkbox"
-                                    id={option?._id}
-                                    name={option?.title}
-                                    checked={selectedCategories?.includes(option?._id)}
-                                    onChange={() => handleCheckboxChange(option?._id)}
-                                />
-                                <label className='mx-2 frmLable' htmlFor={option?._id}>{option?.title}</label>
-                            </Col>
-                        ))}
+                        <Col className='hd'> <span className='mx-2'><TbCategoryPlus size={25} /></span>Interest  Category & Commission</Col>
                     </Row>
-                </Row>
-            </Col>
-        </Row>
-        {/* <Row className='mt-2'>
+                    <Row className='mt-2'>
+                        <Row>
+                            {categorylist?.length > 0 && categorylist.map((option) => (
+                                <Col key={option?._id} xs={4} className='mt-2 '>
+                                    <input
+                                        type="checkbox"
+                                        id={option?._id}
+                                        name={option?.title}
+                                        checked={selectedCategories?.includes(option?._id)}
+                                        onChange={() => handleCheckboxChange(option?._id)}
+                                    />
+                                    <label className='mx-2 frmLable' htmlFor={option?._id}>{option?.title}</label>
+                                </Col>
+                            ))}
+                        </Row>
+                    </Row>
+                </Col>
+            </Row>
+            {/* <Row className='mt-2'>
             <Row>
               
             </Row>
@@ -815,15 +834,15 @@ return (
                 </Col>
             </Row>
         </Row> */}
-        <Row className='mt-4'>
-            <Col>
-                {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
-                <Button variant="dark" size='sm' className='frmLable' onClick={() => handleSubmit()}>Update <span className='mx-2'><GrUpdate /></span></Button>
-            </Col>
-        </Row>
-        <Toaster position="top-right" />
-    </Container>
-)
+            <Row className='mt-4'>
+                <Col>
+                    {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
+                    <Button variant="dark" size='sm' className='frmLable' onClick={() => handleSubmit()}>Update <span className='mx-2'><GrUpdate /></span></Button>
+                </Col>
+            </Row>
+            <Toaster position="top-right" />
+        </Container>
+    )
 }
 
 export default ProfilePage
