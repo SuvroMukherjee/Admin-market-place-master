@@ -28,6 +28,7 @@ import {
 } from "../../../API/api";
 import sellerback2 from "../../../assets/sellerback2.jpg";
 import "./sellerlayout.css";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 export default function NewAddProduct() {
   const [data, setData] = useState([]);
@@ -382,7 +383,7 @@ export default function NewAddProduct() {
     height: "6vh",
   };
 
-  const [searchtext, setsearchrtext] = useState();
+  const [searchtext, setsearchrtext] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   const searchproducts = () => {
@@ -450,11 +451,13 @@ export default function NewAddProduct() {
                         aria-describedby="basic-addon1"
                         onChange={(e) => setsearchrtext(e.target.value)}
                       />
-                      <datalist id="browsers" style={{ background: "red" }}>
-                        {maindata?.map((ele, index) => (
-                          <option value={ele?.name} />
-                        ))}
-                      </datalist>
+                      {searchtext?.length > 2 && (
+                        <datalist id="browsers" style={{ background: "red" }}>
+                          {maindata?.map((ele, index) => (
+                            <option key={index} value={ele?.name} />
+                          ))}
+                        </datalist>
+                      )}
                     </InputGroup>
                   </Col>
                   <Col className="d-flex align-items-center">
@@ -744,7 +747,7 @@ export default function NewAddProduct() {
 
         <Container>
           <Row>
-            <Modal size="lg" show={show} onHide={handleClose}>
+            <Modal size="xl" show={show} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title className="p-catname">
                   {seletedProducrt?.name}
@@ -755,14 +758,51 @@ export default function NewAddProduct() {
                   <Row>
                     <Col>
                       <ListGroup
-                        style={{ maxHeight: "250px", overflowY: "auto" }}
+                        style={{
+                          maxHeight: "400px",
+                          overflowY: "auto",
+                          overflowX: "auto",
+                          border: "1px solid #ccc",
+                          borderRadius: "0px",
+                          display: "flex",
+                          justifyContent: "flex-start",
+                          alignItems: "center",
+                          gap: "10px",
+                          flexDirection: "column",
+                          padding: "10px",
+                        }}
                       >
                         {seletedProducrt?.specId?.map((ele, index) => (
-                          <ListGroup.Item key={ele?._id}>
+                          <ListGroup.Item
+                            key={ele?._id}
+                            style={{
+                              border: "1px solid #ccc",
+                              width: "100%",
+                            }}
+                          >
+                            <Row>
+                              <Col>
+                                <span style={{ fontSize: "16px" }}>
+                                  <strong>Variant Title:</strong>
+                                  {" ( "}
+                                  {ele?.spec_det?.length > 0 &&
+                                    ele?.spec_det
+                                      ?.slice(0, 3)
+                                      .map((ele, index) => (
+                                        <span key={index} className="p-desc">
+                                          {ele?.title} : {ele?.value}
+                                          {index !== 2 && ", "}
+                                        </span>
+                                      ))}
+                                  {" )"}
+                                </span>
+                              </Col>
+                            </Row>
+
                             <Row>
                               <Col xs={10}>
-                                <strong style={{ fontSize: "12px" }}>
-                                  Specification Details: {index + 1}
+                                <strong style={{ fontSize: "16px" }}>
+                                  Variant Specification Details: {index + 1}
                                 </strong>
                               </Col>
                               <Col xs={2}>
@@ -788,8 +828,10 @@ export default function NewAddProduct() {
                             <Row className="locationTagHeader mt-2">
                               <Col xs={1}>MRP (₹)</Col>
                               <Col xs={1}>SKUID</Col>
-                              {ele?.spec_det?.map((e) => (
-                                <Col xs={2}>{e?.title}</Col>
+                              {ele?.spec_det?.slice(1, 3).map((e, index) => (
+                                <Col key={index} xs={2}>
+                                  {e?.title}
+                                </Col>
                               ))}
                               <Col>Enter product price (₹)</Col>
                               <Col>Add Stock</Col>
@@ -798,8 +840,10 @@ export default function NewAddProduct() {
                             <Row className="locationTagvalue mt-2">
                               <Col xs={1}>{ele?.price}</Col>
                               <Col xs={1}>{ele?.skuId}</Col>
-                              {ele?.spec_det?.map((e) => (
-                                <Col xs={2}>{e?.value}</Col>
+                              {ele?.spec_det?.slice(1, 3).map((e, index) => (
+                                <Col key={index} xs={2}>
+                                  {e?.value}
+                                </Col>
                               ))}
                               <Col>
                                 <Form.Group
@@ -871,10 +915,7 @@ export default function NewAddProduct() {
           </Row>
         </Container>
         <Container>
-          <Modal show={showModal} size="md" onHide={handleCloseModal}>
-            {/* <Modal.Header closeButton>
-                            <Modal.Title>Modal heading</Modal.Title>
-                        </Modal.Header> */}
+          <Modal show={showModal} size="xl" onHide={handleCloseModal}>
             <Modal.Body>
               <Row className="d-flex justify-content-md-center gap-4">
                 {variantsArray?.length > 0 &&
@@ -883,7 +924,16 @@ export default function NewAddProduct() {
                       key={index}
                       className="d-flex justify-content-md-center"
                     >
-                      <Card style={{ width: "10rem" }}>
+                      <Card style={{ width: "18rem" }}>
+                        {!ele?.is_approved && ele?.created_type != "admins" && (
+                          <p className="newrq">
+                            <span>
+                              <AiOutlineInfoCircle size={20} />
+                              {`New Request from - ${ele?.createdby?.shope_name}`}
+                            </span>
+                          </p>
+                        )}
+
                         <Card.Img
                           className="p-2"
                           variant="top"
@@ -894,10 +944,10 @@ export default function NewAddProduct() {
                         <Card.Body>
                           <Row>
                             {ele?.spec_det?.length > 0 &&
-                              ele?.spec_det?.map((ele) => (
-                                <Col className="p-desc">
-                                  {ele?.title} : {ele?.value}
-                                </Col>
+                              ele?.spec_det?.slice(0, 5).map((ele, index) => (
+                                <div key={index} className="p-desc">
+                                  <strong>{ele?.title} :</strong> {ele?.value}
+                                </div>
                               ))}
                           </Row>
                           <Row className="mt-2">
