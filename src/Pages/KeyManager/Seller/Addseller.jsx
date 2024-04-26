@@ -56,7 +56,7 @@ const Addseller = () => {
         //     return;
         // }
 
-        console.log({ formData })
+        console.log(formData)
 
         if (isFormValid) {
             try {
