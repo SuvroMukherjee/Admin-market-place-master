@@ -78,6 +78,8 @@ const ApprovalPendingList = () => {
       return { ...ele, type: "Product" };
     });
     setData(newtypeadded);
+    // console.log(data);
+    
   };
 
 
@@ -88,7 +90,6 @@ const ApprovalPendingList = () => {
     });
     setSingleAddedSubCart(newtypeadded)
     
-
   }
 
   const filterSubCatdata = (id) => {
@@ -558,14 +559,14 @@ const ApprovalPendingList = () => {
                         <td>{ele?.categoryId?.title}</td>
                         <td>{ele?.subcategoryId?.title}</td>
                         <td>
-                          {ele?.is_approved == "pending" ? (
-                            <span>Approved</span>
-                          ) : (
+                          {ele?.is_approved === "pending" ? (
                             <span>Pending</span>
+                          ) : (
+                            <span>Approved</span>
                           )}
                         </td>
                         <td>
-                          {ele?.is_approved != "pending" ? (
+                          {ele?.is_approved !== "pending" ? (
                             <button
                               size="sm"
                               className="gotoBtnYellow"
@@ -583,7 +584,7 @@ const ApprovalPendingList = () => {
                               size="sm"
                               className="gotoBtn"
                               onClick={() =>
-                                navigate(`new-variations/${ele?._id}`)
+                                navigate(`/seller/seller-ownproduct-status/new-description/${ele?._id}`)
                               }
                             >
                               <span className="mx-2">

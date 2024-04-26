@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
-import { FaClipboardList } from "react-icons/fa";
+import { FaClipboardList, FaInfoCircle } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { AdminCreateUserList, StaffStatusUpdateByAdmin } from "../../API/api";
@@ -167,7 +167,10 @@ export default function UserList() {
                             <h3>Users List</h3>
                         </Col>
                     </Row>
-                    <Row >
+                    <Row className="mb-2">
+                    <Col xs={5} className="">
+                  <FaInfoCircle /> Keep the cursor pointer inside the table and use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right 
+                  </Col>
                         <Col className="d-flex justify-content-end p-2">
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/AddUser')}>
                                 <AiOutlinePlus /> Add New User

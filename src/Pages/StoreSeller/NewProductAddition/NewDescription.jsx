@@ -26,6 +26,7 @@ const NewDescription = () => {
         getProductdata()
     }, [])
 
+    
 
     async function getProductdata() {
         let res = await sellerNewAddedProductDtails(productId);
@@ -68,11 +69,12 @@ const NewDescription = () => {
 
         e.preventDefault();
         formData['sellerId'] = auth?.userId;
-
-        console.log({ formData })
+       
+        // console.log( formData )
 
         const res = await EditSellerOwnProduct(productId, formData);
-
+        //    console.log(res?.data?.data);
+           
         if (res?.response?.data?.error) {
             toast.error(res?.response?.data?.message)
         } else {

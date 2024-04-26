@@ -74,6 +74,7 @@ export default function ListSubCategory() {
 
     const handleEdit = (dataset) => {
         setModalData(dataset)
+        // console.log(dataset);
         setShowModal(true)
     }
 
@@ -83,15 +84,15 @@ export default function ListSubCategory() {
     };
 
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
+        { field: "id", headerName: "ID", width: 80 },
         {
             field: "image",
             headerName: "Image",
-            width: 100,
+            width: 130,
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <img className="productListImg" src={params.row.image?.[0]?.image_path} alt="" />
+                        <img className="productListImg" src={params.row.image?.[0]?.image_path} alt="brand_logo" />
                     </div>
                 );
             },
@@ -99,12 +100,12 @@ export default function ListSubCategory() {
         {
             field: "title",
             headerName: "Title",
-            width: 160,
+            width: 170,
         },
         {
             field: "status",
             headerName: "Status",
-            width: 150,
+            width: 110,
             renderCell: (params) => {
                 return (
                     <div>
@@ -117,7 +118,7 @@ export default function ListSubCategory() {
             field: "action",
             headerName: "Action",
             width: 500,
-            renderCell: (params) => {
+            renderCell: (params) => {     
                 return (
                     <div className="buttonWrapper">
                         <Button variant="warning" onClick={() => handleEdit(params?.row)} size="sm">
@@ -163,13 +164,11 @@ export default function ListSubCategory() {
                             <h3>Brand List</h3>
                         </Col>
                     </Row>
-                    <Row >
-                        <Col className="d-flex justify-content-end p-2">
+                    <Row className="mb-2">
+                        <Col className="d-flex justify-content-end p-2 gap-2">
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addbrand')}>
                                 <AiOutlinePlus /> Add New Brand
                             </Button>
-                        </Col>
-                        <Col className="d-flex justify-content-end p-2">
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/brand-request')}>
                                 <FaCodePullRequest /> Requested Brand
                             </Button>

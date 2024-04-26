@@ -103,17 +103,17 @@ export default function ListCategory() {
         {
             field: "title",
             headerName: "Title",
-            width: 160,
+            width: 170,
         },
         {
             field: "description",
             headerName: "Description",
-            width: 200,
+            width: 170,
         },
         {
             field: "status",
             headerName: "Status",
-            width: 120,
+            width: 100,
             renderCell: (params) => {
                 return (
                     <div>
@@ -179,12 +179,12 @@ export default function ListCategory() {
                         handleClose={handleClose}
                         data={modalData}
                     />
-                    <Row className="justify-content-md-center">
+                    <Row className="justify-content-md-center mb-2">
                         <Col md="auto">
                             <h3>Category List</h3>
                         </Col>
                     </Row>
-                    <Row >
+                    <Row  className="mb-2">
                         <Col></Col>
                         <Col xs={8} >
                           <Row>

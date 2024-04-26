@@ -44,7 +44,8 @@ export default function SellerProductManagment() {
   };
 
   const handleSellerModalOpen = (data) => {
-    setSellerDetails(data);
+    setSellerDetails(data.sellerId);
+    console.log(sellerDetails);
     setShowSellerModal(true);
   };
 
@@ -63,13 +64,13 @@ export default function SellerProductManagment() {
     await AdminSellerProductLists()
       .then((res) => {
         console.log(res?.data?.data, 'own data');
+        // console.log(" first product", res?.data?.data[0]);      
         const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
           ...item,
           id: index + 1,
         }));
         setSellerOwnData(dataWithUniqueIds);
-        
-        
+        // console.log(sellerOwnData);
         setLoading(false);
       })
       .catch((err) => {
@@ -120,6 +121,7 @@ export default function SellerProductManagment() {
       headerName: "Seller",
       width: 200,
       renderCell: (params) => {
+        
         return (
           <div className="productListItem">{params?.row?.sellerId?.email}</div>
         );
@@ -130,15 +132,14 @@ export default function SellerProductManagment() {
       field: "seller deatils",
       headerName: "Seller Details",
       width: 150,
-      renderCell: (params) => {
+      renderCell: (params) => {      
         return (
           <>
             <div className="buttonWrapper">
               <Button
                 variant="dark"
-                onClick={() => handleSellerModalOpen(params?.row?.sellerId)}
-                size="sm"
-              >
+                onClick={() => handleSellerModalOpen(params?.row)}
+                size="sm">
                 <FaEye /> View
               </Button>
             </div>
@@ -179,8 +180,7 @@ export default function SellerProductManagment() {
               <Button
                 variant="dark"
                 onClick={() => handleProductModalOpen(params?.row)}
-                size="sm"
-              >
+                size="sm">
                 <FaEye /> View
               </Button>
             </div>
@@ -291,7 +291,7 @@ export default function SellerProductManagment() {
             </Col>
             <Col xs={3}></Col>
             <Col xs={5} className="">
-              <FaInfoCircle /> Use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right
+              <FaInfoCircle /> Keep the cursor pointer inside the table and use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right
             </Col>
           </Row>
           
@@ -387,7 +387,7 @@ const UserCard = ({ user }) => {
         <Card.Body>
           <Card.Text>
             <strong>Shop Name: </strong>
-            {user?.shope_name}
+            {user?.Shop_Details_Info?.shope_name}
             <br />
             <strong>Username: </strong>
             {user?.user_name}
@@ -405,16 +405,16 @@ const UserCard = ({ user }) => {
             {addressString}
             <br />
             <strong>Pin Code: </strong>
-            {user?.pin_code}
+            {user?.Shop_Details_Info?.pin_code}
             <br />
             <strong>GST No: </strong>
-            {user?.gst_no}
+            {user?.doc_details?.gst_no}
             <br />
             <strong>Pickup Location: </strong>
-            {user?.picup_location}
+            {user?.Shop_Details_Info?.picup_location}
             <br />
             <strong>Commission Rate: </strong>
-            {user?.commission_data?.[0]?.commission_rate}%
+            {user?.interest_details?.commission_data?.[0]?.commission_rate}%
             <br />
             <strong>Average Rating : </strong> {user?.review || 0}
             <br />
@@ -422,7 +422,7 @@ const UserCard = ({ user }) => {
             {user?.status}
             <br />
             <strong>Total No of Unit: </strong>
-            {user?.total_no_of_unit}
+            {user?.Shop_Details_Info?.total_no_of_unit}
           </Card.Text>
           <Row>
             <Col className="d-flex align-items-center">
@@ -430,7 +430,7 @@ const UserCard = ({ user }) => {
             </Col>
             <Col xs={6}>
               <Carousel>
-                {user?.pic_of_shope?.map((image, index) => (
+                {user?.Shop_Details_Info?.pic_of_shope?.map((image, index) => (
                   <Carousel.Item key={index}>
                     <img
                       className="d-block w-100"

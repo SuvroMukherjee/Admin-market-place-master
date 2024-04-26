@@ -80,8 +80,6 @@ export default function ListSubCategory() {
         })
     }
 
-
-
     const columns = [
         { field: "id", headerName: "ID", width: 90 },
         {
@@ -97,7 +95,7 @@ export default function ListSubCategory() {
             },
         },
         {
-            field: "category", headerName: "Category", width: 100, renderCell: (params) => {
+            field: "category", headerName: "Category", width: 160, renderCell: (params) => {
                 return (
                     <div className="productListItem">
                         {params?.row?.category?.title}
@@ -108,17 +106,17 @@ export default function ListSubCategory() {
         {
             field: "title",
             headerName: "Title",
-            width: 150,
+            width: 160,
         },
         {
             field: "description",
             headerName: "Description",
-            width: 200,
+            width: 170,
         },
         {
             field: "status",
             headerName: "Status",
-            width: 120,
+            width: 90,
             renderCell: (params) => {
                 return (
                     <div>
@@ -189,7 +187,7 @@ export default function ListSubCategory() {
                         </Col>
                     </Row>
                     <Row className="mb-2">
-                        <Col className="d-flex justify-content-end px-1 gap-4">
+                        <Col className="d-flex justify-content-end p-2 gap-4">
                             {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addsubcategory')}>Add New Sub Category</button> */}
                             <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addsubcategory')}>
                                 <AiOutlinePlus /> Add New Sub Category

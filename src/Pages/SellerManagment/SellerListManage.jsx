@@ -330,7 +330,7 @@ export default function SellerListManage() {
       )}
       <div className="productList mt-2 p-4 mt-4">
         <Container>
-          <Row className="justify-content-md-center">
+          <Row className="justify-content-md-center mb-2">
             <Col md="auto">
               <h4>Seller - List</h4>
             </Col>
@@ -369,8 +369,8 @@ export default function SellerListManage() {
               </ButtonGroup>
             </Col>
             <Col xs={2}> Total : {data?.length}</Col>
-            <Col>
-              <FaInfoCircle /> Use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right if
+            <Col xs={5}>
+              <FaInfoCircle /> Keep the cursor pointer inside the table and use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right if
               needed.
             </Col>
           </Row>

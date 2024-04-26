@@ -31,7 +31,7 @@ const LoginPage = () => {
         event.preventDefault();
         setLoading(true);
         await delay(500);
-        console.log(`Username: ${inputUsername}, Password: ${inputPassword}`);
+        // console.log(`Username: ${inputUsername}, Password: ${inputPassword}`);
         if (inputUsername === "" || inputPassword === "") {
             setShow(true);
         } else {
