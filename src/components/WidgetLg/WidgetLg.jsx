@@ -4,8 +4,8 @@ import { Button, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/m
 import { CheckCircleOutline, HighlightOff, QueryBuilder } from "@mui/icons-material";
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
-export default function WidgetLg({product}) {
-    console.log({product})
+export default function WidgetLg({ product }) {
+    console.log({ product })
     return (
         <div className="widgetLg">
             <h3 className="widgetLgTitle">Latest Products</h3>
@@ -15,12 +15,12 @@ export default function WidgetLg({product}) {
                         <TableCell>Product</TableCell>
                         <TableCell>Category</TableCell>
                         <TableCell>Sub Category</TableCell>
-                        <TableCell>Amount</TableCell>
+                        <TableCell>Brand</TableCell>
                         {/* <TableCell>Status</TableCell> */}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {product?.length > 0 && product.map((ele,index) => (
+                    {product?.length > 0 && product.map((ele, index) => (
                         <TableRow key={index} className="widgetLgTr">
                             <TableCell className="widgetLgUser">
                                 <img
@@ -28,19 +28,20 @@ export default function WidgetLg({product}) {
                                     alt=""
                                     className="widgetLgImg"
                                 />
+                                {console.log({ ele })}
                                 <span className="widgetLgName">{ele?.name}</span>
                             </TableCell>
-                            <TableCell className="widgetLgDate">{ele?.categoryId?.title}</TableCell>
-                            <TableCell className="widgetLgDate">{ele?.subcategoryId?.title}</TableCell>
+                            <TableCell className="widgetLgDate">
+                                <img src={ele?.categoryId?.image?.[0]?.image_path} width={40} height={40} />
+                            </TableCell>
+                            <TableCell className="widgetLgDate">
+                                < img src={ele?.subcategoryId?.image?.[0]?.image_path} width={40} height={40} />
+                            </TableCell>
                             {/* <TableCell className="widgetLgAmount"></TableCell> */}
-                            <TableCell className="widgetLgStatus">
-                                <Button
-                                    startIcon={<CurrencyRupeeIcon style={{border:'1px solid',borderRadius:'50px'}}/>}
-                                    className="widgetLgButton Approved"
-                                    style={{fontWeight:'bold'}}
-                                >
-                                    {ele?.regular_price}
-                                </Button>
+                            <TableCell className="widgetLgDate" style={{objectFit:'contain'}}>
+
+                                <img src={ele?.brandId?.image?.[0]?.image_path} width={40} height={40} />
+
                             </TableCell>
                         </TableRow>
                     ))}
