@@ -15,7 +15,7 @@ export default function WidgetLg({product}) {
                         <TableCell>Product</TableCell>
                         <TableCell>Category</TableCell>
                         <TableCell>Sub Category</TableCell>
-                        <TableCell>Amount</TableCell>
+                        <TableCell>Brand</TableCell>
                         {/* <TableCell>Status</TableCell> */}
                     </TableRow>
                 </TableHead>
@@ -28,9 +28,10 @@ export default function WidgetLg({product}) {
                                     alt=""
                                     className="widgetLgImg"
                                 />
+                                {console.log({ele})}
                                 <span className="widgetLgName">{ele?.name}</span>
                             </TableCell>
-                            <TableCell className="widgetLgDate">{ele?.categoryId?.title}</TableCell>
+                            <TableCell className="widgetLgDate">{ele?.categoryId?.image?.[0]?.image_path}</TableCell>
                             <TableCell className="widgetLgDate">{ele?.subcategoryId?.title}</TableCell>
                             {/* <TableCell className="widgetLgAmount"></TableCell> */}
                             <TableCell className="widgetLgStatus">
