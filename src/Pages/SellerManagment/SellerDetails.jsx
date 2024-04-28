@@ -26,6 +26,8 @@ const SellerDetails = () => {
     const getSellerData = async () => {
         let res = await sellerDetails(sellerId)
         setSellerData(res?.data?.data)
+        // console.log(res?.data?.data);
+        
         setTimeout(() => {
             setLoading(false)
         }, 3000);

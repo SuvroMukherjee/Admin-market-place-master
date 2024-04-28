@@ -50,6 +50,7 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
     };
 
     const handleFileChange = async (e) => {
+        console.log(e.target.files[0]); 
         onFileUpload(e.target.files[0])
     };
 
@@ -59,7 +60,7 @@ const EditBrandPage = ({ showModal, handleClose, data }) => {
         formData.append("file", data);
         await FileUpload(formData)
             .then((res) => {
-                console.log(res, "res");
+                console.log(res?.data?.data, "res");
                 setTimeout(() => {
                     //setFile(res?.data?.data?.fileurl)
                     setModalData({ ...modalData, ['image']: {image_path : res?.data?.data?.fileurl} });
