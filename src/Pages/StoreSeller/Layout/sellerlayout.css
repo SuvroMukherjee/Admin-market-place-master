@@ -451,6 +451,7 @@ th {
   background-color: #9af064;
   color: black;
 }
+
 .custom-nav .custom-nav-right .settings:hover {
   color: #9af064;
 }
@@ -693,10 +694,26 @@ th {
   letter-spacing: 0.5px;
 }
 
+.cmpgin-sub-title2 {
+  font-size: 12px;
+  font-weight: 450;
+  text-transform: capitalize;
+  color: #D20062;
+  letter-spacing: 0.5px;
+}
+
+.cmpgin-sub-title3 {
+  font-size: 12px;
+  font-weight: 450;
+  text-transform: capitalize;
+  color: #0E46A3;
+  letter-spacing: 0.5px;
+}
+
 .cmpComtinue {
   border: none;
-  background-color: #134545;
-  color: #4ab706;
+  background-color: #f3d2dc;
+  color: #ff004d;
   text-transform: uppercase;
   font-size: 12px;
   padding: 2%;
@@ -705,11 +722,23 @@ th {
   letter-spacing: 1px;
 }
 
+.cmpComtinueLaunch{
+  border: none;
+    background-color: #8cc7f2;
+    color: #0E46A3;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 2%;
+    font-weight: bold;
+    border-radius: 7px;
+    letter-spacing: 1px;
+}
+
 .cmpComtinue-temp {
   border: none;
   /* background-color: #000;
     color: #9af064; */
-  background-color: lightgrey;
+  background-color: whitesmoke;
   text-transform: uppercase;
   font-size: 12px;
   padding: 2%;
@@ -833,7 +862,7 @@ th {
 }
 
 .converterBack {
-  background-color: #a8f9f2;
+  background-color: #f1f3f3;
   padding: 5%;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
@@ -934,26 +963,121 @@ th {
   cursor: pointer;
 }
 
-.stratAdd{
-        text-align: center;
-        padding: 2%;
-        /* background: black; */
-        color: #484847;
-        font-size: 22px;
-        font-weight: 500;
+.stratAdd {
+  text-align: center;
+  padding: 2%;
+  /* background: black; */
+  color: #484847;
+  font-size: 22px;
+  font-weight: 500;
 }
 
-.stratAdd span{
+.stratAdd span {
   background: black;
-    font-size: 18px;
-    padding: 2px 50px;
-    color: wheat;
-    cursor: pointer;
-}  
+  font-size: 18px;
+  padding: 2px 50px;
+  color: wheat;
+  cursor: pointer;
+}
 
-.pfImg{
-      width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-      }
+.pfImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bcard {
+  cursor: pointer;
+  background-color: #effaef;
+}
+
+.bcard .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #003000;
+}
+
+.bcard2 {
+  cursor: pointer;
+  background-color: #f9e1e6;
+
+}
+
+.bcard2active {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border: 2px solid #D20062;
+  cursor: pointer;
+    background-color: #f9e1e6;
+}
+
+.bcard2active .card-header{
+  font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #D20062;
+}
+
+.bcard2 .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #D20062;
+}
+
+
+.bcard3 {
+  cursor: pointer;
+  background-color: #d1ebfd;
+}
+
+.bcard3 .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #0E46A3;
+}
+
+.chooseText {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.chContainer {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 10%;
+}
+
+.chContainer .box1 {
+  background-color: #DDDDDD;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #302e2e;
+  padding: 5%;
+  letter-spacing: 0.5px;
+}
+
+.dwnTemp {
+  padding: 5%;
+  background: #DDDDDD;
+  color: #002800;
+  font-weight: 500;
+  font-size: 14px;
+
+}
+
+.dwnTemp2 {
+  padding: 5%;
+  background: #DDDDDD;
+  color: #002800;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.chImg {
+  border: 2px solid lightgrey;
+}

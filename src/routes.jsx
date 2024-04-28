@@ -80,6 +80,7 @@ import SubCategoryRequest from "./Pages/StoreSeller/NewProductAddition/SubCatego
 import SubCatReqList from "./Pages/ProductManagement/SubCategory/SubCatReqList";
 import { Testimonial } from "./Pages/Testimonials/Testimonial";
 import NewBannermanager from "./Pages/BannerManagemnt/NewBannermanager";
+import BulkUpload from "./Pages/StoreSeller/Layout/BulkUpload";
 
 
 export default function Router({ socket }) {
@@ -228,7 +229,7 @@ export default function Router({ socket }) {
             { path: "advertising-campaign", element: <AdvertisingProduct /> },
             { path: "select-campaign/:id?", element: <CampaignDetails /> },
             { path: "display-campaign/:id?", element: <DisplayCampaign /> },
-            { path: "bulk-product-upload", element: <BulkUploadProduct /> },
+            { path: "bulk-product-upload", element: <BulkUpload /> },
             { path: "seller-report", element: <Report /> },
             { path: "reset", element: <ResetPassComp /> },
             { path: "profile/:id", element: <ProfilePage /> },

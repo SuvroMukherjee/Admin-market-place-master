@@ -31,6 +31,7 @@ import {
   sellerVariationsBulkUpload,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
+import Select from 'react-select'
 
 const BulkUploadProduct = () => {
   const [loading, setLoading] = useState(false);
@@ -152,9 +153,26 @@ const BulkUploadProduct = () => {
     setProductList(res?.data?.data);
   };
 
+
+  {/********************* */}
+
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
+
+  const [selectedOption, setselectedOption] = useState([])
+
+  const handleChange = (selectedOption) => {
+    this.setState({ selectedOption }, () =>
+      console.log(`Option selected:`, this.state.selectedOption)
+    );
+  };
+
   return (
     <div>
-      <Container>
+      {/* <Container>
         <Row className="mt-4">
           <Col>
             <h4>Choose a template to get started</h4>
@@ -362,7 +380,11 @@ const BulkUploadProduct = () => {
       </Container>
       <Container className="mt-4 p-4 mb-4">
         <ImageConveter showConverter={showConverter} />
-      </Container>
+      </Container> */}
+
+
+     
+
       <Toaster />
     </div>
   );
