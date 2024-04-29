@@ -38,6 +38,7 @@ import {
 import { productRows } from "../../../dummyData";
 import useAuth from "../../../hooks/useAuth";
 import "../product.css";
+import { LiaMailBulkSolid } from "react-icons/lia";
 
 export default function ListProduct() {
   const [data, setData] = useState(productRows);
@@ -248,7 +249,7 @@ export default function ListProduct() {
             </Col>
           </Row>
 
-          <Row className="mt-4">
+          {/* <Row className="mt-4">
             <Col
               style={{
                 border: "1px solid lightgrey",
@@ -344,10 +345,13 @@ export default function ListProduct() {
               </Row>
             </Col>
             <Col xs={4}></Col>
-          </Row>
+          </Row> */}
 
           <Row className="mt-4">
-            <Col xs={10}></Col>
+            <Col xs={6}></Col>
+            <Col>
+              <Button variant="dark" size="sm" onClick={() => navigate('/Admin/uploadbulk')}> <span className="mx-2"><LiaMailBulkSolid/></span>Upload Products in Bulk</Button>
+            </Col>
             <Col>
               <Row>
                 <Col>
@@ -528,7 +532,7 @@ export default function ListProduct() {
                                 Active
                               </Button>
                             )}
-                            <Button variant="outline-danger" size="sm">
+                            <Button variant="outline-danger" size="sm" onClick={() => handledeleteProduct(row?._id)}>
                               Delete
                             </Button>
                           </div>

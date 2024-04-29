@@ -81,6 +81,7 @@ import SubCatReqList from "./Pages/ProductManagement/SubCategory/SubCatReqList";
 import { Testimonial } from "./Pages/Testimonials/Testimonial";
 import NewBannermanager from "./Pages/BannerManagemnt/NewBannermanager";
 import BulkUpload from "./Pages/StoreSeller/Layout/BulkUpload";
+import BulkAdminUpload from "./Pages/ProductManagement/Product/BulkAdminUpload";
 
 
 export default function Router({ socket }) {
@@ -134,6 +135,7 @@ export default function Router({ socket }) {
             { path: "Addbrand", element: <AddBrandPage /> },
             { path: "product", element: <ListProduct /> },
             { path: "Addproduct", element: <AddProduct /> },
+            { path: "uploadbulk", element: <BulkAdminUpload /> },
             { path: "Editproduct/:id", element: <EditProduct /> },
             { path: "product-offer", element: <ProductOffer /> },
             { path: "testimonial", element: <Testimonial /> },

@@ -185,3 +185,101 @@
 .fontbold{
   font-weight: bold;
 }
+
+
+.AdminBulk .bcard {
+  cursor: pointer;
+  background-color: #effaef;
+  width: 250px;
+}
+
+.bcard .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #003000;
+}
+
+.AdminBulk .bcard2 {
+  cursor: pointer;
+  background-color: #f9e1e6;
+  width: 250px;
+}
+
+.AdminBulk .bcard2active {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border: 2px solid #D20062;
+  cursor: pointer;
+  background-color: #f9e1e6;
+  width: 250px; 
+}
+
+.AdminBulk  .bcard2active .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #D20062;
+}
+
+.bcard2 .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #D20062;
+}
+
+
+.AdminBulk .bcard3 {
+  cursor: pointer;
+  background-color: #d1ebfd;
+}
+
+.bcard3 .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #0E46A3;
+}
+
+.chooseText {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.chContainer {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 10%;
+}
+
+.chContainer .box1 {
+  background-color: #DDDDDD;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #302e2e;
+  padding: 5%;
+  letter-spacing: 0.5px;
+}
+
+.dwnTemp {
+  padding: 5%;
+  background: #DDDDDD;
+  color: #002800;
+  font-weight: 500;
+  font-size: 14px;
+
+}
+
+.dwnTemp2 {
+  padding: 5%;
+  background: #DDDDDD;
+  color: #002800;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.chImg {
+  border: 2px solid lightgrey;
+}
