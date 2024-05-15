@@ -324,7 +324,7 @@ const BulkAdminUpload = () => {
       <Container className="mt-4 AdminBulk">
         <Row>
           <Col onClick={() => setChoose(!choose)}>
-            <h6>STEP - 1</h6>
+            <h6 className="stepNum">STEP - 1</h6>
             <Card className="bcard">
               <Card.Header className="text-center">
                 Upload New Product
@@ -359,9 +359,10 @@ const BulkAdminUpload = () => {
           </Col>
 
           <Col>
+            <h6 className="stepNum">STEP - 2</h6>
             <Card
               className={!activeVariation ? "bcard2" : "bcard2active"}
-              onClick={handleShow}
+             // onClick={handleShow}
             >
               <Card.Header className="text-center">
                 Upload Variation Of Existing Product
@@ -385,11 +386,8 @@ const BulkAdminUpload = () => {
                   <Col className="cmpgin-sub-title">{}</Col>
                 </Row>
                 <Row>
-                  <Col className="mt-2">
-                    <button
-                      className="w-100 cmpComtinue-temp"
-                      onClick={() => handleShow()}
-                    >
+                  <Col className="mt-2" onClick={() => handleShow()}>
+                    <button className="w-100 cmpComtinue-temp">
                       <span>
                         <MdOutlineFileDownload size={25} />
                       </span>
@@ -432,6 +430,7 @@ const BulkAdminUpload = () => {
           </Col>
 
           <Col>
+            <h6 className="stepNum">USE IT</h6>
             <Card className="bcard3">
               <Card.Header className="text-center">
                 Convert Your Image
