@@ -977,13 +977,13 @@ const ProductSpecificationForm = ({
                         </strong>
                       </Col>
                       <Col>
-                        {!ele?.is_approved && ele?.created_type != "admins" && (
+                        {!ele?.is_approved  && (
                           <Button
                             size="sm"
-                            variant="outline-secondary"
+                            variant="outline-dark"
                             onClick={() => ApprovalVariant(ele)}
                           >
-                            Approved {ele?.skuId} variation
+                          Make Approve {ele?.skuId} variation
                           </Button>
                         )}
                       </Col>

@@ -98,6 +98,8 @@ const Offer = () => {
         let res = await offerCreate(formData);
 
         console.log(res?.data?.data,'data')
+        getOfferTypeLists();
+        getProductdata();
     }
 
     {/** */ }
