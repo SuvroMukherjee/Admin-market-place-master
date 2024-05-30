@@ -22,7 +22,7 @@ export default function WidgetLg({ product }) {
                 <TableBody>
                     {product?.length > 0 && product.map((ele, index) => (
                         <TableRow key={index} className="widgetLgTr">
-                            <TableCell className="widgetLgUser">
+                            <TableCell className="widgetLgUser flex">
                                 <img
                                     src={ele?.image?.[0]?.image_path}
                                     alt=""

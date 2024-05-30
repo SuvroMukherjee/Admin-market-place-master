@@ -39,6 +39,7 @@ import { productRows } from "../../../dummyData";
 import useAuth from "../../../hooks/useAuth";
 import "../product.css";
 import { LiaMailBulkSolid } from "react-icons/lia";
+import { SiGooglechrome } from "react-icons/si";
 
 export default function ListProduct() {
   const [data, setData] = useState(productRows);
@@ -350,7 +351,17 @@ export default function ListProduct() {
           <Row className="mt-4">
             <Col xs={6}></Col>
             <Col>
-              <Button variant="dark" size="sm" onClick={() => navigate('/Admin/uploadbulk')}> <span className="mx-2"><LiaMailBulkSolid/></span>Upload Products in Bulk</Button>
+              <Button
+                variant="dark"
+                size="sm"
+                onClick={() => navigate("/Admin/uploadbulk")}
+              >
+                {" "}
+                <span className="mx-2">
+                  <LiaMailBulkSolid />
+                </span>
+                Upload Products in Bulk
+              </Button>
             </Col>
             <Col>
               <Row>
@@ -409,6 +420,7 @@ export default function ListProduct() {
                       {/* <th>Description</th> */}
                       <th>Category</th>
                       <th>Sub Category</th>
+                      <th>Live Preview</th>
                       {/* <th>Tags</th> */}
                       {/* <th>Status</th> */}
                       {/* <th>Type</th> */}
@@ -491,6 +503,13 @@ export default function ListProduct() {
                                                     </div>
                                                 </td> */}
                         {/* <td>{row?.type}</td> */}
+                        <td
+                          onClick={() =>
+                            navigate(`/live-preview/${row?._id}`)
+                          }
+                        >
+                          <SiGooglechrome size={25} />
+                        </td>
                         <td style={{ width: "275px" }}>
                           <div className="buttonWrapper">
                             <Button
@@ -532,7 +551,11 @@ export default function ListProduct() {
                                 Active
                               </Button>
                             )}
-                            <Button variant="outline-danger" size="sm" onClick={() => handledeleteProduct(row?._id)}>
+                            <Button
+                              variant="outline-danger"
+                              size="sm"
+                              onClick={() => handledeleteProduct(row?._id)}
+                            >
                               Delete
                             </Button>
                           </div>
@@ -977,13 +1000,13 @@ const ProductSpecificationForm = ({
                         </strong>
                       </Col>
                       <Col>
-                        {!ele?.is_approved  && (
+                        {!ele?.is_approved && (
                           <Button
                             size="sm"
                             variant="outline-dark"
                             onClick={() => ApprovalVariant(ele)}
                           >
-                          Make Approve {ele?.skuId} variation
+                            Make Approve {ele?.skuId} variation
                           </Button>
                         )}
                       </Col>
