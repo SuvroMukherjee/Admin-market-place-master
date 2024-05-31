@@ -514,7 +514,7 @@ export const Testimonial = () => {
                         width="50"
                       />
                     </td>
-                    <td>{item?.description}</td>
+                    <td  className="px-5">{item?.description}</td>
                     <td>
                       {toEdit === item?._id ? (
                         <button
