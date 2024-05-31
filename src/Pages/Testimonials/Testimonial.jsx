@@ -21,6 +21,7 @@ export const Testimonial = () => {
 
   const [fromData, setFormData] = useState({
     name: "",
+    productName: "",
     title: "",
     rating: "",
     img: "",
@@ -49,6 +50,13 @@ export const Testimonial = () => {
   };
 
   const handleDelete = (id) => async () => {
+    const confirmation = window.confirm(
+      "Are you sure you want to Delete This Testimonial?"
+    );
+    // Proceed only if the user confirms
+    if (!confirmation) {
+      return;
+    }
     try {
       // Call API to delete the testimonial
       const res = await deleteTestimonial(id);
@@ -83,10 +91,11 @@ export const Testimonial = () => {
       const res = await fetchSingleTestimonial(id);
       if (res?.status === 200) {
         // eslint-disable-next-line no-unsafe-optional-chaining
-        const { name, title, review, description } = res?.data?.data;
+        const { name, productName, title, review, description } = res?.data?.data;
         setFormData({
           ...fromData,
           name,
+          productName,
           title,
           rating: review,
           description,
@@ -118,6 +127,7 @@ export const Testimonial = () => {
 
     if (
       fromData?.name === "" ||
+      fromData?.productName === "" ||
       fromData?.title === "" ||
       fromData?.rating === "" ||
       fromData?.description === ""
@@ -133,6 +143,7 @@ export const Testimonial = () => {
       // Call API to update the testimonial
       const payload = {
         name: fromData?.name,
+        productName: fromData?.productName,
         title: fromData?.title,
         review: fromData?.rating,
         description: fromData?.description,
@@ -152,6 +163,7 @@ export const Testimonial = () => {
         setShowAddOptions(false);
         setFormData({
           name: "",
+          productName: "",
           title: "",
           rating: "",
           img: "",
@@ -166,6 +178,7 @@ export const Testimonial = () => {
         setShowAddOptions(false);
         setFormData({
           name: "",
+          productName: "",
           title: "",
           rating: "",
           img: "",
@@ -181,6 +194,7 @@ export const Testimonial = () => {
       setShowAddOptions(false);
       setFormData({
         name: "",
+        productName: "",
         title: "",
         rating: "",
         img: "",
@@ -193,6 +207,7 @@ export const Testimonial = () => {
 
     if (
       fromData?.name === "" ||
+      fromData?.productName === "" ||
       fromData?.title === "" ||
       fromData?.rating === "" ||
       fromData?.description === "" ||
@@ -208,6 +223,7 @@ export const Testimonial = () => {
     try {
       const payload = {
         name: fromData?.name,
+        productName: fromData?.productName,
         title: fromData?.title,
         review: fromData?.rating,
         description: fromData?.description,
@@ -223,6 +239,7 @@ export const Testimonial = () => {
         getTestimonialData();
         setFormData({
           name: "",
+          productName: "",
           title: "",
           rating: "",
           img: "",
@@ -299,6 +316,7 @@ export const Testimonial = () => {
                 setToEdit(null);
                 setFormData({
                   name: "",
+                  productName: "",
                   title: "",
                   rating: "",
                   img: "",
@@ -329,6 +347,21 @@ export const Testimonial = () => {
                   className="form-control"
                   id="name"
                   placeholder="Enter Name"
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="name" className="form-label">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  value={fromData?.productName}
+                  onChange={(e) =>
+                    setFormData({ ...fromData, productName: e.target.value })
+                  }
+                  className="form-control"
+                  id="productName"
+                  placeholder="Enter Product Name"
                 />
               </div>
               <div className="mb-2">
@@ -454,6 +487,7 @@ export const Testimonial = () => {
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Product</th>
                 <th scope="col">Title</th>
                 <th scope="col">Rating</th>
                 <th scope="col">Image</th>
@@ -467,6 +501,7 @@ export const Testimonial = () => {
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
                     <td>{item?.name}</td>
+                    <td>{item?.productName}</td>
                     <td>{item?.title}</td>
                     <td>{item?.review}</td>
                     <td>
@@ -489,6 +524,7 @@ export const Testimonial = () => {
                             setShowAddOptions(false);
                             setFormData({
                               name: "",
+                              productName: "",
                               title: "",
                               rating: "",
                               img: "",
