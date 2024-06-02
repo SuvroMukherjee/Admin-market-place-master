@@ -40,6 +40,7 @@ import useAuth from "../../../hooks/useAuth";
 import "../product.css";
 import { LiaMailBulkSolid } from "react-icons/lia";
 import { SiGooglechrome } from "react-icons/si";
+import { CiCircleInfo } from "react-icons/ci";
 
 export default function ListProduct() {
   const [data, setData] = useState(productRows);
@@ -503,13 +504,33 @@ export default function ListProduct() {
                                                     </div>
                                                 </td> */}
                         {/* <td>{row?.type}</td> */}
-                        <td
-                          onClick={() =>
-                            navigate(`/live-preview/${row?._id}`)
-                          }
-                        >
-                          <SiGooglechrome size={25} />
+                        <td className="d-flex justify-content-center">
+                          {row?.specId?.length > 0 ? (
+                            <a
+                              href={`http://zoofi.in/livepreview/${row?._id}`}
+                              target="_blank"
+                            >
+                              {/* <SiGooglechrome size={25} /> */}
+                              <Image
+                                src="https://w7.pngwing.com/pngs/1001/808/png-transparent-google-chrome-app-web-browser-icon-google-chrome-logo-text-orange-logo.png"
+                                width={50}
+                                height={50}
+                                thumbnail
+                              />
+                            </a>
+                          ) : (
+                            <p
+                              style={{
+                                color: "rgb(122 119 119)",
+                                fontSize: "12px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              <CiCircleInfo size={15} /> Add Atleast 1 variant
+                            </p>
+                          )}{" "}
                         </td>
+
                         <td style={{ width: "275px" }}>
                           <div className="buttonWrapper">
                             <Button
