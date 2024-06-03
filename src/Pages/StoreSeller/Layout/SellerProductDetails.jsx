@@ -28,6 +28,7 @@ import { FaRegStar } from "react-icons/fa";
 const SellerProductDetails = () => {
 
     const [product, setproduct] = useState()
+    const [loading, setLoading] = useState(true)
 
     const { id: Pid } = useParams()
 
@@ -39,6 +40,7 @@ const SellerProductDetails = () => {
         let res = await sellerProductDeatils(Pid);
         console.log(res?.data?.data)
         setproduct(res?.data?.data)
+        setLoading(false);
     }
 
     const navbarStyle = {
@@ -62,56 +64,69 @@ const SellerProductDetails = () => {
             </div>
             <div>
                 <Container>
-                    <Row>
-                        <Col xs={4} className="mt-4 p-4">
-                            <SliderImage images={product?.SellerProductData?.specId?.image} />
-                        </Col>
+                    {loading ?
+                     <Container className='mt-4'>
+                     <Row>
+                         <Col className='d-flex justify-content-center align-items-center'>
+                             <Spinner animation="border" size="lg" role="status">
+                                 <span className="visually-hidden">Loading...</span>
+                             </Spinner>
+                         </Col>
+                     </Row>
+                 </Container>
+                     :
+                     <Row>
+                     <Col xs={4} className="mt-4 p-4">
+                         <SliderImage images={product?.SellerProductData?.specId?.image} />
+                     </Col>
 
-                        <Col className="mt-4 p-4">
-                            <Row className="mt-2">
-                                <Col className="sellerpName">{product?.SellerProductData?.name}</Col>
-                            </Row>
-                            <Row className="mt-2">
-                                <h6><FaRegStar size={25} color='#FF9843' /> <FaRegStar size={25} color='#FF9843' /> <FaRegStar size={25} color='#FF9843' /> <FaRegStar size={25} color='#FF9843' /> <FaRegStar size={25} color='#FF9843' /> </h6>
-                            </Row>
-                            <Row className="mt-2">
-                                <Col className="sellerpName2">
-                                    <span> SKU : </span> {product?.SellerProductData?.specId?.skuId?.toUpperCase()}
-                                </Col>
-                            </Row>
-                            <Row className="mt-2">
-                                <Col className="sellerpName2">
-                                    <span>PRICE : </span> <span className="avaible" style={{fontSize:'24px'}}> ₹ {product?.SellerProductData?.specId?.price?.toLocaleString()} </span>
-                                </Col>
-                            </Row>
-                            <Row className="mt-2">
-                                <Col xs={12} className="sellerpName2">Description</Col>
-                                <Col className="mt-2">
-                                    {product?.SellerProductData?.productId.desc}
-                                </Col>
-                            </Row>
-                            <Row className="mt-4">
-                                <Col xs={12} className="sellerpName2">Specification</Col>
-                                <Col>
-                                    {product?.SellerProductData?.specId?.spec_det?.length > 0 && product?.SellerProductData?.specId?.spec_det?.map((ele) => (
-                                        <Row className="sellerpName3 m-2">
-                                            {ele?.title} : {ele?.value}
-                                        </Row>
-                                    ))}
-                                </Col>
-                            </Row>
-                            <Row className="mt-2">
-                                <Col xs={12} className="sellerpName2"> Full Description</Col>
-                                <Col className="mt-2">
-                                    <p
-                                        dangerouslySetInnerHTML={createMarkup(product?.SellerProductData?.productId?.full_desc)}
-                                    />
-                                </Col>
-                            </Row>
-                            
-                        </Col>
+                     <Col className="mt-4 p-4">
+                         <Row className="mt-2">
+                             <Col className="sellerpName">{product?.SellerProductData?.name}</Col>
+                         </Row>
+                         <Row className="mt-2">
+                             <h6><FaRegStar size={25} color='#FF9843' /> <FaRegStar size={25} color='#FF9843' /> <FaRegStar size={25} color='#FF9843' /> <FaRegStar size={25} color='#FF9843' /> <FaRegStar size={25} color='#FF9843' /> </h6>
+                         </Row>
+                         <Row className="mt-2">
+                             <Col className="sellerpName2">
+                                 <span> SKU : </span> {product?.SellerProductData?.specId?.skuId?.toUpperCase()}
+                             </Col>
+                         </Row>
+                         <Row className="mt-2">
+                             <Col className="sellerpName2">
+                                 <span>PRICE : </span> <span className="avaible" style={{fontSize:'24px'}}> ₹ {product?.SellerProductData?.specId?.price?.toLocaleString()} </span>
+                             </Col>
+                         </Row>
+                         <Row className="mt-2">
+                             <Col xs={12} className="sellerpName2">Description</Col>
+                             <Col className="mt-2">
+                                 {product?.SellerProductData?.productId.desc}
+                             </Col>
+                         </Row>
+                         <Row className="mt-4">
+                             <Col xs={12} className="sellerpName2">Specification</Col>
+                             <Col>
+                                 {product?.SellerProductData?.specId?.spec_det?.length > 0 && product?.SellerProductData?.specId?.spec_det?.map((ele) => (
+                                     <Row className="sellerpName3 m-2">
+                                         {ele?.title} : {ele?.value}
+                                     </Row>
+                                 ))}
+                             </Col>
+                         </Row>
+                         <Row className="mt-2">
+                             <Col xs={12} className="sellerpName2"> Full Description</Col>
+                             <Col className="mt-2">
+                                 <p
+                                     dangerouslySetInnerHTML={createMarkup(product?.SellerProductData?.productId?.full_desc)}
+                                 />
+                             </Col>
+                         </Row>
+                         
+                     </Col>
 
-                    </Row>
+                 </Row>
+                     }
+                 
                 </Container>
             </div>
         </div>
