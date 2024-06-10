@@ -77,6 +77,12 @@ export const AdminSidebarData = [
     cName: "nav-text",
   },
   {
+    title: "Bulk Product",
+    path: "/Admin/uploadbulk",
+    icon: FaCartArrowDown,
+    cName: "nav-text",
+  },
+  {
     title: "Offers",
     path: "/Admin/product-offer",
     icon: FaCartArrowDown,

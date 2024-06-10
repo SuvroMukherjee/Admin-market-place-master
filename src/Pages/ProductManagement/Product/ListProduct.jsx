@@ -39,6 +39,8 @@ import { productRows } from "../../../dummyData";
 import useAuth from "../../../hooks/useAuth";
 import "../product.css";
 import { LiaMailBulkSolid } from "react-icons/lia";
+import { SiGooglechrome } from "react-icons/si";
+import { CiCircleInfo } from "react-icons/ci";
 
 export default function ListProduct() {
   const [data, setData] = useState(productRows);
@@ -350,7 +352,17 @@ export default function ListProduct() {
           <Row className="mt-4">
             <Col xs={6}></Col>
             <Col>
-              <Button variant="dark" size="sm" onClick={() => navigate('/Admin/uploadbulk')}> <span className="mx-2"><LiaMailBulkSolid/></span>Upload Products in Bulk</Button>
+              <Button
+                variant="dark"
+                size="sm"
+                onClick={() => navigate("/Admin/uploadbulk")}
+              >
+                {" "}
+                <span className="mx-2">
+                  <LiaMailBulkSolid />
+                </span>
+                Upload Products in Bulk
+              </Button>
             </Col>
             <Col>
               <Row>
@@ -409,6 +421,7 @@ export default function ListProduct() {
                       {/* <th>Description</th> */}
                       <th>Category</th>
                       <th>Sub Category</th>
+                      <th>Live Preview</th>
                       {/* <th>Tags</th> */}
                       {/* <th>Status</th> */}
                       {/* <th>Type</th> */}
@@ -491,6 +504,33 @@ export default function ListProduct() {
                                                     </div>
                                                 </td> */}
                         {/* <td>{row?.type}</td> */}
+                        <td className="d-flex justify-content-center">
+                          {row?.specId?.length > 0 ? (
+                            <a
+                              href={`http://zoofi.in/livepreview/${row?._id}`}
+                              target="_blank"
+                            >
+                              {/* <SiGooglechrome size={25} /> */}
+                              <Image
+                                src="https://w7.pngwing.com/pngs/1001/808/png-transparent-google-chrome-app-web-browser-icon-google-chrome-logo-text-orange-logo.png"
+                                width={50}
+                                height={50}
+                                thumbnail
+                              />
+                            </a>
+                          ) : (
+                            <p
+                              style={{
+                                color: "rgb(122 119 119)",
+                                fontSize: "12px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              <CiCircleInfo size={15} /> Add Atleast 1 variant
+                            </p>
+                          )}{" "}
+                        </td>
+
                         <td style={{ width: "275px" }}>
                           <div className="buttonWrapper">
                             <Button
@@ -532,7 +572,11 @@ export default function ListProduct() {
                                 Active
                               </Button>
                             )}
-                            <Button variant="outline-danger" size="sm" onClick={() => handledeleteProduct(row?._id)}>
+                            <Button
+                              variant="outline-danger"
+                              size="sm"
+                              onClick={() => handledeleteProduct(row?._id)}
+                            >
                               Delete
                             </Button>
                           </div>
@@ -977,13 +1021,13 @@ const ProductSpecificationForm = ({
                         </strong>
                       </Col>
                       <Col>
-                        {!ele?.is_approved && ele?.created_type != "admins" && (
+                        {!ele?.is_approved && (
                           <Button
                             size="sm"
-                            variant="outline-secondary"
+                            variant="outline-dark"
                             onClick={() => ApprovalVariant(ele)}
                           >
-                            Approved {ele?.skuId} variation
+                            Make Approve {ele?.skuId} variation
                           </Button>
                         )}
                       </Col>

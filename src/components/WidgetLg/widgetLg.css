@@ -20,9 +20,12 @@
 }
 
 .widgetLgUser {
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    align-items: left;
     font-weight: 600;
+    justify-content:flex-start !important;
+    color: black !important;
+    font-weight: 500 !important;
 }
 
 .widgetLgImg {

@@ -190,7 +190,8 @@
 .AdminBulk .bcard {
   cursor: pointer;
   background-color: #effaef;
-  width: 250px;
+  min-height: 315px;
+  /* width: 250px; */
 }
 
 .bcard .card-header {
@@ -203,7 +204,8 @@
 .AdminBulk .bcard2 {
   cursor: pointer;
   background-color: #f9e1e6;
-  width: 250px;
+   min-height: 315px;
+  /* width: 250px; */
 }
 
 .AdminBulk .bcard2active {
@@ -211,7 +213,8 @@
   border: 2px solid #D20062;
   cursor: pointer;
   background-color: #f9e1e6;
-  width: 250px; 
+  min-height: 315px;
+  /* width: 250px;  */
 }
 
 .AdminBulk  .bcard2active .card-header {
@@ -232,6 +235,7 @@
 .AdminBulk .bcard3 {
   cursor: pointer;
   background-color: #d1ebfd;
+   min-height: 315px;
 }
 
 .bcard3 .card-header {
@@ -246,6 +250,16 @@
   font-size: 14px;
   text-transform: uppercase;
   color: #000;
+}
+
+.stepNum{
+      text-align: center;
+    background: #eeeded;
+    padding: 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    border: 1px solid darkgrey;
 }
 
 .chContainer {

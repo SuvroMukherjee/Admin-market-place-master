@@ -493,6 +493,7 @@ const EditProduct = () => {
                         as="textarea"
                         placeholder="Enter Product Features"
                         name="features"
+                        rows={4}
                         value={formData.features?.join(", ")}
                         onChange={handleFeaturesChange}
                       />
@@ -507,7 +508,7 @@ const EditProduct = () => {
                 <Row className="mt-2">
                   <Col xs={6}>
                     <Form.Group controlId="formFileMultiple" className="mb-3">
-                      <Form.Label>Multiple Images</Form.Label>
+                      <Form.Label>Product Identification Image</Form.Label>
                       <Form.Control
                         type="file"
                         onChange={handleImageInputChange}
@@ -515,7 +516,7 @@ const EditProduct = () => {
                         accept="image/jpeg, image/png, image/gif"
                       />
                       <Form.Text className="text-muted">
-                        Select and add multiple images one by one.
+                        Add images that can identify this product.
                       </Form.Text>
                     </Form.Group>
                   </Col>

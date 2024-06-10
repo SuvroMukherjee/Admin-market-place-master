@@ -1,5 +1,5 @@
-import React from 'react';
-import Select from 'react-select';
+import React from "react";
+import Select from "react-select";
 import { saveAs } from "file-saver";
 import Papa from "papaparse";
 import { useEffect, useRef, useState } from "react";
@@ -42,20 +42,19 @@ import useAuth from "../../../hooks/useAuth";
 import { FaFileDownload } from "react-icons/fa";
 import { FaFileUpload } from "react-icons/fa";
 
-
 const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" },
 ];
 
 const BulkAdminUpload = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
-  const [allCats, setAllCats] = useState([])
-  const [allsubcats, setAllSubCats] = useState([])
-  const [brandlist, setAllBrandList] = useState([])
-  const [selectedBrand, setSelectedBrand] = useState([])
+  const [allCats, setAllCats] = useState([]);
+  const [allsubcats, setAllSubCats] = useState([]);
+  const [brandlist, setAllBrandList] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState([]);
   const [loading, setLoading] = useState(false);
   const [blkProducts, SetBlkproducts] = useState([]);
   const [variloading, setvariLoading] = useState(false);
@@ -65,17 +64,16 @@ const BulkAdminUpload = () => {
 
   const [show, setShow] = useState(false);
   const [showConverter, setshowConverter] = useState(false);
-  const [choose, setChoose] = useState(false)
-  const [activeVariation, setActiveVariation] = useState(false)
+  const [choose, setChoose] = useState(false);
+  const [activeVariation, setActiveVariation] = useState(false);
 
   useEffect(() => {
     getAllCats();
-  }, [])
+  }, []);
 
   async function getAllCats() {
     await allCategoryList()
       .then((res) => {
-
         setAllCats(res?.data?.data);
       })
       .catch((err) => {
@@ -83,23 +81,25 @@ const BulkAdminUpload = () => {
       });
   }
 
-  const Catoptions = allCats.map(cat => ({
+  const Catoptions = allCats.map((cat) => ({
     value: cat?._id,
     label: cat?.title,
-    image: cat?.image
+    image: cat?.image,
   }));
 
+  const SubCatOptions =
+    allsubcats?.length > 0 &&
+    allsubcats.map((cat) => ({
+      value: cat?._id,
+      label: cat?.title,
+    }));
 
-  const SubCatOptions = allsubcats?.length > 0 && allsubcats.map(cat => ({
-    value: cat?._id,
-    label: cat?.title,
-  }));
-
-
-  const BrandOptions = brandlist?.length > 0 && brandlist.map(cat => ({
-    value: cat?._id,
-    label: cat?.title,
-  }));
+  const BrandOptions =
+    brandlist?.length > 0 &&
+    brandlist.map((cat) => ({
+      value: cat?._id,
+      label: cat?.title,
+    }));
 
   const handleChange = async (selectedOption) => {
     setSelectedCategory(selectedOption);
@@ -118,7 +118,7 @@ const BulkAdminUpload = () => {
   const handleChangeSubCat = async (selectedOption) => {
     setSelectedSubCategory(selectedOption);
     console.log(`Option selected:`, selectedOption);
-    getBrandList()
+    getBrandList();
   };
 
   async function getBrandList() {
@@ -132,62 +132,60 @@ const BulkAdminUpload = () => {
       });
   }
 
-
   const handleChangeBrand = async (selectedOption) => {
     setSelectedBrand(selectedOption);
     console.log(`Option selected:`, selectedOption);
   };
 
-
   const handleClick = () => {
     // Define the CSV headers with placeholders
     const csvHeaders = [
-      'type',
-      'name',
-      'visibility_in_Catalog',
-      'desc',
-      'tax_status',
-      'categoryId',
-      'subcategoryId',
-      'image',
-      'tags',
-      'position',
-      'brandId',
-      'features',
-      'full_desc',
-      'video_link',
+      "type",
+      "name",
+      "visibility_in_Catalog",
+      "desc",
+      "tax_status",
+      "categoryId",
+      "subcategoryId",
+      "image",
+      "tags",
+      "position",
+      "brandId",
+      "features",
+      "full_desc",
+      "video_link",
     ];
 
     // Join the headers to form the CSV header row
-    const csvHeaderRow = csvHeaders.join(',');
+    const csvHeaderRow = csvHeaders.join(",");
 
     // Define the CSV data row with actual values
     const csvDataRow = [
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
+      " ",
+      " ",
+      "visible",
+      " ",
+      "taxable",
       `${selectedCategory?.label}`,
       `${selectedSubCategory?.label}`,
-      ' ',
-      ' ',
-      ' ',
+      " ",
+      `${selectedCategory?.label}`,
+      "Top",
       `${selectedBrand?.label}`,
-      ' ',
-      ' ',
-      ' ',
-    ].join(',');
+      " ",
+      " ",
+      " ",
+    ].join(",");
 
     // Concatenate the header row and data row to form the complete CSV content
     const fullCSVContent = `${csvHeaderRow}\n${csvDataRow}`;
 
     // Create a blob object from the CSV content
-    const blob = new Blob([fullCSVContent], { type: 'text/csv' });
+    const blob = new Blob([fullCSVContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
 
     // Create a link element to trigger the download
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
     link.download = `${selectedCategory?.label}_product_templete.csv`;
 
@@ -199,8 +197,6 @@ const BulkAdminUpload = () => {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
-
-
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -234,7 +230,6 @@ const BulkAdminUpload = () => {
     }
   };
 
-
   const productBulkUpload = async (file) => {
     let payload = {
       file: file,
@@ -250,18 +245,19 @@ const BulkAdminUpload = () => {
       toast.success("Products Added Successfully");
       setLoading(false);
       setTimeout(() => {
-        setChoose(false)
-        setActiveVariation(true)
+        setChoose(false);
+        setActiveVariation(true);
       }, 1500);
     }
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+  };
   const handleShow = () => {
     getReqPorducts();
     setShow(true);
   };
-
 
   const getReqPorducts = async () => {
     let res = await allProductList();
@@ -270,6 +266,7 @@ const BulkAdminUpload = () => {
   };
 
   const handleFileChangeForVariations = (event) => {
+    handleClose();
     const file = event.target.files[0];
     if (file) {
       setvariLoading(true);
@@ -283,7 +280,6 @@ const BulkAdminUpload = () => {
       onFileUploadVariations(file);
     }
   };
-
 
   const onFileUploadVariations = async (file) => {
     const formData = new FormData();
@@ -308,32 +304,35 @@ const BulkAdminUpload = () => {
     };
 
     let res = await SpecBulkProductUpload(payload);
-    console.log(res?.data?.data);
     if (res?.response?.data?.error) {
       toast.error(res?.response?.data?.message);
       toast.error(res?.response?.data?.error);
       setvariLoading(false);
-    } else {
+    } else if (res?.data?.error == false) {
+      alert("Products Added Successfully");
       toast.success("Products Added Successfully");
-      setvariLoading(false);
+      setTimeout(() => {
+        setvariLoading(false);
+        handleClose();
+      }, 1500);
     }
-    getReqPorducts()
+    getReqPorducts();
   };
 
   return (
-
-
     <div className="productList mt-2 p-4">
-
       <Container className="mt-4 AdminBulk">
         <Row>
           <Col onClick={() => setChoose(!choose)}>
+            <h6 className="stepNum">STEP - 1</h6>
             <Card className="bcard">
-              <Card.Header className='text-center'>Upload New Product</Card.Header>
+              <Card.Header className="text-center">
+                Upload New Product
+              </Card.Header>
               <Card.Body>
                 <Row className="me-2">
                   <Col className="cmpgin-sub-title">
-                    List products that are not currently in Zoofi's catalogue
+                    List Your Products In Bulk using templete
                   </Col>
                 </Row>
                 <Row className="mb-2 mt-2">
@@ -346,7 +345,7 @@ const BulkAdminUpload = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col className="cmpgin-sub-title">{ }</Col>
+                  <Col className="cmpgin-sub-title">{}</Col>
                 </Row>
                 {loading && (
                   <Row className="mt-2">
@@ -360,10 +359,15 @@ const BulkAdminUpload = () => {
           </Col>
 
           <Col>
-            <Card className={!activeVariation ? 'bcard2' : 'bcard2active'} onClick={handleShow}>
-              <Card.Header className='text-center'>Upload Variation Of Existing Product</Card.Header>
+            <h6 className="stepNum">STEP - 2</h6>
+            <Card
+              className={!activeVariation ? "bcard2" : "bcard2active"}
+             // onClick={handleShow}
+            >
+              <Card.Header className="text-center">
+                Upload Variation Of Existing Product
+              </Card.Header>
               <Card.Body>
-
                 <Row className="me-2">
                   <Col className="cmpgin-sub-title2">
                     Listing various iterations by uploading your Product ID
@@ -379,14 +383,11 @@ const BulkAdminUpload = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col className="cmpgin-sub-title">{ }</Col>
+                  <Col className="cmpgin-sub-title">{}</Col>
                 </Row>
                 <Row>
-                  <Col className="mt-2">
-                    <button
-                      className="w-100 cmpComtinue-temp"
-                      onClick={handleShow}
-                    >
+                  <Col className="mt-2" onClick={() => handleShow()}>
+                    <button className="w-100 cmpComtinue-temp">
                       <span>
                         <MdOutlineFileDownload size={25} />
                       </span>
@@ -428,10 +429,12 @@ const BulkAdminUpload = () => {
             />
           </Col>
 
-
           <Col>
-            <Card className='bcard3'>
-              <Card.Header className='text-center'>Convert Your Image</Card.Header>
+            <h6 className="stepNum">USE IT</h6>
+            <Card className="bcard3">
+              <Card.Header className="text-center">
+                Convert Your Image
+              </Card.Header>
               <Card.Body>
                 <Row className="me-2">
                   <Col className="cmpgin-sub-title3">
@@ -448,7 +451,7 @@ const BulkAdminUpload = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col className="cmpgin-sub-title">{ }</Col>
+                  <Col className="cmpgin-sub-title">{}</Col>
                 </Row>
                 <Row>
                   {!showConverter ? (
@@ -481,15 +484,18 @@ const BulkAdminUpload = () => {
             </Card>
           </Col>
         </Row>
+        <Toaster />
       </Container>
 
-      {choose &&
-        <Container className='mt-4'>
+      {choose && (
+        <Container className="mt-4">
           <Row>
-            <Col xs={4} className='mt-2'>
+            <Col xs={4} className="mt-2">
               <Row>
-                <Col xs={12} className='chooseText'>Choose & Search Your category</Col>
-                <Col xs={12} className='mt-2'>
+                <Col xs={12} className="chooseText">
+                  Choose & Search Your category
+                </Col>
+                <Col xs={12} className="mt-2">
                   <Select
                     value={selectedCategory}
                     onChange={handleChange}
@@ -500,26 +506,33 @@ const BulkAdminUpload = () => {
                 </Col>
               </Row>
             </Col>
-            {selectedCategory &&
-              <Col xs={4} className='mt-2'>
+            {selectedCategory && (
+              <Col xs={4} className="mt-2">
                 <Row>
-                  <Col xs={12} className='chooseText'>Choose & Search Your SubCategory for {selectedCategory?.label}</Col>
-                  <Col xs={12} className='mt-2'>
+                  <Col xs={12} className="chooseText">
+                    Choose & Search Your SubCategory for{" "}
+                    {selectedCategory?.label}
+                  </Col>
+                  <Col xs={12} className="mt-2">
                     <Select
                       value={selectedSubCategory}
                       onChange={handleChangeSubCat}
                       options={SubCatOptions}
                       isClearable={true}
                       isSearchable={true}
+                      isDisabled={!SubCatOptions}
                     />
                   </Col>
                 </Row>
-              </Col>}
-            {selectedSubCategory &&
-              <Col xs={4} className='mt-2'>
+              </Col>
+            )}
+            {selectedSubCategory && (
+              <Col xs={4} className="mt-2">
                 <Row>
-                  <Col xs={12} className='chooseText'>Choose & Search Your Brand</Col>
-                  <Col xs={12} className='mt-2'>
+                  <Col xs={12} className="chooseText">
+                    Choose & Search Your Brand
+                  </Col>
+                  <Col xs={12} className="mt-2">
                     <Select
                       value={selectedBrand}
                       onChange={handleChangeBrand}
@@ -529,27 +542,47 @@ const BulkAdminUpload = () => {
                     />
                   </Col>
                 </Row>
-              </Col>}
+              </Col>
+            )}
           </Row>
-          {selectedBrand != '' &&
-            <Container className='mt-4'>
+          {selectedBrand != "" && (
+            <Container className="mt-4">
               <Row>
                 <Col xs={4}>
-                  <Row className='chContainer'>
-                    <Col xs={12} className='box1'>{`${selectedCategory?.label || "Category"} >`} {`${selectedSubCategory?.label || "SubCategory"} >`} {`${selectedBrand?.label || "Brand"} .`} </Col>
-                    <Col xs={12} className='text-center mt-2 chImg'>
-                      <img src={selectedCategory?.image?.[0]?.image_path} alt='image' width={200} height={200} />
+                  <Row className="chContainer">
+                    <Col xs={12} className="box1">
+                      {`${selectedCategory?.label || "Category"} >`}{" "}
+                      {`${selectedSubCategory?.label || "SubCategory"} >`}{" "}
+                      {`${selectedBrand?.label || "Brand"} .`}{" "}
                     </Col>
-                    <Col xs={12} onClick={handleClick} className='mt-2'>
-                      <Row className='dwnTemp'>
-                        <Col xs={2} className='d-flex align-items-center justify-content-center'><FaFileDownload size={26} /></Col>
-                        <Col className='d-flex align-items-center justify-content-center'>Dowmload Prefilled Templete</Col>
+                    <Col xs={12} className="text-center mt-2 chImg">
+                      <img
+                        src={selectedCategory?.image?.[0]?.image_path}
+                        alt="image"
+                        width={200}
+                        height={200}
+                      />
+                    </Col>
+                    <Col xs={12} onClick={handleClick} className="mt-2">
+                      <Row className="dwnTemp">
+                        <Col
+                          xs={2}
+                          className="d-flex align-items-center justify-content-center"
+                        >
+                          <FaFileDownload size={26} />
+                        </Col>
+                        <Col className="d-flex align-items-center justify-content-center">
+                          Dowmload Prefilled Templete
+                        </Col>
                       </Row>
                       <p></p>
                     </Col>
                     <Col xs={12}>
-                      <Row className='dwnTemp2'>
-                        <Col xs={2} className='d-flex align-items-center justify-content-center'>
+                      <Row className="dwnTemp2">
+                        <Col
+                          xs={2}
+                          className="d-flex align-items-center justify-content-center"
+                        >
                           {loading ? (
                             <Spinner size="sm" />
                           ) : (
@@ -558,7 +591,7 @@ const BulkAdminUpload = () => {
                             </span>
                           )}
                         </Col>
-                        <Col className='d-flex align-items-center justify-content-center'>
+                        <Col className="d-flex align-items-center justify-content-center">
                           <label
                             htmlFor="fileInput"
                             className="w-100 text-center"
@@ -600,24 +633,29 @@ const BulkAdminUpload = () => {
                   </Row>
                 </Col>
               </Row>
-            </Container>}
+            </Container>
+          )}
 
           <Toaster />
         </Container>
-      }
+      )}
       <Container className="mt-4 p-4 mb-4">
         <ImageConveter showConverter={showConverter} />
       </Container>
     </div>
-
-
-
   );
 };
 
-const ShowVariationSheets = ({ show, handleClose, productList, getReqPorducts }) => {
+const ShowVariationSheets = ({
+  show,
+  handleClose,
+  productList,
+  getReqPorducts,
+}) => {
   const [copied, setCopied] = useState(false);
   const [copiedindex, setCopiedIndex] = useState("");
+
+  console.warn({ show });
 
   const copyTextToClipboard = (text, index) => {
     setCopiedIndex(index);
@@ -756,7 +794,7 @@ const ShowVariationSheets = ({ show, handleClose, productList, getReqPorducts })
                           xs={4}
                           className={
                             "is_approved" in item &&
-                              item?.is_approved == "pending"
+                            item?.is_approved == "pending"
                               ? "othervariDiv-notApproved"
                               : "othervariDiv"
                           }
@@ -841,10 +879,8 @@ const ShowVariationSheets = ({ show, handleClose, productList, getReqPorducts })
   );
 };
 
-
 const ImageConveter = ({ showConverter }) => {
-
-  console.log({ showConverter })
+  console.log({ showConverter });
 
   const [formData, setFormData] = useState({
     image: [],
@@ -1058,6 +1094,5 @@ const ImageConveter = ({ showConverter }) => {
     </div>
   );
 };
-
 
 export default BulkAdminUpload;

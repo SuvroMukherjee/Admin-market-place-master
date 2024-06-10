@@ -82,6 +82,7 @@ import { Testimonial } from "./Pages/Testimonials/Testimonial";
 import NewBannermanager from "./Pages/BannerManagemnt/NewBannermanager";
 import BulkUpload from "./Pages/StoreSeller/Layout/BulkUpload";
 import BulkAdminUpload from "./Pages/ProductManagement/Product/BulkAdminUpload";
+import LivePreview from "./Pages/livePreview/LivePreview";
 
 
 export default function Router({ socket }) {
@@ -114,7 +115,7 @@ export default function Router({ socket }) {
               element: <ProductListBySeller />,
             },
             { path: "/Seller/SalesReport/:id", element: <SellerSalesReport /> },
-            { path: "bannermanagment", element: <NewBannermanager/> },
+            { path: "bannermanagment", element: <NewBannermanager /> },
             { path: "image-convert", element: <Imageconverter /> },
             { path: "templete-upload", element: <TempleteUploader /> },
           ],
@@ -140,6 +141,7 @@ export default function Router({ socket }) {
             { path: "product-offer", element: <ProductOffer /> },
             { path: "testimonial", element: <Testimonial /> },
             { path: "offer/:id", element: <Offer /> },
+            // { path: "live-preview/:id", element: <LivePreview /> },
           ],
         },
       ],
@@ -239,6 +241,7 @@ export default function Router({ socket }) {
         },
       ],
     },
+    { path: "live-preview/:id", element: <LivePreview /> },
     {
       path: "*",
       element: <Navigate to="/" />,
@@ -275,6 +278,7 @@ export default function Router({ socket }) {
       path: "*",
       element: <Navigate to="/" />,
     },
+    { path: "live-preview/:id", element: <LivePreview /> },
   ];
 
   const allRoutes = auth ? authenticatedRoutes : unauthenticatedRoute;
