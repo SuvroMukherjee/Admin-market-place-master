@@ -461,3 +461,14 @@ export const demoProductData  = [
         "__v": 0
     }
 ]
+
+export const estimatedDeliveryTimes = [
+  { value: "1", label: "12 hours to 1 day" },
+  { value: "2", label: "1 day to 2 days" },
+  { value: "3", label: "2 days to 3 days" },
+  { value: "4", label: "3 days to 4 days" },
+  { value: "5", label: "4 days to 5 days" },
+  { value: "6", label: "5 days to 6 days" },
+  { value: "7", label: "6 days to 7 days" },
+  { value: "8", label: "More than a week" },
+];

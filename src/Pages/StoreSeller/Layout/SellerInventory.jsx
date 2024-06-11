@@ -23,6 +23,8 @@ import {
   ChangeFormatDate2,
 } from "../../../common/DateFormat";
 import "./sellerlayout.css";
+import Modal from "react-bootstrap/Modal";
+import { estimatedDeliveryTimes } from "../../../dummyData";
 
 export default function SellerInventory() {
   const [data, setData] = useState([]);
@@ -36,6 +38,15 @@ export default function SellerInventory() {
   const [lowIndex, setLowIndex] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [show,setShow] = useState(false)
+  const [selectedProduct,setSelectedProduct] = useState()
+  const [selectedTime, setSelectedTime] = useState("select");
+
+  const handleSelectEstimateChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedTime(selectedValue);
+    console.log(`Selected Delivery Time: ${selectedValue}`);
+  };
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -279,6 +290,32 @@ export default function SellerInventory() {
     }
   }
 
+
+  const EstimateHandler = (ele) =>{
+    setSelectedProduct(ele)
+    handleShow();
+  }
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+  const updateEstimatedDelivey  = async() =>{
+    let res = await UpdateSellerProduct(selectedProduct?._id, {
+      ...selectedProduct,
+      estimateDate: selectedTime,
+    });
+    console.log(res)
+   if (res.data.error == false){
+    toast.success("Estimate date update Successfully")
+    setTimeout(() => {
+      handleClose();
+    }, 1000);
+    setSelectedProduct("");
+     getProductListFunc();
+   }
+   
+  }
+
   return (
     <div>
       <Container className="mt-4">
@@ -506,6 +543,7 @@ export default function SellerInventory() {
                   <th>MRP price</th>
                   <th>Selling Price</th>
                   <th>Shipping Price</th>
+                  <th>Estimated Delivery Time</th>
                   <th>Commission Price</th>
                   <th>Net Disbursement</th>
                   <th>Add Stock</th>
@@ -595,6 +633,12 @@ export default function SellerInventory() {
                           defaultValue={ele?.shipping_cost}
                         />
                       </td>
+                      <td>
+                        {
+                          estimatedDeliveryTimes[parseInt(ele?.estimateDate)-1]
+                            ?.label
+                        }
+                      </td>
                       <td>{Math.round(ele?.price - ele?.comission_price)}</td>
                       <td>
                         {Math.round(ele?.comission_price)?.toLocaleString()}
@@ -647,6 +691,9 @@ export default function SellerInventory() {
                           >
                             Edit Product
                           </Dropdown.Item>
+                          <Dropdown.Item onClick={() => EstimateHandler(ele)}>
+                            Estimate Delivery Time
+                          </Dropdown.Item>
                           <Dropdown.Item
                             onClick={() =>
                               navigate(
@@ -684,6 +731,45 @@ export default function SellerInventory() {
                 )}
               </tbody>
             </Table>
+          </div>
+          <div>
+            <Modal
+              show={show}
+              onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>
+                  Add Estimated Delivery time for {selectedProduct?.name}
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form.Select
+                  aria-label="Default select example"
+                  onChange={handleSelectEstimateChange}
+                  value={selectedTime}
+                >
+                  <option value="select">Select Estimated Delivery time</option>
+                  {estimatedDeliveryTimes.map((time) => (
+                    <option key={time.value} value={time.value}>
+                      {time.label}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => updateEstimatedDelivey()}
+                >
+                  SAVE
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
         </Row>
         <Toaster position="top-right" />
