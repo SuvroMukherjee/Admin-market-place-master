@@ -311,7 +311,8 @@ export default function SellerInventory() {
       handleClose();
     }, 1000);
     setSelectedProduct("");
-     getProductListFunc();
+    setSelectedTime("")
+    getProductListFunc();
    }
    
   }
