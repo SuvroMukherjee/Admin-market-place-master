@@ -16,6 +16,8 @@ const NewSellerDashboard = () => {
   const [data, setdata] = useState();
   const [reviewData, setReviewData] = useState();
   const [avgCustomerRating, setAvgCustomerRating] = useState(0);
+  const [reportData, setReportData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -28,6 +30,7 @@ const NewSellerDashboard = () => {
         setdata(res?.data?.data?.SellerProductData);
         setReviewData(res?.data?.data?.reviewData);
         getProfileDetails();
+        setLoading(false)
         // CalculateAvgRating(res?.data?.data?.SellerProductData, res?.data?.data?.reviewData)
       })
       .catch((err) => {
@@ -49,8 +52,6 @@ const NewSellerDashboard = () => {
     setAvgCustomerRating(totalRating / res?.data?.sellerReviewData?.length || 0);
   };
 
-  const [reportData, setReportData] = useState({});
-  const [loading, setLoading] = useState(true);
 
   const getSellerReport = async () => {
     try {
@@ -166,21 +167,28 @@ const NewSellerDashboard = () => {
                 </Col>
               </Row>}
               <hr />
-              {data?.length > 0 ? 
-              <Row className="mt-2">
-                <Col>
-                  <SellingProductList data={data} reviewData={reviewData} />
-                </Col>
-              </Row> : 
-                <Row className="stratAdd">
-                  <Col xs={2}>
-                    <img src="https://5.imimg.com/data5/SELLER/Default/2023/1/MH/CQ/PR/3553409/corrugated-paper-electronics-packaging-box-500x500.jpg" width={200} />
-                  </Col>
-                <Col xs={4}>
-                  Start Adding Products <br/>
-                    <span onClick={() => navigate('/seller/seller-addproduct')}>GO</span>
-                </Col>
-              </Row>}
+              { loading && (
+                <div className="d-flex justify-content-center flex-wrap gap-4 mt-5">
+                <Spinner animation="border" />
+              </div>
+              )}
+              {(!loading && data?.length == 0) ? 
+               <Row className="stratAdd">
+               <Col xs={2}>
+                 <img src="https://5.imimg.com/data5/SELLER/Default/2023/1/MH/CQ/PR/3553409/corrugated-paper-electronics-packaging-box-500x500.jpg" width={200} />
+               </Col>
+             <Col xs={4}>
+               Start Adding Products <br/>
+                 <span onClick={() => navigate('/seller/seller-addproduct')}>GO</span>
+             </Col>
+           </Row>
+              : 
+          <Row className="mt-2">
+          <Col>
+       <SellingProductList data={data} reviewData={reviewData} />
+        </Col>
+       </Row>
+            }
             </Container>
           </Col>
         </Row>
@@ -246,7 +254,7 @@ const SellingProductList = ({ data, reviewData }) => {
   return (
     <div>
       <Table striped bordered hover className="shadowbox">
-        <thead>
+       { data?.length > 0 && <thead>
           <tr>
             <th>Image</th>
             <th>SKU</th>
@@ -256,7 +264,7 @@ const SellingProductList = ({ data, reviewData }) => {
             <th>Rating</th>
             {/* <th>Visit On Site</th> */}
           </tr>
-        </thead>
+        </thead>}
         <tbody>
           {data?.length > 0 &&
             data?.slice(0, 20)?.map(
