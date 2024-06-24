@@ -83,6 +83,7 @@ import NewBannermanager from "./Pages/BannerManagemnt/NewBannermanager";
 import BulkUpload from "./Pages/StoreSeller/Layout/BulkUpload";
 import BulkAdminUpload from "./Pages/ProductManagement/Product/BulkAdminUpload";
 import LivePreview from "./Pages/livePreview/LivePreview";
+import EcommerceReport from "./Pages/EcommerceReport/EcommerceReport";
 
 
 export default function Router({ socket }) {
@@ -109,6 +110,7 @@ export default function Router({ socket }) {
               element: <SellerProductManagment />,
             },
             { path: "SellerReport", element: <SellerReport /> },
+            { path: "EcommerceReport", element: <EcommerceReport /> },
             { path: "SellerDetails/:id", element: <SellerDetails /> },
             {
               path: "/Seller/ProductList/:id",

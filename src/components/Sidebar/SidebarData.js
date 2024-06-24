@@ -8,6 +8,8 @@ import { IoPricetagsSharp } from "react-icons/io5";
 import { MdCategory } from "react-icons/md";
 import { RiUserSettingsFill } from "react-icons/ri";
 import { VscFeedback } from "react-icons/vsc";
+import { IoStatsChart } from "react-icons/io5";
+import { CgWebsite } from "react-icons/cg";
 
 export const AdminSidebarData = [
   {
@@ -43,7 +45,13 @@ export const AdminSidebarData = [
   {
     title: `Seller Report`,
     path: "/SellerReport",
-    icon: BsShop,
+    icon: IoStatsChart,
+    cName: "nav-text",
+  },
+  {
+    title: `Ecommerce-Report`,
+    path: "/EcommerceReport",
+    icon: CgWebsite,
     cName: "nav-text",
   },
   //   {
