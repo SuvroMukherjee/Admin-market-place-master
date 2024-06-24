@@ -911,6 +911,17 @@ export async function sellerStockoutlist(id) {
   }
 }
 
+export async function AllOrderListsByAdmin() {
+  try {
+    const response = await axios.get(apiUrl + `/seller-report/all-report`,{
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function sellerOrderLists(id) {
   try {
     const response = await axios.get(apiUrl + `/order/list-by-sellerId/${id}`);
