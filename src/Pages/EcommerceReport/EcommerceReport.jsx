@@ -1,161 +1,259 @@
+import moment from "moment/moment";
 import { useEffect, useState } from "react";
 import {
+  Button,
   Card,
   Col,
   Container,
   Form,
   InputGroup,
   Row,
-  Table
+  Table,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { Toaster } from "react-hot-toast";
 import { FaBoxOpen } from "react-icons/fa";
 import { LiaClipboardListSolid } from "react-icons/lia";
 import { AllOrderListsByAdmin, allProductList } from "../../API/api";
-import moment from "moment";
+import { CSVLink } from "react-csv";
 
 export default function EcommerceReport() {
-    
-  const [loading, setLoading] = useState(true)
-  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [deliveredOrders, setDeliveredOrders] = useState([]);
-  const [orders, setOrders] = useState([])
+  const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
   const [selectedSeller, setSelectedSeller] = useState("");
+  const [sellerList, setSellerList] = useState([]);
 
+  const [range, setRange] = useState("default");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       let pendingList = [];
       let deliveredList = [];
-        try {
-            const [productsResponse, ordersResponse] = await Promise.all([
-                allProductList(),
-                AllOrderListsByAdmin()
-            ]);
-            setProducts(productsResponse?.data?.data);
-            setOrders(ordersResponse?.data?.data);
-            setData(ordersResponse?.data?.data);
-            if (orders.length > 0) {
-              pendingList = [...orders].filter(
-                (item) =>
-                  item?.order_details?.order_status === "order_placed" 
-              );
-            }
-            setPendingOrders(pendingList);
-            if (orders.length > 0) {
-              deliveredList = [...orders].filter(
-                (item) =>
-                  item?.order_details?.order_status === "delivered" 
-              );
-            }
-            setDeliveredOrders(deliveredList);
-            if (productsResponse?.data?.data && ordersResponse?.data?.data ){
-                setLoading(false);
-            }
-        } catch (error) {
-            console.error(error);
-           setLoading(false);
+      try {
+        const [productsResponse, ordersResponse] = await Promise.all([
+          allProductList(),
+          AllOrderListsByAdmin(),
+        ]);
+        setProducts(productsResponse?.data?.data);
+        setOrders(ordersResponse?.data?.data);
+        setData(ordersResponse?.data?.data);
+        if (orders.length > 0) {
+          pendingList = [...orders].filter(
+            (item) => item?.order_details?.order_status === "order_placed"
+          );
         }
+        setPendingOrders(pendingList);
+        if (orders.length > 0) {
+          deliveredList = [...orders].filter(
+            (item) => item?.order_details?.order_status === "delivered"
+          );
+        }
+        setDeliveredOrders(deliveredList);
+        if (productsResponse?.data?.data && ordersResponse?.data?.data) {
+          setLoading(false);
+        }
+
+        // Get all unique sellers
+        const uniqueSellers = new Set();
+        ordersResponse?.data?.data.forEach((order) => {
+          order.order_details.forEach((detail) => {
+            uniqueSellers.add(detail.sellerId.user_name);
+          });
+        });
+
+        setSellerList(Array.from(uniqueSellers));
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
     };
 
     // Call the fetchData function
     fetchData();
-}, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  let filteredList = [...data];
 
-let filteredList = [...data];
-  // if (searchTerm.length > 0) {
-  //   filteredList =[...data].filter(
-  //     (item) =>
-  //       item?.user_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //       item?.Shop_Details_Info?.shope_name
-  //         ?.toLowerCase()
-  //         .includes(searchTerm.toLowerCase())
-  //   );
-  // }
-
+  // filter by search
+  if (searchTerm.length > 0) {
+    filteredList = [...filteredList].filter((order) =>
+      order.order_details.some((detail) =>
+        detail.sellerId.user_name
+          .toLowerCase()
+          .includes(
+            searchTerm.toLowerCase() ||
+              detail.proId.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+      )
+    );
+  }
 
   //filter by seller
   if (selectedSeller) {
-    filteredList = [...data].filter(order =>
-        order.order_details.some(detail => detail.sellerId.user_name === selectedSeller)
+    filteredList = [...filteredList].filter((order) =>
+      order.order_details.some(
+        (detail) => detail.sellerId.user_name === selectedSeller
+      )
     );
-}
+  }
 
+  // filter by date range
+  if (fromDate && toDate) {
+    filteredList = [...filteredList]?.filter((order) => {
+      const itemDate = moment(order.order_details[0].proId.createdAt).format(
+        "YYYY-MM-DD"
+      );
+      const from = moment(fromDate).format("YYYY-MM-DD");
+      const to = moment(toDate).format("YYYY-MM-DD");
 
-const parseOrderData = (data) => {
-  return data.map(order => ({
+      return (
+        moment(itemDate).isSameOrAfter(from) &&
+        moment(itemDate).isSameOrBefore(to)
+      );
+    });
+  }
+
+  const csvData = [...filteredList].map((order) => {
+    return {
       orderId: order._id,
-      orderDate: new Date(order.order_details[0].proId.createdAt).toLocaleString(),
-      orderDetails: order.order_details.map(detail => ({
-          productId: detail.proId._id,
-          productName: detail.proId.name,
-          sellerName: detail.sellerId.user_name, // Assuming sellerId is the seller name
-          shopName: detail.sellerId.Shop_Details_Info.shope_name, // Assuming we need to provide a placeholder for shop name
-          productImage: detail.proId.specId.image[0]?.image_path || '', // Assuming the first image is the primary image
-          orderStatus: detail.order_status,
+      orderDate: new Date(
+        order.order_details[0].proId.createdAt
+      ).toLocaleString(),
+      sellerName: order.order_details[0].sellerId.user_name,
+      shopName: order.order_details[0].sellerId.Shop_Details_Info.shope_name,
+      productName: order.order_details[0].proId.name,
+      orderStatus: order.order_details[0].order_status,
+      orderAddress: order.addressId
+        ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
+        : "N/A",
+    };
+  });
+
+  const parseOrderData = (data) => {
+    return data.map((order) => ({
+      orderId: order._id,
+      orderDate: new Date(
+        order.order_details[0].proId.createdAt
+      ).toLocaleString(),
+      orderDetails: order.order_details.map((detail) => ({
+        productId: detail.proId._id,
+        productName: detail.proId.name,
+        sellerName: detail.sellerId.user_name, // Assuming sellerId is the seller name
+        shopName: detail.sellerId.Shop_Details_Info.shope_name, // Assuming we need to provide a placeholder for shop name
+        productImage: detail.proId.specId.image[0]?.image_path || "", // Assuming the first image is the primary image
+        orderStatus: detail.order_status,
       })),
-      orderAddress: order.addressId ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}` : 'N/A',
-  }));
-};
+      orderAddress: order.addressId
+        ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
+        : "N/A",
+    }));
+  };
 
+  const OrderTable = ({ data }) => {
+    const parsedData = parseOrderData(data);
 
-const OrderTable = ({ data }) => {
-  const parsedData = parseOrderData(data);
-
-  return (
+    return (
       <Table bordered hover responsive>
-          <thead>
-              <tr>
-                  <th>Shop Name</th>
-                  <th>Seller Name</th>
-                  <th>Product Image</th>
-                  <th>Product Name</th>
-                  <th>Order Location</th>
-                  <th>Order Date & Time</th>
-              </tr>
-          </thead>
-          <tbody>
-              {parsedData.length > 0 ? (
-                  parsedData.map((order, idx) => (
-                      order.orderDetails.map((detail, index) => (
-                          <tr key={`${idx}-${index}`}>
-                              <td>{detail.shopName}</td>
-                              <td>{detail.sellerName}</td>
-                              <td>
-                                  <div className="productListItem">
-                                      <img
-                                          className="productListImg"
-                                          src={detail.productImage}
-                                          alt="Product"
-                                          style={{ width: '100px', height: '100px' }}
-                                      />
-                                  </div>
-                              </td>
-                              <td>{detail.productName}</td>
-                              <td>{order.orderAddress}</td>
-                              <td>{order.orderDate}</td>
-                              
-                          </tr>
-                      ))
-                  ))
-              ) : (
-                  <tr>
-                      <td colSpan="6" style={{ textAlign: "center" }}>
-                          No Data Found
-                      </td>
-                  </tr>
-              )}
-          </tbody>
+        <thead>
+          <tr>
+            <th>Shop Name</th>
+            <th>Seller Name</th>
+            <th>Product Image</th>
+            <th>Product Name</th>
+            <th>Order Location</th>
+            <th>Order Date & Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {parsedData.length > 0 ? (
+            parsedData.map((order, idx) =>
+              order.orderDetails.map((detail, index) => (
+                <tr key={`${idx}-${index}`}>
+                  <td>{detail.shopName}</td>
+                  <td>{detail.sellerName}</td>
+                  <td>
+                    <div className="productListItem">
+                      <img
+                        className="productListImg"
+                        src={detail.productImage}
+                        alt="Product"
+                        style={{ width: "100px", height: "100px" }}
+                      />
+                    </div>
+                  </td>
+                  <td>{detail.productName}</td>
+                  <td>{order.orderAddress}</td>
+                  <td>{order.orderDate}</td>
+                </tr>
+              ))
+            )
+          ) : (
+            <tr>
+              <td colSpan="6" style={{ textAlign: "center" }}>
+                No Data Found
+              </td>
+            </tr>
+          )}
+        </tbody>
       </Table>
-  );
-};
+    );
+  };
 
+  const resetHandler = () => {
+    setSearchTerm("");
+    setSelectedSeller("");
+    setFromDate("");
+    setToDate("");
+    setRange("default");
+  };
+
+  useEffect(() => {
+    let fromDate = "";
+    let toDate = "";
+
+    if (range === "default") {
+      (fromDate = ""), (toDate = "");
+    } else if (range === "today") {
+      fromDate = moment().format("YYYY-MM-DD");
+      toDate = moment().format("YYYY-MM-DD");
+    } else if (range === "yesterday") {
+      fromDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      toDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+    } else if (range === "this_month") {
+      fromDate = moment().startOf("month").format("YYYY-MM-DD");
+      toDate = moment().format("YYYY-MM-DD");
+    } else if (range === "last_month") {
+      fromDate = moment()
+        .subtract(1, "months")
+        .startOf("month")
+        .format("YYYY-MM-DD");
+      toDate = moment()
+        .subtract(1, "months")
+        .endOf("month")
+        .format("YYYY-MM-DD");
+    } else if (range === "this_year") {
+      fromDate = moment().startOf("year").format("YYYY-MM-DD");
+      toDate = moment().format("YYYY-MM-DD");
+    } else if (range === "last_year") {
+      fromDate = moment()
+        .subtract(1, "years")
+        .startOf("year")
+        .format("YYYY-MM-DD");
+      toDate = moment().subtract(1, "years").endOf("year").format("YYYY-MM-DD");
+    }
+
+    setFromDate(fromDate);
+    setToDate(toDate);
+  }, [range]);
 
   return (
     <>
@@ -172,13 +270,21 @@ const OrderTable = ({ data }) => {
       )}
       <div className="productList mt-2 p-4 mt-4">
         <Container>
-          <Row className="d-flex justify-content-center gap-5">
+          <Row
+            style={{
+              margin: "10px 0px 10px 0px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
             <Col>
               <Card style={{ width: "18rem" }}>
                 <Card.Body>
                   <Card.Title>Total Products</Card.Title>
                   <Card.Text className="featuredMoney">
-                  <FaBoxOpen /> <span>{products?.length}</span>
+                    <FaBoxOpen /> <span>{products?.length}</span>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -188,7 +294,8 @@ const OrderTable = ({ data }) => {
                 <Card.Body>
                   <Card.Title> Total Sold Products</Card.Title>
                   <Card.Text className="featuredMoney">
-                  <LiaClipboardListSolid /> <span>{deliveredOrders?.length}</span>
+                    <LiaClipboardListSolid />{" "}
+                    <span>{deliveredOrders?.length}</span>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -198,7 +305,7 @@ const OrderTable = ({ data }) => {
                 <Card.Body>
                   <Card.Title>Total Orders</Card.Title>
                   <Card.Text className="featuredMoney">
-                  <LiaClipboardListSolid /> <span>{orders?.length}</span>
+                    <LiaClipboardListSolid /> <span>{orders?.length}</span>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -208,7 +315,8 @@ const OrderTable = ({ data }) => {
                 <Card.Body>
                   <Card.Title>Pending Orders</Card.Title>
                   <Card.Text className="featuredMoney">
-                  <LiaClipboardListSolid /> <span>{pendingOrders?.length}</span>
+                    <LiaClipboardListSolid />{" "}
+                    <span>{pendingOrders?.length}</span>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -223,35 +331,131 @@ const OrderTable = ({ data }) => {
           </Row>
         </Container>
         <Container>
-          <Row className="justify-content-md-center mt-4">
-            <InputGroup size="sm" className="mb-3">
-              <InputGroup.Text id="inputGroup-sizing-sm">
-                Search
-              </InputGroup.Text>
-              <Form.Control
-                aria-label="Small"
-                aria-describedby="inputGroup-sizing-sm"
-                placeholder="Search by Seller Name"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </InputGroup>
-            <InputGroup size="sm" className="mb-3">
-    <InputGroup.Text id="inputGroup-sizing-sm">
-        Select by Seller
-    </InputGroup.Text>
-    <Form.Select
-        aria-label="Small"
-        aria-describedby="inputGroup-sizing-sm"
-        onChange={(e) => setSelectedSeller(e.target.value)}
-        value={selectedSeller}
-    >
-        <option value="">All Sellers</option>
-        {/* {filteredList.map((seller, index) => (
-            <option key={index} value={seller}>{seller}</option>
-        ))} */}
-    </Form.Select>
-   </InputGroup>
+          <Row className="p-4 mt-4 mx-2 cont">
+            <Row className="justify-content-md-center mt-4">
+              <InputGroup size="sm" className="mb-3">
+                <InputGroup.Text id="inputGroup-sizing-sm">
+                  Search
+                </InputGroup.Text>
+                <Form.Control
+                  aria-label="Small"
+                  aria-describedby="inputGroup-sizing-sm"
+                  placeholder="Search by Seller Name or Shop Name"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </InputGroup>
+              <InputGroup size="sm" className="mb-3">
+                <InputGroup.Text id="inputGroup-sizing-sm">
+                  Select by Seller
+                </InputGroup.Text>
+                <Form.Select
+                  aria-label="Small"
+                  aria-describedby="inputGroup-sizing-sm"
+                  onChange={(e) => setSelectedSeller(e.target.value)}
+                  value={selectedSeller}
+                >
+                  <option value="">All Sellers</option>
+                  {sellerList.map((seller, index) => (
+                    <option key={index} value={seller}>
+                      {seller}
+                    </option>
+                  ))}
+                </Form.Select>
+              </InputGroup>
+            </Row>
+            <Row className="justify-content-md-center mt-4">
+              <Col xs={4}>
+                <Form.Group controlId="date-to">
+                  <Form.Label className="customDatelable">
+                    Start Date:
+                  </Form.Label>
+                  <Form.Control
+                    type="date"
+                    className="tapG"
+                    name="start"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+              <Col xs={4}>
+                <Form.Group controlId="date-form">
+                  <Form.Label className="customDatelable">End Date:</Form.Label>
+                  <Form.Control
+                    type="date"
+                    className="tapG"
+                    name="end"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+
+              <Col xs={4}>
+                <Form.Group controlId="date-range">
+                  <Form.Label className="customDatelable">
+                    Select Date Range:
+                  </Form.Label>
+                  <Form.Select
+                    value={range}
+                    onChange={(e) => setRange(e.target.value)}
+                  >
+                    <option value={"default"}>Select Date Range</option>
+                    <option value={"today"}>Today</option>
+                    <option value={"yesterday"}>Yesterday</option>
+                    <option value={"this_month"}>This Month</option>
+                    <option value={"last_month"}>Last Month</option>
+                    <option value={"this_year"}>This Year</option>
+                    <option value={"last_year"}>Last Year</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="justify-content-md-center mt-4 gap-4">
+              <Button
+                style={{
+                  width: "100px",
+                }}
+                onClick={() => {
+                  resetHandler();
+                }}
+              >
+                Reset
+              </Button>
+              <CSVLink
+                style={{
+                  width: "100px",
+                  backgroundColor: "#28a745",
+                  outline: "none",
+                  border: "none",
+                  borderRadius: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "white",
+                }}
+                data={csvData}
+                filename={`order-report.csv`}
+              >
+                Download
+              </CSVLink>
+            </Row>
+            <Row className="justify-content-md-center mt-4 gap-4">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <h5>
+                  Count :{" "}
+                  <span style={{ color: "blue" }}>{filteredList.length}</span>
+                </h5>
+              </div>
+            </Row>
           </Row>
           <Row className="justify-content-md-center mt-4">
             <Col
