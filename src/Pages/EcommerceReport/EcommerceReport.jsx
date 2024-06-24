@@ -1,5 +1,5 @@
 import moment from "moment/moment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Card,
@@ -28,6 +28,7 @@ export default function EcommerceReport() {
   const [range, setRange] = useState("default");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [filteredOrderCount, setFilteredOrderCount] = useState(0);
 
   let totalOrders = 0;
   let pendingList;
@@ -84,17 +85,19 @@ export default function EcommerceReport() {
       .filter((item) => item?.order_status === "delivered");
   }
 
-  let filteredList = [...data];
+  let filteredList = useMemo(() => [...data], [data]);
 
   // filter by search
   if (searchTerm.length > 0) {
     filteredList = [...filteredList].filter((order) =>
       order.order_details.some((detail) =>
-        detail.sellerId.user_name
-          .toLowerCase()
-          .includes(
-            searchTerm.toLowerCase() ||
-              detail.proId.name.toLowerCase().includes(searchTerm.toLowerCase())
+        detail?.sellerId?.user_name
+          ?.toLowerCase()
+          ?.includes(
+            searchTerm?.toLowerCase() ||
+              detail?.proId?.name
+                ?.toLowerCase()
+                ?.includes(searchTerm?.toLowerCase())
           )
       )
     );
@@ -203,7 +206,14 @@ export default function EcommerceReport() {
             )
           ) : (
             <tr>
-              <td colSpan="6" style={{ textAlign: "center" }}>
+              <td
+                colSpan="7"
+                style={{
+                  textAlign: "center",
+                  fontSize: "1.4vw",
+                  fontWeight: "bold",
+                }}
+              >
                 No Data Found
               </td>
             </tr>
@@ -259,6 +269,14 @@ export default function EcommerceReport() {
     setFromDate(fromDate);
     setToDate(toDate);
   }, [range]);
+
+  useEffect(() => {
+    let count = 0;
+    filteredList.forEach((order) => {
+      count += order.order_details.length;
+    });
+    setFilteredOrderCount(count);
+  }, [filteredList]);
 
   return (
     <>
@@ -349,7 +367,7 @@ export default function EcommerceReport() {
                 <Form.Control
                   aria-label="Small"
                   aria-describedby="inputGroup-sizing-sm"
-                  placeholder="Search by Seller Name or Shop Name"
+                  placeholder="Search by Seller Name or Product Name"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -461,7 +479,7 @@ export default function EcommerceReport() {
               >
                 <h5>
                   Count :{" "}
-                  <span style={{ color: "blue" }}>{filteredList?.length}</span>
+                  <span style={{ color: "blue" }}>{filteredOrderCount}</span>
                 </h5>
               </div>
             </Row>
