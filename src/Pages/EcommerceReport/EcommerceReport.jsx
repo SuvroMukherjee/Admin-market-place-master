@@ -353,7 +353,7 @@ export default function EcommerceReport() {
         <Container>
           <Row className="justify-content-md-center">
             <Col md="auto">
-              <h4>Report</h4>
+              <h4>Ecommerce Report</h4>
             </Col>
           </Row>
         </Container>
