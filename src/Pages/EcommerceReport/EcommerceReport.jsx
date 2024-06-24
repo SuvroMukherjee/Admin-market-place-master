@@ -20,23 +20,22 @@ import { CSVLink } from "react-csv";
 export default function EcommerceReport() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const [pendingOrders, setPendingOrders] = useState([]);
-  const [deliveredOrders, setDeliveredOrders] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedSeller, setSelectedSeller] = useState("");
   const [sellerList, setSellerList] = useState([]);
-
   const [range, setRange] = useState("default");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
+  let totalOrders = 0;
+  let pendingList;
+  let deliveredList;
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      let pendingList = [];
-      let deliveredList = [];
       try {
         const [productsResponse, ordersResponse] = await Promise.all([
           allProductList(),
@@ -45,18 +44,6 @@ export default function EcommerceReport() {
         setProducts(productsResponse?.data?.data);
         setOrders(ordersResponse?.data?.data);
         setData(ordersResponse?.data?.data);
-        if (orders.length > 0) {
-          pendingList = [...orders].filter(
-            (item) => item?.order_details?.order_status === "order_placed"
-          );
-        }
-        setPendingOrders(pendingList);
-        if (orders.length > 0) {
-          deliveredList = [...orders].filter(
-            (item) => item?.order_details?.order_status === "delivered"
-          );
-        }
-        setDeliveredOrders(deliveredList);
         if (productsResponse?.data?.data && ordersResponse?.data?.data) {
           setLoading(false);
         }
@@ -80,6 +67,22 @@ export default function EcommerceReport() {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (orders?.length) {
+    [...orders].forEach((item) => {
+      totalOrders += item?.order_details?.length;
+    });
+
+    pendingList = [...orders]
+      .map((item) => item?.order_details)
+      .flat()
+      .filter((item) => item?.order_status === "order_placed");
+
+    deliveredList = [...orders]
+      .map((item) => item?.order_details)
+      .flat()
+      .filter((item) => item?.order_status === "delivered");
+  }
 
   let filteredList = [...data];
 
@@ -169,6 +172,7 @@ export default function EcommerceReport() {
             <th>Seller Name</th>
             <th>Product Image</th>
             <th>Product Name</th>
+            <th>Order Status</th>
             <th>Order Location</th>
             <th>Order Date & Time</th>
           </tr>
@@ -191,6 +195,7 @@ export default function EcommerceReport() {
                     </div>
                   </td>
                   <td>{detail.productName}</td>
+                  <td>{detail.orderStatus}</td>
                   <td>{order.orderAddress}</td>
                   <td>{order.orderDate}</td>
                 </tr>
@@ -292,35 +297,39 @@ export default function EcommerceReport() {
             <Col>
               <Card style={{ width: "18rem" }}>
                 <Card.Body>
-                  <Card.Title> Total Sold Products</Card.Title>
-                  <Card.Text className="featuredMoney">
-                    <LiaClipboardListSolid />{" "}
-                    <span>{deliveredOrders?.length}</span>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col>
-              <Card style={{ width: "18rem" }}>
-                <Card.Body>
                   <Card.Title>Total Orders</Card.Title>
                   <Card.Text className="featuredMoney">
-                    <LiaClipboardListSolid /> <span>{orders?.length}</span>
+                    <LiaClipboardListSolid /> <span>{totalOrders}</span>
                   </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
-            <Col>
-              <Card style={{ width: "18rem" }}>
-                <Card.Body>
-                  <Card.Title>Pending Orders</Card.Title>
-                  <Card.Text className="featuredMoney">
-                    <LiaClipboardListSolid />{" "}
-                    <span>{pendingOrders?.length}</span>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
+            {!loading && (
+              <>
+                <Col>
+                  <Card style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Total Sold Products</Card.Title>
+                      <Card.Text className="featuredMoney">
+                        <LiaClipboardListSolid />{" "}
+                        <span>{deliveredList?.length}</span>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col>
+                  <Card style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Pending Orders</Card.Title>
+                      <Card.Text className="featuredMoney">
+                        <LiaClipboardListSolid />{" "}
+                        <span>{pendingList?.length}</span>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </>
+            )}
           </Row>
         </Container>
         <Container>
@@ -452,7 +461,7 @@ export default function EcommerceReport() {
               >
                 <h5>
                   Count :{" "}
-                  <span style={{ color: "blue" }}>{filteredList.length}</span>
+                  <span style={{ color: "blue" }}>{filteredList?.length}</span>
                 </h5>
               </div>
             </Row>
