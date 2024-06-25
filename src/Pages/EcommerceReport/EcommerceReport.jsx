@@ -148,7 +148,7 @@ export default function EcommerceReport() {
     return order.order_details.map((detail) => {
       return {
         orderId: order._id,
-        'order Date and Time': moment(detail.proId.createdAt).format(
+        "order Date and Time": moment(detail.proId.createdAt).format(
           "DD-MM-YYYY, hh:mm:ss A"
         ),
         sellerName: detail.sellerId.user_name,
@@ -171,11 +171,12 @@ export default function EcommerceReport() {
       ),
       orderDetails: order.order_details.map((detail) => ({
         // productId: detail.proId._id,
-       productName: detail.proId.name,
+        productName: detail.proId.name,
         sellerName: detail.sellerId.user_name, // Assuming sellerId is the seller name
         shopName: detail.sellerId.Shop_Details_Info.shope_name, // Assuming we need to provide a placeholder for shop name
         productImage: detail.proId.specId.image[0]?.image_path || "", // Assuming the first image is the primary image
         orderStatus: detail.order_status,
+        isPayment: detail.is_payment,
       })),
       orderAddress: order.addressId
         ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
@@ -199,6 +200,7 @@ export default function EcommerceReport() {
             <th>Order Status</th>
             <th>Order Location</th>
             <th>Order Date & Time</th>
+            <th>Payment Status</th>
           </tr>
         </thead>
         <tbody>
@@ -222,6 +224,7 @@ export default function EcommerceReport() {
                   <td>{detail.orderStatus}</td>
                   <td>{order.orderAddress}</td>
                   <td>{order.orderDate}</td>
+                  <td>{detail.isPayment == true ? "Paid" : "Incomplete"}</td>
                 </tr>
               ))
             )
