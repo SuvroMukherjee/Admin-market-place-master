@@ -128,31 +128,50 @@ export default function EcommerceReport() {
     });
   }
 
-  const csvData = [...filteredList].map((order) => {
-    return {
-      orderId: order._id,
-      orderDate: new Date(
-        order.order_details[0].proId.createdAt
-      ).toLocaleString(),
-      sellerName: order.order_details[0].sellerId.user_name,
-      shopName: order.order_details[0].sellerId.Shop_Details_Info.shope_name,
-      productName: order.order_details[0].proId.name,
-      orderStatus: order.order_details[0].order_status,
-      orderAddress: order.addressId
-        ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
-        : "N/A",
-    };
+  // const csvData = [...filteredList].map((order) => {
+  //   return {
+  //     orderId: order._id,
+  //     'order Date and Time': new Date(
+  //       order.order_details[0].proId.createdAt
+  //     ).toLocaleString(),
+  //     sellerName: order.order_details[0].sellerId.user_name,
+  //     shopName: order.order_details[0].sellerId.Shop_Details_Info.shope_name,
+  //     productName: order.order_details[0].proId.name,
+  //     orderStatus: order.order_details[0].order_status,
+  //     orderAddress: order.addressId
+  //       ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
+  //       : "N/A",
+  //   };
+  // });
+
+  const csvData = [...filteredList].flatMap((order) => {
+    return order.order_details.map((detail) => {
+      return {
+        orderId: order._id,
+        'order Date and Time': moment(detail.proId.createdAt).format(
+          "DD-MM-YYYY, hh:mm:ss A"
+        ),
+        sellerName: detail.sellerId.user_name,
+        shopName: detail.sellerId.Shop_Details_Info.shope_name,
+        productName: detail.proId.name,
+        orderStatus: detail.order_status,
+        isPayment: detail.is_payment,
+        orderAddress: order.addressId
+          ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
+          : "N/A",
+      };
+    });
   });
 
   const parseOrderData = (data) => {
     return data.map((order) => ({
-      orderId: order._id,
-      orderDate: new Date(
-        order.order_details[0].proId.createdAt
-      ).toLocaleString(),
+      // orderId: order._id,
+      orderDate: moment(order.order_details[0].proId.createdAt).format(
+        "DD-MM-YYYY, hh:mm:ss A"
+      ),
       orderDetails: order.order_details.map((detail) => ({
-        productId: detail.proId._id,
-        productName: detail.proId.name,
+        // productId: detail.proId._id,
+       productName: detail.proId.name,
         sellerName: detail.sellerId.user_name, // Assuming sellerId is the seller name
         shopName: detail.sellerId.Shop_Details_Info.shope_name, // Assuming we need to provide a placeholder for shop name
         productImage: detail.proId.specId.image[0]?.image_path || "", // Assuming the first image is the primary image
@@ -163,6 +182,8 @@ export default function EcommerceReport() {
         : "N/A",
     }));
   };
+
+  // const csvData = parseOrderData([...filteredList]);
 
   const OrderTable = ({ data }) => {
     const parsedData = parseOrderData(data);
