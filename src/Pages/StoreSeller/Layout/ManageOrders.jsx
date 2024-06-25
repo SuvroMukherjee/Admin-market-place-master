@@ -389,7 +389,11 @@ const ManageOrders = () => {
                       <td>{ChangeFormatDate(row?.createdAt)}</td>
                       <td>{row?.addressId?.pincode}</td>
                       <td>{row?.addressId?.address}</td>
-                      <td>{row?.payment_status}</td>
+                      <td>
+                        {row?.payment_status == "unpaid"
+                          ? "Incomplete"
+                          : "Paid"}
+                      </td>
                       <td>{row?.order_type}</td>
                       <td>
                         {row?.payment_status == "paid" &&
