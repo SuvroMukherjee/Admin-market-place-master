@@ -368,6 +368,8 @@ const ManageOrders = () => {
                   <th>Pincode</th>
                   <th>Address</th>
                   <th>Payment Status</th>
+                  <th>Payment Type</th>
+                  <th>Payment ID</th>
                 </tr>
               </thead>
               <tbody>
@@ -387,7 +389,14 @@ const ManageOrders = () => {
                       <td>{ChangeFormatDate(row?.createdAt)}</td>
                       <td>{row?.addressId?.pincode}</td>
                       <td>{row?.addressId?.address}</td>
-                      <td>{row?.payment_status == "unpaid" ? "COD" : ""}</td>
+                      <td>{row?.payment_status}</td>
+                      <td>{row?.order_type}</td>
+                      <td>
+                        {row?.payment_status == "paid" &&
+                        row?.order_type == "Online"
+                          ? row?.paymentId
+                          : "N/A"}
+                      </td>
                     </tr>
                   ))}
                 {!loading && filteredListByDate?.length === 0 && (
