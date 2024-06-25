@@ -88,17 +88,31 @@ export default function EcommerceReport() {
   let filteredList = useMemo(() => [...data], [data]);
 
   // filter by search
+  // if (searchTerm.length > 0) {
+  //   filteredList = [...filteredList].filter((order) =>
+  //     order.order_details.some((detail) =>
+  //       detail?.sellerId?.user_name
+  //         ?.toLowerCase()
+  //         ?.includes(
+  //           searchTerm?.toLowerCase() ||
+  //             detail?.proId?.name
+  //               ?.toLowerCase()
+  //               ?.includes(searchTerm?.toLowerCase())
+  //         )
+  //     )
+  //   );
+  // }
+
+  // filter by search
   if (searchTerm.length > 0) {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
     filteredList = [...filteredList].filter((order) =>
-      order.order_details.some((detail) =>
-        detail?.sellerId?.user_name
-          ?.toLowerCase()
-          ?.includes(
-            searchTerm?.toLowerCase() ||
-              detail?.proId?.name
-                ?.toLowerCase()
-                ?.includes(searchTerm?.toLowerCase())
-          )
+      order.order_details.some(
+        (detail) =>
+          detail.sellerId.user_name
+            .toLowerCase()
+            .includes(lowerCaseSearchTerm) ||
+          detail.proId.name.toLowerCase().includes(lowerCaseSearchTerm)
       )
     );
   }
