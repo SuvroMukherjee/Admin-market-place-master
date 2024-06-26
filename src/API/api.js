@@ -1578,8 +1578,7 @@ export async function UpdateVideoData(id, payload) {
   }
 }
 
-// payment api
-
+// payment update api for ordered product
 export async function PaymentUpdate(id, formData) {
   try {
     const response = await axios.patch(
