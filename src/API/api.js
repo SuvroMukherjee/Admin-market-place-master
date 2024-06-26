@@ -913,7 +913,7 @@ export async function sellerStockoutlist(id) {
 
 export async function AllOrderListsByAdmin() {
   try {
-    const response = await axios.get(apiUrl + `/seller-report/all-report`,{
+    const response = await axios.get(apiUrl + `/seller-report/all-report`, {
       headers: setAuthHeader(),
     });
     return response;
@@ -1509,7 +1509,7 @@ export async function fetchSingleTestimonial(id) {
   }
 }
 
-export async function addTestimonial(formData){
+export async function addTestimonial(formData) {
   try {
     const response = await axios.post(apiUrl + `/testimonial/create`, formData);
     return response;
@@ -1532,7 +1532,7 @@ export async function bannerTypesdata() {
 
 export async function creteBannerTypeNew(payload) {
   try {
-    const response = await axios.post(apiUrl + `/video-type/create`, payload,{
+    const response = await axios.post(apiUrl + `/video-type/create`, payload, {
       headers: setAuthHeader(),
     });
     return response;
@@ -1552,8 +1552,6 @@ export async function DeleteVideoType(id) {
   }
 }
 
-
-
 export async function VideoByTypeList(id) {
   try {
     const response = await axios.get(apiUrl + `/video/list-by-typeId/${id}`, {
@@ -1567,9 +1565,27 @@ export async function VideoByTypeList(id) {
 
 export async function UpdateVideoData(id, payload) {
   try {
-    const response = await axios.patch(apiUrl + `/video/update/${id}`, payload, {
-      headers: setAuthHeader(),
-    });
+    const response = await axios.patch(
+      apiUrl + `/video/update/${id}`,
+      payload,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+// payment api
+
+export async function PaymentUpdate(id, formData) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/order/payment-update/${id}`,
+      formData
+    );
     return response;
   } catch (error) {
     return error;

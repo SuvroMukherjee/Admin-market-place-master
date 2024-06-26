@@ -11,6 +11,7 @@ import {
 import { IoIosInformationCircle } from "react-icons/io";
 import { MdArrowDropDownCircle } from "react-icons/md";
 import {
+  PaymentUpdate,
   commandOnOrder,
   orderStatusUpdate,
   sellerOrderLists,
@@ -19,6 +20,7 @@ import {
   ChangeFormatDate,
   formatDateRemoveTime,
 } from "../../../common/DateFormat";
+import { toast } from "react-toastify";
 
 const ManageOrders = () => {
   const { userId } = JSON.parse(localStorage.getItem("auth"));
@@ -256,6 +258,68 @@ const ManageOrders = () => {
     setReportDateRange("Select Date Range");
   };
 
+  function generateCODId() {
+    const prefix = "COD_";
+    const maxLength = 15;
+    const randomPartLength = maxLength - prefix.length;
+
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let randomPart = "";
+
+    for (let i = 0; i < randomPartLength; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomPart += characters[randomIndex];
+    }
+
+    return prefix + randomPart;
+  }
+
+  const handleMakePayment = async (orderId, orderType) => {
+    // let codPaymentId;
+    // if(orderType === "COD"){
+    //   codPaymentId = generateCODId();
+    // }
+    // let payload = {
+    //   is_payment: true,
+    //  paymentId:codPaymentId,
+    //   payment_status:'paid'
+    // }
+    // let res = await PaymentUpdate(orderId,payload);
+    //   if (!res?.data?.error) {
+    //     toast.success("Payment Done Successfully");
+    //     getOrdersist();
+    //   }
+    //   else{
+    //     toast.error(res?.data?.message);
+    //   }
+
+    // new code for payment
+
+    let payload = {
+      is_payment: true,
+      payment_status: "paid",
+    };
+
+    if (orderType === "COD") {
+      let codPaymentId = generateCODId();
+      payload.paymentId = codPaymentId;
+    }
+
+    try {
+      let res = await PaymentUpdate(orderId, payload);
+      if (!res?.data?.error) {
+        toast.success("Payment Done Successfully");
+      } else {
+        toast.error(res?.data?.message);
+      }
+    } catch (error) {
+      console.error("Error making payment:", error);
+      toast.error("An error occurred while processing the payment.");
+    }
+    getOrdersist();
+  };
+
   let filteredListByDate = [];
   if (list.length > 0) {
     if (
@@ -412,7 +476,7 @@ const ManageOrders = () => {
                 )}
                 {loading && (
                   <tr>
-                    <td colSpan={6} className="text-center">
+                    <td colSpan={7} className="text-center font-weight-bold">
                       Loading...
                     </td>
                   </tr>
@@ -522,6 +586,7 @@ const ManageOrders = () => {
                     filteredListByDate[selectIndex]?.order_details?.map(
                       (row, index) => (
                         <Fragment key={index}>
+                          {console.log(row, "row")}
                           <tr>
                             <td>{row?.proId?.name}</td>
                             <td>
@@ -643,9 +708,38 @@ const ManageOrders = () => {
                                     OrderSequenceStatus(row?.order_status)
                                   )
                                 }
-                                disabled={row?.order_status == "cancel"}
+                                disabled={
+                                  row?.order_status == "delivered"
+                                    ? true
+                                    : false
+                                }
                               >
                                 {OrderSequence(row?.order_status)}
+                              </Button>
+
+                              <Button
+                                variant="success"
+                                size="sm"
+                                className={`orderpadding ${
+                                  row?.order_status !== "delivered" ||
+                                  row?.is_payment
+                                    ? "d-none"
+                                    : ""
+                                }`}
+                                onClick={() =>
+                                  handleMakePayment(
+                                    filteredListByDate[selectIndex]?._id,
+                                    filteredListByDate[selectIndex]?.order_type
+                                    // row?.is_payment,
+                                    // "cancel"
+                                  )
+                                }
+                              >
+                                {console.log(
+                                  filteredListByDate[selectIndex],
+                                  "fsggdgehdgrdet"
+                                )}
+                                Make Payment
                               </Button>
 
                               <Button
