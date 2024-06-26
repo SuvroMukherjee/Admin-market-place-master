@@ -40,13 +40,13 @@ const ManageOrders = () => {
     try {
       setLoading(true);
       let res = await sellerOrderLists(userId);
-      console.log(res?.data?.data, "seller orders");
+      // console.log(res?.data?.data, "seller orders");
       const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
         ...item,
         id: index + 1,
       }));
 
-      console.log({ dataWithUniqueIds });
+      // console.log({ dataWithUniqueIds });
 
       setList(dataWithUniqueIds);
     } catch (error) {
@@ -56,7 +56,7 @@ const ManageOrders = () => {
     }
   };
 
-  console.log({ list });
+  // console.log({ list });
 
   const handleStatusUpdate = async (OId, product, status) => {
     let payload = {
@@ -71,11 +71,11 @@ const ManageOrders = () => {
   };
 
   const IsallOrderPackedFunc = (data) => {
-    console.log(data?.order_status, "o");
-    console.log(
-      data.order_status != "order_placed" && data?.order_status != "cancel",
-      "ll"
-    );
+    // console.log(data?.order_status, "o");
+    // console.log(
+    //   data.order_status != "order_placed" && data?.order_status != "cancel",
+    //   "ll"
+    // );
     return (
       data.order_status != "order_placed" && data?.order_status != "cancel"
     );
@@ -149,7 +149,7 @@ const ManageOrders = () => {
   };
 
   const handleCommand = async (orderId, proId) => {
-    console.log({ orderId });
+    // console.log({ orderId });
     let payload = {
       proId: proId,
       comment: showCommentBoxText,
@@ -157,7 +157,7 @@ const ManageOrders = () => {
 
     let res = await commandOnOrder(orderId, payload);
 
-    console.log(res, "res");
+    // console.log(res, "res");
 
     getOrdersist();
   };
@@ -294,7 +294,7 @@ const ManageOrders = () => {
         toast.error(res?.data?.message);
       }
     } catch (error) {
-      console.error("Error making payment:", error);
+      // console.error("Error making payment:", error);
       toast.error("An error occurred while processing the payment.");
     }
     getOrdersist();
@@ -560,13 +560,12 @@ const ManageOrders = () => {
                     <th>Manage Order</th>
                   </tr>
                 </thead>
-                {console.log(filteredListByDate[selectIndex], "index")}
+                {/* {console.log(filteredListByDate[selectIndex], "index")} */}
                 <tbody>
                   {filteredListByDate[selectIndex]?.order_details?.length > 0 &&
                     filteredListByDate[selectIndex]?.order_details?.map(
                       (row, index) => (
                         <Fragment key={index}>
-                          {console.log(row, "row")}
                           <tr>
                             <td>{row?.proId?.name}</td>
                             <td>
@@ -715,10 +714,6 @@ const ManageOrders = () => {
                                   )
                                 }
                               >
-                                {console.log(
-                                  filteredListByDate[selectIndex],
-                                  "fsggdgehdgrdet"
-                                )}
                                 Make Payment
                               </Button>
 
