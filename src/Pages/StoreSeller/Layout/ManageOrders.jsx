@@ -157,7 +157,7 @@ const ManageOrders = () => {
 
     let res = await commandOnOrder(orderId, payload);
 
-    // console.log(res, "res");
+    console.log(res, "res");
 
     getOrdersist();
   };
