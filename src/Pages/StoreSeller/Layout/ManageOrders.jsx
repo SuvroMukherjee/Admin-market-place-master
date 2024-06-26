@@ -276,26 +276,6 @@ const ManageOrders = () => {
   }
 
   const handleMakePayment = async (orderId, orderType) => {
-    // let codPaymentId;
-    // if(orderType === "COD"){
-    //   codPaymentId = generateCODId();
-    // }
-    // let payload = {
-    //   is_payment: true,
-    //  paymentId:codPaymentId,
-    //   payment_status:'paid'
-    // }
-    // let res = await PaymentUpdate(orderId,payload);
-    //   if (!res?.data?.error) {
-    //     toast.success("Payment Done Successfully");
-    //     getOrdersist();
-    //   }
-    //   else{
-    //     toast.error(res?.data?.message);
-    //   }
-
-    // new code for payment
-
     let payload = {
       is_payment: true,
       payment_status: "paid",
