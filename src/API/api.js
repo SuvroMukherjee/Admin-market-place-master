@@ -1590,3 +1590,30 @@ export async function PaymentUpdate(id, formData) {
     return error;
   }
 }
+
+// Best seller apis
+export async function GetBestSellerProductList() {
+  try {
+    const response = await axios.get(
+      apiUrl + `/seller-product/bestseller-list`
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function BestSellerProductUpdate(id, formData) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/seller-product/bestsell-update/${id}`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

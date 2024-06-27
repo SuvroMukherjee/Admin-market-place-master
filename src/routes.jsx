@@ -84,7 +84,7 @@ import BulkUpload from "./Pages/StoreSeller/Layout/BulkUpload";
 import BulkAdminUpload from "./Pages/ProductManagement/Product/BulkAdminUpload";
 import LivePreview from "./Pages/livePreview/LivePreview";
 import EcommerceReport from "./Pages/EcommerceReport/EcommerceReport";
-
+import BestSeller from "./Pages/ProductManagement/Product/BestSeller";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -110,6 +110,7 @@ export default function Router({ socket }) {
               element: <SellerProductManagment />,
             },
             { path: "SellerReport", element: <SellerReport /> },
+            { path: "BestSeller", element: <BestSeller /> },
             { path: "EcommerceReport", element: <EcommerceReport /> },
             { path: "SellerDetails/:id", element: <SellerDetails /> },
             {

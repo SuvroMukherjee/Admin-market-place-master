@@ -49,6 +49,12 @@ export const AdminSidebarData = [
     cName: "nav-text",
   },
   {
+    title: `Best Seller`,
+    path: "/BestSeller",
+    icon: IoStatsChart,
+    cName: "nav-text",
+  },
+  {
     title: `Ecommerce-Report`,
     path: "/EcommerceReport",
     icon: CgWebsite,

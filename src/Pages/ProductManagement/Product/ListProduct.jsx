@@ -508,6 +508,7 @@ export default function ListProduct() {
                           {row?.specId?.length > 0 ? (
                             <a
                               href={`http://zoofi.in/livepreview/${row?._id}`}
+                              rel="noreferrer"
                               target="_blank"
                             >
                               {/* <SiGooglechrome size={25} /> */}
