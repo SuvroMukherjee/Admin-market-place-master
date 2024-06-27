@@ -4,7 +4,7 @@ import { BsShop } from "react-icons/bs";
 import { FaCartArrowDown, FaUsers } from "react-icons/fa";
 import { GiVerticalBanner } from "react-icons/gi";
 import { IoMdImages } from "react-icons/io";
-import { IoPricetagsSharp } from "react-icons/io5";
+import { TbBrandAdobe } from "react-icons/tb";
 import { MdCategory } from "react-icons/md";
 import { RiUserSettingsFill } from "react-icons/ri";
 import { VscFeedback } from "react-icons/vsc";
@@ -82,7 +82,7 @@ export const AdminSidebarData = [
   {
     title: "Brand",
     path: "/Admin/brand",
-    icon: IoPricetagsSharp,
+    icon: TbBrandAdobe,
     cName: "nav-text",
   },
   {
