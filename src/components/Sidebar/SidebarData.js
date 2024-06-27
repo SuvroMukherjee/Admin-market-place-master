@@ -9,6 +9,7 @@ import { MdCategory } from "react-icons/md";
 import { RiUserSettingsFill } from "react-icons/ri";
 import { VscFeedback } from "react-icons/vsc";
 import { IoStatsChart } from "react-icons/io5";
+import { MdSell } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 
 export const AdminSidebarData = [
@@ -51,7 +52,7 @@ export const AdminSidebarData = [
   {
     title: `Best Seller`,
     path: "/BestSeller",
-    icon: IoStatsChart,
+    icon: MdSell,
     cName: "nav-text",
   },
   {
