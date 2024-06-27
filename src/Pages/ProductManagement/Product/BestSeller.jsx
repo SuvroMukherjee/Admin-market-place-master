@@ -106,11 +106,11 @@ const BestSeller = () => {
                                 src={row?.productId?.image?.[0]?.image_path}
                                 alt="productpic"
                               />
-                              {row?.productId?.image?.length > 2 && (
+                              {/* {row?.productId?.image?.length > 2 && (
                                 <span>
                                   {row?.productId?.image?.length - 1}+
                                 </span>
-                              )}
+                              )} */}
                             </div>
                           </td>
                           <td>{row?.specId?.spec_det?.length}</td>
