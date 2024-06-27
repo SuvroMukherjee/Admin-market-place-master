@@ -77,7 +77,7 @@ export default function EcommerceReport() {
     pendingList = [...orders]
       .map((item) => item?.order_details)
       .flat()
-      .filter((item) => item?.order_status === "order_placed");
+      .filter((item) => item?.order_status !== "delivered");
 
     deliveredList = [...orders]
       .map((item) => item?.order_details)
