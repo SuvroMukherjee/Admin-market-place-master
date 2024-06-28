@@ -11,11 +11,11 @@ import {
   Table,
 } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
+import { CSVLink } from "react-csv";
 import { Toaster } from "react-hot-toast";
 import { FaBoxOpen } from "react-icons/fa";
 import { LiaClipboardListSolid } from "react-icons/lia";
 import { AllOrderListsByAdmin, allProductList } from "../../API/api";
-import { CSVLink } from "react-csv";
 
 export default function EcommerceReport() {
   const [loading, setLoading] = useState(true);
@@ -68,6 +68,23 @@ export default function EcommerceReport() {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const OrderStatusSequence = (status) => {
+    switch (status) {
+      case "order_placed":
+        return "Order Placed";
+      case "order_packed":
+        return "Packed";
+      case "shipped":
+        return "Shipped";
+      case "delivered":
+        return "Order Delivered";
+      case "cancel":
+        return "Order Cancelled";
+      default:
+        return "Unknown Status";
+    }
+  };
 
   if (orders?.length) {
     [...orders].forEach((item) => {
@@ -186,15 +203,19 @@ export default function EcommerceReport() {
       orderDetails: order.order_details.map((detail) => ({
         // productId: detail.proId._id,
         productName: detail.proId.name,
-        sellerName: detail.sellerId.user_name, // Assuming sellerId is the seller name
-        shopName: detail.sellerId.Shop_Details_Info.shope_name, // Assuming we need to provide a placeholder for shop name
-        productImage: detail.proId.specId.image[0]?.image_path || "", // Assuming the first image is the primary image
-        orderStatus: detail.order_status,
+        skuId: detail.proId.specId.skuId,
+        sellerName: detail.sellerId.user_name,
+        shopName: detail.sellerId.Shop_Details_Info.shope_name,
+        shopAddress: detail.sellerId.Shop_Details_Info.state,
+        productImage: detail.proId.specId.image[0]?.image_path || "",
+        orderStatus: OrderStatusSequence(detail.order_status),
         isPayment: detail.is_payment,
       })),
       orderAddress: order.addressId
         ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
         : "N/A",
+      paymentType: order.order_type,
+      paymentId: order.paymentId || "N/A",
     }));
   };
 
@@ -211,10 +232,13 @@ export default function EcommerceReport() {
             <th>Seller Name</th>
             <th>Product Image</th>
             <th>Product Name</th>
+            <th>SKU Id</th>
             <th>Order Status</th>
             <th>Order Location</th>
             <th>Order Date & Time</th>
             <th>Payment Status</th>
+            <th>Payment Type</th>
+            <th>Payment Id</th>
           </tr>
         </thead>
         <tbody>
@@ -222,7 +246,9 @@ export default function EcommerceReport() {
             parsedData.map((order, idx) =>
               order.orderDetails.map((detail, index) => (
                 <tr key={`${idx}-${index}`}>
-                  <td>{detail.shopName}</td>
+                  <td>
+                    {detail.shopName} {`(${detail.shopAddress})`}
+                  </td>
                   <td>{detail.sellerName}</td>
                   <td>
                     <div className="productListItem">
@@ -235,10 +261,19 @@ export default function EcommerceReport() {
                     </div>
                   </td>
                   <td>{detail.productName}</td>
+                  <td>{detail.skuId}</td>
                   <td>{detail.orderStatus}</td>
                   <td>{order.orderAddress}</td>
                   <td>{order.orderDate}</td>
-                  <td>{detail.isPayment == true ? "Paid" : "Incomplete"}</td>
+                  <td
+                    className={`text-${
+                      detail.isPayment ? "success" : "danger"
+                    }`}
+                  >
+                    {detail.isPayment ? "Paid" : "Incomplete"}
+                  </td>
+                  <td>{order.paymentType}</td>
+                  <td>{order.paymentId}</td>
                 </tr>
               ))
             )
