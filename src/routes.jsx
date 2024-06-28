@@ -85,6 +85,7 @@ import BulkAdminUpload from "./Pages/ProductManagement/Product/BulkAdminUpload";
 import LivePreview from "./Pages/livePreview/LivePreview";
 import EcommerceReport from "./Pages/EcommerceReport/EcommerceReport";
 import BestSeller from "./Pages/ProductManagement/Product/BestSeller";
+import { ProductServices } from "./Pages/ProductManagement/Product/ProductServices";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -138,6 +139,7 @@ export default function Router({ socket }) {
             { path: "brand-request", element: <BrandReqList /> },
             { path: "Addbrand", element: <AddBrandPage /> },
             { path: "product", element: <ListProduct /> },
+            { path: "product-services", element: <ProductServices /> },
             { path: "Addproduct", element: <AddProduct /> },
             { path: "uploadbulk", element: <BulkAdminUpload /> },
             { path: "Editproduct/:id", element: <EditProduct /> },
