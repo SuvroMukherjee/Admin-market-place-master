@@ -13,9 +13,11 @@ import { FaFileUpload } from "react-icons/fa";
 import { LuDownload } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import {
+  GetAllServices,
   SellerProductList,
   UpdateSellerProduct,
   UpdateSellerProductDataStatus,
+  addSerivices,
   getLowestPriceProdut,
 } from "../../../API/api";
 import {
@@ -38,8 +40,9 @@ export default function SellerInventory() {
   const [lowIndex, setLowIndex] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [show,setShow] = useState(false)
-  const [selectedProduct,setSelectedProduct] = useState()
+  const [show, setShow] = useState(false);
+  const [showService, setShowServices] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState();
   const [selectedTime, setSelectedTime] = useState("select");
 
   const handleSelectEstimateChange = (event) => {
@@ -91,6 +94,17 @@ export default function SellerInventory() {
     setQuantities(updatedQuantities);
   };
 
+  //  useEffect(() => {
+  //    console.log("call");
+  //    getServices();
+  //  }, []);
+
+  //  async function getServices() {
+  //    let res = await GetAllServices();
+  //    console.log(res?.data?.data, "ff");
+  //    setServices(res?.data?.data);
+  //  }
+
   const { userId } = JSON.parse(localStorage.getItem("auth"));
 
   useEffect(() => {
@@ -114,8 +128,8 @@ export default function SellerInventory() {
         setFormData(dataWithUniqueIds);
         const csvDataArray = res?.data?.data?.SellerProductData?.map(
           (ele, index) => ({
-            Status: ele.status ? "Active" : "Inactive",
-            SKU: ele.specId.skuId,
+            Status: ele?.status ? "Active" : "Inactive",
+            SKU: ele?.specId?.skuId,
             "Product Name": `${ele?.productId?.brandId?.title} ${ele?.name}`,
             "Date Created": ChangeFormatDate(ele?.updatedAt),
             "Available Quantity": ele?.available_qty || 0,
@@ -232,7 +246,7 @@ export default function SellerInventory() {
   };
 
   let filterData = [...data];
-  console.log({ filterData });
+
   if (searchtext.length > 0) {
     filterData = data?.filter((ele) => {
       return (
@@ -290,32 +304,38 @@ export default function SellerInventory() {
     }
   }
 
-
-  const EstimateHandler = (ele) =>{
-    setSelectedProduct(ele)
+  const EstimateHandler = (ele) => {
+    setSelectedProduct(ele);
     handleShow();
-  }
+  };
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+  const ServiceHandler = (ele) => {
+    setSelectedProduct(ele);
+    handleOpenService();
+  };
 
-  const updateEstimatedDelivey  = async() =>{
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleOpenService = () => setShowServices(true);
+  const handleCloseService = () => setShowServices(false);
+
+  const updateEstimatedDelivey = async () => {
     let res = await UpdateSellerProduct(selectedProduct?._id, {
       ...selectedProduct,
       estimateDate: selectedTime,
     });
-    console.log(res)
-   if (res.data.error == false){
-    toast.success("Estimate date update Successfully")
-    setTimeout(() => {
-      handleClose();
-    }, 1000);
-    setSelectedProduct("");
-    setSelectedTime("")
-    getProductListFunc();
-   }
-   
-  }
+    console.log(res);
+    if (res.data.error == false) {
+      toast.success("Estimate date update Successfully");
+      setTimeout(() => {
+        handleClose();
+      }, 1000);
+      setSelectedProduct("");
+      setSelectedTime("");
+      getProductListFunc();
+    }
+  };
 
   return (
     <div>
@@ -636,8 +656,9 @@ export default function SellerInventory() {
                       </td>
                       <td>
                         {
-                          estimatedDeliveryTimes[parseInt(ele?.estimateDate)-1]
-                            ?.label
+                          estimatedDeliveryTimes[
+                            parseInt(ele?.estimateDate) - 1
+                          ]?.label
                         }
                       </td>
                       <td>{Math.round(ele?.price - ele?.comission_price)}</td>
@@ -694,6 +715,9 @@ export default function SellerInventory() {
                           </Dropdown.Item>
                           <Dropdown.Item onClick={() => EstimateHandler(ele)}>
                             Estimate Delivery Time
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={() => ServiceHandler(ele)}>
+                            Add Services
                           </Dropdown.Item>
                           <Dropdown.Item
                             onClick={() =>
@@ -772,9 +796,112 @@ export default function SellerInventory() {
               </Modal.Footer>
             </Modal>
           </div>
+          <div>
+            <ServicesModal
+              showService={showService}
+              handleCloseService={handleCloseService}
+              selectedProduct={selectedProduct}
+              getProductListFunc={getProductListFunc}
+            />
+          </div>
         </Row>
         <Toaster position="top-right" />
       </Container>
     </div>
   );
 }
+
+const ServicesModal = ({
+  showService,
+  handleCloseService,
+  selectedProduct,
+  getProductListFunc,
+}) => {
+  const [services, setServices] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
+
+  console.log({ selectedProduct });
+
+  useEffect(() => {
+    async function getServices() {
+      try {
+        const res = await GetAllServices();
+        setServices(res?.data?.data || []);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    }
+
+    getServices();
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    if (selectedProduct?.services) {
+      const initialSelectedIds = selectedProduct?.services.map(
+        (service) => service?.product_service?._id
+      );
+      setSelectedIds(initialSelectedIds);
+    }
+  }, [selectedProduct]);
+
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    if (checked) {
+      setSelectedIds((prev) => [...prev, name]);
+    } else {
+      setSelectedIds((prev) => prev?.filter((id) => id !== name));
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        services: selectedIds.map((id) => ({ product_service: id })),
+      };
+      const res = await UpdateSellerProduct(selectedProduct?._id, payload);
+      if (res?.status === 200) {
+        toast.success("Services Added Successfully");
+        getProductListFunc();
+        setTimeout(handleCloseService, 1500);
+      }
+    } catch (error) {
+      console.error("Error updating product:", error);
+      toast.error("Failed to add services");
+    }
+  };
+
+  return (
+    <Modal
+      show={showService}
+      onHide={handleCloseService}
+      backdrop="static"
+      keyboard={false}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title style={{ fontSize: "16px" }}>
+          Select Services for {selectedProduct?.name}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {services.map((service) => (
+          <Form.Check
+            inline
+            key={service?._id}
+            label={service?.name}
+            name={service?._id}
+            onChange={handleCheckboxChange}
+            checked={selectedIds.includes(service?._id)}
+          />
+        ))}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleCloseService}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleSubmit}>
+          SAVE
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};

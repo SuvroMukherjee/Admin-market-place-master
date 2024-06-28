@@ -1617,3 +1617,25 @@ export async function BestSellerProductUpdate(id, formData) {
     return error;
   }
 }
+
+
+export async function GetAllServices() {
+  try {
+    const response = await axios.get(
+      apiUrl + `/product-service/list`
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+export async function addSerivices(id,formData) {
+  try {
+    const response = await axios.get(apiUrl + `/product-service/list/${id}`,formData);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

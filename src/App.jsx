@@ -18,28 +18,28 @@ function App() {
 
   // const { auth } = useAuth();
 
-  useEffect(() => {
-    const socket = io("https://zoofi-393f46d84893.herokuapp.com");
+  // useEffect(() => {
+  //   const socket = io("https://zoofi-393f46d84893.herokuapp.com");
 
-    // const socket = io("http://localhost:10000");
+  //   // const socket = io("http://localhost:10000");
 
-    socket.on("connect", () => {
-      console.log("Socket connected successfully");
-      setSocket(socket);
-     // settingSocket(socket);
-    });
+  //   socket.on("connect", () => {
+  //     console.log("Socket connected successfully");
+  //     setSocket(socket);
+  //    // settingSocket(socket);
+  //   });
 
-    socket.on("connect_error", (err) => {
-      console.error("Socket connection error:", err.message);
-      // Optionally handle the error here, such as displaying a message to the user or retrying after a delay
-    });
+  //   socket.on("connect_error", (err) => {
+  //     console.error("Socket connection error:", err.message);
+  //     // Optionally handle the error here, such as displaying a message to the user or retrying after a delay
+  //   });
 
-    // Clean up the socket on component unmount
-    return () => {
-      console.log("Cleaning up socket connection");
-      socket.disconnect();
-    };
-  }, []);
+  //   // Clean up the socket on component unmount
+  //   return () => {
+  //     console.log("Cleaning up socket connection");
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   // function settingSocket() {
   //   setSocket(socket);
