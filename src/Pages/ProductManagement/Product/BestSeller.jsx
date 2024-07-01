@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Spinner, Table } from "react-bootstrap";
-import { IoIosEye } from "react-icons/io";
 import {
   BestSellerProductUpdate,
   GetBestSellerProductList,
@@ -25,7 +24,7 @@ const BestSeller = () => {
       console.log(error);
     } finally {
       setLoading(false);
-      console.log(bestSellerList, "best seller list");
+      // console.log(bestSellerList, "best seller list");
     }
   }
 
