@@ -11,6 +11,7 @@ import { VscFeedback } from "react-icons/vsc";
 import { IoStatsChart } from "react-icons/io5";
 import { MdSell } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
+import { MdOutlineMiscellaneousServices } from "react-icons/md";
 
 export const AdminSidebarData = [
   {
@@ -95,6 +96,12 @@ export const AdminSidebarData = [
     title: "Bulk Product",
     path: "/Admin/uploadbulk",
     icon: FaCartArrowDown,
+    cName: "nav-text",
+  },
+  {
+    title: "Product Services",
+    path: "/Admin/product-services",
+    icon: MdOutlineMiscellaneousServices,
     cName: "nav-text",
   },
   {
