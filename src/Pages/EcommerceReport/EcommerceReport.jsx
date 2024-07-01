@@ -66,7 +66,6 @@ export default function EcommerceReport() {
 
     // Call the fetchData function
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const OrderStatusSequence = (status) => {
@@ -75,12 +74,16 @@ export default function EcommerceReport() {
         return "Order Placed";
       case "order_packed":
         return "Packed";
+      case "confirmed":
+        return "Confirmed";
       case "shipped":
         return "Shipped";
       case "delivered":
         return "Order Delivered";
       case "cancel":
         return "Order Cancelled";
+      case "returned":
+        return "Order Returned";
       default:
         return "Unknown Status";
     }
@@ -102,45 +105,40 @@ export default function EcommerceReport() {
       .filter((item) => item?.order_status === "delivered");
   }
 
-  let filteredList = useMemo(() => [...data], [data]);
+  let filteredList = useMemo(() => {
+    return [...data];
+  }, [data]);
 
   // filter by search
-  // if (searchTerm.length > 0) {
-  //   filteredList = [...filteredList].filter((order) =>
-  //     order.order_details.some((detail) =>
-  //       detail?.sellerId?.user_name
-  //         ?.toLowerCase()
-  //         ?.includes(
-  //           searchTerm?.toLowerCase() ||
-  //             detail?.proId?.name
-  //               ?.toLowerCase()
-  //               ?.includes(searchTerm?.toLowerCase())
-  //         )
-  //     )
-  //   );
-  // }
-
-  // filter by search
-  if (searchTerm.length > 0) {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    filteredList = [...filteredList].filter((order) =>
-      order.order_details.some(
-        (detail) =>
-          detail.sellerId.user_name
-            .toLowerCase()
-            .includes(lowerCaseSearchTerm) ||
-          detail.proId.name.toLowerCase().includes(lowerCaseSearchTerm)
-      )
-    );
-  }
+  // const handleSearch = (e) => {
+  //   setSearchTerm(e.target.value);
+  //   if (searchTerm.length > 0) {
+  //     const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  //     filteredList = [...filteredList].filter((order) =>
+  //       order.order_details.some((detail) =>
+  //         detail.proId.name.toLowerCase().includes(lowerCaseSearchTerm)
+  //       )
+  //     );
+  //     return filteredList;
+  //   }
+  //   else{
+  //     filteredList = [...data];
+  //   }
+  // };
 
   //filter by seller
   if (selectedSeller) {
-    filteredList = [...filteredList].filter((order) =>
-      order.order_details.some(
-        (detail) => detail.sellerId.user_name === selectedSeller
-      )
-    );
+    filteredList = [...filteredList]
+      .map((order) => {
+        const filteredOrderDetails = order.order_details.filter(
+          (detail) => detail.sellerId.user_name === selectedSeller
+        );
+        return {
+          ...order,
+          order_details: filteredOrderDetails,
+        };
+      })
+      .filter((order) => order.order_details.length > 0);
   }
 
   // filter by date range
@@ -159,37 +157,24 @@ export default function EcommerceReport() {
     });
   }
 
-  // const csvData = [...filteredList].map((order) => {
-  //   return {
-  //     orderId: order._id,
-  //     'order Date and Time': new Date(
-  //       order.order_details[0].proId.createdAt
-  //     ).toLocaleString(),
-  //     sellerName: order.order_details[0].sellerId.user_name,
-  //     shopName: order.order_details[0].sellerId.Shop_Details_Info.shope_name,
-  //     productName: order.order_details[0].proId.name,
-  //     orderStatus: order.order_details[0].order_status,
-  //     orderAddress: order.addressId
-  //       ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
-  //       : "N/A",
-  //   };
-  // });
-
+  //csv data export
   const csvData = [...filteredList].flatMap((order) => {
     return order.order_details.map((detail) => {
       return {
-        orderId: order._id,
-        "order Date and Time": moment(detail.proId.createdAt).format(
+        "Seller Name": detail.sellerId.user_name,
+        "Order Date and Time": moment(detail.proId.createdAt).format(
           "DD-MM-YYYY, hh:mm:ss A"
         ),
-        sellerName: detail.sellerId.user_name,
-        shopName: detail.sellerId.Shop_Details_Info.shope_name,
-        productName: detail.proId.name,
-        orderStatus: detail.order_status,
-        isPayment: detail.is_payment,
-        orderAddress: order.addressId
+        "Shop Name": detail.sellerId.Shop_Details_Info.shope_name,
+        "Product Name": detail.proId.name,
+        "SKU-Id": detail.proId.specId.skuId,
+        "Order Status": detail.order_status,
+        "Payment Status": detail.is_payment ? "Paid" : "Incomplete",
+        "Order Address": order.addressId
           ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
           : "N/A",
+        "Payment type": order.order_type,
+        "Payment Id": order.paymentId || "N/A",
       };
     });
   });
@@ -262,7 +247,13 @@ export default function EcommerceReport() {
                   </td>
                   <td>{detail.productName}</td>
                   <td>{detail.skuId}</td>
-                  <td>{detail.orderStatus}</td>
+                  <td
+                    className={`text-${
+                      detail.orderStatus == "Order Delivered" ? "success" : ""
+                    }`}
+                  >
+                    {detail.orderStatus}
+                  </td>
                   <td>{order.orderAddress}</td>
                   <td>{order.orderDate}</td>
                   <td
@@ -433,18 +424,18 @@ export default function EcommerceReport() {
         <Container>
           <Row className="p-4 mt-4 mx-2 cont">
             <Row className="justify-content-md-center mt-4">
-              <InputGroup size="sm" className="mb-3">
+              {/* <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">
                   Search
                 </InputGroup.Text>
                 <Form.Control
+                  value={searchTerm}
                   aria-label="Small"
                   aria-describedby="inputGroup-sizing-sm"
-                  placeholder="Search by Seller Name or Product Name"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search By Product Name"
+                  onChange={handleSearch}
                 />
-              </InputGroup>
+              </InputGroup> */}
               <InputGroup size="sm" className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-sm">
                   Select by Seller
@@ -464,7 +455,7 @@ export default function EcommerceReport() {
                 </Form.Select>
               </InputGroup>
             </Row>
-            <Row className="justify-content-md-center mt-4">
+            <Row className="justify-content-md-center mt-2">
               <Col xs={4}>
                 <Form.Group controlId="date-to">
                   <Form.Label className="customDatelable">
