@@ -29,7 +29,7 @@ export default function WidgetLg({ product }) {
                                     className="widgetLgImg"
                                 />
                                 {console.log({ ele })}
-                                <span className="widgetLgName">{ele?.name}</span>
+                                <span className="widgetLgName d-flex align-items-center">{ele?.name}</span>
                             </TableCell>
                             <TableCell className="widgetLgDate">
                                 <img src={ele?.categoryId?.image?.[0]?.image_path} width={40} height={40} />
