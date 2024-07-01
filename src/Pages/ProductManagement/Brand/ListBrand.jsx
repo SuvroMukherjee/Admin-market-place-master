@@ -12,6 +12,7 @@ import { UpdateStatusBrand, allBrandList, deleteBrand } from "../../../API/api";
 import { productRows } from "../../../dummyData";
 import "../product.css";
 import EditBrandPage from "./EditBrandPage";
+import { FaInfoCircle } from "react-icons/fa";
 
 
 export default function ListSubCategory() {
@@ -141,53 +142,65 @@ export default function ListSubCategory() {
     ];
 
     return (
-        <>
-            {loading &&
-                <div className="productList p-4 contentLoader">
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" size="lg" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
-                </div>}
-            <div className="productList mt-2 p-4">
-                <Container>
-                    <EditBrandPage
-                        showModal={showModal}
-                        handleClose={handleClose}
-                        data={modalData}
-                    />
-                    <Row className="justify-content-md-center">
-                        <Col md="auto">
-                            <h3>Brand List</h3>
-                        </Col>
-                    </Row>
-                    <Row className="mb-2">
-                        <Col className="d-flex justify-content-end p-2 gap-2">
-                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addbrand')}>
-                                <AiOutlinePlus /> Add New Brand
-                            </Button>
-                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/brand-request')}>
-                                <FaCodePullRequest /> Requested Brand
-                            </Button>
-                        </Col>
-                    </Row>
-                    <Row className="justify-content-md-center">
-                        <Col>
-                            <DataGrid
-                                rows={data}
-                                columns={columns}
-                                pageSize={8}
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-                <Toaster position="top-right" />
-            </div>
-        </>
-
-
+      <>
+        {loading && (
+          <div className="productList p-4 contentLoader">
+            <Row>
+              <Col>
+                <Spinner animation="border" size="lg" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
+            </Row>
+          </div>
+        )}
+        <div className="productList mt-2 p-4">
+          <Container>
+            <EditBrandPage
+              showModal={showModal}
+              handleClose={handleClose}
+              data={modalData}
+            />
+            <Row className="justify-content-md-center">
+              <Col md="auto">
+                <h3 className="text-center">Brand List</h3>
+                <p style={{ color: "red", fontWeight: "500" }}>
+                  <FaInfoCircle /> Please upload transparent brand Images{" "}
+                  <span className="border border-dark mx-2 p-2 bg-gradient-secondary">
+                    {" "}
+                    <a href="https://www.remove.bg/" target="_blank">
+                      Visit This Site
+                    </a>{" "}
+                  </span>
+                </p>
+              </Col>
+            </Row>
+            <Row className="mb-2">
+              <Col className="d-flex justify-content-end p-2 gap-2">
+                <Button
+                  className="addCategoryButton"
+                  variant="dark"
+                  onClick={() => navigate("/Admin/Addbrand")}
+                >
+                  <AiOutlinePlus /> Add New Brand
+                </Button>
+                <Button
+                  className="addCategoryButton"
+                  variant="dark"
+                  onClick={() => navigate("/Admin/brand-request")}
+                >
+                  <FaCodePullRequest /> Requested Brand
+                </Button>
+              </Col>
+            </Row>
+            <Row className="justify-content-md-center">
+              <Col>
+                <DataGrid rows={data} columns={columns} pageSize={8} />
+              </Col>
+            </Row>
+          </Container>
+          <Toaster position="top-right" />
+        </div>
+      </>
     );
 }
