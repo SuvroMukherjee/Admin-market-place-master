@@ -144,9 +144,7 @@ export default function EcommerceReport() {
   // filter by date range
   if (fromDate && toDate) {
     filteredList = [...filteredList]?.filter((order) => {
-      const itemDate = moment(order.order_details[0].proId.createdAt).format(
-        "YYYY-MM-DD"
-      );
+      const itemDate = moment(order.createdAt).format("YYYY-MM-DD");
       const from = moment(fromDate).format("YYYY-MM-DD");
       const to = moment(toDate).format("YYYY-MM-DD");
 
@@ -162,7 +160,7 @@ export default function EcommerceReport() {
     return order.order_details.map((detail) => {
       return {
         "Seller Name": detail.sellerId.user_name,
-        "Order Date and Time": moment(detail.proId.createdAt).format(
+        "Order Date and Time": moment(order.createdAt).format(
           "DD-MM-YYYY, hh:mm:ss A"
         ),
         "Shop Name": detail.sellerId.Shop_Details_Info.shope_name,
@@ -182,9 +180,7 @@ export default function EcommerceReport() {
   const parseOrderData = (data) => {
     return data.map((order) => ({
       // orderId: order._id,
-      orderDate: moment(order.order_details[0].proId.createdAt).format(
-        "DD-MM-YYYY, hh:mm:ss A"
-      ),
+      orderDate: moment(order.createdAt).format("DD-MM-YYYY, hh:mm:ss A"),
       orderDetails: order.order_details.map((detail) => ({
         // productId: detail.proId._id,
         productName: detail.proId.name,
