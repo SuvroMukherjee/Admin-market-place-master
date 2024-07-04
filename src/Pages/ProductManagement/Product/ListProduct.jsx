@@ -41,6 +41,7 @@ import "../product.css";
 import { LiaMailBulkSolid } from "react-icons/lia";
 import { SiGooglechrome } from "react-icons/si";
 import { CiCircleInfo } from "react-icons/ci";
+import moment from "moment";
 
 export default function ListProduct() {
   const [data, setData] = useState(productRows);
@@ -421,7 +422,9 @@ export default function ListProduct() {
                       {/* <th>Description</th> */}
                       <th>Category</th>
                       <th>Sub Category</th>
+                      <th>Uploaded</th>
                       <th>Live Preview</th>
+
                       {/* <th>Tags</th> */}
                       {/* <th>Status</th> */}
                       {/* <th>Type</th> */}
@@ -504,6 +507,7 @@ export default function ListProduct() {
                                                     </div>
                                                 </td> */}
                         {/* <td>{row?.type}</td> */}
+                        <td>{moment(row?.updatedAt).format("LLL")}</td>
                         <td className="d-flex justify-content-center">
                           {row?.specId?.length > 0 ? (
                             <a

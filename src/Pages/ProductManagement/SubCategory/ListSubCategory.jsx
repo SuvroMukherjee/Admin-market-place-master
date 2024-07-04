@@ -13,6 +13,7 @@ import { productRows } from "../../../dummyData";
 import "../product.css";
 import EditSubCategory from "./EditSubCategory";
 import { FaCodePullRequest } from "react-icons/fa6";
+import moment from "moment";
 
 export default function ListSubCategory() {
     const [data, setData] = useState(productRows);
@@ -81,85 +82,126 @@ export default function ListSubCategory() {
     }
 
     const columns = [
-        { field: "id", headerName: "ID", width: 90 },
-        {
-            field: "image",
-            headerName: "Image",
-            width: 100,
-            renderCell: (params) => {
-                return (
-                    <div className="productListItem">
-                        <img className="productListImg" src={params?.row?.image?.[0]?.image_path} alt="" />
-                    </div>
-                );
-            },
+      { field: "id", headerName: "ID", width: 90 },
+      {
+        field: "image",
+        headerName: "Image",
+        width: 100,
+        renderCell: (params) => {
+          return (
+            <div className="productListItem">
+              <img
+                className="productListImg"
+                src={params?.row?.image?.[0]?.image_path}
+                alt=""
+              />
+            </div>
+          );
         },
-        {
-            field: "category", headerName: "Category", width: 160, renderCell: (params) => {
-                return (
-                    <div className="productListItem">
-                        {params?.row?.category?.title}
-                    </div>
-                );
-            }
+      },
+      {
+        field: "category",
+        headerName: "Category",
+        width: 160,
+        renderCell: (params) => {
+          return (
+            <div className="productListItem">
+              {params?.row?.category?.title}
+            </div>
+          );
         },
-        {
-            field: "title",
-            headerName: "Title",
-            width: 160,
+      },
+      {
+        field: "title",
+        headerName: "Title",
+        width: 160,
+      },
+      {
+        field: "description",
+        headerName: "Description",
+        width: 170,
+      },
+      {
+        field: "updatedAt",
+        headerName: "uploaded",
+        width: 120,
+        renderCell: (params) => {
+          return (
+            <div>
+              <span style={{fontSize:"10px",fontWeight:"bold"}}>{moment(params?.row?.updatedAt).format("LLL")}</span>
+            </div>
+          );
         },
-        {
-            field: "description",
-            headerName: "Description",
-            width: 170,
+      },
+      {
+        field: "status",
+        headerName: "Status",
+        width: 90,
+        renderCell: (params) => {
+          return (
+            <div>
+              {params?.row?.status ? (
+                <span className="ActiveStatus">Active</span>
+              ) : (
+                <span className="DeactiveStatus">Not Active</span>
+              )}
+            </div>
+          );
         },
-        {
-            field: "status",
-            headerName: "Status",
-            width: 90,
-            renderCell: (params) => {
-                return (
-                    <div>
-                        {params?.row?.status ? <span className="ActiveStatus">Active</span> : <span className="DeactiveStatus">Not Active</span>}
-                    </div>
-                )
-            }
-        },
-        {
-            field: "action",
-            headerName: "Action",
-            width: 350,
-            renderCell: (params) => {
-                return (
-                    <div className="buttonWrapper">
-                        <Button variant="warning" onClick={() => handleEdit(params?.row)} size="sm">
-                            <RiEdit2Line /> Edit
-                        </Button>
-                        {params?.row?.status ?
-                            <Button variant="danger" onClick={() => handleStatus(params?.row)} size="sm">
-                                Deactive
-                            </Button> :
-                            <Button variant="success" onClick={() => handleStatus(params?.row)} size="sm">
-                                Active
-                            </Button>}
-                        <Button variant="outline-danger" onClick={() => handleDelete(params?.row?._id)} size="sm">
-                            <FaRegTrashAlt />
-                        </Button>
-                    </div>
-                    //         <>
+      },
+      {
+        field: "action",
+        headerName: "Action",
+        width: 350,
+        renderCell: (params) => {
+          return (
+            <div className="buttonWrapper">
+              <Button
+                variant="warning"
+                onClick={() => handleEdit(params?.row)}
+                size="sm"
+              >
+                <RiEdit2Line /> Edit
+              </Button>
+              {params?.row?.status ? (
+                <Button
+                  variant="danger"
+                  onClick={() => handleStatus(params?.row)}
+                  size="sm"
+                >
+                  Deactive
+                </Button>
+              ) : (
+                <Button
+                  variant="success"
+                  onClick={() => handleStatus(params?.row)}
+                  size="sm"
+                >
+                  Active
+                </Button>
+              )}
+              <Button
+                variant="outline-danger"
+                onClick={() => handleDelete(params?.row?._id)}
+                size="sm"
+              >
+                <FaRegTrashAlt />
+              </Button>
+            </div>
+            //         <>
 
-                    //             <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button>
-                    //             <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
-                    //             <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button>
+            //             <button className="productListEdit" onClick={() => handleEdit(params?.row)}>Edit</button>
+            //             <button className="productListEdit" onClick={() => handleStatus(params?.row)}>Status</button>
+            //             <button className="productListEdit" onClick={() => handleDelete(params?.row?._id)}>Delete</button>
 
-                    //          <DeleteOutline
-                    //   className="productListDelete"
-                    //   onClick={() => handleDelete(params.row.id)}
-                    // /> 
-                    //          </>
-                );
-            },
+            //          <DeleteOutline
+            //   className="productListDelete"
+            //   onClick={() => handleDelete(params.row.id)}
+            // />
+            //          </>
+          );
         },
+      },
     ];
 
     return (
