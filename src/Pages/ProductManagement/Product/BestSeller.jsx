@@ -93,7 +93,7 @@ const BestSeller = () => {
             </Col>
           </Row>
           <div>
-            <InputGroup className="mb-3">
+            <InputGroup className="my-3">
               <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
               <Form.Control
                 placeholder="search product by product id or product name or sku id"
