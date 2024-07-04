@@ -96,7 +96,7 @@ const BestSeller = () => {
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
               <Form.Control
-                placeholder="search product by id or name"
+                placeholder="search product by product id or product name or sku id"
                 aria-label="Search-Product"
                 aria-describedby="basic-addon1"
                 value={searchTerm}
