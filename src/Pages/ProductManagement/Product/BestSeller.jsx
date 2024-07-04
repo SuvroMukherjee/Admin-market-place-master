@@ -86,7 +86,7 @@ const BestSeller = () => {
         <Container>
           <Row className="justify-content-md-center">
             <Col md="auto">
-              <h4>Product List</h4>
+              <h4>All Sellers Product List</h4>
               <h5 className="text-muted text-center">
                 Total Products : {ProductList.length}
               </h5>
