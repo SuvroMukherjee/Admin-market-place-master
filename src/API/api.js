@@ -690,6 +690,15 @@ export async function SellerProductAdd(fromData) {
   }
 }
 
+export async function SellerAllProductList() {
+  try {
+    const response = await axios.get(apiUrl + `/seller-product/list`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function SellerProductList(id) {
   try {
     const response = await axios.get(
@@ -1618,12 +1627,9 @@ export async function BestSellerProductUpdate(id, formData) {
   }
 }
 
-
 export async function GetAllServices() {
   try {
-    const response = await axios.get(
-      apiUrl + `/product-service/list`
-    );
+    const response = await axios.get(apiUrl + `/product-service/list`);
     return response;
   } catch (error) {
     return error;
@@ -1631,24 +1637,28 @@ export async function GetAllServices() {
 }
 export async function addProductService(formData) {
   try {
-    const response = await axios.post(apiUrl + `/product-service/create`, formData);
+    const response = await axios.post(
+      apiUrl + `/product-service/create`,
+      formData
+    );
     return response;
   } catch (error) {
     return error;
   }
 }
 
-export async function deleteProductService(id){
+export async function deleteProductService(id) {
   try {
-    const response = await axios.delete(apiUrl + `/product-service/delete/${id}`);
+    const response = await axios.delete(
+      apiUrl + `/product-service/delete/${id}`
+    );
     return response;
   } catch (error) {
     return error;
   }
 }
 
-
-export async function addSerivices(id,formData) {
+export async function addSerivices(id, formData) {
   try {
     const response = await axios.get(
       apiUrl + `/product-service/list/${id}`,
@@ -1662,7 +1672,10 @@ export async function addSerivices(id,formData) {
 
 export async function editProductService(id, fromData) {
   try {
-    const response = await axios.patch(apiUrl + `/product-service/update/${id}`, fromData);
+    const response = await axios.patch(
+      apiUrl + `/product-service/update/${id}`,
+      fromData
+    );
     return response;
   } catch (error) {
     return error;

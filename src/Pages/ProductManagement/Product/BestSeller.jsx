@@ -1,22 +1,33 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Spinner, Table } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Row,
+  Spinner,
+  Table,
+} from "react-bootstrap";
 import {
   BestSellerProductUpdate,
-  GetBestSellerProductList,
+  SellerAllProductList,
 } from "../../../API/api";
 
 const BestSeller = () => {
-  const [bestSellerList, setBestSellerList] = useState([]);
+  const [ProductList, setBestSellerList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showModal, setshowModal] = useState(false);
 
   useEffect(() => {
-    getBestSellerList();
+    getSellerProductList();
   }, []);
 
-  async function getBestSellerList() {
+  async function getSellerProductList() {
     try {
       setLoading(true);
-      const res = await GetBestSellerProductList();
+      const res = await SellerAllProductList();
       if (!res?.data?.error) {
         setBestSellerList(res?.data?.data);
       }
@@ -24,7 +35,7 @@ const BestSeller = () => {
       console.log(error);
     } finally {
       setLoading(false);
-      // console.log(bestSellerList, "best seller list");
+      // console.log(ProductList, "seller product list");
     }
   }
 
@@ -36,14 +47,26 @@ const BestSeller = () => {
       };
       const res = await BestSellerProductUpdate(index, payload);
       if (!res?.data?.error) {
-        getBestSellerList();
+        getSellerProductList();
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  let filteredList = [...bestSellerList];
+  let filteredList = [...ProductList];
+
+  filteredList = [...filteredList].filter((ele) => {
+    return (
+      ele?.productId?.productId
+        ?.toLowerCase()
+        ?.includes(searchTerm?.toLowerCase()) ||
+      ele?.productId?.name
+        ?.toLowerCase()
+        ?.includes(searchTerm?.toLowerCase()) ||
+      ele?.specId?.skuId?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+    );
+  });
 
   return (
     <>
@@ -58,16 +81,29 @@ const BestSeller = () => {
           </Row>
         </div>
       )}
+
       <div className="productList mt-2 p-4 mt-4">
         <Container>
           <Row className="justify-content-md-center">
             <Col md="auto">
-              <h4>Best Selling Product List</h4>
+              <h4>All Sellers Product List</h4>
               <h5 className="text-muted text-center">
-                Total Products : {bestSellerList.length}
+                Total Products : {ProductList.length}
               </h5>
             </Col>
           </Row>
+          <div>
+            <InputGroup className="my-3">
+              <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
+              <Form.Control
+                placeholder="search product by product id or product name or sku id"
+                aria-label="Search-Product"
+                aria-describedby="basic-addon1"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </InputGroup>
+          </div>
         </Container>
         <Container>
           <Row className="justify-content-md-center mt-4">
@@ -102,7 +138,7 @@ const BestSeller = () => {
                             <div className="productListItem">
                               <img
                                 className="productListImg"
-                                src={row?.productId?.image?.[0]?.image_path}
+                                src={row?.specId?.image?.[0]?.image_path}
                                 alt="productpic"
                               />
                               {/* {row?.productId?.image?.length > 2 && (
