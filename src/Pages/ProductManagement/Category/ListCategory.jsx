@@ -4,7 +4,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaInfoCircle, FaRegTrashAlt } from "react-icons/fa";
 import { FaCodePullRequest } from "react-icons/fa6";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
@@ -200,71 +200,97 @@ export default function ListCategory() {
 
 
     return (
-        <>
-            {loading &&
-                <div className="productList p-4 contentLoader">
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" size="lg" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
-                </div>}
-            <div className="productList mt-2 p-4">
-                <Container>
-                    <EditCategory
-                        showModal={showModal}
-                        handleClose={handleClose}
-                        data={modalData}
-                    />
-                    <Row className="justify-content-md-center mb-2">
-                        <Col md="auto">
-                            <h3>Category List</h3>
-                        </Col>
-                    </Row>
-                    <Row  className="mb-2">
-                        <Col></Col>
-                        <Col xs={8} >
-                          <Row>
-                                <Col className="d-flex justify-content-end p-2">
-                                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
-                                    <Button className="addCategoryButton" variant="dark" size="sm" onClick={() => navigate('/Admin/category-commission')}>
-                                        <AiOutlinePlus /> Category Commission
-                                    </Button>
-                                </Col>
-                                <Col className="d-flex justify-content-end p-2">
-                                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
-                                    <Button className="addCategoryButton" variant="dark" size="sm" onClick={() => handleNewCat()}>
-                                        <AiOutlinePlus /> Add New Category
-                                    </Button>
-                                </Col>
-                                <Col className="d-flex justify-content-end p-2">
-                                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
-                                    <Button className="addCategoryButton" variant="dark" size="sm" onClick={() => navigate('/Admin/category-request')}>
-                                        <FaCodePullRequest /> Requested Category
-                                    </Button>
-                                </Col>
-                          </Row>
-                        </Col>
-                        
-                    </Row>
-                    <Row className="justify-content-md-center">
-                        <Col>
-                            <DataGrid
-                                rows={data}
-                                disableSelectionOnClick
-                                columns={columns}
-                                pageSize={8}
-                            // checkboxSelection
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-                <Toaster position="top-right" />
-            </div>
-        </>
-
-
+      <>
+        {loading && (
+          <div className="productList p-4 contentLoader">
+            <Row>
+              <Col>
+                <Spinner animation="border" size="lg" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
+            </Row>
+          </div>
+        )}
+        <div className="productList mt-2 p-4">
+          <Container>
+            <EditCategory
+              showModal={showModal}
+              handleClose={handleClose}
+              data={modalData}
+            />
+            <Row className="justify-content-md-center mb-2">
+              <Col md="auto">
+                <h3>Category List</h3>
+              </Col>
+            </Row>
+            <Row className="justify-content-md-center mb-3">
+              <Col md="auto">
+                <p style={{ color: "red", fontWeight: "500" }}>
+                  <FaInfoCircle /> Please upload transparent category Images{" "}
+                  <span className="border border-dark mx-2 p-2 bg-gradient-secondary">
+                    {" "}
+                    <a href="https://www.remove.bg/" target="_blank">
+                      Visit This Site
+                    </a>{" "}
+                  </span>
+                </p>
+              </Col>
+            </Row>
+            <Row className="mb-2">
+              <Col></Col>
+              <Col xs={8}>
+                <Row>
+                  <Col className="d-flex justify-content-end p-2">
+                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
+                    <Button
+                      className="addCategoryButton"
+                      variant="dark"
+                      size="sm"
+                      onClick={() => navigate("/Admin/category-commission")}
+                    >
+                      <AiOutlinePlus /> Category Commission
+                    </Button>
+                  </Col>
+                  <Col className="d-flex justify-content-end p-2">
+                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
+                    <Button
+                      className="addCategoryButton"
+                      variant="dark"
+                      size="sm"
+                      onClick={() => handleNewCat()}
+                    >
+                      <AiOutlinePlus /> Add New Category
+                    </Button>
+                  </Col>
+                  <Col className="d-flex justify-content-end p-2">
+                    {/* <button className="addCategoryButton" onClick={() => handleNewCat()}>Add New Category</button> */}
+                    <Button
+                      className="addCategoryButton"
+                      variant="dark"
+                      size="sm"
+                      onClick={() => navigate("/Admin/category-request")}
+                    >
+                      <FaCodePullRequest /> Requested Category
+                    </Button>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            <Row className="justify-content-md-center">
+              <Col>
+                <DataGrid
+                  rows={data}
+                  disableSelectionOnClick
+                  columns={columns}
+                  pageSize={8}
+                  // checkboxSelection
+                />
+              </Col>
+            </Row>
+          </Container>
+          <Toaster position="top-right" />
+        </div>
+      </>
     );
 }
