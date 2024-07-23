@@ -5,7 +5,7 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import toast, { Toaster } from 'react-hot-toast';
 import { AiOutlinePlus } from "react-icons/ai";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaInfoCircle, FaRegTrashAlt } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { DeleteProductSubCategory, UpdateStatusProductSubCategory, allSubCategoryList } from "../../../API/api";
@@ -205,56 +205,76 @@ export default function ListSubCategory() {
     ];
 
     return (
-        <>
-            {loading &&
-                <div className="productList p-4 contentLoader">
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" size="lg" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
-                </div>}
-            <div className="productList mt-2 p-4">
-                <Container>
-                    <EditSubCategory
-                        showModal={showModal}
-                        handleClose={handleClose}
-                        data={modalData}
-                    />
-                    <Row className="justify-content-md-center">
-                        <Col md="auto">
-                            <h3>Sub Category List</h3>
-                        </Col>
-                    </Row>
-                    <Row className="mb-2">
-                        <Col className="d-flex justify-content-end p-2 gap-4">
-                            {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addsubcategory')}>Add New Sub Category</button> */}
-                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/Addsubcategory')}>
-                                <AiOutlinePlus /> Add New Sub Category
-                            </Button>
-                            <Button className="addCategoryButton" variant="dark" onClick={() => navigate('/Admin/subcategory-request')}>
-                            <FaCodePullRequest /> Requested Sub Category
-                            </Button>
-                        </Col>
-                    </Row>
-                    <Row className="justify-content-md-center">
-                        <Col>
-                            <DataGrid
-                                rows={data}
-                                disableSelectionOnClick
-                                columns={columns}
-                                pageSize={8}
-                            // checkboxSelection
-                            />
-                        </Col>
-                    </Row>
-                </Container>
-                <Toaster position="top-right" />
-            </div>
-        </>
-
-
+      <>
+        {loading && (
+          <div className="productList p-4 contentLoader">
+            <Row>
+              <Col>
+                <Spinner animation="border" size="lg" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
+            </Row>
+          </div>
+        )}
+        <div className="productList mt-2 p-4">
+          <Container>
+            <EditSubCategory
+              showModal={showModal}
+              handleClose={handleClose}
+              data={modalData}
+            />
+            <Row className="justify-content-md-center">
+              <Col md="auto">
+                <h3>Sub Category List</h3>
+              </Col>
+            </Row>
+            <Row className="justify-content-md-center mb-3">
+              <Col md="auto">
+                <p style={{ color: "red", fontWeight: "500" }}>
+                  <FaInfoCircle /> Please upload transparent subcategory Images{" "}
+                  <span className="border border-dark mx-2 p-2 bg-gradient-secondary">
+                    {" "}
+                    <a href="https://www.remove.bg/" target="_blank">
+                      Visit This Site
+                    </a>{" "}
+                  </span>
+                </p>
+              </Col>
+            </Row>
+            <Row className="mb-2">
+              <Col className="d-flex justify-content-end p-2 gap-4">
+                {/* <button className="addCategoryButton" onClick={() => navigate('/Admin/Addsubcategory')}>Add New Sub Category</button> */}
+                <Button
+                  className="addCategoryButton"
+                  variant="dark"
+                  onClick={() => navigate("/Admin/Addsubcategory")}
+                >
+                  <AiOutlinePlus /> Add New Sub Category
+                </Button>
+                <Button
+                  className="addCategoryButton"
+                  variant="dark"
+                  onClick={() => navigate("/Admin/subcategory-request")}
+                >
+                  <FaCodePullRequest /> Requested Sub Category
+                </Button>
+              </Col>
+            </Row>
+            <Row className="justify-content-md-center">
+              <Col>
+                <DataGrid
+                  rows={data}
+                  disableSelectionOnClick
+                  columns={columns}
+                  pageSize={8}
+                  // checkboxSelection
+                />
+              </Col>
+            </Row>
+          </Container>
+          <Toaster position="top-right" />
+        </div>
+      </>
     );
 }
