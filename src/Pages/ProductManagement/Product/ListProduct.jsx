@@ -249,6 +249,7 @@ export default function ListProduct() {
       "Product Sub-Category": product?.subcategoryId?.title,
       "Product Brand": product?.brandId?.title,
       "Product Tax status": product?.tax_status,
+      "Product Visibility": "Visible",
       "Product Identification Images": product?.image
         ?.map((ele) => ele?.image_path)
         .join(","),
