@@ -16,7 +16,7 @@ import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineInfoCircle, AiOutlinePlus } from "react-icons/ai";
 import { BsClipboard2CheckFill } from "react-icons/bs";
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaFileExport } from "react-icons/fa";
 import { FaCircleInfo, FaCirclePlus } from "react-icons/fa6";
 import { IoIosAdd } from "react-icons/io";
 import { LiaListSolid } from "react-icons/lia";
@@ -42,6 +42,7 @@ import { LiaMailBulkSolid } from "react-icons/lia";
 import { SiGooglechrome } from "react-icons/si";
 import { CiCircleInfo } from "react-icons/ci";
 import moment from "moment";
+import { CSVLink } from "react-csv";
 
 export default function ListProduct() {
   const [data, setData] = useState(productRows);
@@ -224,11 +225,25 @@ export default function ListProduct() {
   }, []);
 
   // filter data based on search term
-  const filterData = data.filter((ele) => {
+  const filterData = [...data].filter((ele) => {
     return (
       ele?.productId?.toString().includes(searchTerm) ||
       ele?.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+  });
+
+  console.log({ filterData });
+
+  const csvData = filterData.flatMap((product) => {
+    return {
+      "Product Name": product?.name,
+      "Product ID": product?.productId,
+      "Product Category": product?.categoryId?.title,
+      "Product Sub-Category": product?.subcategoryId?.title,
+      "Product Uploaded Date": moment(product?.updatedAt).format(
+        "DD-MM-YYYY, hh:mm:ss A"
+      ),
+    };
   });
 
   return (
@@ -351,7 +366,7 @@ export default function ListProduct() {
           </Row> */}
 
           <Row className="mt-4">
-            <Col xs={6}></Col>
+            <Col xs={4}></Col>
             <Col>
               <Button
                 variant="dark"
@@ -366,17 +381,28 @@ export default function ListProduct() {
               </Button>
             </Col>
             <Col>
-              <Row>
-                <Col>
-                  <Button
-                    size="sm"
-                    variant="dark"
-                    onClick={() => navigate("/Admin/Addproduct")}
-                  >
-                    <AiOutlinePlus /> Add New Product
-                  </Button>
-                </Col>
-              </Row>
+              <Button
+                size="sm"
+                variant="dark"
+                onClick={() => navigate("/Admin/Addproduct")}
+              >
+                <AiOutlinePlus /> Add New Product
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                size="md"
+                variant="dark"
+                // onClick={() => navigate("/Admin/Addproduct")}
+              >
+                <CSVLink
+                  className="text-white"
+                  data={csvData}
+                  filename={`product-report.csv`}
+                >
+                  <FaFileExport /> Export To CSV
+                </CSVLink>
+              </Button>
             </Col>
           </Row>
           {/* <Row className="justify-content-md-center">
