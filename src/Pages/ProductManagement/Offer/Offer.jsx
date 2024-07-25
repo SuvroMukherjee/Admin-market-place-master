@@ -55,6 +55,11 @@ const Offer = () => {
 
 
     const createOfferTypeHandler = async () => {
+        
+        if(type != ''){
+            alert("Please fill offer type")
+            return;
+        }
 
         let res = await offerTypeCreate({ offer_type_name: type });
 
@@ -173,7 +178,7 @@ const Offer = () => {
                 <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
                     <Col xs={12}>Create Your Offer Type</Col>
                     <Col className='mt-2'>
-                        <Form.Control type="text" name="offer_type" className='tapG' placeholder='Enter Offer Type' size='sm' value={type} onChange={(e) => setType(e.target.value)} autoComplete='off' />
+                        <Form.Control type="text" name="offer_type"  className='tapG' placeholder='Enter Offer Type' size='sm' value={type} onChange={(e) => setType(e.target.value)} autoComplete='off' />
                     </Col>
                     <Col className='d-flex justify-content-start align-items-center'>
                         <Button variant='dark' size='sm' onClick={() => createOfferTypeHandler()}>Create</Button>

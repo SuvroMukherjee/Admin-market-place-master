@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Container, Image, Row, Spinner } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Container,
+  Image,
+  Row,
+  Spinner,
+  Button,
+} from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { FaArrowUpRightDots } from "react-icons/fa6";
@@ -254,17 +262,19 @@ const SellingProductList = ({ data, reviewData }) => {
   return (
     <div>
       <Table striped bordered hover className="shadowbox">
-       { data?.length > 0 && <thead>
-          <tr>
-            <th>Image</th>
-            <th>SKU</th>
-            <th>Product Name</th>
-            <th>Selling Price</th>
-            <th>In Stock</th>
-            <th>Rating</th>
-            {/* <th>Visit On Site</th> */}
-          </tr>
-        </thead>}
+        {data?.length > 0 && (
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>SKU</th>
+              <th>Product Name</th>
+              <th>Selling Price</th>
+              <th>In Stock</th>
+              <th>Rating</th>
+              <th>Visit On Zoofi</th>
+            </tr>
+          </thead>
+        )}
         <tbody>
           {data?.length > 0 &&
             data?.slice(0, 20)?.map(
@@ -301,8 +311,18 @@ const SellingProductList = ({ data, reviewData }) => {
                     <td>
                       <div className="ratingDiv">
                         <FaStar color="gold" size={15} />
-                        {ratingCalculation(ele?._id, reviewData)}
+                        {ratingCalculation(ele?._id, reviewData)?.toFixed(2)}
                       </div>
+                    </td>
+                    <td>
+                      <a
+                        href={`https://zoofi.in/product-details/${ele?._id}`}
+                        target="_blank"
+                      >
+                        <Button variant="outline-primary" size="sm">
+                          Visit
+                        </Button>
+                      </a>
                     </td>
                   </tr>
                 )
