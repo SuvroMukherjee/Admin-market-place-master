@@ -234,17 +234,24 @@ export default function ListProduct() {
 
   // console.log({ filterData });
 
-  const csvData = filterData.flatMap((product) => {
+  const csvData = filterData.flatMap((product,index) => {
     return {
+      "SL NO": index + 1,
       "Product Name": product?.name,
       "Product ID": product?.productId,
       "Product Category": product?.categoryId?.title,
       "Product Sub-Category": product?.subcategoryId?.title,
+      "Product Brand": product?.brandId?.title,
+      "Product Indetification Images": product?.image?.map(
+        (ele) => ele?.image_path
+      ).join(','),
       "Product Uploaded Date": moment(product?.updatedAt).format(
         "DD-MM-YYYY, hh:mm:ss A"
       ),
     };
   });
+
+  console.table(csvData);
 
   return (
     <>
@@ -394,7 +401,7 @@ export default function ListProduct() {
                 <CSVLink
                   className="text-white"
                   data={csvData}
-                  filename={`product-report.csv`}
+                  filename={`backup-product.csv`}
                 >
                   <FaFileExport /> Export To CSV
                 </CSVLink>
