@@ -232,7 +232,7 @@ export default function ListProduct() {
     );
   });
 
-  console.log({ filterData });
+  // console.log({ filterData });
 
   const csvData = filterData.flatMap((product) => {
     return {
@@ -390,11 +390,7 @@ export default function ListProduct() {
               </Button>
             </Col>
             <Col>
-              <Button
-                size="md"
-                variant="dark"
-                // onClick={() => navigate("/Admin/Addproduct")}
-              >
+              <Button size="md" variant="dark">
                 <CSVLink
                   className="text-white"
                   data={csvData}
