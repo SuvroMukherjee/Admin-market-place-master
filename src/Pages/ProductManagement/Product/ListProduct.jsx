@@ -234,24 +234,48 @@ export default function ListProduct() {
 
   // console.log({ filterData });
 
-  const csvData = filterData.flatMap((product,index) => {
+  const csvData = filterData.flatMap((product, index) => {
+    const htmlToPlainText = (html) => {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      return tempDiv.textContent || tempDiv.innerText || "";
+    };
     return {
       "SL NO": index + 1,
       "Product Name": product?.name,
       "Product ID": product?.productId,
+      "Product Type": product?.type,
       "Product Category": product?.categoryId?.title,
       "Product Sub-Category": product?.subcategoryId?.title,
       "Product Brand": product?.brandId?.title,
-      "Product Indetification Images": product?.image?.map(
-        (ele) => ele?.image_path
-      ).join(','),
+      "Product Tax status": product?.tax_status,
+      "Product Identification Images": product?.image
+        ?.map((ele) => ele?.image_path)
+        .join(","),
+      "Product Features": product?.features?.map((ele) => ele).join(" "),
       "Product Uploaded Date": moment(product?.updatedAt).format(
         "DD-MM-YYYY, hh:mm:ss A"
       ),
+      "Product Specifications": product?.specId
+        ?.flatMap((spec) =>
+          spec?.spec_det?.map((det) => `${det.title}: ${det.value}`)
+        )
+        .join(", "),
+      "Specification Images": product?.specId
+        ?.flatMap((spec) => spec?.image?.map((image) => image?.image_path))
+        .join(", "),
+      "Specification Prices": product?.specId
+        ?.map((spec) => spec?.price)
+        .join(", "),
+      "Specification SkuId": product?.specId
+        ?.map((spec) => spec?.skuId)
+        .join(", "),
+      "Product Description": product?.desc,
+      // "Product Full Description": htmlToPlainText(product?.full_desc),
     };
   });
 
-  console.table(csvData);
+  // console.table(csvData)
 
   return (
     <>
