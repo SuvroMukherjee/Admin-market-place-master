@@ -159,20 +159,24 @@ export default function EcommerceReport() {
   const csvData = [...filteredList].flatMap((order) => {
     return order.order_details.map((detail) => {
       return {
-        "Seller Name": detail.sellerId.user_name,
-        "Order Date and Time": moment(order.createdAt).format(
-          "DD-MM-YYYY, hh:mm:ss A"
-        ),
-        "Shop Name": detail.sellerId.Shop_Details_Info.shope_name,
-        "Product Name": detail.proId.name,
-        "SKU-Id": detail.proId.specId.skuId,
-        "Order Status": detail.order_status,
-        "Payment Status": detail.is_payment ? "Paid" : "Incomplete",
-        "Order Address": order.addressId
-          ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
+        "Seller Name": detail.sellerId?.user_name || "N/A",
+        "Order Date and Time": order.createdAt
+          ? moment(order.createdAt).format("DD-MM-YYYY, hh:mm:ss A")
           : "N/A",
-        "Payment type": order.order_type,
-        "Payment Id": order.paymentId || "N/A",
+        "Shop Name": detail.sellerId?.Shop_Details_Info?.shope_name || "N/A",
+        "Product Name": detail.proId?.name || "N/A",
+        "SKU-Id": detail?.proId?.specId?.skuId || "N/A",
+        "Order Status": detail?.order_status || "N/A",
+        "Payment Status": detail?.is_payment ? "Paid" : "Incomplete",
+        "Order Address": order.addressId
+          ? `${order.addressId.locality || "N/A"}, ${
+              order.addressId.city || "N/A"
+            }, ${order.addressId.state || "N/A"}, ${
+              order.addressId.pincode || "N/A"
+            }`
+          : "N/A",
+        "Payment type": order?.order_type || "N/A",
+        "Payment Id": order?.paymentId || "N/A",
       };
     });
   });
@@ -182,15 +186,15 @@ export default function EcommerceReport() {
       // orderId: order._id,
       orderDate: moment(order.createdAt).format("DD-MM-YYYY, hh:mm:ss A"),
       orderDetails: order.order_details.map((detail) => ({
-        // productId: detail.proId._id,
-        productName: detail.proId.name,
-        skuId: detail.proId.specId.skuId,
-        sellerName: detail.sellerId.user_name,
-        shopName: detail.sellerId.Shop_Details_Info.shope_name,
-        shopAddress: detail.sellerId.Shop_Details_Info.state,
-        productImage: detail.proId.specId.image[0]?.image_path || "",
-        orderStatus: OrderStatusSequence(detail.order_status),
-        isPayment: detail.is_payment,
+        // productId: detail.proId?._id || "N/A",
+        productName: detail.proId?.name || "N/A",
+        skuId: detail.proId?.specId?.skuId || "N/A",
+        sellerName: detail.sellerId?.user_name || "N/A",
+        shopName: detail.sellerId?.Shop_Details_Info?.shope_name || "N/A",
+        shopAddress: detail.sellerId?.Shop_Details_Info?.state || "N/A",
+        productImage: detail.proId?.specId?.image?.[0]?.image_path || "",
+        orderStatus: OrderStatusSequence(detail?.order_status || "N/A"),
+        isPayment: detail?.is_payment || "N/A",
       })),
       orderAddress: order.addressId
         ? `${order.addressId.locality}, ${order.addressId.city}, ${order.addressId.state}, ${order.addressId.pincode}`
