@@ -15,8 +15,9 @@ import {
 import Spinner from "react-bootstrap/Spinner";
 import { FaBox, FaEye, FaRegUser, FaStar } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { SellerProductList } from "../../API/api";
+import { MakePopularProduct, SellerProductList } from "../../API/api";
 import { ratingCalculation } from "../../common/RatingAvg";
+import toast, { Toaster } from "react-hot-toast";
 // import { ChangeFormatDate2 } from "../../common/DateFormat";
 
 export default function ProductListBySeller() {
@@ -92,6 +93,26 @@ export default function ProductListBySeller() {
     });
   }
 
+  const HandleTopFunction = async (catData, value) => {
+    let payload = {
+      is_popular: value,
+    };
+
+    console.log(catData, "catData");
+
+    await MakePopularProduct(payload, catData?._id)
+      .then((res) => {
+        console.log({ res });
+        toast.success("product update successfully");
+        getAllOwnProducts();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong!");
+        getAllOwnProducts();
+      });
+  };
+
   return (
     <>
       {loading && (
@@ -136,51 +157,70 @@ export default function ProductListBySeller() {
                 <Table bordered hover responsive>
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <td>Seller</td>
-                      <td>Product Name</td>
+                      <td style={{ width: "300px" }}>Product Name</td>
                       <td>Seller Details</td>
                       <td>Product Image</td>
-                      <td>Product Details</td>
+                      <td>View Product In Zoofi</td>
                       <td>Review Data</td>
+                      <td>Add as Popular Product</td>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredData.map((row) => (
                       <tr key={row._id}>
-                        <td>{row._id}</td>
-                        <td>{row?.sellerId?.user_name}</td>
-                        <td>{row?.name}</td>
+                        <td style={{ width: "300px" }}>{row?.name}</td>
                         <td>
                           <Button
                             variant="primary"
                             onClick={() => handleSellerModalOpen(row?.sellerId)}
+                            size="sm"
                           >
                             <FaRegUser />
                           </Button>
                         </td>
                         <td>
-                          <div className="productListItem">
-                            <img
-                              className="productListImg"
-                              src={row?.productId?.image?.[0]?.image_path}
-                              alt=""
-                            />
-                          </div>
+                          <img
+                           className="productListImg"
+                            src={row?.specId?.image?.[0].image_path}
+                            alt=""
+                            
+                          />
                         </td>
                         <td>
-                          <Button
-                            variant="primary"
-                            onClick={() => handleProductModalOpen(row)}
+                          <a
+                            href={`https://zoofi.in/product-details/${row?._id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
-                            <FaEye />
-                          </Button>
+                            <Button variant="primary" size="sm">
+                              <FaEye />
+                            </Button>
+                          </a>
                         </td>
                         <td>
-                          <div className="ratingDiv">
+                          <div>
                             <FaStar color="gold" size={15} />
                             {ratingCalculation(row?._id, reviewData)}
                           </div>
+                        </td>
+                        <td>
+                          {row?.is_popular ? (
+                            <Button
+                              variant="outline-dark"
+                              onClick={() => HandleTopFunction(row, false)}
+                              size="sm"
+                            >
+                              Already Mark
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="dark"
+                              onClick={() => HandleTopFunction(row, true)}
+                              size="sm"
+                            >
+                              Mark As Popular
+                            </Button>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -223,6 +263,7 @@ export default function ProductListBySeller() {
             </Modal.Body>
           </Modal>
         </Container>
+        <Toaster position="top-right" />
       </div>
     </>
   );

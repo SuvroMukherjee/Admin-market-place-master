@@ -1699,3 +1699,19 @@ export async function fetchProductServiceList() {
     return error;
   }
 }
+
+
+export async function MakePopularProduct(formData,id) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/seller-product/bestsell-update/${id}`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
