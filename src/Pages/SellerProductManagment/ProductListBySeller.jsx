@@ -124,6 +124,7 @@ export default function ProductListBySeller() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
+  const [type, setType] = useState("");
 
   useEffect(() => {
     getAllCats();
@@ -191,15 +192,25 @@ export default function ProductListBySeller() {
     });
   }
 
-  const reset = () =>{
-    setSelectedBrand("")
-    setSelectedCategory("")
+  if (type !== "") {
+    console.log('comes here')
+    filteredData = filteredData?.filter((ele) => {
+      return ele?.is_popular == true;
+    });
+  }
+
+  console.log(type)
+
+  const reset = () => {
+    setSelectedBrand("");
+    setSelectedCategory("");
     setSelectedSubcategory("");
     setCatList("");
-    setSubcatList("")
+    setSubcatList("");
     setBrandList("");
+    setType("")
     getAllOwnProducts(sellerID);
-  }
+  };
 
   return (
     <>
@@ -278,12 +289,26 @@ export default function ProductListBySeller() {
                 ))}
             </Form.Select>
           </Col>
-          <Col>
+          <Col md={3}>
+            <Form.Select value={type} onChange={(e) => setType(e.target.value)}>
+              <option value="">Select Type</option>
+              <option value={true}>Popular Products</option>
+            </Form.Select>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col></Col>
+          <Col></Col>
+          <Col xs={5} className="d-flex gap-2 justify-content-end">
             <Button variant="dark" size="sm" onClick={() => reset()}>
               Clear & Refresh
             </Button>
             <Button variant="warning" size="sm">
-              Total products {filteredData?.length}
+              Total products - {filteredData?.length}
+            </Button>
+            <Button variant="success" size="sm">
+              Popular products -
+              {filteredData?.filter((item) => item?.is_popular)?.length}
             </Button>
           </Col>
         </Row>
