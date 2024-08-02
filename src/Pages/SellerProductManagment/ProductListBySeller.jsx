@@ -15,10 +15,15 @@ import {
 import Spinner from "react-bootstrap/Spinner";
 import { FaBox, FaEye, FaRegUser, FaStar } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { MakePopularProduct, SellerProductList } from "../../API/api";
+import {
+  allBrandList,
+  allCategoryList,
+  allSubCategoryList,
+  MakePopularProduct,
+  SellerProductList,
+} from "../../API/api";
 import { ratingCalculation } from "../../common/RatingAvg";
 import toast, { Toaster } from "react-hot-toast";
-// import { ChangeFormatDate2 } from "../../common/DateFormat";
 
 export default function ProductListBySeller() {
   const [loading, setLoading] = useState(true);
@@ -113,6 +118,89 @@ export default function ProductListBySeller() {
       });
   };
 
+  const [catLiset, setCatList] = useState([]);
+  const [subcatList, setSubcatList] = useState([]);
+  const [brandlist, setBrandList] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
+
+  useEffect(() => {
+    getAllCats();
+    getBrandList();
+    getSubCatList();
+  }, []);
+
+  async function getAllCats() {
+    await allCategoryList()
+      .then((res) => {
+        setCatList(res?.data?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function getBrandList() {
+    await allBrandList()
+      .then((res) => {
+        console.log(res?.data?.data, "brands");
+        setBrandList(res?.data?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function getSubCatList() {
+    await allSubCategoryList()
+      .then((res) => {
+        console.log(res?.data?.data, "brands");
+        setSubcatList(res?.data?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
+
+  const handleBrandChange = (e) => {
+    setSelectedBrand(e.target.value);
+  };
+
+  if (selectedCategory !== "") {
+    filteredData = filteredData?.filter((ele) => {
+      return ele?.categoryId == selectedCategory;
+    });
+  }
+  if (selectedSubcategory !== "") {
+    filteredData = filteredData?.filter((ele) => {
+      return ele?.subcategoryId == selectedSubcategory;
+    });
+  }
+  if (selectedBrand !== "") {
+    filteredData = filteredData?.filter((ele) => {
+      return ele?.brandId == selectedBrand;
+    });
+  }
+
+  const reset = () =>{
+    setSelectedBrand("")
+    setSelectedCategory("")
+    setSelectedSubcategory("");
+    setCatList("");
+    setSubcatList("")
+    setBrandList("");
+    getAllOwnProducts(sellerID);
+  }
+
   return (
     <>
       {loading && (
@@ -139,6 +227,66 @@ export default function ProductListBySeller() {
             </Col>
           </Row>
         </Container>
+        {/* <Container>
+          <Row>
+            <Col>
+              <UserCard user={filteredData[0]?.sellerId} />
+            </Col>
+          </Row>
+        </Container> */}
+        <Row className="justify-content-md-center mt-4">
+          <Col md={3}>
+            <Form.Select
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+            >
+              <option value="">Select Category</option>
+              {catLiset?.length > 0 &&
+                catLiset?.map((ele) => (
+                  <option value={ele?._id}>{ele?.title}</option>
+                ))}
+              {/* Populate options with your category data */}
+            </Form.Select>
+          </Col>
+          <Col md={3}>
+            <Form.Select
+              value={selectedSubcategory}
+              onChange={handleSubcategoryChange}
+            >
+              <option value="">Select Subcategory</option>
+              {selectedCategory
+                ? subcatList?.length > 0 &&
+                  subcatList
+                    ?.filter((ele) => ele?.category?._id == selectedCategory)
+                    ?.map((ele) => (
+                      <option value={ele?._id}>{ele?.title}</option>
+                    ))
+                : subcatList?.length > 0 &&
+                  subcatList?.map((ele) => (
+                    <option value={ele?._id}>{ele?.title}</option>
+                  ))}
+
+              {/* Populate options with your subcategory data */}
+            </Form.Select>
+          </Col>
+          <Col md={3}>
+            <Form.Select value={selectedBrand} onChange={handleBrandChange}>
+              <option value="">Select Brand</option>
+              {brandlist?.length > 0 &&
+                brandlist?.map((ele) => (
+                  <option value={ele?._id}>{ele?.title}</option>
+                ))}
+            </Form.Select>
+          </Col>
+          <Col>
+            <Button variant="dark" size="sm" onClick={() => reset()}>
+              Clear & Refresh
+            </Button>
+            <Button variant="warning" size="sm">
+              Total products {filteredData?.length}
+            </Button>
+          </Col>
+        </Row>
         <Container>
           <Row className="justify-content-md-center mt-4">
             <Col>
@@ -158,7 +306,6 @@ export default function ProductListBySeller() {
                   <thead>
                     <tr>
                       <td style={{ width: "300px" }}>Product Name</td>
-                      <td>Seller Details</td>
                       <td>Product Image</td>
                       <td>View Product In Zoofi</td>
                       <td>Review Data</td>
@@ -170,20 +317,10 @@ export default function ProductListBySeller() {
                       <tr key={row._id}>
                         <td style={{ width: "300px" }}>{row?.name}</td>
                         <td>
-                          <Button
-                            variant="primary"
-                            onClick={() => handleSellerModalOpen(row?.sellerId)}
-                            size="sm"
-                          >
-                            <FaRegUser />
-                          </Button>
-                        </td>
-                        <td>
                           <img
-                           className="productListImg"
+                            className="productListImg"
                             src={row?.specId?.image?.[0].image_path}
                             alt=""
-                            
                           />
                         </td>
                         <td>
@@ -199,8 +336,10 @@ export default function ProductListBySeller() {
                         </td>
                         <td>
                           <div>
-                            <FaStar color="gold" size={15} />
-                            {ratingCalculation(row?._id, reviewData)}
+                            <FaStar color="gold" size={25} />
+                            <span className="mx-4">
+                              {ratingCalculation(row?._id, reviewData)}
+                            </span>
                           </div>
                         </td>
                         <td>
