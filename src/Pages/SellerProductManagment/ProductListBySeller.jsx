@@ -24,6 +24,7 @@ import {
 } from "../../API/api";
 import { ratingCalculation } from "../../common/RatingAvg";
 import toast, { Toaster } from "react-hot-toast";
+import { TbH6 } from "react-icons/tb";
 
 export default function ProductListBySeller() {
   const [loading, setLoading] = useState(true);
@@ -234,7 +235,30 @@ export default function ProductListBySeller() {
           </Row>
           <Row>
             <Col>
-              <h3 className="text-center">Product List By Seller</h3>
+              <h6 className="text-center">
+                Product List By{" "}
+                <span
+                  style={{
+                    fontSize: "14px",
+                    textTransform: "uppercase",
+                    letterSpacing: ".5px",
+                    background: "lightgray",
+                    padding: "11px 20px",
+                    borderRadius: "10px",
+                    margin: "5px",
+                  }}
+                >
+                  {filteredData[0]?.sellerId?.user_name}{" "}
+                  <span>
+                    {/* {
+                      filteredData[0]?.sellerId?.Shop_Details_Info
+                        ?.pic_of_shope[0]
+                    } */}
+                    <img src={filteredData[0]?.sellerId?.Shop_Details_Info
+                        ?.pic_of_shope[0]} width={100}/>
+                  </span>
+                </span>
+              </h6>
             </Col>
           </Row>
         </Container>
