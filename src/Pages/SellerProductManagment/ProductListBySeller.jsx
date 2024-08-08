@@ -179,17 +179,17 @@ export default function ProductListBySeller() {
 
   if (selectedCategory !== "") {
     filteredData = filteredData?.filter((ele) => {
-      return ele?.categoryId == selectedCategory;
+      return ele?.productId?.categoryId?._id == selectedCategory;
     });
   }
   if (selectedSubcategory !== "") {
     filteredData = filteredData?.filter((ele) => {
-      return ele?.subcategoryId == selectedSubcategory;
+      return ele?.productId?.subcategoryId?._id == selectedSubcategory;
     });
   }
   if (selectedBrand !== "") {
     filteredData = filteredData?.filter((ele) => {
-      return ele?.brandId == selectedBrand;
+      return ele?.productId?.brandId?._id == selectedBrand;
     });
   }
 
@@ -211,6 +211,9 @@ export default function ProductListBySeller() {
     setBrandList("");
     setType("")
     getAllOwnProducts(sellerID);
+     getAllCats();
+     getBrandList();
+     getSubCatList();
   };
 
   return (
@@ -254,8 +257,13 @@ export default function ProductListBySeller() {
                       filteredData[0]?.sellerId?.Shop_Details_Info
                         ?.pic_of_shope[0]
                     } */}
-                    <img src={filteredData[0]?.sellerId?.Shop_Details_Info
-                        ?.pic_of_shope[0]} width={100}/>
+                    <img
+                      src={
+                        filteredData[0]?.sellerId?.Shop_Details_Info
+                          ?.pic_of_shope[0]
+                      }
+                      width={100}
+                    />
                   </span>
                 </span>
               </h6>
@@ -355,6 +363,7 @@ export default function ProductListBySeller() {
                   <thead>
                     <tr>
                       <td style={{ width: "300px" }}>Product Name</td>
+                      <td>Product Id</td>
                       <td>Product Image</td>
                       <td>View Product In Zoofi</td>
                       <td>Review Data</td>
@@ -365,6 +374,9 @@ export default function ProductListBySeller() {
                     {filteredData.map((row) => (
                       <tr key={row._id}>
                         <td style={{ width: "300px" }}>{row?.name}</td>
+                        <td style={{ width: "300px" }}>
+                          {row?.productId?.productId}
+                        </td>
                         <td>
                           <img
                             className="productListImg"
