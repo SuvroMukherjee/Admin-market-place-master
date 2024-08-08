@@ -149,18 +149,45 @@ export default function SellerInventory() {
 
   const [formData, setFormData] = useState([]);
 
-  const handleUpdate = async (index) => {
-    console.log(formData[index]);
-    console.log(quantities[index]);
+  // const handleUpdate = async (index) => {
+  //   console.log(formData[index]);
+  //   console.log(quantities[index]);
 
-    formData[index].quantity = quantities[index] || 0;
+  //   formData[index].quantity = quantities[index] || 0;
+
+  //   let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
+
+  //   console.log({ res });
+
+  //   if (res.data.error == false) {
+  //     toast.success("Inventory update successfully...");
+  //     setQuantities([]);
+  //     setClearInput(true);
+  //     setTimeout(() => {
+  //       setClearInput(false);
+  //     }, 100);
+  //     getProductListFunc();
+  //   }
+  // };
+
+
+  const handleUpdate = async (key) => {
+    const index = formData.findIndex((item) => item._id === key);
+    if (index === -1) return;
+
+    console.log(formData[index]);
+    console.log(quantities[key]);
+
+    formData[index].quantity = quantities[key] || 0;
+
+    console.log(formData[index]?._id, formData[index],'lllllllll');
 
     let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
 
     console.log({ res });
 
     if (res.data.error == false) {
-      toast.success("Inventory update successfully...");
+      toast.success("Inventory updated successfully...");
       setQuantities([]);
       setClearInput(true);
       setTimeout(() => {
@@ -170,10 +197,22 @@ export default function SellerInventory() {
     }
   };
 
-  const handlePriceChange = (specIndex, quantity) => {
+
+  // const handlePriceChange = (specIndex, quantity) => {
+  //   setFormData((prevData) => {
+  //     const newData = [...prevData];
+  //     newData[specIndex] = { ...newData[specIndex], price: quantity };
+  //     return newData;
+  //   });
+  // };
+
+  const handlePriceChange = (key, quantity) => {
     setFormData((prevData) => {
       const newData = [...prevData];
-      newData[specIndex] = { ...newData[specIndex], price: quantity };
+      const index = newData.findIndex((item) => item._id === key);
+      if (index !== -1) {
+        newData[index] = { ...newData[index], price: quantity };
+      }
       return newData;
     });
   };
@@ -574,8 +613,8 @@ export default function SellerInventory() {
               </thead>
               <tbody>
                 {filterData?.length > 0 &&
-                  filterData?.map((ele, index) => (
-                    <tr key={index} style={{ background: "red" }}>
+                  filterData?.map((ele) => (
+                    <tr key={ele._id} style={{ background: "red" }}>
                       <td>
                         {ele?.status ? (
                           <span style={{ color: "green" }}>Active</span>
@@ -619,20 +658,18 @@ export default function SellerInventory() {
                           placeholder="Product Price"
                           name="price"
                           required
-                          // value={formData[index]?.price}
                           onChange={(e) =>
-                            handlePriceChange(index, e.target.value)
+                            handlePriceChange(ele._id, e.target.value)
                           }
                           defaultValue={ele?.price}
                         />
                         <br />{" "}
-                        <span onClick={() => getLowestPriceFunc(ele, index)}>
+                        <span onClick={() => getLowestPriceFunc(ele, ele._id)}>
                           <p className="viewLowestPrice" size="sm">
-                            {" "}
                             View Lowest Price
                           </p>
                         </span>
-                        {lowIndex == index && (
+                        {lowIndex == ele._id && (
                           <span style={{ fontWeight: "500" }}>
                             Lowest Price :₹
                             {viewLowestPriceData?.price?.toFixed(2)} + ₹{" "}
@@ -647,9 +684,8 @@ export default function SellerInventory() {
                           placeholder="Shipping Price"
                           name="shipping_cost"
                           required
-                          // value={formData[index]?.price}
                           onChange={(e) =>
-                            handleShippingChange(index, e.target.value)
+                            handleShippingChange(ele._id, e.target.value)
                           }
                           defaultValue={ele?.shipping_cost}
                         />
@@ -672,10 +708,12 @@ export default function SellerInventory() {
                           placeholder="Add Stock"
                           name="quantity"
                           required
-                          value={clearInput ? "" : quantities?.[index]}
-                          // value={formData[index]?.price}
+                          value={clearInput ? "" : quantities?.[ele._id]}
                           onChange={(e) =>
-                            setQuantityAtIndex(index, parseInt(e.target.value))
+                            setQuantityAtIndex(
+                              ele._id,
+                              parseInt(e.target.value)
+                            )
                           }
                         />
                       </td>
@@ -684,13 +722,12 @@ export default function SellerInventory() {
                         <Button
                           size="sm"
                           variant="warning"
-                          onClick={() => handleUpdate(index)}
+                          onClick={() => handleUpdate(ele._id)}
                         >
                           Save
                         </Button>
                       </td>
                       <td className="priceTD">
-                        {/* <Button size="sm">Offer</Button> */}
                         <DropdownButton
                           className="w-100"
                           id="dropdown-basic-button"
@@ -705,7 +742,6 @@ export default function SellerInventory() {
                           >
                             View Details
                           </Dropdown.Item>
-                          {/* <Dropdown.Item onClick={() => navigate(`/seller/seller-product-edit/${ele?._id}/new-offers/${ele?._id}`)}>Apply Offers</Dropdown.Item> */}
                           <Dropdown.Item
                             onClick={() =>
                               navigate(`/seller/add-ofers/${ele?._id}`)

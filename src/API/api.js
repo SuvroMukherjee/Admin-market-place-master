@@ -483,10 +483,23 @@ export async function StatusUpdateProduct(id, fromData) {
   }
 }
 
+// export async function UpdateProduct(id, fromData) {
+//   try {
+//     const response = await axios.patch(
+//       apiUrl + `/product/update/${id}`,
+//       fromData,
+//       { headers: setAuthHeader() }
+//     );
+//     return response;
+//   } catch (error) {
+//     return error;
+//   }
+// }
+
 export async function UpdateProduct(id, fromData) {
   try {
     const response = await axios.patch(
-      apiUrl + `/product/update/${id}`,
+      apiUrl + `/product/update-data/${id}`,
       fromData,
       { headers: setAuthHeader() }
     );

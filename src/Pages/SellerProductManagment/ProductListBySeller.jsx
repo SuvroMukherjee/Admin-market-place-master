@@ -380,7 +380,7 @@ export default function ProductListBySeller() {
                         <td>
                           <img
                             className="productListImg"
-                            src={row?.specId?.image?.[0].image_path}
+                            src={row?.specId?.image?.[0]?.image_path}
                             alt=""
                           />
                         </td>
