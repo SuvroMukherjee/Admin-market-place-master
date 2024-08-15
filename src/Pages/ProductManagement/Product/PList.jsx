@@ -94,7 +94,7 @@ const PList = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&search=${searchTerm}`
+        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
       );
       setFilterData(res?.data?.data);
       setTotalPages(res?.data?.pagination?.pages);
@@ -476,6 +476,10 @@ const PList = () => {
         <div className="d-flex justify-content-center mt-2 mb-4">
           <Button variant="dark" size="sm" onClick={handleReset}>
             Reset & Refresh
+          </Button>
+
+          <Button variant="dark" size="sm" onClick={handleReset}>
+            {filterData?.length} Products
           </Button>
         </div>
 
