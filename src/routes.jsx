@@ -87,6 +87,7 @@ import EcommerceReport from "./Pages/EcommerceReport/EcommerceReport";
 import BestSeller from "./Pages/ProductManagement/Product/BestSeller";
 import { ProductServices } from "./Pages/ProductManagement/Product/ProductServices";
 import PList from "./Pages/ProductManagement/Product/PList";
+import SPList from "./Pages/SellerProductManagment/SPList";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -115,9 +116,13 @@ export default function Router({ socket }) {
             { path: "BestSeller", element: <BestSeller /> },
             { path: "EcommerceReport", element: <EcommerceReport /> },
             { path: "SellerDetails/:id", element: <SellerDetails /> },
+            // {
+            //   path: "/Seller/ProductList/:id",
+            //   element: <ProductListBySeller />,
+            // },
             {
               path: "/Seller/ProductList/:id",
-              element: <ProductListBySeller />,
+              element: <SPList />,
             },
             { path: "/Seller/SalesReport/:id", element: <SellerSalesReport /> },
             { path: "bannermanagment", element: <NewBannermanager /> },

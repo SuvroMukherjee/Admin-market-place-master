@@ -26,7 +26,7 @@ import { IoIosAdd } from "react-icons/io";
 import { LiaMailBulkSolid } from "react-icons/lia";
 import { LuClipboardSignature } from "react-icons/lu";
 import { MdCancel } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     BulkProductUpload,
     DeleteProductSpecification,
@@ -607,15 +607,15 @@ const PList = () => {
                       >
                         <FaCirclePlus /> Variants
                       </Button>
-                      <Button
-                        variant="success"
-                        size="sm"
-                        onClick={() =>
-                          navigate(`/Admin/Editproduct/${row?._id}`)
-                        }
+                      <Link
+                        to={`/Admin/Editproduct/${row?._id}`}
+                        style={{ textDecoration: "none" }}
                       >
-                        Edit
-                      </Button>
+                        <Button variant="success" size="sm">
+                          Edit
+                        </Button>
+                      </Link>
+
                       {row?.status ? (
                         <Button
                           variant="danger"
