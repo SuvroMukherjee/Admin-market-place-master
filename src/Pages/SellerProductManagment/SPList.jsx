@@ -8,7 +8,7 @@ import {
   Row,
   Table
 } from "react-bootstrap";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { FaEye, FaStar } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
@@ -90,7 +90,7 @@ const SPList = () => {
             categoryId,
             subcategoryId,
             brandId,
-            isPopular: isPopular ? "true" : "false",
+            is_popular: isPopular ? "true" : "false",
           },
         }
       );
