@@ -1728,3 +1728,15 @@ export async function MakePopularProduct(formData,id) {
     return error;
   }
 }
+
+
+export async function productWithPagination(page, limit) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/product/all-list?page=${page}&limit=${limit}`,
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

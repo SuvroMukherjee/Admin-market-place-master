@@ -6,7 +6,7 @@ import WidgetLg from '../../components/WidgetLg/WidgetLg'
 import { useState } from 'react'
 import { Button, ButtonGroup, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { AdminCreateUserList, AdminSellerLists, allProductList } from '../../API/api'
+import { AdminCreateUserList, AdminSellerLists, allProductList, productWithPagination } from '../../API/api'
 
 const Home = () => {
 
@@ -14,16 +14,19 @@ const Home = () => {
     const [product, setproduct] = useState([])
     const [user, setUser] = useState([]);
     const [seller, setSeller] = useState([])
+    const [total,setTotal] = useState(0)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [productsResponse, usersResponse, sellersResponse] = await Promise.all([
-                    allProductList(),
+                   // allProductList(),
+                    productWithPagination(1, 10),
                     AdminCreateUserList(),
                     AdminSellerLists()
                 ]);
                 setproduct(productsResponse?.data?.data);
+                setTotal(productsResponse?.data?.pagination?.total);
                 setUser(usersResponse?.data?.data);
                 setSeller(sellersResponse?.data?.data);
                 if (productsResponse?.data?.data && usersResponse?.data?.data && sellersResponse?.data?.data ){
@@ -74,8 +77,8 @@ const Home = () => {
 
 
     return (
-        <>
-            {loading &&
+      <>
+        {/* {loading &&
                 <div className="productList p-4 contentLoader">
                     <Row>
                         <Col>
@@ -84,18 +87,17 @@ const Home = () => {
                             </Spinner>
                         </Col>
                     </Row>
-                </div>}
-            <div className="home">
-
-                <FeaturedInfo product={product} user={user} seller={seller} />
-                {/* <Chart data={userData} title="User Analytics" grid dataKey="Active User" /> */}
-                <div className="homeWidgets">
-                    <WidgetSm user={user} />
-                    <WidgetLg product={product} />
-                </div>
-            </div>
-        </>
-    )
+                </div>} */}
+        <div className="home">
+          <FeaturedInfo product={product} user={user} seller={seller} total={total} />
+          {/* <Chart data={userData} title="User Analytics" grid dataKey="Active User" /> */}
+          <div className="homeWidgets">
+            <WidgetSm user={user} />
+            <WidgetLg product={product} />
+          </div>
+        </div>
+      </>
+    );
 }
 
 export default Home

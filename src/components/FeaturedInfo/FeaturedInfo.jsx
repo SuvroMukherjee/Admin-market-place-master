@@ -2,13 +2,10 @@ import React from "react";
 import "./featuredInfo.css";
 // import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 // import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { FaBoxOpen } from "react-icons/fa";
-import { FaUsers } from "react-icons/fa";
 import { CiShop } from "react-icons/ci";
+import { FaBoxOpen, FaUsers } from "react-icons/fa";
 
-export default function FeaturedInfo({ product, user, seller }) {
+export default function FeaturedInfo({ product, user, seller, total }) {
 
     console.log(product,'p')
 
@@ -37,7 +34,7 @@ export default function FeaturedInfo({ product, user, seller }) {
             <div className="featuredItem">
                 <span className="featuredTitle">Products</span>
                 <div className="featuredMoneyContainer">
-                    <span className="featuredMoney">{product?.length} <FaBoxOpen /></span>
+                    <span className="featuredMoney">{total} <FaBoxOpen /></span>
                     {/* <span className="featuredMoneyRate">
                         +2.4 <ArrowUpwardIcon className="featuredIcon" />
                     </span> */}

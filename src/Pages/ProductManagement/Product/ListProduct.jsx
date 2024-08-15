@@ -34,6 +34,7 @@ import {
   UpdateProductSpecification,
   allProductList,
   deleteProduct,
+  productWithPagination,
 } from "../../../API/api";
 import { productRows } from "../../../dummyData";
 import useAuth from "../../../hooks/useAuth";
@@ -87,6 +88,22 @@ export default function ListProduct() {
       .finally(() => {
         setLoading(false);
       });
+
+    // await productWithPagination(1, 10).then((res) => {
+    //   const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
+    //     ...item,
+    //     id: index + 1,
+    //   }));
+    //   setData(dataWithUniqueIds);
+    //   setLoading(false);
+    // })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
+
   }
 
   const handleStatus = async (dataset) => {
@@ -219,9 +236,10 @@ export default function ListProduct() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    // setTimeout(() => {
+    //   getProductListFunc();
+    // }, 5000);
       getProductListFunc();
-    }, 5000);
   }, []);
 
   // filter data based on search term
