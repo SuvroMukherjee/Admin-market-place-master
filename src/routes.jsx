@@ -86,6 +86,7 @@ import LivePreview from "./Pages/livePreview/LivePreview";
 import EcommerceReport from "./Pages/EcommerceReport/EcommerceReport";
 import BestSeller from "./Pages/ProductManagement/Product/BestSeller";
 import { ProductServices } from "./Pages/ProductManagement/Product/ProductServices";
+import PList from "./Pages/ProductManagement/Product/PList";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -138,7 +139,8 @@ export default function Router({ socket }) {
             { path: "brand", element: <ListBrand /> },
             { path: "brand-request", element: <BrandReqList /> },
             { path: "Addbrand", element: <AddBrandPage /> },
-            { path: "product", element: <ListProduct /> },
+            // { path: "product", element: <ListProduct /> },
+            { path: "product", element: <PList /> },
             { path: "product-services", element: <ProductServices /> },
             { path: "Addproduct", element: <AddProduct /> },
             { path: "uploadbulk", element: <BulkAdminUpload /> },
