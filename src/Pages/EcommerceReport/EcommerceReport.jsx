@@ -15,7 +15,7 @@ import { CSVLink } from "react-csv";
 import { Toaster } from "react-hot-toast";
 import { FaBoxOpen } from "react-icons/fa";
 import { LiaClipboardListSolid } from "react-icons/lia";
-import { AllOrderListsByAdmin, allProductList } from "../../API/api";
+import { AllOrderListsByAdmin, allProductList, productWithPagination } from "../../API/api";
 
 export default function EcommerceReport() {
   const [loading, setLoading] = useState(true);
@@ -39,10 +39,11 @@ export default function EcommerceReport() {
       setLoading(true);
       try {
         const [productsResponse, ordersResponse] = await Promise.all([
-          allProductList(),
+          productWithPagination(1, 10),
           AllOrderListsByAdmin(),
         ]);
-        setProducts(productsResponse?.data?.data);
+        console.log(productsResponse?.data?.pagination?.total)
+        setProducts(productsResponse?.data?.pagination?.total);
         setOrders(ordersResponse?.data?.data);
         setData(ordersResponse?.data?.data);
         if (productsResponse?.data?.data && ordersResponse?.data?.data) {
@@ -371,7 +372,7 @@ export default function EcommerceReport() {
                 <Card.Body>
                   <Card.Title>Total Products</Card.Title>
                   <Card.Text className="featuredMoney">
-                    <FaBoxOpen /> <span>{products?.length}</span>
+                    <FaBoxOpen /> <span>{products}</span>
                   </Card.Text>
                 </Card.Body>
               </Card>
