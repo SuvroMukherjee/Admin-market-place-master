@@ -2,18 +2,18 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import {
-    Button,
-    Card,
-    Col,
-    Container,
-    Form,
-    Image,
-    InputGroup,
-    ListGroup,
-    Modal,
-    Pagination,
-    Row,
-    Table,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Image,
+  InputGroup,
+  ListGroup,
+  Modal,
+  Pagination,
+  Row,
+  Table,
 } from "react-bootstrap";
 import { CSVLink } from "react-csv";
 import toast from "react-hot-toast";
@@ -28,20 +28,25 @@ import { LuClipboardSignature } from "react-icons/lu";
 import { MdCancel } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import {
-    BulkProductUpload,
-    DeleteProductSpecification,
-    FileUpload,
-    ProductSpecificationCreate,
-    SpecBulkProductUpload,
-    StatusUpdateProduct,
-    UpdateProductSpecification, allBrandList, allCategoryList, allSubCategoryList, deleteProduct
+  BulkProductUpload,
+  DeleteProductSpecification,
+  FileUpload,
+  ProductSpecificationCreate,
+  SellerProductAdd,
+  SpecBulkProductUpload,
+  StatusUpdateProduct,
+  UpdateProductSpecification,
+  allBrandList,
+  allCategoryList,
+  allSubCategoryList,
+  deleteProduct,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
-import "../product.css";
+import ReactPaginate from "react-paginate";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
-const PList = () => {
+const AddingProductTable = () => {
   const [loading, setLoading] = useState(true);
   const [filterData, setFilterData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,20 +68,19 @@ const PList = () => {
   const [selectedproductid, setSeledtedProductId] = useState();
   const [variantsArray, setVariantsArray] = useState([]);
 
+  const [showModal2, setShowModal2] = useState(false);
 
-   const [showModal2, setShowModal2] = useState(false);
+  const handleCloseModal2 = () => setShowModal2(false);
+  const handleShowModal2 = () => setShowModal2(true);
 
-   const handleCloseModal2 = () => setShowModal2(false);
-   const handleShowModal2 = () => setShowModal2(true);
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
 
-   const handleShowModal = () => {
-     setShowModal(true);
-   };
-
-   const handleCloseModal = () => {
-     setShowModal(false);
-     fetchData();
-   };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    fetchData();
+  };
 
   const navigate = useNavigate();
 
@@ -90,11 +94,14 @@ const PList = () => {
     fetchBrands();
   }, []);
 
+
+   const { userId } = JSON.parse(localStorage.getItem("auth"));
+
   const fetchData = async () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
+        `${apiUrl}/product/all-list?page=${currentPage}&limit=15&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
       );
       setFilterData(res?.data?.data);
       setTotalPages(res?.data?.pagination?.pages);
@@ -170,173 +177,214 @@ const PList = () => {
     });
   };
 
+  const handleStatus = async (dataset) => {
+    let payload = {
+      status: !dataset?.status,
+    };
 
-   const handleStatus = async (dataset) => {
-     let payload = {
-       status: !dataset?.status,
-     };
-
-     await StatusUpdateProduct(dataset?._id, payload)
-       .then((res) => {
-         console.log(res);
-         fetchData();
-         toast.success("Product status updated successfully!");
-       })
-       .catch((err) => {
-         console.log(err);
-       });
-   };
-
-   const handledeleteProduct = async (id) => {
-     await deleteProduct(id)
-       .then((res) => {
-         console.log(res);
-         fetchData();
-         toast.success("Product deleted successfully!");
-       })
-       .catch((err) => {
-         console.log(err);
-       });
-   };
-
-   const csvData = filterData.flatMap((product, index) => {
-     const htmlToPlainText = (html) => {
-       const tempDiv = document.createElement("div");
-       tempDiv.innerHTML = html;
-       return tempDiv.textContent || tempDiv.innerText || "";
-     };
-     return {
-       "SL NO": index + 1,
-       "Product Name": product?.name,
-       "Product ID": product?.productId,
-       "Product Type": product?.type,
-       "Product Category": product?.categoryId?.title,
-       "Product Sub-Category": product?.subcategoryId?.title,
-       "Product Brand": product?.brandId?.title,
-       "Product Tax status": product?.tax_status,
-       "Product Visibility": "Visible",
-       "Product Identification Images": product?.image
-         ?.map((ele) => ele?.image_path)
-         .join(","),
-       "Product Features": product?.features?.map((ele) => ele).join(" "),
-       "Product Uploaded Date": moment(product?.updatedAt).format(
-         "DD-MM-YYYY, hh:mm:ss A"
-       ),
-       "Product Specifications": product?.specId
-         ?.flatMap((spec) =>
-           spec?.spec_det?.map((det) => `${det.title}: ${det.value}`)
-         )
-         .join(", "),
-       "Specification Images": product?.specId
-         ?.flatMap((spec) => spec?.image?.map((image) => image?.image_path))
-         .join(", "),
-       "Specification Prices": product?.specId
-         ?.map((spec) => spec?.price)
-         .join(", "),
-       "Specification SkuId": product?.specId
-         ?.map((spec) => spec?.skuId)
-         .join(", "),
-       "Product Description": product?.desc,
-       // "Product Full Description": htmlToPlainText(product?.full_desc),
-     };
-   });
-
-
-
-    const onFileUpload = async (file, type) => {
-      try {
-        setUploading(true);
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const uploadResponse = await FileUpload(formData);
-        const fileName = uploadResponse?.data?.data?.fileName;
-
-        if (!fileName) {
-          throw new Error("File upload failed");
-        }
-
-        const payload = { file: fileName };
-        const Bulkres =
-          type == "spec"
-            ? await SpecBulkProductUpload(payload)
-            : await BulkProductUpload(payload);
-
-        if (Bulkres?.data?.error === false) {
-          toast.success(`Upload successful: ${file.name}`);
-          fetchData();
-        } else {
-          throw new Error(`Could not upload file: ${file.name}`);
-        }
-      } catch (error) {
-        console.error("Error in file upload:", error.message);
-        toast.error(`Error in file upload: ${error.message}`);
-      } finally {
-        setUploading(false);
+    await StatusUpdateProduct(dataset?._id, payload)
+      .then((res) => {
+        console.log(res);
         fetchData();
+        toast.success("Product status updated successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handledeleteProduct = async (id) => {
+    await deleteProduct(id)
+      .then((res) => {
+        console.log(res);
+        fetchData();
+        toast.success("Product deleted successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const csvData = filterData.flatMap((product, index) => {
+    const htmlToPlainText = (html) => {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      return tempDiv.textContent || tempDiv.innerText || "";
+    };
+    return {
+      "SL NO": index + 1,
+      "Product Name": product?.name,
+      "Product ID": product?.productId,
+      "Product Type": product?.type,
+      "Product Category": product?.categoryId?.title,
+      "Product Sub-Category": product?.subcategoryId?.title,
+      "Product Brand": product?.brandId?.title,
+      "Product Tax status": product?.tax_status,
+      "Product Visibility": "Visible",
+      "Product Identification Images": product?.image
+        ?.map((ele) => ele?.image_path)
+        .join(","),
+      "Product Features": product?.features?.map((ele) => ele).join(" "),
+      "Product Uploaded Date": moment(product?.updatedAt).format(
+        "DD-MM-YYYY, hh:mm:ss A"
+      ),
+      "Product Specifications": product?.specId
+        ?.flatMap((spec) =>
+          spec?.spec_det?.map((det) => `${det.title}: ${det.value}`)
+        )
+        .join(", "),
+      "Specification Images": product?.specId
+        ?.flatMap((spec) => spec?.image?.map((image) => image?.image_path))
+        .join(", "),
+      "Specification Prices": product?.specId
+        ?.map((spec) => spec?.price)
+        .join(", "),
+      "Specification SkuId": product?.specId
+        ?.map((spec) => spec?.skuId)
+        .join(", "),
+      "Product Description": product?.desc,
+      // "Product Full Description": htmlToPlainText(product?.full_desc),
+    };
+  });
+
+  const onFileUpload = async (file, type) => {
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const uploadResponse = await FileUpload(formData);
+      const fileName = uploadResponse?.data?.data?.fileName;
+
+      if (!fileName) {
+        throw new Error("File upload failed");
+      }
+
+      const payload = { file: fileName };
+      const Bulkres =
+        type == "spec"
+          ? await SpecBulkProductUpload(payload)
+          : await BulkProductUpload(payload);
+
+      if (Bulkres?.data?.error === false) {
+        toast.success(`Upload successful: ${file.name}`);
+        fetchData();
+      } else {
+        throw new Error(`Could not upload file: ${file.name}`);
+      }
+    } catch (error) {
+      console.error("Error in file upload:", error.message);
+      toast.error(`Error in file upload: ${error.message}`);
+    } finally {
+      setUploading(false);
+      fetchData();
+    }
+  };
+
+  const showVariants = (data) => {
+    console.log(data);
+    setVariantsArray(data);
+    handleShowModal2();
+  };
+
+  const variationRequestCount = (data) => {
+    let filterData = data?.filter((ele) => {
+      return ele?.is_approved == false;
+    });
+
+    return filterData?.length;
+  };
+
+  const [showSellerProduct, setShowSellerProduct] = useState(false);
+  const [seletedProducrt, setSelectedProduct] = useState();
+
+  const [formData, setFormData] = useState([]);
+
+  const handleAddProduct = (product) => {
+    console.log(product, "product");
+    setSelectedProduct(product);
+    handleShow();
+  };
+
+  const handleShow = () => {
+    setShowSellerProduct(true);
+  };
+
+  const handleClose = () => {
+    setShowSellerProduct(false);
+  };
+
+  const handlePriceChange = (specIndex, price) => {
+    setFormData((prevData) => {
+      const newData = [...prevData];
+      newData[specIndex] = { ...newData[specIndex], price };
+      return newData;
+    });
+  };
+
+  const handleQuansChange = (specIndex, quantity) => {
+    setFormData((prevData) => {
+      const newData = [...prevData];
+      newData[specIndex] = { ...newData[specIndex], quantity };
+      return newData;
+    });
+  };
+
+  const handleShippingChange = (specIndex, shipping_cost) => {
+    setFormData((prevData) => {
+      const newData = [...prevData];
+      newData[specIndex] = { ...newData[specIndex], shipping_cost };
+      return newData;
+    });
+  };
+
+
+    const AddSellerProduct = async (
+      Pid,
+      SpecId,
+      price,
+      quantity,
+      shipping_cost
+    ) => {
+      if (price) {
+        let payload = {
+          sellerId: userId,
+          productId: Pid,
+          specId: SpecId,
+          price: price,
+          quantity: quantity,
+          shipping_cost: shipping_cost,
+          // "discount_price": inputValue?.discount_price
+        };
+
+        console.log(payload);
+
+        await SellerProductAdd(payload)
+          .then((res) => {
+            if (res?.response?.data?.error == true) {
+              toast.error(res?.response?.data?.message);
+
+              // handleClose();
+            } else {
+              toast.success("product added successfully");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     };
 
-     const showVariants = (data) => {
-       console.log(data);
-       setVariantsArray(data);
-       handleShowModal2();
-     };
-
-     const variationRequestCount = (data) => {
-       let filterData = data?.filter((ele) => {
-         return ele?.is_approved == false;
-       });
-
-       return filterData?.length;
-     };
-
   return (
-    <div className="productList mt-2 p-4">
+    <div>
       <Container className="mt-2 mb-4">
         <Row className="justify-content-md-center">
           <Col md="auto">
-            <h3>Product List</h3>
+            <h6>Zoofi Products</h6>
           </Col>
         </Row>
 
-        <Row className="mt-4">
-          <Col xs={4}></Col>
-          <Col>
-            <Button
-              variant="dark"
-              size="sm"
-              onClick={() => navigate("/Admin/uploadbulk")}
-            >
-              {" "}
-              <span className="mx-2">
-                <LiaMailBulkSolid />
-              </span>
-              Upload Products in Bulk
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              size="sm"
-              variant="dark"
-              onClick={() => navigate("/Admin/Addproduct")}
-            >
-              <AiOutlinePlus /> Add New Product
-            </Button>
-          </Col>
-          <Col>
-            <Button size="md" variant="dark">
-              <CSVLink
-                className="text-white"
-                data={csvData}
-                filename={`backup-product.csv`}
-              >
-                <FaFileExport /> Export To CSV
-              </CSVLink>
-            </Button>
-          </Col>
-        </Row>
         <Row>
           <ProductSpecificationForm
             selectedproductid={selectedproductid}
@@ -409,22 +457,28 @@ const PList = () => {
       <div style={{ height: 1000, overflowY: "auto" }}>
         {/* Search Input and Button */}
         <div>
-          <InputGroup className="mb-3">
-            <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
-            <Form.Control
-              placeholder="search product by id or name"
-              aria-label="Search-Product"
-              aria-describedby="basic-addon1"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <div className="d-flex justify-content-end ml-4">
-              <Button size="sm" variant="dark" onClick={handleSearch}>
-                <FaSearch />
-                <span className="mx-2">Search</span>
-              </Button>
-            </div>
-          </InputGroup>
+          <Row>
+            <Col xs={6}>
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
+                <Form.Control
+                  placeholder="search product by Product tId"
+                  aria-label="Search-Product"
+                  aria-describedby="basic-addon1"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </InputGroup>
+            </Col>
+            <Col>
+              <div className="d-flex justify-content-start ml-4 items-center">
+                <Button size="sm" variant="dark" onClick={handleSearch}>
+                  <FaSearch />
+                  <span className="mx-2">Search</span>
+                </Button>
+              </div>
+            </Col>
+          </Row>
         </div>
 
         {/* Filter Selects */}
@@ -450,12 +504,21 @@ const PList = () => {
             size="sm"
           >
             <option value="">Select Subcategory</option>
-            {subcategories?.length > 0 &&
-              subcategories.map((sub) => (
-                <option key={sub._id} value={sub._id}>
-                  {sub.title}
-                </option>
-              ))}
+            {subcategories?.length > 0 && filters.categoryId !== ""
+              ? subcategories
+                  ?.filter((sub) => {
+                    return sub?.category?._id == filters.categoryId;
+                  })
+                  .map((sub) => (
+                    <option key={sub._id} value={sub._id}>
+                      {sub.title}
+                    </option>
+                  ))
+              : subcategories.map((sub) => (
+                  <option key={sub._id} value={sub._id}>
+                    {sub.title}
+                  </option>
+                ))}
           </Form.Select>
           <Form.Select
             name="brandId"
@@ -475,26 +538,30 @@ const PList = () => {
 
         <div className="d-flex justify-content-center mt-2 mb-4">
           <Button variant="dark" size="sm" onClick={handleReset}>
-            Reset & Refresh
-          </Button>
-
-          <Button variant="dark" size="sm" onClick={handleReset}>
-            {filterData?.length} Products
+            Reset & Refresh Filters
           </Button>
         </div>
 
-        <div className="d-flex justify-content-end mt-2 mb-4">
-          <Pagination>
-            {Array.from({ length: totalPages }, (_, i) => (
-              <Pagination.Item
-                key={i + 1}
-                active={i + 1 === currentPage}
-                onClick={() => handlePageChange(i + 1)}
-              >
-                {i + 1}
-              </Pagination.Item>
-            ))}
-          </Pagination>
+        <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
+          <ReactPaginate
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={totalPages}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={(data) => handlePageChange(data.selected + 1)}
+            containerClassName={"pagination d-flex gap-2"}
+            activeClassName={"active"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link"}
+            breakLinkClassName={"page-link"}
+          />
         </div>
 
         <Table responsive striped bordered hover>
@@ -502,13 +569,13 @@ const PList = () => {
             <tr>
               <th>ID</th>
               <th>Product Id</th>
+              <th>Type</th>
               <th>Name</th>
               <th>Image</th>
               <th>Variants</th>
               <th>Category</th>
               <th>Sub Category</th>
-              <th>Uploaded</th>
-              <th>Live Preview</th>
+              <th>Brand</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -520,7 +587,7 @@ const PList = () => {
             ) : filterData?.length > 0 ? (
               filterData.map((row, index) => (
                 <tr key={index}>
-                  <td>{row?.id}</td>
+                  <td>{index + 1}</td>
                   <td>
                     {row?.productId?.substring(0, 15)}
                     <span className="mx-2">
@@ -545,11 +612,13 @@ const PList = () => {
                       )}
                     </span>
                   </td>
+                  <td>{row?.type}</td>
                   <td>{row?.name?.substring(0, 20) + "..."}</td>
                   <td>
                     <div className="productListItem">
                       <img
-                        className="productListImg"
+                        className="productListImg img-thumbnail"
+                        width={20}
                         src={row.image?.[0]?.image_path}
                         alt=""
                       />
@@ -564,87 +633,23 @@ const PList = () => {
                       VIEW
                     </p>
                     {variationRequestCount(row?.specId) > 0 && (
-                    <p className="newrqNo">
-                      <AiOutlineInfoCircle size={22} />{" "}
-                      {variationRequestCount(row?.specId)} Requested{" "}
-                    </p>
-                  )}
+                      <p className="newrqNo">
+                        <AiOutlineInfoCircle size={22} />{" "}
+                        {variationRequestCount(row?.specId)} Requested{" "}
+                      </p>
+                    )}
                   </td>
                   <td>{row?.categoryId?.title}</td>
                   <td>{row?.subcategoryId?.title}</td>
-                  <td>{moment(row?.updatedAt).format("LLL")}</td>
-                  <td className="d-flex justify-content-center">
-                    {row?.specId?.length > 0 ? (
-                      <a
-                        href={`http://zoofi.in/livepreview/${row?._id}`}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        <Image
-                          src="https://w7.pngwing.com/pngs/1001/808/png-transparent-google-chrome-app-web-browser-icon-google-chrome-logo-text-orange-logo.png"
-                          width={50}
-                          height={50}
-                          thumbnail
-                        />
-                      </a>
-                    ) : (
-                      <p
-                        style={{
-                          color: "rgb(122 119 119)",
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        <CiCircleInfo size={15} /> Add At least 1 variant
-                      </p>
-                    )}{" "}
-                  </td>
-                  <td style={{ width: "275px" }}>
-                    <div className="buttonWrapper">
-                      <Button
-                        variant="info"
-                        size="sm"
-                        onClick={() => {
-                          handleShowModal();
-                          setSeledtedProductId(row);
-                        }}
-                      >
-                        <FaCirclePlus /> Variants
-                      </Button>
-                      <Link
-                        to={`/Admin/Editproduct/${row?._id}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <Button variant="success" size="sm">
-                          Edit
-                        </Button>
-                      </Link>
-
-                      {row?.status ? (
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={() => handleStatus(row)}
-                        >
-                          Deactivate
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="success"
-                          size="sm"
-                          onClick={() => handleStatus(row)}
-                        >
-                          Activate
-                        </Button>
-                      )}
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        onClick={() => handledeleteProduct(row?._id)}
-                      >
-                        Delete
-                      </Button>
-                    </div>
+                  <td>{row?.brandId?.title}</td>
+                  <td>
+                    <Button
+                      onClick={() => handleAddProduct(row)}
+                      variant="success"
+                      size="sm"
+                    >
+                      Add to Sell
+                    </Button>
                   </td>
                 </tr>
               ))
@@ -655,19 +660,177 @@ const PList = () => {
             )}
           </tbody>
         </Table>
+        <Container>
+          <Row>
+            <Modal size="xl" show={showSellerProduct} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title className="p-catname">
+                  {seletedProducrt?.name}
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form>
+                  <Row>
+                    <Col>
+                      <ListGroup
+                        style={{
+                          maxHeight: "400px",
+                          overflowY: "auto",
+                          overflowX: "auto",
+                          border: "1px solid #ccc",
+                          borderRadius: "0px",
+                          display: "flex",
+                          justifyContent: "flex-start",
+                          alignItems: "center",
+                          gap: "10px",
+                          flexDirection: "column",
+                          padding: "10px",
+                        }}
+                      >
+                        {seletedProducrt?.specId?.map((ele, index) => (
+                          <ListGroup.Item
+                            key={ele?._id}
+                            style={{
+                              border: "1px solid #ccc",
+                              width: "100%",
+                            }}
+                          >
+                            <Row>
+                              <Col>
+                                <span style={{ fontSize: "16px" }}>
+                                  <strong>Variant Title:</strong>
+                                  {" ( "}
+                                  {ele?.spec_det?.length > 0 &&
+                                    ele?.spec_det
+                                      ?.slice(0, 3)
+                                      .map((ele, index) => (
+                                        <span key={index} className="p-desc">
+                                          {ele?.title} : {ele?.value}
+                                          {index !== 2 && ", "}
+                                        </span>
+                                      ))}
+                                  {" )"}
+                                </span>
+                              </Col>
+                            </Row>
+
+                            <Row>
+                              <Col xs={10}>
+                                <strong style={{ fontSize: "16px" }}>
+                                  Variant Specification Details: {index + 1}
+                                </strong>
+                              </Col>
+                              <Col xs={2}>
+                                <Button
+                                  variant="outline-success"
+                                  size="sm"
+                                  onClick={() =>
+                                    AddSellerProduct(
+                                      seletedProducrt?._id,
+                                      ele?._id,
+                                      formData[index]?.price,
+                                      formData[index]?.quantity,
+                                      formData[index]?.shipping_cost
+                                    )
+                                  }
+                                  disabled={!ele?.is_approved}
+                                >
+                                  SAVE
+                                </Button>
+                              </Col>
+                            </Row>
+
+                            <Row className="locationTagHeader mt-2">
+                              <Col xs={1}>MRP (₹)</Col>
+                              <Col xs={1}>SKUID</Col>
+                              {ele?.spec_det?.slice(1, 3).map((e, index) => (
+                                <Col key={index} xs={2}>
+                                  {e?.title}
+                                </Col>
+                              ))}
+                              <Col>Enter product price (₹)</Col>
+                              <Col>Add Stock</Col>
+                              <Col>Add Shipping Cost(₹)</Col>
+                            </Row>
+                            <Row className="locationTagvalue mt-2">
+                              <Col xs={1}>{ele?.price}</Col>
+                              <Col xs={1}>{ele?.skuId}</Col>
+                              {ele?.spec_det?.slice(1, 3).map((e, index) => (
+                                <Col key={index} xs={2}>
+                                  {e?.value}
+                                </Col>
+                              ))}
+                              <Col>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlInput1"
+                                >
+                                  <Form.Control
+                                    type="tel"
+                                    size="sm"
+                                    placeholder="Product Price"
+                                    name="price"
+                                    required
+                                    max={ele?.price}
+                                    value={formData[index]?.price}
+                                    onChange={(e) =>
+                                      handlePriceChange(index, e.target.value)
+                                    }
+                                  />
+                                </Form.Group>
+                              </Col>
+                              <Col>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlInput1"
+                                >
+                                  <Form.Control
+                                    type="tel"
+                                    size="sm"
+                                    placeholder="Product Quatity"
+                                    name="quantity"
+                                    required
+                                    value={formData[index]?.quantity}
+                                    onChange={(e) =>
+                                      handleQuansChange(index, e.target.value)
+                                    }
+                                  />
+                                </Form.Group>
+                              </Col>
+                              <Col>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlInput1"
+                                >
+                                  <Form.Control
+                                    type="tel"
+                                    size="sm"
+                                    placeholder="Shipping cost"
+                                    name="shipping_cost"
+                                    required
+                                    value={formData[index]?.shipping_cost}
+                                    onChange={(e) =>
+                                      handleShippingChange(
+                                        index,
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </Form.Group>
+                              </Col>
+                            </Row>
+                          </ListGroup.Item>
+                        ))}
+                      </ListGroup>
+                    </Col>
+                  </Row>
+                </Form>
+              </Modal.Body>
+            </Modal>
+          </Row>
+        </Container>
 
         {/* Pagination Controls */}
-        <Pagination>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <Pagination.Item
-              key={i + 1}
-              active={i + 1 === currentPage}
-              onClick={() => handlePageChange(i + 1)}
-            >
-              {i + 1}
-            </Pagination.Item>
-          ))}
-        </Pagination>
       </div>
     </div>
   );
@@ -1303,5 +1466,4 @@ const ProductSpecificationForm = ({
   );
 };
 
-
-export default PList;
+export default AddingProductTable;

@@ -29,6 +29,10 @@ import {
 import sellerback2 from "../../../assets/sellerback2.jpg";
 import "./sellerlayout.css";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import PList from "../../ProductManagement/Product/PList";
+import AddingProductTable from "./AddingProductTable";
+import axios from "axios";
+const apiUrl = import.meta.env.VITE_API_BASE;
 
 export default function NewAddProduct() {
   const [data, setData] = useState([]);
@@ -108,22 +112,36 @@ export default function NewAddProduct() {
   };
 
   async function getProductListFunc() {
-    await allProductList()
-      .then((res) => {
-        const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
-          ...item,
-          id: index + 1,
-        }));
-        //  setData(dataWithUniqueIds)
-        setMaindata(dataWithUniqueIds);
+    // await allProductList()
+    //   .then((res) => {
+    //     const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
+    //       ...item,
+    //       id: index + 1,
+    //     }));
+    //     //  setData(dataWithUniqueIds)
+    //     console.log(dataWithUniqueIds,'datawithuniqueids');
+    //     setMaindata(dataWithUniqueIds);
+    //     setLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    //   .finally((data) => {
+    //     setLoading(false);
+    //   });
+    
+      try {
+        const res = await axios.get(
+          `${apiUrl}/product/all-list?page=${1}&limit=15`
+        );
+        setMaindata(res?.data?.data);
+        setData(res?.data?.data);
+        //     setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data", error);
         setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally((data) => {
-        setLoading(false);
-      });
+      }
+   
   }
 
   async function getAllCats() {
@@ -645,8 +663,9 @@ export default function NewAddProduct() {
               <Toaster position="top-right" />
             </Col>
           </Row>
+          {console.log(data,'data')}
         </div>
-        {data?.length > 0 && isChecked && (
+        {data?.length > 0  && (
           <Container>
             <Row>
               <Col>
@@ -975,6 +994,21 @@ export default function NewAddProduct() {
           </Modal>
         </Container>
       </div>
+
+      {/** NEWW  */}
+      <Container>
+        <NewAddProductComponent />
+      </Container>
+      ,
     </div>
   );
+}
+
+
+const NewAddProductComponent = () => {
+ return (
+   <div>
+     <AddingProductTable />
+   </div>
+ );
 }
