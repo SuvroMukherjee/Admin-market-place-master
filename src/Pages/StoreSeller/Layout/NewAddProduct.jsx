@@ -454,7 +454,7 @@ export default function NewAddProduct() {
                   Search Your Product In Zoofi Catalogue <br /> & Start Selling
                 </Col>
               </Row>
-              <Form>
+              {/* <Form>
                 <Row className="mt-4">
                   <Col xs={7} style={{ marginLeft: "-2%" }}>
                     <InputGroup>
@@ -488,9 +488,9 @@ export default function NewAddProduct() {
                     </Button>
                   </Col>
                 </Row>
-              </Form>
+              </Form> */}
 
-              <Row className="mt-4">
+              {/* <Row className="mt-4">
                 <Col>
                   <Form>
                     <Form.Check
@@ -503,8 +503,8 @@ export default function NewAddProduct() {
                     />
                   </Form>
                 </Col>
-              </Row>
-              <Row className="mt-2 mb-2" xs={6}>
+              </Row> */}
+              <Row className="mt-4 mb-2" xs={6}>
                 <Col
                   xs={3}
                   className="optionCol"
@@ -538,7 +538,7 @@ export default function NewAddProduct() {
                 </Col>
               </Row>
 
-              {!isChecked && (
+              {/* {!isChecked && (
                 <Row className="mt-4 ml-2">
                   <Col xs={6}>
                     <ListGroup>
@@ -568,12 +568,10 @@ export default function NewAddProduct() {
                     </ListGroup>
                   </Col>
                 </Row>
-              )}
-              {isChecked && (
-                <div className="mt-4">
-                  {/* <Row>
-                                    <p className="seealltext">Select category , Subcategory or brand </p>
-                                </Row> */}
+              )} */}
+
+              {/* {isChecked && (
+               
                   <Row className="w-40 mb-2 mt-2">
                     <Col>
                       <Form.Group controlId="categoryId">
@@ -658,14 +656,14 @@ export default function NewAddProduct() {
                     </Col>
                   </Row>
                 </div>
-              )}
+              )} */}
 
               <Toaster position="top-right" />
             </Col>
           </Row>
           {console.log(data,'data')}
         </div>
-        {data?.length > 0  && (
+        {/* {data?.length > 0  && (
           <Container>
             <Row>
               <Col>
@@ -762,9 +760,9 @@ export default function NewAddProduct() {
               </Col>
             </Row>
           </Container>
-        )}
+        )} */}
 
-        <Container>
+        {/* <Container>
           <Row>
             <Modal size="xl" show={show} onHide={handleClose}>
               <Modal.Header closeButton>
@@ -992,7 +990,7 @@ export default function NewAddProduct() {
               </Row>
             </Modal.Body>
           </Modal>
-        </Container>
+        </Container> */}
       </div>
 
       {/** NEWW  */}
