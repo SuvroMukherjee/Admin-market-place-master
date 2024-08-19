@@ -27,140 +27,168 @@ import {
 import "./sellerlayout.css";
 import Modal from "react-bootstrap/Modal";
 import { estimatedDeliveryTimes } from "../../../dummyData";
+import SellerStock from "./SellerStock";
 
 export default function SellerInventory() {
-  const [data, setData] = useState([]);
-  const [searchtext, setSearchtext] = useState("");
-  const [clearInput, setClearInput] = useState(false);
-  const [csvData, setCsvData] = useState([]);
-  const [importedData, setImportedData] = useState([]);
-  const [stratuploading, setStartUploading] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [viewLowestPriceData, setViewLowestPriceData] = useState();
-  const [lowIndex, setLowIndex] = useState();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [show, setShow] = useState(false);
-  const [showService, setShowServices] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState();
-  const [selectedTime, setSelectedTime] = useState("select");
+  // const [data, setData] = useState([]);
+  // const [searchtext, setSearchtext] = useState("");
+  // const [clearInput, setClearInput] = useState(false);
+  // const [csvData, setCsvData] = useState([]);
+  // const [importedData, setImportedData] = useState([]);
+  // const [stratuploading, setStartUploading] = useState(false);
+  // const [selectedOption, setSelectedOption] = useState("");
+  // const [viewLowestPriceData, setViewLowestPriceData] = useState();
+  // const [lowIndex, setLowIndex] = useState();
+  // const [startDate, setStartDate] = useState("");
+  // const [endDate, setEndDate] = useState("");
+  // const [show, setShow] = useState(false);
+  // const [showService, setShowServices] = useState(false);
+  // const [selectedProduct, setSelectedProduct] = useState();
+  // const [selectedTime, setSelectedTime] = useState("select");
 
-  const handleSelectEstimateChange = (event) => {
-    const selectedValue = event.target.value;
-    setSelectedTime(selectedValue);
-    console.log(`Selected Delivery Time: ${selectedValue}`);
-  };
+  // const handleSelectEstimateChange = (event) => {
+  //   const selectedValue = event.target.value;
+  //   setSelectedTime(selectedValue);
+  //   console.log(`Selected Delivery Time: ${selectedValue}`);
+  // };
 
-  const handleOptionChange = (e) => {
-    setSelectedOption(e.target.value);
-    console.log("Selected option:", e.target.value);
-  };
+  // const handleOptionChange = (e) => {
+  //   setSelectedOption(e.target.value);
+  //   console.log("Selected option:", e.target.value);
+  // };
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
+  // const handleFileUpload = (event) => {
+  //   const file = event.target.files[0];
 
-    if (file) {
-      Papa.parse(file, {
-        complete: (result) => {
-          // Access the parsed data in result.dat
-          setImportedData(result.data);
-          let Qarray = [];
-          result?.data?.map((ele) => {
-            if (ele?.["Add Quantity"]) {
-              Qarray.push(ele?.["Add Quantity"]);
-            }
-          });
-          console.log({ Qarray });
-          setQuantities(Qarray);
-        },
-        header: true, // Set this to true if your CSV file has headers
-      });
-    }
-  };
+  //   if (file) {
+  //     Papa.parse(file, {
+  //       complete: (result) => {
+  //         // Access the parsed data in result.dat
+  //         setImportedData(result.data);
+  //         let Qarray = [];
+  //         result?.data?.map((ele) => {
+  //           if (ele?.["Add Quantity"]) {
+  //             Qarray.push(ele?.["Add Quantity"]);
+  //           }
+  //         });
+  //         console.log({ Qarray });
+  //         setQuantities(Qarray);
+  //       },
+  //       header: true, // Set this to true if your CSV file has headers
+  //     });
+  //   }
+  // };
 
-  // State for quantities
-  const [quantities, setQuantities] = useState([]);
+  // // State for quantities
+  // const [quantities, setQuantities] = useState([]);
 
-  // Function to update quantity at a specific index
-  const setQuantityAtIndex = (index, value) => {
-    // Create a copy of the quantities array
-    const updatedQuantities = [...quantities];
-    // Update the quantity at the specified index
-    updatedQuantities[index] = value;
-    // Update the state
+  // // Function to update quantity at a specific index
+  // const setQuantityAtIndex = (index, value) => {
+  //   // Create a copy of the quantities array
+  //   const updatedQuantities = [...quantities];
+  //   // Update the quantity at the specified index
+  //   updatedQuantities[index] = value;
+  //   // Update the state
 
-    console.warn(updatedQuantities, "updatedQuantities");
+  //   console.warn(updatedQuantities, "updatedQuantities");
 
-    setQuantities(updatedQuantities);
-  };
+  //   setQuantities(updatedQuantities);
+  // };
 
-  //  useEffect(() => {
-  //    console.log("call");
-  //    getServices();
-  //  }, []);
+  // //  useEffect(() => {
+  // //    console.log("call");
+  // //    getServices();
+  // //  }, []);
 
-  //  async function getServices() {
-  //    let res = await GetAllServices();
-  //    console.log(res?.data?.data, "ff");
-  //    setServices(res?.data?.data);
-  //  }
+  // //  async function getServices() {
+  // //    let res = await GetAllServices();
+  // //    console.log(res?.data?.data, "ff");
+  // //    setServices(res?.data?.data);
+  // //  }
 
-  const { userId } = JSON.parse(localStorage.getItem("auth"));
+  // const { userId } = JSON.parse(localStorage.getItem("auth"));
 
-  useEffect(() => {
-    getProductListFunc();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getProductListFunc();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  async function getProductListFunc() {
-    await SellerProductList(userId)
-      .then((res) => {
-        console.log(res?.data?.data, "data");
-        const dataWithUniqueIds = res?.data?.data?.SellerProductData?.map(
-          (item, index) => ({
-            ...item,
-            id: index + 1,
-          })
-        );
-        setData(dataWithUniqueIds);
-        setFormData(dataWithUniqueIds);
-        const csvDataArray = res?.data?.data?.SellerProductData?.map(
-          (ele, index) => ({
-            Status: ele?.status ? "Active" : "Inactive",
-            SKU: ele?.specId?.skuId,
-            "Product Name": `${ele?.productId?.brandId?.title} ${ele?.name}`,
-            "Date Created": ChangeFormatDate(ele?.updatedAt),
-            "Available Quantity": ele?.available_qty || 0,
-            "MRP price": ele?.specId?.price,
-            "Selling Price": ele?.price,
-            "Shipping Price": ele?.shipping_cost,
-            "Add Quantity": quantities[index], // Adjust this based on your logic
-          })
-        );
-        console.log({ csvDataArray });
-        setCsvData([...csvDataArray]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // async function getProductListFunc() {
+  //   await SellerProductList(userId)
+  //     .then((res) => {
+  //       console.log(res?.data?.data, "data");
+  //       const dataWithUniqueIds = res?.data?.data?.SellerProductData?.map(
+  //         (item, index) => ({
+  //           ...item,
+  //           id: index + 1,
+  //         })
+  //       );
+  //       setData(dataWithUniqueIds);
+  //       setFormData(dataWithUniqueIds);
+  //       const csvDataArray = res?.data?.data?.SellerProductData?.map(
+  //         (ele, index) => ({
+  //           Status: ele?.status ? "Active" : "Inactive",
+  //           SKU: ele?.specId?.skuId,
+  //           "Product Name": `${ele?.productId?.brandId?.title} ${ele?.name}`,
+  //           "Date Created": ChangeFormatDate(ele?.updatedAt),
+  //           "Available Quantity": ele?.available_qty || 0,
+  //           "MRP price": ele?.specId?.price,
+  //           "Selling Price": ele?.price,
+  //           "Shipping Price": ele?.shipping_cost,
+  //           "Add Quantity": quantities[index], // Adjust this based on your logic
+  //         })
+  //       );
+  //       console.log({ csvDataArray });
+  //       setCsvData([...csvDataArray]);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
-  const [formData, setFormData] = useState([]);
+  // const [formData, setFormData] = useState([]);
 
-  // const handleUpdate = async (index) => {
+  // // const handleUpdate = async (index) => {
+  // //   console.log(formData[index]);
+  // //   console.log(quantities[index]);
+
+  // //   formData[index].quantity = quantities[index] || 0;
+
+  // //   let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
+
+  // //   console.log({ res });
+
+  // //   if (res.data.error == false) {
+  // //     toast.success("Inventory update successfully...");
+  // //     setQuantities([]);
+  // //     setClearInput(true);
+  // //     setTimeout(() => {
+  // //       setClearInput(false);
+  // //     }, 100);
+  // //     getProductListFunc();
+  // //   }
+  // // };
+
+
+  // const handleUpdate = async (key) => {
+  //   const index = formData.findIndex((item) => item._id === key);
+  //   if (index === -1) return;
+
   //   console.log(formData[index]);
-  //   console.log(quantities[index]);
+  //   console.log(quantities[key]);
 
-  //   formData[index].quantity = quantities[index] || 0;
+  //   formData[index].quantity = quantities[key] || 0;
+
+  //   console.log(formData[index]?._id, formData[index],'lllllllll');
 
   //   let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
 
   //   console.log({ res });
 
   //   if (res.data.error == false) {
-  //     toast.success("Inventory update successfully...");
+  //     toast.success("Inventory updated successfully...");
   //     setQuantities([]);
   //     setClearInput(true);
   //     setTimeout(() => {
@@ -171,219 +199,192 @@ export default function SellerInventory() {
   // };
 
 
-  const handleUpdate = async (key) => {
-    const index = formData.findIndex((item) => item._id === key);
-    if (index === -1) return;
+  // // const handlePriceChange = (specIndex, quantity) => {
+  // //   setFormData((prevData) => {
+  // //     const newData = [...prevData];
+  // //     newData[specIndex] = { ...newData[specIndex], price: quantity };
+  // //     return newData;
+  // //   });
+  // // };
 
-    console.log(formData[index]);
-    console.log(quantities[key]);
-
-    formData[index].quantity = quantities[key] || 0;
-
-    console.log(formData[index]?._id, formData[index],'lllllllll');
-
-    let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
-
-    console.log({ res });
-
-    if (res.data.error == false) {
-      toast.success("Inventory updated successfully...");
-      setQuantities([]);
-      setClearInput(true);
-      setTimeout(() => {
-        setClearInput(false);
-      }, 100);
-      getProductListFunc();
-    }
-  };
-
-
-  // const handlePriceChange = (specIndex, quantity) => {
+  // const handlePriceChange = (key, quantity) => {
   //   setFormData((prevData) => {
   //     const newData = [...prevData];
-  //     newData[specIndex] = { ...newData[specIndex], price: quantity };
+  //     const index = newData.findIndex((item) => item._id === key);
+  //     if (index !== -1) {
+  //       newData[index] = { ...newData[index], price: quantity };
+  //     }
   //     return newData;
   //   });
   // };
 
-  const handlePriceChange = (key, quantity) => {
-    setFormData((prevData) => {
-      const newData = [...prevData];
-      const index = newData.findIndex((item) => item._id === key);
-      if (index !== -1) {
-        newData[index] = { ...newData[index], price: quantity };
-      }
-      return newData;
-    });
-  };
+  // const handleShippingChange = (specIndex, shipping) => {
+  //   setFormData((prevData) => {
+  //     const newData = [...prevData];
+  //     newData[specIndex] = { ...newData[specIndex], shipping };
+  //     return newData;
+  //   });
+  // };
 
-  const handleShippingChange = (specIndex, shipping) => {
-    setFormData((prevData) => {
-      const newData = [...prevData];
-      newData[specIndex] = { ...newData[specIndex], shipping };
-      return newData;
-    });
-  };
+  // const handleSaveAll = async () => {
+  //   // Iterate through all rows and invoke handleUpdate for each
+  //   setStartUploading(true);
+  //   console.log({ formData });
+  //   for (let index = 0; index < formData?.length; index++) {
+  //     if (formData[index]?.quantity > 0) {
+  //       await handleUpdate(index);
+  //     }
+  //   }
 
-  const handleSaveAll = async () => {
-    // Iterate through all rows and invoke handleUpdate for each
-    setStartUploading(true);
-    console.log({ formData });
-    for (let index = 0; index < formData?.length; index++) {
-      if (formData[index]?.quantity > 0) {
-        await handleUpdate(index);
-      }
-    }
+  //   // Optionally, perform any additional actions after saving all
+  //   // For example, reset state, show a success message, fetch updated data, etc.
+  //   setQuantities([]);
+  //   setClearInput(true);
+  //   setTimeout(() => {
+  //     setClearInput(false);
+  //   }, 100);
+  //   // getProductListFunc();
+  //   setTimeout(() => {
+  //     toast.success(" 🚀 All inventory updated successfully...");
+  //     setStartUploading(false);
+  //   }, 2000);
+  // };
 
-    // Optionally, perform any additional actions after saving all
-    // For example, reset state, show a success message, fetch updated data, etc.
-    setQuantities([]);
-    setClearInput(true);
-    setTimeout(() => {
-      setClearInput(false);
-    }, 100);
-    // getProductListFunc();
-    setTimeout(() => {
-      toast.success(" 🚀 All inventory updated successfully...");
-      setStartUploading(false);
-    }, 2000);
-  };
+  // const fileInputRef = useRef(null);
 
-  const fileInputRef = useRef(null);
+  // const handleChooseFile = () => {
+  //   fileInputRef.current.click();
+  // };
 
-  const handleChooseFile = () => {
-    fileInputRef.current.click();
-  };
+  // const closeListingProduct = async (data) => {
+  //   let paylod = {
+  //     status: !data?.status,
+  //   };
 
-  const closeListingProduct = async (data) => {
-    let paylod = {
-      status: !data?.status,
-    };
+  //   await UpdateSellerProductDataStatus(data?._id, paylod);
 
-    await UpdateSellerProductDataStatus(data?._id, paylod);
+  //   getProductListFunc();
+  // };
 
-    getProductListFunc();
-  };
+  // const getLowestPriceFunc = async (ele, index) => {
+  //   console.log(ele);
 
-  const getLowestPriceFunc = async (ele, index) => {
-    console.log(ele);
+  //   let res = await getLowestPriceProdut(ele?.productId?._id);
 
-    let res = await getLowestPriceProdut(ele?.productId?._id);
+  //   const lowestPriceProduct = res?.data?.data.reduce((minProduct, product) => {
+  //     return product.price < minProduct.price ? product : minProduct;
+  //   }, res?.data?.data[0]);
 
-    const lowestPriceProduct = res?.data?.data.reduce((minProduct, product) => {
-      return product.price < minProduct.price ? product : minProduct;
-    }, res?.data?.data[0]);
+  //   console.log("Lowest price:", lowestPriceProduct);
 
-    console.log("Lowest price:", lowestPriceProduct);
+  //   setViewLowestPriceData(lowestPriceProduct);
 
-    setViewLowestPriceData(lowestPriceProduct);
+  //   console.log(res?.data?.data);
+  //   setLowIndex(index);
 
-    console.log(res?.data?.data);
-    setLowIndex(index);
+  //   // /setViewLowestPriceData
+  // };
 
-    // /setViewLowestPriceData
-  };
+  // let filterData = [...data];
 
-  let filterData = [...data];
+  // if (searchtext.length > 0) {
+  //   filterData = data?.filter((ele) => {
+  //     return (
+  //       ele?.name?.toLowerCase()?.includes(searchtext?.toLowerCase()) ||
+  //       ele?.specId?.skuId
+  //         ?.toLowerCase()
+  //         ?.includes(searchtext?.toLowerCase()) ||
+  //       ele?.productId?.brandId?.title
+  //         ?.toLowerCase()
+  //         ?.includes(searchtext?.toLowerCase())
+  //     );
+  //   });
+  // }
 
-  if (searchtext.length > 0) {
-    filterData = data?.filter((ele) => {
-      return (
-        ele?.name?.toLowerCase()?.includes(searchtext?.toLowerCase()) ||
-        ele?.specId?.skuId
-          ?.toLowerCase()
-          ?.includes(searchtext?.toLowerCase()) ||
-        ele?.productId?.brandId?.title
-          ?.toLowerCase()
-          ?.includes(searchtext?.toLowerCase())
-      );
-    });
-  }
+  // if (selectedOption.length > 0) {
+  //   if (selectedOption == "Low Stocks") {
+  //     filterData = filterData?.filter((ele) => {
+  //       return ele?.available_qty < 10;
+  //     });
+  //   } else if (selectedOption == "InActive") {
+  //     filterData = filterData?.filter((ele) => {
+  //       return ele?.status !== true;
+  //     });
+  //   } else if (selectedOption == "Active") {
+  //     filterData = filterData?.filter((ele) => {
+  //       return ele?.status == true;
+  //     });
+  //   } else if (selectedOption == "listRemoved") {
+  //     filterData = filterData?.filter((ele) => {
+  //       return ele?.status !== true;
+  //     });
+  //   }
+  // }
 
-  if (selectedOption.length > 0) {
-    if (selectedOption == "Low Stocks") {
-      filterData = filterData?.filter((ele) => {
-        return ele?.available_qty < 10;
-      });
-    } else if (selectedOption == "InActive") {
-      filterData = filterData?.filter((ele) => {
-        return ele?.status !== true;
-      });
-    } else if (selectedOption == "Active") {
-      filterData = filterData?.filter((ele) => {
-        return ele?.status == true;
-      });
-    } else if (selectedOption == "listRemoved") {
-      filterData = filterData?.filter((ele) => {
-        return ele?.status !== true;
-      });
-    }
-  }
+  // if (startDate.length > 0 && endDate.length > 0) {
+  //   //  if end date is smaller than start date then show error toast
+  //   if (new Date(startDate) > new Date(endDate)) {
+  //     toast.error("End date should be greater than start date", {
+  //       position: "bottom-right",
+  //       style: {
+  //         background: "red",
+  //         color: "white",
+  //       },
+  //     });
+  //     setStartDate("");
+  //     setEndDate("");
+  //   } else {
+  //     filterData = filterData?.filter((ele) => {
+  //       const updatedAtDate = new Date(ele?.updatedAt);
+  //       return (
+  //         updatedAtDate > new Date(startDate) &&
+  //         updatedAtDate < new Date(endDate)
+  //       );
+  //     });
+  //   }
+  // }
 
-  if (startDate.length > 0 && endDate.length > 0) {
-    //  if end date is smaller than start date then show error toast
-    if (new Date(startDate) > new Date(endDate)) {
-      toast.error("End date should be greater than start date", {
-        position: "bottom-right",
-        style: {
-          background: "red",
-          color: "white",
-        },
-      });
-      setStartDate("");
-      setEndDate("");
-    } else {
-      filterData = filterData?.filter((ele) => {
-        const updatedAtDate = new Date(ele?.updatedAt);
-        return (
-          updatedAtDate > new Date(startDate) &&
-          updatedAtDate < new Date(endDate)
-        );
-      });
-    }
-  }
+  // const EstimateHandler = (ele) => {
+  //   setSelectedProduct(ele);
+  //   handleShow();
+  // };
 
-  const EstimateHandler = (ele) => {
-    setSelectedProduct(ele);
-    handleShow();
-  };
+  // const ServiceHandler = (ele) => {
+  //   setSelectedProduct(ele);
+  //   handleOpenService();
+  // };
 
-  const ServiceHandler = (ele) => {
-    setSelectedProduct(ele);
-    handleOpenService();
-  };
+  // const handleClose = () => setShow(false);
+  // const handleShow = () => setShow(true);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleOpenService = () => setShowServices(true);
+  // const handleCloseService = () => setShowServices(false);
 
-  const handleOpenService = () => setShowServices(true);
-  const handleCloseService = () => setShowServices(false);
-
-  const updateEstimatedDelivey = async () => {
-    let res = await UpdateSellerProduct(selectedProduct?._id, {
-      ...selectedProduct,
-      estimateDate: selectedTime,
-    });
-    console.log(res);
-    if (res.data.error == false) {
-      toast.success("Estimate date update Successfully");
-      setTimeout(() => {
-        handleClose();
-      }, 1000);
-      setSelectedProduct("");
-      setSelectedTime("");
-      getProductListFunc();
-    }
-  };
+  // const updateEstimatedDelivey = async () => {
+  //   let res = await UpdateSellerProduct(selectedProduct?._id, {
+  //     ...selectedProduct,
+  //     estimateDate: selectedTime,
+  //   });
+  //   console.log(res);
+  //   if (res.data.error == false) {
+  //     toast.success("Estimate date update Successfully");
+  //     setTimeout(() => {
+  //       handleClose();
+  //     }, 1000);
+  //     setSelectedProduct("");
+  //     setSelectedTime("");
+  //     getProductListFunc();
+  //   }
+  // };
 
   return (
     <div>
-      <Container className="mt-4">
+      {/* <Container className="mt-4">
         <Row className="mt-4">
           <Col className="dtext2">
             Manage Your Inventory :{" "}
-            <span style={{ fontSize: "12px" }}>
-              Total Products {data?.length}
+            <span style={{ fontSize: "14px" }}>
+              Your Selling Products {data?.length}
             </span>{" "}
           </Col>
         </Row>
@@ -794,6 +795,9 @@ export default function SellerInventory() {
             </Table>
           </div>
           <div>
+            <SellerStock />
+          </div>
+          <div>
             <Modal
               show={show}
               onHide={handleClose}
@@ -842,12 +846,15 @@ export default function SellerInventory() {
           </div>
         </Row>
         <Toaster position="top-right" />
+      </Container> */}
+      <Container>
+        <SellerStock/>
       </Container>
     </div>
   );
 }
 
-const ServicesModal = ({
+export const ServicesModal = ({
   showService,
   handleCloseService,
   selectedProduct,
