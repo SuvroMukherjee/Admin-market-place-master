@@ -1,6 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -13,17 +13,21 @@ import {
   UpdateProductCategory,
   UpdateStatusProductCategory,
   allCategoryList,
+  topCatList,
 } from "../../../API/api";
 import { productRows } from "../../../dummyData";
 import "../product.css";
 import EditCategory from "./EditCategory";
 import moment from "moment";
+import { Select } from "@mui/material";
 
 export default function ListCategory() {
   const [data, setData] = useState(productRows || []);
+  const [topCats, setTopCats] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState();
   const [loading, setLoading] = useState(true);
+  const [selectedPosition, setSelectedPosition] = useState("");
 
   const navigate = useNavigate();
 
@@ -42,6 +46,7 @@ export default function ListCategory() {
 
   useEffect(() => {
     getCategoryList();
+    topCategoryList();
   }, []);
 
   async function getCategoryList() {
@@ -60,6 +65,17 @@ export default function ListCategory() {
       .finally(() => {
         setLoading(false);
       });
+  }
+  async function topCategoryList() {
+    try {
+      setLoading(true);
+      const res = await topCatList();
+      setTopCats(res?.data?.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleStatus = async (data) => {
@@ -93,7 +109,6 @@ export default function ListCategory() {
   };
 
   const HandleTopFunction = async (catData, value) => {
-
     let payload = {
       topCat: value,
     };
@@ -169,10 +184,11 @@ export default function ListCategory() {
         );
       },
     },
+
     {
       field: "Top category",
       headerName: "Make As Top Category",
-      width: 150,
+      width: 140,
       renderCell: (params) => {
         return (
           <div>
@@ -193,6 +209,34 @@ export default function ListCategory() {
                 Mark As Top
               </Button>
             )}
+          </div>
+        );
+      },
+    },
+
+    {
+      field: "position",
+      headerName: "Select Position",
+      width: 140,
+      renderCell: (params) => {
+        return (
+          <div>
+            {params?.row?.topCat ? (
+              <Form.Select
+                name="position"
+                value={params?.row?.position}
+                // onChange={(e) => setSelectedPosition(e.target.value)}
+                size="sm"
+              >
+                <option value="">Select Position</option>
+                {topCats?.length > 0 &&
+                  topCats.map((topcat, index) => (
+                    <option key={topcat._id} value={index}>
+                      {index + 1}
+                    </option>
+                  ))}
+              </Form.Select>
+            ) : null}
           </div>
         );
       },
@@ -282,7 +326,11 @@ export default function ListCategory() {
                 <FaInfoCircle /> Please upload transparent category Images{" "}
                 <span className="border border-dark mx-2 p-2 bg-gradient-secondary">
                   {" "}
-                  <a href="https://www.remove.bg/" target="_blank">
+                  <a
+                    rel="noreferrer"
+                    href="https://www.remove.bg/"
+                    target="_blank"
+                  >
                     Visit This Site
                   </a>{" "}
                 </span>

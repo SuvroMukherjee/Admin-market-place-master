@@ -1129,6 +1129,16 @@ export async function allCategoryeqList() {
     return error;
   }
 }
+export async function topCatList() {
+  try {
+    const response = await axios.get(apiUrl + `/category/topcat-list`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
 
 export async function allBrandreqList() {
   try {
@@ -1713,8 +1723,7 @@ export async function fetchProductServiceList() {
   }
 }
 
-
-export async function MakePopularProduct(formData,id) {
+export async function MakePopularProduct(formData, id) {
   try {
     const response = await axios.patch(
       apiUrl + `/seller-product/bestsell-update/${id}`,
@@ -1729,11 +1738,10 @@ export async function MakePopularProduct(formData,id) {
   }
 }
 
-
 export async function productWithPagination(page, limit) {
   try {
     const response = await axios.get(
-      apiUrl + `/product/all-list?page=${page}&limit=${limit}`,
+      apiUrl + `/product/all-list?page=${page}&limit=${limit}`
     );
     return response;
   } catch (error) {
