@@ -119,11 +119,33 @@ export default function ListCategory() {
       .then((res) => {
         console.log({ res });
         toast.success("Category update successfully");
+        getCategoryList();
         handleClose();
+         
       })
       .catch((err) => {
         console.log(err);
         toast.error("Something went wrong!");
+        getCategoryList();
+      });
+  };
+
+  const handlePosition = (value, row) => {
+    console.log(value, row);
+    let payload = {
+      position: parseInt(value) + 1,
+    };
+
+    UpdateProductCategory(payload, row?._id)
+      .then((res) => {
+        console.log({ res });
+        toast.success("Category position updated successfully");
+        getCategoryList();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong!");
+        getCategoryList();
       });
   };
 
@@ -220,24 +242,81 @@ export default function ListCategory() {
       width: 140,
       renderCell: (params) => {
         return (
-          <div>
-            {params?.row?.topCat ? (
-              <Form.Select
-                name="position"
-                value={params?.row?.position}
-                // onChange={(e) => setSelectedPosition(e.target.value)}
-                size="sm"
-              >
-                <option value="">Select Position</option>
-                {topCats?.length > 0 &&
-                  topCats.map((topcat, index) => (
-                    <option key={topcat._id} value={index}>
-                      {index + 1}
-                    </option>
-                  ))}
-              </Form.Select>
-            ) : null}
-          </div>
+          <>
+            <div>
+              {params?.row?.topCat ? (
+                <Form.Select
+                  name="position"
+                  value={params?.row?.position - 1}
+                  onChange={(e) => handlePosition(e.target.value, params?.row)}
+                  size="sm"
+                >
+                  <option value="">Select Position</option>
+                  {topCats?.length > 0 &&
+                    topCats.map((topcat, index) => (
+                      <option key={topcat._id} value={index}>
+                        {index + 1}
+                      </option>
+                    ))}
+                </Form.Select>
+              ) : null}
+            </div>
+            {/* <div>
+              {"position" in params?.row && (
+                <h4 className="m-2 ">{params?.row?.position}</h4>
+              )}
+            </div> */}
+          </>
+        );
+      },
+    },
+    {
+      field: "Old position",
+      headerName: "Old Position",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <>
+            {/* <div>
+              {params?.row?.topCat ? (
+                <Form.Select
+                  name="position"
+                  value={params?.row?.position - 1}
+                  onChange={(e) => handlePosition(e.target.value, params?.row)}
+                  size="sm"
+                >
+                  <option value="">Select Position</option>
+                  {topCats?.length > 0 &&
+                    topCats.map((topcat, index) => (
+                      <option key={topcat._id} value={index}>
+                        {index + 1}
+                      </option>
+                    ))}
+                </Form.Select>
+              ) : null}
+            </div> */}
+            <div>
+              {"position" in params?.row && (
+                <h4
+                  className="m-2 "
+                  style={{
+                    color: "red",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                    background: "#f8d7da",
+                    borderRadius: "5px",
+                    width: "50px",
+                    height: "50px",
+                    display: "flex",
+                    justifyContent: "center", 
+                    alignItems: "center",
+                  }}
+                >
+                  {params?.row?.position}
+                </h4>
+              )}
+            </div>
+          </>
         );
       },
     },
