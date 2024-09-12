@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 import { Step, Stepper } from "react-form-stepper";
 import newlogo from "../../assets/zoofilogo.png";
+import blackzofi from "../../assets/blackzofi.png";
 import "./registration.css";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -52,7 +53,7 @@ function SellerRegistrationPage() {
               letterSpacing: "1px",
             }}
           >
-            <img src={newlogo} alt="" width={120} />{" "}
+            <img src={blackzofi} alt="" width={120} />{" "}
             <span
               className="mx-2"
               style={{
