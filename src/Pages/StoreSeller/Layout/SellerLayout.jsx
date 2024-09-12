@@ -20,7 +20,8 @@ import {
   sellerDetails,
 } from "../../../API/api";
 import notificationSoundTone from "../../../assets/notification.wav";
-import newlogo from "../../../assets/zoofilogo.png";
+// import newlogo from "../../../assets/zoofilogo.png"; 
+import blackzofi from "../../../assets/blackzofi.png";
 import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
 import useAuth from "../../../hooks/useAuth";
 import { notificationContext } from "../../../context/context";
@@ -355,7 +356,7 @@ const MyNavbar = ({ socket }) => {
       >
         <div className="sellSide">
           <div className="text-center">
-            <img src={newlogo} alt="zoofi seller" width={120} />
+            <img src={blackzofi} alt="zoofi seller" width={150} />
           </div>
           <div>
             <h5 className="text-center">Seller Dashboard</h5>
@@ -558,7 +559,7 @@ const MyNavbar = ({ socket }) => {
                 navigate("/");
               }}
             >
-              <img src={newlogo} alt="zoofi seller" width={120} />
+              <img src={blackzofi} alt="zoofi seller" width={120} />
             </div>
             <div className="page-desc flex-justify-center-align-center custom-font-size-lg">
               {HeaderTitle}
@@ -655,11 +656,23 @@ const MyNavbar = ({ socket }) => {
             )}
 
             {/* profile */}
-            {!auth?.userId ? 'Loading' : 
-            <div className="profile" style={{border:'2px solid white',borderRadius:'50%'}}>
-                <img className="pfImg" src={userInfo?.Shop_Details_Info?.pic_of_shope?.[0]} alt="profile_image" width={30} height={30} onClick={handleDropdownToggle} />
-            </div>
-            }
+            {!auth?.userId ? (
+              "Loading"
+            ) : (
+              <div
+                className="profile"
+                style={{ border: "2px solid white", borderRadius: "50%" }}
+              >
+                <img
+                  className="pfImg"
+                  src={userInfo?.Shop_Details_Info?.pic_of_shope?.[0]}
+                  alt="profile_image"
+                  width={30}
+                  height={30}
+                  onClick={handleDropdownToggle}
+                />
+              </div>
+            )}
             {isDropdownOpen && (
               <div className="dropdown">
                 <div className="profile-info">

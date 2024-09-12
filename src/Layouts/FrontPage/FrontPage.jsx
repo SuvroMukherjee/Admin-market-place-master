@@ -35,7 +35,7 @@ const FrontPage = () => {
                       className="banner-cta cursor"
                       onClick={() => navigate("./seller-registration")}
                     >
-                      Register
+                      Register Now
                     </a>
                   </div>
                 </div>
@@ -585,7 +585,7 @@ const FrontPage = () => {
                       className="bottom-cta cursor"
                       onClick={() => navigate("./seller-registration")}
                     >
-                      Register
+                      Register Now
                     </a>
                   </div>
                 </div>

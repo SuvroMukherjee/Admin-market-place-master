@@ -6,6 +6,7 @@ import { FaBell, FaUserCircle, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { LuUnlock } from "react-icons/lu";
 import { Link, useLocation } from "react-router-dom";
 import newlogo from "../../assets/zoofilogo.png";
+import blackzofi from "../../assets/blackzofi.png";
 import useAuth from "../../hooks/useAuth";
 import "./Navbar.css";
 import "./sidebar.css";
@@ -117,7 +118,7 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
     <nav className={classnames("nav-menu", { active: true })}>
       <ul className="nav-menu-items">
         <li className="header-nav-item">
-          <img src={newlogo} alt="zoofi seller" width={120} />
+          <img src={blackzofi} alt="zoofi seller" width={150} />
           <h4 className="sidebar-ttile mb-4 mt-2">{title} </h4>
         </li>
 
@@ -130,7 +131,8 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
             } else {
               return;
             }
-          }}>
+          }}
+        >
           <span>
             <FaBell color="red" />
           </span>
