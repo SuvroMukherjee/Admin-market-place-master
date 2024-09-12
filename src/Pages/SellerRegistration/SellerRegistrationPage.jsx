@@ -53,7 +53,7 @@ function SellerRegistrationPage() {
               letterSpacing: "1px",
             }}
           >
-            <img src={blackzofi} alt="" width={120} />{" "}
+            <img src={blackzofi} alt="" width={150} />{" "}
             <span
               className="mx-2"
               style={{
