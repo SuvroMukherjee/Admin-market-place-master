@@ -567,7 +567,7 @@ const ManageOrders = () => {
                       (row, index) => (
                         <Fragment key={index}>
                           <tr>
-                            <td>{row?.proId?.name}</td>
+                            <td>{row?.proId?.name} {console.log(row)}</td>
                             <td>
                               <Image
                                 src={row?.proId?.specId?.image?.[0]?.image_path}
@@ -697,14 +697,18 @@ const ManageOrders = () => {
                               </Button>
 
                               <Button
-                                variant="success"
+                                variant="warning"
                                 size="sm"
                                 className={`orderpadding ${
-                                  row?.order_status !== "delivered" ||
-                                  row?.is_payment
+                                  row?.order_status !== "delivered"
                                     ? "d-none"
                                     : ""
                                 }`}
+                                disabled={
+                                  filteredListByDate[selectIndex]?.payment_status == "paid"
+                                    ? true
+                                    : false
+                                }
                                 onClick={() =>
                                   handleMakePayment(
                                     filteredListByDate[selectIndex]?._id,
@@ -714,7 +718,7 @@ const ManageOrders = () => {
                                   )
                                 }
                               >
-                                Make Payment
+                                Payment Received
                               </Button>
 
                               <Button
