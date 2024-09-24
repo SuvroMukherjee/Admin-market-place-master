@@ -122,7 +122,7 @@ const NewSellerDashboard = () => {
       }}
     >
       <Container>
-        <Row>
+        {/* <Row>
           {!loading && Object.keys(reportData) !== 0 && (
             <div className="d-flex justify-content-center flex-wrap gap-4">
               <NumberBox
@@ -137,8 +137,7 @@ const NewSellerDashboard = () => {
                 label={"Total Sales"}
                 number={reportData?.totalsell?.toFixed(2)}
               />
-              {/* return order to be implemented */}
-              {/* <NumberBox label={"Returned Orders"} number={0} /> */}
+           
               <NumberBox
                 label={"Customer Feedback"}
                 number={avgCustomerRating}
@@ -159,7 +158,7 @@ const NewSellerDashboard = () => {
               <p>Error Fetching Data</p>
             </div>
           )}
-        </Row>
+        </Row> */}
       </Container>
       <Container className="mt-4">
         <Row>
