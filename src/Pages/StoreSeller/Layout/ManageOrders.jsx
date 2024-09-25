@@ -319,6 +319,8 @@ const ManageOrders = () => {
     }
   }
 
+  console.log(filteredListByDate, "filteredListByDate");
+
   return (
     <div>
       <Container className="mt-4">
@@ -395,14 +397,7 @@ const ManageOrders = () => {
         </Row>
 
         <Row className="mt-4">
-          <Col
-            style={{
-              border: "1px solid black",
-              maxHeight: "245px",
-              overflowY: "auto",
-              padding: "10px",
-            }}
-          >
+          <Col>
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
@@ -414,6 +409,7 @@ const ManageOrders = () => {
                   <th>Payment Status</th>
                   <th>Payment Type</th>
                   <th>Payment ID</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -425,12 +421,19 @@ const ManageOrders = () => {
                         className="orderId"
                         onClick={() => setSelectIndex(index)}
                       >
-                        {row?.order_no} <MdArrowDropDownCircle size={20} />{" "}
+                        {row?.order_no}
+                        {/* <MdArrowDropDownCircle size={20} />{" "} */}
                       </td>
                       <td className="orderPrice">
                         ₹ {row?.order_price?.toLocaleString()}
                       </td>
                       <td>{ChangeFormatDate(row?.createdAt)}</td>
+                      {/* <td>
+                        <span style={{ color: "#021526" }}>
+                          {" "}
+                          {row?.order_details?.[0]?.order_status}
+                        </span>
+                      </td> */}
                       <td>{row?.addressId?.pincode}</td>
                       <td>{row?.addressId?.address}</td>
                       <td>
@@ -440,23 +443,42 @@ const ManageOrders = () => {
                       </td>
                       <td>{row?.order_type}</td>
                       <td>
-                        {row?.payment_status == "paid" &&
-                        row?.order_type == "Online"
+                        {row?.payment_status == "paid" 
                           ? row?.paymentId
                           : "N/A"}
+                      </td>
+                      <td>
+                        {selectIndex != index &&
+                        <Button
+                          variant="dark"
+                          size="sm"
+                          onClick={() => setSelectIndex(index)}
+                        >
+                         {} Manage
+                        </Button>
+                        }
+                         {selectIndex == index &&
+                        <Button
+                          variant="dark"
+                          size="sm"
+                          onClick={() => setSelectIndex(null)}
+                        >
+                         {} Close
+                        </Button>
+                        }
                       </td>
                     </tr>
                   ))}
                 {!loading && filteredListByDate?.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="text-center">
+                    <td colSpan={8} className="text-center">
                       No Order Found
                     </td>
                   </tr>
                 )}
                 {loading && (
                   <tr>
-                    <td colSpan={7} className="text-center font-weight-bold">
+                    <td colSpan={8} className="text-center font-weight-bold">
                       Loading...
                     </td>
                   </tr>
@@ -486,10 +508,7 @@ const ManageOrders = () => {
         </Row>
 
         {filteredListByDate[selectIndex]?.order_details?.length > 0 && (
-          <Row
-            className="mt-2"
-            style={{ border: "1px solid black", padding: "10px" }}
-          >
+          <Row className="mt-4">
             <Col className="mb-2 dtextOredr">
               Order Id :{" "}
               <span style={{ color: "#FF9843" }}>
@@ -506,7 +525,7 @@ const ManageOrders = () => {
                     <Row className="mt-3">
                       <Col className="orderId">
                         {" "}
-                        {filteredListByDate[selectIndex]?.order_no}
+                        {filteredListByDate[selectIndex]?.order_no} ({ filteredListByDate[selectIndex]?.order_details?.[0]?.order_status})
                       </Col>
                     </Row>
                   </Col>
@@ -567,7 +586,9 @@ const ManageOrders = () => {
                       (row, index) => (
                         <Fragment key={index}>
                           <tr>
-                            <td>{row?.proId?.name} {console.log(row)}</td>
+                            <td>
+                              {row?.proId?.name} {console.log(row)}
+                            </td>
                             <td>
                               <Image
                                 src={row?.proId?.specId?.image?.[0]?.image_path}
@@ -705,7 +726,8 @@ const ManageOrders = () => {
                                     : ""
                                 }`}
                                 disabled={
-                                  filteredListByDate[selectIndex]?.payment_status == "paid"
+                                  filteredListByDate[selectIndex]
+                                    ?.payment_status == "paid"
                                     ? true
                                     : false
                                 }

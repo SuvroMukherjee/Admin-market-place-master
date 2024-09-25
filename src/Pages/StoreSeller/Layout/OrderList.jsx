@@ -159,7 +159,7 @@ const OrderList = () => {
     <div>
       <Container className="mt-4">
         <Row>
-          <Col className="dtext">Order List</Col>
+          <Col className="dtext">Closing Stock</Col>
         </Row>
         <Row className="cont" style={{ padding: "10px", marginTop: "10px" }}>
           {/* start date */}
@@ -229,7 +229,7 @@ const OrderList = () => {
           </Row>
         </Row>
 
-        <Row
+        {/* <Row
           style={{
             marginTop: "10px",
             display: "flex",
@@ -244,7 +244,7 @@ const OrderList = () => {
           >
             Go to Manage Orders
           </Button>
-        </Row>
+        </Row> */}
 
         <Row className="mt-4">
           <Col

@@ -171,7 +171,7 @@ const MyNavbar = ({ socket }) => {
         break;
       case "Recent Order List":
         navigate("/seller/seller-orderlist");
-        setHeaderTitle(pathName);
+        setHeaderTitle("Closing Stock");
         break;
       case "Manage Orders":
         navigate("/seller/manage-orders");
@@ -466,7 +466,7 @@ const MyNavbar = ({ socket }) => {
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Recent Order List")}
           >
-            <div className="title">Orders Lists</div>
+            <div className="title">Closing Stock</div>
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
