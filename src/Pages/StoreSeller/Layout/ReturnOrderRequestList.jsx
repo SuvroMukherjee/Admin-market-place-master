@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { sellerReturnRequestList } from "../../../API/api";
 import { ChangeFormatDate } from "../../../common/DateFormat";
@@ -31,15 +31,13 @@ const ReturnOrderRequestList = () => {
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Product Name</th>
-                  <th>Product Image</th>
-                  <th>SKU</th>
-                  <th>Order Quantity</th>
-                  <th>Price</th>
-                  <th>Shipping Cost</th>
-                  <th>Net Disbursement</th>
-                  <th>Request Date & Time</th>
+                  <th>Return ID</th>
+                  <th>Order ID</th>
+                  <th>Product</th>
+                  <th>Reason</th>
+                  <th>Order Date</th>
+                  <th>Requested Status</th>
+                  <th>Requetsed Date</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -69,24 +67,13 @@ const ReturnOrderRequestList = () => {
                     <td className="datecolor">
                       {ChangeFormatDate(row.createdAt)}
                     </td>
-                    <td
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-around",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    >
-                      <button className="btn btn-link">Accept</button>
-                      <button
-                        style={{
-                          color: "red",
-                        }}
-                        className="btn btn-link"
-                      >
+                    <td className="d-flex gap-2 justify-content-center items-center">
+                      <Button variant="success" size="sm">
+                        Approve
+                      </Button>
+                      <Button variant="danger" size="sm">
                         Reject
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))}
