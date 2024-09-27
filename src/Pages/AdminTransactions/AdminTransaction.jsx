@@ -1,50 +1,22 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Image,
-  InputGroup,
-  ListGroup,
-  Modal,
-  Pagination,
-  Row,
-  Table,
+    Button,
+    Col,
+    Container,
+    Form,
+    Modal,
+    Row,
+    Table
 } from "react-bootstrap";
-import { CSVLink } from "react-csv";
-import toast from "react-hot-toast";
-import { AiOutlineInfoCircle, AiOutlinePlus } from "react-icons/ai";
-import { BsClipboard2CheckFill } from "react-icons/bs";
-import { CiCircleInfo } from "react-icons/ci";
-import { FaArrowDown, FaArrowUp, FaFileExport, FaSearch } from "react-icons/fa";
-import { FaCircleInfo, FaCirclePlus } from "react-icons/fa6";
-import { IoIosAdd } from "react-icons/io";
-import { LiaMailBulkSolid } from "react-icons/lia";
-import { LuClipboardSignature } from "react-icons/lu";
-import { MdCancel } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  BulkProductUpload,
-  DeleteProductSpecification,
-  FileUpload,
-  ProductSpecificationCreate,
-  SpecBulkProductUpload,
-  StatusUpdateProduct,
-  UpdateProductSpecification,
-  allBrandList,
-  allCategoryList,
-  allSubCategoryList,
-  deleteProduct,
-  razorpayPaymentDetailsData,
-} from "../../API/api";
-import useAuth from "../../hooks/useAuth";
 import ReactPaginate from "react-paginate";
-import { ChangeFormatDate } from "../../common/DateFormat";
-import { ArrowRightAlt } from "@mui/icons-material";
+import {
+    allBrandList,
+    allCategoryList,
+    allSubCategoryList,
+    razorpayPaymentDetailsData
+} from "../../API/api";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -58,33 +30,10 @@ const AdminTransaction = () => {
     subcategoryId: "",
     brandId: "",
   });
-  const [searchTerm, setSearchTerm] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [copiedIndex, setCopiedIndex] = useState(null);
-
+ 
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [brands, setBrands] = useState([]);
-
-  const [showModal, setShowModal] = useState(false);
-  const [selectedproductid, setSeledtedProductId] = useState();
-  const [variantsArray, setVariantsArray] = useState([]);
-
-  const [showModal2, setShowModal2] = useState(false);
-
-  const handleCloseModal2 = () => setShowModal2(false);
-  const handleShowModal2 = () => setShowModal2(true);
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    fetchData();
-  };
-
-  const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
   const [paymentDetailData, setPaymentDetailData] = useState({});
@@ -141,9 +90,7 @@ const AdminTransaction = () => {
     }
   };
 
-  const handleSearch = () => {
-    fetchData(); // Trigger search when the search button is clicked
-  };
+  
 
   //   const handlePageChange = (page) => {
   //     setCurrentPage(page);
@@ -156,18 +103,9 @@ const AdminTransaction = () => {
     });
   };
 
-  const copyTextToClipboard = (text, index) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setCopiedIndex(index);
-    setTimeout(() => {
-      setCopied(false);
-      setCopiedIndex(null);
-    }, 2000);
-  };
+ 
 
   const handleReset = () => {
-    setSearchTerm("");
     setCurrentPage(1);
     setTotalPages(1);
     setFilterData([]);
@@ -179,47 +117,7 @@ const AdminTransaction = () => {
     });
   };
 
-  const handleStatus = async (dataset) => {
-    let payload = {
-      status: !dataset?.status,
-    };
-
-    await StatusUpdateProduct(dataset?._id, payload)
-      .then((res) => {
-        console.log(res);
-        fetchData();
-        toast.success("Product status updated successfully!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handledeleteProduct = async (id) => {
-    await deleteProduct(id)
-      .then((res) => {
-        console.log(res);
-        fetchData();
-        toast.success("Product deleted successfully!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const showVariants = (data) => {
-    console.log(data);
-    setVariantsArray(data);
-    handleShowModal2();
-  };
-
-  const variationRequestCount = (data) => {
-    let filterData = data?.filter((ele) => {
-      return ele?.is_approved == false;
-    });
-
-    return filterData?.length;
-  };
+ 
 
   const handlePageChange = (selectedPage) => {
     const newPage = selectedPage.selected + 1;
@@ -268,58 +166,15 @@ const AdminTransaction = () => {
         </Row>
       </Container>
       <div style={{ height: 1000, overflowY: "auto" }}>
-        <div className="d-flex justify-content-between mb-3 gap-4">
-          <Form.Select
-            name="categoryId"
-            value={filters.categoryId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Category</option>
-            {categories?.length > 0 &&
-              categories.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.title}
-                </option>
-              ))}
-          </Form.Select>
-          <Form.Select
-            name="subcategoryId"
-            value={filters.subcategoryId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Subcategory</option>
-            {subcategories?.length > 0 &&
-              subcategories.map((sub) => (
-                <option key={sub._id} value={sub._id}>
-                  {sub.title}
-                </option>
-              ))}
-          </Form.Select>
-          <Form.Select
-            name="brandId"
-            value={filters.brandId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Brand</option>
-            {brands?.length > 0 &&
-              brands.map((brand) => (
-                <option key={brand._id} value={brand._id}>
-                  {brand.title}
-                </option>
-              ))}
-          </Form.Select>
-        </div>
+        
 
-        <div className="d-flex justify-content-center mt-2 mb-4">
+        <div className="d-flex justify-content-center mt-2 mb-4 gap-4">
           <Button variant="dark" size="sm" onClick={handleReset}>
             Reset & Refresh
           </Button>
 
           <Button variant="dark" size="sm" onClick={handleReset}>
-            {filterData?.length} Products
+            {filterData?.length} Transactions
           </Button>
         </div>
 
@@ -352,12 +207,13 @@ const AdminTransaction = () => {
               <th>Order Status</th>
               <th>Order Amount</th>
               <th>Order date & time</th>
-              <th>Address</th>
-              <th>Pincode</th>
+              <th>Seller</th>
+              <th>Delivery Address</th>
+              <th>Delivery Pincode</th>
               <th>Payment Status</th>
               <th>Payment Type</th>
               <th>Payment ID</th>
-              <th>Action</th>
+              <th>Deatils</th>
             </tr>
           </thead>
           <tbody>
@@ -381,6 +237,7 @@ const AdminTransaction = () => {
                       ₹ {row?.order_price?.toLocaleString()}
                     </td>
                     <td>{moment(row?.updatedAt).format("LLL")}</td>
+                    <td>{row?.order_details[0]?.proId?.sellerId?.Shop_Details_Info?.shope_name}</td>
                     <td>{row?.address} - {row?.city}</td>
                     <td>{row?.pincode}</td>
                     <td>
@@ -397,8 +254,9 @@ const AdminTransaction = () => {
                         variant="dark"
                         size="sm"
                         onClick={() => getPaymentDetails(row?.paymentId)}
+                        disabled={row?.order_type == "COD"}
                       >
-                        View Payment Details
+                        View
                       </Button>
                       
                     </td>
@@ -503,14 +361,15 @@ const PaymentDetails = ({ paymentData }) => {
               return Object.keys(paymentData[key]).map((nestedKey, nestedIndex) => (
                 <tr key={`${index}-${nestedIndex}`}>
                   <td>{fieldLabels[`${key}.${nestedKey}`] || `${key}.${nestedKey}`}</td>
-                  <td>{paymentData[key][nestedKey] !== null ? paymentData[key][nestedKey].toString() : 'N/A'}</td>
+                  <td>{paymentData[key][nestedKey]}</td>
                 </tr>
               ));
             } else {
               return (
                 <tr key={index}>
                   <td>{fieldLabels[key] || key}</td>
-                  <td>{paymentData[key] !== null ? paymentData[key].toString() : 'N/A'}</td>
+                  {/* If the key is 'amount', display 100 instead of the actual value */}
+                  <td>{key === 'amount' ? (paymentData[key]/100)?.toLocaleString() : (paymentData[key] !== null ? paymentData[key].toString() : 'N/A')}</td>
                 </tr>
               );
             }
