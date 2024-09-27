@@ -165,6 +165,120 @@ const AdminTransaction = () => {
           </Col>
         </Row>
       </Container>
+      <div style={{ height: 1000, overflowY: "auto" }}>
+        
+
+        <div className="d-flex justify-content-center mt-2 mb-4 gap-4">
+          <Button variant="dark" size="sm" onClick={handleReset}>
+            Reset & Refresh
+          </Button>
+
+          <Button variant="dark" size="sm" onClick={handleReset}>
+            {filterData?.length} Transactions
+          </Button>
+        </div>
+
+        <div className="d-flex justify-content-end mt-2 mb-4">
+          <ReactPaginate
+            pageCount={totalPages}
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={1}
+            onPageChange={handlePageChange}
+            containerClassName="pagination"
+            activeClassName="active"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousLabel={"Previous"}
+            nextLabel={"Next"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            previousClassName="page-item"
+            nextClassName="page-item"
+            previousLinkClassName="page-link"
+            nextLinkClassName="page-link"
+          />
+        </div>
+
+        <Table responsive striped bordered hover>
+          <thead>
+            <tr>
+              <th>SL NO</th>
+              <th>Order ID</th>
+              <th>Order Status</th>
+              <th>Order Amount</th>
+              <th>Order date & time</th>
+              <th>Seller</th>
+              <th>Delivery Address</th>
+              <th>Delivery Pincode</th>
+              <th>Payment Status</th>
+              <th>Payment Type</th>
+              <th>Payment ID</th>
+              <th>Deatils</th>
+            </tr>
+          </thead>
+          <tbody>
+            {!loading &&
+              filterData?.length > 0 &&
+              filterData
+                ?.filter((ele) => ele?.payment_status == "paid")
+                .map((row, index) => (
+                  <tr key={row.id}>
+                    <td>{index + 1}</td>
+                    <td className="orderId">{row?.order_no}</td>
+                    <td>
+                      <span style={{ color: "#7EACB5", fontWeight: "bold" }}>
+                        {" "}
+                        {OrderSequenceStatus(
+                          row?.order_details?.[0]?.order_status
+                        )?.toLocaleUpperCase()}
+                      </span>
+                    </td>
+                    <td className="orderPrice">
+                      ₹ {row?.order_price?.toLocaleString()}
+                    </td>
+                    <td>{moment(row?.updatedAt).format("LLL")}</td>
+                    <td>{row?.order_details[0]?.proId?.sellerId?.Shop_Details_Info?.shope_name}</td>
+                    <td>{row?.address} - {row?.city}</td>
+                    <td>{row?.pincode}</td>
+                    <td>
+                      {row?.payment_status == "unpaid" ? "Incomplete" : "Paid"}
+                    </td>
+                    <td>{row?.order_type}</td>
+                    <td>
+                      {row?.payment_status == "paid" ? row?.paymentId : "N/A"}
+                    </td>
+                    <td>
+                     
+                       
+                       <Button
+                        variant="dark"
+                        size="sm"
+                        onClick={() => getPaymentDetails(row?.paymentId)}
+                        disabled={row?.order_type == "COD"}
+                      >
+                        View
+                      </Button>
+                      
+                    </td>
+                  </tr>
+                ))}
+            {!loading && filterData?.length === 0 && (
+              <tr>
+                <td colSpan={8} className="text-center">
+                  No Order Found
+                </td>
+              </tr>
+            )}
+            {loading && (
+              <tr>
+                <td colSpan={8} className="text-center font-weight-bold">
+                  Loading...
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </div>
       <div>
         {console.log(paymentDetailData, "paymentDetailData")}
         <Modal
