@@ -329,9 +329,10 @@ const AllTransaction = () => {
 
   const getPaymentDetails = async (paymentId) => {
     setPaymentDetailLoading(true);
+    setShow(true);
     try {
-      let res = await razorpayPaymentDetailsData(paymentId);
-      setPaymentDetailData(res?.data?.data);
+      let res = await razorpayPaymentDetailsData(paymentId); 
+      setPaymentDetailData(res?.data);
     } catch (error) {
       console.error(error);
       toast.error(error?.message);
@@ -340,14 +341,7 @@ const AllTransaction = () => {
     }
   };
 
-  // console.log(paymentDetailData, "paymentDetailData");
-
   const handleClose = () => setShow(false);
-  const handleShow = (paymentId) => {
-    console.log(paymentId, "paymentId");
-    getPaymentDetails(paymentId);
-    setShow(true);
-  };
 
   return (
     <div>
@@ -503,7 +497,7 @@ const AllTransaction = () => {
                         )} */}
                         <p
                           style={{ color: "#125B9A", cursor: "pointer" }}
-                          onClick={() => handleShow(row?.paymentId)}
+                          onClick={() => getPaymentDetails(row?.paymentId)}
                         >
                           View Deatails{" "}
                           <span className="mx-4">
@@ -843,7 +837,7 @@ const AllTransaction = () => {
         >
           <Modal.Header closeButton>
             <p className="cmpgin-title">
-              Payment Details for Order #{paymentDetailData?.order_Id}
+              Payment Details for <span className="text-danger">{paymentDetailData?.order_id}</span>
             </p>
           </Modal.Header>
           <Modal.Body style={{ height: "50vh", overflow: "scroll" }}>
@@ -855,6 +849,7 @@ const AllTransaction = () => {
               <Col>Cateogry</Col>
             </Row>
             <Row>
+              <Col>Brand</Col>
               <Col>Brand</Col>
               <Col>Variants</Col>
               <Col>Action</Col>
