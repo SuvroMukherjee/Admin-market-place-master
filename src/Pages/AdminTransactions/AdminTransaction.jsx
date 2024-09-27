@@ -1,50 +1,22 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Image,
-  InputGroup,
-  ListGroup,
-  Modal,
-  Pagination,
-  Row,
-  Table,
+    Button,
+    Col,
+    Container,
+    Form,
+    Modal,
+    Row,
+    Table
 } from "react-bootstrap";
-import { CSVLink } from "react-csv";
-import toast from "react-hot-toast";
-import { AiOutlineInfoCircle, AiOutlinePlus } from "react-icons/ai";
-import { BsClipboard2CheckFill } from "react-icons/bs";
-import { CiCircleInfo } from "react-icons/ci";
-import { FaArrowDown, FaArrowUp, FaFileExport, FaSearch } from "react-icons/fa";
-import { FaCircleInfo, FaCirclePlus } from "react-icons/fa6";
-import { IoIosAdd } from "react-icons/io";
-import { LiaMailBulkSolid } from "react-icons/lia";
-import { LuClipboardSignature } from "react-icons/lu";
-import { MdCancel } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  BulkProductUpload,
-  DeleteProductSpecification,
-  FileUpload,
-  ProductSpecificationCreate,
-  SpecBulkProductUpload,
-  StatusUpdateProduct,
-  UpdateProductSpecification,
-  allBrandList,
-  allCategoryList,
-  allSubCategoryList,
-  deleteProduct,
-  razorpayPaymentDetailsData,
-} from "../../API/api";
-import useAuth from "../../hooks/useAuth";
 import ReactPaginate from "react-paginate";
-import { ChangeFormatDate } from "../../common/DateFormat";
-import { ArrowRightAlt } from "@mui/icons-material";
+import {
+    allBrandList,
+    allCategoryList,
+    allSubCategoryList,
+    razorpayPaymentDetailsData
+} from "../../API/api";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -58,33 +30,10 @@ const AdminTransaction = () => {
     subcategoryId: "",
     brandId: "",
   });
-  const [searchTerm, setSearchTerm] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [copiedIndex, setCopiedIndex] = useState(null);
-
+ 
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [brands, setBrands] = useState([]);
-
-  const [showModal, setShowModal] = useState(false);
-  const [selectedproductid, setSeledtedProductId] = useState();
-  const [variantsArray, setVariantsArray] = useState([]);
-
-  const [showModal2, setShowModal2] = useState(false);
-
-  const handleCloseModal2 = () => setShowModal2(false);
-  const handleShowModal2 = () => setShowModal2(true);
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    fetchData();
-  };
-
-  const navigate = useNavigate();
 
   const [show, setShow] = useState(false);
   const [paymentDetailData, setPaymentDetailData] = useState({});
@@ -141,9 +90,7 @@ const AdminTransaction = () => {
     }
   };
 
-  const handleSearch = () => {
-    fetchData(); // Trigger search when the search button is clicked
-  };
+  
 
   //   const handlePageChange = (page) => {
   //     setCurrentPage(page);
@@ -156,18 +103,9 @@ const AdminTransaction = () => {
     });
   };
 
-  const copyTextToClipboard = (text, index) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setCopiedIndex(index);
-    setTimeout(() => {
-      setCopied(false);
-      setCopiedIndex(null);
-    }, 2000);
-  };
+ 
 
   const handleReset = () => {
-    setSearchTerm("");
     setCurrentPage(1);
     setTotalPages(1);
     setFilterData([]);
@@ -179,47 +117,7 @@ const AdminTransaction = () => {
     });
   };
 
-  const handleStatus = async (dataset) => {
-    let payload = {
-      status: !dataset?.status,
-    };
-
-    await StatusUpdateProduct(dataset?._id, payload)
-      .then((res) => {
-        console.log(res);
-        fetchData();
-        toast.success("Product status updated successfully!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handledeleteProduct = async (id) => {
-    await deleteProduct(id)
-      .then((res) => {
-        console.log(res);
-        fetchData();
-        toast.success("Product deleted successfully!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const showVariants = (data) => {
-    console.log(data);
-    setVariantsArray(data);
-    handleShowModal2();
-  };
-
-  const variationRequestCount = (data) => {
-    let filterData = data?.filter((ele) => {
-      return ele?.is_approved == false;
-    });
-
-    return filterData?.length;
-  };
+ 
 
   const handlePageChange = (selectedPage) => {
     const newPage = selectedPage.selected + 1;
