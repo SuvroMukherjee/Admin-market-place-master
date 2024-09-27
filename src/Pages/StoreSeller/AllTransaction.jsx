@@ -5,6 +5,8 @@ import {
   Container,
   Form,
   Image,
+  ListGroup,
+  Modal,
   Row,
   Table,
 } from "react-bootstrap";
@@ -26,12 +28,14 @@ import { ArrowRightAlt } from "@mui/icons-material";
 
 const AllTransaction = () => {
   const { userId } = JSON.parse(localStorage.getItem("auth"));
-
+  const [show, setShow] = useState(false);
   const [list, setList] = useState([]);
   const [selectIndex, setSelectIndex] = useState();
   const [showCommentIndex, setCommentIndx] = useState();
   const [showCommentBoxText, SetshowCommentBoxText] = useState("");
   const [loading, setLoading] = useState(true);
+  const [paymentDetailLoading, setPaymentDetailLoading] = useState(false);
+  const [paymentDetailData, setPaymentDetailData] = useState({});
 
   useEffect(() => {
     getOrdersist();
@@ -324,12 +328,25 @@ const AllTransaction = () => {
   console.log(filteredListByDate, "filteredListByDate");
 
   const getPaymentDetails = async (paymentId) => {
+    setPaymentDetailLoading(true);
     try {
       let res = await razorpayPaymentDetailsData(paymentId);
-      console.log(res?.data?.data, "res");
+      setPaymentDetailData(res?.data?.data);
     } catch (error) {
       console.error(error);
+      toast.error(error?.message);
+    } finally {
+      setPaymentDetailLoading(false);
     }
+  };
+
+  // console.log(paymentDetailData, "paymentDetailData");
+
+  const handleClose = () => setShow(false);
+  const handleShow = (paymentId) => {
+    console.log(paymentId, "paymentId");
+    getPaymentDetails(paymentId);
+    setShow(true);
   };
 
   return (
@@ -486,7 +503,7 @@ const AllTransaction = () => {
                         )} */}
                         <p
                           style={{ color: "#125B9A", cursor: "pointer" }}
-                          onClick={() => getPaymentDetails(row?.paymentId)}
+                          onClick={() => handleShow(row?.paymentId)}
                         >
                           View Deatails{" "}
                           <span className="mx-4">
@@ -815,6 +832,41 @@ const AllTransaction = () => {
           </Row>
         )}
       </Container>
+
+      <div>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          size="lg"
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <p className="cmpgin-title">
+              Payment Details for Order #{paymentDetailData?.order_Id}
+            </p>
+          </Modal.Header>
+          <Modal.Body style={{ height: "50vh", overflow: "scroll" }}>
+            <Row>
+              <Col>Payment method: {paymentDetailData?.method}</Col>
+              <Col>Amount: {paymentDetailData?.amount}</Col>
+              <Col>Image</Col>
+              <Col>Product ID</Col>
+              <Col>Cateogry</Col>
+            </Row>
+            <Row>
+              <Col>Brand</Col>
+              <Col>Variants</Col>
+              <Col>Action</Col>
+            </Row>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" size="sm" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 };

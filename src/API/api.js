@@ -1756,6 +1756,6 @@ export async function razorpayPaymentDetailsData(paymentId) {
     );
     return response;
   } catch (error) {
-    return error;
+    throw new Error(error?.message);
   }
 }
