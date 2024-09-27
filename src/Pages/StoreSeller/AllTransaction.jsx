@@ -307,16 +307,16 @@ const AllTransaction = () => {
     getOrdersist();
   };
 
-  let filteredListByDate = [];
-  if (list.length > 0) {
+  let filteredListByDate = [...list];
+  if (filteredListByDate.length > 0) {
     if (
       reportDateRange === "Select Date Range" &&
       reportDate.start === "" &&
       reportDate.end === ""
     ) {
-      filteredListByDate = list;
+      filteredListByDate = [...filteredListByDate];
     } else {
-      filteredListByDate = list.filter((item) => {
+      filteredListByDate = [...filteredListByDate].filter((item) => {
         const orderDate = new Date(item.createdAt);
         const startDate = new Date(reportDate.start);
         const endDate = new Date(reportDate.end);
@@ -433,7 +433,7 @@ const AllTransaction = () => {
                   <th>Payment Status</th>
                   <th>Payment Type</th>
                   <th>Payment ID</th>
-                  <th>Action</th>
+                  <th>Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -496,15 +496,17 @@ const AllTransaction = () => {
                             {} Close
                           </Button>
                         )} */}
-                        <p
-                          style={{ color: "#125B9A", cursor: "pointer" }}
-                          onClick={() => getPaymentDetails(row?.paymentId)}
-                        >
-                          View Deatails{" "}
-                          <span className="mx-4">
-                            <ArrowRightAlt size={20} />
-                          </span>
-                        </p>
+                        {row?.order_type == "Online" ? (
+                          <Button
+                            variant="success"
+                            size="sm"
+                            onClick={() => getPaymentDetails(row?.paymentId)}
+                          >
+                            View
+                          </Button>
+                        ) : (
+                          "N/A"
+                        )}
                       </td>
                     </tr>
                   ))}
