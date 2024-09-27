@@ -484,7 +484,8 @@ const PaymentDetails = ({ paymentData }) => {
       created_at: 'Created At',
       'acquirer_data.rrn': 'RRN',
       'acquirer_data.upi_transaction_id': 'UPI Transaction ID',
-      'upi.vpa': 'UPI VPA'
+      'upi.vpa': 'UPI VPA',
+    "acquirer_data.bank_transaction_id": "Bank Transaction ID",
     };
   
     return (
