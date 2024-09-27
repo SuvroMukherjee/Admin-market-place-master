@@ -89,6 +89,8 @@ import { ProductServices } from "./Pages/ProductManagement/Product/ProductServic
 import PList from "./Pages/ProductManagement/Product/PList";
 import SPList from "./Pages/SellerProductManagment/SPList";
 import AllTransaction from "./Pages/StoreSeller/AllTransaction";
+import AdminTransaction from "./Pages/AdminTransactions/AdminTransaction";
+
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -116,6 +118,7 @@ export default function Router({ socket }) {
             { path: "SellerReport", element: <SellerReport /> },
             { path: "BestSeller", element: <BestSeller /> },
             { path: "EcommerceReport", element: <EcommerceReport /> },
+            { path: "all-transactions", element: <AdminTransaction /> },
             { path: "SellerDetails/:id", element: <SellerDetails /> },
             // {
             //   path: "/Seller/ProductList/:id",
@@ -154,6 +157,7 @@ export default function Router({ socket }) {
             { path: "product-offer", element: <ProductOffer /> },
             { path: "testimonial", element: <Testimonial /> },
             { path: "offer/:id", element: <Offer /> },
+          
             // { path: "live-preview/:id", element: <LivePreview /> },
           ],
         },
