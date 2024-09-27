@@ -8,6 +8,7 @@ import {
   ListGroup,
   Modal,
   Row,
+  Spinner,
   Table,
 } from "react-bootstrap";
 import { IoIosInformationCircle } from "react-icons/io";
@@ -306,16 +307,16 @@ const AllTransaction = () => {
     getOrdersist();
   };
 
-  let filteredListByDate = [];
-  if (list.length > 0) {
+  let filteredListByDate = [...list];
+  if (filteredListByDate.length > 0) {
     if (
       reportDateRange === "Select Date Range" &&
       reportDate.start === "" &&
       reportDate.end === ""
     ) {
-      filteredListByDate = list;
+      filteredListByDate = [...filteredListByDate];
     } else {
-      filteredListByDate = list.filter((item) => {
+      filteredListByDate = [...filteredListByDate].filter((item) => {
         const orderDate = new Date(item.createdAt);
         const startDate = new Date(reportDate.start);
         const endDate = new Date(reportDate.end);
@@ -329,9 +330,10 @@ const AllTransaction = () => {
 
   const getPaymentDetails = async (paymentId) => {
     setPaymentDetailLoading(true);
+    setShow(true);
     try {
       let res = await razorpayPaymentDetailsData(paymentId);
-      setPaymentDetailData(res?.data?.data);
+      setPaymentDetailData(res?.data);
     } catch (error) {
       console.error(error);
       toast.error(error?.message);
@@ -340,14 +342,7 @@ const AllTransaction = () => {
     }
   };
 
-  // console.log(paymentDetailData, "paymentDetailData");
-
   const handleClose = () => setShow(false);
-  const handleShow = (paymentId) => {
-    console.log(paymentId, "paymentId");
-    getPaymentDetails(paymentId);
-    setShow(true);
-  };
 
   return (
     <div>
@@ -438,7 +433,7 @@ const AllTransaction = () => {
                   <th>Payment Status</th>
                   <th>Payment Type</th>
                   <th>Payment ID</th>
-                  <th>Action</th>
+                  <th>Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -501,15 +496,17 @@ const AllTransaction = () => {
                             {} Close
                           </Button>
                         )} */}
-                        <p
-                          style={{ color: "#125B9A", cursor: "pointer" }}
-                          onClick={() => handleShow(row?.paymentId)}
-                        >
-                          View Deatails{" "}
-                          <span className="mx-4">
-                            <ArrowRightAlt size={20} />
-                          </span>
-                        </p>
+                        {row?.order_type == "Online" ? (
+                          <Button
+                            variant="success"
+                            size="sm"
+                            onClick={() => getPaymentDetails(row?.paymentId)}
+                          >
+                            View
+                          </Button>
+                        ) : (
+                          "N/A"
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -843,22 +840,15 @@ const AllTransaction = () => {
         >
           <Modal.Header closeButton>
             <p className="cmpgin-title">
-              Payment Details for Order #{paymentDetailData?.order_Id}
+              Payment Details for{" "}
+              <span className="text-danger">#{paymentDetailData?.id}</span>
             </p>
           </Modal.Header>
           <Modal.Body style={{ height: "50vh", overflow: "scroll" }}>
-            <Row>
-              <Col>Payment method: {paymentDetailData?.method}</Col>
-              <Col>Amount: {paymentDetailData?.amount}</Col>
-              <Col>Image</Col>
-              <Col>Product ID</Col>
-              <Col>Cateogry</Col>
-            </Row>
-            <Row>
-              <Col>Brand</Col>
-              <Col>Variants</Col>
-              <Col>Action</Col>
-            </Row>
+            <PaymentDetails
+              paymentData={paymentDetailData}
+              loading={paymentDetailLoading}
+            />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" size="sm" onClick={handleClose}>
@@ -868,6 +858,104 @@ const AllTransaction = () => {
         </Modal>
       </div>
     </div>
+  );
+};
+
+const PaymentDetails = ({ paymentData, loading }) => {
+  // Mapping keys to display-friendly labels
+  const fieldLabels = {
+    id: "Payment ID",
+    entity: "Entity",
+    amount: "Amount",
+    currency: "Currency",
+    status: "Status",
+    order_id: "Order ID",
+    invoice_id: "Invoice ID",
+    international: "International",
+    method: "Payment Method",
+    amount_refunded: "Amount Refunded",
+    refund_status: "Refund Status", // Custom label for refund_status
+    captured: "Captured",
+    description: "Description",
+    card_id: "Card ID",
+    bank: "Bank",
+    wallet: "Wallet",
+    vpa: "VPA",
+    email: "Email",
+    contact: "Contact",
+    notes: "Notes",
+    fee: "Fee",
+    tax: "Tax",
+    error_code: "Error Code",
+    error_description: "Error Description",
+    error_source: "Error Source",
+    error_step: "Error Step",
+    error_reason: "Error Reason",
+    acquirer_data: "Acquirer Data",
+    created_at: "Created At",
+    "acquirer_data.rrn": "RRN",
+    "acquirer_data.upi_transaction_id": "UPI Transaction ID",
+    "upi.vpa": "UPI VPA",
+    "acquirer_data.bank_transaction_id": "Bank Transaction ID",
+  };
+
+  return (
+    <Table striped bordered hover responsive>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {loading && (
+          <div className="d-flex justify-content-center mt-5">
+            <Row>
+              <Col>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
+            </Row>
+          </div>
+        )}
+        {!loading &&
+          Object.keys(paymentData).map((key, index) => {
+            // Handle nested objects like 'acquirer_data' and 'upi'
+            if (
+              typeof paymentData[key] === "object" &&
+              paymentData[key] !== null
+            ) {
+              return Object.keys(paymentData[key]).map(
+                (nestedKey, nestedIndex) => (
+                  <tr key={`${index}-${nestedIndex}`}>
+                    <td>
+                      {fieldLabels[`${key}.${nestedKey}`] ||
+                        `${key}.${nestedKey}`}
+                    </td>
+                    <td>
+                      {paymentData[key][nestedKey] !== null
+                        ? paymentData[key][nestedKey].toString()
+                        : "N/A"}
+                    </td>
+                  </tr>
+                )
+              );
+            } else {
+              return (
+                <tr key={index}>
+                  <td>{fieldLabels[key] || key}</td>
+                  <td>
+                    {paymentData[key] !== null
+                      ? paymentData[key].toString()
+                      : "N/A"}
+                  </td>
+                </tr>
+              );
+            }
+          })}
+      </tbody>
+    </Table>
   );
 };
 

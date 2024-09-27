@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Image, Row, Spinner } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { createRefundRequest, sellerReturnRequestList } from "../../../API/api";
 import { ChangeFormatDate } from "../../../common/DateFormat";
 
 const ReturnOrderRequestList = () => {
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getReturnOrderRequestList();
@@ -13,9 +14,16 @@ const ReturnOrderRequestList = () => {
   }, []);
 
   async function getReturnOrderRequestList() {
-    let res = await sellerReturnRequestList();
-    console.log(res?.data?.data, "order");
-    setList(res?.data?.data);
+    setLoading(true);
+    try {
+      let res = await sellerReturnRequestList();
+      console.log(res?.data?.data, "order");
+      setList(res?.data?.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleRefund = async (data) => {
@@ -48,46 +56,48 @@ const ReturnOrderRequestList = () => {
                   <th>Reason</th>
                   <th>Order Date</th>
                   <th>Requested Status</th>
-                  <th>Requetsed Date</th>
+                  <th>Requested Date</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {list.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row._id}</td>
-                    <td>{row.productId ? row.productId.name : ""}</td>
-                    <td>
-                      <Image
-                        src={row.productId?.specId?.image?.[0]?.image_path}
-                        thumbnail
-                        width={40}
-                        height={40}
-                      />
-                    </td>
-                    <td>{row.productId?.specId?.skuId}</td>
-                    <td className="amount">{row.quantity}</td>
-                    <td className="amount">
-                      {" "}
-                      {row.productId?.price?.toLocaleString()}
-                    </td>
-                    <td className="amount">{row.productId?.shipping_cost}</td>
-                    <td className="amount">
-                      {row.productId?.comission_price?.toLocaleString()}
-                    </td>
-                    <td className="datecolor">
-                      {ChangeFormatDate(row.createdAt)}
-                    </td>
-                    <td className="d-flex gap-2 justify-content-center items-center">
-                      <Button variant="success" size="sm" onClick={() => handleRefund(row)}>
-                        Approve
-                      </Button>
-                      <Button variant="danger" size="sm">
-                        Reject
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                {loading ? (
+                  <div className="productList p-4 contentLoader">
+                    <Row>
+                      <Col>
+                        <Spinner animation="border" size="lg" role="status">
+                          <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                      </Col>
+                    </Row>
+                  </div>
+                ) : (
+                  list?.map((row) => (
+                    <tr key={row._id}>
+                      <td>{row?._id}</td>
+                      <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
+                      <td>{row?.productId ? row?.productId.name : ""}</td>
+                      <td>{row?.reason}</td>
+                      <td>
+                        {ChangeFormatDate(
+                          row?.orderId?.order_details[0]?.order_delivery
+                        )}
+                      </td>
+                      <td>{row?.status}</td>
+                      <td>
+                        {row?.createdAt ? ChangeFormatDate(row?.createdAt) : ""}
+                      </td>
+                      <td className="d-flex gap-2 justify-content-center items-center">
+                        <Button variant="success" size="sm">
+                          Approve
+                        </Button>
+                        <Button variant="danger" size="sm">
+                          Reject
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </Table>
           </Col>
