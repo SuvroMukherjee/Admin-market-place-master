@@ -502,14 +502,15 @@ const PaymentDetails = ({ paymentData }) => {
               return Object.keys(paymentData[key]).map((nestedKey, nestedIndex) => (
                 <tr key={`${index}-${nestedIndex}`}>
                   <td>{fieldLabels[`${key}.${nestedKey}`] || `${key}.${nestedKey}`}</td>
-                  <td>{paymentData[key][nestedKey] !== null ? paymentData[key][nestedKey].toString() : 'N/A'}</td>
+                  <td>{paymentData[key][nestedKey]}</td>
                 </tr>
               ));
             } else {
               return (
                 <tr key={index}>
                   <td>{fieldLabels[key] || key}</td>
-                  <td>{paymentData[key] !== null ? paymentData[key].toString() : 'N/A'}</td>
+                  {/* If the key is 'amount', display 100 instead of the actual value */}
+                  <td>{key === 'amount' ? (paymentData[key]/100)?.toLocaleString() : (paymentData[key] !== null ? paymentData[key].toString() : 'N/A')}</td>
                 </tr>
               );
             }
