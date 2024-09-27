@@ -1748,3 +1748,14 @@ export async function productWithPagination(page, limit) {
     return error;
   }
 }
+
+export async function razorpayPaymentDetailsData(paymentId) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/payment/details?paymentId=${paymentId}`
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

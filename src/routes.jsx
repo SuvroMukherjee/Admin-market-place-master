@@ -88,6 +88,7 @@ import BestSeller from "./Pages/ProductManagement/Product/BestSeller";
 import { ProductServices } from "./Pages/ProductManagement/Product/ProductServices";
 import PList from "./Pages/ProductManagement/Product/PList";
 import SPList from "./Pages/SellerProductManagment/SPList";
+import AllTransaction from "./Pages/StoreSeller/AllTransaction";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -249,6 +250,7 @@ export default function Router({ socket }) {
             { path: "seller-report", element: <Report /> },
             { path: "reset", element: <ResetPassComp /> },
             { path: "profile/:id", element: <ProfilePage /> },
+            { path: "trasactions", element:  <AllTransaction /> },
           ],
         },
       ],

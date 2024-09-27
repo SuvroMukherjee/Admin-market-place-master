@@ -205,6 +205,12 @@ const MyNavbar = ({ socket }) => {
       case "Busniess Report":
         navigate("/seller/seller-report");
         setHeaderTitle(pathName);
+        break;
+      case "All Transactions":
+        navigate("/seller/trasactions");
+        setHeaderTitle(pathName); 
+        break;
+        
     }
     toggleDrawer();
   };
@@ -477,6 +483,16 @@ const MyNavbar = ({ socket }) => {
             onClick={() => navigateFunction("Manage Orders")}
           >
             <div className="title">Manage Orders</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("All Transactions")}
+          >
+            <div className="title">All Transactions</div>
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
