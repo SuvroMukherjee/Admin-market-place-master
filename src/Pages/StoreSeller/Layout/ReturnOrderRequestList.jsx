@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import { sellerReturnRequestList } from "../../../API/api";
+import { createRefundRequest, sellerReturnRequestList } from "../../../API/api";
 import { ChangeFormatDate } from "../../../common/DateFormat";
 
 const ReturnOrderRequestList = () => {
@@ -18,7 +18,18 @@ const ReturnOrderRequestList = () => {
     setList(res?.data?.data);
   }
 
-  console.log({ list });
+  const handleRefund = async (data) => {
+    console.log(data,'data');
+    let payload = {
+      orderId: data.orderId?._id,
+      paymentId: data.orderId?.paymentId,
+    };
+
+    console.log(payload);
+    // let res = await createRefundRequest();
+    // console.log(res?.data?.data, "order");
+    // getReturnOrderRequestList()
+  };
 
   return (
     <div>
@@ -68,7 +79,7 @@ const ReturnOrderRequestList = () => {
                       {ChangeFormatDate(row.createdAt)}
                     </td>
                     <td className="d-flex gap-2 justify-content-center items-center">
-                      <Button variant="success" size="sm">
+                      <Button variant="success" size="sm" onClick={() => handleRefund(row)}>
                         Approve
                       </Button>
                       <Button variant="danger" size="sm">

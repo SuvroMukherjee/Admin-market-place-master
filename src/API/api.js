@@ -1769,3 +1769,13 @@ export async function razorpayPaymentDetailsData(paymentId) {
     throw new Error(error?.message);
   }
 }
+
+
+export async function createRefundRequest(formData) {
+  try {
+    const response = await axios.post(apiUrl + `/refund-request/create`, formData);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
