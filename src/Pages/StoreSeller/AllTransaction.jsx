@@ -8,6 +8,7 @@ import {
   ListGroup,
   Modal,
   Row,
+  Spinner,
   Table,
 } from "react-bootstrap";
 import { IoIosInformationCircle } from "react-icons/io";
@@ -331,7 +332,7 @@ const AllTransaction = () => {
     setPaymentDetailLoading(true);
     setShow(true);
     try {
-      let res = await razorpayPaymentDetailsData(paymentId); 
+      let res = await razorpayPaymentDetailsData(paymentId);
       setPaymentDetailData(res?.data);
     } catch (error) {
       console.error(error);
@@ -837,23 +838,15 @@ const AllTransaction = () => {
         >
           <Modal.Header closeButton>
             <p className="cmpgin-title">
-              Payment Details for <span className="text-danger">{paymentDetailData?.order_id}</span>
+              Payment Details for{" "}
+              <span className="text-danger">#{paymentDetailData?.id}</span>
             </p>
           </Modal.Header>
           <Modal.Body style={{ height: "50vh", overflow: "scroll" }}>
-            <Row>
-              <Col>Payment method: {paymentDetailData?.method}</Col>
-              <Col>Amount: {paymentDetailData?.amount}</Col>
-              <Col>Image</Col>
-              <Col>Product ID</Col>
-              <Col>Cateogry</Col>
-            </Row>
-            <Row>
-              <Col>Brand</Col>
-              <Col>Brand</Col>
-              <Col>Variants</Col>
-              <Col>Action</Col>
-            </Row>
+            <PaymentDetails
+              paymentData={paymentDetailData}
+              loading={paymentDetailLoading}
+            />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" size="sm" onClick={handleClose}>
@@ -863,6 +856,104 @@ const AllTransaction = () => {
         </Modal>
       </div>
     </div>
+  );
+};
+
+const PaymentDetails = ({ paymentData, loading }) => {
+  // Mapping keys to display-friendly labels
+  const fieldLabels = {
+    id: "Payment ID",
+    entity: "Entity",
+    amount: "Amount",
+    currency: "Currency",
+    status: "Status",
+    order_id: "Order ID",
+    invoice_id: "Invoice ID",
+    international: "International",
+    method: "Payment Method",
+    amount_refunded: "Amount Refunded",
+    refund_status: "Refund Status", // Custom label for refund_status
+    captured: "Captured",
+    description: "Description",
+    card_id: "Card ID",
+    bank: "Bank",
+    wallet: "Wallet",
+    vpa: "VPA",
+    email: "Email",
+    contact: "Contact",
+    notes: "Notes",
+    fee: "Fee",
+    tax: "Tax",
+    error_code: "Error Code",
+    error_description: "Error Description",
+    error_source: "Error Source",
+    error_step: "Error Step",
+    error_reason: "Error Reason",
+    acquirer_data: "Acquirer Data",
+    created_at: "Created At",
+    "acquirer_data.rrn": "RRN",
+    "acquirer_data.upi_transaction_id": "UPI Transaction ID",
+    "upi.vpa": "UPI VPA",
+    "acquirer_data.bank_transaction_id": "Bank Transaction ID",
+  };
+
+  return (
+    <Table striped bordered hover responsive>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {loading && (
+          <div className="d-flex justify-content-center mt-5">
+            <Row>
+              <Col>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
+            </Row>
+          </div>
+        )}
+        {!loading &&
+          Object.keys(paymentData).map((key, index) => {
+            // Handle nested objects like 'acquirer_data' and 'upi'
+            if (
+              typeof paymentData[key] === "object" &&
+              paymentData[key] !== null
+            ) {
+              return Object.keys(paymentData[key]).map(
+                (nestedKey, nestedIndex) => (
+                  <tr key={`${index}-${nestedIndex}`}>
+                    <td>
+                      {fieldLabels[`${key}.${nestedKey}`] ||
+                        `${key}.${nestedKey}`}
+                    </td>
+                    <td>
+                      {paymentData[key][nestedKey] !== null
+                        ? paymentData[key][nestedKey].toString()
+                        : "N/A"}
+                    </td>
+                  </tr>
+                )
+              );
+            } else {
+              return (
+                <tr key={index}>
+                  <td>{fieldLabels[key] || key}</td>
+                  <td>
+                    {paymentData[key] !== null
+                      ? paymentData[key].toString()
+                      : "N/A"}
+                  </td>
+                </tr>
+              );
+            }
+          })}
+      </tbody>
+    </Table>
   );
 };
 
