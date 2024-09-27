@@ -12,6 +12,7 @@ import { IoStatsChart } from "react-icons/io5";
 import { MdSell } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
+import { HiCurrencyRupee } from "react-icons/hi2";
 
 export const AdminSidebarData = [
   {
@@ -62,12 +63,12 @@ export const AdminSidebarData = [
     icon: CgWebsite,
     cName: "nav-text",
   },
-  //   {
-  //     title: `Seller's Product`,
-  //     path: "/SellerProductManagment",
-  //     icon: BsShop,
-  //     cName: "nav-text",
-  //   },
+  {
+    title: `All Transactions`,
+    path: "/all-transactions",
+    icon: HiCurrencyRupee ,
+    cName: "nav-text",
+  },
   {
     title: "Category",
     path: "/Admin/category",
