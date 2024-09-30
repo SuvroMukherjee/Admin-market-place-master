@@ -1773,7 +1773,9 @@ export async function razorpayPaymentDetailsData(paymentId) {
 
 export async function createRefundRequest(formData) {
   try {
-    const response = await axios.post(apiUrl + `/refund-request/create`, formData);
+    const response = await axios.post(apiUrl + `/refund-request/create`, formData,{
+      headers: setAuthHeader()
+    });
     return response;
   } catch (error) {
     return error;
