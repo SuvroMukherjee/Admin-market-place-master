@@ -432,7 +432,6 @@ const ManageOrders = () => {
                 />
               </Pagination>
             )}
-
             {/* table start */}
             <Table striped bordered hover responsive>
               <thead>
