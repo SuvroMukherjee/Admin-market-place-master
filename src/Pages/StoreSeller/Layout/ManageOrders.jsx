@@ -446,6 +446,7 @@ const ManageOrders = () => {
                   <th>Payment ID</th>
                   <th>Action</th>
                   <th>Return Requested</th>
+                  <th>Refund Requested</th>
                 </tr>
               </thead>
               <tbody>
@@ -517,6 +518,25 @@ const ManageOrders = () => {
                         ) : (
                           "N/A"
                         )}
+                      </td>
+                      <td>
+                        {row?.refund_status == "Initiated" ? (
+                          <Button
+                            variant="dark"
+                            size="sm"
+                            onClick={() =>
+                              navigate(
+                                `/seller/refund-orders-list`
+                              )
+                            }
+                          >
+                            View
+                          </Button>
+                        ) : (
+                          "N/A"
+                        )}  
+                
+
                       </td>
                     </tr>
                   ))}
