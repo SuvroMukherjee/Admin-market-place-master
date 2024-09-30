@@ -34,6 +34,7 @@ const RefundOrderAdmin = () => {
       let payload = {
         amount : data.orderId?.order_price,
         paymentId: data.orderId?.paymentId,
+        orderId: data.orderId?._id,
       };
       let res = await RazorpayRefundRequest(payload);
       if (res?.data?.error) {
@@ -83,6 +84,7 @@ const RefundOrderAdmin = () => {
                 <th>Price</th>
                 <th>Payment ID</th>
                 <th>Refund Status</th>
+                <th>Refund Id</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -115,6 +117,7 @@ const RefundOrderAdmin = () => {
                     </td>
                     <td>{row?.paymentId}</td>
                     <td> {row?.status}</td>
+                    <td>{row?.razorpayRefundId}</td>
 
                     <td className="d-flex gap-2 justify-content-center align-items-center">
                       <Button
