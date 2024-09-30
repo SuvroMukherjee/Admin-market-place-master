@@ -1,13 +1,29 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Image, Row, Spinner } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  Modal,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import { createRefundRequest, sellerReturnRequestList } from "../../../API/api";
+import {
+  createRefundRequest,
+  sellerReturnRequestList,
+  updateReturnStatus,
+} from "../../../API/api";
 import { ChangeFormatDate } from "../../../common/DateFormat";
 import { toast } from "react-toastify";
 
 const ReturnOrderRequestList = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedOrder, setSeletedOrder] = useState({});
+  const [showModalRefund, setShowModalRefund] = useState(false);
 
   useEffect(() => {
     getReturnOrderRequestList();
@@ -27,13 +43,74 @@ const ReturnOrderRequestList = () => {
     }
   }
 
-  const handleApprove = async (data) => {
+  // const handleApprove = async (data) => {
+
+  //   console.log(data, "data");
+  //   let payload = {
+  //     orderId: data.orderId?._id,
+  //     paymentId: data.orderId?.paymentId,
+  //   };
+  //   let res = await createRefundRequest(payload);
+  //   if (res?.data?.error) {
+  //     toast.error(res?.data?.message);
+  //     return;
+  //   }
+  //   toast.success("Request Approved Successfully");
+  //   setTimeout(() => {
+  //     getReturnOrderRequestList();
+  //   }, 2000);
+  // };
+
+  // const handleReturnStatus = async (data) => {
+  //   console.log(data, "data");
+  //   let payload = {
+  //     orderId: data.orderId?._id,
+  //     status: data.status,
+  //   };
+  //   let res = await updateReturnStatus(payload);
+  //   if (res?.data?.error) {
+  //     toast.error(res?.data?.message);
+  //     return;
+  //   }
+  //   toast.success("Request Approved Successfully");
+  //   setTimeout(() => {
+  //     getReturnOrderRequestList();
+  //   }, 2000);
+  // };
+
+  const [returnStatus, setReturnStatus] = useState("");
+  const [refundStatus, setRefundStatus] = useState("");
+
+  // Handler to update return status
+  const handleReturnStatusChange = (e) => {
+    setReturnStatus(e.target.value);
+  };
+
+  // Handler to update refund status
+  const handleRefundStatusChange = (e) => {
+    setRefundStatus(e.target.value);
+  };
+
+  // Function to handle save action
+  const handleSaveChanges = async () => {
+    await handleReturnStatus(selectedOrder, returnStatus);
+    setShowModal(false);
+  };
+
+  const handleSaveRefundChanges = async () => {
+    await handleRefundStatus(selectedOrder, refundStatus);
+    setShowModalRefund(false);
+  };
+
+  const handleReturnStatus = async (data, returnStatus) => {
     console.log(data, "data");
     let payload = {
-      orderId: data.orderId?._id,
-      paymentId: data.orderId?.paymentId,
+      status: returnStatus,
     };
-    let res = await createRefundRequest(payload);
+    let res = await updateReturnStatus(
+      payload,
+      selectedOrder?.orderId?.order_details?.[0]?.returnReqId?._id
+    );
     if (res?.data?.error) {
       toast.error(res?.data?.message);
       return;
@@ -42,6 +119,40 @@ const ReturnOrderRequestList = () => {
     setTimeout(() => {
       getReturnOrderRequestList();
     }, 2000);
+  };
+
+  const handleRefundStatus = async (data, refundStatus) => {
+    console.log(data, "data");
+    if (refundStatus == "Refund-Approved") {
+      let payload = {
+        orderId: data.orderId?._id,
+        paymentId: data.orderId?.paymentId,
+      };
+      let res = await createRefundRequest(
+        payload,
+        selectedOrder?.orderId?.order_details?.[0]?.returnReqId?._id
+      );
+      if (res?.data?.error) {
+        toast.error(res?.data?.message);
+        return;
+      }
+      toast.success("Request Approved Successfully");
+      setTimeout(() => {
+        getReturnOrderRequestList();
+      }, 2000);
+    } else {
+      toast.error("Nothing to update");
+    }
+  };
+
+  const handleOpenReturn = (data) => {
+    setShowModal(true);
+    setSeletedOrder(data);
+  };
+
+  const handleOpenRefund = (data) => {
+    setShowModalRefund(true);
+    setSeletedOrder(data);
   };
 
   return (
@@ -65,7 +176,8 @@ const ReturnOrderRequestList = () => {
                   <th>Order Date</th>
                   <th>Requested Status</th>
                   <th>Requested Date</th>
-                  <th>Action</th>
+                  <th>Return Staus</th>
+                  <th>Refund Staus</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,14 +201,13 @@ const ReturnOrderRequestList = () => {
                       <td>{row?.productId ? row?.productId.name : ""}</td>
                       <td>{row?.reason}</td>
                       <td>
-                          <Image
+                        <Image
                           src={row?.images?.[0]?.image_path}
                           thumbnail
                           width={40}
                           height={40}
                         />
-                        
-                        </td>
+                      </td>
                       <td>
                         {ChangeFormatDate(
                           row?.orderId?.order_details[0]?.order_delivery
@@ -106,28 +217,39 @@ const ReturnOrderRequestList = () => {
                       <td>
                         {row?.createdAt ? ChangeFormatDate(row?.createdAt) : ""}
                       </td>
-                      <td className="d-flex gap-2 justify-content-center items-center">
-                        {row?.orderId?.refund_status == "Not-Initiated" && row?.orderId?.order_type !== "COD" ? (
-                          <>
-                            <Button
-                              variant="success"
-                              size="sm"
-                              onClick={() => handleApprove(row)}
-                              disabled={
-                                row?.orderId?.refund_status !== "Not-Initiated"
-                              }
-                            >
-                              Approve
-                            </Button>
-                            <Button variant="danger" size="sm">
-                              Reject
-                            </Button>
-                          </>
-                        ) : (
-                          <span className="fw-bold">
-                            {row?.orderId?.refund_status}
-                          </span>
-                        )}
+                      <td style={{ width: "200px" }}>
+                        <p style={{ color: "red", fontWeight: "bold" }}>
+                          {
+                            row?.orderId?.order_details?.[0]?.returnReqId
+                              ?.status
+                          }
+                        </p>
+                        <Button
+                          size="sm"
+                          variant="dark"
+                          onClick={() => handleOpenReturn(row)}
+                        >
+                          Return Status
+                        </Button>
+                      </td>
+
+                      <td style={{ width: "200px" }}>
+                        <p style={{ color: "green", fontWeight: "bold" }}>
+                          {row?.orderId?.refund_status}
+                        </p>
+                        <Button
+                          variant="dark"
+                          size="sm"
+                          onClick={() => {
+                            handleOpenRefund(row);
+                          }}
+                          disabled={
+                            row?.orderId?.order_details?.[0]?.returnReqId
+                              ?.status !== "Returned"
+                          }
+                        >
+                          Update Refund Status
+                        </Button>
                       </td>
                     </tr>
                   ))
@@ -136,6 +258,77 @@ const ReturnOrderRequestList = () => {
             </Table>
           </Col>
         </Row>
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+          <Modal.Header closeButton>
+            <h6>Return - Order ({selectedOrder?.orderId?.order_no}) </h6>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className="mb-3" controlId="returnStatus">
+                <Form.Label>Return Status </Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  onChange={handleReturnStatusChange}
+                  value={returnStatus}
+                >
+                  <option disabled value="">
+                    Open Return Status
+                  </option>
+                  <option value="Return-Approved">Return-Approved</option>
+                  <option value="Returned">Returned</option>
+                  <option value="Return-Cancelled">Return-Cancelled</option>
+                </Form.Select>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleSaveChanges}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal
+          show={showModalRefund}
+          onHide={() => setShowModalRefund(false)}
+          centered
+        >
+          <Modal.Header closeButton>
+            <h6>Refund - Order ({selectedOrder?.orderId?.order_no})</h6>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className="mb-3" controlId="refundStatus">
+                <Form.Label>Refund Request For Admin</Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  onChange={handleRefundStatusChange}
+                  value={refundStatus}
+                  disabled={
+                    selectedOrder?.orderId?.order_details?.[0]?.returnReqId
+                      ?.status !== "Returned"
+                  }
+                >
+                  <option disabled value="">
+                    Open Refund Status
+                  </option>
+                  <option value="Refund-Approved">Refund-Approved </option>
+                  <option value="Refund-Rejected">Refund-Rejected</option>
+                </Form.Select>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleSaveRefundChanges}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     </div>
   );
