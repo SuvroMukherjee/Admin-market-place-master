@@ -1792,3 +1792,14 @@ export async function sellerRefurnRequestList() {
     return error;
   }
 }
+
+export async function updateReturnStatus(formData,id) {
+  try {
+    const response = await axios.put(apiUrl + `/product-return/update-status/${id}`,formData, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
