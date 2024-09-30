@@ -235,7 +235,7 @@ const ReturnOrderRequestList = () => {
 
                       <td style={{ width: "200px" }}>
                         <p style={{ color: "green", fontWeight: "bold" }}>
-                          {row?.orderId?.refund_status}
+                          {row?.orderId?.refund_status?.status}
                         </p>
                         <Button
                           variant="dark"

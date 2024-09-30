@@ -520,7 +520,7 @@ const ManageOrders = () => {
                         )}
                       </td>
                       <td>
-                        {row?.refund_status == "Initiated" ? (
+                        {"refund_status" in row ? (
                           <Button
                             variant="dark"
                             size="sm"

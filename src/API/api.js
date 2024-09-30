@@ -1795,11 +1795,11 @@ export async function sellerRefurnRequestList() {
     return error;
   }
 }
-export async function AdminRefundRequestList(id) {
+export async function AdminRefundRequestList(query) {
   try {
-    const response = await axios.get(
-      apiUrl + `/refund-request/list?sellerId=${id}`
-    );
+    const response = await axios.get(apiUrl + `/refund-request/list`, {
+      params: query,
+    });
     return response;
   } catch (error) {
     return error;
@@ -1818,5 +1818,51 @@ export async function updateReturnStatus(formData, id) {
     return response;
   } catch (error) {
     return error;
+  }
+}
+
+
+export async function getRefundRequestCreate(id) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/refund-request/create/${id}`,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function updateRefundRequest(id, formData) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/refund-request/update/${id}`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function RazorpayRefundRequest(formData) {
+  try {
+    const response = await axios.post(
+      apiUrl + `/payment/refund`,
+      formData,
+      {
+        headers: setAuthHeader(),
+
+      }
+    );
+    return response;
+  } catch (error) {
+     throw new Error(error);
   }
 }

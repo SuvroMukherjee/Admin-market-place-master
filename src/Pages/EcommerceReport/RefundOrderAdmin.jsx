@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import { createRefundRequest, AdminRefundRequestList } from "../API/api";
+import { AdminRefundRequestList, createRefundRequest, RazorpayRefundRequest, updateRefundRequest } from "../../API/api";
 import { toast } from "react-toastify";
 
 const RefundOrderAdmin = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const userId = JSON.parse(localStorage.getItem("auth"))?.userId;
 
   useEffect(() => {
     getRefundOrderRequestList();
@@ -17,8 +15,11 @@ const RefundOrderAdmin = () => {
 
   async function getRefundOrderRequestList() {
     setLoading(true);
+    let query = {
+      limit: 500,
+    };
     try {
-      let res = await AdminRefundRequestList(userId);
+      let res = await AdminRefundRequestList(query);
       console.log(res?.data?.data, "order");
       setList(res?.data?.data);
     } catch (error) {
@@ -28,21 +29,44 @@ const RefundOrderAdmin = () => {
     }
   }
 
-  const handleApprove = async (data) => {
-    console.log(data, "data");
-    let payload = {
-      orderId: data.orderId?._id,
-      paymentId: data.orderId?.paymentId,
-    };
-    let res = await createRefundRequest(payload);
-    if (res?.data?.error) {
-      toast.error(res?.data?.message);
-      return;
+  const createRefundRequestHandler = async (data,id,status) => {
+    try {
+      let payload = {
+        amount : data.orderId?.order_price,
+        paymentId: data.orderId?.paymentId,
+      };
+      let res = await RazorpayRefundRequest(payload);
+      if (res?.data?.error) {
+        toast.error(res?.data?.message);
+        return;
+      }
+      else{
+        toast.success("Refund Request Created Successfully");
+       await updateRefundRequestHandler(id,status);
+      }
+     
+    } catch (error) {
+        toast.error("Something went wrong");
     }
-    toast.success("Request Approved Successfully");
-    setTimeout(() => {
-      getRefundOrderRequestList();
-    }, 2000);
+  };
+
+  const updateRefundRequestHandler = async (id,status) => {
+   try {
+     let payload = {
+       status: status,
+     };
+     let res = await updateRefundRequest(id, payload);
+     if (res?.data?.error) {
+       toast.error(res?.data?.message);
+       return;
+     }
+     toast.success("Refund Updated Successfully");
+     setTimeout(() => {
+       getRefundOrderRequestList();
+     }, 2000);
+   } catch (error) {
+      toast.error("Something went wrong");
+   }
   };
 
   return (
@@ -54,10 +78,12 @@ const RefundOrderAdmin = () => {
             <thead>
               <tr>
                 <th>Order Id</th>
+                <th>Seller</th>
                 <th>Order Type</th>
                 <th>Price</th>
                 <th>Payment ID</th>
                 <th>Refund Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -75,6 +101,11 @@ const RefundOrderAdmin = () => {
                 list?.map((row) => (
                   <tr key={row?.id}>
                     <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
+                    <td>
+                      {row?.sellerId
+                        ? row?.sellerId?.Shop_Details_Info?.shope_name
+                        : ""}
+                    </td>
                     <td>{row?.orderId ? row?.orderId.order_type : ""}</td>
                     <td>
                       {" "}
@@ -83,10 +114,22 @@ const RefundOrderAdmin = () => {
                         : ""}
                     </td>
                     <td>{row?.paymentId}</td>
-                    <td>
-                      {" "}
-                      <Button variant="dark" size="sm">
-                        {row?.status}
+                    <td> {row?.status}</td>
+
+                    <td className="d-flex gap-2 justify-content-center align-items-center">
+                      <Button
+                        variant="warning"
+                        size="sm"
+                        onClick={() => createRefundRequestHandler(row,row?._id,"Refund-Done")}
+                      >
+                        Refund Complete
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => updateRefundRequestHandler(row?._id,"Refund-Rejected")}
+                      >
+                        Refund Cancel
                       </Button>
                     </td>
                   </tr>
