@@ -48,7 +48,7 @@ const ReturnOrderRequestList = () => {
     <div>
       <Container className="mt-4">
         <Row>
-          <Col className="dtext">Return Order Request List</Col>
+          <Col className="dtext fs-5">Return Order Request List</Col>
         </Row>
         <Row className="mt-4">
           <Col>
@@ -57,9 +57,11 @@ const ReturnOrderRequestList = () => {
                 <tr>
                   <th>Return ID</th>
                   <th>Order ID</th>
+                  <th>Order Type</th>
                   <th>Price</th>
                   <th>Product</th>
                   <th>Reason</th>
+                  <th>Images</th>
                   <th>Order Date</th>
                   <th>Requested Status</th>
                   <th>Requested Date</th>
@@ -82,9 +84,19 @@ const ReturnOrderRequestList = () => {
                     <tr key={row._id}>
                       <td>{row?._id}</td>
                       <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
+                      <td>{row?.orderId?.order_type}</td>
                       <td>{row?.price?.toLocaleString()}</td>
                       <td>{row?.productId ? row?.productId.name : ""}</td>
                       <td>{row?.reason}</td>
+                      <td>
+                          <Image
+                          src={row?.images?.[0]?.image_path}
+                          thumbnail
+                          width={40}
+                          height={40}
+                        />
+                        
+                        </td>
                       <td>
                         {ChangeFormatDate(
                           row?.orderId?.order_details[0]?.order_delivery
@@ -95,7 +107,7 @@ const ReturnOrderRequestList = () => {
                         {row?.createdAt ? ChangeFormatDate(row?.createdAt) : ""}
                       </td>
                       <td className="d-flex gap-2 justify-content-center items-center">
-                        {row?.orderId?.refund_status == "Not-Initiated" ? (
+                        {row?.orderId?.refund_status == "Not-Initiated" && row?.orderId?.order_type !== "COD" ? (
                           <>
                             <Button
                               variant="success"
@@ -112,7 +124,9 @@ const ReturnOrderRequestList = () => {
                             </Button>
                           </>
                         ) : (
-                          <span>{row?.orderId?.refund_status}</span>
+                          <span className="fw-bold">
+                            {row?.orderId?.refund_status}
+                          </span>
                         )}
                       </td>
                     </tr>
