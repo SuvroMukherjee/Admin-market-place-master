@@ -90,6 +90,7 @@ import PList from "./Pages/ProductManagement/Product/PList";
 import SPList from "./Pages/SellerProductManagment/SPList";
 import AllTransaction from "./Pages/StoreSeller/AllTransaction";
 import AdminTransaction from "./Pages/AdminTransactions/AdminTransaction";
+import RefundOrderSeller from "./Pages/StoreSeller/RefundOrderSeller";
 
 
 export default function Router({ socket }) {
@@ -255,6 +256,7 @@ export default function Router({ socket }) {
             { path: "reset", element: <ResetPassComp /> },
             { path: "profile/:id", element: <ProfilePage /> },
             { path: "trasactions", element:  <AllTransaction /> },
+            { path: "refund-orders-list", element: <RefundOrderSeller /> },
           ],
         },
       ],

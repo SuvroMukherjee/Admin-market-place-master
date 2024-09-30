@@ -1781,3 +1781,14 @@ export async function createRefundRequest(formData) {
     return error;
   }
 }
+
+export async function sellerRefurnRequestList() {
+  try {
+    const response = await axios.get(apiUrl + `/refund-request/seller-list`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
