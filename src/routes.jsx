@@ -91,7 +91,7 @@ import SPList from "./Pages/SellerProductManagment/SPList";
 import AllTransaction from "./Pages/StoreSeller/AllTransaction";
 import AdminTransaction from "./Pages/AdminTransactions/AdminTransaction";
 import RefundOrderSeller from "./Pages/StoreSeller/RefundOrderSeller";
-
+import RefundOrderAdmin from "./Pages/RefundOrderAdmin";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -158,7 +158,8 @@ export default function Router({ socket }) {
             { path: "product-offer", element: <ProductOffer /> },
             { path: "testimonial", element: <Testimonial /> },
             { path: "offer/:id", element: <Offer /> },
-          
+            { path: "admin-refund-order-list", element: <RefundOrderAdmin /> },
+
             // { path: "live-preview/:id", element: <LivePreview /> },
           ],
         },
@@ -255,7 +256,7 @@ export default function Router({ socket }) {
             { path: "seller-report", element: <Report /> },
             { path: "reset", element: <ResetPassComp /> },
             { path: "profile/:id", element: <ProfilePage /> },
-            { path: "trasactions", element:  <AllTransaction /> },
+            { path: "trasactions", element: <AllTransaction /> },
             { path: "refund-orders-list", element: <RefundOrderSeller /> },
           ],
         },

@@ -1770,12 +1770,15 @@ export async function razorpayPaymentDetailsData(paymentId) {
   }
 }
 
-
 export async function createRefundRequest(formData) {
   try {
-    const response = await axios.post(apiUrl + `/refund-request/create`, formData,{
-      headers: setAuthHeader()
-    });
+    const response = await axios.post(
+      apiUrl + `/refund-request/create`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
     return response;
   } catch (error) {
     return error;
@@ -1787,6 +1790,16 @@ export async function sellerRefurnRequestList() {
     const response = await axios.get(apiUrl + `/refund-request/seller-list`, {
       headers: setAuthHeader(),
     });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+export async function AdminRefundRequestList(id) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/refund-request/list?sellerId=${id}`
+    );
     return response;
   } catch (error) {
     return error;

@@ -66,7 +66,7 @@ export const AdminSidebarData = [
   {
     title: `All Transactions`,
     path: "/all-transactions",
-    icon: HiCurrencyRupee ,
+    icon: HiCurrencyRupee,
     cName: "nav-text",
   },
   {
@@ -120,6 +120,12 @@ export const AdminSidebarData = [
   {
     title: "Banner Managment",
     path: "/bannermanagment",
+    icon: GiVerticalBanner,
+    cName: "nav-text",
+  },
+  {
+    title: "Refund Orders",
+    path: "/Admin/admin-refund-order-list",
     icon: GiVerticalBanner,
     cName: "nav-text",
   },
