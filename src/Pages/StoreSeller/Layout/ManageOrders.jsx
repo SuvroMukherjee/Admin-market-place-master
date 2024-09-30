@@ -5,6 +5,7 @@ import {
   Container,
   Form,
   Image,
+  Pagination,
   Row,
   Table,
 } from "react-bootstrap";
@@ -21,6 +22,7 @@ import {
   formatDateRemoveTime,
 } from "../../../common/DateFormat";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ManageOrders = () => {
   const { userId } = JSON.parse(localStorage.getItem("auth"));
@@ -30,6 +32,8 @@ const ManageOrders = () => {
   const [showCommentIndex, setCommentIndx] = useState();
   const [showCommentBoxText, SetshowCommentBoxText] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getOrdersist();
@@ -80,19 +84,6 @@ const ManageOrders = () => {
       data.order_status != "order_placed" && data?.order_status != "cancel"
     );
   };
-
-  //   const itemsPerPage = 5; // You can adjust this based on your preference
-  //   const [currentPage, setCurrentPage] = useState(1);
-
-  //   const indexOfLastItem = currentPage * itemsPerPage;
-  //   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  //   const currentItems = list?.slice(indexOfFirstItem, indexOfLastItem);
-
-  //   const totalPages = Math.ceil(list?.length / itemsPerPage);
-
-  //   const handlePageChange = (pageNumber) => {
-  //     setCurrentPage(pageNumber);
-  //   };
 
   const OrderSequence = (status) => {
     //"order_placed"
@@ -321,6 +312,22 @@ const ManageOrders = () => {
 
   console.log(filteredListByDate, "filteredListByDate");
 
+  const itemsPerPage = 10; // You can adjust this based on your preference
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredListByDate?.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const totalPages = Math.ceil(filteredListByDate?.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div>
       <Container className="mt-4">
@@ -396,8 +403,37 @@ const ManageOrders = () => {
           </Row>
         </Row>
 
-        <Row className="mt-4">
+        <Row className="mt-2">
           <Col>
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <Pagination size="md" className="justify-content-end mb-2">
+                <Pagination.Prev
+                  onClick={() =>
+                    currentPage > 1 && handlePageChange(currentPage - 1)
+                  }
+                  disabled={currentPage === 1}
+                />
+                {[...Array(totalPages)].map((_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={index + 1 === currentPage}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  onClick={() =>
+                    currentPage < totalPages &&
+                    handlePageChange(currentPage + 1)
+                  }
+                  disabled={currentPage === totalPages}
+                />
+              </Pagination>
+            )}
+
+            {/* table start */}
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
@@ -410,12 +446,13 @@ const ManageOrders = () => {
                   <th>Payment Type</th>
                   <th>Payment ID</th>
                   <th>Action</th>
+                  <th>Return Requested</th>
                 </tr>
               </thead>
               <tbody>
                 {!loading &&
-                  filteredListByDate?.length > 0 &&
-                  filteredListByDate.map((row, index) => (
+                  currentItems?.length > 0 &&
+                  currentItems?.map((row, index) => (
                     <tr key={row.id}>
                       <td
                         className="orderId"
@@ -443,33 +480,48 @@ const ManageOrders = () => {
                       </td>
                       <td>{row?.order_type}</td>
                       <td>
-                        {row?.payment_status == "paid" 
-                          ? row?.paymentId
-                          : "N/A"}
+                        {row?.payment_status == "paid" ? row?.paymentId : "N/A"}
                       </td>
                       <td>
-                        {selectIndex != index &&
-                        <Button
-                          variant="dark"
-                          size="sm"
-                          onClick={() => setSelectIndex(index)}
-                        >
-                         {} Manage
-                        </Button>
-                        }
-                         {selectIndex == index &&
-                        <Button
-                          variant="dark"
-                          size="sm"
-                          onClick={() => setSelectIndex(null)}
-                        >
-                         {} Close
-                        </Button>
-                        }
+                        {selectIndex != index && (
+                          <Button
+                            variant="dark"
+                            size="sm"
+                            onClick={() => setSelectIndex(index)}
+                          >
+                            {} Manage
+                          </Button>
+                        )}
+                        {selectIndex == index && (
+                          <Button
+                            variant="dark"
+                            size="sm"
+                            onClick={() => setSelectIndex(null)}
+                          >
+                            {} Close
+                          </Button>
+                        )}
+                      </td>
+                      <td>
+                        {row?.order_details?.[0]?.returnReqId ? (
+                          <Button
+                            variant="dark"
+                            size="sm"
+                            onClick={() =>
+                              navigate(
+                                `/seller/seller-return-order-request-list`
+                              )
+                            }
+                          >
+                            View
+                          </Button>
+                        ) : (
+                          "N/A"
+                        )}
                       </td>
                     </tr>
                   ))}
-                {!loading && filteredListByDate?.length === 0 && (
+                {!loading && currentItems?.length === 0 && (
                   <tr>
                     <td colSpan={8} className="text-center">
                       No Order Found
@@ -485,25 +537,6 @@ const ManageOrders = () => {
                 )}
               </tbody>
             </Table>
-            {/* <Pagination size="sm">
-              <Pagination.Prev
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage === 1}
-              />
-              {[...Array(totalPages)].map((_, index) => (
-                <Pagination.Item
-                  key={index + 1}
-                  active={index + 1 === currentPage}
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </Pagination.Item>
-              ))}
-              <Pagination.Next
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              />
-            </Pagination> */}
           </Col>
         </Row>
 
@@ -525,7 +558,12 @@ const ManageOrders = () => {
                     <Row className="mt-3">
                       <Col className="orderId">
                         {" "}
-                        {filteredListByDate[selectIndex]?.order_no} ({ filteredListByDate[selectIndex]?.order_details?.[0]?.order_status})
+                        {filteredListByDate[selectIndex]?.order_no} (
+                        {
+                          filteredListByDate[selectIndex]?.order_details?.[0]
+                            ?.order_status
+                        }
+                        )
                       </Col>
                     </Row>
                   </Col>
