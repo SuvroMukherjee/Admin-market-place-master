@@ -512,7 +512,7 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div>
 
-          <div
+          {/* <div
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Return Orders List")}
           >
@@ -520,7 +520,7 @@ const MyNavbar = ({ socket }) => {
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
-          </div>
+          </div> */}
 
 
           <div
