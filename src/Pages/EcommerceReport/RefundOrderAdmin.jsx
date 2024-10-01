@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import { AdminRefundRequestList, createRefundRequest, RazorpayRefundRequest, updateRefundRequest } from "../../API/api";
+import {
+  AdminRefundRequestList,
+  RazorpayRefundRequest,
+  updateRefundRequest,
+} from "../../API/api";
 import { toast } from "react-toastify";
 
 const RefundOrderAdmin = () => {
@@ -29,10 +33,10 @@ const RefundOrderAdmin = () => {
     }
   }
 
-  const createRefundRequestHandler = async (data,id,status) => {
+  const createRefundRequestHandler = async (data, id, status) => {
     try {
       let payload = {
-        amount : data.orderId?.order_price,
+        amount: data.orderId?.order_price,
         paymentId: data.orderId?.paymentId,
         orderId: data.orderId?._id,
       };
@@ -40,34 +44,32 @@ const RefundOrderAdmin = () => {
       if (res?.data?.error) {
         toast.error(res?.data?.message);
         return;
-      }
-      else{
+      } else {
         toast.success("Refund Request Created Successfully");
-       await updateRefundRequestHandler(id,status);
+        await updateRefundRequestHandler(id, status);
       }
-     
     } catch (error) {
-        toast.error("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
-  const updateRefundRequestHandler = async (id,status) => {
-   try {
-     let payload = {
-       status: status,
-     };
-     let res = await updateRefundRequest(id, payload);
-     if (res?.data?.error) {
-       toast.error(res?.data?.message);
-       return;
-     }
-     toast.success("Refund Updated Successfully");
-     setTimeout(() => {
-       getRefundOrderRequestList();
-     }, 2000);
-   } catch (error) {
+  const updateRefundRequestHandler = async (id, status) => {
+    try {
+      let payload = {
+        status: status,
+      };
+      let res = await updateRefundRequest(id, payload);
+      if (res?.data?.error) {
+        toast.error(res?.data?.message);
+        return;
+      }
+      toast.success("Refund Updated Successfully");
+      setTimeout(() => {
+        getRefundOrderRequestList();
+      }, 2000);
+    } catch (error) {
       toast.error("Something went wrong");
-   }
+    }
   };
 
   return (
@@ -123,14 +125,34 @@ const RefundOrderAdmin = () => {
                       <Button
                         variant="warning"
                         size="sm"
-                        onClick={() => createRefundRequestHandler(row,row?._id,"Refund-Done")}
+                        onClick={() =>
+                          createRefundRequestHandler(
+                            row,
+                            row?._id,
+                            "Refund-Done"
+                          )
+                        }
+                        disabled={
+                          row?.status === "Refund-Done" || row?.razorpayRefundId
+                        }
                       >
                         Refund Complete
                       </Button>
                       <Button
                         variant="danger"
                         size="sm"
-                        onClick={() => updateRefundRequestHandler(row?._id,"Refund-Rejected")}
+                        onClick={() =>
+                          updateRefundRequestHandler(
+                            row?._id,
+                            "Refund-Rejected"
+                          )
+                        }
+                        disabled={
+                          row?.status === "Refund-Rejected" ||
+
+
+                          row?.razorpayRefundId
+                        }
                       >
                         Refund Cancel
                       </Button>

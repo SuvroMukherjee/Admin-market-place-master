@@ -439,6 +439,7 @@ const ManageOrders = () => {
                   <th>Order ID</th>
                   <th>Order Amount</th>
                   <th>Order date & time</th>
+                  <th>Order Status</th>
                   <th>Pincode</th>
                   <th>Address</th>
                   <th>Payment Status</th>
@@ -465,12 +466,17 @@ const ManageOrders = () => {
                         ₹ {row?.order_price?.toLocaleString()}
                       </td>
                       <td>{ChangeFormatDate(row?.createdAt)}</td>
-                      {/* <td>
-                        <span style={{ color: "#021526" }}>
-                          {" "}
-                          {row?.order_details?.[0]?.order_status}
+                      <td>
+                        <span
+                          style={{
+                            color: "#7E60BF",
+                            fontWeight: "bold",
+                            fontSize: "10px",
+                          }}
+                        >
+                          {OrderSequence(row?.order_details?.[0]?.order_status)}
                         </span>
-                      </td> */}
+                      </td>
                       <td>{row?.addressId?.pincode}</td>
                       <td>{row?.addressId?.address}</td>
                       <td>
@@ -488,6 +494,9 @@ const ManageOrders = () => {
                             variant="dark"
                             size="sm"
                             onClick={() => setSelectIndex(index)}
+                            disabled={
+                              row?.order_details?.[0]?.order_status == "cancel"
+                            }
                           >
                             {} Manage
                           </Button>
@@ -525,18 +534,14 @@ const ManageOrders = () => {
                             variant="dark"
                             size="sm"
                             onClick={() =>
-                              navigate(
-                                `/seller/refund-orders-list`
-                              )
+                              navigate(`/seller/refund-orders-list`)
                             }
                           >
                             View
                           </Button>
                         ) : (
                           "N/A"
-                        )}  
-                
-
+                        )}
                       </td>
                     </tr>
                   ))}
