@@ -438,6 +438,7 @@ const ManageOrders = () => {
                 <tr>
                   <th>Order ID</th>
                   <th>Order Amount</th>
+                  <th>Product</th>
                   <th>Order date & time</th>
                   <th>Order Status</th>
                   <th>Pincode</th>
@@ -464,6 +465,12 @@ const ManageOrders = () => {
                       </td>
                       <td className="orderPrice">
                         ₹ {row?.order_price?.toLocaleString()}
+                      </td>
+                      <td>
+                         <div>
+                          <img src={row?.order_details?.[0]?.proId?.specId?.image?.[0]?.image_path} alt="" width="100" height="100" />
+                         </div>
+                        {row?.order_details?.[0]?.proId?.name}
                       </td>
                       <td>{ChangeFormatDate(row?.createdAt)}</td>
                       <td>

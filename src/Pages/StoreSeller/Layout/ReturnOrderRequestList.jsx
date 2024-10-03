@@ -166,11 +166,11 @@ const ReturnOrderRequestList = () => {
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
+                  <td>Product</td>
                   <th>Return ID</th>
                   <th>Order ID</th>
                   <th>Order Type</th>
                   <th>Price</th>
-                  <th>Product</th>
                   <th>Reason</th>
                   <th>Images</th>
                   <th>Order Date</th>
@@ -194,6 +194,12 @@ const ReturnOrderRequestList = () => {
                 ) : (
                   list?.map((row) => (
                     <tr key={row._id}>
+                      <td className="d-flex justify-content-center align-items-center gap-2">
+                         <div>
+                          {console.log(row,'row')}
+                          <img src={row?.productId?.specId?.image?.[0]?.image_path} alt="img" width="50" height="50" style={{objectFit:'contain'}}/>
+                         </div>
+                        {row?.productId ? row?.productId.name : ""}</td>
                       <td>{row?._id}</td>
                       <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
                       <td>{row?.orderId?.order_type}</td>
@@ -201,12 +207,7 @@ const ReturnOrderRequestList = () => {
                       <td>{row?.productId ? row?.productId.name : ""}</td>
                       <td>{row?.reason}</td>
                       <td>
-                        <Image
-                          src={row?.images?.[0]?.image_path}
-                          thumbnail
-                          width={40}
-                          height={40}
-                        />
+                      <img src={row?.images?.[0]?.image_path} alt="img" width="100" height="100" style={{objectFit:'contain'}}/>
                       </td>
                       <td>
                         {ChangeFormatDate(
@@ -249,7 +250,10 @@ const ReturnOrderRequestList = () => {
                           }
                         >
                           Update Refund Status
+                         
                         </Button>
+                        {row?.orderId?.order_type === "COD" && <p style={{ color: "green", fontWeight: "bold" }}>COD Refund Not Available</p>}
+                         
                       </td>
                     </tr>
                   ))

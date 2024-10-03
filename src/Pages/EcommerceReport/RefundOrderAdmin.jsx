@@ -81,6 +81,7 @@ const RefundOrderAdmin = () => {
             <thead>
               <tr>
                 <th>Order Id</th>
+                <th>Product</th>
                 <th>Seller</th>
                 <th>Order Type</th>
                 <th>Price</th>
@@ -105,10 +106,25 @@ const RefundOrderAdmin = () => {
                 list?.map((row) => (
                   <tr key={row?.id}>
                     <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
+                    <td className="d-flex gap-2 justify-content-center align-items-center">
+                      <div>
+                        <img
+                          src={
+                            row?.orderId?.order_details?.[0]?.proId?.specId
+                              ?.image?.[0]?.image_path
+                          }
+                          alt=""
+                          width="75"
+                          height="75"  
+                          className="img-fluid"
+                        />
+                      </div>
+                      {row?.orderId?.order_details?.[0]?.proId?.productId?.name}
+                    </td>
                     <td>
                       {row?.sellerId
                         ? row?.sellerId?.Shop_Details_Info?.shope_name
-                        : ""}
+                        : "Order is not Delivered"}
                     </td>
                     <td>{row?.orderId ? row?.orderId.order_type : ""}</td>
                     <td>
