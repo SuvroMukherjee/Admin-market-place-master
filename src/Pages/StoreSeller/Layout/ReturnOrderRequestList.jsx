@@ -166,7 +166,7 @@ const ReturnOrderRequestList = () => {
             <Table striped bordered hover responsive>
               <thead>
                 <tr>
-                  <td>Product</td>
+                  <th>Product</th>
                   <th>Return ID</th>
                   <th>Order ID</th>
                   <th>Order Type</th>
@@ -204,7 +204,6 @@ const ReturnOrderRequestList = () => {
                       <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
                       <td>{row?.orderId?.order_type}</td>
                       <td>{row?.price?.toLocaleString()}</td>
-                      <td>{row?.productId ? row?.productId.name : ""}</td>
                       <td>{row?.reason}</td>
                       <td>
                       <img src={row?.images?.[0]?.image_path} alt="img" width="100" height="100" style={{objectFit:'contain'}}/>
