@@ -127,7 +127,7 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                   onChange={handleInputChange}
                   style={{ transform: "scale(1.3)" }}
                 />
-                <Form.Label>Open Box Delivery?</Form.Label>
+                <Form.Label>This Category will be Open Box Delivery</Form.Label>
               </Form.Group>
             </Row>
             <Row className="mt-3">
