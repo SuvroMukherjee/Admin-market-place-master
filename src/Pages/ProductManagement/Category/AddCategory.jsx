@@ -114,7 +114,7 @@ const AddCategory = () => {
             onChange={handleDescriptionChange}
           ></textarea>
         </div>
-        <div className="m-2 d-flex gap-2 align-items-center">
+        <div className="m-2 d-flex gap-2 align-items-center p-2">
           <input
             type="checkbox"
             size={20}
@@ -124,7 +124,7 @@ const AddCategory = () => {
             onChange={handleCheckboxChange}
             style={{ transform: "scale(1.3)" }}
           />
-          <label className="form-check-label fo">Open Box Delivery</label>
+          <label className="form-check-label fo"> This Category will be Open Box Delivery</label>
         </div>
         <button type="submit" className="addProductButton">
           Create
