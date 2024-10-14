@@ -124,7 +124,7 @@ const AddCategory = () => {
             onChange={handleCheckboxChange}
             style={{ transform: "scale(1.3)" }}
           />
-          <label className="form-check-label fo">Open Box Delivery</label>
+          <label className="form-check-label fo">Open Box Delivery?</label>
         </div>
         <button type="submit" className="addProductButton">
           Create
