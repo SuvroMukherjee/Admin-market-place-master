@@ -20,7 +20,7 @@ const EditCategory = ({ showModal, handleClose, data }) => {
     await UpdateProductCategory(modalData, modalData?._id)
       .then((res) => {
         console.log({ res });
-        toast.success("Product update successfully");
+        toast.success("Product updated successfully");
         handleClose();
       })
       .catch((err) => {
