@@ -1,12 +1,8 @@
-import React from "react";
-import "../product.css";
-import { useState } from "react";
-import { AddProductCategory, FileUpload } from "../../../API/api";
-import EditCategory from "./EditCategory";
-import NoImage from "../../../assets/noimage.png";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { Toast } from "react-bootstrap";
+import { AddProductCategory, FileUpload } from "../../../API/api";
+import NoImage from "../../../assets/noimage.png";
+import "../product.css";
 
 const AddCategory = () => {
   const [title, setTitle] = useState("");
