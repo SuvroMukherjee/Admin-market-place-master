@@ -1741,7 +1741,7 @@ export async function MakePopularProduct(formData, id) {
 export async function productWithPagination(page, limit) {
   try {
     const response = await axios.get(
-      apiUrl + `/product/all-list?page=${page}&limit=${limit}`
+      apiUrl + `/product/all-list?page=${page}&limit=${1000}`
     );
     return response;
   } catch (error) {
@@ -1766,6 +1766,103 @@ export async function razorpayPaymentDetailsData(paymentId) {
     );
     return response;
   } catch (error) {
+    throw new Error(error?.message);
+  }
+}
+
+export async function createRefundRequest(formData) {
+  try {
+    const response = await axios.post(
+      apiUrl + `/refund-request/create`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
     return error;
+  }
+}
+
+export async function sellerRefurnRequestList() {
+  try {
+    const response = await axios.get(apiUrl + `/refund-request/seller-list`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+export async function AdminRefundRequestList(query) {
+  try {
+    const response = await axios.get(apiUrl + `/refund-request/list`, {
+      params: query,
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function updateReturnStatus(formData, id) {
+  try {
+    const response = await axios.put(
+      apiUrl + `/product-return/update-status/${id}`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+export async function getRefundRequestCreate(id) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/refund-request/create/${id}`,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function updateRefundRequest(id, formData) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/refund-request/update/${id}`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function RazorpayRefundRequest(formData) {
+  try {
+    const response = await axios.post(
+      apiUrl + `/payment/refund`,
+      formData,
+      {
+        headers: setAuthHeader(),
+
+      }
+    );
+    return response;
+  } catch (error) {
+     throw new Error(error);
   }
 }

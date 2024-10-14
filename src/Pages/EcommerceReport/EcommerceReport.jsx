@@ -183,9 +183,11 @@ export default function EcommerceReport() {
   });
 
   const parseOrderData = (data) => {
+    console.log(data,'data');
     return data.map((order) => ({
       // orderId: order._id,
-      orderDate: moment(order.createdAt).format("DD-MM-YYYY, hh:mm:ss A"),
+      orderDate: moment(order.createdAt).format("DD-MM-YYYY, hh:mm:ss A") || "N/A",
+      orderNo: order.order_no || "N/A",
       orderDetails: order.order_details.map((detail) => ({
         // productId: detail.proId?._id || "N/A",
         productName: detail.proId?.name || "N/A",
@@ -210,6 +212,9 @@ export default function EcommerceReport() {
   const OrderTable = ({ data }) => {
     const parsedData = parseOrderData(data);
 
+
+    console.log(parsedData,'parsedData')
+
     return (
       <Table bordered hover responsive>
         <thead>
@@ -219,6 +224,7 @@ export default function EcommerceReport() {
             <th>Product Image</th>
             <th>Product Name</th>
             <th>SKU Id</th>
+            <th>Order Id</th>
             <th>Order Status</th>
             <th>Order Location</th>
             <th>Order Date & Time</th>
@@ -233,7 +239,7 @@ export default function EcommerceReport() {
               order.orderDetails.map((detail, index) => (
                 <tr key={`${idx}-${index}`}>
                   <td>
-                    {detail.shopName} {`(${detail.shopAddress})`}
+                    {detail.shopName} {`(${detail.shopAddress})`} {console.log()}
                   </td>
                   <td>{detail.sellerName}</td>
                   <td>
@@ -248,6 +254,7 @@ export default function EcommerceReport() {
                   </td>
                   <td>{detail.productName}</td>
                   <td>{detail.skuId}</td>
+                  <td>{order?.orderNo}</td>
                   <td
                     className={`text-${
                       detail.orderStatus == "Order Delivered" ? "success" : ""
@@ -548,6 +555,11 @@ export default function EcommerceReport() {
                 </h5>
               </div>
             </Row>
+          </Row>
+          <Row>
+            <Col>
+              <input type="text" placeholder="Search"  />
+            </Col>
           </Row>
           <Row className="justify-content-md-center mt-4">
             <Col

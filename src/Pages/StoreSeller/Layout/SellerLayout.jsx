@@ -210,6 +210,10 @@ const MyNavbar = ({ socket }) => {
         navigate("/seller/trasactions");
         setHeaderTitle(pathName); 
         break;
+      case "Refund Orders List":
+        navigate("/seller/refund-orders-list");
+        setHeaderTitle(pathName);
+        break;
         
     }
     toggleDrawer();
@@ -508,7 +512,7 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div>
 
-          <div
+          {/* <div
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Return Orders List")}
           >
@@ -516,7 +520,19 @@ const MyNavbar = ({ socket }) => {
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
+          </div> */}
+
+
+          <div
+            className="sidebar-menu-option"
+            onClick={() => navigateFunction("Refund Orders List")}
+          >
+            <div className="title">Refund Orders</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
           </div>
+
 
           <div
             className="sidebar-menu-option"

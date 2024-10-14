@@ -13,6 +13,7 @@ import { MdSell } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { HiCurrencyRupee } from "react-icons/hi2";
+import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
 
 export const AdminSidebarData = [
   {
@@ -58,6 +59,12 @@ export const AdminSidebarData = [
     cName: "nav-text",
   },
   {
+    title: `Payment Settlement`,
+    path: "/Admin/paymnets",
+    icon: HiOutlineAdjustmentsVertical,
+    cName: "nav-text",
+  },
+  {
     title: `Ecommerce-Report`,
     path: "/EcommerceReport",
     icon: CgWebsite,
@@ -66,7 +73,7 @@ export const AdminSidebarData = [
   {
     title: `All Transactions`,
     path: "/all-transactions",
-    icon: HiCurrencyRupee ,
+    icon: HiCurrencyRupee,
     cName: "nav-text",
   },
   {
@@ -120,6 +127,12 @@ export const AdminSidebarData = [
   {
     title: "Banner Managment",
     path: "/bannermanagment",
+    icon: GiVerticalBanner,
+    cName: "nav-text",
+  },
+  {
+    title: "Refund Orders",
+    path: "/Admin/admin-refund-order-list",
     icon: GiVerticalBanner,
     cName: "nav-text",
   },
