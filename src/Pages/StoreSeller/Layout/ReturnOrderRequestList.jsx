@@ -206,7 +206,15 @@ const ReturnOrderRequestList = () => {
                       <td>{row?.price?.toLocaleString()}</td>
                       <td>{row?.reason}</td>
                       <td>
-                      <img src={row?.images?.[0]?.image_path} alt="img" width="100" height="100" style={{objectFit:'contain'}}/>
+                      {/* <img src={row?.images?.[0]?.image_path} alt="img" width="100" height="100" style={{objectFit:'contain'}}/> */}
+                      <a
+                                            href={row?.images?.[0]?.image_path}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            
+                                          >
+                                            <Button variant="outline-dark" size="sm">view</Button>
+                                          </a>
                       </td>
                       <td>
                         {ChangeFormatDate(

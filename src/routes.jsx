@@ -92,6 +92,7 @@ import AllTransaction from "./Pages/StoreSeller/AllTransaction";
 import AdminTransaction from "./Pages/AdminTransactions/AdminTransaction";
 import RefundOrderSeller from "./Pages/StoreSeller/RefundOrderSeller";
 import RefundOrderAdmin from "./Pages/EcommerceReport/RefundOrderAdmin";
+import AdminPaymnets from "./Pages/AdminPaymnets/AdminPaymnets";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -159,6 +160,7 @@ export default function Router({ socket }) {
             { path: "testimonial", element: <Testimonial /> },
             { path: "offer/:id", element: <Offer /> },
             { path: "admin-refund-order-list", element: <RefundOrderAdmin /> },
+            { path: "paymnets", element: <AdminPaymnets/> },
 
             // { path: "live-preview/:id", element: <LivePreview /> },
           ],

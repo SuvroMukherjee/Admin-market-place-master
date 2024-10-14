@@ -160,7 +160,7 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
             })}
           >
             <Link to={item.path}>
-              <item.icon />
+              <item.icon size={20}/>
               <span className="m-2">{item.title} </span>
             </Link>
           </li>

@@ -13,6 +13,7 @@ import { MdSell } from "react-icons/md";
 import { CgWebsite } from "react-icons/cg";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { HiCurrencyRupee } from "react-icons/hi2";
+import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
 
 export const AdminSidebarData = [
   {
@@ -55,6 +56,12 @@ export const AdminSidebarData = [
     title: `Best Seller`,
     path: "/BestSeller",
     icon: MdSell,
+    cName: "nav-text",
+  },
+  {
+    title: `Payment Settlement`,
+    path: "/Admin/paymnets",
+    icon: HiOutlineAdjustmentsVertical,
     cName: "nav-text",
   },
   {
