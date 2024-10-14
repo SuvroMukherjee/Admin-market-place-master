@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { all } from "axios";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -12,6 +12,7 @@ import {
   Spinner,
   Table,
 } from "react-bootstrap";
+import { AdminSellerLists } from "../../API/api";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -32,22 +33,42 @@ const AdminPaymnets = () => {
 
   const [show, setShow] = useState(false);
   const [paymentDetailData, setPaymentDetailData] = useState({});
+  const [allSellers, setAllSellers] = useState([]);
+
+  async function getAllSellersList() {
+    await AdminSellerLists()
+      .then((res) => {
+        const filteredDataAsApproved = res?.data?.data?.filter(
+          (item) => item?.status === "approved"
+        );
+
+        setAllSellers(filteredDataAsApproved);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
 
   useEffect(() => {
     fetchData();
   }, [currentPage, filters]);
 
   useEffect(() => {
-    fetchCategories();
-    fetchSubcategories();
-    fetchBrands();
+    // fetchCategories();
+    // fetchSubcategories();
+    // fetchBrands();
+    getAllSellersList();
   }, []);
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${apiUrl}/order/list-paginated?page=${currentPage}&limit=10`
+        `${apiUrl}/ledger/paginated-list?page=${currentPage}&limit=10`
       );
       console.log(res?.data?.data, "kkkk");
       setFilterData(res?.data?.data);
@@ -116,98 +137,129 @@ const AdminPaymnets = () => {
     setCurrentPage(newPage);
   };
 
-  // const OrderSequenceStatus = (status) => {
-  //   switch (status) {
-  //     case "order_placed":
-  //       return "order packed";
-  //     case "order_packed":
-  //       return "shipped";
-  //     case "shipped":
-  //       return "delivered";
-  //     case "delivered":
-  //       return "Order Delivered";
-  //     case "cancel":
-  //       return "Order Cancel";
-  //     default:
-  //       return "Unknown Status";
-  //   }
-  // };
-
-  // const getPaymentDetails = async (paymentId) => {
-  //   try {
-  //     let res = await razorpayPaymentDetailsData(paymentId);
-  //     console.log(res, "res");
-  //     setShow(true);
-  //     setPaymentDetailData(res?.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const handleClose = () => setShow(false);
-
   return (
     <div className="newProduct mt-4">
-      <h4>Payment Settlement</h4>
       <Container>
-        <Row>
-          <Col>Select Seller</Col>
-          <Col>choose Date Range</Col>
-        </Row>
-        <Row>
-          <Col>
-            <Row>Total Income</Row>
-            <Row>10,000</Row>
-          </Col>
-          <Col>
-            <Row>Payable Amount</Row>
-            <Row>10,000</Row>
-          </Col>
-          <Col>
-            <Row>Paid Amount</Row>
-            <Row>10,000</Row>
-          </Col>
-          <Col>
-            <Row>No of Transaction</Row>
-            <Row>1000</Row>
-          </Col>
-        </Row>
-        <Row className="w-100 mt-4">
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <Row>
-                <Col>SL No</Col>
-                <Col>Order NO</Col>
-                <Col>Seller</Col>
-                <Col>Category Commission</Col>
-                <Col>Received Amount</Col>
-                <Col>Payment Id</Col>
-                <Col>Payable Amount</Col>
-                <Col>Payment Status</Col>
-                <Col>Action</Col>
-              </Row>
-            </ListGroup.Item>
+        <h4 className="text-center">Payment Settlement</h4>
+        <div className="mt-4 p-2">
+          <Row className="bg-light p-4 mt-4 d-flex justify-content-between align-items-center">
+            <Col>
+              <Form.Label>Choose Seller</Form.Label>
+              <Form.Select aria-label="Default select example" size="sm">
+                <option>Open this select menu</option>
+                {allSellers?.map((seller) => (
+                  <option key={seller._id} value={seller._id}>
+                    {seller?.shope_name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
 
-            {filterData?.length > 0 &&
-              filterData?.map((ele, index) => (
-                <ListGroup.Item key={index}>
-                  <Row>
-                    <Col>{index + 1}</Col>
-                    <Col>{ele?.order_no}</Col>
-                    <Col>
-                      {ele?.order_details[0]?.proId?.sellerId?.user_name}
-                    </Col>
-                    <Col>{ele?.order_details[0]?.productId?.categoryId}</Col>
-                    <Col>{ele?.order_details[0]?.price?.toLocaleString()}</Col>
-                    <Col>{ele?.paymentId}</Col>
-                    <Col>{ele?.order_details[0]?.price}</Col>
-                    <Col>{ele?.payment_status}</Col>
-                    <Col>Action Button</Col>
-                  </Row>
-                </ListGroup.Item>
-              ))}
-          </ListGroup>
-        </Row>
+            <Col
+              className="d-flex justify-content-center align-items-center gap-4"
+              xs={8}
+            >
+              <div>
+                <Form.Label>Choose From Date</Form.Label>
+                <Form.Select aria-label="Default select example" size="sm">
+                  <option>Open this select menu</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </Form.Select>
+              </div>
+              <div>
+                <Form.Label>Choose From Date</Form.Label>
+                <Form.Select aria-label="Default select example" size="sm">
+                  <option>Open this select menu</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </Form.Select>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Row>Total Income</Row>
+              <Row>10,000</Row>
+            </Col>
+            <Col>
+              <Row>Payable Amount</Row>
+              <Row>10,000</Row>
+            </Col>
+            <Col>
+              <Row>Paid Amount</Row>
+              <Row>10,000</Row>
+            </Col>
+            <Col>
+              <Row>No of Transaction</Row>
+              <Row>1000</Row>
+            </Col>
+          </Row>
+          <Row className="w-100 mt-4" style={{ fontSize: "12px" }}>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Seller</th>
+                  <th>Order NO</th>
+                  <th>Payment Id</th>
+                  <th>Total Amount</th>
+                  <th>Category Commission</th>
+                  <th>Commission Price (Receivable Amount)</th>
+                  <th>Seller Amount (Payable Amount)</th>
+                  <th>Due Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filterData?.length > 0 &&
+                  filterData?.map((ele, index) => (
+                    <tr key={index}>
+                      <td>{ele?.sellerId?.Shop_Details_Info?.shope_name}</td>
+                      <td>{ele?.orderId?.order_no?.toLocaleString("en-IN")}</td>
+                      <td>
+                        {ele?.type === "orderPayment" &&
+                          ele?.orderId?.paymentId}
+                      </td>
+                      <td>
+                        {ele?.type === "orderPayment" &&
+                          ele?.totalAmount?.toLocaleString("en-IN")}
+                        {ele?.type === "RefundPayment" && (
+                          <span>
+                            Refunded -{" "}
+                            {ele?.refundAmount?.toLocaleString("en-IN")}
+                          </span>
+                        )}
+                      </td>
+                      <td>
+                        {!isNaN(
+                          (ele?.commissionAmount * 100) / ele?.totalAmount
+                        )
+                          ? `${(
+                              (ele?.commissionAmount * 100) /
+                              ele?.totalAmount
+                            ).toFixed(2)}%`
+                          : ""}
+                      </td>
+                      <td>{ele?.commissionAmount?.toLocaleString("en-IN")}</td>
+                      <td>{ele?.sellerAmount?.toLocaleString("en-IN")}</td>
+                      <td>
+                        {ele?.type === "orderPayment" ? (
+                          <span style={{ color: "red" }}>
+                            + {ele?.balance?.toLocaleString("en-IN")}
+                          </span>
+                        ) : (
+                          <span style={{ color: "green" }}>
+                            - {ele?.balance?.toLocaleString("en-IN")}
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </Row>
+        </div>
       </Container>
     </div>
   );

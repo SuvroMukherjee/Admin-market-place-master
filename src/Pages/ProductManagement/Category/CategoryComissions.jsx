@@ -225,7 +225,7 @@ const CategoryComissions = () => {
                                     <th>Category</th>
                                     <th>Commissions</th>
                                     <th>Action</th>
-                                    <th>Delete</th>
+                                    {/* <th>Delete</th> */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -259,9 +259,9 @@ const CategoryComissions = () => {
                                             }
 
                                         </td>
-                                        <td>
+                                        {/* <td>
                                             <AiFillDelete color='red' size={25} onClick={() => handleDeleteFromDB(ele?._id)} />
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))}
                             </tbody>
