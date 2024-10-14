@@ -121,7 +121,6 @@ export default function ListCategory() {
         toast.success("Category update successfully");
         getCategoryList();
         handleClose();
-         
       })
       .catch((err) => {
         console.log(err);
@@ -171,7 +170,16 @@ export default function ListCategory() {
     {
       field: "title",
       headerName: "Title",
-      width: 170,
+      width: 180,
+      renderCell: (params) => {
+        return (
+          <div>
+            <span>{`${params?.row?.title} ${
+              params?.row?.isOpenBox ? "(Open Box)" : ""
+            }`}</span>
+          </div>
+        );
+      },
     },
     {
       field: "description",
@@ -308,7 +316,7 @@ export default function ListCategory() {
                     width: "50px",
                     height: "50px",
                     display: "flex",
-                    justifyContent: "center", 
+                    justifyContent: "center",
                     alignItems: "center",
                   }}
                 >
