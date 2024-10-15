@@ -12,17 +12,13 @@ const SellerPayments = () => {
   const [filterData, setFilterData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [filters, setFilters] = useState({
-    categoryId: "",
-    subcategoryId: "",
-    brandId: "",
-  });
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const { auth } = useAuth();
 
   useEffect(() => {
     fetchData();
-  }, [currentPage, filters]);
+  }, [currentPage]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -33,6 +29,7 @@ const SellerPayments = () => {
       console.log(res?.data?.data, "kkkk");
       setFilterData(res?.data?.data);
       setTotalPages(res?.data?.pagination?.totalPages);
+      setTotalRecords(res?.data?.pagination?.totalRecords);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data", error);
@@ -50,6 +47,7 @@ const SellerPayments = () => {
       <Container>
         <h4 className="text-center">Payment Settlement</h4>
         <div className="mt-4 p-2">
+
         <Row>
           
           <Col className="mt-4 d-flex justify-content-end">
@@ -66,6 +64,11 @@ const SellerPayments = () => {
             </Pagination>
           </Col>
         
+      </Row>
+      <Row className="w-100 mt-4">
+      <span className="text-center mx-4 font-weight-bold">
+               Total {totalRecords} Transactions
+              </span>
       </Row>
           <Row className="w-100 mt-4">
             <table className="table table-bordered">
@@ -204,6 +207,9 @@ const SellerPayments = () => {
                             </span>
                           )}
                         </span>
+                        <p style={{ fontSize: "10px",color:'#243642',fontWeight:'bold' }}>
+                          {index == 0 && "(Final Amount)"}
+                        </p>
                       </td>
                     </tr>
                   ))}

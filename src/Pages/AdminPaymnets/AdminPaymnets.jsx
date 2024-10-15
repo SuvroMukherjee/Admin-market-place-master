@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import { AdminSellerLists, createPayment } from "../../API/api";
+import moment from "moment";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -24,12 +25,13 @@ const AdminPaymnets = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const [selectedSeller, setSelectedSeller] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   const [show, setShow] = useState(false);
 
   const [allSellers, setAllSellers] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -54,7 +56,7 @@ const AdminPaymnets = () => {
 
   useEffect(() => {
     fetchData();
-  }, [currentPage, selectedSeller]);
+  }, [currentPage, selectedSeller,startDate,endDate]);
 
   useEffect(() => {
     getAllSellersList();
@@ -64,11 +66,12 @@ const AdminPaymnets = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${apiUrl}/ledger/paginated-list?page=${currentPage}&limit=10&sellerId=${selectedSeller}`
+        `${apiUrl}/ledger/paginated-list?page=${currentPage}&limit=10&sellerId=${selectedSeller}&fromDate=${startDate}&toDate=${endDate}`
       );
       console.log(res?.data?.data, "kkkk");
       setFilterData(res?.data?.data);
       setTotalPages(res?.data?.pagination?.totalPages);
+      setTotalRecords(res?.data?.pagination?.totalRecords);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data", error);
@@ -149,7 +152,7 @@ const AdminPaymnets = () => {
                 <Form.Label>Choose From Date</Form.Label>
                 <DatePicker
                   selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  onChange={(date) => setStartDate(moment(date).format("YYYY-MM-DD"))}
                   dateFormat="yyyy-MM-dd"
                   className="form-control form-control-sm"
                   placeholderText="Select a date"
@@ -159,7 +162,7 @@ const AdminPaymnets = () => {
                 <Form.Label>Choose To Date</Form.Label>
                 <DatePicker
                   selected={endDate}
-                  onChange={(date) => setEndDate(date)}
+                  onChange={(date) => setEndDate(moment(date).format("YYYY-MM-DD"))}
                   dateFormat="yyyy-MM-dd"
                   className="form-control form-control-sm"
                   placeholderText="Select a date"
@@ -187,9 +190,12 @@ const AdminPaymnets = () => {
           </Row> */}
           {selectedSeller != "" && (
             <Row>
-              <Col className="mt-4 d-flex justify-content-end">
+              <Col className="mt-4 d-flex justify-content-end align-items-center">
+              <span className="text-center mx-4 font-weight-bold">
+                {totalRecords} Records
+              </span>
                 <Button size="sm" variant="dark" onClick={() => handleShow()}>
-                  Clear Settlement
+               Clear Settlement
                 </Button>
               </Col>
             </Row>
@@ -208,6 +214,7 @@ const AdminPaymnets = () => {
                 ))}
               </Pagination>
             </Col>
+           
           </Row>
           <Row className="w-100 mt-4" style={{ fontSize: "12px" }}>
             <table className="table table-bordered">
@@ -219,7 +226,7 @@ const AdminPaymnets = () => {
                   <th>Payment Id</th>
                   <th>Order Amount</th>
                   <th>Category Commission</th>
-                  <th>Commission Price (Receivable Amount)</th>
+                  <th>Receivable Amount</th>
                   <th>Leadger Amount</th>
                   <th>Due Balance</th>
                 </tr>
@@ -352,6 +359,9 @@ const AdminPaymnets = () => {
                             </span>
                           )}
                         </span>
+                        <p style={{ fontSize: "10px",color:'#243642',fontWeight:'bold' }}>
+                          {index == 0 && "(Final Amount)"}
+                        </p>
                       </td>
                     </tr>
                   ))}
