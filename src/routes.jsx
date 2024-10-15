@@ -93,6 +93,7 @@ import AdminTransaction from "./Pages/AdminTransactions/AdminTransaction";
 import RefundOrderSeller from "./Pages/StoreSeller/RefundOrderSeller";
 import RefundOrderAdmin from "./Pages/EcommerceReport/RefundOrderAdmin";
 import AdminPaymnets from "./Pages/AdminPaymnets/AdminPaymnets";
+import SellerPayments from "./Pages/StoreSeller/payments/SellerPayments";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -206,6 +207,10 @@ export default function Router({ socket }) {
                   element: <NewCustomization />,
                 },
               ],
+            },
+            {
+              path:"payments",
+              element:<SellerPayments/>
             },
             {
               path: "seller-product-edit/:id?",

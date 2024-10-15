@@ -20,12 +20,11 @@ import {
   sellerDetails,
 } from "../../../API/api";
 import notificationSoundTone from "../../../assets/notification.wav";
-// import newlogo from "../../../assets/zoofilogo.png"; 
+// import newlogo from "../../../assets/zoofilogo.png";
 import blackzofi from "../../../assets/blackzofi.png";
 import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
 import useAuth from "../../../hooks/useAuth";
 import { notificationContext } from "../../../context/context";
-
 
 const MyNavbar = ({ socket }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -157,10 +156,10 @@ const MyNavbar = ({ socket }) => {
         navigate("/seller/category-request/");
         setHeaderTitle(pathName);
         break;
-        case "Sub Category Request":
-          navigate("/seller/subcategory-request/");
-          setHeaderTitle(pathName);
-          break;
+      case "Sub Category Request":
+        navigate("/seller/subcategory-request/");
+        setHeaderTitle(pathName);
+        break;
       case "Track Your Application":
         navigate("/seller/approval-request-list/");
         setHeaderTitle(pathName);
@@ -208,13 +207,16 @@ const MyNavbar = ({ socket }) => {
         break;
       case "All Transactions":
         navigate("/seller/trasactions");
-        setHeaderTitle(pathName); 
+        setHeaderTitle(pathName);
         break;
       case "Refund Orders List":
         navigate("/seller/refund-orders-list");
         setHeaderTitle(pathName);
         break;
-        
+      case "Payment Settlement":
+        navigate("/seller/payments");
+        setHeaderTitle(pathName);
+        break;
     }
     toggleDrawer();
   };
@@ -351,8 +353,7 @@ const MyNavbar = ({ socket }) => {
     }
   };
 
-  
-  console.log({ userInfo })
+  console.log({ userInfo });
 
   return (
     <div>
@@ -494,6 +495,16 @@ const MyNavbar = ({ socket }) => {
 
           <div
             className="sidebar-menu-option"
+            onClick={() => navigateFunction("Payment Settlement")}
+          >
+            <div className="title">Payment Settlement</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          <div
+            className="sidebar-menu-option"
             onClick={() => navigateFunction("All Transactions")}
           >
             <div className="title">All Transactions</div>
@@ -522,7 +533,6 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div> */}
 
-
           <div
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Refund Orders List")}
@@ -532,7 +542,6 @@ const MyNavbar = ({ socket }) => {
               <FaAngleRight size={25} />
             </div>
           </div>
-
 
           <div
             className="sidebar-menu-option"

@@ -1866,3 +1866,15 @@ export async function RazorpayRefundRequest(formData) {
      throw new Error(error);
   }
 }
+
+
+export async function createPayment(formData) {
+  try {
+    const response = await axios.post(apiUrl + `/ledger/create`, formData, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
