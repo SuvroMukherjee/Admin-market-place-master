@@ -66,7 +66,7 @@ const SellerPayments = () => {
         
       </Row>
       <Row className="w-100 mt-4">
-      <span className="text-center mx-4 font-weight-bold">
+      <span className="text-center mx-4 font-weight-bold ">
                Total {totalRecords} Transactions
               </span>
       </Row>
@@ -80,7 +80,7 @@ const SellerPayments = () => {
                   <th>Payment Id</th>
                   <th>Order Amount</th>
                   <th>Category Commission</th>
-                  <th>Commission Price (Receivable Amount)</th>
+                  <th>Admin Price</th>
                   <th>Leadger Amount</th>
                   <th>Creditable Balance</th>
                 </tr>
@@ -207,9 +207,7 @@ const SellerPayments = () => {
                             </span>
                           )}
                         </span>
-                        <p style={{ fontSize: "10px",color:'#243642',fontWeight:'bold' }}>
-                          {index == 0 && "(Final Amount)"}
-                        </p>
+                       
                       </td>
                     </tr>
                   ))}

@@ -281,11 +281,14 @@ const ReturnOrderRequestList = () => {
                   aria-label="Default select example"
                   onChange={handleReturnStatusChange}
                   value={returnStatus}
+                  size="sm"
                 >
                   <option disabled value="">
                     Open Return Status
                   </option>
                   <option value="Return-Approved">Return-Approved</option>
+                  <option value="out-for-pickup">Out for pickup</option>
+                  <option value="in-transit">In transit</option>
                   <option value="Returned">Returned</option>
                   <option value="Return-Cancelled">Return-Cancelled</option>
                 </Form.Select>
@@ -293,10 +296,10 @@ const ReturnOrderRequestList = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
+            <Button variant="secondary" size="sm" onClick={() => setShowModal(false)}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleSaveChanges}>
+            <Button variant="primary" size="sm" onClick={handleSaveChanges}>
               Save Changes
             </Button>
           </Modal.Footer>

@@ -359,9 +359,7 @@ const AdminPaymnets = () => {
                             </span>
                           )}
                         </span>
-                        <p style={{ fontSize: "10px",color:'#243642',fontWeight:'bold' }}>
-                          {index == 0 && "(Final Amount)"}
-                        </p>
+                      
                       </td>
                     </tr>
                   ))}
