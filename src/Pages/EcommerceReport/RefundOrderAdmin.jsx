@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row, Spinner } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import {
   AdminRefundRequestList,
@@ -11,6 +11,10 @@ import { toast } from "react-toastify";
 const RefundOrderAdmin = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [show, setShow] = useState(false);
+  const [showInfo, setShowInfo] = useState();
+
+  const handleClose = () => setShow(false);
 
   useEffect(() => {
     getRefundOrderRequestList();
@@ -77,7 +81,7 @@ const RefundOrderAdmin = () => {
       <h4 className="text-center">Refund Orders List</h4>
       <Container>
         <Row className="mt-4">
-          <Table responsive striped bordered hover>
+          <Table responsive bordered hover>
             <thead>
               <tr>
                 <th>Order Id</th>
@@ -115,7 +119,7 @@ const RefundOrderAdmin = () => {
                           }
                           alt=""
                           width="75"
-                          height="75"  
+                          height="75"
                           className="img-fluid"
                         />
                       </div>
@@ -138,22 +142,39 @@ const RefundOrderAdmin = () => {
                     <td>{row?.razorpayRefundId}</td>
 
                     <td className="d-flex gap-2 justify-content-center align-items-center">
-                      <Button
-                        variant="warning"
-                        size="sm"
-                        onClick={() =>
-                          createRefundRequestHandler(
-                            row,
-                            row?._id,
-                            "Refund-Done"
-                          )
-                        }
-                        disabled={
-                          row?.status === "Refund-Done" || row?.razorpayRefundId
-                        }
-                      >
-                        Refund Complete
-                      </Button>
+                      {row?.orderId?.order_type === "COD" ? (
+                        <Button
+                          variant="success"
+                          size="sm"
+                          onClick={() =>
+                            updateRefundRequestHandler(row?._id, "Refund-Done")
+                          }
+                          disabled={
+                            row?.status === "Refund-Done" ||
+                            row?.razorpayRefundId
+                          }
+                        >
+                          Refund Complete
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="warning"
+                          size="sm"
+                          onClick={() =>
+                            createRefundRequestHandler(
+                              row,
+                              row?._id,
+                              "Refund-Done"
+                            )
+                          }
+                          disabled={
+                            row?.status === "Refund-Done" ||
+                            row?.razorpayRefundId
+                          }
+                        >
+                          Refund Complete
+                        </Button>
+                      )}
                       <Button
                         variant="danger"
                         size="sm"
@@ -165,19 +186,71 @@ const RefundOrderAdmin = () => {
                         }
                         disabled={
                           row?.status === "Refund-Rejected" ||
-
-
                           row?.razorpayRefundId
                         }
                       >
                         Refund Cancel
                       </Button>
                     </td>
+                    {row?.orderId?.order_details[0]?.returnReqId
+                      ?.bankAccount && (
+                      <p
+                        className="text-center"
+                        onClick={() => {
+                          setShow(!show);
+                          setShowInfo(
+                            row?.orderId?.order_details[0]?.returnReqId
+                              ?.bankAccount
+                          );
+                        }}
+                        style={{ background: "lightgrey", cursor: "pointer",fontWeight:"bold" }}
+                      >
+                        View Account Details
+                      </p>
+                    )}
                   </tr>
                 ))
               )}
             </tbody>
           </Table>
+        </Row>
+        <Row>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Account Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Row>
+                <Col>
+                  <p>
+                    <strong>Bank Name:</strong> {showInfo?.bankName}
+                  </p>
+                  <p>
+                    <strong>Branch Name:</strong> {showInfo?.branchName}
+                  </p>
+                  <p>
+                    <strong>Account Type:</strong> {showInfo?.accountType}
+                  </p>
+                  <p>
+                    <strong>Account Number:</strong> {showInfo?.accountNumber}
+                  </p>
+                  <p>
+                    <strong>IFS Code:</strong> {showInfo?.ifsCode}
+                  </p>
+                  <p>
+                    <strong>Account Proof:</strong>{" "}
+                    <a
+                      href={showInfo?.accountProof}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Document
+                    </a>
+                  </p>
+                </Col>
+              </Row>
+            </Modal.Body>
+          </Modal>
         </Row>
       </Container>
     </div>

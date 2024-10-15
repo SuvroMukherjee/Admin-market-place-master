@@ -1806,10 +1806,10 @@ export async function AdminRefundRequestList(query) {
   }
 }
 
-export async function updateReturnStatus(formData, id) {
+export async function updateReturnStatus(formData,ordId,Proid) {
   try {
     const response = await axios.put(
-      apiUrl + `/product-return/update-status/${id}`,
+      apiUrl + `/product-return/update-return-status/${ordId}/${Proid}`,
       formData,
       {
         headers: setAuthHeader(),

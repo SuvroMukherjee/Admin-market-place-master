@@ -56,7 +56,7 @@ const AdminPaymnets = () => {
 
   useEffect(() => {
     fetchData();
-  }, [currentPage, selectedSeller,startDate,endDate]);
+  }, [currentPage, selectedSeller, startDate, endDate]);
 
   useEffect(() => {
     getAllSellersList();
@@ -152,7 +152,9 @@ const AdminPaymnets = () => {
                 <Form.Label>Choose From Date</Form.Label>
                 <DatePicker
                   selected={startDate}
-                  onChange={(date) => setStartDate(moment(date).format("YYYY-MM-DD"))}
+                  onChange={(date) =>
+                    setStartDate(moment(date).format("YYYY-MM-DD"))
+                  }
                   dateFormat="yyyy-MM-dd"
                   className="form-control form-control-sm"
                   placeholderText="Select a date"
@@ -162,7 +164,9 @@ const AdminPaymnets = () => {
                 <Form.Label>Choose To Date</Form.Label>
                 <DatePicker
                   selected={endDate}
-                  onChange={(date) => setEndDate(moment(date).format("YYYY-MM-DD"))}
+                  onChange={(date) =>
+                    setEndDate(moment(date).format("YYYY-MM-DD"))
+                  }
                   dateFormat="yyyy-MM-dd"
                   className="form-control form-control-sm"
                   placeholderText="Select a date"
@@ -191,31 +195,32 @@ const AdminPaymnets = () => {
           {selectedSeller != "" && (
             <Row>
               <Col className="mt-4 d-flex justify-content-end align-items-center">
-              <span className="text-center mx-4 font-weight-bold">
-                {totalRecords} Records
-              </span>
+                <span className="text-center mx-4 font-weight-bold">
+                  {totalRecords} Records
+                </span>
                 <Button size="sm" variant="dark" onClick={() => handleShow()}>
-               Clear Settlement
+                  Clear Settlement
                 </Button>
               </Col>
             </Row>
           )}
-          <Row>
-            <Col className="mt-4 d-flex justify-content-end">
-              <Pagination>
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <Pagination.Item
-                    key={i + 1}
-                    active={i + 1 === currentPage}
-                    onClick={() => handlePageChange(i + 1)}
-                  >
-                    {i + 1}
-                  </Pagination.Item>
-                ))}
-              </Pagination>
-            </Col>
-           
-          </Row>
+          {selectedSeller != "" && (
+            <Row>
+              <Col className="mt-4 d-flex justify-content-end">
+                <Pagination>
+                  {Array.from({ length: totalPages }, (_, i) => (
+                    <Pagination.Item
+                      key={i + 1}
+                      active={i + 1 === currentPage}
+                      onClick={() => handlePageChange(i + 1)}
+                    >
+                      {i + 1}
+                    </Pagination.Item>
+                  ))}
+                </Pagination>
+              </Col>
+            </Row>
+          )}
           <Row className="w-100 mt-4" style={{ fontSize: "12px" }}>
             <table className="table table-bordered">
               <thead>
@@ -359,7 +364,6 @@ const AdminPaymnets = () => {
                             </span>
                           )}
                         </span>
-                      
                       </td>
                     </tr>
                   ))}

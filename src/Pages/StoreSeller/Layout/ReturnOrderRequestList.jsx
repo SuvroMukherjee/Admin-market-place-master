@@ -107,11 +107,14 @@ const ReturnOrderRequestList = () => {
     let payload = {
       status: returnStatus,
     };
+    console.log(selectedOrder,'selectedOrder')
     let res = await updateReturnStatus(
       payload,
-      selectedOrder?.orderId?.order_details?.[0]?.returnReqId?._id
+      selectedOrder?.orderId?._id,
+      selectedOrder?.productId?._id
     );
-    if (res?.data?.error) {
+  
+    if (res?.data?.data?.error) {
       toast.error(res?.data?.message);
       return;
     }
@@ -259,7 +262,7 @@ const ReturnOrderRequestList = () => {
                           Update Refund Status
                          
                         </Button>
-                        {row?.orderId?.order_type === "COD" && <p style={{ color: "green", fontWeight: "bold" }}>COD Refund Not Available</p>}
+                        {row?.orderId?.order_type === "COD" && <p style={{ color: "green", fontWeight: "bold" }}>COD Refund</p>}
                          
                       </td>
                     </tr>
