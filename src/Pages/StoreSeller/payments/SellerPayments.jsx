@@ -37,39 +37,35 @@ const SellerPayments = () => {
     }
   };
 
-  const handlePageChange = ( pageNumber) => {
+  const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
 
   return (
     <div className="newProduct mt-4">
       <Container>
         <h4 className="text-center">Payment Settlement</h4>
         <div className="mt-4 p-2">
-
-        <Row>
-          
-          <Col className="mt-4 d-flex justify-content-end">
-            <Pagination>
-              {Array.from({ length: totalPages }, (_, i) => (
-                <Pagination.Item
-                  key={i + 1}
-                  active={i + 1 === currentPage}
-                  onClick={() => handlePageChange(i + 1)}
-                >
-                  {i + 1}
-                </Pagination.Item>
-              ))}
-            </Pagination>
-          </Col>
-        
-      </Row>
-      <Row className="w-100 mt-4">
-      <span className="text-center mx-4 font-weight-bold ">
-               Total {totalRecords} Transactions
-              </span>
-      </Row>
+          <Row>
+            <Col className="mt-4 d-flex justify-content-end">
+              <Pagination>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <Pagination.Item
+                    key={i + 1}
+                    active={i + 1 === currentPage}
+                    onClick={() => handlePageChange(i + 1)}
+                  >
+                    {i + 1}
+                  </Pagination.Item>
+                ))}
+              </Pagination>
+            </Col>
+          </Row>
+          <Row className="w-100 mt-4">
+            <span className="text-center mx-4 font-bold ">
+              Total {totalRecords} - Transactions
+            </span>
+          </Row>
           <Row className="w-100 mt-4">
             <table className="table table-bordered">
               <thead>
@@ -134,10 +130,10 @@ const SellerPayments = () => {
                           </span>
                         )}
                       </td>
-                     
+
                       <td>{moment(ele?.updatedAt).format("DD-MM-YYYY")}</td>
                       <td>{ele?.orderId?.order_no?.toLocaleString("en-IN")}</td>
-                     
+
                       <td>
                         {ele?.type === "orderPayment" &&
                           ele?.orderId?.paymentId}
@@ -172,7 +168,11 @@ const SellerPayments = () => {
                             ).toFixed(2)}%`
                           : ""}
                       </td>
-                      <td>{ele?.commissionAmount?.toLocaleString("en-IN")}</td>
+                      <td>
+                        <span style={{ color: "#024CAA", fontWeight: "bold" }}>
+                          ₹ {ele?.commissionAmount?.toLocaleString("en-IN")}
+                        </span>
+                      </td>
                       <td>
                         {/* {ele?.sellerAmount?.toLocaleString("en-IN")} */}
 
@@ -199,15 +199,14 @@ const SellerPayments = () => {
                         >
                           {ele?.balance <= 0 ? (
                             <span style={{ color: "red" }}>
-                             ₹ {ele?.balance?.toLocaleString("en-IN")}
+                              ₹ {ele?.balance?.toLocaleString("en-IN")}
                             </span>
                           ) : (
                             <span style={{ color: "green" }}>
-                             ₹ {ele?.balance?.toLocaleString("en-IN")}
+                              ₹ {ele?.balance?.toLocaleString("en-IN")}
                             </span>
                           )}
                         </span>
-                       
                       </td>
                     </tr>
                   ))}

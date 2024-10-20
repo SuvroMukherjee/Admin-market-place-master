@@ -314,7 +314,7 @@ const AdminPaymnets = () => {
                         )}
 
                         {ele?.type === "AdminPayout" && (
-                          <span>
+                          <span style={{ color: "#37AFE1" }}>
                             {ele?.adminAmount?.toLocaleString("en-IN")}
                           </span>
                         )}
@@ -329,7 +329,11 @@ const AdminPaymnets = () => {
                             ).toFixed(2)}%`
                           : ""}
                       </td>
-                      <td>{ele?.commissionAmount?.toLocaleString("en-IN")}</td>
+                      <td>
+                        <span style={{ color: "#024CAA",fontWeight:"bold" }}>
+                          ₹ {ele?.commissionAmount?.toLocaleString("en-IN") || 0}
+                        </span>
+                      </td>
                       <td>
                         {/* {ele?.sellerAmount?.toLocaleString("en-IN")} */}
 
