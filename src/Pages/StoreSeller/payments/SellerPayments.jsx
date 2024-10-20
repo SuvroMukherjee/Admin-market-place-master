@@ -169,7 +169,7 @@ const SellerPayments = () => {
                           : ""}
                       </td>
                       <td>
-                        <span style={{ color: "#024CAA", fontWeight: "bold" }}>
+                        <span style={{ color: "#024CAA", fontWeight: "bold",letterSpacing: "1px" }}>
                           ₹ {ele?.commissionAmount?.toLocaleString("en-IN")}
                         </span>
                       </td>

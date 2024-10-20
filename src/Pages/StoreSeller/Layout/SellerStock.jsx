@@ -99,7 +99,7 @@ const SellerStock = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { name, categoryId, subcategoryId, brandId, isPopular } = filters;
+      const { name, categoryId, subcategoryId, brandId, isPopular, is_bestSell,out_of_stock } = filters;
       const res = await axios.get(
         `${baseURL}/seller-product/list-by-seller-paginated/${sellerID}`,
         {
@@ -111,6 +111,8 @@ const SellerStock = () => {
             subcategoryId,
             brandId,
             is_popular: isPopular ? "true" : "false",
+            is_bestSell: is_bestSell ? "true" : "false",
+            out_of_stock: out_of_stock ? "true" : "false",
           },
         }
       );
@@ -384,7 +386,7 @@ const SellerStock = () => {
     <div>
       <Container className="mt-4">
         <Row className="mt-4 text-center">
-          <h2>Manage Your Inventory</h2>
+          <h4>Manage Your Inventory</h4>
         </Row>
       </Container>
       <Container className="mt-4">
@@ -405,9 +407,9 @@ const SellerStock = () => {
         </div>
       </Container>
 
-      <div className="d-flex justify-content-between mb-3 gap-4">
+      <div className="d-flex justify-content-between mb-3 gap-4 p-4" style={{backgroundColor:"#EDE8DC"}}>
         <Form.Group controlId="categoryId" className="flex-grow-1">
-          <Form.Label>Filter by Category</Form.Label>
+          <Form.Label className="fw-bold">Filter by Category</Form.Label>
           <Form.Select
             name="categoryId"
             value={filters.categoryId}
@@ -425,7 +427,7 @@ const SellerStock = () => {
         </Form.Group>
 
         <Form.Group controlId="subcategoryId" className="flex-grow-1">
-          <Form.Label> Filter by Subcategory</Form.Label>
+          <Form.Label className="fw-bold"> Filter by Subcategory</Form.Label>
           <Form.Select
             name="subcategoryId"
             value={filters.subcategoryId}
@@ -443,7 +445,7 @@ const SellerStock = () => {
         </Form.Group>
 
         <Form.Group controlId="brandId" className="flex-grow-1">
-          <Form.Label> Filter by Brand</Form.Label>
+          <Form.Label className="fw-bold"> Filter by Brand</Form.Label>
           <Form.Select
             name="brandId"
             value={filters.brandId}
@@ -461,14 +463,35 @@ const SellerStock = () => {
         </Form.Group>
       </div>
 
-      <div className="d-flex justify-content-end mt-2 mb-4 gap-2">
+      <div className="d-flex justify-content-end mt-2 mb-4 gap-4 p-4" style={{backgroundColor:"#EDE8DC"}}>
         <Form.Group controlId="isPopular">
           <Form.Check
             type="checkbox"
             name="isPopular"
-            label="Show Only Popular Products"
+            label="Popular"
             checked={filters.isPopular}
             onChange={handleFilterChange}
+            className="fw-bold"
+          />
+        </Form.Group>
+        <Form.Group controlId="is_bestSell">
+          <Form.Check
+            type="checkbox"
+            name="is_bestSell"
+            label="Best Sell"
+            checked={filters.is_bestSell}
+            onChange={handleFilterChange}
+            className="fw-bold"
+          />
+        </Form.Group>
+        <Form.Group controlId="out_of_stock">
+          <Form.Check
+            type="checkbox"
+            name="out_of_stock"
+            label="Out of Stock"
+            checked={filters.out_of_stock}
+            onChange={handleFilterChange}
+            className="fw-bold"
           />
         </Form.Group>
       </div>
@@ -506,7 +529,7 @@ const SellerStock = () => {
             onClick={handleChooseFile}
           >
             <span className="m-1">
-              <FaFileUpload />{" "}
+              <FaFileUpload size={15}/>{" "}
             </span>
             Import CSV
           </Button>
@@ -771,7 +794,9 @@ const SellerStock = () => {
                   </a>
                 </td>
 
-                <td>{row?.is_popular && "Popular"} </td>
+                <td>{row?.is_popular && "Popular"} 
+                    {row?.is_bestSell && "Best Sell"}
+                </td>
               </tr>
             ))
           ) : (
