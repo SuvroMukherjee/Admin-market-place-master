@@ -99,7 +99,7 @@ const SellerStock = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { name, categoryId, subcategoryId, brandId, isPopular, is_bestSell,out_of_stock } = filters;
+      const { name, categoryId, subcategoryId, brandId, isPopular, is_bestSell,out_of_stock,sales_start } = filters;
       const res = await axios.get(
         `${baseURL}/seller-product/list-by-seller-paginated/${sellerID}`,
         {
@@ -113,6 +113,7 @@ const SellerStock = () => {
             is_popular: isPopular ? "true" : "false",
             is_bestSell: is_bestSell ? "true" : "false",
             out_of_stock: out_of_stock ? "true" : "false",
+            sales_start: sales_start ? "true" : "false",
           },
         }
       );
@@ -494,6 +495,16 @@ const SellerStock = () => {
             className="fw-bold"
           />
         </Form.Group>
+        <Form.Group controlId="sales_start">
+          <Form.Check
+            type="checkbox"
+            name="sales_start"
+            label="Top Sales"
+            checked={filters.sales_start}
+            onChange={handleFilterChange}
+            className="fw-bold"
+          />
+        </Form.Group>
       </div>
 
       <div className="d-flex justify-content-center mt-2 mb-4 gap-2">
@@ -587,7 +598,7 @@ const SellerStock = () => {
             <th>Add Stock</th>
             <th>Action</th>
             <th>Other Action</th>
-            <th>Zoofi</th>
+            <th>Zoofi Sells</th>
             <th>Mark As</th>
           </tr>
         </thead>
@@ -601,7 +612,7 @@ const SellerStock = () => {
           ) : filteredData.length > 0 ? (
             filteredData.map((row) => (
               <tr key={row._id}>
-                <td>{row?.name}</td>
+                <td>{row?.name?.slice(0,20)}</td>
                 <td>{row?.specId?.skuId}</td>
                 <td>
                   {row?.status ? (
@@ -712,7 +723,7 @@ const SellerStock = () => {
                 <td>{Math.round(row?.price - row?.comission_price)}</td>
                 <td>{Math.round(row?.comission_price)?.toLocaleString()}</td>
                 <td className="priceTD">
-                  <span>{quantities?.[row._id]}</span> <span>{row?._id}</span>
+                  {/* <span>{quantities?.[row._id]}</span> <span>{row?._id}</span> */}
                   <Form.Control
                     type="number"
                     size="sm"
@@ -735,7 +746,7 @@ const SellerStock = () => {
                     Save
                   </Button>
                 </td>
-                <td className="priceTD">
+                <td className="priceTD" style={{width:'20px'}}>
                   <DropdownButton
                     className="w-100"
                     id="dropdown-basic-button"
@@ -790,6 +801,7 @@ const SellerStock = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
+                     <p style={{backgroundColor:"#9af064",padding:'5px',color:'black',fontWeight:'bold',borderRadius:'50px'}}>{row?.salesCount || 0}</p>
                     <FaEye size={20} />
                   </a>
                 </td>
