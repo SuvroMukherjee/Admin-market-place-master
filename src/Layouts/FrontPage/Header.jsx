@@ -15,7 +15,7 @@ const Header = () => {
               <img src={blackzofi} alt="newlogo" width={150} />
             </a>
             <ul className="navbar-nav">
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a
                   className="nav-link cursor"
                   onClick={() => navigate("./login")}
@@ -52,13 +52,13 @@ const Header = () => {
                     </g>
                   </svg>
                 </a>
-              </li>
+              </li> */}
               <li className="nav-item">
                 <a
                   className="nav-link cursor"
                   onClick={() => navigate("./seller-login")}
                 >
-                  Seller
+                 Login As Seller
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     version="1.1"

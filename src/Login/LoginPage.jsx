@@ -178,7 +178,7 @@ const LoginPage = () => {
             </div>
             <Form className="shadow loginForm" onSubmit={handleSubmit}>
                 <img src={loginperson} alt="" />
-                <div className="h4 mb-2 text-center">Member</div>
+                <div className="h4 mb-2 text-center">Zoofi's Member Login</div>
                 {show ? (
                     <Alert
                         className="mb-2"

@@ -283,7 +283,7 @@ export default function Router({ socket }) {
       element: <FrontPage />,
     },
     {
-      path: "/login",
+      path: "/admin/login",
       element: <LoginPage />,
     },
     {
