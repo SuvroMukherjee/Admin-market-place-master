@@ -172,7 +172,7 @@ const SellerLoginPage = () => {
         // style={{ backgroundImage: `url('https://img.freepik.com/free-photo/online-shopping-shopping-cart-placed-alongside-notebook-blue_1150-19158.jpg')` }}
         >
             {/* <div className="sign-in__backdrop"></div> */}
-            <div class="login-page-background">
+            <div className="login-page-background">
                 <img src={loginbackground} alt="" />
             </div>
             <Form className="shadow loginForm" onSubmit={handleSubmit}>
