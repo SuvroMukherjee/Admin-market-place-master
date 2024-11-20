@@ -1878,3 +1878,15 @@ export async function createPayment(formData) {
     return error;
   }
 }
+
+
+export async function getSearcKeyword(id) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/seller-product/get-keyword-search/${id}`
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

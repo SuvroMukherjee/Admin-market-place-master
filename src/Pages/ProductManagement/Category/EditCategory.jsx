@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { Modal, Button, Form, Col, ButtonGroup, Row } from "react-bootstrap";
-import { FileUpload, UpdateProductCategory } from "../../../API/api";
-import Spinner from "react-bootstrap/Spinner";
+import React, { useEffect, useState } from "react";
+import { Button, ButtonGroup, Col, Form, Modal, Row } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
+import { FileUpload, UpdateProductCategory } from "../../../API/api";
 
 const EditCategory = ({ showModal, handleClose, data }) => {
   const [modalData, setModalData] = useState({});

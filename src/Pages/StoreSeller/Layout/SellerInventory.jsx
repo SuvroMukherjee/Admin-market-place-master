@@ -9,7 +9,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Table from "react-bootstrap/Table";
 import { CSVLink } from "react-csv";
 import toast, { Toaster } from "react-hot-toast";
-import { FaFileUpload } from "react-icons/fa";
+import { FaFileUpload, FaMagic } from "react-icons/fa";
 import { LuDownload } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import {
@@ -19,6 +19,7 @@ import {
   UpdateSellerProductDataStatus,
   addSerivices,
   getLowestPriceProdut,
+  getSearcKeyword,
 } from "../../../API/api";
 import {
   ChangeFormatDate,
@@ -171,7 +172,6 @@ export default function SellerInventory() {
   // //   }
   // // };
 
-
   // const handleUpdate = async (key) => {
   //   const index = formData.findIndex((item) => item._id === key);
   //   if (index === -1) return;
@@ -197,7 +197,6 @@ export default function SellerInventory() {
   //     getProductListFunc();
   //   }
   // };
-
 
   // // const handlePriceChange = (specIndex, quantity) => {
   // //   setFormData((prevData) => {
@@ -848,7 +847,7 @@ export default function SellerInventory() {
         <Toaster position="top-right" />
       </Container> */}
       <Container>
-        <SellerStock/>
+        <SellerStock />
       </Container>
     </div>
   );
@@ -943,6 +942,93 @@ export const ServicesModal = ({
         </Button>
         <Button variant="primary" onClick={handleSubmit}>
           SAVE
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+export const SearchTermModal = ({ showModal, handleClose, data }) => {
+  const [modalData, setModalData] = useState({});
+
+  useEffect(() => {
+    setModalData(data);
+  }, [data]);
+
+  const handleSubmit = async () => {
+    let payload = {
+      ...modalData,
+    };
+    await UpdateSellerProduct(modalData?._id, payload);
+    handleClose();
+  };
+
+
+  const getKeyword = async () => {
+    try {
+      // Assuming modalData?._id is being used to fetch data
+      const response = await getSearcKeyword(modalData?._id);
+  
+      // Log the response to see the result (optional)
+      console.log(response);
+  
+      // Update modalData with the new search_key, appending the fetched keyword
+      setModalData(prevData => ({
+        ...prevData,
+        search_key: prevData?.search_key + response.data.data,
+      }));
+    } catch (error) {
+      console.error("Error fetching search keyword:", error);
+    }
+  };
+  
+
+  return (
+    <Modal
+      show={showModal}
+      onHide={handleClose}
+      backdrop="static"
+      keyboard={false}
+      aria-labelledby="contained-modal-title-vcenter"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title
+          id="contained-modal-title-vcenter"
+          style={{ textAlign: "center", fontSize: "16px" }}
+        >
+          Add Search Keys
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>
+              Search Keys <span> </span>{" "}
+            </Form.Label>
+            <Form.Control
+              as="textarea"
+              placeholder="Enter Search Term"
+              onChange={(e) =>
+                setModalData({ ...modalData, search_key: e.target.value })
+              }
+              value={modalData?.search_key}
+              rows={10}
+            />
+          </Form.Group>
+        </Form>
+        <div className="d-flex justify-content-center">
+          <button className="glow-button" onClick={getKeyword}>
+            <span className="icon">✨</span>
+            Modify with AI
+          </button>
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleSubmit}>
+          Save
         </Button>
       </Modal.Footer>
     </Modal>

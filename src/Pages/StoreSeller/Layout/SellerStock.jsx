@@ -26,7 +26,7 @@ import {
 import { estimatedDeliveryTimes } from "../../../dummyData";
 import "./sellerlayout.css";
 import { useNavigate } from "react-router-dom";
-import { ServicesModal } from "./SellerInventory";
+import { SearchTermModal, ServicesModal } from "./SellerInventory";
 import { CSVLink } from "react-csv";
 import { LuDownload } from "react-icons/lu";
 import { ChangeFormatDate } from "../../../common/DateFormat";
@@ -61,6 +61,7 @@ const SellerStock = () => {
   const [selectedTime, setSelectedTime] = useState("select");
   const [showService, setShowServices] = useState(false);
   const [stratuploading, setStartUploading] = useState(false);
+  const [showSearchTerm, setShowSearchTerm] = useState(false);
 
   useEffect(() => {
     fetchCategories();
@@ -288,6 +289,12 @@ const SellerStock = () => {
     handleOpenService();
   };
 
+
+  const SearchTermHandler = (ele) => {
+    setSelectedProduct(ele);
+    handleOpenSearchTerm();
+  };
+
   const closeListingProduct = async (data) => {
     let paylod = {
       status: !data?.status,
@@ -305,6 +312,9 @@ const SellerStock = () => {
 
   const handleOpenService = () => setShowServices(true);
   const handleCloseService = () => setShowServices(false);
+
+  const handleOpenSearchTerm = () => setShowSearchTerm(true);
+  const handleCloseSearchTerm = () => setShowSearchTerm(false);
 
   const updateEstimatedDelivey = async () => {
     let res = await UpdateSellerProduct(selectedProduct?._id, {
@@ -761,16 +771,19 @@ const SellerStock = () => {
                     >
                       View Details
                     </Dropdown.Item>
-                    <Dropdown.Item
+                    {/* <Dropdown.Item
                       onClick={() => navigate(`/seller/add-ofers/${row?._id}`)}
                     >
-                      Edit Product
-                    </Dropdown.Item>
+                      Add Offer
+                    </Dropdown.Item> */}
                     <Dropdown.Item onClick={() => EstimateHandler(row)}>
                       Estimate Delivery Time
                     </Dropdown.Item>
                     <Dropdown.Item onClick={() => ServiceHandler(row)}>
                       Add Services
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => SearchTermHandler(row)}>
+                      Add Search Keys
                     </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() =>
@@ -840,6 +853,13 @@ const SellerStock = () => {
           handleCloseService={handleCloseService}
           selectedProduct={selectedProduct}
           getProductListFunc={fetchData}
+        />
+      </div>
+      <div>
+        <SearchTermModal
+          showModal={showSearchTerm}
+          handleClose={handleCloseSearchTerm}
+          data={selectedProduct}
         />
       </div>
       <div>

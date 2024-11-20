@@ -103,3 +103,39 @@
   color: inherit;
 }
 
+.glow-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 4px 18px;
+  background-color: #bffb9a; /* Updated color */
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 50px;
+  border: 1px solid rgba(35, 82, 7, 0.6);
+  box-shadow: 0 0 20px rgba(145, 252, 79, 0.6), 0 0 30px hwb(97 0% 58% / 0.4); /* Glow effect updated */
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glow-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(154, 240, 100, 0.8), 0 0 40px rgba(154, 240, 100, 0.6); /* Glow effect updated */
+}
+
+.glow-button:active {
+  transform: scale(0.98);
+}
+
+.glow-button .icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
