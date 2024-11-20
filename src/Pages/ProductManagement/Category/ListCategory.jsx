@@ -129,6 +129,29 @@ export default function ListCategory() {
       });
   };
 
+
+  const HandleUpcomingFunction = async (catData, value) => {
+    let payload = {
+      upcommingCat: value,
+      status: !value,
+    };
+
+    console.log({ payload });
+
+    await UpdateProductCategory(payload, catData?._id)
+      .then((res) => {
+        console.log({ res });
+        toast.success("Category update successfully");
+        getCategoryList();
+        handleClose();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong!");
+        getCategoryList();
+      });
+  };
+
   const handlePosition = (value, row) => {
     console.log(value, row);
     let payload = {
@@ -235,6 +258,7 @@ export default function ListCategory() {
                 variant="dark"
                 onClick={() => HandleTopFunction(params?.row, true)}
                 size="sm"
+                disabled={params?.row?.status == false}
               >
                 Mark As Top
               </Button>
@@ -278,6 +302,35 @@ export default function ListCategory() {
         );
       },
     },
+    {
+      field: "Upcoming Category",
+      headerName: "Make As Upcoming Category",
+      width: 180,
+      renderCell: (params) => {
+        return (
+          <div>
+            {params?.row?.upcommingCat ? (
+              <Button
+                variant="outline-primary"
+                onClick={() => HandleUpcomingFunction(params?.row, false)}
+                size="sm"
+              >
+                Already Upcomimg
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                onClick={() => HandleUpcomingFunction(params?.row, true)}
+                size="sm"
+              >
+                Mark As Upcomimg
+              </Button>
+            )}
+          </div>
+        );
+      },
+    },
+
     {
       field: "Old position",
       headerName: "Old Position",
