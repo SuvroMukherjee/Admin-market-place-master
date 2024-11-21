@@ -1,6 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -12,7 +12,9 @@ import {
   DeleteProductCategory,
   UpdateProductCategory,
   UpdateStatusProductCategory,
+  addCategoryKeyword,
   allCategoryList,
+  removeCategoryKeyword,
   topCatList,
 } from "../../../API/api";
 import { productRows } from "../../../dummyData";
@@ -25,9 +27,13 @@ export default function ListCategory() {
   const [data, setData] = useState(productRows || []);
   const [topCats, setTopCats] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showApplyCatModal, setShowApplyCatModal] = useState(false);
   const [modalData, setModalData] = useState();
+  const [catId, setCatId] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedPosition, setSelectedPosition] = useState("");
+  const [isAddCategoryVisible, setIsAddCategoryVisible] = useState(null);
+  const [newCategory, setNewCategory] = useState("");
 
   const navigate = useNavigate();
 
@@ -38,6 +44,14 @@ export default function ListCategory() {
   const handleClose = () => {
     getCategoryList();
     setShowModal(false);
+  };
+  const handleShowApplyModal = (catId) => {
+    setShowApplyCatModal(true);
+    setCatId(catId);
+  };
+  const handleCloseApplyModal = () => {
+    setShowApplyCatModal(false);
+    setCatId(" ");
   };
 
   // const handleDelete = (id) => {
@@ -128,7 +142,6 @@ export default function ListCategory() {
         getCategoryList();
       });
   };
-
 
   const HandleUpcomingFunction = async (catData, value) => {
     let payload = {
@@ -419,6 +432,13 @@ export default function ListCategory() {
             >
               <FaRegTrashAlt />
             </Button>
+            <Button
+              variant="outline-success"
+              onClick={() => handleShowApplyModal(params?.row?._id)}
+              size="sm"
+            >
+              Add Keyword
+            </Button>
           </div>
           // <>
 
@@ -430,6 +450,37 @@ export default function ListCategory() {
       },
     },
   ];
+
+  const handleApplyCategory = async () => {
+    if (!newCategory.trim()) {
+      toast.error("Category name cannot be empty");
+      return;
+    }
+    const payload = {
+      keywords: newCategory,
+    };
+    try {
+      const response = await addCategoryKeyword(catId, payload);
+      toast.success("Category keyword applied successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to apply category keyword");
+    }
+  };
+
+  const handleRemoveCategory = () => {
+    try {
+      const payload = { keywords: newCategory };
+      const res = removeCategoryKeyword(catId, payload);
+      toast.success("Category Keyword removed successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to remove category keyword");
+    } finally {
+      handleCloseApplyModal();
+      setNewCategory("");
+    }
+  };
 
   const handleNewCat = () => {
     navigate("/Admin/AddCategory");
@@ -455,6 +506,74 @@ export default function ListCategory() {
             handleClose={handleClose}
             data={modalData}
           />
+          <Modal
+            show={showApplyCatModal}
+            onHide={handleCloseApplyModal}
+            className="mt-5"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Add or Remove Category Keywords</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                {/* Radio Buttons */}
+                <Row className="mt-2">
+                  <Form.Group>
+                    <Form.Check
+                      type="radio"
+                      label="Add"
+                      name="action"
+                      id="addAction"
+                      onChange={() => setIsAddCategoryVisible("add")}
+                      checked={isAddCategoryVisible === "add"}
+                    />
+                    <Form.Check
+                      type="radio"
+                      label="Remove"
+                      name="action"
+                      id="removeAction"
+                      onChange={() => setIsAddCategoryVisible("remove")}
+                      checked={isAddCategoryVisible === "remove"}
+                    />
+                  </Form.Group>
+                </Row>
+
+                {/* Conditional Textarea and Apply Button */}
+                {isAddCategoryVisible && (
+                  <Row className="mt-3">
+                    <Form.Group controlId="newCategory">
+                      <Form.Label>
+                        {isAddCategoryVisible === "add"
+                          ? "Add Keywords"
+                          : "Remove Keywords"}
+                      </Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder={
+                          isAddCategoryVisible === "add"
+                            ? "Enter new keywords separated by commas"
+                            : "Enter keywords to remove separated by commas"
+                        }
+                        value={newCategory}
+                        onChange={(e) => setNewCategory(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Button
+                      className="btn btn-primary btn-block mt-2"
+                      onClick={
+                        isAddCategoryVisible === "add"
+                          ? handleApplyCategory
+                          : handleRemoveCategory
+                      }
+                    >
+                      Apply
+                    </Button>
+                  </Row>
+                )}
+              </Form>
+            </Modal.Body>
+          </Modal>
           <Row className="justify-content-md-center mb-2">
             <Col md="auto">
               <h3>Category List</h3>

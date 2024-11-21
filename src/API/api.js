@@ -1806,7 +1806,7 @@ export async function AdminRefundRequestList(query) {
   }
 }
 
-export async function updateReturnStatus(formData,ordId,Proid) {
+export async function updateReturnStatus(formData, ordId, Proid) {
   try {
     const response = await axios.put(
       apiUrl + `/product-return/update-return-status/${ordId}/${Proid}`,
@@ -1821,15 +1821,11 @@ export async function updateReturnStatus(formData,ordId,Proid) {
   }
 }
 
-
 export async function getRefundRequestCreate(id) {
   try {
-    const response = await axios.get(
-      apiUrl + `/refund-request/create/${id}`,
-      {
-        headers: setAuthHeader(),
-      }
-    );
+    const response = await axios.get(apiUrl + `/refund-request/create/${id}`, {
+      headers: setAuthHeader(),
+    });
     return response;
   } catch (error) {
     return error;
@@ -1853,20 +1849,14 @@ export async function updateRefundRequest(id, formData) {
 
 export async function RazorpayRefundRequest(formData) {
   try {
-    const response = await axios.post(
-      apiUrl + `/payment/refund`,
-      formData,
-      {
-        headers: setAuthHeader(),
-
-      }
-    );
+    const response = await axios.post(apiUrl + `/payment/refund`, formData, {
+      headers: setAuthHeader(),
+    });
     return response;
   } catch (error) {
-     throw new Error(error);
+    throw new Error(error);
   }
 }
-
 
 export async function createPayment(formData) {
   try {
@@ -1879,11 +1869,34 @@ export async function createPayment(formData) {
   }
 }
 
-
 export async function getSearcKeyword(id) {
   try {
     const response = await axios.get(
       apiUrl + `/seller-product/get-keyword-search/${id}`
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function addCategoryKeyword(id, formdata) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/category/add-keyword/${id}`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function removeCategoryKeyword(id, formdata) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/category/remove-keyword/${id}`,
+      formdata
     );
     return response;
   } catch (error) {
