@@ -73,7 +73,8 @@ const SellerStock = () => {
   const fetchCategories = async () => {
     try {
       const res = await allCategoryList();
-      setCategories(res.data?.data);
+      let data = res.data?.data?.filter((item) => item.status === true);
+      setCategories(data);
     } catch (error) {
       console.error("Error fetching categories", error);
     }
@@ -82,7 +83,8 @@ const SellerStock = () => {
   const fetchSubcategories = async () => {
     try {
       const res = await allSubCategoryList();
-      setSubcategories(res.data?.data);
+      let data = res.data?.data?.filter((item) => item.status === true);
+      setSubcategories(data);
     } catch (error) {
       console.error("Error fetching subcategories", error);
     }
@@ -91,7 +93,8 @@ const SellerStock = () => {
   const fetchBrands = async () => {
     try {
       const res = await allBrandList();
-      setBrands(res.data?.data);
+      let data = res.data?.data?.filter((item) => item.status === true);
+      setBrands(data);
     } catch (error) {
       console.error("Error fetching brands", error);
     }

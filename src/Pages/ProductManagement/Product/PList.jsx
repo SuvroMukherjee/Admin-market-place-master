@@ -2,21 +2,21 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import {
-    Button,
-    Card,
-    Col,
-    Container,
-    Form,
-    Image,
-    InputGroup,
-    ListGroup,
-    Modal,
-    Pagination,
-    Row,
-    Table,
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Image,
+  InputGroup,
+  ListGroup,
+  Modal,
+  Pagination,
+  Row,
+  Table,
 } from "react-bootstrap";
 import { CSVLink } from "react-csv";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineInfoCircle, AiOutlinePlus } from "react-icons/ai";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { CiCircleInfo } from "react-icons/ci";
@@ -28,13 +28,17 @@ import { LuClipboardSignature } from "react-icons/lu";
 import { MdCancel } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import {
-    BulkProductUpload,
-    DeleteProductSpecification,
-    FileUpload,
-    ProductSpecificationCreate,
-    SpecBulkProductUpload,
-    StatusUpdateProduct,
-    UpdateProductSpecification, allBrandList, allCategoryList, allSubCategoryList, deleteProduct
+  BulkProductUpload,
+  DeleteProductSpecification,
+  FileUpload,
+  ProductSpecificationCreate,
+  SpecBulkProductUpload,
+  StatusUpdateProduct,
+  UpdateProductSpecification,
+  allBrandList,
+  allCategoryList,
+  allSubCategoryList,
+  deleteProduct,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
 import "../product.css";
@@ -63,20 +67,19 @@ const PList = () => {
   const [selectedproductid, setSeledtedProductId] = useState();
   const [variantsArray, setVariantsArray] = useState([]);
 
+  const [showModal2, setShowModal2] = useState(false);
 
-   const [showModal2, setShowModal2] = useState(false);
+  const handleCloseModal2 = () => setShowModal2(false);
+  const handleShowModal2 = () => setShowModal2(true);
 
-   const handleCloseModal2 = () => setShowModal2(false);
-   const handleShowModal2 = () => setShowModal2(true);
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
 
-   const handleShowModal = () => {
-     setShowModal(true);
-   };
-
-   const handleCloseModal = () => {
-     setShowModal(false);
-     fetchData();
-   };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    fetchData();
+  };
 
   const navigate = useNavigate();
 
@@ -170,127 +173,124 @@ const PList = () => {
     });
   };
 
-
-   const handleStatus = async (dataset) => {
-     let payload = {
-       status: !dataset?.status,
-     };
-
-     await StatusUpdateProduct(dataset?._id, payload)
-       .then((res) => {
-         console.log(res);
-         fetchData();
-         toast.success("Product status updated successfully!");
-       })
-       .catch((err) => {
-         console.log(err);
-       });
-   };
-
-   const handledeleteProduct = async (id) => {
-     await deleteProduct(id)
-       .then((res) => {
-         console.log(res);
-         fetchData();
-         toast.success("Product deleted successfully!");
-       })
-       .catch((err) => {
-         console.log(err);
-       });
-   };
-
-   const csvData = filterData.flatMap((product, index) => {
-     const htmlToPlainText = (html) => {
-       const tempDiv = document.createElement("div");
-       tempDiv.innerHTML = html;
-       return tempDiv.textContent || tempDiv.innerText || "";
-     };
-     return {
-       "SL NO": index + 1,
-       "Product Name": product?.name,
-       "Product ID": product?.productId,
-       "Product Type": product?.type,
-       "Product Category": product?.categoryId?.title,
-       "Product Sub-Category": product?.subcategoryId?.title,
-       "Product Brand": product?.brandId?.title,
-       "Product Tax status": product?.tax_status,
-       "Product Visibility": "Visible",
-       "Product Identification Images": product?.image
-         ?.map((ele) => ele?.image_path)
-         .join(","),
-       "Product Features": product?.features?.map((ele) => ele).join(" "),
-       "Product Uploaded Date": moment(product?.updatedAt).format(
-         "DD-MM-YYYY, hh:mm:ss A"
-       ),
-       "Product Specifications": product?.specId
-         ?.flatMap((spec) =>
-           spec?.spec_det?.map((det) => `${det.title}: ${det.value}`)
-         )
-         .join(", "),
-       "Specification Images": product?.specId
-         ?.flatMap((spec) => spec?.image?.map((image) => image?.image_path))
-         .join(", "),
-       "Specification Prices": product?.specId
-         ?.map((spec) => spec?.price)
-         .join(", "),
-       "Specification SkuId": product?.specId
-         ?.map((spec) => spec?.skuId)
-         .join(", "),
-       "Product Description": product?.desc,
-       // "Product Full Description": htmlToPlainText(product?.full_desc),
-     };
-   });
-
-
-
-    const onFileUpload = async (file, type) => {
-      try {
-        setUploading(true);
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-        const uploadResponse = await FileUpload(formData);
-        const fileName = uploadResponse?.data?.data?.fileName;
-
-        if (!fileName) {
-          throw new Error("File upload failed");
-        }
-
-        const payload = { file: fileName };
-        const Bulkres =
-          type == "spec"
-            ? await SpecBulkProductUpload(payload)
-            : await BulkProductUpload(payload);
-
-        if (Bulkres?.data?.error === false) {
-          toast.success(`Upload successful: ${file.name}`);
-          fetchData();
-        } else {
-          throw new Error(`Could not upload file: ${file.name}`);
-        }
-      } catch (error) {
-        console.error("Error in file upload:", error.message);
-        toast.error(`Error in file upload: ${error.message}`);
-      } finally {
-        setUploading(false);
-        fetchData();
-      }
+  const handleStatus = async (dataset) => {
+    let payload = {
+      status: !dataset?.status,
     };
 
-     const showVariants = (data) => {
-       console.log(data);
-       setVariantsArray(data);
-       handleShowModal2();
-     };
+    await StatusUpdateProduct(dataset?._id, payload)
+      .then((res) => {
+        console.log(res);
+        fetchData();
+        toast.success("Product status updated successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-     const variationRequestCount = (data) => {
-       let filterData = data?.filter((ele) => {
-         return ele?.is_approved == false;
-       });
+  const handledeleteProduct = async (id) => {
+    await deleteProduct(id)
+      .then((res) => {
+        console.log(res);
+        fetchData();
+        toast.success("Product deleted successfully!");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-       return filterData?.length;
-     };
+  const csvData = filterData.flatMap((product, index) => {
+    const htmlToPlainText = (html) => {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      return tempDiv.textContent || tempDiv.innerText || "";
+    };
+    return {
+      "SL NO": index + 1,
+      "Product Name": product?.name,
+      "Product ID": product?.productId,
+      "Product Type": product?.type,
+      "Product Category": product?.categoryId?.title,
+      "Product Sub-Category": product?.subcategoryId?.title,
+      "Product Brand": product?.brandId?.title,
+      "Product Tax status": product?.tax_status,
+      "Product Visibility": "Visible",
+      "Product Identification Images": product?.image
+        ?.map((ele) => ele?.image_path)
+        .join(","),
+      "Product Features": product?.features?.map((ele) => ele).join(" "),
+      "Product Uploaded Date": moment(product?.updatedAt).format(
+        "DD-MM-YYYY, hh:mm:ss A"
+      ),
+      "Product Specifications": product?.specId
+        ?.flatMap((spec) =>
+          spec?.spec_det?.map((det) => `${det.title}: ${det.value}`)
+        )
+        .join(", "),
+      "Specification Images": product?.specId
+        ?.flatMap((spec) => spec?.image?.map((image) => image?.image_path))
+        .join(", "),
+      "Specification Prices": product?.specId
+        ?.map((spec) => spec?.price)
+        .join(", "),
+      "Specification SkuId": product?.specId
+        ?.map((spec) => spec?.skuId)
+        .join(", "),
+      "Product Description": product?.desc,
+      // "Product Full Description": htmlToPlainText(product?.full_desc),
+    };
+  });
+
+  const onFileUpload = async (file, type) => {
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const uploadResponse = await FileUpload(formData);
+      const fileName = uploadResponse?.data?.data?.fileName;
+
+      if (!fileName) {
+        throw new Error("File upload failed");
+      }
+
+      const payload = { file: fileName };
+      const Bulkres =
+        type == "spec"
+          ? await SpecBulkProductUpload(payload)
+          : await BulkProductUpload(payload);
+
+      if (Bulkres?.data?.error === false) {
+        toast.success(`Upload successful: ${file.name}`);
+        fetchData();
+      } else {
+        throw new Error(`Could not upload file: ${file.name}`);
+      }
+    } catch (error) {
+      console.error("Error in file upload:", error.message);
+      toast.error(`Error in file upload: ${error.message}`);
+    } finally {
+      setUploading(false);
+      fetchData();
+    }
+  };
+
+  const showVariants = (data) => {
+    console.log(data);
+    setVariantsArray(data);
+    handleShowModal2();
+  };
+
+  const variationRequestCount = (data) => {
+    let filterData = data?.filter((ele) => {
+      return ele?.is_approved == false;
+    });
+
+    return filterData?.length;
+  };
 
   return (
     <div className="productList mt-2 p-4">
@@ -406,6 +406,7 @@ const PList = () => {
           </Modal>
         </Container>
       </Container>
+      <Toaster position="top-right" />
       <div style={{ height: 1000, overflowY: "auto" }}>
         {/* Search Input and Button */}
         <div>
@@ -564,11 +565,11 @@ const PList = () => {
                       VIEW
                     </p>
                     {variationRequestCount(row?.specId) > 0 && (
-                    <p className="newrqNo">
-                      <AiOutlineInfoCircle size={22} />{" "}
-                      {variationRequestCount(row?.specId)} Requested{" "}
-                    </p>
-                  )}
+                      <p className="newrqNo">
+                        <AiOutlineInfoCircle size={22} />{" "}
+                        {variationRequestCount(row?.specId)} Requested{" "}
+                      </p>
+                    )}
                   </td>
                   <td>{row?.categoryId?.title}</td>
                   <td>{row?.subcategoryId?.title}</td>
@@ -725,13 +726,28 @@ const ProductSpecificationForm = ({
 
   const handleSubmit = async () => {
     console.log("Submitted Data:", specifications);
+    if (specifications.length === 0) {
+      toast.error("Please add at least one specification");
+      return;
+    }
+
+    if (productPrice === 0) {
+      toast.error("Please enter a valid price");
+      return;
+    }
+
+    if (productImges.length === 0) {
+      toast.error("Please add at least one image");
+      return;
+    }
+
     let payload = {
       productId: selectedproductid?._id,
       spec_det: specifications,
       price: productPrice,
       image: productImges,
       skuId: generateRandomKey(),
-      // user_choice:false,
+      user_choice: false,
     };
 
     payload["product_type"] = "products";
@@ -755,13 +771,13 @@ const ProductSpecificationForm = ({
         {
           title: "",
           value: "",
-          //user_choice: false,
+          user_choice: false,
         },
       ]);
       setproductPrice("");
       setProductImages([]);
       setCopyFrom(0);
-      handleCloseModal(); // Close the modal after submitting
+      handleCloseModal();
     }
   };
 
@@ -1302,6 +1318,5 @@ const ProductSpecificationForm = ({
     </Modal>
   );
 };
-
 
 export default PList;

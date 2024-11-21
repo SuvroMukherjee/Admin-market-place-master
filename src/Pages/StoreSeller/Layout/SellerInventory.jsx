@@ -1,34 +1,17 @@
 // import "./Seller.css";
-import Papa from "papaparse";
-import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Image from "react-bootstrap/Image";
-import Spinner from "react-bootstrap/Spinner";
-import Table from "react-bootstrap/Table";
-import { CSVLink } from "react-csv";
-import toast, { Toaster } from "react-hot-toast";
-import { FaFileUpload, FaMagic } from "react-icons/fa";
-import { LuDownload } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
+import  { useEffect, useState } from "react";
+import { Button, Container, Form } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+import toast from "react-hot-toast";
+import Skeleton from "react-loading-skeleton"; // Import Skeleton loader
 import {
   GetAllServices,
-  SellerProductList,
   UpdateSellerProduct,
-  UpdateSellerProductDataStatus,
-  addSerivices,
-  getLowestPriceProdut,
-  getSearcKeyword,
+  getSearcKeyword
 } from "../../../API/api";
-import {
-  ChangeFormatDate,
-  ChangeFormatDate2,
-} from "../../../common/DateFormat";
 import "./sellerlayout.css";
-import Modal from "react-bootstrap/Modal";
-import { estimatedDeliveryTimes } from "../../../dummyData";
 import SellerStock from "./SellerStock";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function SellerInventory() {
   // const [data, setData] = useState([]);
@@ -948,8 +931,11 @@ export const ServicesModal = ({
   );
 };
 
+
+
 export const SearchTermModal = ({ showModal, handleClose, data }) => {
   const [modalData, setModalData] = useState({});
+  const [loading, setLoading] = useState(false); // Track loading state
 
   useEffect(() => {
     setModalData(data);
@@ -963,25 +949,23 @@ export const SearchTermModal = ({ showModal, handleClose, data }) => {
     handleClose();
   };
 
-
   const getKeyword = async () => {
+    setLoading(true); // Set loading to true when API call starts
     try {
-      // Assuming modalData?._id is being used to fetch data
       const response = await getSearcKeyword(modalData?._id);
-  
-      // Log the response to see the result (optional)
+
       console.log(response);
-  
-      // Update modalData with the new search_key, appending the fetched keyword
-      setModalData(prevData => ({
+
+      setModalData((prevData) => ({
         ...prevData,
-        search_key: prevData?.search_key + response.data.data,
+        search_key: prevData?.search_key + response?.data?.data,
       }));
     } catch (error) {
       console.error("Error fetching search keyword:", error);
+    } finally {
+      setLoading(false); // Set loading to false when API call finishes
     }
   };
-  
 
   return (
     <Modal
@@ -1003,24 +987,33 @@ export const SearchTermModal = ({ showModal, handleClose, data }) => {
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>
-              Search Keys <span> </span>{" "}
+              Search Keys
             </Form.Label>
-            <Form.Control
-              as="textarea"
-              placeholder="Enter Search Term"
-              onChange={(e) =>
-                setModalData({ ...modalData, search_key: e.target.value })
-              }
-              value={modalData?.search_key}
-              rows={10}
-            />
+            {loading ? (
+              // Show Skeleton loader while the API is fetching
+              <div >
+                   <Skeleton count={5} height={40} baseColor="#e0e0e0" />
+              </div>
+             
+            ) : (
+              <Form.Control
+                as="textarea"
+                placeholder="Enter Search Term"
+                onChange={(e) =>
+                  setModalData({ ...modalData, search_key: e.target.value })
+                }
+                value={modalData?.search_key}
+                rows={10}
+              />
+            )}
           </Form.Group>
         </Form>
         <div className="d-flex justify-content-center">
-          <button className="glow-button" onClick={getKeyword}>
+          {!loading &&
+          <button className="glow-button" onClick={getKeyword} >
             <span className="icon">✨</span>
             Modify with AI
-          </button>
+          </button>}
         </div>
       </Modal.Body>
       <Modal.Footer>
