@@ -511,8 +511,14 @@ export default function ListCategory() {
             onHide={handleCloseApplyModal}
             className="mt-5"
           >
-            <Modal.Header closeButton>
+            <Modal.Header className="d-flex justify-content-between">
               <Modal.Title>Add or Remove Category Keywords</Modal.Title>
+              <button
+                className="btn btn-outline-danger btn-sm"
+                onClick={handleCloseApplyModal}
+              >
+                ✕
+              </button>
             </Modal.Header>
             <Modal.Body>
               <Form>
