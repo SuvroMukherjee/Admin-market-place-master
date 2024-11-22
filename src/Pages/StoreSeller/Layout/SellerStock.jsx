@@ -47,7 +47,10 @@ const SellerStock = () => {
     categoryId: "",
     subcategoryId: "",
     brandId: "",
-    isPopular: false,
+    isPopular: "",
+    is_bestSell: "",
+    out_of_stock: "",
+    sales_start: "",
   });
 
   const [importedData, setImportedData] = useState([]);
@@ -74,6 +77,7 @@ const SellerStock = () => {
     try {
       const res = await allCategoryList();
       let data = res.data?.data?.filter((item) => item.status === true);
+      data = data.sort((a, b) => a.title.localeCompare(b.title));
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories", error);
@@ -84,6 +88,7 @@ const SellerStock = () => {
     try {
       const res = await allSubCategoryList();
       let data = res.data?.data?.filter((item) => item.status === true);
+      data = data.sort((a, b) => a.title.localeCompare(b.title));
       setSubcategories(data);
     } catch (error) {
       console.error("Error fetching subcategories", error);
@@ -94,6 +99,7 @@ const SellerStock = () => {
     try {
       const res = await allBrandList();
       let data = res.data?.data?.filter((item) => item.status === true);
+      data = data.sort((a, b) => a.title.localeCompare(b.title));
       setBrands(data);
     } catch (error) {
       console.error("Error fetching brands", error);
@@ -114,10 +120,10 @@ const SellerStock = () => {
             categoryId,
             subcategoryId,
             brandId,
-            is_popular: isPopular ? "true" : "false",
-            is_bestSell: is_bestSell ? "true" : "false",
-            out_of_stock: out_of_stock ? "true" : "false",
-            sales_start: sales_start ? "true" : "false",
+            is_popular:  isPopular !== "" ? isPopular : undefined,
+            is_bestSell: is_bestSell !== "" ? is_bestSell : undefined,
+            out_of_stock: out_of_stock !== "" ? out_of_stock : undefined,
+            sales_start: sales_start !== "" ? sales_start : undefined,
           },
         }
       );
@@ -158,7 +164,8 @@ const SellerStock = () => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
+    console.log(name,value)
+    setFilters((prev) => ({ ...prev, [name]: value == "on" ? true : false }));
   };
 
   const handlePageChange = (pageNumber) => {
@@ -395,6 +402,9 @@ const SellerStock = () => {
       setStartUploading(false);
     }, 2000);
   };
+
+
+  console.log(filters,'filters')
 
   return (
     <div>
@@ -906,3 +916,4 @@ const SellerStock = () => {
 };
 
 export default SellerStock;
+
