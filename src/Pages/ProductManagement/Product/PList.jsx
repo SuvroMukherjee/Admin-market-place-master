@@ -117,7 +117,8 @@ const PList = () => {
   const fetchCategories = async () => {
     try {
       const res = await allCategoryList();
-      setCategories(res.data?.data);
+      let data = res.data?.data?.filter((item) => item?.status == true)?.sort((a, b) => a?.title?.localeCompare(b?.title));
+      setCategories(data);
     } catch (error) {
       console.error("Error fetching categories", error);
     }
@@ -126,7 +127,8 @@ const PList = () => {
   const fetchSubcategories = async () => {
     try {
       const res = await allSubCategoryList();
-      setSubcategories(res.data?.data);
+      let data = res.data?.data?.filter((item) => item?.status == true)?.sort((a, b) => a?.title?.localeCompare(b?.title));
+      setSubcategories(data);
     } catch (error) {
       console.error("Error fetching subcategories", error);
     }
@@ -135,7 +137,8 @@ const PList = () => {
   const fetchBrands = async () => {
     try {
       const res = await allBrandList();
-      setBrands(res.data?.data);
+      let data = res.data?.data?.filter((item) => item?.status == true)?.sort((a, b) => a?.title?.localeCompare(b?.title));
+      setBrands(data);
     } catch (error) {
       console.error("Error fetching brands", error);
     }
@@ -480,7 +483,7 @@ const PList = () => {
           </Form.Select>
         </div>
 
-        <div className="d-flex justify-content-center mt-2 mb-4">
+        <div className="d-flex justify-content-center mt-2 mb-4 gap-2">
           <Button variant="dark" size="sm" onClick={handleReset}>
             Reset & Refresh
           </Button>

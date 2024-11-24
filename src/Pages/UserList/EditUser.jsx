@@ -46,6 +46,7 @@ const EditUser = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        delete formData.password
         await StaffUpdatedDetails(staffId, formData).then((res) => {
             toast.success('User edited successfully')
             navigate('/users');
