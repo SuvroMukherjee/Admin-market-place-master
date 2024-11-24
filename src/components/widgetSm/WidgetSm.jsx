@@ -2,9 +2,11 @@ import React from "react";
 import "./widgetSm.css";
 import { Visibility } from "@mui/icons-material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useNavigate } from "react-router-dom";
 
 export default function WidgetSm({user}) {
     console.log({user})
+    const navigate = useNavigate();
     return (
         <div className="widgetSm">
             <span className="widgetSmTitle">New Joined Members</span>
@@ -21,7 +23,7 @@ export default function WidgetSm({user}) {
                             <span className="widgetSmUsername">{ele?.name}</span>
                             <span className="widgetSmUserTitle">{ele?.role?.name}</span>
                         </div>
-                        <button className="widgetSmButton">
+                        <button className="widgetSmButton" onClick={() => navigate('/users') }>
                             <Visibility className="widgetSmIcon" />
                             Display
                         </button>

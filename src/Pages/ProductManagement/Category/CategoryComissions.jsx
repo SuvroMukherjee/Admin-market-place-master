@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Form, Button, Container, Row, Col, Table } from 'react-bootstrap';
 import { UpdatesellerOwnRegistrationForm, allCategoryList, allCommissionList, allcatList, createCommission, deleteCommission, updateCommission } from '../../../API/api';
 import toast, { Toaster } from 'react-hot-toast';
-import { IoIosAddCircle } from "react-icons/io";
+import { IoIosAddCircle, IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { RiShareForwardFill } from "react-icons/ri";
 import { IoSaveSharp } from "react-icons/io5";
@@ -22,6 +22,8 @@ const CategoryComissions = () => {
     const [updateCommissionRate, setUpdateCommissionRate] = useState();
     const [updateIndex, setUpdateIndex] = useState()
     const [updateformData, setupdateFormData] = useState([]);
+
+
 
 
     useEffect(() => {
@@ -46,7 +48,8 @@ const CategoryComissions = () => {
 
     async function getAllCats() {
         await allcatList().then((res) => {
-            setcategorylist(res?.data?.data)
+            let data = res?.data?.data?.filter((item) => item?.status === true)?.sort((a, b) => a.title.localeCompare(b.title))
+            setcategorylist(data)
         }).catch((err) => {
             console.log(err)
         })
@@ -169,6 +172,12 @@ const CategoryComissions = () => {
             <h3 className="addProductTitle mt-4 text-center">Add commissions</h3>
             <div>
                 <Row className='mt-2'>
+                    
+                    <Col xs={8} className='d-flex justify-content-start mb-3' >
+                    <Button variant="dark" size="sm" onClick={() => navigate('/Admin/category')}>
+                       <span><IoMdArrowBack size={25} /></span> Back to Category
+                    </Button>
+                    </Col>
                     <Col xs={12} >
                         <Form.Group controlId="commissionRate">
                             {formData.commission_data.map((item, index) => (

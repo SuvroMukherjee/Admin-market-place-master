@@ -20,7 +20,7 @@ export default function WidgetLg({ product }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {product?.length > 0 && product.map((ele, index) => (
+                    {product?.length > 0 && product?.slice(0,15).map((ele, index) => (
                         <TableRow key={index} className="widgetLgTr">
                             <TableCell className="widgetLgUser flex">
                                 <img
