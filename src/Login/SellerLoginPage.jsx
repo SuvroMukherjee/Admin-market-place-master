@@ -155,6 +155,7 @@ const SellerLoginPage = () => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
+<<<<<<< HEAD
   const handleCaptchaChange = (value) => {
     if (value) {
       setCaptchaVerified(true);
@@ -172,6 +173,19 @@ const SellerLoginPage = () => {
       </div>
       <Form className="shadow loginForm" onSubmit={handleSubmit}>
         {/* <img
+=======
+    return (
+        <div
+            className="sign-in__wrapper"
+        // style={{ backgroundImage: `url('https://img.freepik.com/free-photo/online-shopping-shopping-cart-placed-alongside-notebook-blue_1150-19158.jpg')` }}
+        >
+            {/* <div className="sign-in__backdrop"></div> */}
+            <div className="login-page-background">
+                <img src={loginbackground} alt="" />
+            </div>
+            <Form className="shadow loginForm" onSubmit={handleSubmit}>
+                {/* <img
+>>>>>>> 19c78ac0d9eb84e1a93ad7db28d66dafeae026f5
                     className="img-thumbnail mx-auto d-block mb-2"
                     src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn0ivKSgxD_PljXFzpiZIDT-TXhcRNVo4g3Q&usqp=CAU'}
                     alt="logo"
