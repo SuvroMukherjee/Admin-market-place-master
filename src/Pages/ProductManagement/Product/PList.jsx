@@ -96,9 +96,15 @@ const PList = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
+      // Ensure searchTerm is a string before applying replace
+      // const updatedSearchTerm = searchTerm
+      //   ? searchTerm.replace(/\([^)]+\)$/, "(Updated Content)")
+      //   : searchTerm;
+
       const res = await axios.get(
-        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
+        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm?.trim()}`
       );
+
       setFilterData(res?.data?.data);
       setTotalPages(res?.data?.pagination?.pages);
       setLoading(false);
@@ -297,7 +303,7 @@ const PList = () => {
       <Container className="mt-2 mb-4">
         <Row className="justify-content-md-center">
           <Col md="auto">
-            <h3>Product List dd</h3>
+            <h3>Product List</h3>
           </Col>
         </Row>
 
@@ -413,7 +419,7 @@ const PList = () => {
           <InputGroup className="mb-3">
             <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
             <Form.Control
-              placeholder="search product by id or name"
+              placeholder="search product by productId id or product name without product specifications"
               aria-label="Search-Product"
               aria-describedby="basic-addon1"
               value={searchTerm}
