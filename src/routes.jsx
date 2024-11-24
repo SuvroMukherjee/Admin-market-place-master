@@ -95,6 +95,7 @@ import RefundOrderAdmin from "./Pages/EcommerceReport/RefundOrderAdmin";
 import AdminPaymnets from "./Pages/AdminPaymnets/AdminPaymnets";
 import SellerPayments from "./Pages/StoreSeller/payments/SellerPayments";
 import NOUserPage from "./Pages/NOUserPage";
+import { Nav } from "react-bootstrap";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -171,7 +172,7 @@ export default function Router({ socket }) {
     },
     {
       path: "/key",
-      element: <AdminLayout />,
+      element: <AdminLayout socket={socket} />,
       children: [
         {
           element: <RequireAuth allowedRoles={["Key Account Maneger"]} />,
@@ -305,7 +306,7 @@ export default function Router({ socket }) {
     },
     {
       path: "*",
-      element: <NOUserPage />,
+      element: <Navigate to="/" />,
     },
     { path: "live-preview/:id", element: <LivePreview /> },
   ];
