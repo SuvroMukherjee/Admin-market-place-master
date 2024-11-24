@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
         // Clear the authentication data from localStorage and reset auth state
  
         console.log({auth})
-        if (auth?.role?.name == "Key Account Maneger"){
+        if (auth?.role?.name == "Key Account Manager"){
            let res = await getLocationForLogout();
             if (res?.error == false){
                localStorage.removeItem('auth');
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
                setAuth(null);
            }
            
-        } else if (auth?.role?.name != "Key Account Maneger"){
+        } else if (auth?.role?.name != "Key Account Manager"){
             localStorage.removeItem('auth');
             localStorage.removeItem('ACCESS_TOKEN');
             localStorage.clear();

@@ -181,7 +181,7 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
         <IconContext.Provider value={{ color: "#fff" }}>
           {auth.role.name === "Admin" &&
             renderSidebarData(AdminSidebarData, "Admin DashBoard")}
-          {auth.role.name === "Key Account Maneger" &&
+          {auth.role.name === "Key Account Manager" &&
             renderSidebarData(
               KeyManagerSidebarData,
               "Key Account Manager DashBoard"

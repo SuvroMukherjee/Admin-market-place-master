@@ -50,7 +50,7 @@ const LoginPage = () => {
                             const accessToken = res?.data?.data[1]?.accessToken;
                             const role = res?.data?.data[0]?.role;
                             console.warn(role, 'role')
-                            if (role?.name == "Key Account Maneger") {
+                            if (role?.name == "Key Account Manager") {
                                 getLocation();
                             }
 

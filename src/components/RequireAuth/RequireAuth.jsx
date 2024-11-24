@@ -23,7 +23,7 @@ const RequireAuth = ({ allowedRoles }) => {
                 <Navigate to="/" state={{ from: location }} replace />
             );
             break;
-        case auth?.role?.name === 'Key Account Maneger':
+        case auth?.role?.name === 'Key Account Manager':
             componentToRender = (
                 <Navigate to="/key/dashboard" state={{ from: location }} replace />
             );

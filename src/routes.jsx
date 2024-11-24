@@ -172,10 +172,10 @@ export default function Router({ socket }) {
     },
     {
       path: "/key",
-      element: <AdminLayout socket={socket} />,
+      element: <AdminLayout  />,
       children: [
         {
-          element: <RequireAuth allowedRoles={["Key Account Maneger"]} />,
+          element: <RequireAuth allowedRoles={["Key Account Manager"]} />,
           children: [
             { path: "dashboard", element: <Dashboard /> }, // Remove the absolute path '/key'
             { path: "attencdence", element: <AttendenceComp /> },
