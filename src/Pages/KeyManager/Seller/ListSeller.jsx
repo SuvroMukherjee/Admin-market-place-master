@@ -356,7 +356,7 @@ export default function ListSeller() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.map((row) => (
+                                    {data?.length > 0 && data?.map((row) => (
                                         <tr key={row?.id}>
                                             <td>{row?.id}</td>
                                             <td>{row?.Shop_Details_Info?.shope_name}</td>
@@ -391,7 +391,7 @@ export default function ListSeller() {
                                             </td>
                                         </tr>
                                     ))}
-                                    {data.length === 0 && (
+                                    {data?.length === 0 && (
                                         <tr>
                                             <td colSpan="12" style={{ textAlign: 'center' }}>No Data Found</td>
                                         </tr>

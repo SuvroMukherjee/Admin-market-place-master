@@ -5,6 +5,9 @@ import { useEffect } from "react";
 import { Col, Container, Row } from 'react-bootstrap';
 import { attendenceList } from "../../API/api";
 import { calculateTimeDifference } from "../../common/DateFormat";
+import moment from 'moment-timezone';
+
+
 
 
 function UserAttendence({ userId }) {
@@ -29,7 +32,6 @@ function UserAttendence({ userId }) {
     }, [])
 
     const columns = [
-        // { field: "id", headerName: "ID", width: 50 },
         {
             field: "date",
             headerName: 'Date',
@@ -37,8 +39,11 @@ function UserAttendence({ userId }) {
             renderCell: (params) => {
                 return (
                     <div>
-                        {/* {params?.row?.log_in_time} */}
-                        <span className="loglocation">{params?.row?.log_in_time ? formatDate(params?.row?.log_in_time) : ''}</span>
+                        <span className="loglocation">
+                            {params?.row?.log_in_time
+                                ? moment.tz(params?.row?.log_in_time, "Asia/Kolkata").format('DD-MM-YYYY')
+                                : ''}
+                        </span>
                     </div>
                 );
             }
@@ -50,8 +55,11 @@ function UserAttendence({ userId }) {
             renderCell: (params) => {
                 return (
                     <div>
-
-                        <span className="loglocation">{params?.row?.log_in_time ? new Date(params?.row?.log_in_time).toLocaleDateString('en-US', { weekday: 'long' }) : ''}</span>
+                        <span className="loglocation">
+                            {params?.row?.log_in_time
+                                ? moment.tz(params?.row?.log_in_time, "Asia/Kolkata").format('dddd')
+                                : ''}
+                        </span>
                     </div>
                 );
             }
@@ -63,8 +71,11 @@ function UserAttendence({ userId }) {
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-
-                        <span className="loginT">{params?.row?.log_in_time?.slice(11, 16)}</span>
+                        <span className="loginT">
+                            {params?.row?.log_in_time
+                                ? moment.tz(params?.row?.log_in_time, "Asia/Kolkata").format('HH:mm')
+                                : ''}
+                        </span>
                     </div>
                 );
             }
@@ -76,21 +87,27 @@ function UserAttendence({ userId }) {
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-
-                        <span className="loglocation">{params?.row?.log_in_loc?.location},{params?.row?.log_in_loc?.city},{params?.row?.log_in_loc?.state}</span>
+                        <span className="loglocation">
+                            {params?.row?.log_in_loc?.location},
+                            {params?.row?.log_in_loc?.city},
+                            {params?.row?.log_in_loc?.state}
+                        </span>
                     </div>
                 );
             }
         },
         {
             field: "log_out_time",
-            headerName: "Logout time",
-            width: 100,
+            headerName: "Logout Time",
+            width: 150,
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        {params?.row?.log_out_time &&
-                            <span className="logoutT">{params?.row?.log_out_time?.slice(11, 16)}</span>}
+                        {params?.row?.log_out_time && (
+                            <span className="logoutT">
+                                {moment.tz(params?.row?.log_out_time, "Asia/Kolkata").format('DD-MM-YYYY hh:mm')}
+                            </span>
+                        )}
                     </div>
                 );
             }
@@ -102,8 +119,11 @@ function UserAttendence({ userId }) {
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        {params?.row?.log_out_time &&
-                            <span className="logoutT">{params?.row?.log_out_time ? new Date(params?.row?.log_out_time).toLocaleDateString('en-US', { weekday: 'long' }) : ''}</span>}
+                        {params?.row?.log_out_time && (
+                            <span className="logoutT">
+                                {moment.tz(params?.row?.log_out_time, "Asia/Kolkata").format('dddd')}
+                            </span>
+                        )}
                     </div>
                 );
             }
@@ -115,8 +135,13 @@ function UserAttendence({ userId }) {
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        {params?.row?.log_out_time &&
-                            <span className="loglocation"> {params?.row?.log_out_loc?.location},{params?.row?.log_out_loc?.city},{params?.row?.log_out_loc?.state}</span>}
+                        {params?.row?.log_out_time && (
+                            <span className="loglocation">
+                                {params?.row?.log_out_loc?.location},
+                                {params?.row?.log_out_loc?.city},
+                                {params?.row?.log_out_loc?.state}
+                            </span>
+                        )}
                     </div>
                 );
             }
@@ -128,14 +153,20 @@ function UserAttendence({ userId }) {
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        {params?.row?.log_out_time &&
-                            <span className="duraT">{calculateTimeDifference(params?.row?.log_out_time, params?.row?.log_in_time)}</span>}
+                        {params?.row?.log_out_time && (
+                            <span className="duraT">
+                                {calculateTimeDifference(
+                                    moment.tz(params?.row?.log_out_time, "Asia/Kolkata").toISOString(),
+                                    moment.tz(params?.row?.log_in_time, "Asia/Kolkata").toISOString()
+                                )}
+                            </span>
+                        )}
                     </div>
                 );
             }
         }
-
     ];
+    
 
     function CustomToolbar() {
         return (
@@ -147,14 +178,15 @@ function UserAttendence({ userId }) {
 
 
     const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        if (isNaN(date.getTime())) {
-            return '';
-        }
-        const day = date.getDate();
-        const month = date.getMonth() + 1;
-        const year = date.getFullYear();
-        return `${day}-${month < 10 ? '0' + month : month}-${year}`;
+        // const date = new Date(dateString);
+        // if (isNaN(date.getTime())) {
+        //     return '';
+        // }
+        // const day = date.getDate();
+        // const month = date.getMonth() + 1;
+        // const year = date.getFullYear();
+        // return `${day}-${month < 10 ? '0' + month : month}-${year}`;
+        return dateString
     };
 
     // Calculate difference between two times
