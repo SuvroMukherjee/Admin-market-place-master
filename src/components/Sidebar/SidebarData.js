@@ -22,12 +22,12 @@ export const AdminSidebarData = [
     icon: AiIcons.AiFillHome,
     cName: "nav-text",
   },
-  {
-    title: "Roles",
-    path: "/roles",
-    icon: RiUserSettingsFill,
-    cName: "nav-text",
-  },
+  // {
+  //   title: "Roles",
+  //   path: "/roles",
+  //   icon: RiUserSettingsFill,
+  //   cName: "nav-text",
+  // },
   {
     title: "Users",
     path: "/users",
