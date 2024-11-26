@@ -100,14 +100,14 @@ export function Roles() {
                 return (
                     <>
                         <div className="buttonWrapper">
-                            <Button variant="warning" onClick={() => handleEdit(params?.row)} size="sm">
+                            <Button variant="warning" onClick={() => handleEdit(params?.row)} size="sm" disabled={params?.row?.name  == "Admin"}>
                                 <RiEdit2Line /> Edit
                             </Button>
                             {params?.row?.status ?
-                                <Button variant="danger" onClick={() => handleStatusUpdate(params?.row)} size="sm">
+                                <Button variant="danger" onClick={() => handleStatusUpdate(params?.row)} size="sm" disabled={params?.row?.name  == "Admin"}>
                                     Deactive
                                 </Button> :
-                                <Button variant="success" onClick={() => handleStatusUpdate(params?.row)} size="sm">
+                                <Button variant="success" onClick={() => handleStatusUpdate(params?.row)} size="sm" disabled={params?.row?.name  == "Admin"}>
                                     Active
                                 </Button>}
                             {/* <Button variant="outline-danger" onClick={() => deleteRole(params?.row?._id)}>
