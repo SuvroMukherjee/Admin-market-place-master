@@ -124,12 +124,12 @@ export const AdminSidebarData = [
     icon: VscFeedback,
     cName: "nav-text",
   },
-  {
-    title: "Banner Managment",
-    path: "/bannermanagment",
-    icon: GiVerticalBanner,
-    cName: "nav-text",
-  },
+  // {
+  //   title: "Banner Managment",
+  //   path: "/bannermanagment",
+  //   icon: GiVerticalBanner,
+  //   cName: "nav-text",
+  // },
   {
     title: "Refund Orders",
     path: "/Admin/admin-refund-order-list",

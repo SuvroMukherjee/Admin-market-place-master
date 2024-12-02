@@ -165,7 +165,15 @@ const SellerStock = () => {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     console.log(name,value)
+   // setFilters((prev) => ({ ...prev, [name]: value == "on" ? true : false }));
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFilterChangeCheckbox = (e) => {
+    const { name, value } = e.target;
+    console.log(name,value)
     setFilters((prev) => ({ ...prev, [name]: value == "on" ? true : false }));
+   // setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePageChange = (pageNumber) => {
@@ -494,7 +502,7 @@ const SellerStock = () => {
             name="isPopular"
             label="Popular"
             checked={filters.isPopular}
-            onChange={handleFilterChange}
+            onChange={handleFilterChangeCheckbox}
             className="fw-bold"
           />
         </Form.Group>
@@ -504,7 +512,7 @@ const SellerStock = () => {
             name="is_bestSell"
             label="Best Sell"
             checked={filters.is_bestSell}
-            onChange={handleFilterChange}
+            onChange={handleFilterChangeCheckbox}
             className="fw-bold"
           />
         </Form.Group>
@@ -514,7 +522,7 @@ const SellerStock = () => {
             name="out_of_stock"
             label="Out of Stock"
             checked={filters.out_of_stock}
-            onChange={handleFilterChange}
+            onChange={handleFilterChangeCheckbox}
             className="fw-bold"
           />
         </Form.Group>
@@ -524,7 +532,7 @@ const SellerStock = () => {
             name="sales_start"
             label="Top Sales"
             checked={filters.sales_start}
-            onChange={handleFilterChange}
+            onChange={handleFilterChangeCheckbox}
             className="fw-bold"
           />
         </Form.Group>
