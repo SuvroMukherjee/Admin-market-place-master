@@ -438,6 +438,23 @@ const SellerStock = () => {
           </div>
         </div>
       </Container>
+      <div className="d-flex justify-content-between mb-3 gap-4 p-4" style={{backgroundColor:"#EDE8DC"}}>
+        {/* <input type="text" name="name" onChange={handleFilterChange} placeholder="Search by SKU, brand name or Product name" /> */}
+        {/** make a search bar */}  
+        <Form.Group controlId="searchtext" className="flex-grow-1">
+          <Form.Label className="fw-bold">Search by Product name</Form.Label>
+          <Form.Control
+            type="text"
+            name="searchtext"
+            value={filters.searchtext}
+            onChange={handleFilterChange}
+            size="sm"
+            placeholder="Search by Product name"
+          />
+        </Form.Group> 
+      
+        
+      </div>
 
       <div className="d-flex justify-content-between mb-3 gap-4 p-4" style={{backgroundColor:"#EDE8DC"}}>
         <Form.Group controlId="categoryId" className="flex-grow-1">
