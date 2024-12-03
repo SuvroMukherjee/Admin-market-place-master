@@ -17,6 +17,7 @@ import { TbCategoryPlus } from "react-icons/tb";
 import { BsShop } from "react-icons/bs";
 import Spinner from 'react-bootstrap/Spinner';
 import { useNavigate, useParams } from "react-router-dom";
+import { distanceCategories } from '../../../common/DistanceDelivery';
 
 const ProfilePage = () => {
 
@@ -168,7 +169,8 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
         state: '',
         pic_of_shope: [],
         old_shope_desc: '',
-        total_no_of_unit: ''
+        total_no_of_unit: '',
+        distance_category: 100
 
     });
     const [allstates, setAllStates] = useState([])
@@ -259,6 +261,15 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
         //nextStep();
     };
 
+    // const distanceCategories = [
+    //     "Within City",
+    //     "Nearby Cities or Districts",
+    //     "Within State",
+    //     "Inter-State (Nearby States)",
+    //     "Long-Distance (Across States)"
+    // ];
+
+  
 
     return (
         <Container>
@@ -392,6 +403,25 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
                         </Col>
 
                     </Row>
+
+                   
+              
+                    {/* Existing Form Fields */}
+                    <Row className='mt-4'>
+                        <Col xs={6}>
+                            <Form.Group controlId="distanceCategory">
+                                <Form.Label className='frmLable'>Please Select Potential Delivery Distance <span className="req">*</span></Form.Label>
+                                <Form.Control as="select" name="distance_category" size="sm" value={shopInfo?.distance_category} onChange={handleChange} required>
+                                    {distanceCategories.map((category, index) => (
+                                        <option key={index} value={category?.distance}>{category?.text} - <span style={{ color: "red" }}>{category?.range}</span></option>
+                                    ))}
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    {/* Existing Submit Button */}
+                    
+            
 
 
                     {/* <Button variant="secondary" onClick={prevStep}>Previous</Button>{' '} */}
