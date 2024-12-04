@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import {
   ReportLists,
   SellerProductList,
+  listBySellerPaginated,
   sellerDetails,
 } from "../../../API/api";
 import { ratingCalculation } from "../../../common/RatingAvg";
@@ -29,17 +30,19 @@ const NewSellerDashboard = () => {
 
   const navigate = useNavigate();
 
-
   const { userId } = JSON.parse(localStorage.getItem("auth"));
 
   const SellingProducts = async () => {
-    await SellerProductList(userId)
+    await listBySellerPaginated(userId, {
+      page: 1,
+      limit: 10,
+      sales_start: true,
+    })
       .then((res) => {
         setdata(res?.data?.data?.SellerProductData);
         setReviewData(res?.data?.data?.reviewData);
         getProfileDetails();
-        setLoading(false)
-        // CalculateAvgRating(res?.data?.data?.SellerProductData, res?.data?.data?.reviewData)
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
@@ -57,9 +60,10 @@ const NewSellerDashboard = () => {
       0
     );
 
-    setAvgCustomerRating(totalRating / res?.data?.sellerReviewData?.length || 0);
+    setAvgCustomerRating(
+      totalRating / res?.data?.sellerReviewData?.length || 0
+    );
   };
-
 
   const getSellerReport = async () => {
     try {
@@ -119,6 +123,7 @@ const NewSellerDashboard = () => {
       className="pt-4"
       style={{
         background: "#f5f1f1",
+        minHeight: "100vh",
       }}
     >
       <Container>
@@ -164,38 +169,44 @@ const NewSellerDashboard = () => {
         <Row>
           <Col className="p-2">
             <Container>
-              {data?.length > 0 && 
-              <Row className="mt-4">
-                <Col className="dtext2">
-                  Top Selling Products{" "}
-                  <span>
-                    <FaArrowUpRightDots color="red" size={24} />
-                  </span>
-                </Col>
-              </Row>}
-              <hr />
-              { loading && (
-                <div className="d-flex justify-content-center flex-wrap gap-4 mt-5">
-                <Spinner animation="border" />
-              </div>
+              {data?.length > 0 && (
+                <Row className="mt-4">
+                  <Col className="dtext2">
+                    Top Selling Products{" "}
+                    <span>
+                      <FaArrowUpRightDots color="red" size={24} />
+                    </span>
+                  </Col>
+                </Row>
               )}
-              {(!loading && data?.length == 0) ? 
-               <Row className="stratAdd">
-               <Col xs={2}>
-                 <img src="https://5.imimg.com/data5/SELLER/Default/2023/1/MH/CQ/PR/3553409/corrugated-paper-electronics-packaging-box-500x500.jpg" width={200} />
-               </Col>
-             <Col xs={4}>
-               Start Adding Products <br/>
-                 <span onClick={() => navigate('/seller/seller-addproduct')}>GO</span>
-             </Col>
-           </Row>
-              : 
-          <Row className="mt-2">
-          <Col>
-       <SellingProductList data={data} reviewData={reviewData} />
-        </Col>
-       </Row>
-            }
+              <hr />
+              {loading && (
+                <div className="d-flex justify-content-center flex-wrap gap-4 mt-5">
+                  <Spinner animation="border" />
+                </div>
+              )}
+              {!loading && data?.length == 0 ? (
+                <Row className="stratAdd">
+                  <Col xs={2}>
+                    <img
+                      src="https://5.imimg.com/data5/SELLER/Default/2023/1/MH/CQ/PR/3553409/corrugated-paper-electronics-packaging-box-500x500.jpg"
+                      width={200}
+                    />
+                  </Col>
+                  <Col xs={4}>
+                    Start Adding Products <br />
+                    <span onClick={() => navigate("/seller/seller-addproduct")}>
+                      GO
+                    </span>
+                  </Col>
+                </Row>
+              ) : (
+                <Row className="mt-2">
+                  <Col>
+                    <SellingProductList data={data} reviewData={reviewData} />
+                  </Col>
+                </Row>
+              )}
             </Container>
           </Col>
         </Row>
@@ -203,58 +214,6 @@ const NewSellerDashboard = () => {
     </div>
   );
 };
-
-// const OrderConatiner = ({ list }) => {
-//   const navigate = useNavigate();
-//   return (
-//     <>
-//       <Table striped bordered hover responsive className="shadowbox2">
-//         <thead>
-//           <tr>
-//             <th>Product Name</th>
-//             <th className="pname">Product Image</th>
-//             <th className="pname">SKU</th>
-//             <th>Order Quantity</th>
-//             <th>Price</th>
-//             <th>Order Date & Time</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {list.map((row) => (
-//             <tr key={row.id}>
-//               <td
-//                 className="pname"
-//                 onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}
-//               >
-//                 {row.productId ? row.productId.name : ""}
-//               </td>
-//               <td>
-//                 <Image
-//                   src={row.productId?.specId?.image?.[0]?.image_path}
-//                   thumbnail
-//                   width={40}
-//                   height={40}
-//                 />
-//               </td>
-//               <td
-//                 className="pname"
-//                 onClick={() => navigate(`/seller/product-deatils/${row?._id}`)}
-//               >
-//                 {row.productId?.specId?.skuId?.toUpperCase()}
-//               </td>
-//               <td className="avaible">{row.quantity}</td>
-//               <td className="avaible">
-//                 {" "}
-//                 {row.productId?.price?.toLocaleString()}
-//               </td>
-//               <td className="datecolor">{ChangeFormatDate(row.createdAt)}</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </Table>
-//     </>
-//   );
-// };
 
 const SellingProductList = ({ data, reviewData }) => {
   const navigate = useNavigate();
@@ -269,6 +228,7 @@ const SellingProductList = ({ data, reviewData }) => {
               <th>Product Name</th>
               <th>Selling Price</th>
               <th>In Stock</th>
+              <th>Total Sales</th>
               <th>Rating</th>
               <th>Visit On Zoofi</th>
             </tr>
@@ -276,56 +236,54 @@ const SellingProductList = ({ data, reviewData }) => {
         )}
         <tbody>
           {data?.length > 0 &&
-            data?.slice(0, 20)?.map(
-              (ele, index) =>
-                // Add a condition to check if the rating is greater than 2
-                ratingCalculation(ele?._id, reviewData) > 2 && (
-                  <tr key={index}>
-                    <td>
-                      <Image
-                        src={ele?.specId?.image?.[0]?.image_path}
-                        thumbnail
-                        width={60}
-                        height={60}
-                      />
-                    </td>
-                    <td
-                      className="pname"
-                      onClick={() =>
-                        navigate(`/seller/product-deatils/${ele?._id}`)
-                      }
-                    >
-                      {ele?.specId?.skuId?.toUpperCase()}
-                    </td>
-                    <td
-                      className="pname"
-                      onClick={() =>
-                        navigate(`/seller/product-deatils/${ele?._id}`)
-                      }
-                    >
-                      {ele?.name}
-                    </td>
-                    <td>{ele?.price?.toLocaleString()}</td>
-                    <td className="avaible">{ele?.available_qty || 0}</td>
-                    <td>
-                      <div className="ratingDiv">
-                        <FaStar color="gold" size={15} />
-                        {ratingCalculation(ele?._id, reviewData)?.toFixed(2)}
-                      </div>
-                    </td>
-                    <td>
-                      <a
-                        href={`https://zoofi.in/product-details/${ele?._id}`}
-                        target="_blank"
-                      >
-                        <Button variant="outline-primary" size="sm">
-                          Visit
-                        </Button>
-                      </a>
-                    </td>
-                  </tr>
-                )
-            )}
+            data?.slice(0, 20)?.map((ele, index) => (
+              <tr key={index}>
+                <td>
+                  <Image
+                    src={ele?.specId?.image?.[0]?.image_path}
+                    thumbnail
+                    width={60}
+                    height={60}
+                  />
+                </td>
+                <td
+                  className="pname"
+                  onClick={() =>
+                    navigate(`/seller/product-deatils/${ele?._id}`)
+                  }
+                >
+                  {ele?.specId?.skuId?.toUpperCase()}
+                </td>
+                <td
+                  className="pname"
+                  onClick={() =>
+                    navigate(`/seller/product-deatils/${ele?._id}`)
+                  }
+                >
+                  {ele?.name}
+                </td>
+                <td>{ele?.price?.toLocaleString()}</td>
+                <td className="avaible">{ele?.available_qty || 0}</td>
+                <td>{ele?.salesCount}</td>
+                <td>
+                  <div className="ratingDiv">
+                    <FaStar color="gold" size={15} />
+                    {ratingCalculation(ele?._id, reviewData)?.toFixed(2)}
+                  </div>
+                </td>
+                <td>
+                  <a
+                    href={`https://zoofi.in/product-details/${ele?._id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Button variant="outline-primary" size="sm">
+                      Visit
+                    </Button>
+                  </a>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
     </div>
