@@ -325,11 +325,11 @@ const BulkUpload = () => {
                 <Row>
                     <Col onClick={() => setChoose(!choose)}>
                         <Card className="bcard">
-                            <Card.Header className='text-center'>Upload New Product</Card.Header>
+                            <Card.Header className='text-center'>Not in Zoofi Catalogue? Add Your Own Product</Card.Header>
                             <Card.Body>
                                 <Row className="me-2">
                                     <Col className="cmpgin-sub-title">
-                                    Not in Zoofi Catalogue? Add Your Own Product
+                                      List products that are not currently in Zoofi's catalogue
                                     </Col>
                                 </Row>
                                 <Row className="mb-2 mt-2">
@@ -357,7 +357,7 @@ const BulkUpload = () => {
 
                     <Col>
                         <Card className={!activeVariation ? 'bcard2' : 'bcard2active'} >
-                            <Card.Header className='text-center'>Upload Variation Of Existing Product</Card.Header>
+                            <Card.Header className='text-center'>Add Variations of Your Product</Card.Header>
                             <Card.Body>
 
                                 <Row className="me-2">

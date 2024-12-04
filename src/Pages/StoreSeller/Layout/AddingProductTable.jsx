@@ -94,14 +94,13 @@ const AddingProductTable = () => {
     fetchBrands();
   }, []);
 
-
-   const { userId } = JSON.parse(localStorage.getItem("auth"));
+  const { userId } = JSON.parse(localStorage.getItem("auth"));
 
   const fetchData = async () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${apiUrl}/product/all-list?page=${currentPage}&limit=15&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
+        `${apiUrl}/product/all-list?page=${currentPage}&limit=10&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
       );
       setFilterData(res?.data?.data);
       setTotalPages(res?.data?.pagination?.pages);
@@ -115,7 +114,10 @@ const AddingProductTable = () => {
   const fetchCategories = async () => {
     try {
       const res = await allCategoryList();
-      setCategories(res.data?.data);
+      let filter = res.data?.data
+        ?.filter((ele) => ele?.status == true)
+        .sort((a, b) => a?.title?.localeCompare(b?.title));
+      setCategories(filter);
     } catch (error) {
       console.error("Error fetching categories", error);
     }
@@ -124,7 +126,10 @@ const AddingProductTable = () => {
   const fetchSubcategories = async () => {
     try {
       const res = await allSubCategoryList();
-      setSubcategories(res.data?.data);
+      let filter = res.data?.data
+        ?.filter((ele) => ele?.status == true)
+        .sort((a, b) => a?.title?.localeCompare(b?.title));
+      setSubcategories(filter);
     } catch (error) {
       console.error("Error fetching subcategories", error);
     }
@@ -133,7 +138,11 @@ const AddingProductTable = () => {
   const fetchBrands = async () => {
     try {
       const res = await allBrandList();
-      setBrands(res.data?.data);
+      let filter = res.data?.data
+        ?.filter((ele) => ele?.status == true)
+        .sort((a, b) => a?.title?.localeCompare(b?.title));
+
+      setBrands(filter);
     } catch (error) {
       console.error("Error fetching brands", error);
     }
@@ -339,49 +348,48 @@ const AddingProductTable = () => {
     });
   };
 
+  const AddSellerProduct = async (
+    Pid,
+    SpecId,
+    price,
+    quantity,
+    shipping_cost
+  ) => {
+    if (price) {
+      let payload = {
+        sellerId: userId,
+        productId: Pid,
+        specId: SpecId,
+        price: price,
+        quantity: quantity,
+        shipping_cost: shipping_cost,
+        // "discount_price": inputValue?.discount_price
+      };
 
-    const AddSellerProduct = async (
-      Pid,
-      SpecId,
-      price,
-      quantity,
-      shipping_cost
-    ) => {
-      if (price) {
-        let payload = {
-          sellerId: userId,
-          productId: Pid,
-          specId: SpecId,
-          price: price,
-          quantity: quantity,
-          shipping_cost: shipping_cost,
-          // "discount_price": inputValue?.discount_price
-        };
+      console.log(payload);
 
-        console.log(payload);
+      await SellerProductAdd(payload)
+        .then((res) => {
+          if (res?.response?.data?.error == true) {
+            toast.error(res?.response?.data?.message);
 
-        await SellerProductAdd(payload)
-          .then((res) => {
-            if (res?.response?.data?.error == true) {
-              toast.error(res?.response?.data?.message);
-
-              // handleClose();
-            } else {
-              toast.success("product added successfully");
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    };
+            // handleClose();
+          } else {
+            toast.success("product added successfully");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
 
   return (
     <div>
       <Container className="mt-2 mb-4">
         <Row className="justify-content-md-center">
-          <Col md="auto">
-            <h6>Zoofi Products</h6>
+          <Col md="auto mt-4">
+            <h4>Add Zoofi Products</h4>
           </Col>
         </Row>
 
@@ -454,7 +462,7 @@ const AddingProductTable = () => {
           </Modal>
         </Container>
       </Container>
-      <div style={{ height: 1000, overflowY: "auto" }}>
+      <div>
         {/* Search Input and Button */}
         <div>
           <Row>
@@ -462,7 +470,7 @@ const AddingProductTable = () => {
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
                 <Form.Control
-                  placeholder="search product by Product tId"
+                  placeholder="Search By Product Id and Product Name"
                   aria-label="Search-Product"
                   aria-describedby="basic-addon1"
                   value={searchTerm}
@@ -482,67 +490,89 @@ const AddingProductTable = () => {
         </div>
 
         {/* Filter Selects */}
-        <div className="d-flex justify-content-between mb-3 gap-4">
-          <Form.Select
-            name="categoryId"
-            value={filters.categoryId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Category</option>
-            {categories?.length > 0 &&
-              categories.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.title}
-                </option>
-              ))}
-          </Form.Select>
-          <Form.Select
-            name="subcategoryId"
-            value={filters.subcategoryId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Subcategory</option>
-            {subcategories?.length > 0 && filters.categoryId !== ""
-              ? subcategories
-                  ?.filter((sub) => {
-                    return sub?.category?._id == filters.categoryId;
-                  })
-                  .map((sub) => (
-                    <option key={sub._id} value={sub._id}>
-                      {sub.title}
+        <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <div className="flex-grow-1">
+            <Form.Group controlId="categoryFilter" className="mb-2">
+              <Form.Label className="fw-bold small">Category</Form.Label>
+              <Form.Select
+                name="categoryId"
+                value={filters.categoryId}
+                onChange={handleFilterChange}
+                
+              >
+                <option value="">Select Category</option>
+                {categories?.length > 0 &&
+                  categories.map((cat) => (
+                    <option key={cat._id} value={cat._id}>
+                      {cat.title}
                     </option>
-                  ))
-              : subcategories.map((sub) => (
-                  <option key={sub._id} value={sub._id}>
-                    {sub.title}
-                  </option>
-                ))}
-          </Form.Select>
-          <Form.Select
-            name="brandId"
-            value={filters.brandId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Brand</option>
-            {brands?.length > 0 &&
-              brands.map((brand) => (
-                <option key={brand._id} value={brand._id}>
-                  {brand.title}
-                </option>
-              ))}
-          </Form.Select>
+                  ))}
+              </Form.Select>
+            </Form.Group>
+          </div>
+
+          <div className="flex-grow-1">
+            <Form.Group controlId="subcategoryFilter" className="mb-2">
+              <Form.Label className="fw-bold small">Subcategory</Form.Label>
+              <Form.Select
+                name="subcategoryId"
+                value={filters.subcategoryId}
+                onChange={handleFilterChange}
+                
+              >
+                <option value="">Select Subcategory</option>
+                {subcategories?.length > 0 && filters.categoryId !== ""
+                  ? subcategories
+                      ?.filter(
+                        (sub) => sub?.category?._id === filters.categoryId
+                      )
+                      .map((sub) => (
+                        <option key={sub._id} value={sub._id}>
+                          {sub.title}
+                        </option>
+                      ))
+                  : subcategories.map((sub) => (
+                      <option key={sub._id} value={sub._id}>
+                        {sub.title}
+                      </option>
+                    ))}
+              </Form.Select>
+            </Form.Group>
+          </div>
+
+          <div className="flex-grow-1">
+            <Form.Group controlId="brandFilter" className="mb-2">
+              <Form.Label className="fw-bold small">Brand</Form.Label>
+              <Form.Select
+                name="brandId"
+                value={filters.brandId}
+                onChange={handleFilterChange}
+                
+              >
+                <option value="">Select Brand</option>
+                {brands?.length > 0 &&
+                  brands.map((brand) => (
+                    <option key={brand._id} value={brand._id}>
+                      {brand.title}
+                    </option>
+                  ))}
+              </Form.Select>
+            </Form.Group>
+          </div>
+
+          <div>
+            <Button
+              variant="dark"
+              size="sm"
+              className="mt-4 w-100"
+              onClick={handleReset}
+            >
+              Reset & Refresh Filters
+            </Button>
+          </div>
         </div>
 
-        <div className="d-flex justify-content-center mt-2 mb-4">
-          <Button variant="dark" size="sm" onClick={handleReset}>
-            Reset & Refresh Filters
-          </Button>
-        </div>
-
-        <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
+        <div className="d-flex justify-content-end mt-2 mb-2 gap-2">
           <ReactPaginate
             previousLabel={"Previous"}
             nextLabel={"Next"}
@@ -564,102 +594,104 @@ const AddingProductTable = () => {
           />
         </div>
 
-        <Table responsive striped bordered hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Product Id</th>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Image</th>
-              <th>Variants</th>
-              <th>Category</th>
-              <th>Sub Category</th>
-              <th>Brand</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
+        <div style={{ maxHeight: "400px", overflow: "auto" }}>
+          <Table responsive striped bordered hover>
+            <thead>
               <tr>
-                <td colSpan="10">Loading...</td>
+                <th>ID</th>
+                <th>Product Id</th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Variants</th>
+                <th>Category</th>
+                <th>Sub Category</th>
+                <th>Brand</th>
+                <th>Actions</th>
               </tr>
-            ) : filterData?.length > 0 ? (
-              filterData.map((row, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>
-                    {row?.productId?.substring(0, 15)}
-                    <span className="mx-2">
-                      {copied && copiedIndex === index ? (
-                        <>
-                          <BsClipboard2CheckFill size={20} color="green" />
-                          <br />
-                          <span style={{ fontSize: "10px", color: "green" }}>
-                            Copied
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <LuClipboardSignature
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              copyTextToClipboard(row?.productId, index)
-                            }
-                            size={18}
-                          />
-                        </>
-                      )}
-                    </span>
-                  </td>
-                  <td>{row?.type}</td>
-                  <td>{row?.name?.substring(0, 20) + "..."}</td>
-                  <td>
-                    <div className="productListItem">
-                      <img
-                        className="productListImg img-thumbnail"
-                        width={20}
-                        src={row.image?.[0]?.image_path}
-                        alt=""
-                      />
-                    </div>
-                  </td>
-                  <td style={{ width: "150px" }}>
-                    {row?.specId?.length}
-                    <p
-                      className="variCss"
-                      onClick={() => showVariants(row?.specId)}
-                    >
-                      VIEW
-                    </p>
-                    {variationRequestCount(row?.specId) > 0 && (
-                      <p className="newrqNo">
-                        <AiOutlineInfoCircle size={22} />{" "}
-                        {variationRequestCount(row?.specId)} Requested{" "}
-                      </p>
-                    )}
-                  </td>
-                  <td>{row?.categoryId?.title}</td>
-                  <td>{row?.subcategoryId?.title}</td>
-                  <td>{row?.brandId?.title}</td>
-                  <td>
-                    <Button
-                      onClick={() => handleAddProduct(row)}
-                      variant="success"
-                      size="sm"
-                    >
-                      Add to Sell
-                    </Button>
-                  </td>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="10">Loading...</td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="10">No data found</td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+              ) : filterData?.length > 0 ? (
+                filterData.map((row, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>
+                      {row?.productId?.substring(0, 15)}
+                      <span className="mx-2">
+                        {copied && copiedIndex === index ? (
+                          <>
+                            <BsClipboard2CheckFill size={20} color="green" />
+                            <br />
+                            <span style={{ fontSize: "10px", color: "green" }}>
+                              Copied
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <LuClipboardSignature
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                copyTextToClipboard(row?.productId, index)
+                              }
+                              size={18}
+                            />
+                          </>
+                        )}
+                      </span>
+                    </td>
+                    <td>{row?.type}</td>
+                    <td>{row?.name?.substring(0, 20) + "..."}</td>
+                    <td>
+                      <div className="productListItem">
+                        <img
+                          className="productListImg img-thumbnail"
+                          width={20}
+                          src={row.image?.[0]?.image_path}
+                          alt=""
+                        />
+                      </div>
+                    </td>
+                    <td style={{ width: "150px" }}>
+                      {row?.specId?.length}
+                      <p
+                        className="variCss"
+                        onClick={() => showVariants(row?.specId)}
+                      >
+                        VIEW
+                      </p>
+                      {variationRequestCount(row?.specId) > 0 && (
+                        <p className="newrqNo">
+                          <AiOutlineInfoCircle size={22} />{" "}
+                          {variationRequestCount(row?.specId)} Requested{" "}
+                        </p>
+                      )}
+                    </td>
+                    <td>{row?.categoryId?.title}</td>
+                    <td>{row?.subcategoryId?.title}</td>
+                    <td>{row?.brandId?.title}</td>
+                    <td>
+                      <Button
+                        onClick={() => handleAddProduct(row)}
+                        variant="success"
+                        size="sm"
+                      >
+                        Add to Sell
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="10">No data found</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
         <Container>
           <Row>
             <Modal size="xl" show={showSellerProduct} onHide={handleClose}>
