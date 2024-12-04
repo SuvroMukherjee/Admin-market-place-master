@@ -328,6 +328,12 @@ th {
   transition: all 0.2s ease-in-out;
 }
 
+.Activesidebar-menu-option{
+  background-color: #9af064;
+  color: black;
+  cursor: pointer;
+}
+
 .sidebatsellerBoard {
   width: 500px !important;
 }

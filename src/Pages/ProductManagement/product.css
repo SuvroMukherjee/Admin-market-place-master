@@ -208,6 +208,8 @@
   /* width: 250px; */
 }
 
+
+
 .AdminBulk .bcard2active {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border: 2px solid #D20062;
@@ -216,6 +218,8 @@
   min-height: 315px;
   /* width: 250px;  */
 }
+
+
 
 .AdminBulk  .bcard2active .card-header {
   font-weight: bold;
@@ -231,11 +235,25 @@
   color: #D20062;
 }
 
+.cmpgin-sub-title4{
+  font-size: 12px;
+    font-weight: 450;
+    text-transform: capitalize;
+    color: #eb7712;
+    letter-spacing: 0.5px;
+}
 
 .AdminBulk .bcard3 {
   cursor: pointer;
   background-color: #d1ebfd;
-   min-height: 315px;
+  height: 400px;
+   /* min-height: 315px; */
+}
+
+.bcard4 {
+  cursor: pointer;
+  background-color: #f8ecc9;
+  /* min-height: 315px; */
 }
 
 .bcard3 .card-header {
@@ -243,6 +261,13 @@
   font-size: 14px;
   text-transform: uppercase;
   color: #0E46A3;
+}
+
+.bcard4 .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #f1b80d;
 }
 
 .chooseText {

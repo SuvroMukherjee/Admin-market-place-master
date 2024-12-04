@@ -34,6 +34,8 @@ const MyNavbar = ({ socket }) => {
 
   const [notifications, setNotifications] = useState([]);
 
+  console.log({ HeaderTitle });
+
   useEffect(() => {
     if (auth) {
       getProfileData();
@@ -142,6 +144,10 @@ const MyNavbar = ({ socket }) => {
         break;
       case "Add Product":
         navigate("/seller/seller-addproduct");
+        setHeaderTitle(pathName);
+        break;
+      case "Request Panel":
+        navigate("/seller/seller-request");
         setHeaderTitle(pathName);
         break;
       case "Product Request":
@@ -385,8 +391,9 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Seller Dashboard" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Seller Dashboard")}
+
           >
             <div className="title">Dashboad</div>
             <div className="Icon">
@@ -394,8 +401,10 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div>
 
+         
+
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Add Product" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Add Product")}
           >
             <div className="title">Add Products</div>
@@ -405,6 +414,16 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
+            className={HeaderTitle == "Request Panel" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
+            onClick={() => navigateFunction("Request Panel")}
+          >
+            <div className="title">Request Panel</div>
+            <div className="Icon">
+              <FaAngleRight size={25} />
+            </div>
+          </div>
+
+          {/* <div
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Product Request")}
           >
@@ -412,10 +431,10 @@ const MyNavbar = ({ socket }) => {
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
-          </div>
+          </div> */}
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Add Product Via Upload" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Add Product Via Upload")}
           >
             <div className="title">Add Product via Upload</div>
@@ -424,7 +443,7 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div>
 
-          <div
+          {/* <div
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Brand Request")}
           >
@@ -432,9 +451,9 @@ const MyNavbar = ({ socket }) => {
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
-          </div>
+          </div> */}
 
-          <div
+          {/* <div
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Category Request")}
           >
@@ -442,8 +461,8 @@ const MyNavbar = ({ socket }) => {
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
-          </div>
-          <div
+          </div> */}
+          {/* <div
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Sub Category Request")}
           >
@@ -451,10 +470,10 @@ const MyNavbar = ({ socket }) => {
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
-          </div>
+          </div> */}
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Track Your Application" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Track Your Application")}
           >
             <div className="title">View Applications</div>
@@ -464,7 +483,7 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Inventory Manage" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Inventory Manage")}
           >
             <div className="title">Manage Inventory</div>
@@ -474,7 +493,7 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Closing Stock" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Recent Order List")}
           >
             <div className="title">Closing Stock</div>
@@ -484,7 +503,7 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Manage Orders" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Manage Orders")}
           >
             <div className="title">Manage Orders</div>
@@ -494,7 +513,7 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Payment Settlement" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Payment Settlement")}
           >
             <div className="title">Payment Settlement</div>
@@ -504,7 +523,7 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "All Transactions" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("All Transactions")}
           >
             <div className="title">All Transactions</div>
@@ -514,7 +533,8 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            
+            className={HeaderTitle == "Return Orders Request List" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Return Orders Request List")}
           >
             <div className="title">Return Request</div>
@@ -534,7 +554,7 @@ const MyNavbar = ({ socket }) => {
           </div> */}
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Refund Orders List" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Refund Orders List")}
           >
             <div className="title">Refund Orders</div>
@@ -543,18 +563,18 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div>
 
-          <div
-            className="sidebar-menu-option"
+          {/* <div
+            className={HeaderTitle == "Advertising Campaign" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Advertising Campaign")}
           >
             <div className="title">Advertising</div>
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
-          </div>
+          </div> */}
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Busniess Report" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Busniess Report")}
           >
             <div className="title">Report</div>
@@ -564,7 +584,7 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Customer Feedback" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Customer Feedback")}
           >
             <div className="title">Customer Feedback</div>
@@ -574,7 +594,7 @@ const MyNavbar = ({ socket }) => {
           </div>
 
           <div
-            className="sidebar-menu-option"
+            className={HeaderTitle == "Service Feedback" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Service Feedback")}
           >
             <div className="title">Service Feedback</div>

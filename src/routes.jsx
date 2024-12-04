@@ -96,6 +96,7 @@ import AdminPaymnets from "./Pages/AdminPaymnets/AdminPaymnets";
 import SellerPayments from "./Pages/StoreSeller/payments/SellerPayments";
 import NOUserPage from "./Pages/NOUserPage";
 import { Nav } from "react-bootstrap";
+import SellerRequestPanel from "./Pages/StoreSeller/RequestPanel/SellerRequestPanel";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -245,6 +246,7 @@ export default function Router({ socket }) {
             { path: "approval-request-list", element: <ApprovalPendingList /> },
             { path: "seller-editownproduct/:id", element: <EditOwnProduct /> },
             { path: "seller-addproduct", element: <NewAddProduct /> },
+            { path: "seller-request", element: <SellerRequestPanel /> },
             { path: "seller-productList", element: <SellerInventory /> },
             { path: "notification", element: <SellerNotification /> },
             { path: "product-deatils/:id", element: <SellerProductDetails /> },
