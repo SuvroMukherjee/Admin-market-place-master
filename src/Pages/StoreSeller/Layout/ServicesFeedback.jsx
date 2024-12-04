@@ -71,7 +71,7 @@ const ServicesFeedback = () => {
 
     return (
         <div>
-            <Container className='mt-4'>
+            <div className='mt-4 mx-4 px-4'>
                 <Row>
                     <Col className='dtext'>
                         Customer Feedback
@@ -151,7 +151,7 @@ const ServicesFeedback = () => {
                         </Pagination>
                     </Col>
                 </Row>
-            </Container>
+            </div>
         </div>
     )
 }

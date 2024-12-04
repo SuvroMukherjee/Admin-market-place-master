@@ -157,7 +157,7 @@ const OrderList = () => {
 
   return (
     <div>
-      <Container className="mt-4">
+      <div className="mt-4 mx-4 px-4">
         <Row>
           <Col className="dtext">Closing Stock</Col>
         </Row>
@@ -320,7 +320,7 @@ const OrderList = () => {
             </Table>
           </Col>
         </Row>
-      </Container>
+      </div>
     </div>
   );
 };

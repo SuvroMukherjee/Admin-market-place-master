@@ -29,7 +29,7 @@ const SellerRequestPanel = () => {
     };
 
   return (
-    <Container>
+    <div className="mx-4 px-4">
       <Row className="mt-4 text-left">
         <h5>Seller - Request Panel</h5>
       </Row>
@@ -154,7 +154,7 @@ const SellerRequestPanel = () => {
         
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

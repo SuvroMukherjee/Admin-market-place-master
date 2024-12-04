@@ -210,7 +210,7 @@ const Report = () => {
 
   return (
     <div>
-      <Container className="mt-4">
+      <div className="mt-4 px-4 mx-4">
         <Row>
           <Col className="retext">Sales Dashboard</Col>
           <Col xs={4}></Col>
@@ -501,7 +501,7 @@ const Report = () => {
             </Col>
           </Row>
         )}
-      </Container>
+      </div>
     </div>
   );
 };

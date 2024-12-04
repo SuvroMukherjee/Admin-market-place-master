@@ -518,7 +518,7 @@ const AddingProductTable = () => {
                             {sub.title}
                           </option>
                         ))
-                    : subcategories.map((sub) => (
+                    : subcategories?.map((sub) => (
                         <option key={sub._id} value={sub._id}>
                           {sub.title}
                         </option>

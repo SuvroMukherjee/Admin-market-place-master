@@ -434,13 +434,13 @@ export default function NewAddProduct() {
   console.log({ maindata });
 
   return (
-    <div>
+    <div className="mx-4 px-4">
      
 
       {/** NEWW  */}
-      <Container>
+     
         <NewAddProductComponent />
-      </Container>
+     
       ,
     </div>
   );

@@ -126,49 +126,11 @@ const NewSellerDashboard = () => {
         minHeight: "100vh",
       }}
     >
-      <Container>
-        {/* <Row>
-          {!loading && Object.keys(reportData) !== 0 && (
-            <div className="d-flex justify-content-center flex-wrap gap-4">
-              <NumberBox
-                label={"Total Orders"}
-                number={reportData?.totalOrder}
-              />
-              <NumberBox
-                label={"Selling Products"}
-                number={reportData?.totalDeliver}
-              />
-              <NumberBox
-                label={"Total Sales"}
-                number={reportData?.totalsell?.toFixed(2)}
-              />
-           
-              <NumberBox
-                label={"Customer Feedback"}
-                number={avgCustomerRating}
-              />
-              <NumberBox
-                label={"Total Profit"}
-                number={reportData?.totalProfit?.toFixed(2)}
-              />
-            </div>
-          )}
-          {loading && (
-            <div className="d-flex justify-content-center flex-wrap gap-4">
-              <Spinner animation="border" />
-            </div>
-          )}
-          {!loading && Object.keys(reportData) === 0 && (
-            <div className="d-flex justify-content-center flex-wrap gap-4">
-              <p>Error Fetching Data</p>
-            </div>
-          )}
-        </Row> */}
-      </Container>
-      <Container className="mt-4">
+     
+      <div className="mt-4 mx-4 px-4">
         <Row>
-          <Col className="p-2">
-            <Container>
+          <Col>
+            <div> 
               {data?.length > 0 && (
                 <Row className="mt-4">
                   <Col className="dtext2">
@@ -207,10 +169,10 @@ const NewSellerDashboard = () => {
                   </Col>
                 </Row>
               )}
-            </Container>
+            </div>
           </Col>
         </Row>
-      </Container>
+      </div>
     </div>
   );
 };

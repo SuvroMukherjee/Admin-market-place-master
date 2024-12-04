@@ -829,9 +829,9 @@ export default function SellerInventory() {
         </Row>
         <Toaster position="top-right" />
       </Container> */}
-      <Container>
+      <div className="mt-4 mx-4 px-4">
         <SellerStock />
-      </Container>
+      </div>
     </div>
   );
 }

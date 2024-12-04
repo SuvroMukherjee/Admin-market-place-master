@@ -321,7 +321,7 @@ const BulkUpload = () => {
 
         <div className='mt-2 mb-4'>
 
-            <Container className="mt-4">
+            <div className="mt-4 mx-4 px-4">
                 <Row>
                     <Col onClick={() => setChoose(!choose)}>
                         <Card className="bcard">
@@ -476,7 +476,7 @@ const BulkUpload = () => {
                         </Card>
                     </Col>
                 </Row>
-            </Container>
+            </div>
 
             {choose &&
                 <Container className='mt-4'>
