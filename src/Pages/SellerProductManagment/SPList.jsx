@@ -1,13 +1,6 @@
 import axios from "axios"; // or your preferred HTTP client
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Row,
-  Table
-} from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Col, Form, Row, Table } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { FaEye, FaStar } from "react-icons/fa";
@@ -17,10 +10,12 @@ import {
   allCategoryList,
   allSubCategoryList,
   MakePopularProduct,
+  UpdateSellerProductDataStatus,
 } from "../../API/api";
 import { ratingCalculation } from "../../common/RatingAvg";
+import { useDebounce } from "../../hooks/useDebounce";
 
-const baseURL = import.meta.env.VITE_API_BASE; // Replace with your actual base URL
+const baseURL = import.meta.env.VITE_API_BASE;
 
 const SPList = () => {
   const [categories, setCategories] = useState([]);
@@ -29,7 +24,6 @@ const SPList = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
   const [filters, setFilters] = useState({
     name: "",
     categoryId: "",
@@ -41,13 +35,6 @@ const SPList = () => {
   const { id: sellerID } = useParams();
   const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchCategories();
-    fetchSubcategories();
-    fetchBrands();
-    fetchData();
-  }, [filters, currentPage]);
 
   const fetchCategories = async () => {
     try {
@@ -85,7 +72,7 @@ const SPList = () => {
         {
           params: {
             page: currentPage,
-            limit: 50,
+            limit: 20,
             name,
             categoryId,
             subcategoryId,
@@ -95,9 +82,8 @@ const SPList = () => {
         }
       );
       setFilteredData(res.data?.data?.SellerProductData);
-      setTotalPages(res.data?.data?.pagination?.totalPages); // Assume the API provides totalPages
+      setTotalPages(res.data?.data?.pagination?.totalPages);
       setReviewData(res?.data?.data?.reviewData);
-      setTotalProducts(res.data?.data?.pagination?.totalSellerProducts);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching products", error);
@@ -125,89 +111,106 @@ const SPList = () => {
     setFilteredData([]);
   };
 
-    const HandleTopFunction = async (catData, value) => {
-      let payload = {
-        is_popular: value,
-      };
-
-      console.log(catData, "catData");
-
-      await MakePopularProduct(payload, catData?._id)
-        .then((res) => {
-          console.log({ res });
-          toast.success("product update successfully");
-          fetchData();
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error("Something went wrong!");
-          fetchData();
-        });
+  const HandleTopFunction = async (catData, value) => {
+    let payload = {
+      is_popular: value,
     };
 
+    console.log(catData, "catData");
+
+    await MakePopularProduct(payload, catData?._id)
+      .then((res) => {
+        console.log({ res });
+        toast.success("product update successfully");
+        fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went wrong!");
+        fetchData();
+      });
+  };
+
+  const handleCloseListing = async (row) => {
+    if (window.confirm("Are you sure you want to close this listing?")) {
+      toast.promise(
+        UpdateSellerProductDataStatus(row?._id, { status: !row?.status }),
+        {
+          loading: "Updating status...",
+          success: "Updated the status successfully",
+          error: "Unable to update status",
+        }
+      );
+      debouncedFetchData();
+    }
+  };
+
+  const debouncedFetchData = useDebounce(fetchData, 500);
+  const debouncedFetchCategories = useDebounce(fetchCategories, 500);
+  const debouncedFetchSubcategories = useDebounce(fetchSubcategories, 500);
+  const debouncedFetchBrands = useDebounce(fetchBrands, 500);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
+  useEffect(() => {
+    debouncedFetchData();
+    debouncedFetchCategories();
+    debouncedFetchSubcategories();
+    debouncedFetchBrands();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, currentPage]);
 
   return (
     <div className="productList mt-2 p-4">
-      <Container>
-        <Row>
-          <Col>
-            <Link to={"/SellerReport"}>
-              <Button variant="dark" size="sm">
-                <AiOutlineArrowLeft />
-                <span className="mx-2">Back</span>
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <h6 className="text-center">
-              Product List By{" "}
+      <Row>
+        <Col>
+          <Link to={"/SellerReport"}>
+            <Button variant="dark" size="sm">
+              <AiOutlineArrowLeft />
+              <span className="mx-2">Back</span>
+            </Button>
+          </Link>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h6 className="text-center">
+            Product List By{" "}
+            <span>
               <span
                 style={{
-                  fontSize: "14px",
                   textTransform: "uppercase",
-                  letterSpacing: ".5px",
-                  background: "lightgray",
-                  padding: "11px 20px",
-                  borderRadius: "10px",
-                  margin: "5px",
+                  textDecoration: "underline",
                 }}
               >
-                {filteredData[0]?.sellerId?.user_name}{" "}
-                <span>
-                  <img
-                    src={
-                      filteredData[0]?.sellerId?.Shop_Details_Info
-                        ?.pic_of_shope[0]
-                    }
-                    width={100}
-                  />
-                </span>
+                {filteredData[0]?.sellerId?.user_name}
+              </span>{" "}
+              <span>
+                <img
+                  src={
+                    filteredData[0]?.sellerId?.Shop_Details_Info
+                      ?.pic_of_shope[0]
+                  }
+                  width={100}
+                />
               </span>
-            </h6>
-          </Col>
-        </Row>
-      </Container>
-      <Container>
-        <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
-          <div className="pagination d-flex gap-2">
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <div key={index}>
-                <Button
-                  onClick={() => handlePageChange(index + 1)}
-                  variant={currentPage === index + 1 ? "dark" : "secondary"}
-                  size="sm"
-                >
-                  {index + 1}
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Container>
+            </span>
+          </h6>
+        </Col>
+      </Row>
 
       <div className="d-flex justify-content-between mb-3 gap-2">
+        <Form.Control
+          type="text"
+          name="name"
+          value={filters.name}
+          onChange={handleFilterChange}
+          placeholder="Search by product name"
+          size="sm"
+        />
+
         <Form.Select
           name="categoryId"
           value={filters.categoryId}
@@ -250,15 +253,6 @@ const SPList = () => {
               </option>
             ))}
         </Form.Select>
-        {/* <Form.Group controlId="isPopular">
-          <Form.Check
-            type="checkbox"
-            name="isPopular"
-            label="Show Only Popular Products"
-            checked={filters.isPopular}
-            onChange={handleFilterChange}
-          />
-        </Form.Group> */}
       </div>
 
       <div className="d-flex justify-content-end mt-2 mb-4 gap-2">
@@ -277,23 +271,81 @@ const SPList = () => {
         <Button variant="dark" size="sm" onClick={handleReset}>
           Reset & Refresh
         </Button>
-        {/* <Button variant="dark" size="sm" className="ml-2">
-          {totalProducts} Total Products
-        </Button> */}
         <Button variant="secondary" size="sm" className="ml-2">
           {filteredData?.length} Filtered Products
         </Button>
       </div>
 
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
+          <nav aria-label="Pagination">
+            <ul className="pagination">
+              {/* Previous Button */}
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
+                <Button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  variant="secondary"
+                  size="sm"
+                >
+                  Previous
+                </Button>
+              </li>
+
+              {/* Page Numbers */}
+              {Array.from({ length: totalPages })
+                .map((_, index) => index + 1)
+                .filter(
+                  (page) =>
+                    page === currentPage || // Current page
+                    (page >= currentPage - 2 && page <= currentPage + 2) // Range: prev 2 to next 2
+                )
+                .map((page) => (
+                  <li
+                    key={page}
+                    className={`page-item ${
+                      currentPage === page ? "active" : ""
+                    }`}
+                  >
+                    <Button
+                      onClick={() => handlePageChange(page)}
+                      variant={currentPage === page ? "dark" : "secondary"}
+                      size="sm"
+                    >
+                      {page}
+                    </Button>
+                  </li>
+                ))}
+
+              {/* Next Button */}
+              <li
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
+              >
+                <Button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  variant="secondary"
+                  size="sm"
+                >
+                  Next
+                </Button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      )}
+
       <Table bordered hover responsive>
         <thead>
           <tr>
-            <td style={{ width: "300px" }}>Product Name</td>
-            <td>Product Id</td>
-            <td>Product Image</td>
-            <td>View Product In Zoofi</td>
-            <td>Review Data</td>
-            <td>Add as Popular Product</td>
+            <td style={{ width: "300px", fontWeight: "bold" }}>Product Name</td>
+            <td style={{ fontWeight: "bold" }}>Product Id</td>
+            <td style={{ fontWeight: "bold" }}>Product Image</td>
+            <td style={{ fontWeight: "bold" }}>View Product In Zoofi</td>
+            <td style={{ fontWeight: "bold" }}>Review Data</td>
+            <td style={{ fontWeight: "bold" }}>Action</td>
           </tr>
         </thead>
         <tbody>
@@ -330,28 +382,51 @@ const SPList = () => {
                   <div>
                     <FaStar color="gold" size={25} />
                     <span className="mx-4">
-                      {ratingCalculation(row?._id, reviewData)}
+                      {Number(ratingCalculation(row?._id, reviewData)).toFixed(
+                        1
+                      )}
                     </span>
                   </div>
                 </td>
                 <td>
-                  {row?.is_popular ? (
-                    <Button
-                      variant="outline-dark"
-                      onClick={() => HandleTopFunction(row, false)}
-                      size="sm"
-                    >
-                      Already Mark
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="dark"
-                      onClick={() => HandleTopFunction(row, true)}
-                      size="sm"
-                    >
-                      Mark As Popular
-                    </Button>
-                  )}
+                  <span className="d-flex justify-content-center gap-2">
+                    {row?.is_popular ? (
+                      <Button
+                        variant="outline-dark"
+                        onClick={() => HandleTopFunction(row, false)}
+                        size="sm"
+                      >
+                        Already Mark
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="dark"
+                        onClick={() => HandleTopFunction(row, true)}
+                        size="sm"
+                      >
+                        Mark As Popular
+                      </Button>
+                    )}
+                    {row?.status && (
+                      <Button
+                        variant="danger"
+                        onClick={() => handleCloseListing(row)}
+                        size="sm"
+                      >
+                        Close Listing
+                      </Button>
+                    )}
+
+                    {!row?.status && (
+                      <Button
+                        variant="success"
+                        onClick={() => handleCloseListing(row)}
+                        size="sm"
+                      >
+                        Start Listing
+                      </Button>
+                    )}
+                  </span>
                 </td>
               </tr>
             ))
@@ -365,19 +440,6 @@ const SPList = () => {
         </tbody>
         <Toaster position="top-right" />
       </Table>
-
-      <div className="pagination">
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <Button
-            key={index}
-            onClick={() => handlePageChange(index + 1)}
-            variant={currentPage === index + 1 ? "primary" : "secondary"}
-            size="sm"
-          >
-            {index + 1}
-          </Button>
-        ))}
-      </div>
     </div>
   );
 };

@@ -126,7 +126,8 @@
 
 .glow-button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(154, 240, 100, 0.8), 0 0 40px rgba(154, 240, 100, 0.6); /* Glow effect updated */
+  box-shadow: 0 0 25px rgba(154, 240, 100, 0.8),
+    0 0 40px rgba(154, 240, 100, 0.6); /* Glow effect updated */
 }
 
 .glow-button:active {
@@ -138,4 +139,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+
+.page-item {
+  display: inline-block;
+}
+
+.page-item.active .btn {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.page-item.disabled .btn {
+  pointer-events: none;
+  opacity: 0.6;
 }
