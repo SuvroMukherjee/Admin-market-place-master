@@ -427,8 +427,8 @@ const BulkUpload = () => {
                             <Card.Header className='text-center'>Convert Your Image</Card.Header>
                             <Card.Body>
                                 <Row className="me-2">
-                                    <Col className="cmpgin-sub-title3">
-                                        Mutliple Image converter and upload to spreedsheet
+                                    <Col className="cmpgin-sub-title3 text-center">
+                                       Convert Multiple Image to links and upload 
                                     </Col>
                                 </Row>
                                 <Row>
@@ -596,6 +596,7 @@ const BulkUpload = () => {
                         </Container>}
                     
                     <Toaster />
+                    <Toaster position="top-right" />
                 </Container>
             }
             <Container className="mt-4 p-4 mb-4">
@@ -1048,6 +1049,7 @@ const ImageConveter = ({ showConverter }) => {
                             </tbody>
                         </Table>
                     </Container>
+                    <Toaster position="top-right" />
                 </div>
             )}
         </div>
