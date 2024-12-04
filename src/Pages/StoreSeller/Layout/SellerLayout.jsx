@@ -869,10 +869,10 @@ import { notificationContext } from "../../../context/context";
 
 const sidebarRoutes = [
   { title: "Seller Dashboard", path: "/seller/seller-dashboard" },
-  { title: "Add Product", path: "/seller/seller-addproduct" },
+  { title: "Add Zoofi Product", path: "/seller/seller-addproduct" },
   { title: "Request Panel", path: "/seller/seller-request" },
   { title: "Inventory Manage", path: "/seller/seller-productList" },
-  { title: "Recent Order List", path: "/seller/seller-orderlist", headerTitle: "Closing Stock" },
+  { title: "Closing Stock", path: "/seller/seller-orderlist", headerTitle: "Closing Stock" },
   { title: "Manage Orders", path: "/seller/manage-orders" },
   { title: "Return Orders Request List", path: "/seller/seller-return-order-request-list" },
   { title: "Refund Orders List", path: "/seller/refund-orders-list" },
