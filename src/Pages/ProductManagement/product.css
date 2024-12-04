@@ -243,6 +243,14 @@
     letter-spacing: 0.5px;
 }
 
+.cmpgin-sub-title5{
+  font-size: 12px;
+    font-weight: 450;
+    text-transform: capitalize;
+    color: #3d3d3d;
+    letter-spacing: 0.5px;
+}
+
 .AdminBulk .bcard3 {
   cursor: pointer;
   background-color: #d1ebfd;
@@ -254,6 +262,11 @@
   cursor: pointer;
   background-color: #f8ecc9;
   /* min-height: 315px; */
+}
+
+.bcard5 {
+  cursor: pointer;
+  background-color: #ecf0f7;
 }
 
 .bcard3 .card-header {
@@ -268,6 +281,13 @@
   font-size: 14px;
   text-transform: uppercase;
   color: #f1b80d;
+}
+
+.bcard5 .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #5d5d5d;
 }
 
 .chooseText {

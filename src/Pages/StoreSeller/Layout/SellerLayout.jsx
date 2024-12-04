@@ -407,7 +407,7 @@ const MyNavbar = ({ socket }) => {
             className={HeaderTitle == "Add Product" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Add Product")}
           >
-            <div className="title">Add Products</div>
+            <div className="title">Add Zoofi Products</div>
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
@@ -472,7 +472,7 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div> */}
 
-          <div
+          {/* <div
             className={HeaderTitle == "Track Your Application" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Track Your Application")}
           >
@@ -480,7 +480,7 @@ const MyNavbar = ({ socket }) => {
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
-          </div>
+          </div> */}
 
           <div
             className={HeaderTitle == "Inventory Manage" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
@@ -622,9 +622,9 @@ const MyNavbar = ({ socket }) => {
             >
               <img src={blackzofi} alt="zoofi seller" width={120} />
             </div>
-            <div className="page-desc flex-justify-center-align-center custom-font-size-lg">
+            {/* <div className="page-desc flex-justify-center-align-center custom-font-size-lg">
               {HeaderTitle}
-            </div>
+            </div> */}
           </div>
           <div className="custom-nav-right">
             {/* notification */}
