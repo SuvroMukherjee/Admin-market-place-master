@@ -1,8 +1,8 @@
 import axios from "axios"; // or your preferred HTTP client
-import React, { useEffect, useRef, useState } from "react";
+import Papa from "papaparse";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
-  Container,
   DropdownButton,
   Form,
   Modal,
@@ -11,26 +11,24 @@ import {
   Table,
 } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
+import { CSVLink } from "react-csv";
 import toast, { Toaster } from "react-hot-toast";
-import { BiPlusCircle } from "react-icons/bi";
-import { FaEye, FaFileUpload } from "react-icons/fa";
+import { FaFileUpload } from "react-icons/fa";
+import { LuDownload } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 import {
   allBrandList,
   allCategoryList,
   allSubCategoryList,
   getLowestPriceProdut,
-  MakePopularProduct,
   UpdateSellerProduct,
   UpdateSellerProductDataStatus,
 } from "../../../API/api";
-import { estimatedDeliveryTimes } from "../../../dummyData";
-import "./sellerlayout.css";
-import { useNavigate } from "react-router-dom";
-import { SearchTermModal, ServicesModal } from "./SellerInventory";
-import { CSVLink } from "react-csv";
-import { LuDownload } from "react-icons/lu";
 import { ChangeFormatDate } from "../../../common/DateFormat";
-import Papa from "papaparse";
+import { estimatedDeliveryTimes } from "../../../dummyData";
+import { useDebounce } from "../../../hooks/useDebounce";
+import { SearchTermModal, ServicesModal } from "./SellerInventory";
+import "./sellerlayout.css";
 
 const baseURL = import.meta.env.VITE_API_BASE; // Replace with your actual base URL
 
@@ -41,16 +39,15 @@ const SellerStock = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
   const [filters, setFilters] = useState({
     name: "",
     categoryId: "",
     subcategoryId: "",
     brandId: "",
-    isPopular: "",
-    is_bestSell: "",
-    out_of_stock: "",
-    sales_start: "",
+    isPopular: false,
+    is_bestSell: false,
+    out_of_stock: false,
+    sales_start: false,
   });
 
   const [importedData, setImportedData] = useState([]);
@@ -58,20 +55,12 @@ const SellerStock = () => {
   const fileInputRef = useRef(null);
 
   const { userId: sellerID } = JSON.parse(localStorage.getItem("auth"));
-  const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState();
   const [selectedTime, setSelectedTime] = useState("select");
   const [showService, setShowServices] = useState(false);
   const [stratuploading, setStartUploading] = useState(false);
   const [showSearchTerm, setShowSearchTerm] = useState(false);
-
-  useEffect(() => {
-    fetchCategories();
-    fetchSubcategories();
-    fetchBrands();
-    fetchData();
-  }, [filters, currentPage]);
 
   const fetchCategories = async () => {
     try {
@@ -109,18 +98,27 @@ const SellerStock = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { name, categoryId, subcategoryId, brandId, isPopular, is_bestSell,out_of_stock,sales_start } = filters;
+      const {
+        name,
+        categoryId,
+        subcategoryId,
+        brandId,
+        isPopular,
+        is_bestSell,
+        out_of_stock,
+        sales_start,
+      } = filters;
       const res = await axios.get(
         `${baseURL}/seller-product/list-by-seller-paginated/${sellerID}`,
         {
           params: {
             page: currentPage,
-            limit: 50,
+            limit: 20,
             name,
             categoryId,
             subcategoryId,
             brandId,
-            is_popular:  isPopular !== "" ? isPopular : undefined,
+            is_popular: isPopular !== "" ? isPopular : undefined,
             is_bestSell: is_bestSell !== "" ? is_bestSell : undefined,
             out_of_stock: out_of_stock !== "" ? out_of_stock : undefined,
             sales_start: sales_start !== "" ? sales_start : undefined,
@@ -135,9 +133,7 @@ const SellerStock = () => {
       );
       setFormData(dataWithUniqueIds);
       setFilteredData(res.data?.data?.SellerProductData);
-      setTotalPages(res.data?.data?.pagination?.totalPages); // Assume the API provides totalPages
-      setReviewData(res?.data?.data?.reviewData);
-      setTotalProducts(res.data?.data?.pagination?.totalSellerProducts);
+      setTotalPages(res.data?.data?.pagination?.totalPages);
       setLoading(false);
       const csvDataArray = res?.data?.data?.SellerProductData?.map(
         (ele, index) => ({
@@ -153,7 +149,6 @@ const SellerStock = () => {
           "Add Quantity": quantities[index], // Adjust this based on your logic
         })
       );
-      console.log({ csvDataArray });
       setCsvData([...csvDataArray]);
     } catch (error) {
       console.error("Error fetching products", error);
@@ -164,16 +159,12 @@ const SellerStock = () => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    console.log(name,value)
-   // setFilters((prev) => ({ ...prev, [name]: value == "on" ? true : false }));
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFilterChangeCheckbox = (e) => {
-    const { name, value } = e.target;
-    console.log(name,value)
-    setFilters((prev) => ({ ...prev, [name]: value == "on" ? true : false }));
-   // setFilters((prev) => ({ ...prev, [name]: value }));
+    const { name } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: !filters[name] }));
   };
 
   const handlePageChange = (pageNumber) => {
@@ -193,27 +184,6 @@ const SellerStock = () => {
   const handleSelectEstimateChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedTime(selectedValue);
-    console.log(`Selected Delivery Time: ${selectedValue}`);
-  };
-
-  const HandleTopFunction = async (catData, value) => {
-    let payload = {
-      is_popular: value,
-    };
-
-    console.log(catData, "catData");
-
-    await MakePopularProduct(payload, catData?._id)
-      .then((res) => {
-        console.log({ res });
-        toast.success("product update successfully");
-        fetchData();
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Something went wrong!");
-        fetchData();
-      });
   };
 
   const handlePriceChange = (key, quantity) => {
@@ -228,19 +198,14 @@ const SellerStock = () => {
   };
 
   const getLowestPriceFunc = async (ele, index) => {
-    console.log(ele);
-
     let res = await getLowestPriceProdut(ele?.productId?._id);
 
     const lowestPriceProduct = res?.data?.data.reduce((minProduct, product) => {
       return product.price < minProduct.price ? product : minProduct;
     }, res?.data?.data[0]);
 
-    console.log("Lowest price:", lowestPriceProduct);
-
     setViewLowestPriceData(lowestPriceProduct);
 
-    console.log(res?.data?.data);
     setLowIndex(index);
 
     // /setViewLowestPriceData
@@ -275,16 +240,9 @@ const SellerStock = () => {
     const index = formData.findIndex((item) => item._id === key);
     if (index === -1) return;
 
-    console.log(formData[index]);
-    console.log(quantities[key]);
-
     formData[index].quantity = quantities[key] || 0;
 
-    console.log(formData[index]?._id, formData[index], "lllllllll");
-
     let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
-
-    console.log({ res });
 
     if (res.data.error == false) {
       toast.success("Inventory updated successfully...");
@@ -306,7 +264,6 @@ const SellerStock = () => {
     setSelectedProduct(ele);
     handleOpenService();
   };
-
 
   const SearchTermHandler = (ele) => {
     setSelectedProduct(ele);
@@ -339,7 +296,6 @@ const SellerStock = () => {
       ...selectedProduct,
       estimateDate: selectedTime,
     });
-    console.log(res);
     if (res.data.error == false) {
       toast.success("Estimate date update Successfully");
       setTimeout(() => {
@@ -369,7 +325,6 @@ const SellerStock = () => {
       Papa.parse(file, {
         complete: (result) => {
           // Access the parsed data in result.data
-          console.log(result.data, "result.data");
           setImportedData(result.data);
 
           result?.data?.forEach((ele) => {
@@ -384,12 +339,9 @@ const SellerStock = () => {
     }
   };
 
-  console.log({ importedData });
-
   const handleSaveAll = async () => {
     // Iterate through all rows and invoke handleUpdate for each
     setStartUploading(true);
-    console.log({ formData });
 
     for (let index = 0; index < formData?.length; index++) {
       if (formData[index]?.quantity > 0) {
@@ -411,164 +363,146 @@ const SellerStock = () => {
     }, 2000);
   };
 
+  const debouncedFetchData = useDebounce(fetchData, 500);
 
-  console.log(filters,'filters')
+  useEffect(() => {
+    fetchCategories();
+    fetchSubcategories();
+    fetchBrands();
+  }, []);
+
+  useEffect(() => {
+    debouncedFetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   return (
     <div>
-      <Container className="mt-4">
-        <Row className="mt-4 text-center">
-          <h4>Manage Your Inventory</h4>
-        </Row>
-      </Container>
-      <Container className="mt-4">
-        <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
-          <div className="pagination d-flex gap-2">
-            {Array.from({ length: totalPages }).map((_, index) => (
-              <div key={index}>
-                <Button
-                  onClick={() => handlePageChange(index + 1)}
-                  variant={currentPage === index + 1 ? "dark" : "secondary"}
-                  size="sm"
-                >
-                  {index + 1}
-                </Button>
-              </div>
-            ))}
-          </div>
+      <div className="d-flex justify-content-center mt-2 mb-4 gap-4">
+        <h4>Manage Your Inventory</h4>
+      </div>
+
+      <div style={{ backgroundColor: "#EDE8DC" }} className="p-4 mb-3">
+        <div className="d-flex justify-content-between gap-4">
+          <Form.Group controlId="searchtext" className="flex-grow-1">
+            <Form.Label className="fw-bold">Search by Product name</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={filters.name}
+              onChange={handleFilterChange}
+              size="sm"
+              placeholder="Search by Product name"
+            />
+          </Form.Group>
+
+          <Form.Group controlId="categoryId" className="flex-grow-1">
+            <Form.Label className="fw-bold">Filter by Category</Form.Label>
+            <Form.Select
+              name="categoryId"
+              value={filters.categoryId}
+              onChange={handleFilterChange}
+              size="sm"
+            >
+              <option value="">Select Category</option>
+              {categories?.length > 0 &&
+                categories.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.title}
+                  </option>
+                ))}
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group controlId="subcategoryId" className="flex-grow-1">
+            <Form.Label className="fw-bold"> Filter by Subcategory</Form.Label>
+            <Form.Select
+              name="subcategoryId"
+              value={filters.subcategoryId}
+              onChange={handleFilterChange}
+              size="sm"
+            >
+              <option value="">Select Subcategory</option>
+              {subcategories?.length > 0 &&
+                subcategories.map((sub) => (
+                  <option key={sub._id} value={sub._id}>
+                    {sub.title}
+                  </option>
+                ))}
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group controlId="brandId" className="flex-grow-1">
+            <Form.Label className="fw-bold"> Filter by Brand</Form.Label>
+            <Form.Select
+              name="brandId"
+              value={filters.brandId}
+              onChange={handleFilterChange}
+              size="sm"
+            >
+              <option value="">Select Brand</option>
+              {brands?.length > 0 &&
+                brands.map((brand) => (
+                  <option key={brand._id} value={brand._id}>
+                    {brand.title}
+                  </option>
+                ))}
+            </Form.Select>
+          </Form.Group>
         </div>
-      </Container>
-      <div className="d-flex justify-content-between mb-3 gap-4 p-4" style={{backgroundColor:"#EDE8DC"}}>
-        {/* <input type="text" name="name" onChange={handleFilterChange} placeholder="Search by SKU, brand name or Product name" /> */}
-        {/** make a search bar */}  
-        <Form.Group controlId="searchtext" className="flex-grow-1">
-          <Form.Label className="fw-bold">Search by Product name</Form.Label>
-          <Form.Control
-            type="text"
-            name="searchtext"
-            value={filters.searchtext}
-            onChange={handleFilterChange}
-            size="sm"
-            placeholder="Search by Product name"
-          />
-        </Form.Group> 
-      
-        
-      </div>
 
-      <div className="d-flex justify-content-between mb-3 gap-4 p-4" style={{backgroundColor:"#EDE8DC"}}>
-        <Form.Group controlId="categoryId" className="flex-grow-1">
-          <Form.Label className="fw-bold">Filter by Category</Form.Label>
-          <Form.Select
-            name="categoryId"
-            value={filters.categoryId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Category</option>
-            {categories?.length > 0 &&
-              categories.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.title}
-                </option>
-              ))}
-          </Form.Select>
-        </Form.Group>
+        <div className="d-flex justify-content-end mb-3 gap-4 mt-3">
+          <Form.Group controlId="isPopular">
+            <Form.Check
+              name="isPopular"
+              label="Popular"
+              checked={filters.isPopular}
+              onClick={handleFilterChangeCheckbox}
+              className="fw-bold"
+            />
+          </Form.Group>
+          <Form.Group controlId="is_bestSell">
+            <Form.Check
+              name="is_bestSell"
+              label="Best Sell"
+              checked={filters.is_bestSell}
+              onClick={handleFilterChangeCheckbox}
+              className="fw-bold"
+            />
+          </Form.Group>
+          <Form.Group controlId="out_of_stock">
+            <Form.Check
+              name="out_of_stock"
+              label="Out of Stock"
+              checked={filters.out_of_stock}
+              onClick={handleFilterChangeCheckbox}
+              className="fw-bold"
+            />
+          </Form.Group>
+          <Form.Group controlId="sales_start">
+            <Form.Check
+              name="sales_start"
+              label="Top Sales"
+              checked={filters.sales_start}
+              onClick={handleFilterChangeCheckbox}
+              className="fw-bold"
+            />
+          </Form.Group>
+        </div>
 
-        <Form.Group controlId="subcategoryId" className="flex-grow-1">
-          <Form.Label className="fw-bold"> Filter by Subcategory</Form.Label>
-          <Form.Select
-            name="subcategoryId"
-            value={filters.subcategoryId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Subcategory</option>
-            {subcategories?.length > 0 &&
-              subcategories.map((sub) => (
-                <option key={sub._id} value={sub._id}>
-                  {sub.title}
-                </option>
-              ))}
-          </Form.Select>
-        </Form.Group>
+        <div className="d-flex justify-content-center mt-3 gap-2">
+          <Button variant="dark" size="sm" onClick={handleReset}>
+            Reset & Refresh
+          </Button>
+          <Button variant="secondary" size="sm">
+            {filteredData?.length} Filtered Products
+          </Button>
 
-        <Form.Group controlId="brandId" className="flex-grow-1">
-          <Form.Label className="fw-bold"> Filter by Brand</Form.Label>
-          <Form.Select
-            name="brandId"
-            value={filters.brandId}
-            onChange={handleFilterChange}
-            size="sm"
-          >
-            <option value="">Select Brand</option>
-            {brands?.length > 0 &&
-              brands.map((brand) => (
-                <option key={brand._id} value={brand._id}>
-                  {brand.title}
-                </option>
-              ))}
-          </Form.Select>
-        </Form.Group>
-      </div>
-
-      <div className="d-flex justify-content-end mt-2 mb-4 gap-4 p-4" style={{backgroundColor:"#EDE8DC"}}>
-        <Form.Group controlId="isPopular">
-          <Form.Check
-            type="checkbox"
-            name="isPopular"
-            label="Popular"
-            checked={filters.isPopular}
-            onChange={handleFilterChangeCheckbox}
-            className="fw-bold"
-          />
-        </Form.Group>
-        <Form.Group controlId="is_bestSell">
-          <Form.Check
-            type="checkbox"
-            name="is_bestSell"
-            label="Best Sell"
-            checked={filters.is_bestSell}
-            onChange={handleFilterChangeCheckbox}
-            className="fw-bold"
-          />
-        </Form.Group>
-        <Form.Group controlId="out_of_stock">
-          <Form.Check
-            type="checkbox"
-            name="out_of_stock"
-            label="Out of Stock"
-            checked={filters.out_of_stock}
-            onChange={handleFilterChangeCheckbox}
-            className="fw-bold"
-          />
-        </Form.Group>
-        <Form.Group controlId="sales_start">
-          <Form.Check
-            type="checkbox"
-            name="sales_start"
-            label="Top Sales"
-            checked={filters.sales_start}
-            onChange={handleFilterChangeCheckbox}
-            className="fw-bold"
-          />
-        </Form.Group>
-      </div>
-
-      <div className="d-flex justify-content-center mt-2 mb-4 gap-2">
-        <Button variant="dark" size="sm" onClick={handleReset}>
-          Reset & Refresh
-        </Button>
-        {/* <Button variant="dark" size="sm" className="ml-2">
-          {totalProducts} Total Products
-        </Button> */}
-        <Button variant="secondary" size="sm" className="ml-2">
-          {filteredData?.length} Filtered Products
-        </Button>
-      </div>
-
-      <div className="d-flex flex-row-reverse mt-4">
-        <div className="p-2">
           {csvData?.length > 0 && (
             <CSVLink
               size="sm"
@@ -579,16 +513,10 @@ const SellerStock = () => {
               <LuDownload /> Download CSV
             </CSVLink>
           )}
-        </div>
-        <div className="p-2">
-          <Button
-            size="sm"
-            variant="outline-dark"
-            className="uploadCSV"
-            onClick={handleChooseFile}
-          >
+
+          <Button size="sm" variant="outline-dark" onClick={handleChooseFile}>
             <span className="m-1">
-              <FaFileUpload size={15}/>{" "}
+              <FaFileUpload size={15} />{" "}
             </span>
             Import CSV
           </Button>
@@ -599,8 +527,7 @@ const SellerStock = () => {
             style={{ display: "none" }}
             onChange={handleFileUpload}
           />
-        </div>
-        <div className="p-2">
+
           {importedData?.length > 0 && (
             <Row>
               <Button
@@ -628,39 +555,130 @@ const SellerStock = () => {
         </div>
       </div>
 
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
+          <nav aria-label="Pagination">
+            <ul className="pagination">
+              {/* Previous Button */}
+              <li
+                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+              >
+                <Button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  variant="secondary"
+                  size="sm"
+                >
+                  Previous
+                </Button>
+              </li>
+
+              {/* Page Numbers */}
+              {Array.from({ length: totalPages })
+                .map((_, index) => index + 1)
+                .filter(
+                  (page) =>
+                    page === currentPage || // Current page
+                    (page >= currentPage - 2 && page <= currentPage + 2) // Range: prev 2 to next 2
+                )
+                .map((page) => (
+                  <li
+                    key={page}
+                    className={`page-item ${
+                      currentPage === page ? "active" : ""
+                    }`}
+                  >
+                    <Button
+                      onClick={() => handlePageChange(page)}
+                      variant={currentPage === page ? "dark" : "secondary"}
+                      size="sm"
+                    >
+                      {page}
+                    </Button>
+                  </li>
+                ))}
+
+              {/* Next Button */}
+              <li
+                className={`page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }`}
+              >
+                <Button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  variant="secondary"
+                  size="sm"
+                >
+                  Next
+                </Button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      )}
+
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>Product Name</th>
-            <th>Product SKU</th>
-            <th>Listing Status</th>
-            <th>Product Image</th>
-            <th>In Stock Quantity</th>
-            <th>MRP</th>
-            <th>Selling Price</th>
-            <th>Shipping Price</th>
-            <th>Expected Delivery Day</th>
-            <th>Services</th>
-            <th>Commission Price</th>
-            <th>Net Disbursement</th>
-            <th>Add Stock</th>
-            <th>Action</th>
-            <th>Other Action</th>
-            <th>Zoofi Sells</th>
-            <th>Mark As</th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Product Name
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Product SKU
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Listing Status
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Product Image
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Zoofi Sells
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              In Stock Quantity
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              MRP
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Selling Price
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Shipping Price
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Commission Price
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Net Disbursement
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Add Stock
+            </th>
+
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Save
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Actions
+            </th>
+
+            {/* <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Mark As
+            </th> */}
           </tr>
         </thead>
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan="20" style={{ textAlign: "center" }}>
+              <td colSpan={"100%"} style={{ textAlign: "center" }}>
                 Loading...
               </td>
             </tr>
           ) : filteredData.length > 0 ? (
             filteredData.map((row) => (
               <tr key={row._id}>
-                <td>{row?.name?.slice(0,20)}</td>
+                <td>{row?.name?.slice(0, 20)}</td>
                 <td>{row?.specId?.skuId}</td>
                 <td>
                   {row?.status ? (
@@ -675,6 +693,17 @@ const SellerStock = () => {
                     src={row?.specId?.image?.[0]?.image_path}
                     alt=""
                   />
+                </td>
+                <td>
+                  <span
+                    style={{
+                      color: "#1A4870",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {row?.salesCount ?? 0}
+                  </span>
                 </td>
                 <td>
                   <span
@@ -734,7 +763,7 @@ const SellerStock = () => {
                     defaultValue={row?.shipping_cost}
                   />
                 </td>
-                <td>
+                {/* <td>
                   {row?.estimateDate ? (
                     estimatedDeliveryTimes[parseInt(row?.estimateDate) - 1]
                       ?.label
@@ -747,8 +776,8 @@ const SellerStock = () => {
                       <span className="ml-2">Add </span>
                     </span>
                   )}
-                </td>
-                <td>
+                </td> */}
+                {/* <td>
                   {row?.services?.length > 0 ? (
                     <span>
                       {row?.services?.map((service, index) => (
@@ -767,7 +796,7 @@ const SellerStock = () => {
                       <span className="ml-2">Add </span>
                     </span>
                   )}
-                </td>
+                </td> */}
                 <td>{Math.round(row?.price - row?.comission_price)}</td>
                 <td>{Math.round(row?.comission_price)?.toLocaleString()}</td>
                 <td className="priceTD">
@@ -794,11 +823,11 @@ const SellerStock = () => {
                     Save
                   </Button>
                 </td>
-                <td className="priceTD" style={{width:'20px'}}>
+                <td className="priceTD" style={{ width: "20px" }}>
                   <DropdownButton
                     className="w-100"
                     id="dropdown-basic-button"
-                    title="Edit"
+                    title="Actions"
                     size="sm"
                     variant="secondary"
                   >
@@ -844,27 +873,30 @@ const SellerStock = () => {
                     <Dropdown.Item onClick={() => closeListingProduct(row)}>
                       {row?.status ? "Close Listing" : "Start Listing"}
                     </Dropdown.Item>
+                    <Dropdown.Item>
+                      <span
+                        onClick={() =>
+                          window.open(
+                            `https://zoofi.in/product-details/${row?._id}`,
+                            "_blank"
+                          )
+                        }
+                      >
+                        Preview Product In Zoofi
+                      </span>
+                    </Dropdown.Item>
                   </DropdownButton>
                 </td>
-                <td>
-                  <a
-                    href={`https://zoofi.in/product-details/${row?._id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                     <p style={{backgroundColor:"#9af064",padding:'5px',color:'black',fontWeight:'bold',borderRadius:'50px'}}>{row?.salesCount || 0}</p>
-                    <FaEye size={20} />
-                  </a>
-                </td>
 
-                <td>{row?.is_popular && "Popular"} 
-                    {row?.is_bestSell && "Best Sell"}
-                </td>
+                {/* <td>
+                  {row?.is_popular && "Popular"}
+                  {row?.is_bestSell && "Best Sell"}
+                </td> */}
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6" style={{ textAlign: "center" }}>
+              <td colSpan={"100%"} style={{ textAlign: "center" }}>
                 No Data Found
               </td>
             </tr>
@@ -873,18 +905,6 @@ const SellerStock = () => {
         <Toaster position="top-right" />
       </Table>
 
-      <div className="pagination">
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <Button
-            key={index}
-            onClick={() => handlePageChange(index + 1)}
-            variant={currentPage === index + 1 ? "primary" : "secondary"}
-            size="sm"
-          >
-            {index + 1}
-          </Button>
-        ))}
-      </div>
       <div>
         <ServicesModal
           showService={showService}
@@ -913,6 +933,17 @@ const SellerStock = () => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <div>
+              <p className="dtext">
+                Current Estimated Delivery time:{" "}
+                {selectedProduct?.estimateDate
+                  ? estimatedDeliveryTimes[
+                      parseInt(selectedProduct?.estimateDate) - 1
+                    ]?.label
+                  : "Not Set"}
+              </p>
+            </div>
+
             <Form.Select
               aria-label="Default select example"
               onChange={handleSelectEstimateChange}
@@ -941,4 +972,3 @@ const SellerStock = () => {
 };
 
 export default SellerStock;
-

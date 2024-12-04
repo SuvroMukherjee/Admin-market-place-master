@@ -253,7 +253,7 @@ th {
 .downloadCSV {
   border: 0.5px solid;
   color: black;
-  padding: 10px;
+  padding: 3px 5px 3px 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -328,7 +328,7 @@ th {
   transition: all 0.2s ease-in-out;
 }
 
-.Activesidebar-menu-option{
+.Activesidebar-menu-option {
   background-color: #9af064;
   color: black;
   cursor: pointer;
@@ -704,7 +704,7 @@ th {
   font-size: 12px;
   font-weight: 450;
   text-transform: capitalize;
-  color: #D20062;
+  color: #d20062;
   letter-spacing: 0.5px;
 }
 
@@ -712,7 +712,7 @@ th {
   font-size: 12px;
   font-weight: 450;
   text-transform: capitalize;
-  color: #0E46A3;
+  color: #0e46a3;
   letter-spacing: 0.5px;
 }
 
@@ -728,16 +728,16 @@ th {
   letter-spacing: 1px;
 }
 
-.cmpComtinueLaunch{
+.cmpComtinueLaunch {
   border: none;
-    background-color: #8cc7f2;
-    color: #0E46A3;
-    text-transform: uppercase;
-    font-size: 12px;
-    padding: 2%;
-    font-weight: bold;
-    border-radius: 7px;
-    letter-spacing: 1px;
+  background-color: #8cc7f2;
+  color: #0e46a3;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 2%;
+  font-weight: bold;
+  border-radius: 7px;
+  letter-spacing: 1px;
 }
 
 .cmpComtinue-temp {
@@ -1008,30 +1008,30 @@ th {
 .bcard2 {
   cursor: pointer;
   background-color: #f9e1e6;
-
 }
 
 .bcard2active {
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  border: 2px solid #D20062;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border: 2px solid #d20062;
   cursor: pointer;
-    background-color: #f9e1e6;
+  background-color: #f9e1e6;
 }
 
-.bcard2active .card-header{
+.bcard2active .card-header {
   font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
-    color: #D20062;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #d20062;
 }
 
 .bcard2 .card-header {
   font-weight: bold;
   font-size: 14px;
   text-transform: uppercase;
-  color: #D20062;
+  color: #d20062;
 }
-
 
 .bcard3 {
   cursor: pointer;
@@ -1042,7 +1042,7 @@ th {
   font-weight: bold;
   font-size: 14px;
   text-transform: uppercase;
-  color: #0E46A3;
+  color: #0e46a3;
 }
 
 .chooseText {
@@ -1058,7 +1058,7 @@ th {
 }
 
 .chContainer .box1 {
-  background-color: #DDDDDD;
+  background-color: #dddddd;
   font-weight: 500;
   font-size: 12px;
   text-transform: uppercase;
@@ -1069,16 +1069,15 @@ th {
 
 .dwnTemp {
   padding: 5%;
-  background: #DDDDDD;
+  background: #dddddd;
   color: #002800;
   font-weight: 500;
   font-size: 14px;
-
 }
 
 .dwnTemp2 {
   padding: 5%;
-  background: #DDDDDD;
+  background: #dddddd;
   color: #002800;
   font-weight: 500;
   font-size: 14px;
