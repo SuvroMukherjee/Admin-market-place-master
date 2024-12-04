@@ -24,6 +24,7 @@ import {
 } from "../../API/api";
 import { productRows } from "../../dummyData";
 import "./Seller.css";
+import { distanceCategories } from "../../common/DistanceDelivery";
 
 export default function SellerListManage() {
   const [data, setData] = useState(productRows);
@@ -303,11 +304,11 @@ export default function SellerListManage() {
 
   const filteredList = data.filter((item) => {
     if (registeredByType === "own") {
-      if(!item?.staffId){
+      if (!item?.staffId) {
         return item;
       }
     } else if (registeredByType === "kam") {
-      if(item?.staffId){
+      if (item?.staffId) {
         return item;
       }
     } else {
@@ -370,8 +371,9 @@ export default function SellerListManage() {
             </Col>
             <Col xs={2}> Total : {data?.length}</Col>
             <Col xs={5}>
-              <FaInfoCircle /> Keep the cursor pointer inside the table and use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right if
-              needed.
+              <FaInfoCircle /> Keep the cursor pointer inside the table and use{" "}
+              <span className="fw-bold">shift + scrollbar</span> to scroll from
+              left to right if needed.
             </Col>
           </Row>
           <Row className="mt-2">
@@ -429,6 +431,7 @@ export default function SellerListManage() {
                       <th>Seller Email</th>
                       <th>Seller Phone No.</th>
                       <th>Registration</th>
+                      <th>Delivery Distance</th>
                       <th>Status</th>
                       <th>View</th>
                       <th>Action</th>
@@ -485,6 +488,39 @@ export default function SellerListManage() {
                             )}
                           </td>
                           <td>
+                            {/* {row?.Shop_Details_Info?.distance_category} 
+                            <br /> */}
+                            <p style={{fontSize:'12px',fontWeight:'bold'}}> 
+                            {/* {distanceCategories?.find(
+                              (ele) =>
+                                ele?.distance ===
+                                row?.Shop_Details_Info?.distance_category
+                            )?.range
+                              ? `(${
+                                  distanceCategories.find(
+                                    (ele) =>
+                                      ele?.distance ===
+                                      row?.Shop_Details_Info?.distance_category
+                                  )?.range
+                                })`
+                              : ""} */}
+                              <p>
+                              {distanceCategories?.find(
+                                (ele) =>
+                                  ele?.distance ===
+                                  row?.Shop_Details_Info?.distance_category
+                              )?.range} - {distanceCategories?.find(
+                                (ele) =>
+                                  ele?.distance ===
+                                  row?.Shop_Details_Info?.distance_category
+                              )?.text}
+                              </p>
+                              
+                            </p>
+                            
+                          </td>
+
+                          <td>
                             {row?.status === "approved" && (
                               <span className="ActiveStatus">Approved</span>
                             )}
@@ -495,6 +531,7 @@ export default function SellerListManage() {
                               <span className="PendingStatus">Pending</span>
                             )}
                           </td>
+
                           <td>
                             <Button
                               size="sm"
