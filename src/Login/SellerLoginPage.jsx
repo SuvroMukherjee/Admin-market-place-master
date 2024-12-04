@@ -9,6 +9,8 @@ import { getLocation } from "../Pages/KeyManager/Dashboard/Attendence";
 import ReCAPTCHA from "react-google-recaptcha";
 import loginbackground from "../assets/wave6.png";
 import loginperson from "../assets/login.png";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing icons
+
 
 const SellerLoginPage = () => {
   const { setAuth } = useAuth();
@@ -20,6 +22,13 @@ const SellerLoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [loginAsSeller, setLoginAsSeller] = useState(true);
   const [isCaptchaVerified, setCaptchaVerified] = useState(false);
+
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -202,13 +211,29 @@ const SellerLoginPage = () => {
         </Form.Group>
         <Form.Group className="mb-4" controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={inputPassword}
-            placeholder="Enter your password"
-            onChange={(e) => setInputPassword(e.target.value)}
-            required
-          />
+          <div style={{ position: "relative" }}>
+            <Form.Control
+              type={showPassword ? "text" : "password"}
+              value={inputPassword}
+              placeholder="Enter your password"
+              onChange={(e) => setInputPassword(e.target.value)}
+              required
+              style={{ paddingRight: "2.5rem" }} // Add padding for icon space
+            />
+            <span
+              onClick={togglePasswordVisibility}
+              style={{
+                position: "absolute",
+                right: "0.5rem",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#6c757d",
+              }}
+            >
+              {showPassword ? <FaEyeSlash size={20}/> : <FaEye size={20}/>}
+            </span>
+          </div>
         </Form.Group>
         {/* <Form.Group className="mb-3 mt-3" controlId="checkbox">
                     <Form.Check
