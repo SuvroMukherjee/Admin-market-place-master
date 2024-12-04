@@ -1903,3 +1903,18 @@ export async function removeCategoryKeyword(id, formdata) {
     return error;
   }
 }
+
+export async function allCustomersList(query) {
+  try {
+    const response = await axios.get(
+      apiUrl +
+        `/customer/customer-list?page=${query.page}&limit=${query.limit}`,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
