@@ -583,7 +583,7 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div>
 
-          <div
+          {/* <div
             className={HeaderTitle == "Customer Feedback" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}
             onClick={() => navigateFunction("Customer Feedback")}
           >
@@ -591,7 +591,7 @@ const MyNavbar = ({ socket }) => {
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
-          </div>
+          </div> */}
 
           <div
             className={HeaderTitle == "Service Feedback" ? "sidebar-menu-option Activesidebar-menu-option" : "sidebar-menu-option"}

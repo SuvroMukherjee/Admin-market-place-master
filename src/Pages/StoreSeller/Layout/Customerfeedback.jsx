@@ -26,7 +26,7 @@ const Customerfeedback = () => {
     }, [])
 
     const SellingProducts = async () => {
-        await SellerProductList(userId).then((res) => {
+        await SellerProductList(auth?.userId).then((res) => {
             console.log(res?.data?.data, 'data')
             setProductData(res?.data?.data?.SellerProductData)
             setReviewData(res?.data?.data?.reviewData)
@@ -110,7 +110,7 @@ const Customerfeedback = () => {
                                         <td>
                                            <div>
                                             <p><img src={user}/> {row?.user?.name}</p>
-                                                <p><img src={placeholder} width={15}/> {JSON.parse(row?.user?.address)?.state}</p>
+                                                <p><img src={placeholder} width={15}/> {JSON.parse(row?.user?.address)?.state || 'N/A'}</p>
                                            </div>
                                         </td>
                                         <td><FaStar size={30} color='gold'/> {row?.rating}</td>
