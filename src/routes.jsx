@@ -96,6 +96,7 @@ import AdminPaymnets from "./Pages/AdminPaymnets/AdminPaymnets";
 import SellerPayments from "./Pages/StoreSeller/payments/SellerPayments";
 import NOUserPage from "./Pages/NOUserPage";
 import { Nav } from "react-bootstrap";
+import Customers from "./Pages/CustomerList/Customers";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -116,6 +117,7 @@ export default function Router({ socket }) {
             { path: "AddUser", element: <AddUser /> },
             { path: "EditUser/:id", element: <EditUser /> },
             { path: "SellerManagment", element: <SellerListManage /> },
+            { path: "Customers", element: <Customers /> },
             {
               path: "SellerProductManagment",
               element: <SellerProductManagment />,

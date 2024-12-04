@@ -41,6 +41,12 @@ export const AdminSidebarData = [
     cName: "nav-text",
   },
   {
+    title: "Customers",
+    path: "/Customers",
+    icon: BsShop,
+    cName: "nav-text",
+  },
+  {
     title: `Seller's Product`,
     path: "/SellerProductManagment",
     icon: BsShop,
