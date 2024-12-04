@@ -285,7 +285,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                     <span className="req">*</span>
                   </Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     size="sm"
                     className="tapG"
                     name="old_shope_desc"
@@ -304,7 +304,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                     <span className="req">*</span>
                   </Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     size="sm"
                     className="tapG"
                     name="total_no_of_unit"
