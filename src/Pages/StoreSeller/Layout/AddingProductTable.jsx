@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -11,22 +11,19 @@ import {
   InputGroup,
   ListGroup,
   Modal,
-  Pagination,
   Row,
   Table,
 } from "react-bootstrap";
-import { CSVLink } from "react-csv";
 import toast from "react-hot-toast";
-import { AiOutlineInfoCircle, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 import { BsClipboard2CheckFill } from "react-icons/bs";
-import { CiCircleInfo } from "react-icons/ci";
-import { FaArrowDown, FaArrowUp, FaFileExport, FaSearch } from "react-icons/fa";
-import { FaCircleInfo, FaCirclePlus } from "react-icons/fa6";
+import { FaArrowDown, FaArrowUp, FaSearch } from "react-icons/fa";
+import { FaCircleInfo } from "react-icons/fa6";
 import { IoIosAdd } from "react-icons/io";
-import { LiaMailBulkSolid } from "react-icons/lia";
 import { LuClipboardSignature } from "react-icons/lu";
 import { MdCancel } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+import { useNavigate } from "react-router-dom";
 import {
   BulkProductUpload,
   DeleteProductSpecification,
@@ -42,7 +39,6 @@ import {
   deleteProduct,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
-import ReactPaginate from "react-paginate";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -86,7 +82,12 @@ const AddingProductTable = () => {
 
   useEffect(() => {
     fetchData();
-  }, [currentPage, filters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, filters, searchTerm]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, searchTerm]);
 
   useEffect(() => {
     fetchCategories();
@@ -149,7 +150,7 @@ const AddingProductTable = () => {
   };
 
   const handleSearch = () => {
-    fetchData(); // Trigger search when the search button is clicked
+    fetchData();
   };
 
   const handlePageChange = (page) => {
@@ -386,193 +387,174 @@ const AddingProductTable = () => {
 
   return (
     <div>
-      <Container className="mt-2 mb-4">
-        <Row className="justify-content-md-center">
-          <Col md="auto mt-4">
-            <h4>Add Zoofi Products</h4>
-          </Col>
-        </Row>
+      <div className="d-flex justify-content-center mt-2 mb-4 gap-4">
+        <h4>Add products for sale</h4>
+      </div>
 
-        <Row>
-          <ProductSpecificationForm
-            selectedproductid={selectedproductid}
-            showModal={showModal}
-            handleCloseModal={handleCloseModal}
-            fetchData={fetchData}
-          />
-        </Row>
-        <Container>
-          <Modal show={showModal2} size="xl" onHide={handleCloseModal2}>
-            <Modal.Body>
-              <Row className="d-flex justify-content-md-center gap-4">
-                {variantsArray?.length > 0 &&
-                  variantsArray?.map((ele, index) => (
-                    <Col
-                      key={index}
-                      className="d-flex justify-content-md-center"
-                    >
-                      <Card style={{ width: "18rem" }}>
-                        {!ele?.is_approved && ele?.created_type != "admins" && (
-                          <p className="newrq">
-                            <span>
-                              <AiOutlineInfoCircle size={20} />
-                              {`New Request from - ${ele?.createdby?.shope_name}`}
+      <Row>
+        <ProductSpecificationForm
+          selectedproductid={selectedproductid}
+          showModal={showModal}
+          handleCloseModal={handleCloseModal}
+          fetchData={fetchData}
+        />
+      </Row>
+      <Container>
+        <Modal show={showModal2} size="xl" onHide={handleCloseModal2}>
+          <Modal.Body>
+            <Row className="d-flex justify-content-md-center gap-4">
+              {variantsArray?.length > 0 &&
+                variantsArray?.map((ele, index) => (
+                  <Col key={index} className="d-flex justify-content-md-center">
+                    <Card style={{ width: "18rem" }}>
+                      {!ele?.is_approved && ele?.created_type != "admins" && (
+                        <p className="newrq">
+                          <span>
+                            <AiOutlineInfoCircle size={20} />
+                            {`New Request from - ${ele?.createdby?.shope_name}`}
+                          </span>
+                        </p>
+                      )}
+
+                      <Card.Img
+                        className="p-2"
+                        variant="top"
+                        src={ele?.image?.[0]?.image_path}
+                        style={{ height: "auto", objectFit: "cover" }}
+                      />
+
+                      <Card.Body>
+                        <Row>
+                          {ele?.spec_det?.length > 0 &&
+                            ele?.spec_det?.slice(0, 5).map((ele, index) => (
+                              <div key={index} className="p-desc">
+                                <strong>{ele?.title} :</strong> {ele?.value}
+                              </div>
+                            ))}
+                        </Row>
+                        <Row className="mt-2">
+                          <Col
+                            style={{
+                              fontSize: "12px",
+                              fontWeight: "bold",
+                              background: "lightgrey",
+                              textAlign: "center",
+                              padding: "2%",
+                            }}
+                          >
+                            M.R.P -{" "}
+                            <span style={{ color: "green" }}>
+                              {ele?.price?.toLocaleString()}
                             </span>
-                          </p>
-                        )}
-
-                        <Card.Img
-                          className="p-2"
-                          variant="top"
-                          src={ele?.image?.[0]?.image_path}
-                          style={{ height: "auto", objectFit: "cover" }}
-                        />
-
-                        <Card.Body>
-                          <Row>
-                            {ele?.spec_det?.length > 0 &&
-                              ele?.spec_det?.slice(0, 5).map((ele, index) => (
-                                <div key={index} className="p-desc">
-                                  <strong>{ele?.title} :</strong> {ele?.value}
-                                </div>
-                              ))}
-                          </Row>
-                          <Row className="mt-2">
-                            <Col
-                              style={{
-                                fontSize: "12px",
-                                fontWeight: "bold",
-                                background: "lightgrey",
-                                textAlign: "center",
-                                padding: "2%",
-                              }}
-                            >
-                              M.R.P -{" "}
-                              <span style={{ color: "green" }}>
-                                {ele?.price?.toLocaleString()}
-                              </span>
-                            </Col>
-                          </Row>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  ))}
-              </Row>
-            </Modal.Body>
-          </Modal>
-        </Container>
+                          </Col>
+                        </Row>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+            </Row>
+          </Modal.Body>
+        </Modal>
       </Container>
+
       <div>
         {/* Search Input and Button */}
-        <div>
-          <Row>
-            <Col xs={6}>
-              <InputGroup className="mb-3">
-                <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
-                <Form.Control
-                  placeholder="Search By Product Id and Product Name"
-                  aria-label="Search-Product"
-                  aria-describedby="basic-addon1"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </InputGroup>
-            </Col>
-            <Col>
-              <div className="d-flex justify-content-start ml-4 items-center">
-                <Button size="sm" variant="dark" onClick={handleSearch}>
-                  <FaSearch />
-                  <span className="mx-2">Search</span>
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </div>
 
         {/* Filter Selects */}
-        <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-          <div className="flex-grow-1">
-            <Form.Group controlId="categoryFilter" className="mb-2">
-              <Form.Label className="fw-bold small">Category</Form.Label>
-              <Form.Select
-                name="categoryId"
-                value={filters.categoryId}
-                onChange={handleFilterChange}
-                
-              >
-                <option value="">Select Category</option>
-                {categories?.length > 0 &&
-                  categories.map((cat) => (
-                    <option key={cat._id} value={cat._id}>
-                      {cat.title}
-                    </option>
-                  ))}
-              </Form.Select>
-            </Form.Group>
-          </div>
+        <div style={{ backgroundColor: "#EDE8DC" }} className="p-4">
+          <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+            <div className="flex-grow-1">
+              <div>
+                <Form.Group controlId="categoryFilter" className="mb-2">
+                  <Form.Label className="fw-bold small">
+                    Search By Product
+                  </Form.Label>
+                  <Form.Control
+                    placeholder="Search By Product"
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                    }}
+                  />
+                </Form.Group>
+              </div>
+            </div>
 
-          <div className="flex-grow-1">
-            <Form.Group controlId="subcategoryFilter" className="mb-2">
-              <Form.Label className="fw-bold small">Subcategory</Form.Label>
-              <Form.Select
-                name="subcategoryId"
-                value={filters.subcategoryId}
-                onChange={handleFilterChange}
-                
-              >
-                <option value="">Select Subcategory</option>
-                {subcategories?.length > 0 && filters.categoryId !== ""
-                  ? subcategories
-                      ?.filter(
-                        (sub) => sub?.category?._id === filters.categoryId
-                      )
-                      .map((sub) => (
+            <div className="flex-grow-1">
+              <Form.Group controlId="categoryFilter" className="mb-2">
+                <Form.Label className="fw-bold small">Category</Form.Label>
+                <Form.Select
+                  name="categoryId"
+                  value={filters.categoryId}
+                  onChange={handleFilterChange}
+                >
+                  <option value="">Select Category</option>
+                  {categories?.length > 0 &&
+                    categories.map((cat) => (
+                      <option key={cat._id} value={cat._id}>
+                        {cat.title}
+                      </option>
+                    ))}
+                </Form.Select>
+              </Form.Group>
+            </div>
+
+            <div className="flex-grow-1">
+              <Form.Group controlId="subcategoryFilter" className="mb-2">
+                <Form.Label className="fw-bold small">Subcategory</Form.Label>
+                <Form.Select
+                  name="subcategoryId"
+                  value={filters.subcategoryId}
+                  onChange={handleFilterChange}
+                >
+                  <option value="">Select Subcategory</option>
+                  {subcategories?.length > 0 && filters.categoryId !== ""
+                    ? subcategories
+                        ?.filter(
+                          (sub) => sub?.category?._id === filters.categoryId
+                        )
+                        .map((sub) => (
+                          <option key={sub._id} value={sub._id}>
+                            {sub.title}
+                          </option>
+                        ))
+                    : subcategories.map((sub) => (
                         <option key={sub._id} value={sub._id}>
                           {sub.title}
                         </option>
-                      ))
-                  : subcategories.map((sub) => (
-                      <option key={sub._id} value={sub._id}>
-                        {sub.title}
+                      ))}
+                </Form.Select>
+              </Form.Group>
+            </div>
+
+            <div className="flex-grow-1">
+              <Form.Group controlId="brandFilter" className="mb-2">
+                <Form.Label className="fw-bold small">Brand</Form.Label>
+                <Form.Select
+                  name="brandId"
+                  value={filters.brandId}
+                  onChange={handleFilterChange}
+                >
+                  <option value="">Select Brand</option>
+                  {brands?.length > 0 &&
+                    brands.map((brand) => (
+                      <option key={brand._id} value={brand._id}>
+                        {brand.title}
                       </option>
                     ))}
-              </Form.Select>
-            </Form.Group>
+                </Form.Select>
+              </Form.Group>
+            </div>
           </div>
 
-          <div className="flex-grow-1">
-            <Form.Group controlId="brandFilter" className="mb-2">
-              <Form.Label className="fw-bold small">Brand</Form.Label>
-              <Form.Select
-                name="brandId"
-                value={filters.brandId}
-                onChange={handleFilterChange}
-                
-              >
-                <option value="">Select Brand</option>
-                {brands?.length > 0 &&
-                  brands.map((brand) => (
-                    <option key={brand._id} value={brand._id}>
-                      {brand.title}
-                    </option>
-                  ))}
-              </Form.Select>
-            </Form.Group>
-          </div>
-
-          <div>
-            <Button
-              variant="dark"
-              size="sm"
-              className="mt-4 w-100"
-              onClick={handleReset}
-            >
+          <div className="d-flex justify-content-center mt-2 gap-2">
+            <Button variant="dark" size="sm" onClick={handleReset}>
               Reset & Refresh Filters
             </Button>
           </div>
         </div>
 
-        <div className="d-flex justify-content-end mt-2 mb-2 gap-2">
+        {/* <div className="d-flex justify-content-end mt-2 mb-2 gap-2">
           <ReactPaginate
             previousLabel={"Previous"}
             nextLabel={"Next"}
@@ -592,106 +574,166 @@ const AddingProductTable = () => {
             nextLinkClassName={"page-link"}
             breakLinkClassName={"page-link"}
           />
-        </div>
+        </div> */}
 
-        <div style={{ maxHeight: "400px", overflow: "auto" }}>
-          <Table responsive striped bordered hover>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Product Id</th>
-                <th>Type</th>
-                <th>Name</th>
-                <th>Image</th>
-                <th>Variants</th>
-                <th>Category</th>
-                <th>Sub Category</th>
-                <th>Brand</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan="10">Loading...</td>
-                </tr>
-              ) : filterData?.length > 0 ? (
-                filterData.map((row, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>
-                      {row?.productId?.substring(0, 15)}
-                      <span className="mx-2">
-                        {copied && copiedIndex === index ? (
-                          <>
-                            <BsClipboard2CheckFill size={20} color="green" />
-                            <br />
-                            <span style={{ fontSize: "10px", color: "green" }}>
-                              Copied
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <LuClipboardSignature
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                copyTextToClipboard(row?.productId, index)
-                              }
-                              size={18}
-                            />
-                          </>
-                        )}
-                      </span>
-                    </td>
-                    <td>{row?.type}</td>
-                    <td>{row?.name?.substring(0, 20) + "..."}</td>
-                    <td>
-                      <div className="productListItem">
-                        <img
-                          className="productListImg img-thumbnail"
-                          width={20}
-                          src={row.image?.[0]?.image_path}
-                          alt=""
-                        />
-                      </div>
-                    </td>
-                    <td style={{ width: "150px" }}>
-                      {row?.specId?.length}
-                      <p
-                        className="variCss"
-                        onClick={() => showVariants(row?.specId)}
-                      >
-                        VIEW
-                      </p>
-                      {variationRequestCount(row?.specId) > 0 && (
-                        <p className="newrqNo">
-                          <AiOutlineInfoCircle size={22} />{" "}
-                          {variationRequestCount(row?.specId)} Requested{" "}
-                        </p>
-                      )}
-                    </td>
-                    <td>{row?.categoryId?.title}</td>
-                    <td>{row?.subcategoryId?.title}</td>
-                    <td>{row?.brandId?.title}</td>
-                    <td>
+        {totalPages > 1 && (
+          <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
+            <nav aria-label="Pagination">
+              <ul className="pagination">
+                {/* Previous Button */}
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
+                  <Button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    variant="secondary"
+                    size="sm"
+                  >
+                    Previous
+                  </Button>
+                </li>
+
+                {/* Page Numbers */}
+                {Array.from({ length: totalPages })
+                  .map((_, index) => index + 1)
+                  .filter(
+                    (page) =>
+                      page === currentPage || // Current page
+                      (page >= currentPage - 2 && page <= currentPage + 2) // Range: prev 2 to next 2
+                  )
+                  .map((page) => (
+                    <li
+                      key={page}
+                      className={`page-item ${
+                        currentPage === page ? "active" : ""
+                      }`}
+                    >
                       <Button
-                        onClick={() => handleAddProduct(row)}
-                        variant="success"
+                        onClick={() => handlePageChange(page)}
+                        variant={currentPage === page ? "dark" : "secondary"}
                         size="sm"
                       >
-                        Add to Sell
+                        {page}
                       </Button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="10">No data found</td>
+                    </li>
+                  ))}
+
+                {/* Next Button */}
+                <li
+                  className={`page-item ${
+                    currentPage === totalPages ? "disabled" : ""
+                  }`}
+                >
+                  <Button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    variant="secondary"
+                    size="sm"
+                  >
+                    Next
+                  </Button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        )}
+
+        <Table responsive striped bordered hover>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product Id</th>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Image</th>
+              <th>Variants</th>
+              <th>Category</th>
+              <th>Sub Category</th>
+              <th>Brand</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="10">Loading...</td>
+              </tr>
+            ) : filterData?.length > 0 ? (
+              filterData.map((row, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>
+                    {row?.productId?.substring(0, 15)}
+                    <span className="mx-2">
+                      {copied && copiedIndex === index ? (
+                        <>
+                          <BsClipboard2CheckFill size={20} color="green" />
+                          <br />
+                          <span style={{ fontSize: "10px", color: "green" }}>
+                            Copied
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <LuClipboardSignature
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              copyTextToClipboard(row?.productId, index)
+                            }
+                            size={18}
+                          />
+                        </>
+                      )}
+                    </span>
+                  </td>
+                  <td>{row?.type}</td>
+                  <td>{row?.name?.substring(0, 20) + "..."}</td>
+                  <td>
+                    <div className="productListItem">
+                      <img
+                        className="productListImg img-thumbnail"
+                        width={20}
+                        src={row.image?.[0]?.image_path}
+                        alt=""
+                      />
+                    </div>
+                  </td>
+                  <td style={{ width: "150px" }}>
+                    {row?.specId?.length}
+                    <p
+                      className="variCss"
+                      onClick={() => showVariants(row?.specId)}
+                    >
+                      VIEW
+                    </p>
+                    {variationRequestCount(row?.specId) > 0 && (
+                      <p className="newrqNo">
+                        <AiOutlineInfoCircle size={22} />{" "}
+                        {variationRequestCount(row?.specId)} Requested{" "}
+                      </p>
+                    )}
+                  </td>
+                  <td>{row?.categoryId?.title}</td>
+                  <td>{row?.subcategoryId?.title}</td>
+                  <td>{row?.brandId?.title}</td>
+                  <td>
+                    <Button
+                      onClick={() => handleAddProduct(row)}
+                      variant="success"
+                      size="sm"
+                    >
+                      Add to Sell
+                    </Button>
+                  </td>
                 </tr>
-              )}
-            </tbody>
-          </Table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="10">No data found</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+
         <Container>
           <Row>
             <Modal size="xl" show={showSellerProduct} onHide={handleClose}>
