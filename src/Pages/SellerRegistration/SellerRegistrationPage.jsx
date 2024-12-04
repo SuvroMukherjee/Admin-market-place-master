@@ -12,7 +12,7 @@ import Step4 from "./Step4";
 import Step5 from "./Step5";
 
 function SellerRegistrationPage() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   //   const [userData, setUserData] = useState();
 
   const reg_userdata = JSON.parse(localStorage.getItem("seller-registration"));
