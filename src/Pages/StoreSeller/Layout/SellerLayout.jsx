@@ -388,7 +388,7 @@ const MyNavbar = ({ socket }) => {
             className="sidebar-menu-option"
             onClick={() => navigateFunction("Seller Dashboard")}
           >
-            <div className="title">Home</div>
+            <div className="title">Dashboad</div>
             <div className="Icon">
               <FaAngleRight size={25} />
             </div>
