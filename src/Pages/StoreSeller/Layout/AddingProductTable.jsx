@@ -651,7 +651,7 @@ const AddingProductTable = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="10">Loading...</td>
+                <td colSpan="10" className="text-center fw-bold">Loading...</td>
               </tr>
             ) : filterData?.length > 0 ? (
               filterData.map((row, index) => (

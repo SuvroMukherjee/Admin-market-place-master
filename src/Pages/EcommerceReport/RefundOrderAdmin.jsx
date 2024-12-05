@@ -101,7 +101,7 @@ const RefundOrderAdmin = () => {
                   <Row>
                     <Col>
                       <Spinner animation="border" size="lg" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden ">Loading...</span>
                       </Spinner>
                     </Col>
                   </Row>

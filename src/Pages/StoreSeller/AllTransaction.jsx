@@ -518,14 +518,14 @@ const AllTransaction = () => {
                   ))}
                 {!loading && filteredListByDate?.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="text-center">
+                    <td colSpan={10} className="text-center">
                       No Order Found
                     </td>
                   </tr>
                 )}
                 {loading && (
                   <tr>
-                    <td colSpan={8} className="text-center font-weight-bold">
+                    <td colSpan={10} className="text-center fw-bold">
                       Loading...
                     </td>
                   </tr>
