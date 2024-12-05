@@ -902,10 +902,10 @@ const MyNavbar = ({ socket }) => {
 
   const getHeaderTitle = () => {
     const matchedRoute = sidebarRoutes.find((route) =>
-      location.pathname.includes(route.path)
+      location.pathname.includes(route?.path)
     );
     return matchedRoute
-      ? matchedRoute.headerTitle || matchedRoute.title
+      ? matchedRoute?.headerTitle || matchedRoute?.title
       : "Unknown Page";
   };
 
@@ -1383,12 +1383,12 @@ const MyNavbar = ({ socket }) => {
                     <li
                       key={index}
                       className="notification-item"
-                      onClick={() => {
-                        handleRedirection(
-                          notification?.notification_type,
-                          notification?._id
-                        );
-                      }}
+                      // onClick={() => {
+                      //   handleRedirection(
+                      //     notification?.notification_type,
+                      //     notification?._id
+                      //   );
+                      // }}
                     >
                       <Row>
                         <Col

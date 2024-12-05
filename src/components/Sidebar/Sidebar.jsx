@@ -201,12 +201,12 @@ const Sidebar = ({ notifications, getAdminNotificationHandler }) => {
               <li
                 key={index}
                 className="notification-item"
-                onClick={() => {
-                  handleRedirection(
-                    notification?.notification_type,
-                    notification?._id
-                  );
-                }}
+                // onClick={() => {
+                //   handleRedirection(
+                //     notification?.notification_type,
+                //     notification?._id
+                //   );
+                // }}
               >
                 <Row>
                   <Col
