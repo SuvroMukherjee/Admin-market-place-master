@@ -319,14 +319,15 @@ const AdminPaymnets = () => {
                         )}
                       </td>
                       <td>
-                        {!isNaN(
+                        {/* {!isNaN(
                           (ele?.commissionAmount * 100) / ele?.totalAmount
                         )
                           ? `${(
                               (ele?.commissionAmount * 100) /
                               ele?.totalAmount
                             ).toFixed(2)}%`
-                          : ""}
+                          : ""} */}
+                          {ele?.orderId?.order_details?.[0]?.commissionPercentage} %
                       </td>
                       <td>
                         <span style={{ color: "#024CAA", fontWeight: "bold" }}>
