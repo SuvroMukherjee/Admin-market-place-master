@@ -54,7 +54,7 @@ export const AmountWithGst = ({ ele }) => {
     stateOfSupply,
     stateOfDelivery
   );
-  const shippingCharge = ele?.orderId?.order_details[0]?.total_shipping_price;
+  const shippingCharge = ele?.orderId?.order_details[0]?.total_shipping_price ?? 0;
   const withTaxAmount = ele?.totalAmount - shippingCharge;
   const cgstPercent = ele?.orderId?.order_details[0]?.proId?.categoryId?.cgst;
   const sgstPercent = ele?.orderId?.order_details[0]?.proId?.categoryId?.sgst;
