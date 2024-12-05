@@ -889,6 +889,10 @@ const sidebarRoutes = [
   { title: "Add Product Via Upload", path: "/seller/bulk-product-upload" },
 ];
 
+const otherRoutes = [
+  { title: "Change Password", path: "/seller/reset" },
+  { title: "Update Profile", path: "/seller/profile" },
+];
 const MyNavbar = ({ socket }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { auth, logout } = useAuth();
@@ -901,14 +905,16 @@ const MyNavbar = ({ socket }) => {
   const location = useLocation();
 
   const getHeaderTitle = () => {
-    const matchedRoute = sidebarRoutes.find((route) =>
+    const allRoutes = [...sidebarRoutes, ...otherRoutes];
+
+    const matchedRoute = allRoutes.find((route) =>
       location.pathname.includes(route?.path)
     );
+
     return matchedRoute
       ? matchedRoute?.headerTitle || matchedRoute?.title
       : "Unknown Page";
   };
-
   const currentHeaderTitle = getHeaderTitle();
 
   useEffect(() => {
