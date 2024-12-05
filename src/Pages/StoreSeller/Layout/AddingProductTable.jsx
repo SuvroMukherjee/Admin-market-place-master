@@ -386,11 +386,7 @@ const AddingProductTable = () => {
   };
 
   return (
-    <div>
-      <div className="d-flex justify-content-center mt-2 mb-4 gap-4">
-        <h4>Add products for sale</h4>
-      </div>
-
+    <div className="mt-3">
       <Row>
         <ProductSpecificationForm
           selectedproductid={selectedproductid}

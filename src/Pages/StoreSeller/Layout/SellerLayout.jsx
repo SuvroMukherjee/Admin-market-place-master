@@ -1262,7 +1262,18 @@ const MyNavbar = ({ socket }) => {
     }
   };
 
-  console.log({ userInfo });
+  // const { pathname } = location;
+
+  // const getPageTitle = (pathname) => {
+  //   const pageTitle = sidebarRoutes.find((page) =>
+  //     page.path.includes(pathname)
+  //   )?.title;
+  //   return pageTitle;
+  // };
+
+  // useEffect(() => {
+  //   setHeaderTitle(getPageTitle(pathname));
+  // }, [pathname]);
 
   return (
     <div>
@@ -1334,9 +1345,9 @@ const MyNavbar = ({ socket }) => {
             >
               <img src={blackzofi} alt="zoofi seller" width={120} />
             </div>
-            {/* <div className="page-desc flex-justify-center-align-center custom-font-size-lg">
-              {HeaderTitle}
-            </div> */}
+            <div className="page-desc flex-justify-center-align-center custom-font-size-lg">
+              {currentHeaderTitle}
+            </div>
           </div>
           <div className="custom-nav-right">
             {/* notification */}

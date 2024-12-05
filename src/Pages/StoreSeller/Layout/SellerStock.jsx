@@ -383,10 +383,6 @@ const SellerStock = () => {
 
   return (
     <div>
-      <div className="d-flex justify-content-center mt-2 mb-4 gap-4">
-        <h4>Manage Your Inventory</h4>
-      </div>
-
       <div style={{ backgroundColor: "#EDE8DC" }} className="p-4 mb-3">
         <div className="d-flex justify-content-between gap-4">
           <Form.Group controlId="searchtext" className="flex-grow-1">

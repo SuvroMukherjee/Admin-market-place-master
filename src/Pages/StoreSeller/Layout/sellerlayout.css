@@ -579,6 +579,10 @@ th {
   color: #9af064 !important;
 }
 
+.css-4t3x6l-MuiPaper-root-MuiDrawer-paper {
+  background-color: #080505 !important;
+}
+
 .sellSide::-webkit-scrollbar {
   width: 6px;
 }

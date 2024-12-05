@@ -44,10 +44,9 @@ const SellerPayments = () => {
   return (
     <div className="newProduct mt-4">
       <div className="mt-4 mx-4 px-4">
-        <h4 className="text-center">Payment Settlement</h4>
-        <div className="mt-4 p-2">
+        <div className="p-2">
           <Row>
-            <Col className="mt-4 d-flex justify-content-end">
+            <Col className="d-flex justify-content-end">
               <Pagination>
                 {Array.from({ length: totalPages }, (_, i) => (
                   <Pagination.Item
@@ -61,7 +60,7 @@ const SellerPayments = () => {
               </Pagination>
             </Col>
           </Row>
-          <Row className="w-100 mt-4">
+          <Row className="w-100">
             <span className="text-center mx-4 font-bold ">
               Total {totalRecords} - Transactions
             </span>

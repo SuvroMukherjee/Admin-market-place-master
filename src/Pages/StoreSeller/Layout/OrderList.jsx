@@ -158,9 +158,6 @@ const OrderList = () => {
   return (
     <div>
       <div className="mt-4 mx-4 px-4">
-        <Row>
-          <Col className="dtext">Closing Stock</Col>
-        </Row>
         <Row className="cont" style={{ padding: "10px", marginTop: "10px" }}>
           {/* start date */}
           <Col xs={4}>
