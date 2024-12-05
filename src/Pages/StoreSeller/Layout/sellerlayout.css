@@ -520,17 +520,17 @@ th {
 
 /* scrollbar for the notification-dropdown  */
 .custom-nav .custom-nav-right .notification-dropdown::-webkit-scrollbar {
-  width: 6px;
+  width: 11px;
 }
 
 .custom-nav .custom-nav-right .notification-dropdown::-webkit-scrollbar-thumb {
   background-color: #9af064;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 5px;
 }
 
 .custom-nav .custom-nav-right .notification-dropdown::-webkit-scrollbar-track {
   background-color: #bababa;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 5px;
 }
 
 .custom-nav .custom-nav-right .notification-dropdown ul {
@@ -584,18 +584,17 @@ th {
 }
 
 .sellSide::-webkit-scrollbar {
-  width: 6px;
+  width: 11px;
 }
 
 .sellSide::-webkit-scrollbar-thumb {
   background-color: #9af064;
-  border-radius: 6px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .sellSide::-webkit-scrollbar-thumb {
   background-color: #9af064;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 .sellSide::-webkit-scrollbar-track {

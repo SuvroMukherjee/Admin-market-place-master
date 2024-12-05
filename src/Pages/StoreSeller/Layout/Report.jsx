@@ -209,299 +209,303 @@ const Report = () => {
   console.log({ allorders });
 
   return (
-    <div>
-      <div className="mt-4 px-4 mx-4">
+    <div
+      className="py-3 px-5"
+      style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
+    >
+      <Row>
+        <Col className="retext">Sales Dashboard</Col>
+        <Col xs={4}></Col>
+        <Col xs={3}>
+          <Row>
+            <Col>
+              <p className="not-select-view" onClick={() => resetDate()}>
+                <span>
+                  <TfiReload />{" "}
+                </span>{" "}
+                Refresh
+              </p>
+            </Col>
+            <Col>
+              {csvData?.length > 0 && (
+                <CSVLink
+                  size="sm"
+                  data={csvData}
+                  filename={`report.csv`}
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  <p className="select-view">
+                    <span>
+                      <MdDownload />
+                    </span>{" "}
+                    Download
+                  </p>
+                </CSVLink>
+              )}
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <Row className="p-3" style={{ backgroundColor: "#9af064" }}>
+        <Col xs={3}>
+          <Form.Group controlId="date-to">
+            <Form.Label className="customDatelable">Start Date:</Form.Label>
+            <Form.Control
+              type="date"
+              className="tapG"
+              name="start"
+              value={reportDate?.start}
+              onChange={(e) => handleDateChange(e)}
+            />
+          </Form.Group>
+        </Col>
+        <Col xs={3}>
+          <Form.Group controlId="date-form">
+            <Form.Label className="customDatelable">End Date:</Form.Label>
+            <Form.Control
+              type="date"
+              className="tapG"
+              name="end"
+              value={reportDate?.end}
+              onChange={(e) => handleDateChange(e)}
+            />
+          </Form.Group>
+        </Col>
+        <Col xs={3}>
+          <Form.Group controlId="date-range">
+            <Form.Label className="customDatelable">
+              Select Date Range:
+            </Form.Label>
+            <Form.Select
+              value={reportDateRange}
+              onChange={handleDateRangeChange}
+            >
+              <option disabled selected value={"Select Date Range"}>
+                Select Date Range
+              </option>
+              <option value={"Today"}>Today</option>
+              <option value={"This Week"}>This Week</option>
+              <option value={"Last Week"}>Last Week</option>
+              <option value={"This Month"}>This Month</option>
+              <option value={"Last Month"}>Last Month</option>
+              <option value={"This Year"}>This Year</option>
+              <option value={"Last Year"}>Last Year</option>
+            </Form.Select>
+          </Form.Group>
+        </Col>
+        <Col
+          xs={3}
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "center",
+            gap: "10px",
+          }}
+        >
+          <Button
+            variant="secondary"
+            onClick={() => handledateOperation()}
+            disabled={!reportDate?.start || !reportDate?.end ? true : false}
+            style={{
+              backgroundColor:
+                !reportDate?.start || !reportDate?.end ? "gray" : "#9af064",
+              color: !reportDate?.start || !reportDate?.end ? "white" : "black",
+              fontWeight: "bold",
+            }}
+          >
+            APPLY
+          </Button>
+          <Button variant="dark" onClick={() => resetDate()}>
+            Reset
+          </Button>
+        </Col>
+      </Row>
+      <div
+        className="mt-4 reptContainer"
+        style={{ backgroundColor: "#d3fbbb" }}
+      >
+        <Row
+          className="reptContainerBtn mx-1 p-2"
+          style={{ backgroundColor: "#aaf77b" }}
+        >
+          <Col className="retext">Sales Snapshot</Col>
+        </Row>
         <Row>
-          <Col className="retext">Sales Dashboard</Col>
-          <Col xs={4}></Col>
-          <Col xs={3}>
+          <Col className="p-2 mx-4">
             <Row>
-              <Col>
-                <p className="not-select-view" onClick={() => resetDate()}>
-                  <span>
-                    <TfiReload />{" "}
-                  </span>{" "}
-                  Refresh
-                </p>
+              <Col className="retext2">Total orders</Col>
+              <Col className="retext2">Unit Orders</Col>
+              <Col className="retext2">Delivered Orders</Col>
+              <Col className="retext2">Total Sales</Col>
+              <Col className="retext2">Revenue</Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="mx-4">
+            <Row>
+              <Col className="retext3">{reports?.totalOrder}</Col>
+              <Col className="retext3">{reports?.totalQuantity}</Col>
+              <Col className="retext3">{reports?.totalDeliver}</Col>
+              <Col className="retext3">
+                ₹ {reports?.totalsell?.toLocaleString()}
               </Col>
-              <Col>
-                {csvData?.length > 0 && (
-                  <CSVLink
-                    size="sm"
-                    data={csvData}
-                    filename={`report.csv`}
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <p className="select-view">
-                      <span>
-                        <MdDownload />
-                      </span>{" "}
-                      Download
-                    </p>
-                  </CSVLink>
-                )}
+              <Col className="retext3">
+                ₹ {reports?.totalProfit?.toLocaleString()}
               </Col>
             </Row>
           </Col>
         </Row>
-        <Row className="p-4 mt-4 mx-2 cont">
-          <Row className="cont">
-            <Col xs={3}>
-              <Form.Group controlId="date-to">
-                <Form.Label className="customDatelable">Start Date:</Form.Label>
-                <Form.Control
-                  type="date"
-                  className="tapG"
-                  name="start"
-                  value={reportDate?.start}
-                  onChange={(e) => handleDateChange(e)}
-                />
-              </Form.Group>
-            </Col>
-            <Col xs={3}>
-              <Form.Group controlId="date-form">
-                <Form.Label className="customDatelable">End Date:</Form.Label>
-                <Form.Control
-                  type="date"
-                  className="tapG"
-                  name="end"
-                  value={reportDate?.end}
-                  onChange={(e) => handleDateChange(e)}
-                />
-              </Form.Group>
-            </Col>
-            <Col xs={3}>
-              <Form.Group controlId="date-range">
-                <Form.Label className="customDatelable">
-                  Select Date Range:
-                </Form.Label>
-                <Form.Select
-                  value={reportDateRange}
-                  onChange={handleDateRangeChange}
-                >
-                  <option disabled selected value={"Select Date Range"}>
-                    Select Date Range
-                  </option>
-                  <option value={"Today"}>Today</option>
-                  <option value={"This Week"}>This Week</option>
-                  <option value={"Last Week"}>Last Week</option>
-                  <option value={"This Month"}>This Month</option>
-                  <option value={"Last Month"}>Last Month</option>
-                  <option value={"This Year"}>This Year</option>
-                  <option value={"Last Year"}>Last Year</option>
-                </Form.Select>
-              </Form.Group>
+      </div>
+      <Row className="mt-4 p-2">
+        <Col className="d-flex align-items-center retext">Campare Sales</Col>
+        <Col xs={6}></Col>
+        <Col xs={3}>
+          <Row>
+            <Col
+              className={type == "1" ? "select-view" : "not-select-view"}
+              onClick={() => handleChangeView("1")}
+            >
+              Graph View
             </Col>
             <Col
-              xs={3}
-              style={{
-                display: "flex",
-                alignItems: "flex-end",
-                justifyContent: "center",
-                gap: "10px",
-              }}
+              className={type == "2" ? "select-view" : "not-select-view"}
+              onClick={() => handleChangeView("2")}
             >
-              <Button
-                variant="secondary"
-                onClick={() => handledateOperation()}
-                disabled={!reportDate?.start || !reportDate?.end ? true : false}
-                style={{
-                  backgroundColor:
-                    !reportDate?.start || !reportDate?.end ? "gray" : "#9af064",
-                  color:
-                    !reportDate?.start || !reportDate?.end ? "white" : "black",
-                  fontWeight: "bold",
+              Table View
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      {type == 1 && (
+        <Row className="mt-4">
+          <Col className="text-center ght">Ordered Product Sale's Graph</Col>
+          <Col className="text-center ght">Units Ordere's Graph</Col>
+        </Row>
+      )}
+      {type == 1 && (
+        <Row style={{ height: "100vh" }} className="mt-2">
+          <Col>
+            <ResponsiveContainer width="100%" height="60%">
+              <BarChart
+                width={1600}
+                height={600}
+                data={allorders}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
                 }}
               >
-                APPLY
-              </Button>
-              <Button variant="warning" onClick={() => resetDate()}>
-                Reset
-              </Button>
-            </Col>
-          </Row>
-        </Row>
-        <div className="mt-4 reptContainer">
-          <Row className="reptContainerBtn mx-1 p-2">
-            <Col className="retext">Sales Snapshot</Col>
-          </Row>
-          <Row>
-            <Col className="p-2 mx-4">
-              <Row>
-                <Col className="retext2">Total orders</Col>
-                <Col className="retext2">Unit Orders</Col>
-                <Col className="retext2">Delivered Orders</Col>
-                <Col className="retext2">Total Sales</Col>
-                <Col className="retext2">Revenue</Col>
-              </Row>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="p-2 mx-4">
-              <Row>
-                <Col className="retext3">{reports?.totalOrder}</Col>
-                <Col className="retext3">{reports?.totalQuantity}</Col>
-                <Col className="retext3">{reports?.totalDeliver}</Col>
-                <Col className="retext3">
-                  ₹ {reports?.totalsell?.toLocaleString()}
-                </Col>
-                <Col className="retext3">
-                  ₹ {reports?.totalProfit?.toLocaleString()}
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </div>
-        <Row className="mt-4 p-2">
-          <Col className="d-flex align-items-center retext">Campare Sales</Col>
-          <Col xs={6}></Col>
-          <Col xs={3}>
-            <Row>
-              <Col
-                className={type == "1" ? "select-view" : "not-select-view"}
-                onClick={() => handleChangeView("1")}
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar
+                  dataKey="sales"
+                  fill="#31363F"
+                  activeBar={<Rectangle fill="orange" stroke="blue" />}
+                />
+                <Bar
+                  dataKey="income"
+                  fill="#43ae00"
+                  activeBar={<Rectangle fill="gold" stroke="purple" />}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </Col>
+
+          <Col>
+            <ResponsiveContainer width="100%" height="60%">
+              <BarChart
+                width={1600}
+                height={600}
+                data={allorders}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
               >
-                Graph View
-              </Col>
-              <Col
-                className={type == "2" ? "select-view" : "not-select-view"}
-                onClick={() => handleChangeView("2")}
-              >
-                Table View
-              </Col>
-            </Row>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar
+                  dataKey="Quantiy"
+                  fill="#007F73"
+                  activeBar={<Rectangle fill="pink" stroke="blue" />}
+                />
+                <Bar
+                  dataKey="product"
+                  fill="#43ae00"
+                  activeBar={<Rectangle fill="gold" stroke="purple" />}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </Col>
         </Row>
-        {type == 1 && (
-          <Row className="mt-4">
-            <Col className="text-center ght">Ordered Product Sale's Graph</Col>
-            <Col className="text-center ght">Units Ordere's Graph</Col>
-          </Row>
-        )}
-        {type == 1 && (
-          <Row style={{ height: "100vh" }} className="mt-2">
-            <Col>
-              <ResponsiveContainer width="100%" height="60%">
-                <BarChart
-                  width={1600}
-                  height={600}
-                  data={allorders}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar
-                    dataKey="sales"
-                    fill="#31363F"
-                    activeBar={<Rectangle fill="orange" stroke="blue" />}
-                  />
-                  <Bar
-                    dataKey="income"
-                    fill="#43ae00"
-                    activeBar={<Rectangle fill="gold" stroke="purple" />}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </Col>
-
-            <Col>
-              <ResponsiveContainer width="100%" height="60%">
-                <BarChart
-                  width={1600}
-                  height={600}
-                  data={allorders}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar
-                    dataKey="Quantiy"
-                    fill="#007F73"
-                    activeBar={<Rectangle fill="pink" stroke="blue" />}
-                  />
-                  <Bar
-                    dataKey="product"
-                    fill="#43ae00"
-                    activeBar={<Rectangle fill="gold" stroke="purple" />}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </Col>
-          </Row>
-        )}
-        {type == "2" && (
-          <Row className="mt-4">
-            <Col>
-              <Table responsive striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Order Id</th>
-                    <th>Product Name</th>
-                    <th>Order date</th>
-                    <th>Qunatity</th>
-                    <th>Sales</th>
-                    <th>Revenue</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allorders.map((ele, index) => (
-                    <tr key={index}>
-                      <td>{ele?.order_id}</td>
-                      <td>
-                        {" "}
+      )}
+      {type == "2" && (
+        <Row className="mt-4">
+          <Col>
+            <Table responsive striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Order Id</th>
+                  <th>Product Name</th>
+                  <th>Order date</th>
+                  <th>Qunatity</th>
+                  <th>Sales</th>
+                  <th>Revenue</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allorders.map((ele, index) => (
+                  <tr key={index}>
+                    <td>{ele?.order_id}</td>
+                    <td>
+                      {" "}
+                      <span>
+                        <img
+                          src={ele?.spec?.image?.[0]?.image_path}
+                          width={25}
+                          height={25}
+                          style={{ objectFit: "contain" }}
+                          alt="product_image"
+                        />
+                      </span>{" "}
+                      {ele?.product}{" "}
+                      {ele?.spec?.spec_det?.length > 0 && (
                         <span>
-                          <img
-                            src={ele?.spec?.image?.[0]?.image_path}
-                            width={25}
-                            height={25}
-                            style={{ objectFit: "contain" }}
-                            alt="product_image"
-                          />
-                        </span>{" "}
-                        {ele?.product}{" "}
-                        {ele?.spec?.spec_det?.length > 0 && (
-                          <span>
-                            (
-                            {ele?.spec?.spec_det?.map((ele, index, array) => (
-                              <span key={index}>
-                                {ele?.value}
-                                {index < array.length - 1 ? ", " : ""}
-                              </span>
-                            ))}
-                            )
-                          </span>
-                        )}
-                      </td>
-                      <td>{ele?.date}</td>
-                      <td>{ele?.Quantiy}</td>
-                      <td>₹ {ele?.sales?.toLocaleString()}</td>
-                      <td>₹ {ele?.income?.toLocaleString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        )}
-      </div>
+                          (
+                          {ele?.spec?.spec_det?.map((ele, index, array) => (
+                            <span key={index}>
+                              {ele?.value}
+                              {index < array.length - 1 ? ", " : ""}
+                            </span>
+                          ))}
+                          )
+                        </span>
+                      )}
+                    </td>
+                    <td>{ele?.date}</td>
+                    <td>{ele?.Quantiy}</td>
+                    <td>₹ {ele?.sales?.toLocaleString()}</td>
+                    <td>₹ {ele?.income?.toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      )}
     </div>
   );
 };

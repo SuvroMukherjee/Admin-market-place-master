@@ -107,13 +107,13 @@ const ReturnOrderRequestList = () => {
     let payload = {
       status: returnStatus,
     };
-    console.log(selectedOrder,'selectedOrder')
+    console.log(selectedOrder, "selectedOrder");
     let res = await updateReturnStatus(
       payload,
       selectedOrder?.orderId?._id,
       selectedOrder?.productId?._id
     );
-  
+
     if (res?.data?.data?.error) {
       toast.error(res?.data?.message);
       return;
@@ -160,7 +160,10 @@ const ReturnOrderRequestList = () => {
 
   return (
     <div>
-      <div className="mt-4 mx-4 px-4">
+      <div
+        className="py-3 px-5"
+        style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
+      >
         <Row className="mt-4">
           <Col>
             <Table striped bordered hover responsive>
@@ -195,26 +198,34 @@ const ReturnOrderRequestList = () => {
                   list?.map((row) => (
                     <tr key={row._id}>
                       <td className="d-flex justify-content-center align-items-center gap-2">
-                         <div>
-                          {console.log(row,'row')}
-                          <img src={row?.productId?.specId?.image?.[0]?.image_path} alt="img" width="50" height="50" style={{objectFit:'contain'}}/>
-                         </div>
-                        {row?.productId ? row?.productId.name : ""}</td>
+                        <div>
+                          {console.log(row, "row")}
+                          <img
+                            src={row?.productId?.specId?.image?.[0]?.image_path}
+                            alt="img"
+                            width="50"
+                            height="50"
+                            style={{ objectFit: "contain" }}
+                          />
+                        </div>
+                        {row?.productId ? row?.productId.name : ""}
+                      </td>
                       <td>{row?._id}</td>
                       <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
                       <td>{row?.orderId?.order_type}</td>
                       <td>{row?.price?.toLocaleString()}</td>
                       <td>{row?.reason}</td>
                       <td>
-                      {/* <img src={row?.images?.[0]?.image_path} alt="img" width="100" height="100" style={{objectFit:'contain'}}/> */}
-                      <a
-                                            href={row?.images?.[0]?.image_path}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            
-                                          >
-                                            <Button variant="outline-dark" size="sm">view</Button>
-                                          </a>
+                        {/* <img src={row?.images?.[0]?.image_path} alt="img" width="100" height="100" style={{objectFit:'contain'}}/> */}
+                        <a
+                          href={row?.images?.[0]?.image_path}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <Button variant="outline-dark" size="sm">
+                            view
+                          </Button>
+                        </a>
                       </td>
                       <td>
                         {ChangeFormatDate(
@@ -257,10 +268,12 @@ const ReturnOrderRequestList = () => {
                           }
                         >
                           Update Refund Status
-                         
                         </Button>
-                        {row?.orderId?.order_type === "COD" && <p style={{ color: "green", fontWeight: "bold" }}>COD Refund</p>}
-                         
+                        {row?.orderId?.order_type === "COD" && (
+                          <p style={{ color: "green", fontWeight: "bold" }}>
+                            COD Refund
+                          </p>
+                        )}
                       </td>
                     </tr>
                   ))
@@ -296,7 +309,11 @@ const ReturnOrderRequestList = () => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" size="sm" onClick={() => setShowModal(false)}>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setShowModal(false)}
+            >
               Close
             </Button>
             <Button variant="primary" size="sm" onClick={handleSaveChanges}>

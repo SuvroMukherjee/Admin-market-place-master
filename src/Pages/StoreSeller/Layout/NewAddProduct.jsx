@@ -129,19 +129,18 @@ export default function NewAddProduct() {
     //   .finally((data) => {
     //     setLoading(false);
     //   });
-    
-      try {
-        const res = await axios.get(
-          `${apiUrl}/product/all-list?page=${1}&limit=15`
-        );
-        setMaindata(res?.data?.data);
-        setData(res?.data?.data);
-        //     setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data", error);
-        setLoading(false);
-      }
-   
+
+    try {
+      const res = await axios.get(
+        `${apiUrl}/product/all-list?page=${1}&limit=15`
+      );
+      setMaindata(res?.data?.data);
+      setData(res?.data?.data);
+      //     setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data", error);
+      setLoading(false);
+    }
   }
 
   async function getAllCats() {
@@ -434,23 +433,17 @@ export default function NewAddProduct() {
   console.log({ maindata });
 
   return (
-    <div className="mx-4 px-4">
-     
-
+    <div
+      className="px-4 py-3"
+      style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
+    >
       {/** NEWW  */}
-     
-        <NewAddProductComponent />
-     
-      ,
+
+      <NewAddProductComponent />
     </div>
   );
 }
 
-
 const NewAddProductComponent = () => {
- return (
-   
-     <AddingProductTable />
- 
- );
-}
+  return <AddingProductTable />;
+};

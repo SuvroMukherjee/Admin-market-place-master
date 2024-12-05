@@ -49,55 +49,54 @@ const RefundOrderSeller = () => {
   };
 
   return (
-    <div>
-      <div className="mt-4 mx-4 px-4">
-        <Row className="mt-4">
-          <Col>
-            <Table striped bordered hover responsive>
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Order Type</th>
-                  <th>Price</th>
-                  <th>Payment ID</th>
-                  <th>Refund Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading ? (
-                  <div className="productList p-4 contentLoader">
-                    <Row>
-                      <Col>
-                        <Spinner animation="border" size="lg" role="status">
-                          <span className="visually-hidden">Loading...</span>
-                        </Spinner>
-                      </Col>
-                    </Row>
-                  </div>
-                ) : (
-                  list?.map((row) => (
-                    <tr key={row._id}>
-                      <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
-                      <td>{row?.orderId ? row?.orderId.order_type : ""}</td>
-                      <td>
-                        {row?.orderId
-                          ? row?.orderId.order_price?.toLocaleString()
-                          : ""}
-                      </td>
-                      <td>{row?.paymentId}</td>
-                      <td>
-                        <Button variant="dark" size="sm">
-                          {row?.status}
-                        </Button>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-      </div>
+    <div className="py-3 px-5"
+    style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}>
+      <Row className="mt-4">
+        <Col>
+          <Table striped bordered hover responsive>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Order Type</th>
+                <th>Price</th>
+                <th>Payment ID</th>
+                <th>Refund Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <div className="productList p-4 contentLoader">
+                  <Row>
+                    <Col>
+                      <Spinner animation="border" size="lg" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    </Col>
+                  </Row>
+                </div>
+              ) : (
+                list?.map((row) => (
+                  <tr key={row._id}>
+                    <td>{row?.orderId ? row?.orderId.order_no : ""}</td>
+                    <td>{row?.orderId ? row?.orderId.order_type : ""}</td>
+                    <td>
+                      {row?.orderId
+                        ? row?.orderId.order_price?.toLocaleString()
+                        : ""}
+                    </td>
+                    <td>{row?.paymentId}</td>
+                    <td>
+                      <Button variant="dark" size="sm">
+                        {row?.status}
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
     </div>
   );
 };

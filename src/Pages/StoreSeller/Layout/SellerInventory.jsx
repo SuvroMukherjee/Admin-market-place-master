@@ -1,5 +1,5 @@
 // import "./Seller.css";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import toast from "react-hot-toast";
@@ -7,11 +7,11 @@ import Skeleton from "react-loading-skeleton"; // Import Skeleton loader
 import {
   GetAllServices,
   UpdateSellerProduct,
-  getSearcKeyword
+  getSearcKeyword,
 } from "../../../API/api";
 import "./sellerlayout.css";
 import SellerStock from "./SellerStock";
-import 'react-loading-skeleton/dist/skeleton.css'
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function SellerInventory() {
   // const [data, setData] = useState([]);
@@ -829,7 +829,10 @@ export default function SellerInventory() {
         </Row>
         <Toaster position="top-right" />
       </Container> */}
-      <div className="mt-4 mx-4 px-4">
+      <div
+        className="px-4 py-4"
+        style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
+      >
         <SellerStock />
       </div>
     </div>
@@ -931,8 +934,6 @@ export const ServicesModal = ({
   );
 };
 
-
-
 export const SearchTermModal = ({ showModal, handleClose, data }) => {
   const [modalData, setModalData] = useState({});
   const [loading, setLoading] = useState(false); // Track loading state
@@ -986,15 +987,12 @@ export const SearchTermModal = ({ showModal, handleClose, data }) => {
       <Modal.Body>
         <Form>
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>
-              Search Keys
-            </Form.Label>
+            <Form.Label>Search Keys</Form.Label>
             {loading ? (
               // Show Skeleton loader while the API is fetching
-              <div >
-                   <Skeleton count={5} height={40} baseColor="#e0e0e0" />
+              <div>
+                <Skeleton count={5} height={40} baseColor="#e0e0e0" />
               </div>
-             
             ) : (
               <Form.Control
                 as="textarea"
@@ -1009,11 +1007,12 @@ export const SearchTermModal = ({ showModal, handleClose, data }) => {
           </Form.Group>
         </Form>
         <div className="d-flex justify-content-center">
-          {!loading &&
-          <button className="glow-button" onClick={getKeyword} >
-            <span className="icon">✨</span>
-            Modify with AI
-          </button>}
+          {!loading && (
+            <button className="glow-button" onClick={getKeyword}>
+              <span className="icon">✨</span>
+              Modify with AI
+            </button>
+          )}
         </div>
       </Modal.Body>
       <Modal.Footer>

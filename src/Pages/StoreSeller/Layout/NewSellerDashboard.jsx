@@ -30,7 +30,6 @@ const NewSellerDashboard = () => {
 
   const navigate = useNavigate();
 
-
   const { userId } = JSON.parse(localStorage.getItem("auth"));
 
   const SellingProducts = async () => {
@@ -123,15 +122,14 @@ const NewSellerDashboard = () => {
     <div
       className="pt-4"
       style={{
-        background: "#f5f1f1",
+        background: "#e5faca",
         minHeight: "100vh",
       }}
     >
-     
       <div className="mt-4 mx-4 px-4">
         <Row>
           <Col>
-            <div> 
+            <div>
               {data?.length > 0 && (
                 <Row className="mt-4">
                   <Col className="dtext2">

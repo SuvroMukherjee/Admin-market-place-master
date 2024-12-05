@@ -3,36 +3,41 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const SellerRequestPanel = () => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const handleClick = (type) => {
+    if (type == "product") {
+      navigate("/seller/seller-ownproduct-status/new-add");
+    }
+    if (type == "category") {
+      navigate("/seller/category-request/");
+    }
 
-    const handleClick = (type) => {
-        if(type == 'product'){
-            navigate("/seller/seller-ownproduct-status/new-add");
-        }
-        if(type == 'category'){
-            navigate("/seller/category-request/");
-        }
+    if (type == "subCategory") {
+      navigate("/seller/subcategory-request/");
+    }
 
-        if(type == 'subCategory'){
-            navigate("/seller/subcategory-request/");
-        }
+    if (type == "brand") {
+      navigate("/seller/brand-request/");
+    }
 
-        if(type == 'brand'){
-            navigate("/seller/brand-request/");
-        }
-
-        if(type == 'track'){
-            navigate("/seller/approval-request-list/");
-        }
-
-    };
+    if (type == "track") {
+      navigate("/seller/approval-request-list/");
+    }
+  };
 
   return (
-    <div className="mx-4 px-4">
+    <div
+      className="px-5 py-3"
+      style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
+    >
       <Row className="mt-4 d-flex justify-content-start items-center gap-4">
-        <Col className="text-center" size={4} >
-          <Card className="bcard" style={{height:'300px',width:'400px'}} onClick={()=>handleClick('product')}>
+        <Col className="text-center" size={4}>
+          <Card
+            className="bcard"
+            style={{ height: "300px", width: "400px" }}
+            onClick={() => handleClick("product")}
+          >
             <Card.Header className="text-center">
               Request New Product
             </Card.Header>
@@ -48,7 +53,6 @@ const SellerRequestPanel = () => {
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQllsJ4BCNe77dUbi9-VuCtcT0T0reMsgtd5lRPTompGHqOk7bvmERmMKPwj2jxkGQ0fFE&usqp=CAU"
                     className="reqImgN"
                     alt="cmp_img"
-                   
                   />
                 </Col>
               </Row>
@@ -56,14 +60,19 @@ const SellerRequestPanel = () => {
           </Card>
         </Col>
         <Col className="text-center" size={4}>
-          <Card className="bcard2" style={{height:'300px',width:'400px'}} onClick={()=>handleClick('category')}>
+          <Card
+            className="bcard2"
+            style={{ height: "300px", width: "400px" }}
+            onClick={() => handleClick("category")}
+          >
             <Card.Header className="text-center">
               Request New Category
             </Card.Header>
             <Card.Body className="mt-2">
               <Row className="me-2">
                 <Col className="cmpgin-sub-title2">
-                  List categories that are not currently in Zoofi's Selling Categories
+                  List categories that are not currently in Zoofi's Selling
+                  Categories
                 </Col>
               </Row>
               <Row className="mb-2 mt-2">
@@ -79,14 +88,19 @@ const SellerRequestPanel = () => {
           </Card>
         </Col>
         <Col className="text-center" size={4}>
-          <Card className="bcard3" style={{height:'300px',width:'400px'}} onClick={()=>handleClick('subCategory')}>
+          <Card
+            className="bcard3"
+            style={{ height: "300px", width: "400px" }}
+            onClick={() => handleClick("subCategory")}
+          >
             <Card.Header className="text-center">
               Request New SubCategory
             </Card.Header>
             <Card.Body className="mt-2">
               <Row className="me-2">
                 <Col className="cmpgin-sub-title3">
-                  List subCategories that are not currently in Zoofi's Selling SubCategories
+                  List subCategories that are not currently in Zoofi's Selling
+                  SubCategories
                 </Col>
               </Row>
               <Row className="mb-2 mt-2">
@@ -102,10 +116,12 @@ const SellerRequestPanel = () => {
           </Card>
         </Col>
         <Col className="text-center" size={4}>
-          <Card className="bcard4" style={{height:'300px',width:'400px'}} onClick={()=>handleClick('brand')}>
-            <Card.Header className="text-center">
-              Request New Brand
-            </Card.Header>
+          <Card
+            className="bcard4"
+            style={{ height: "300px", width: "400px" }}
+            onClick={() => handleClick("brand")}
+          >
+            <Card.Header className="text-center">Request New Brand</Card.Header>
             <Card.Body className="mt-2">
               <Row className="me-2">
                 <Col className="cmpgin-sub-title4">
@@ -116,7 +132,7 @@ const SellerRequestPanel = () => {
                 <Col className="text-center">
                   <img
                     src="https://graphicsprings.com/wp-content/uploads/2023/08/image-112.png"
-                     className="reqImgN"
+                    className="reqImgN"
                     alt="cmp_img"
                   />
                 </Col>
@@ -125,7 +141,11 @@ const SellerRequestPanel = () => {
           </Card>
         </Col>
         <Col className="text-center" size={4}>
-          <Card className="bcard5" style={{height:'300px',width:'400px'}} onClick={()=>handleClick('track')} >
+          <Card
+            className="bcard5"
+            style={{ height: "300px", width: "400px" }}
+            onClick={() => handleClick("track")}
+          >
             <Card.Header className="text-center">
               Track Your Request Applications
             </Card.Header>
@@ -147,9 +167,7 @@ const SellerRequestPanel = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col size={4}>
-        
-        </Col>
+        <Col size={4}></Col>
       </Row>
     </div>
   );

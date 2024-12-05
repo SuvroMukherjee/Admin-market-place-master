@@ -457,7 +457,7 @@ const AddingProductTable = () => {
         {/* Search Input and Button */}
 
         {/* Filter Selects */}
-        <div style={{ backgroundColor: "#EDE8DC" }} className="p-4">
+        <div style={{ backgroundColor: "#9af064" }} className="p-4">
           <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
             <div className="flex-grow-1">
               <div>
