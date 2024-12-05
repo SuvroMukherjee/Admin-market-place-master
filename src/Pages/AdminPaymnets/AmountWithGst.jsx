@@ -90,9 +90,9 @@ export const AmountWithGst = ({ ele }) => {
         </span>
         <span>
           {`₹${withOutTaxAmount} (Without Tax)`}
-          {applicableTaxType === "SGSTCGST" && `+ ₹${cgst} (CGST)`}
-          {applicableTaxType === "SGSTCGST" && `+ ₹${sgst} (SGST)`}
-          {applicableTaxType === "IGST" && `+ ₹${igst} (IGST)`}
+          {applicableTaxType === "SGSTCGST" && ` + ₹${cgst} (CGST)`}
+          {applicableTaxType === "SGSTCGST" && ` + ₹${sgst} (SGST)`}
+          {applicableTaxType === "IGST" && ` + ₹${igst} (IGST)`}
         </span>
       </span>
     </>
