@@ -223,6 +223,39 @@ export default function ListCategory() {
       width: 170,
     },
     {
+      field: "cgst",
+      headerName: "CGST",
+      renderCell: (params) => {
+        return (
+          <div>
+            <span>{`${params?.row?.cgst} %`}</span>
+          </div>
+        );
+      },
+    },
+    {
+      field: "sgst",
+      headerName: "SGST",
+      renderCell: (params) => {
+        return (
+          <div>
+            <span>{`${params?.row?.sgst} %`}</span>
+          </div>
+        );
+      },
+    },
+    {
+      field: "igst",
+      headerName: "IGST",
+      renderCell: (params) => {
+        return (
+          <div>
+            <span>{`${params?.row?.igst} %`}</span>
+          </div>
+        );
+      },
+    },
+    {
       field: "updatedAt",
       headerName: "uploaded",
       width: 180,
@@ -250,7 +283,6 @@ export default function ListCategory() {
         );
       },
     },
-
     {
       field: "Top category",
       headerName: "Make As Top Category",
@@ -280,7 +312,6 @@ export default function ListCategory() {
         );
       },
     },
-
     {
       field: "position",
       headerName: "Select Position",
@@ -343,7 +374,6 @@ export default function ListCategory() {
         );
       },
     },
-
     {
       field: "Old position",
       headerName: "Old Position",
