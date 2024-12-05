@@ -188,3 +188,16 @@
   border-bottom: 1px solid #dee2e6;
   padding: 0.5rem;
 } */
+
+.shwTx{
+  color: #027166;
+    font-weight: bold;
+    border: 1px solid #027166;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.shwTx:hover{
+  color: #025c5c;
+  border: 1px solid #025c5c;  
+}

@@ -1,50 +1,32 @@
+import Button from "react-bootstrap/Button";
+import { Card, Row, Col, Table } from "react-bootstrap";
+import React from "react";
+
 export const AmountWithGst = ({ ele }) => {
   const getApplicableTaxType = (stateOfSupply, stateOfDelivery) => {
-    if (
-      stateOfSupply.trim().toLowerCase() ===
+    return stateOfSupply.trim().toLowerCase() ===
       stateOfDelivery.trim().toLowerCase()
-    ) {
-      return "SGSTCGST";
-    } else {
-      return "IGST";
-    }
+      ? "SGSTCGST"
+      : "IGST";
   };
 
-  const getCGST = (withOutTaxAmount, cgstPercent) => {
-    const cgstAmount = (withOutTaxAmount * cgstPercent) / 100;
-    return cgstAmount.toFixed(2);
-  };
-
-  const getSGST = (withOutTaxAmount, sgstPercent) => {
-    const sgstAmount = (withOutTaxAmount * sgstPercent) / 100;
-    return sgstAmount.toFixed(2);
-  };
-
-  const getIGST = (withOutTaxAmount, igstPercent) => {
-    const igstAmount = (withOutTaxAmount * igstPercent) / 100;
-    return igstAmount.toFixed(2);
+  const calculateTax = (amount, taxPercent) => {
+    return ((amount * taxPercent) / 100).toFixed(2);
   };
 
   const getAmount = (
-    withTaxAmount, // 100
-    cgstPercent, // 9
-    sgstPercent, // 9
-    igstPercent, // 18
-    applicableTaxType // SGSTCGST
+    withTaxAmount,
+    cgstPercent,
+    sgstPercent,
+    igstPercent,
+    applicableTaxType
   ) => {
     if (applicableTaxType === "SGSTCGST") {
-      // withTaxAmount = amount + cgst + sgst
-      // amount = withTaxAmount - cgst - sgst
       const totalGstPercent = cgstPercent + sgstPercent;
-      const amount = (withTaxAmount * 100) / (100 + totalGstPercent);
-      return amount.toFixed(2); // Exclude tax amount
+      return ((withTaxAmount * 100) / (100 + totalGstPercent)).toFixed(2);
     }
-
     if (applicableTaxType === "IGST") {
-      // withTaxAmount = amount + igst
-      // amount = withTaxAmount - igst
-      const amount = (withTaxAmount * 100) / (100 + igstPercent);
-      return amount.toFixed(2);
+      return ((withTaxAmount * 100) / (100 + igstPercent)).toFixed(2);
     }
   };
 
@@ -54,12 +36,17 @@ export const AmountWithGst = ({ ele }) => {
     stateOfSupply,
     stateOfDelivery
   );
+
   const shippingCharge =
     ele?.orderId?.order_details[0]?.total_shipping_price ?? 0;
   const withTaxAmount = ele?.totalAmount - shippingCharge;
-  const cgstPercent = ele?.orderId?.order_details[0]?.proId?.categoryId?.cgst;
-  const sgstPercent = ele?.orderId?.order_details[0]?.proId?.categoryId?.sgst;
-  const igstPercent = ele?.orderId?.order_details[0]?.proId?.categoryId?.igst;
+  const cgstPercent =
+    ele?.orderId?.order_details[0]?.proId?.categoryId?.cgst || 0;
+  const sgstPercent =
+    ele?.orderId?.order_details[0]?.proId?.categoryId?.sgst || 0;
+  const igstPercent =
+    ele?.orderId?.order_details[0]?.proId?.categoryId?.igst || 0;
+
   const withOutTaxAmount = getAmount(
     withTaxAmount,
     cgstPercent,
@@ -67,36 +54,67 @@ export const AmountWithGst = ({ ele }) => {
     igstPercent,
     applicableTaxType
   );
-  const cgst = getCGST(withOutTaxAmount, cgstPercent);
-  const sgst = getSGST(withOutTaxAmount, sgstPercent);
-  const igst = getIGST(withOutTaxAmount, igstPercent);
+  const cgst = calculateTax(withOutTaxAmount, cgstPercent);
+  const sgst = calculateTax(withOutTaxAmount, sgstPercent);
+  const igst = calculateTax(withOutTaxAmount, igstPercent);
+
+  const [show, setShow] = React.useState(false);
 
   return (
     <>
-      <span
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "5px",
-          flexDirection: "column",
-          justifyContent: "center",
-          whiteSpace: "nowrap",
-        }}
-      >
-        <span>
-          {`₹${withTaxAmount} (Order Amount)`} +{" "}
-          {`₹${shippingCharge} (Shipping)`} ={" "}
-          <strong>{`₹${ele?.totalAmount} (Invoice Amount)`}</strong>
-        </span>
-        <span>
-          {`₹${withOutTaxAmount} (Without Tax)`}
-          {applicableTaxType === "SGSTCGST" &&
-            ` + ₹${cgst} (${cgstPercent}% CGST)`}
-          {applicableTaxType === "SGSTCGST" &&
-            ` + ₹${sgst} (${sgstPercent}% SGST)`}
-          {applicableTaxType === "IGST" && ` + ₹${igst} (${igstPercent}% IGST)`}
-        </span>
-      </span>
+      <p>₹ {withOutTaxAmount}</p>
+
+      <p onClick={() => setShow(!show)} className="shwTx">{show ? "Hide" : "Show"} Break Up</p>
+      {show && (
+        <>
+          <Table striped bordered hover size="sm" className="mb-4">
+            <tbody>
+              <tr>
+                <td>Order Amount</td>
+                <td className="text-end">₹{withTaxAmount}</td>
+              </tr>
+              <tr>
+                <td>Shipping</td>
+                <td className="text-end">₹{shippingCharge}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Invoice Amount</strong>
+                </td>
+                <td className="text-end">
+                  <strong>₹{ele?.totalAmount}</strong>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+          <Table striped bordered hover size="sm">
+            <tbody>
+              <tr>
+                <td>Amount (Without Tax)</td>
+                <td className="text-end">₹{withOutTaxAmount}</td>
+              </tr>
+              {applicableTaxType === "SGSTCGST" && (
+                <>
+                  <tr>
+                    <td>CGST ({cgstPercent}%)</td>
+                    <td className="text-end">₹{cgst}</td>
+                  </tr>
+                  <tr>
+                    <td>SGST ({sgstPercent}%)</td>
+                    <td className="text-end">₹{sgst}</td>
+                  </tr>
+                </>
+              )}
+              {applicableTaxType === "IGST" && (
+                <tr>
+                  <td>IGST ({igstPercent}%)</td>
+                  <td className="text-end">₹{igst}</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </>
+      )}
     </>
   );
 };

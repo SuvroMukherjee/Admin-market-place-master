@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Col, Container, Pagination, Row, Spinner } from "react-bootstrap";
 import useAuth from "../../../hooks/useAuth";
 import moment from "moment";
+import { AmountWithGst } from "../../AdminPaymnets/AmountWithGst";
+
 // import { AdminSellerLists, createPayment } from "../../API/api";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
@@ -72,12 +74,12 @@ const SellerPayments = () => {
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>Transaction Type</th>
+                <th>Transaction Type </th>
                 <th>Order Date</th>
                 <th>Order No</th>
                 <th>Payment Id</th>
                 <th>Order Amount</th>
-                <th>Category Commission</th>
+                <th>Invoice Amount Calculation</th>
                 <th>Admin Price</th>
                 <th>Leadger Amount</th>
                 <th>Creditable Balance</th>
@@ -106,7 +108,7 @@ const SellerPayments = () => {
                             fontWeight: "500",
                           }}
                         >
-                          Order Payment
+                          Order Payment {console.log(ele, "ele")}
                         </span>
                       )}
                       {ele?.type == "RefundPayment" && (
@@ -128,7 +130,7 @@ const SellerPayments = () => {
                             fontWeight: "500",
                           }}
                         >
-                          Payment Done
+                          Payment Done 
                         </span>
                       )}
                     </td>
@@ -142,9 +144,12 @@ const SellerPayments = () => {
                         ele?.orderId?.refund_status?.razorpayRefundId}
                     </td>
                     <td>
-                      {ele?.type === "orderPayment" && (
+                      {/* {ele?.type === "orderPayment" && (
                         <span>{ele?.totalAmount?.toLocaleString("en-IN")}</span>
-                      )}
+                      )} */}
+                      {ele?.type === "orderPayment" && (
+                          <AmountWithGst ele={ele} />
+                        )}
                       {ele?.type === "RefundPayment" && (
                         <span>
                           {ele?.refundAmount?.toLocaleString("en-IN")}
@@ -156,12 +161,13 @@ const SellerPayments = () => {
                       )}
                     </td>
                     <td>
-                      {!isNaN((ele?.commissionAmount * 100) / ele?.totalAmount)
+                      {/* {!isNaN((ele?.commissionAmount * 100) / ele?.totalAmount)
                         ? `${(
                             (ele?.commissionAmount * 100) /
                             ele?.totalAmount
                           ).toFixed(2)}%`
-                        : ""}
+                        : ""} */}
+                        {ele?.orderId?.order_details?.[0]?.commissionPercentage}{" "} %
                     </td>
                     <td>
                       <span
@@ -171,26 +177,27 @@ const SellerPayments = () => {
                           letterSpacing: "1px",
                         }}
                       >
-                        ₹ {ele?.commissionAmount?.toLocaleString("en-IN")}
+                        ₹ {ele?.commissionAmount?.toLocaleString("en-IN") ?? "0"}
                       </span>
+                      {/* <AmountWithGst ele={ele} /> */}
                     </td>
                     <td>
                       {/* {ele?.sellerAmount?.toLocaleString("en-IN")} */}
 
                       {ele?.type === "orderPayment" && (
                         <span style={{ color: "green" }}>
-                          + {ele?.sellerAmount?.toLocaleString("en-IN")}
+                          + {ele?.sellerAmount?.toLocaleString("en-IN") ?? "0"}
                         </span>
                       )}
                       {ele?.type === "RefundPayment" && (
                         <span style={{ color: "red" }}>
-                          - {ele?.refundAmount?.toLocaleString("en-IN")}
+                          - {ele?.refundAmount?.toLocaleString("en-IN") ?? "0"}
                         </span>
                       )}
 
                       {ele?.type === "AdminPayout" && (
                         <span style={{ color: "red" }}>
-                          - {ele?.adminAmount?.toLocaleString("en-IN")}
+                          - {ele?.adminAmount?.toLocaleString("en-IN") ?? "0"}
                         </span>
                       )}
                     </td>

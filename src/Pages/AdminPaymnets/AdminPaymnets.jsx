@@ -222,9 +222,18 @@ const AdminPaymnets = () => {
               </Col>
             </Row>
           )}
-          <Row className="w-100 mt-4" style={{ fontSize: "12px" }}>
-          <span style={{fontSize:'14px',fontWeight:'bold',color:'green',textTransform:'capitalize'}}>* Commission Amount will be calculated on without  tax amount</span> 
-            <table className="table table-bordered">
+          <Row className="w-100 mt-2">
+            <span
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "green",
+                textTransform: "capitalize",
+              }}
+            >
+              * Commission Amount will be calculated on without tax amount
+            </span>
+            <table className="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>Transaction Type</th>
@@ -328,7 +337,8 @@ const AdminPaymnets = () => {
                               ele?.totalAmount
                             ).toFixed(2)}%`
                           : ""} */}
-                          {ele?.orderId?.order_details?.[0]?.commissionPercentage} %
+                        {ele?.orderId?.order_details?.[0]?.commissionPercentage}{" "}
+                        %
                       </td>
                       <td>
                         <span style={{ color: "#024CAA", fontWeight: "bold" }}>
@@ -354,7 +364,7 @@ const AdminPaymnets = () => {
                           </span>
                         )}
                       </td>
-                      <td>
+                      <td style={{ width: "150px" }}>
                         <span
                           style={{ fontWeight: "bold", letterSpacing: "1px" }}
                         >
