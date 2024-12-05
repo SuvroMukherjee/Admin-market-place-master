@@ -29,7 +29,8 @@ const ProductOffer = () => {
                 ...item,
                 id: index + 1,
             }));
-            setData(dataWithUniqueIds)
+            let filterData = dataWithUniqueIds.filter((item) => item?.status === true)
+            setData(filterData)
         }).catch((err) => {
             console.log(err)
         }).finally((data) => {
