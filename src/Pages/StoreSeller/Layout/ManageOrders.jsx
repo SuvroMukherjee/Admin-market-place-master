@@ -330,8 +330,18 @@ const ManageOrders = () => {
 
   return (
     <div>
-      <div className="py-4 px-5" style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}>
-        <Row className="cont" style={{ padding: "10px", marginTop: "10px", backgroundColor: "#9af064" }}>
+      <div
+        className="py-4 px-5"
+        style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
+      >
+        <Row
+          className="cont"
+          style={{
+            padding: "10px",
+            marginTop: "10px",
+            backgroundColor: "#9de367",
+          }}
+        >
           {/* start date */}
           <Col xs={4}>
             <Form.Group controlId="date-to">
@@ -463,9 +473,17 @@ const ManageOrders = () => {
                         ₹ {row?.order_price?.toLocaleString()}
                       </td>
                       <td>
-                         <div>
-                          <img src={row?.order_details?.[0]?.proId?.specId?.image?.[0]?.image_path} alt="" width="100" height="100" />
-                         </div>
+                        <div>
+                          <img
+                            src={
+                              row?.order_details?.[0]?.proId?.specId?.image?.[0]
+                                ?.image_path
+                            }
+                            alt=""
+                            width="100"
+                            height="100"
+                          />
+                        </div>
                         {row?.order_details?.[0]?.proId?.name}
                       </td>
                       <td>{ChangeFormatDate(row?.createdAt)}</td>

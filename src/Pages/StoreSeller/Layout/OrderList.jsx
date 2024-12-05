@@ -157,8 +157,17 @@ const OrderList = () => {
 
   return (
     <div>
-      <div className="py-4 px-5" style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}>
-        <Row style={{ padding: "10px", marginTop: "10px", backgroundColor: "#9af064" }}>
+      <div
+        className="py-4 px-5"
+        style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
+      >
+        <Row
+          style={{
+            padding: "10px",
+            marginTop: "10px",
+            backgroundColor: "#9de367",
+          }}
+        >
           {/* start date */}
           <Col xs={4}>
             <Form.Group controlId="date-to">
@@ -244,8 +253,7 @@ const OrderList = () => {
         </Row> */}
 
         <Row className="mt-4">
-          <Col
-          >
+          <Col>
             <Table striped bordered hover responsive>
               <thead>
                 <tr>

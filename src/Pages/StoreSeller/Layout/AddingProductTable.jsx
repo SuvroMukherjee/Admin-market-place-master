@@ -457,7 +457,7 @@ const AddingProductTable = () => {
         {/* Search Input and Button */}
 
         {/* Filter Selects */}
-        <div style={{ backgroundColor: "#9af064" }} className="p-4">
+        <div style={{ backgroundColor: "#9de367" }} className="p-4">
           <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
             <div className="flex-grow-1">
               <div>
@@ -651,7 +651,9 @@ const AddingProductTable = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="10" className="text-center fw-bold">Loading...</td>
+                <td colSpan="10" className="text-center fw-bold">
+                  Loading...
+                </td>
               </tr>
             ) : filterData?.length > 0 ? (
               filterData.map((row, index) => (
