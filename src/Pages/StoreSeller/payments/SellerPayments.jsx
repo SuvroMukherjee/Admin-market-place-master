@@ -73,8 +73,8 @@ const SellerPayments = () => {
             <thead>
               <tr>
                 <th>Transaction Type</th>
-                <th>Order NO</th>
                 <th>Order Date</th>
+                <th>Order No</th>
                 <th>Payment Id</th>
                 <th>Order Amount</th>
                 <th>Category Commission</th>
