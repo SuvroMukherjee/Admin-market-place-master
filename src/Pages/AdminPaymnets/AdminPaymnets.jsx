@@ -230,10 +230,10 @@ const AdminPaymnets = () => {
                   <th>Seller</th>
                   <th>Order NO</th>
                   <th>Payment Id</th>
-                  <th>Order Amount</th>
+                  <th>Invoice Amount Calculation</th>
                   <th>Category Commission</th>
                   <th>Receivable Amount</th>
-                  <th>Leadger Amount</th>
+                  <th>Ledger Amount</th>
                   <th>Due Balance</th>
                 </tr>
               </thead>
