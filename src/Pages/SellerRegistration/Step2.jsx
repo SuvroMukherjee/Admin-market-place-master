@@ -289,7 +289,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                     size="sm"
                     className="tapG"
                     name="old_shope_desc"
-                    placeholder="Total Year of Business Experience"
+                    placeholder="Total Year (Enter Numbers Only)"
                     value={shopInfo.old_shope_desc}
                     onChange={handleChange}
                     required
@@ -308,7 +308,7 @@ const Step2 = ({ nextStep, prevStep, reg_userdata, getUserdata }) => {
                     size="sm"
                     className="tapG"
                     name="total_no_of_unit"
-                    placeholder="Total Number of Units Sold Each Year"
+                    placeholder="Total Number (Enter Numbers Only)"
                     value={shopInfo.total_no_of_unit}
                     onChange={handleChange}
                     required
