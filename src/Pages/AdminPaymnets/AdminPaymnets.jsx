@@ -15,6 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import { AdminSellerLists, createPayment } from "../../API/api";
 import moment from "moment";
+import { AmountWithGst } from "./AmountWithGst";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -303,9 +304,7 @@ const AdminPaymnets = () => {
                       </td>
                       <td>
                         {ele?.type === "orderPayment" && (
-                          <span>
-                            {ele?.totalAmount?.toLocaleString("en-IN")}
-                          </span>
+                          <AmountWithGst ele={ele} />
                         )}
                         {ele?.type === "RefundPayment" && (
                           <span>
@@ -330,13 +329,12 @@ const AdminPaymnets = () => {
                           : ""}
                       </td>
                       <td>
-                        <span style={{ color: "#024CAA",fontWeight:"bold" }}>
-                          ₹ {ele?.commissionAmount?.toLocaleString("en-IN") || 0}
+                        <span style={{ color: "#024CAA", fontWeight: "bold" }}>
+                          ₹{" "}
+                          {ele?.commissionAmount?.toLocaleString("en-IN") || 0}
                         </span>
                       </td>
                       <td>
-                        {/* {ele?.sellerAmount?.toLocaleString("en-IN")} */}
-
                         {ele?.type === "orderPayment" && (
                           <span style={{ color: "red" }}>
                             + {ele?.sellerAmount?.toLocaleString("en-IN")}
