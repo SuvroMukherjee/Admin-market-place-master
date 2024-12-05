@@ -30,6 +30,7 @@ const NewSellerDashboard = () => {
 
   const navigate = useNavigate();
 
+
   const { userId } = JSON.parse(localStorage.getItem("auth"));
 
   const SellingProducts = async () => {

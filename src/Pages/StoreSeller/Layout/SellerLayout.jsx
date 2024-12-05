@@ -866,15 +866,21 @@ import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
 import useAuth from "../../../hooks/useAuth";
 import { notificationContext } from "../../../context/context";
 
-
 const sidebarRoutes = [
   { title: "Seller Dashboard", path: "/seller/seller-dashboard" },
   { title: "Add Zoofi Product", path: "/seller/seller-addproduct" },
   { title: "Request Panel", path: "/seller/seller-request" },
   { title: "Inventory Manage", path: "/seller/seller-productList" },
-  { title: "Closing Stock", path: "/seller/seller-orderlist", headerTitle: "Closing Stock" },
+  {
+    title: "Closing Stock",
+    path: "/seller/seller-orderlist",
+    headerTitle: "Closing Stock",
+  },
   { title: "Manage Orders", path: "/seller/manage-orders" },
-  { title: "Return Orders Request List", path: "/seller/seller-return-order-request-list" },
+  {
+    title: "Return Orders Request List",
+    path: "/seller/seller-return-order-request-list",
+  },
   { title: "Refund Orders List", path: "/seller/refund-orders-list" },
   { title: "Payment Settlement", path: "/seller/payments" },
   { title: "All Transactions", path: "/seller/trasactions" },
@@ -888,14 +894,19 @@ const MyNavbar = ({ socket }) => {
   const { auth, logout } = useAuth();
   const [HeaderTitle, setHeaderTitle] = useState("Seller Dashboard");
   const [userInfo, setUserInfo] = useState();
+  const [completeFlag, setCompleteFlag] = useState(true);
 
   const [notifications, setNotifications] = useState([]);
 
   const location = useLocation();
 
   const getHeaderTitle = () => {
-    const matchedRoute = sidebarRoutes.find(route => location.pathname === route.path);
-    return matchedRoute ? matchedRoute.headerTitle || matchedRoute.title : "Unknown Page";
+    const matchedRoute = sidebarRoutes.find(
+      (route) => location.pathname === route.path
+    );
+    return matchedRoute
+      ? matchedRoute.headerTitle || matchedRoute.title
+      : "Unknown Page";
   };
 
   const currentHeaderTitle = getHeaderTitle();
@@ -952,8 +963,23 @@ const MyNavbar = ({ socket }) => {
       // eslint-disable-next-line no-unsafe-optional-chaining
       const { ...filteredData } = res?.data?.data;
       setUserInfo(filteredData);
+      console.log(filteredData, "userData..");
+      console.log(filteredData?.Shop_Details_Info?.pin_code, "Shop_Details_Info");
+      console.log(filteredData?.doc_details?.gst_no, "doc_details");
+      if (
+        filteredData?.Shop_Details_Info?.pin_code == "" &&
+        filteredData?.doc_details?.gst_no == ""
+      ) {
+        setCompleteFlag(false);
+        navigate(`/seller/profile/${auth?.userId}`);
+      }
+      else {
+        setCompleteFlag(true);
+      }
     }
   }
+
+  console.log({ completeFlag });
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -1228,63 +1254,68 @@ const MyNavbar = ({ socket }) => {
     <div>
       <ScrollToTop />
 
-      <Drawer
-        anchor="left"
-        open={drawerOpen}
-        onClose={toggleDrawer}
-        className="sidebatsellerBoard"
-      >
-        <div className="sellSide">
-          <div className="text-center">
-            <img src={blackzofi} alt="zoofi seller" width={150} />
-          </div>
-          <div>
-            <h5 className="text-center">{currentHeaderTitle}</h5>
-          </div>
-          <div
-            className="sidebar-menu-option sidebar-menu-option-close"
-            onClick={toggleDrawer}
-          >
-            <div className="title">Close</div>
-            <div className="Icon">
-              <MdCancel size={25} />
+      {completeFlag && (
+        <Drawer
+          anchor="left"
+          open={drawerOpen}
+          onClose={toggleDrawer}
+          className="sidebatsellerBoard"
+        >
+          <div className="sellSide">
+            <div className="text-center">
+              <img src={blackzofi} alt="zoofi seller" width={150} />
             </div>
-          </div>
-          {sidebarRoutes.map((route) => (
+            <div>
+              <h5 className="text-center">{currentHeaderTitle}</h5>
+            </div>
             <div
-              key={route.path}
-              className={
-                location.pathname === route.path
-                  ? "sidebar-menu-option Activesidebar-menu-option"
-                  : "sidebar-menu-option"
-              }
-              onClick={() => {
-                navigate(route.path);
-                toggleDrawer();
-              }}
+              className="sidebar-menu-option sidebar-menu-option-close"
+              onClick={toggleDrawer}
             >
-              <div className="title">{route.title}</div>
+              <div className="title">Close</div>
               <div className="Icon">
-                <FaAngleRight size={25} />
+                <MdCancel size={25} />
               </div>
             </div>
-          ))}
-        </div>
-      </Drawer>
-
+            {sidebarRoutes.map((route) => (
+              <div
+                key={route.path}
+                className={
+                  location.pathname === route.path
+                    ? "sidebar-menu-option Activesidebar-menu-option"
+                    : "sidebar-menu-option"
+                }
+                onClick={() => {
+                  navigate(route.path);
+                  toggleDrawer();
+                }}
+              >
+                <div className="title">{route.title}</div>
+                <div className="Icon">
+                  <FaAngleRight size={25} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Drawer>
+      )}
       <Navbar expand="lg">
         <div className="custom-nav">
           <div className="custom-nav-left">
-            <div className="menu">
-              <FaBars size={25} onClick={toggleDrawer} />
-            </div>
+            {completeFlag && (
+              <div className="menu">
+                <FaBars size={25} onClick={toggleDrawer} />
+              </div>
+            )}
             <div
               className="logo"
               style={{
                 cursor: "pointer",
               }}
               onClick={() => {
-                navigate("/");
+                completeFlag
+                  ? navigate("/")
+                  : navigate(`/seller/profile/${auth?.userId}`);
               }}
             >
               <img src={blackzofi} alt="zoofi seller" width={120} />
@@ -1295,13 +1326,15 @@ const MyNavbar = ({ socket }) => {
           </div>
           <div className="custom-nav-right">
             {/* notification */}
-            <div className="notify">
-              <MdCircleNotifications
-                size={36}
-                onClick={handleNotificationDropDown}
-              />
-              <span>{notifications?.length}</span>
-            </div>
+            {completeFlag && (
+              <div className="notify">
+                <MdCircleNotifications
+                  size={36}
+                  onClick={handleNotificationDropDown}
+                />
+                <span>{notifications?.length}</span>
+              </div>
+            )}
             {isNotificationOpen && (
               <div className="notification-dropdown">
                 <div className="markRead">

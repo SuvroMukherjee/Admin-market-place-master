@@ -273,16 +273,37 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
     // setShopInfo({ ...shopInfo, pic_of_shope: files });
   };
 
+  // const onFileUpload = async (file) => {
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+
+  //   try {
+  //     const res = await FileUpload(formData);
+  //     setTimeout(() => {
+  //       setShopInfo((prevData) => ({
+  //         ...prevData,
+  //         pic_of_shope: [...prevData?.pic_of_shope, res?.data?.data?.fileurl],
+  //       }));
+  //     }, 3000);
+  //     // setBtnEnable(false)
+  //   } catch (err) {
+  //     console.error(err, "err");
+  //   }
+  // };
+
   const onFileUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-
+  
     try {
       const res = await FileUpload(formData);
       setTimeout(() => {
         setShopInfo((prevData) => ({
           ...prevData,
-          pic_of_shope: [...prevData?.pic_of_shope, res?.data?.data?.fileurl],
+          pic_of_shope: [
+            ...(prevData?.pic_of_shope || []), // Fallback to an empty array if undefined
+            res?.data?.data?.fileurl,
+          ],
         }));
       }, 3000);
       // setBtnEnable(false)
@@ -290,6 +311,7 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
       console.error(err, "err");
     }
   };
+  
 
   const handleCancelImage = (url) => {
     let filterData = shopInfo?.pic_of_shope?.filter((e, index) => {
@@ -761,7 +783,7 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   GST File <span className="req">*</span>
                   {documentation?.gst_file && (
-                    <a href={documentation?.gst_file} target="_blank">
+                    <a href={documentation?.gst_file} target="_blank" rel="noreferrer">
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}
@@ -782,7 +804,7 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   Cancelled Cheque <span className="req">*</span>
                   {documentation?.cancelled_cheque && (
-                    <a href={documentation?.cancelled_cheque} target="_blank">
+                    <a href={documentation?.cancelled_cheque} target="_blank" rel="noreferrer">
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}
@@ -800,7 +822,7 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   MSME Certificate <span className="req">*</span>
                   {documentation?.msme_certificate && (
-                    <a href={documentation?.msme_certificate} target="_blank">
+                    <a href={documentation?.msme_certificate} target="_blank" rel="noreferrer">
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}
