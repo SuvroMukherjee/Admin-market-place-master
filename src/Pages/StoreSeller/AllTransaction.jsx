@@ -345,9 +345,19 @@ const AllTransaction = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <div>
-      <div className="mt-4 mx-4 px-4">
-        <Row className="cont" style={{ padding: "10px", marginTop: "10px" }}>
+    <div
+      className="py-3 px-5"
+      style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
+    >
+      <div>
+        <Row
+          className="cont"
+          style={{
+            padding: "10px",
+            marginTop: "10px",
+            backgroundColor: "#9af064",
+          }}
+        >
           {/* start date */}
           <Col xs={4}>
             <Form.Group controlId="date-to">
@@ -402,7 +412,7 @@ const AllTransaction = () => {
             <Col className="mt-2">
               <div className="flex-justify-center-align-end custom-gap-10">
                 <Button
-                  variant="warning"
+                  variant="dark"
                   style={{
                     fontWeight: "bold",
                   }}

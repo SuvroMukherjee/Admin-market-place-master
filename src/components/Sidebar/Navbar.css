@@ -29,12 +29,12 @@
 /* customize the scrollbar */
 
 .nav-menu::-webkit-scrollbar {
-  width: 6px;
+  width: 11px;
 }
 
 .nav-menu::-webkit-scrollbar-thumb {
   background-color: #9af064;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 .nav-menu::-webkit-scrollbar-track {
@@ -161,7 +161,7 @@
 }
 
 .admin-notification-dropdown::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 15px;
   /* Adjust as needed */
@@ -172,17 +172,17 @@
 }
 
 .admin-notification-dropdown::-webkit-scrollbar {
-  width: 6px;
+  width: 11px;
 }
 
 .admin-notification-dropdown::-webkit-scrollbar-thumb {
   background-color: #9af064;
-  border-radius: 0px 6px 6px 0px;
+  border-radius: 5px;
 }
 
 .admin-notification-dropdown::-webkit-scrollbar-track {
   background-color: #707070;
-  border-radius: 0px 6px 6px 0px;
+  border-radius: 5px;
 }
 
 .admin-notification-dropdown ul {

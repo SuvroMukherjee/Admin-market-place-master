@@ -157,8 +157,8 @@ const OrderList = () => {
 
   return (
     <div>
-      <div className="mt-4 mx-4 px-4">
-        <Row className="cont" style={{ padding: "10px", marginTop: "10px" }}>
+      <div className="py-4 px-5" style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}>
+        <Row style={{ padding: "10px", marginTop: "10px", backgroundColor: "#9af064" }}>
           {/* start date */}
           <Col xs={4}>
             <Form.Group controlId="date-to">
@@ -213,7 +213,7 @@ const OrderList = () => {
             <Col className="mt-2">
               <div className="flex-justify-center-align-end custom-gap-10">
                 <Button
-                  variant="warning"
+                  variant="dark"
                   style={{
                     fontWeight: "bold",
                   }}
@@ -245,11 +245,6 @@ const OrderList = () => {
 
         <Row className="mt-4">
           <Col
-            style={{
-              overflowY: "auto",
-              maxHeight: "500px",
-              border: "1px solid #ccc",
-            }}
           >
             <Table striped bordered hover responsive>
               <thead>

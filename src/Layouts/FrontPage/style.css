@@ -1,504 +1,504 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=Inter:wght@200;300;400;500;600;700;800;900&family=Jost:wght@200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=Inter:wght@200;300;400;500;600;700;800;900&family=Jost:wght@200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap");
 
 /* html {
     overflow-x: hidden;
 } */
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-size: 14px;
-    color: #000000;
-    overflow-x: hidden;
-    padding: 0;
-    margin: 0;
+  font-size: 14px;
+  color: #000000;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 a {
-    color: #000;
-    text-decoration: none;
+  color: #000;
+  text-decoration: none;
 }
 
 a:hover {
-    color: #000;
+  color: #000;
 }
 
 ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 section {
-    position: relative;
-    padding: 60px 0;
+  position: relative;
+  padding: 60px 0;
 }
 
 .seller-header {
-    background: #000;
+  background: #000;
 }
 
 .seller-header .navbar {
-    padding: 16px 0;
-    height: auto !important;
+  padding: 16px 0;
+  height: auto !important;
 }
 
 .seller-header .navbar-brand {
-    font-family: 'Outfit', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
-    text-transform: uppercase;
-    line-height: 24px;
-    margin: 0px;
+  font-family: "Outfit", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 24px;
+  margin: 0px;
 }
 
-.seller-header .navbar .nav-item+.nav-item {
-    margin-left: 30px;
+.seller-header .navbar .nav-item + .nav-item {
+  margin-left: 30px;
 }
 
 .seller-header .navbar .nav-link {
-    display: flex;
-    align-items: center;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    color: #000 !important;
-    background-color: #9af064;
-    border-radius: 20px;
-    transition: all 0.3s ease-in-out;
-    padding: 11px 24px;
-    text-transform: none !important;
-    padding-left: 24px !important;
-    padding-right: 24px !important;
+  display: flex;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #000 !important;
+  background-color: #9af064;
+  border-radius: 20px;
+  transition: all 0.3s ease-in-out;
+  padding: 11px 24px;
+  text-transform: none !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
 }
 
 .seller-header .navbar .nav-link:hover {
-    background-color: #fff;
-    transition: all 0.3s ease-in-out;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
 }
 
 .seller-header .navbar .nav-link svg {
-    width: 20px;
-    height: 20px;
-    margin-left: 8px;
+  width: 20px;
+  height: 20px;
+  margin-left: 8px;
 }
 
 .seller-banner-section {
-    overflow: hidden;
-    z-index: 2;
+  overflow: hidden;
+  z-index: 2;
 }
 
 .seller-banner-section::before {
-    position: absolute;
-    top: -90%;
-    left: -11%;
-    width: 150%;
-    height: 150%;
-    content: '';
-    background-color: #e5faca;
-    border-radius: 500px;
-    transform: rotate(-12deg);
+  position: absolute;
+  top: -90%;
+  left: -11%;
+  width: 150%;
+  height: 150%;
+  content: "";
+  background-color: #e5faca;
+  border-radius: 500px;
+  transform: rotate(-12deg);
 }
 
 .seller-banner-section .container {
-    position: relative;
-    z-index: 3;
+  position: relative;
+  z-index: 3;
 }
 
 .seller-banner-section .banner-content-img {
-    display: block;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 auto;
+  display: block;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
 }
 
 .seller-banner-section .banner-content-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .seller-banner-section h2 {
-    font-family: "Inter", sans-serif;
-    font-size: 48px;
-    font-weight: 700;
-    margin: 0 0 30px;
+  font-family: "Inter", sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 30px;
 }
 
 .seller-banner-section p {
-    font-family: "Inter", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    max-width: 480px;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  max-width: 480px;
 }
 
 .seller-banner-section .banner-cta {
-    display: inline-block;
-    font-family: "Inter", sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    text-align: center;
-    background-color: #000;
-    ;
-    border-radius: 30px;
-    padding: 11px 54px;
-    transition: all 0.3s ease-in-out;
-    margin-top: 40px;
-    text-decoration: none !important;
+  display: inline-block;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  background-color: #000;
+  border-radius: 30px;
+  padding: 11px 54px;
+  transition: all 0.3s ease-in-out;
+  margin-top: 40px;
+  text-decoration: none !important;
 }
 
 .seller-banner-section .banner-cta:hover {
-    color: #000;
-    background-color: #9af064;
-    transition: all 0.3s ease-in-out;
+  color: #000;
+  background-color: #9af064;
+  transition: all 0.3s ease-in-out;
 }
 
 .why-best-section {
-    background-color: #F6F6F6;
-    padding-bottom: 20px;
+  background-color: #f6f6f6;
+  padding-bottom: 20px;
 }
 
 .section-heading h3 {
-    font-family: "Plus Jakarta Sans", sans-serif;
-    font-size: 42px;
-    font-weight: 700;
-    margin: 0 0 50px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 0 50px;
 }
 
 .heading-col {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 0 50px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 50px;
 }
 
 .heading-col h3 {
-    margin: 0;
+  margin: 0;
 }
 
 .why-card {
-    align-items: center;
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none;
-    margin-bottom: 40px;
+  align-items: center;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none;
+  margin-bottom: 40px;
 }
 
 .why-card .card-img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.85);
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.85);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 .why-card .card-img svg {
-    max-width: 60px;
-    max-height: 60px;
+  max-width: 60px;
+  max-height: 60px;
 }
 
 .why-card .card-title {
-    font-family: "Inter", sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #000;
-    text-align: center;
-    margin: 0 0 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+  margin: 0 0 8px;
 }
 
 .why-card .card-text {
-    font-family: "Inter", sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: #000;
-    text-align: center;
-    max-width: 300px;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+  max-width: 300px;
 }
 
 .how-card {
-    align-items: center;
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+  align-items: center;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .how-card .card-img {
-    width: 280px;
-    height: 190px;
-    border: 10px solid #9af064;
-    border-radius: 20px;
-    overflow: hidden;
+  width: 280px;
+  height: 190px;
+  border: 10px solid #9af064;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .how-card .card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .how-card .card-title {
-    font-family: "Inter", sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #000;
-    text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
 }
 
 .seller-stories-section {
-    background-color: #000;
+  background-color: #000;
 }
 
 .seller-stories-section .section-heading h3 {
-    color: #fff;
+  color: #fff;
 }
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-    display: none;
+  display: none;
 }
 
 .stories-navigation {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100px;
 }
 
 .stories-swiper-button-prev {
-    left: 0;
+  left: 0;
 }
 
 .stories-swiper-button-next {
-    right: 0;
+  right: 0;
 }
 
 .stories-swiper-button-next,
 .stories-swiper-button-prev {
-    width: 40px;
-    height: 40px;
-    padding: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
 }
 
 .stories-swiper-button-next svg,
 .stories-swiper-button-prev svg {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .story-video-link {
-    position: relative;
-    display: block;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 20px;
-    overflow: hidden;
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .story-video-link img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .story-video-link .action {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .story-video-link .action .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: #000;
-    overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #000;
+  overflow: hidden;
 }
 
 .story-video-link .action .button svg {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .seller-quote {
-    max-width: 500px;
+  max-width: 500px;
 }
 
 .seller-quote .quote-img {
-    width: 60px;
-    margin-bottom: 10px;
+  width: 60px;
+  margin-bottom: 10px;
 }
 
 .seller-quote h4 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 32px;
-    color: #fff;
-    margin: 0 0 20px;
+  font-family: "Outfit", sans-serif;
+  font-size: 32px;
+  color: #fff;
+  margin: 0 0 20px;
 }
 
 .seller-quote p {
-    font-family: "Inter", sans-serif;
-    font-size: 24px;
-    color: #e5faca;
+  font-family: "Inter", sans-serif;
+  font-size: 24px;
+  color: #e5faca;
 }
 
 .seller-quote p span {
-    display: block;
-    font-size: 16px;
-    color: #fff;
+  display: block;
+  font-size: 16px;
+  color: #fff;
 }
 
 .bottom-section {
-    background-color: #e5faca;
+  background-color: #e5faca;
 }
 
 .bottom-section .row {
-    align-items: center;
+  align-items: center;
 }
 
 .bottom-section h2 {
-    font-family: "Inter", sans-serif;
-    font-size: 48px;
-    font-weight: 700;
-    margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0;
 }
 
 .bottom-section p {
-    font-family: "Inter", sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
 }
 
 .bottom-section .bottom-cta {
-    display: inline-block;
-    font-family: "Inter", sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #000;
-    text-align: center;
-    background-color: #9af064;
-    border-radius: 30px;
-    padding: 16px 64px;
-    transition: all 0.3s ease-in-out;
-    text-decoration: none !important;
+  display: inline-block;
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  background-color: #9af064;
+  border-radius: 30px;
+  padding: 16px 64px;
+  transition: all 0.3s ease-in-out;
+  text-decoration: none !important;
 }
 
 .bottom-section .bottom-cta:hover {
-    color: #fff;
-    background-color: #000;
-    transition: all 0.3s ease-in-out;
+  color: #fff;
+  background-color: #000;
+  transition: all 0.3s ease-in-out;
 }
 
 .bottom-content-right {
-    text-align: right;
+  text-align: right;
 }
 
 footer {
-    background: #111;
+  background: #111;
 }
 
 footer .upper {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 footer .col {
-    border-right: 1px solid rgba(255, 255, 255, 0.10);
-    padding-top: 60px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 60px;
 }
 
 footer .col:last-child {
-    border-right: none;
+  border-right: none;
 }
 
 footer h5 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-    line-height: 24px;
-    margin-bottom: 30px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 24px;
+  margin-bottom: 30px;
 }
 
 footer .upper ul {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
-footer .upper li+li {
-    margin-top: 16px;
+footer .upper li + li {
+  margin-top: 16px;
 }
 
 footer .upper li a {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.4);
-    text-decoration: none !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none !important;
 }
 
 footer .upper li a:hover {
-    color: #fff;
+  color: #fff;
 }
 
 footer .lower {
-    padding-top: 40px;
-    padding-bottom: 40px;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 footer .lower .col-12 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 footer .lower p {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    color: #fff;
-    margin: 0px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: #fff;
+  margin: 0px;
 }
 
 footer .lower ul {
-    text-align: right;
+  text-align: right;
 }
 
 footer .lower li {
-    display: inline-block;
+  display: inline-block;
 }
 
-footer .lower li+li {
-    margin-left: 40px;
+footer .lower li + li {
+  margin-left: 40px;
 }
 
 footer .lower li a {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    color: #fff;
-    text-decoration: none !important;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #fff;
+  text-decoration: none !important;
 }
 
-.cursor{
-    cursor: pointer;
+.cursor {
+  cursor: pointer;
 }

@@ -166,7 +166,7 @@ export default function Router({ socket }) {
             { path: "testimonial", element: <Testimonial /> },
             { path: "offer/:id", element: <Offer /> },
             { path: "admin-refund-order-list", element: <RefundOrderAdmin /> },
-            { path: "paymnets", element: <AdminPaymnets/> },
+            { path: "paymnets", element: <AdminPaymnets /> },
 
             // { path: "live-preview/:id", element: <LivePreview /> },
           ],
@@ -175,7 +175,7 @@ export default function Router({ socket }) {
     },
     {
       path: "/key",
-      element: <AdminLayout  />,
+      element: <AdminLayout />,
       children: [
         {
           element: <RequireAuth allowedRoles={["Key Account Manager"]} />,
@@ -214,8 +214,8 @@ export default function Router({ socket }) {
               ],
             },
             {
-              path:"payments",
-              element:<SellerPayments/>
+              path: "payments",
+              element: <SellerPayments />,
             },
             {
               path: "seller-product-edit/:id?",
