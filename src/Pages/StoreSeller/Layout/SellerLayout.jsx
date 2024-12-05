@@ -881,10 +881,6 @@ const sidebarRoutes = [
     title: "Return Orders Request List",
     path: "/seller/seller-return-order-request-list",
   },
-  {
-    title: "Seller Profile",
-    path: "/seller/profile",
-  },
   { title: "Refund Orders List", path: "/seller/refund-orders-list" },
   { title: "Payment Settlement", path: "/seller/payments" },
   { title: "All Transactions", path: "/seller/trasactions" },
