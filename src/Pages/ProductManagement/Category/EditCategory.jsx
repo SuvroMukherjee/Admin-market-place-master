@@ -30,11 +30,10 @@ const EditCategory = ({ showModal, handleClose, data }) => {
   const handleInputChange = (e) => {
     const { name, type, checked, value } = e.target;
 
-    if (type === "checkbox") {
-      setModalData({ ...modalData, [name]: checked ? true : false }); // Set true if checked, false if unchecked
-    } else {
-      setModalData({ ...modalData, [name]: value });
-    }
+    setModalData({
+      ...modalData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   const handleFileChange = async (e) => {
@@ -47,13 +46,10 @@ const EditCategory = ({ showModal, handleClose, data }) => {
     await FileUpload(formData)
       .then((res) => {
         console.log(res, "res");
-        //setFile(res?.data?.data?.fileurl)
-        setTimeout(() => {
-          setModalData({
-            ...modalData,
-            ["image"]: { image_path: res?.data?.data?.fileurl },
-          });
-        }, 3000);
+        setModalData({
+          ...modalData,
+          image: { image_path: res?.data?.data?.fileurl },
+        });
       })
       .catch((err) => {
         console.log(err, "err");
@@ -75,7 +71,7 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                   type="text"
                   placeholder="Enter title"
                   name="title"
-                  value={modalData?.title}
+                  value={modalData?.title || ""}
                   onChange={handleInputChange}
                 />
               </Form.Group>
@@ -88,7 +84,7 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                   rows={3}
                   placeholder="Enter description"
                   name="description"
-                  value={modalData?.description}
+                  value={modalData?.description || ""}
                   onChange={handleInputChange}
                 />
               </Form.Group>
@@ -98,8 +94,8 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                 <Form.Label>Image</Form.Label>
                 <Col>
                   <img
-                    src={modalData?.image?.[0]?.image_path}
-                    alt={"category"}
+                    src={modalData?.image?.image_path || ""}
+                    alt="category"
                     style={{ width: "100%" }}
                   />
                 </Col>
@@ -121,11 +117,43 @@ const EditCategory = ({ showModal, handleClose, data }) => {
                 <Form.Check
                   type="checkbox"
                   name="isOpenBox"
-                  checked={modalData?.isOpenBox}
+                  checked={modalData?.isOpenBox || false}
                   onChange={handleInputChange}
                   style={{ transform: "scale(1.3)" }}
                 />
                 <Form.Label>This Category will be Open Box Delivery</Form.Label>
+              </Form.Group>
+            </Row>
+            <Row className="mt-3">
+              <Form.Group controlId="sgst">
+                <Form.Label>SGST (%)</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="sgst"
+                  value={modalData?.sgst || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter SGST"
+                />
+              </Form.Group>
+              <Form.Group controlId="cgst">
+                <Form.Label>CGST (%)</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="cgst"
+                  value={modalData?.cgst || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter CGST"
+                />
+              </Form.Group>
+              <Form.Group controlId="igst">
+                <Form.Label>IGST (%)</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="igst"
+                  value={modalData?.igst || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter IGST"
+                />
               </Form.Group>
             </Row>
             <Row className="mt-3">
