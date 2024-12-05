@@ -214,18 +214,6 @@ const SellerStock = () => {
   const [viewLowestPriceData, setViewLowestPriceData] = useState();
 
   const handleShippingChange = (specIndex, shipping) => {
-    // console.log(specIndex, shipping,'specIndex, shipping')
-    // // setFormData((prevData) => {
-    // //   const newData = [...prevData];
-    // //   newData[specIndex] = { ...newData[specIndex], shipping };
-    // //   return newData;
-    // // });
-    // setFormData((prevData) => {
-    //   const newData = [...prevData];
-    //   newData[specIndex] = { ...newData[specIndex], shipping_cost:shipping };
-    //   console.log(newData,'newData')
-    //   return newData;
-    // });
     setFormData((prevData) => {
       const newData = [...prevData];
       const index = newData.findIndex((item) => item._id === specIndex);
@@ -254,8 +242,7 @@ const SellerStock = () => {
     const index = formData.findIndex((item) => item._id === key);
     if (index === -1) return;
 
-    console.log( formData[index],'formData[index]')
-
+    
     formData[index].quantity = quantities[key] || 0;
 
     let res = await UpdateSellerProduct(formData[index]?._id, formData[index]);
