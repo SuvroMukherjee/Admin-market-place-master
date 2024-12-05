@@ -84,8 +84,9 @@ export const AmountWithGst = ({ ele }) => {
         }}
       >
         <span>
-          {`₹${withTaxAmount}`} + {`₹${shippingCharge} (Shipping)`} ={" "}
-          {`₹${ele?.totalAmount} (Invoice Amount)`}
+          {`₹${withTaxAmount} (Order Amount)`} +{" "}
+          {`₹${shippingCharge} (Shipping)`} ={" "}
+          <strong>{`₹${ele?.totalAmount} (Invoice Amount)`}</strong>
         </span>
         <span>
           {`₹${withOutTaxAmount} (Without Tax)`}
