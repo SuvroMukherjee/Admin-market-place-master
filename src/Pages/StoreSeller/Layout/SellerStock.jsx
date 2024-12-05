@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import {
   allBrandList,
   allCategoryList,
+  allCommissionList,
   allSubCategoryList,
   getLowestPriceProdut,
   UpdateSellerProduct,
@@ -61,6 +62,7 @@ const SellerStock = () => {
   const [showService, setShowServices] = useState(false);
   const [stratuploading, setStartUploading] = useState(false);
   const [showSearchTerm, setShowSearchTerm] = useState(false);
+  const [allComission, setAllComission] = useState([]);
 
   const fetchCategories = async () => {
     try {
@@ -94,6 +96,20 @@ const SellerStock = () => {
       console.error("Error fetching brands", error);
     }
   };
+
+  async function getAllComission() {
+    try {
+      const res = await allCommissionList();
+      console.log(res.data?.data, "commission");
+      setAllComission(res.data?.data);
+    } catch (error) {
+      console.error("Error fetching brands", error);
+    }
+  }
+
+  useEffect(() => {
+    getAllComission();
+  }, []);
 
   const fetchData = async () => {
     setLoading(true);
@@ -639,17 +655,20 @@ const SellerStock = () => {
               MRP
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Commission & Tax
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               Selling Price
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               Shipping Price
             </th>
-            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+            {/* <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               Commission Price
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               Net Disbursement
-            </th>
+            </th> */}
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               Add Stock
             </th>
@@ -703,7 +722,7 @@ const SellerStock = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    {row?.salesCount ?? 0}
+                    {row?.salesCount ?? 0} {console.log(row, "row")}
                   </span>
                 </td>
                 <td>
@@ -728,6 +747,16 @@ const SellerStock = () => {
                   </span>
                 </td>
                 <td className="priceTD">
+                  <span>Comission : {allComission?.find((item) => item?.categoryId?._id == row?.productId?.categoryId?._id)?.commission_rate}%</span>
+                  <span>
+                    <ul>
+                      <li>IGST : {row?.productId?.categoryId?.igst}%</li>
+                      <li>CGST : {row?.productId?.categoryId?.cgst}%</li>
+                      <li>SGST : {row?.productId?.categoryId?.sgst}%</li>
+                    </ul>
+                  </span>
+                </td>
+                <td className="priceTD" style={{ width: "200px" }}>
                   <Form.Control
                     type="tel"
                     size="sm"
@@ -751,7 +780,7 @@ const SellerStock = () => {
                     </span>
                   )}
                 </td>
-                <td className="w-40">
+                <td className="priceTD" style={{ width: "200px" }}>
                   <Form.Control
                     type="tel"
                     size="sm"
@@ -798,9 +827,10 @@ const SellerStock = () => {
                     </span>
                   )}
                 </td> */}
-                <td>{Math.round(row?.price - row?.comission_price)}</td>
-                <td>{Math.round(row?.comission_price)?.toLocaleString()}</td>
-                <td className="priceTD">
+                {/* <td>{Math.round(row?.price - row?.comission_price)}</td>
+                <td>{Math.round(row?.comission_price)?.toLocaleString()}</td> */}
+
+                <td className="priceTD" style={{ width: "200px" }}>
                   {/* <span>{quantities?.[row._id]}</span> <span>{row?._id}</span> */}
                   <Form.Control
                     type="number"
