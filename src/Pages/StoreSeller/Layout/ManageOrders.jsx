@@ -386,7 +386,7 @@ const ManageOrders = () => {
             <Col className="mt-2">
               <div className="flex-justify-center-align-end custom-gap-10">
                 <Button
-                  variant="warning"
+                  variant="dark"
                   style={{
                     fontWeight: "bold",
                   }}
@@ -557,7 +557,7 @@ const ManageOrders = () => {
                 )}
                 {loading && (
                   <tr>
-                    <td colSpan={8} className="text-center font-weight-bold">
+                    <td colSpan={15} className="text-center fw-bold">
                       Loading...
                     </td>
                   </tr>

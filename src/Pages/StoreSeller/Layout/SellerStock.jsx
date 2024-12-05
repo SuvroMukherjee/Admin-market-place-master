@@ -178,7 +178,6 @@ const SellerStock = () => {
       brandId: "",
     });
     handlePageChange(1);
-    setFilteredData([]);
   };
 
   const handleSelectEstimateChange = (event) => {
@@ -667,7 +666,10 @@ const SellerStock = () => {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan={"100%"} style={{ textAlign: "center" }}>
+              <td
+                colSpan={"100%"}
+                style={{ textAlign: "center", fontWeight: "bold" }}
+              >
                 Loading...
               </td>
             </tr>

@@ -74,7 +74,7 @@ const ServicesFeedback = () => {
       </Row>
       <Row className="mt-4">
         <Col>
-          <Table responsive>
+          <Table bordered responsive>
             <thead>
               <tr>
                 {/* <th>Customer Feedback</th> */}

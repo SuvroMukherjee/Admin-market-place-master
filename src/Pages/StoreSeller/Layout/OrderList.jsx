@@ -303,7 +303,7 @@ const OrderList = () => {
                 )}
                 {loading && (
                   <tr>
-                    <td colSpan={10} className="text-center">
+                    <td colSpan={10} className="text-center fw-bold">
                       Loading...
                     </td>
                   </tr>

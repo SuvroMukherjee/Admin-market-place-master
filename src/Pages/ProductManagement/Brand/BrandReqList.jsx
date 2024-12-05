@@ -75,10 +75,10 @@ export default function BrandReqList() {
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody className='mt-2 '>
+                                <tbody className='mt-2'>
 
                                     {BrandApplicqation?.length > 0 && BrandApplicqation?.map((ele) => (
-                                        <tr>
+                                        <tr key={ele?._id}>
                                             <td>{ele?.user?.user_name} <br /> <span className='viewSeller' onClick={() => navigate(`/SellerDetails/${ele?.user?._id}`)}>view
                                                 <FaLongArrowAltRight /> </span></td>
                                             <td>{ele?.title}<br />
