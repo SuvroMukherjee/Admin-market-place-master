@@ -881,6 +881,10 @@ const sidebarRoutes = [
     title: "Return Orders Request List",
     path: "/seller/seller-return-order-request-list",
   },
+  {
+    title: "Seller Profile",
+    path: "/seller/profile",
+  },
   { title: "Refund Orders List", path: "/seller/refund-orders-list" },
   { title: "Payment Settlement", path: "/seller/payments" },
   { title: "All Transactions", path: "/seller/trasactions" },
@@ -901,8 +905,8 @@ const MyNavbar = ({ socket }) => {
   const location = useLocation();
 
   const getHeaderTitle = () => {
-    const matchedRoute = sidebarRoutes.find(
-      (route) => location.pathname === route.path
+    const matchedRoute = sidebarRoutes.find((route) =>
+      location.pathname.includes(route.path)
     );
     return matchedRoute
       ? matchedRoute.headerTitle || matchedRoute.title
@@ -910,6 +914,7 @@ const MyNavbar = ({ socket }) => {
   };
 
   const currentHeaderTitle = getHeaderTitle();
+
   useEffect(() => {
     if (auth) {
       getProfileData();
