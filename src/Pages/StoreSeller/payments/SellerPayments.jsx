@@ -24,7 +24,7 @@ const SellerPayments = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${apiUrl}/ledger/paginated-list?page=${currentPage}&limit=10&sellerId=${auth?.userId}`
+        `${apiUrl}/ledger/paginated-list?page=${currentPage}&limit=15&sellerId=${auth?.userId}`
       );
       console.log(res?.data?.data, "kkkk");
       setFilterData(res?.data?.data);
@@ -48,7 +48,13 @@ const SellerPayments = () => {
     >
       <div className="">
         <Row>
+          <Col>
+            <h4 className="fw-bold">Seller Payments</h4>
+          </Col>
           <Col className="d-flex justify-content-end">
+            <span className="text-center mx-4 fw-bold">
+              Total {totalRecords} Transactions
+            </span>
             <Pagination>
               {Array.from({ length: totalPages }, (_, i) => (
                 <Pagination.Item
@@ -62,13 +68,8 @@ const SellerPayments = () => {
             </Pagination>
           </Col>
         </Row>
-        <Row className="w-100">
-          <span className="text-center mx-4 fw-bold ">
-            Total {totalRecords} Transactions
-          </span>
-        </Row>
-        <Row className="w-100 mt-4">
-          <table className="table table-bordered">
+        <Row className="mt-2">
+          <table className="table table-bordered table-striped">
             <thead>
               <tr>
                 <th>Transaction Type</th>
