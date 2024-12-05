@@ -168,3 +168,23 @@
   width: 250px;
   height: 155px;
 }
+
+.cuTables{
+  max-height: 100px;
+  overflow: auto;
+}
+
+/* .cuTables thead tr{
+  --bs-table-bg: #70bb42 !important;
+}
+
+.cuTables thead tr th{
+  border-bottom: 1px solid #dee2e6;
+  padding: 1rem;
+  font-weight: bold;
+}
+
+.cuTables tbody tr td{
+  border-bottom: 1px solid #dee2e6;
+  padding: 0.5rem;
+} */

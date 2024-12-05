@@ -43,7 +43,7 @@ const SellerPayments = () => {
 
   return (
     <div className="newProduct mt-4">
-      <Container>
+      <div className="mt-4 mx-4 px-4">
         <h4 className="text-center">Payment Settlement</h4>
         <div className="mt-4 p-2">
           <Row>
@@ -214,7 +214,7 @@ const SellerPayments = () => {
             </table>
           </Row>
         </div>
-      </Container>
+      </div>
     </div>
   );
 };

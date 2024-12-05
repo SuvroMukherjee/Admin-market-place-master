@@ -160,7 +160,7 @@ const ReturnOrderRequestList = () => {
 
   return (
     <div>
-      <Container className="mt-4">
+      <div className="mt-4 mx-4 px-4">
         <Row>
           <Col className="dtext fs-5">Return Order Request List</Col>
         </Row>
@@ -346,7 +346,7 @@ const ReturnOrderRequestList = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-      </Container>
+      </div>
     </div>
   );
 };

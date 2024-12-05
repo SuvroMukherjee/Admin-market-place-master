@@ -72,8 +72,8 @@ const BulkUpload = () => {
     async function getAllCats() {
         await allCategoryList()
             .then((res) => {
-
-                setAllCats(res?.data?.data);
+                let allCats = res?.data?.data?.filter((ele)=> ele?.status == true).sort((a,b)=> a?.title?.localeCompare(b?.title))
+                setAllCats(allCats);
             })
             .catch((err) => {
                 console.log(err);
@@ -105,7 +105,8 @@ const BulkUpload = () => {
         await getSubCategoryByCategory(selectedOption?.value)
             .then((res) => {
                 console.log(res?.data?.data, "subcats");
-                setAllSubCats(res?.data?.data);
+                let allsubs = res?.data?.data?.filter((ele)=> ele?.status == true).sort((a,b)=> a?.title?.localeCompare(b?.title))
+                setAllSubCats(allsubs);
             })
             .catch((err) => {
                 console.log(err);
@@ -122,7 +123,8 @@ const BulkUpload = () => {
         await allBrandList()
             .then((res) => {
                 console.log(res?.data?.data, "brands");
-                setAllBrandList(res?.data?.data);
+                let allbrands = res?.data?.data?.filter((ele)=> ele?.status == true).sort((a,b)=> a?.title?.localeCompare(b?.title))
+                setAllBrandList(allbrands);
             })
             .catch((err) => {
                 console.log(err);
@@ -319,15 +321,15 @@ const BulkUpload = () => {
 
         <div className='mt-2 mb-4'>
 
-            <Container className="mt-4">
+            <div className="mt-4 mx-4 px-4">
                 <Row>
                     <Col onClick={() => setChoose(!choose)}>
                         <Card className="bcard">
-                            <Card.Header className='text-center'>Upload New Product</Card.Header>
+                            <Card.Header className='text-center'>Not in Zoofi Catalogue? Add Your Own Product</Card.Header>
                             <Card.Body>
                                 <Row className="me-2">
                                     <Col className="cmpgin-sub-title">
-                                        List products that are not currently in Zoofi's catalogue
+                                      List products that are not currently in Zoofi's catalogue
                                     </Col>
                                 </Row>
                                 <Row className="mb-2 mt-2">
@@ -354,8 +356,8 @@ const BulkUpload = () => {
                     </Col>
 
                     <Col>
-                        <Card className={!activeVariation ? 'bcard2' : 'bcard2active'} onClick={handleShow}>
-                            <Card.Header className='text-center'>Upload Variation Of Existing Product</Card.Header>
+                        <Card className={!activeVariation ? 'bcard2' : 'bcard2active'} >
+                            <Card.Header className='text-center'>Add Variations of Your Product</Card.Header>
                             <Card.Body>
 
                                 <Row className="me-2">
@@ -427,8 +429,8 @@ const BulkUpload = () => {
                             <Card.Header className='text-center'>Convert Your Image</Card.Header>
                             <Card.Body>
                                 <Row className="me-2">
-                                    <Col className="cmpgin-sub-title3">
-                                        Mutliple Image converter and upload to spreedsheet
+                                    <Col className="cmpgin-sub-title3 text-center">
+                                       Convert Multiple Image to links and upload 
                                     </Col>
                                 </Row>
                                 <Row>
@@ -474,12 +476,14 @@ const BulkUpload = () => {
                         </Card>
                     </Col>
                 </Row>
-            </Container>
+            </div>
 
             {choose &&
                 <Container className='mt-4'>
                     <Row>
-                        <Col xs={4} className='mt-2'>
+                        <Col xs={6} className="d-flex flex-column align-items-center justify-content-start gap-4">
+                       
+                        <Col xs={8} className='mt-2'>
                             <Row>
                                 <Col xs={12} className='chooseText'>Choose & Search Your category</Col>
                                 <Col xs={12} className='mt-2'>
@@ -494,7 +498,7 @@ const BulkUpload = () => {
                             </Row>
                         </Col>
                         {selectedCategory &&
-                            <Col xs={4} className='mt-2'>
+                            <Col xs={8} className='mt-4'>
                                 <Row>
                                     <Col xs={12} className='chooseText'>Choose & Search Your SubCategory for {selectedCategory?.label}</Col>
                                     <Col xs={12} className='mt-2'>
@@ -504,12 +508,14 @@ const BulkUpload = () => {
                                             options={SubCatOptions}
                                             isClearable={true}
                                             isSearchable={true}
+                                            isDisabled={SubCatOptions?.length === 0}
                                         />
+                                        {SubCatOptions?.length === 0 && <p className='text-center'>No SubCategory Found</p>}
                                     </Col>
                                 </Row>
                             </Col>}
                         {selectedSubCategory &&
-                            <Col xs={4} className='mt-2'>
+                            <Col xs={8} className='mt-4'>
                                 <Row>
                                     <Col xs={12} className='chooseText'>Choose & Search Your Brand</Col>
                                     <Col xs={12} className='mt-2'>
@@ -523,11 +529,13 @@ const BulkUpload = () => {
                                     </Col>
                                 </Row>
                             </Col>}
-                    </Row>
-                    {selectedBrand != '' &&
+                    
+                        </Col>
+                        <Col>
+                        {selectedBrand != '' &&
                         <Container className='mt-4'>
-                            <Row>
-                                <Col xs={4}>
+                            <Row className='d-flex justify-content-center align-items-center'>
+                                <Col xs={8}>
                                     <Row className='chContainer'>
                                         <Col xs={12} className='box1'>{`${selectedCategory?.label || "Category"} >`} {`${selectedSubCategory?.label || "SubCategory"} >`} {`${selectedBrand?.label || "Brand"} .`} </Col>
                                         <Col xs={12} className='text-center mt-2 chImg'>
@@ -536,7 +544,7 @@ const BulkUpload = () => {
                                         <Col xs={12} onClick={handleClick} className='mt-2'>
                                             <Row className='dwnTemp'>
                                                 <Col xs={2} className='d-flex align-items-center justify-content-center'><FaFileDownload size={26} /></Col>
-                                                <Col className='d-flex align-items-center justify-content-center'>Dowmload Prefilled Templete</Col>
+                                                <Col className='d-flex align-items-center justify-content-center'>Dowmload Pre-filled Templete</Col>
                                             </Row>
                                             <p></p>
                                         </Col>
@@ -594,8 +602,13 @@ const BulkUpload = () => {
                                 </Col>
                             </Row>
                         </Container>}
+                        </Col>
+                    </Row>
+                    
+                    
                     
                     <Toaster />
+                    <Toaster position="top-right" />
                 </Container>
             }
             <Container className="mt-4 p-4 mb-4">
@@ -665,7 +678,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                 </Modal.Header>
                 <Modal.Body style={{ height: "70vh", overflow: "scroll" }}>
                     <ListGroup size="sm">
-                        {productList?.length > 0 &&
+                        {productList?.length > 0 ?
                             productList?.map((ele, index) => (
                                 <ListGroup.Item className="mt-2" key={index}>
                                     <Row className="vHead">
@@ -823,7 +836,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                                         </Row>
                                     )}
                                 </ListGroup.Item>
-                            ))}
+                            )) : <p>No Template is avaible Now</p>}
                     </ListGroup>
                 </Modal.Body>
                 <Modal.Footer>
@@ -1048,6 +1061,7 @@ const ImageConveter = ({ showConverter }) => {
                             </tbody>
                         </Table>
                     </Container>
+                    <Toaster position="top-right" />
                 </div>
             )}
         </div>

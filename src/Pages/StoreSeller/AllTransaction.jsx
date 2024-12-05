@@ -346,7 +346,7 @@ const AllTransaction = () => {
 
   return (
     <div>
-      <Container className="mt-4">
+      <div className="mt-4 mx-4 px-4">
         <Row>
           <Col className="dtext">All Transactions</Col>
         </Row>
@@ -828,7 +828,7 @@ const AllTransaction = () => {
             </Col>
           </Row>
         )}
-      </Container>
+      </div>
 
       <div>
         <Modal

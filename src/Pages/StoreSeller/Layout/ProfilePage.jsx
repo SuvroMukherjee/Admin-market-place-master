@@ -169,6 +169,8 @@ const ProfilePage = () => {
                           value={userInfo?.phone_no}
                           onChange={handleChange}
                           required
+                          pattern="[0-9]{10}"
+                          title="Phone number must be a 10-digit number"
                         />
                       </Form.Group>
                     </Col>
@@ -271,16 +273,37 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
     // setShopInfo({ ...shopInfo, pic_of_shope: files });
   };
 
+  // const onFileUpload = async (file) => {
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+
+  //   try {
+  //     const res = await FileUpload(formData);
+  //     setTimeout(() => {
+  //       setShopInfo((prevData) => ({
+  //         ...prevData,
+  //         pic_of_shope: [...prevData?.pic_of_shope, res?.data?.data?.fileurl],
+  //       }));
+  //     }, 3000);
+  //     // setBtnEnable(false)
+  //   } catch (err) {
+  //     console.error(err, "err");
+  //   }
+  // };
+
   const onFileUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-
+  
     try {
       const res = await FileUpload(formData);
       setTimeout(() => {
         setShopInfo((prevData) => ({
           ...prevData,
-          pic_of_shope: [...prevData?.pic_of_shope, res?.data?.data?.fileurl],
+          pic_of_shope: [
+            ...(prevData?.pic_of_shope || []), // Fallback to an empty array if undefined
+            res?.data?.data?.fileurl,
+          ],
         }));
       }, 3000);
       // setBtnEnable(false)
@@ -288,6 +311,7 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
       console.error(err, "err");
     }
   };
+  
 
   const handleCancelImage = (url) => {
     let filterData = shopInfo?.pic_of_shope?.filter((e, index) => {
@@ -470,9 +494,7 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
                   </option>
                   {allstates?.length > 0 &&
                     allstates?.map((ele) => (
-                      <option key={ele?._id} value={ele?.name}>
-                        {ele?.name}
-                      </option>
+                      <option value={ele?.name}>{ele?.name}</option>
                     ))}
                 </Form.Control>
               </Form.Group>
@@ -532,10 +554,10 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
                   <span className="req">*</span>
                 </Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   size="sm"
                   name="old_shope_desc"
-                  placeholder="Total Year (Enter Number Only)"
+                  placeholder="Total Year of Busniess Experience"
                   value={shopInfo?.old_shope_desc}
                   onChange={handleChange}
                   required
@@ -550,10 +572,10 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
                   Total of Units Sold Each Year <span className="req">*</span>
                 </Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   size="sm"
                   name="total_no_of_unit"
-                  placeholder="Total Number (Enter Number Only)"
+                  placeholder="Total of Units Sold Each Year"
                   value={shopInfo?.total_no_of_unit}
                   onChange={handleChange}
                   required
@@ -713,6 +735,8 @@ const Documentation = ({ userInfo, getProfileData }) => {
                   placeholder="Enter GST number"
                   value={documentation?.gst_no}
                   onChange={handleChange}
+                  pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$"
+                  title="GST number must be in the format: 06BZAHM6385P6Z2"
                   required
                 />
               </Form.Group>
@@ -729,6 +753,8 @@ const Documentation = ({ userInfo, getProfileData }) => {
                   placeholder="Enter PAN card number"
                   value={documentation?.pan_no}
                   onChange={handleChange}
+                  pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                  title="PAN card number must be in the format ABCDE1234F"
                   required
                 />
               </Form.Group>
@@ -757,7 +783,7 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   GST File <span className="req">*</span>
                   {documentation?.gst_file && (
-                    <a href={documentation?.gst_file} target="_blank">
+                    <a href={documentation?.gst_file} target="_blank" rel="noreferrer">
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}
@@ -778,7 +804,7 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   Cancelled Cheque <span className="req">*</span>
                   {documentation?.cancelled_cheque && (
-                    <a href={documentation?.cancelled_cheque} target="_blank">
+                    <a href={documentation?.cancelled_cheque} target="_blank" rel="noreferrer">
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}
@@ -796,7 +822,7 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   MSME Certificate <span className="req">*</span>
                   {documentation?.msme_certificate && (
-                    <a href={documentation?.msme_certificate} target="_blank">
+                    <a href={documentation?.msme_certificate} target="_blank" rel="noreferrer">
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}

@@ -712,6 +712,18 @@ export async function SellerAllProductList() {
   }
 }
 
+export async function listBySellerPaginated(sellerId, query) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/seller-product/list-by-seller-paginated/${sellerId}`,
+      { params: query }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
 export async function SellerProductList(id) {
   try {
     const response = await axios.get(
