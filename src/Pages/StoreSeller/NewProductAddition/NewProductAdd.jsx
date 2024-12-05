@@ -292,4 +292,6 @@ const NewProductAdd = () => {
     )
 }
 
+
+
 export default NewProductAdd

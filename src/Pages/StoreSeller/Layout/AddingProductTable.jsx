@@ -35,6 +35,7 @@ import {
   UpdateProductSpecification,
   allBrandList,
   allCategoryList,
+  allCommissionList,
   allSubCategoryList,
   deleteProduct,
 } from "../../../API/api";
@@ -68,6 +69,23 @@ const AddingProductTable = () => {
 
   const handleCloseModal2 = () => setShowModal2(false);
   const handleShowModal2 = () => setShowModal2(true);
+
+  const [allComission, setAllComission] = useState([]);
+
+
+  async function getAllComission() {
+    try {
+      const res = await allCommissionList();
+     
+      setAllComission(res.data?.data);
+    } catch (error) {
+      console.error("Error fetching brands", error);
+    }
+  }
+
+  useEffect(() => {
+    getAllComission();
+  }, []);
 
   const handleShowModal = () => {
     setShowModal(true);
@@ -684,7 +702,7 @@ const AddingProductTable = () => {
                     </span>
                   </td>
                   <td>{row?.type}</td>
-                  <td>{row?.name?.substring(0, 20) + "..."}</td>
+                  <td>{row?.name?.substring(0, 30) + "..."}</td>
                   <td>
                     <div className="productListItem">
                       <img
@@ -710,7 +728,10 @@ const AddingProductTable = () => {
                       </p>
                     )}
                   </td>
-                  <td>{row?.categoryId?.title}</td>
+                  <td>
+                    {row?.categoryId?.title}
+                    <TaxTable data={row?.categoryId} allComission={allComission} />
+                  </td>
                   <td>{row?.subcategoryId?.title}</td>
                   <td>{row?.brandId?.title}</td>
                   <td>
@@ -1535,6 +1556,52 @@ const ProductSpecificationForm = ({
         </Container>
       </Modal.Body>
     </Modal>
+  );
+};
+
+const TaxTable = ({ data, allComission }) => {
+  const [show, setShow] = useState(false);
+ 
+  return (
+    <div className="mt-2">
+      <p className="shwTx" onClick={() => setShow(!show)}>
+        {show ? "Hide" : "Show"} Commssion & Tax
+      </p>
+      {show && (
+        <table className="border-collapse border border-gray-300 w-full text-left">
+          <tbody>
+            <tr>
+              <td className="border border-black-500 p-1">Commission</td>
+              <td className="border border-black-500 p-1">
+                {allComission?.find(
+                  (item) => item?.categoryId?._id == data?._id
+                )?.commission_rate || 0}
+                
+                %
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-black-500 p-1">IGST</td>
+              <td className="border border-black-500 p-1">
+                {data?.igst || 0}%
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-black-500 p-1">CGST</td>
+              <td className="border border-black-500 p-1">
+                {data?.cgst || 0}%
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-black-500 p-1">SGST</td>
+              <td className="border border-black-500 p-1">
+                {data?.sgst || 0}%
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      )}
+    </div>
   );
 };
 
