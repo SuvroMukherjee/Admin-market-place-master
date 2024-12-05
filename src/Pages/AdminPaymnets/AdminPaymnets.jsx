@@ -223,6 +223,7 @@ const AdminPaymnets = () => {
             </Row>
           )}
           <Row className="w-100 mt-4" style={{ fontSize: "12px" }}>
+          <span style={{fontSize:'14px',fontWeight:'bold',color:'green',textTransform:'capitalize'}}>* Commission Amount will be calculated on without  tax amount</span> 
             <table className="table table-bordered">
               <thead>
                 <tr>
