@@ -57,7 +57,7 @@ const ProfilePage = () => {
 
   async function getProfileData() {
     let res = await sellerDetails(userId);
-    const { password, ...filteredData } = res?.data?.data;
+    const { ...filteredData } = res?.data?.data || {};
     console.log(res?.data?.data);
     setUserInfo(filteredData);
     setloading(false);
@@ -294,7 +294,7 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
   const onFileUpload = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-  
+
     try {
       const res = await FileUpload(formData);
       setTimeout(() => {
@@ -311,7 +311,6 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
       console.error(err, "err");
     }
   };
-  
 
   const handleCancelImage = (url) => {
     let filterData = shopInfo?.pic_of_shope?.filter((e, index) => {
@@ -557,7 +556,7 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
                   type="number"
                   size="sm"
                   name="old_shope_desc"
-                  placeholder="Total Year of Busniess Experience"
+                  placeholder="Total Year (Enter Numbers Only)"
                   value={shopInfo?.old_shope_desc}
                   onChange={handleChange}
                   required
@@ -575,7 +574,7 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
                   type="number"
                   size="sm"
                   name="total_no_of_unit"
-                  placeholder="Total of Units Sold Each Year"
+                  placeholder="Total Units (Enter Numbers Only)"
                   value={shopInfo?.total_no_of_unit}
                   onChange={handleChange}
                   required
@@ -783,7 +782,11 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   GST File <span className="req">*</span>
                   {documentation?.gst_file && (
-                    <a href={documentation?.gst_file} target="_blank" rel="noreferrer">
+                    <a
+                      href={documentation?.gst_file}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}
@@ -804,7 +807,11 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   Cancelled Cheque <span className="req">*</span>
                   {documentation?.cancelled_cheque && (
-                    <a href={documentation?.cancelled_cheque} target="_blank" rel="noreferrer">
+                    <a
+                      href={documentation?.cancelled_cheque}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}
@@ -822,7 +829,11 @@ const Documentation = ({ userInfo, getProfileData }) => {
                 <Form.Label className="frmLable">
                   MSME Certificate <span className="req">*</span>
                   {documentation?.msme_certificate && (
-                    <a href={documentation?.msme_certificate} target="_blank" rel="noreferrer">
+                    <a
+                      href={documentation?.msme_certificate}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <span className="mx-4">SHOW FILE</span>
                     </a>
                   )}

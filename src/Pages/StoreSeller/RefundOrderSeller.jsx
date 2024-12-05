@@ -51,9 +51,6 @@ const RefundOrderSeller = () => {
   return (
     <div>
       <div className="mt-4 mx-4 px-4">
-        <Row>
-          <Col className="dtext fs-5">Refund Order List</Col>
-        </Row>
         <Row className="mt-4">
           <Col>
             <Table striped bordered hover responsive>

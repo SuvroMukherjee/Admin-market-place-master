@@ -881,6 +881,10 @@ const sidebarRoutes = [
     title: "Return Orders Request List",
     path: "/seller/seller-return-order-request-list",
   },
+  {
+    title: "Seller Profile",
+    path: "/seller/profile",
+  },
   { title: "Refund Orders List", path: "/seller/refund-orders-list" },
   { title: "Payment Settlement", path: "/seller/payments" },
   { title: "All Transactions", path: "/seller/trasactions" },
@@ -901,8 +905,8 @@ const MyNavbar = ({ socket }) => {
   const location = useLocation();
 
   const getHeaderTitle = () => {
-    const matchedRoute = sidebarRoutes.find(
-      (route) => location.pathname === route.path
+    const matchedRoute = sidebarRoutes.find((route) =>
+      location.pathname.includes(route.path)
     );
     return matchedRoute
       ? matchedRoute.headerTitle || matchedRoute.title
@@ -910,6 +914,7 @@ const MyNavbar = ({ socket }) => {
   };
 
   const currentHeaderTitle = getHeaderTitle();
+
   useEffect(() => {
     if (auth) {
       getProfileData();
@@ -961,19 +966,33 @@ const MyNavbar = ({ socket }) => {
     let res = await sellerDetails(auth?.userId);
     if (res) {
       // eslint-disable-next-line no-unsafe-optional-chaining
-      const { ...filteredData } = res?.data?.data;
+      const { ...filteredData } = res?.data?.data || {};
       setUserInfo(filteredData);
       console.log(filteredData, "userData..");
-      console.log(filteredData?.Shop_Details_Info?.pin_code, "Shop_Details_Info");
+      console.log(
+        filteredData?.Shop_Details_Info?.pin_code,
+        "Shop_Details_Info"
+      );
       console.log(filteredData?.doc_details?.gst_no, "doc_details");
-      if (
-        filteredData?.Shop_Details_Info?.pin_code == "" &&
-        filteredData?.doc_details?.gst_no == ""
-      ) {
+      // if (
+      //  ("Shop_Details_Info" in filteredData &&  filteredData?.Shop_Details_Info?.pin_code) == "" &&
+      //  ("doc_details" in  filteredData &&  filteredData?.doc_details?.gst_no == "")
+      // ) {
+      //   setCompleteFlag(false);
+      //   navigate(`/seller/profile/${auth?.userId}`);
+      // }
+      // else {
+      //   setCompleteFlag(true);
+      // }
+      // Validate nested properties properly
+      const shopDetailsValid =
+        filteredData?.Shop_Details_Info?.pin_code?.trim();
+      const docDetailsValid = filteredData?.doc_details?.gst_no?.trim();
+
+      if (!shopDetailsValid || !docDetailsValid) {
         setCompleteFlag(false);
         navigate(`/seller/profile/${auth?.userId}`);
-      }
-      else {
+      } else {
         setCompleteFlag(true);
       }
     }
@@ -1248,7 +1267,18 @@ const MyNavbar = ({ socket }) => {
     }
   };
 
-  console.log({ userInfo });
+  // const { pathname } = location;
+
+  // const getPageTitle = (pathname) => {
+  //   const pageTitle = sidebarRoutes.find((page) =>
+  //     page.path.includes(pathname)
+  //   )?.title;
+  //   return pageTitle;
+  // };
+
+  // useEffect(() => {
+  //   setHeaderTitle(getPageTitle(pathname));
+  // }, [pathname]);
 
   return (
     <div>
@@ -1320,9 +1350,9 @@ const MyNavbar = ({ socket }) => {
             >
               <img src={blackzofi} alt="zoofi seller" width={120} />
             </div>
-            {/* <div className="page-desc flex-justify-center-align-center custom-font-size-lg">
-              {HeaderTitle}
-            </div> */}
+            <div className="page-desc flex-justify-center-align-center custom-font-size-lg">
+              {currentHeaderTitle}
+            </div>
           </div>
           <div className="custom-nav-right">
             {/* notification */}

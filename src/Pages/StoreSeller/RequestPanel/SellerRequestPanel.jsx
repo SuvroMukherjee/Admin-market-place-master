@@ -30,9 +30,6 @@ const SellerRequestPanel = () => {
 
   return (
     <div className="mx-4 px-4">
-      <Row className="mt-4 text-left">
-        <h5>Seller - Request Panel</h5>
-      </Row>
       <Row className="mt-4 d-flex justify-content-start items-center gap-4">
         <Col className="text-center" size={4} >
           <Card className="bcard" style={{height:'300px',width:'400px'}} onClick={()=>handleClick('product')}>
