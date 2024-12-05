@@ -747,14 +747,51 @@ const SellerStock = () => {
                   </span>
                 </td>
                 <td className="priceTD">
-                  <span>Comission : {allComission?.find((item) => item?.categoryId?._id == row?.productId?.categoryId?._id)?.commission_rate}%</span>
-                  <span>
-                    <ul>
-                      <li>IGST : {row?.productId?.categoryId?.igst}%</li>
-                      <li>CGST : {row?.productId?.categoryId?.cgst}%</li>
-                      <li>SGST : {row?.productId?.categoryId?.sgst}%</li>
-                    </ul>
-                  </span>
+                  {/* <table className="border-collapse border border-gray-300 w-full text-left">
+                    <tbody>
+                      <tr>
+                        <td className="border border-gray-300">
+                          Commission
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2">
+                          {allComission?.find(
+                            (item) =>
+                              item?.categoryId?._id ==
+                              row?.productId?.categoryId?._id
+                          )?.commission_rate || 0}
+                          %
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-300 px-4 py-2">
+                          IGST
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2">
+                          {row?.productId?.categoryId?.igst || 0}%
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-300 px-4 py-2">
+                          CGST
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2">
+                          {row?.productId?.categoryId?.cgst || 0}%
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-300 px-4 py-2">
+                          SGST
+                        </td>
+                        <td className="border border-gray-300 px-4 py-2">
+                          {row?.productId?.categoryId?.sgst || 0}%
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> */}
+                  <TaxTable
+                    data={row?.productId?.categoryId}
+                    allComission={allComission}
+                  />
                 </td>
                 <td className="priceTD" style={{ width: "200px" }}>
                   <Form.Control
@@ -998,6 +1035,51 @@ const SellerStock = () => {
           </Modal.Footer>
         </Modal>
       </div>
+    </div>
+  );
+};
+
+const TaxTable = ({ data, allComission }) => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <p className="shwTx" onClick={() => setShow(!show)}>
+        {show ? "Hide" : "Show"}
+      </p>
+      {show && (
+        <table className="border-collapse border border-gray-300 w-full text-left">
+          <tbody>
+            <tr>
+              <td className="border border-black-500 p-1">Commission</td>
+              <td className="border border-black-500 p-1">
+                {allComission?.find(
+                  (item) => item?.categoryId?._id == data?._id
+                )?.commission_rate || 0}
+                %
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-black-500 p-1">IGST</td>
+              <td className="border border-black-500 p-1">
+                {data?.igst || 0}%
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-black-500 p-1">CGST</td>
+              <td className="border border-black-500 p-1">
+                {data?.cgst || 0}%
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-black-500 p-1">SGST</td>
+              <td className="border border-black-500 p-1">
+                {data?.sgst || 0}%
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
