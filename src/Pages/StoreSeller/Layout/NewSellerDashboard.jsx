@@ -120,14 +120,14 @@ const NewSellerDashboard = () => {
 
   return (
     <div
-      className="px-5 py-3"
+      className="px-5 py-4"
       style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
     >
       <Row>
         <Col>
           <div>
             {data?.length > 0 && (
-              <Row className="mt-4">
+              <Row>
                 <Col className="dtext2">
                   Top Selling Products{" "}
                   <span>
