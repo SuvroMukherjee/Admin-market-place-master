@@ -961,19 +961,33 @@ const MyNavbar = ({ socket }) => {
     let res = await sellerDetails(auth?.userId);
     if (res) {
       // eslint-disable-next-line no-unsafe-optional-chaining
-      const { ...filteredData } = res?.data?.data;
+      const { ...filteredData } = res?.data?.data || {};
       setUserInfo(filteredData);
       console.log(filteredData, "userData..");
-      console.log(filteredData?.Shop_Details_Info?.pin_code, "Shop_Details_Info");
+      console.log(
+        filteredData?.Shop_Details_Info?.pin_code,
+        "Shop_Details_Info"
+      );
       console.log(filteredData?.doc_details?.gst_no, "doc_details");
-      if (
-        filteredData?.Shop_Details_Info?.pin_code == "" &&
-        filteredData?.doc_details?.gst_no == ""
-      ) {
+      // if (
+      //  ("Shop_Details_Info" in filteredData &&  filteredData?.Shop_Details_Info?.pin_code) == "" &&
+      //  ("doc_details" in  filteredData &&  filteredData?.doc_details?.gst_no == "")
+      // ) {
+      //   setCompleteFlag(false);
+      //   navigate(`/seller/profile/${auth?.userId}`);
+      // }
+      // else {
+      //   setCompleteFlag(true);
+      // }
+      // Validate nested properties properly
+      const shopDetailsValid =
+        filteredData?.Shop_Details_Info?.pin_code?.trim();
+      const docDetailsValid = filteredData?.doc_details?.gst_no?.trim();
+
+      if (!shopDetailsValid || !docDetailsValid) {
         setCompleteFlag(false);
         navigate(`/seller/profile/${auth?.userId}`);
-      }
-      else {
+      } else {
         setCompleteFlag(true);
       }
     }

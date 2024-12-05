@@ -57,7 +57,7 @@ const ProfilePage = () => {
 
   async function getProfileData() {
     let res = await sellerDetails(userId);
-    const { password, ...filteredData } = res?.data?.data;
+    const { ...filteredData } = res?.data?.data || {};
     console.log(res?.data?.data);
     setUserInfo(filteredData);
     setloading(false);
