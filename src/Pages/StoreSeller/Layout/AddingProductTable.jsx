@@ -14,7 +14,7 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { FaArrowDown, FaArrowUp, FaSearch } from "react-icons/fa";
@@ -922,6 +922,7 @@ const AddingProductTable = () => {
             </Modal>
           </Row>
         </Container>
+        <Toaster position="top-right" />
 
         {/* Pagination Controls */}
       </div>

@@ -734,7 +734,7 @@ const Documentation = ({ userInfo, getProfileData }) => {
                   placeholder="Enter GST number"
                   value={documentation?.gst_no}
                   onChange={handleChange}
-                  pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[A-Z]{1}[0-9]{1}$"
+                  pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$"
                   title="GST number must be in the format: 06BZAHM6385P6Z2"
                   required
                 />

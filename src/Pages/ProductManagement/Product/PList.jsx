@@ -647,13 +647,13 @@ const PList = () => {
                           Activate
                         </Button>
                       )}
-                      <Button
+                      {/* <Button
                         variant="outline-danger"
                         size="sm"
                         onClick={() => handledeleteProduct(row?._id)}
                       >
                         Delete
-                      </Button>
+                      </Button> */}
                     </div>
                   </td>
                 </tr>
