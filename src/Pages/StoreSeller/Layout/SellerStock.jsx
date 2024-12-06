@@ -45,10 +45,6 @@ const SellerStock = () => {
     categoryId: "",
     subcategoryId: "",
     brandId: "",
-    isPopular: false,
-    is_bestSell: false,
-    out_of_stock: false,
-    sales_start: false,
     status: true,
   });
 
@@ -136,11 +132,11 @@ const SellerStock = () => {
             categoryId,
             subcategoryId,
             brandId,
-            is_popular: isPopular !== "" ? isPopular : undefined,
-            is_bestSell: is_bestSell !== "" ? is_bestSell : undefined,
-            out_of_stock: out_of_stock !== "" ? out_of_stock : undefined,
-            sales_start: sales_start !== "" ? sales_start : undefined,
-            status: status !== "" ? status : undefined,
+            is_popular: isPopular,
+            is_bestSell,
+            out_of_stock,
+            sales_start,
+            status,
           },
         }
       );
@@ -183,7 +179,18 @@ const SellerStock = () => {
 
   const handleFilterChangeCheckbox = (e) => {
     const { name } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: !filters[name] }));
+
+    if (name === "status") {
+      setFilters((prev) => ({
+        ...prev,
+        [name]: filters[name] ? false : true,
+      }));
+    } else {
+      setFilters((prev) => ({
+        ...prev,
+        [name]: filters[name] ? undefined : true,
+      }));
+    }
   };
 
   const handlePageChange = (pageNumber) => {
@@ -191,13 +198,13 @@ const SellerStock = () => {
   };
 
   const handleReset = () => {
+    setCurrentPage(1);
     setFilters({
       categoryId: "",
       subcategoryId: "",
       brandId: "",
       status: true,
     });
-    handlePageChange(1);
   };
 
   const handleSelectEstimateChange = (event) => {
