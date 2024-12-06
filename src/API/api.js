@@ -1930,3 +1930,56 @@ export async function allCustomersList(query) {
     throw new Error(error);
   }
 }
+// "help/create" post
+// "help/get-all-list" get
+// "help/get-by-id/:id" get
+// "help/update-by-id/:id" patch
+// "help/delete-by-id/:id" delete
+
+export async function createHelpDesk(formData) {
+  try {
+    const response = await axios.post(apiUrl + `/help/create`, formData);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getAllHelpDeskList() {
+  try {
+    const response = await axios.get(apiUrl + `/help/get-all-list`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getHelpDeskById(id) {
+  try {
+    const response = await axios.get(apiUrl + `/help/get-by-id/${id}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function updateHelpDeskById(id, formData) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/help/update-by-id/${id}`,
+      formData
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function deleteHelpDeskById(id) {
+  try {
+    const response = await axios.delete(apiUrl + `/help/delete-by-id/${id}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

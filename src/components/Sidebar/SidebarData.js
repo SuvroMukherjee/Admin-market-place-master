@@ -6,7 +6,7 @@ import { GiVerticalBanner } from "react-icons/gi";
 import { IoMdImages } from "react-icons/io";
 import { TbBrandAdobe } from "react-icons/tb";
 import { MdCategory } from "react-icons/md";
-import { RiUserSettingsFill } from "react-icons/ri";
+import { RiCheckboxMultipleFill, RiUserSettingsFill } from "react-icons/ri";
 import { VscFeedback } from "react-icons/vsc";
 import { IoStatsChart } from "react-icons/io5";
 import { MdSell } from "react-icons/md";
@@ -148,6 +148,12 @@ export const AdminSidebarData = [
     icon: IoMdImages,
     cName: "nav-text",
   },
+  {
+    title: "HelpDesk",
+    path: "/helpdesk",
+    icon: RiCheckboxMultipleFill,
+    cName: "nav-text",
+  }
   // {
   //   title: "Template Upload",
   //   path: "/templete-upload",

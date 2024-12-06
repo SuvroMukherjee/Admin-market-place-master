@@ -98,6 +98,7 @@ import NOUserPage from "./Pages/NOUserPage";
 import { Nav } from "react-bootstrap";
 import SellerRequestPanel from "./Pages/StoreSeller/RequestPanel/SellerRequestPanel";
 import Customers from "./Pages/CustomerList/Customers";
+import HelpDesk from "./Pages/HelpDesk/HelpDesk";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -140,6 +141,7 @@ export default function Router({ socket }) {
             { path: "bannermanagment", element: <NewBannermanager /> },
             { path: "image-convert", element: <Imageconverter /> },
             { path: "templete-upload", element: <TempleteUploader /> },
+            { path: "/helpdesk", element: <HelpDesk /> },
           ],
         },
         {
