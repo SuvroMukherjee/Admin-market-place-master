@@ -249,7 +249,7 @@ const AdminPaymnets = () => {
                   <th>Settlement Amount</th>
                   <th>Category Commission</th>
                   <th>Commission Amount</th>
-                  <th style={{width:'100px'}}>Seller Amount</th>
+                  <th style={{ width: "100px" }}>Seller Amount</th>
                   <th>Due Balance</th>
                 </tr>
               </thead>
@@ -361,9 +361,12 @@ const AdminPaymnets = () => {
                         )} */}
                       </td>
                       <td>
-                      {ele?.type === "AdminPayout" && (
-                          <span>
-                            ₹{Number(ele?.adminAmount)?.toFixed(2)?.toLocaleString("en-IN")}
+                        {ele?.type === "AdminPayout" && (
+                          <span style={{ fontWeight: "bold" }}>
+                            ₹
+                            {Number(ele?.adminAmount)
+                              ?.toFixed(2)
+                              ?.toLocaleString("en-IN")}
                           </span>
                         )}
                       </td>
@@ -408,14 +411,14 @@ const AdminPaymnets = () => {
                           </span>
                         )}
 
-                        {ele?.type === "AdminPayout" && (
+                        {/* {ele?.type === "AdminPayout" && (
                           <span>
                             ₹{" "}
                             {Number(ele?.adminAmount)
                               .toFixed(2)
                               ?.toLocaleString("en-IN")}
                           </span>
-                        )}
+                        )} */}
                       </td>
                       <td style={{ width: "250px" }}>
                         <span
