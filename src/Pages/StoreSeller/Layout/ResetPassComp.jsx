@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import { PasswordReset } from "../../../API/api";
 
 const ResetPassComp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [isPasswordMatch, setIsPasswordMatch] = useState(true);
-  const [oldPassword, setOldpassowrd] = useState();
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { userId } = JSON.parse(localStorage.getItem("auth"));
 
@@ -15,8 +19,6 @@ const ResetPassComp = () => {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      // Passwords match, you can proceed with resetting the password
-      console.log("Password reset successful!");
       let payload = {
         old_password: oldPassword,
         new_password: password,
@@ -29,9 +31,12 @@ const ResetPassComp = () => {
         toast.success("Password reset successfully");
       }
     } else {
-      // Passwords don't match, display an error or handle it accordingly
       setIsPasswordMatch(false);
     }
+  };
+
+  const togglePasswordVisibility = (setter) => {
+    setter((prev) => !prev);
   };
 
   return (
@@ -40,41 +45,59 @@ const ResetPassComp = () => {
       <Row className="mt-3">
         <Col>
           <Form onSubmit={handleSubmit} className="mt-4">
+            {/* Old Password */}
             <Row>
               <Col xs={8}>
-                <Form.Group controlId="formPassword">
+                <Form.Group controlId="formOldPassword" className="position-relative">
                   <Form.Label>Old Password</Form.Label>
                   <Form.Control
-                    type="password"
+                    type={showOldPassword ? "text" : "password"}
                     placeholder="Enter old password"
                     value={oldPassword}
-                    onChange={(e) => setOldpassowrd(e.target.value)}
+                    onChange={(e) => setOldPassword(e.target.value)}
                     required
                   />
+                  <span
+                    className="position-absolute end-0 top-50 translate-middle-y pe-3 mt-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => togglePasswordVisibility(setShowOldPassword)}
+                  >
+                    {showOldPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
                 </Form.Group>
               </Col>
             </Row>
 
+            {/* New Password */}
             <Row>
               <Col xs={8}>
-                <Form.Group controlId="formPassword">
+                <Form.Group controlId="formNewPassword" className="position-relative">
                   <Form.Label>New Password</Form.Label>
                   <Form.Control
-                    type="password"
+                    type={showNewPassword ? "text" : "password"}
                     placeholder="Enter new password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                  <span
+                    className="position-absolute end-0 top-50 translate-middle-y pe-3 mt-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => togglePasswordVisibility(setShowNewPassword)}
+                  >
+                    {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
                 </Form.Group>
               </Col>
             </Row>
+
+            {/* Confirm Password */}
             <Row>
               <Col xs={8}>
-                <Form.Group controlId="formConfirmPassword">
+                <Form.Group controlId="formConfirmPassword" className="position-relative">
                   <Form.Label>Confirm Password</Form.Label>
                   <Form.Control
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm new password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -85,9 +108,17 @@ const ResetPassComp = () => {
                       Passwords do not match.
                     </Form.Text>
                   )}
+                  <span
+                    className="position-absolute end-0 top-50 translate-middle-y pe-3 mt-3"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => togglePasswordVisibility(setShowConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
                 </Form.Group>
               </Col>
             </Row>
+
             <Button variant="primary" type="submit" className="mt-4">
               Update Password
             </Button>

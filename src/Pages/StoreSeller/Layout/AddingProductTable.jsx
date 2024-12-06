@@ -739,8 +739,9 @@ const AddingProductTable = () => {
                       onClick={() => handleAddProduct(row)}
                       variant="success"
                       size="sm"
+                      disabled={!row?.status || row?.specId?.length <= 0}
                     >
-                      Add to Sell
+                      Add to Inventory
                     </Button>
                   </td>
                 </tr>

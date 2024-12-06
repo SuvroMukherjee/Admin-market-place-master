@@ -29,7 +29,6 @@ const SPList = () => {
     categoryId: "",
     subcategoryId: "",
     brandId: "",
-    isPopular: false,
   });
 
   const { id: sellerID } = useParams();
@@ -77,7 +76,7 @@ const SPList = () => {
             categoryId,
             subcategoryId,
             brandId,
-            is_popular: isPopular ? "true" : "false",
+            is_popular: isPopular ? true : undefined,
           },
         }
       );
@@ -93,8 +92,11 @@ const SPList = () => {
   };
 
   const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({ ...prev, [name]: value }));
+    const { name } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: filters[name] ? undefined : true,
+    }));
   };
 
   const handlePageChange = (pageNumber) => {

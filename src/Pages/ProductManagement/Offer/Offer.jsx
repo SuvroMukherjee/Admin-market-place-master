@@ -57,7 +57,7 @@ const Offer = () => {
   }
 
   const createOfferTypeHandler = async () => {
-    if (type != "") {
+    if (type == "") {
       alert("Please fill offer type");
       return;
     }
@@ -68,7 +68,7 @@ const Offer = () => {
     } else {
       toast.error(res?.data?.message);
     }
-
+    setType("");
     getOfferTypeLists();
   };
 
@@ -108,6 +108,7 @@ const Offer = () => {
     console.log(res?.data?.data, "data");
     getOfferTypeLists();
     getProductdata();
+    setFormData({});
   };
 
   {
@@ -314,6 +315,7 @@ const Offer = () => {
                             value={formData?.discount_percentage}
                             onChange={handleChange}
                             autoComplete="off"
+                            required
                           />
                         </Col>
                       </Row>
@@ -343,6 +345,7 @@ const Offer = () => {
                             value={formData?.offer_on?.bank_name}
                             onChange={handleChange}
                             autoComplete="off"
+                            required
                           />
                         </Col>
                       </Row>
@@ -372,6 +375,7 @@ const Offer = () => {
                             value={formData?.offer_on?.card_type}
                             onChange={handleChange}
                             autoComplete="off"
+                            required
                           />
                         </Col>
                       </Row>
@@ -398,6 +402,7 @@ const Offer = () => {
                             name="max_amount"
                             value={formData.max_amount}
                             onChange={handleChange}
+                            required
                           />
                         </Col>
                       </Row>
@@ -424,6 +429,7 @@ const Offer = () => {
                             name="min_amount"
                             value={formData.min_amount}
                             onChange={handleChange}
+                            required
                           />
                         </Col>
                       </Row>
@@ -450,6 +456,7 @@ const Offer = () => {
                             name="offer_start_date"
                             value={formData.offer_start_date}
                             onChange={handleChange}
+                            required
                           />
                         </Col>
                       </Row>
@@ -476,6 +483,7 @@ const Offer = () => {
                             name="offer_end_date"
                             value={formData.offer_end_date}
                             onChange={handleChange}
+                            required
                           />
                         </Col>
                       </Row>
@@ -503,6 +511,7 @@ const Offer = () => {
                             name="terms_cond"
                             value={formData.terms_cond}
                             onChange={handleChange}
+                            required
                           />
                         </Col>
                       </Row>
@@ -527,7 +536,7 @@ const Offer = () => {
                         {ele?.offerId?.offer_type_name}
                       </span>{" "}
                       offer {ele?.discount_percentage}% discount on{" "}
-                      {ele?.offer_on?.bank_name}-{ele?.offer_on.card_type} Card
+                      {ele?.offer_on?.bank_name}-{ele?.offer_on?.card_type} Card
                     </div>
                     <div className="specTextsmall">
                       <span className="mx-1">
