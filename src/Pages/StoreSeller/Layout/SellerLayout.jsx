@@ -871,7 +871,7 @@ const sidebarRoutes = [
   { title: "Add Zoofi Product", path: "/seller/seller-addproduct" },
   { title: "Request Panel", path: "/seller/seller-request" },
   { title: "Add Product Via Bulk Upload", path: "/seller/bulk-product-upload" },
-  { title: "Inventory Manage", path: "/seller/seller-productList" },
+  { title: "Manage Inventory", path: "/seller/seller-productList" },
   {
     title: "Closing Stock",
     path: "/seller/seller-orderlist",
@@ -1080,7 +1080,7 @@ const MyNavbar = ({ socket }) => {
         navigate("/seller/approval-request-list/");
         setHeaderTitle(pathName);
         break;
-      case "Inventory Manage":
+      case "Manage Inventory":
         navigate("/seller/seller-productList");
         setHeaderTitle(pathName);
         break;
