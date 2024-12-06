@@ -74,7 +74,10 @@ const BulkAdminUpload = () => {
   async function getAllCats() {
     await allCategoryList()
       .then((res) => {
-        setAllCats(res?.data?.data);
+        let filter = res?.data?.data
+          ?.filter((ele) => ele?.status == true)
+          .sort((a, b) => a?.title?.localeCompare(b?.title));
+        setAllCats(filter);
       })
       .catch((err) => {
         console.log(err);
@@ -108,7 +111,10 @@ const BulkAdminUpload = () => {
     await getSubCategoryByCategory(selectedOption?.value)
       .then((res) => {
         console.log(res?.data?.data, "subcats");
-        setAllSubCats(res?.data?.data);
+        let filter = res?.data?.data
+          ?.filter((ele) => ele?.status == true)
+          .sort((a, b) => a?.title?.localeCompare(b?.title));
+        setAllSubCats(filter);
       })
       .catch((err) => {
         console.log(err);
@@ -125,7 +131,10 @@ const BulkAdminUpload = () => {
     await allBrandList()
       .then((res) => {
         console.log(res?.data?.data, "brands");
-        setAllBrandList(res?.data?.data);
+        let filter = res?.data?.data
+          ?.filter((ele) => ele?.status == true)
+          .sort((a, b) => a?.title?.localeCompare(b?.title));
+        setAllBrandList(filter);
       })
       .catch((err) => {
         console.log(err);
@@ -362,7 +371,7 @@ const BulkAdminUpload = () => {
             <h6 className="stepNum">STEP - 2</h6>
             <Card
               className={!activeVariation ? "bcard2" : "bcard2active"}
-             // onClick={handleShow}
+              // onClick={handleShow}
             >
               <Card.Header className="text-center">
                 Upload Variation Of Existing Product
@@ -490,155 +499,144 @@ const BulkAdminUpload = () => {
       {choose && (
         <Container className="mt-4">
           <Row>
-            <Col xs={4} className="mt-2">
-              <Row>
-                <Col xs={12} className="chooseText">
-                  Choose & Search Your category
-                </Col>
-                <Col xs={12} className="mt-2">
-                  <Select
-                    value={selectedCategory}
-                    onChange={handleChange}
-                    options={Catoptions}
-                    isClearable={true}
-                    isSearchable={true}
-                  />
-                </Col>
-              </Row>
-            </Col>
-            {selectedCategory && (
-              <Col xs={4} className="mt-2">
-                <Row>
-                  <Col xs={12} className="chooseText">
-                    Choose & Search Your SubCategory for{" "}
-                    {selectedCategory?.label}
-                  </Col>
-                  <Col xs={12} className="mt-2">
-                    <Select
-                      value={selectedSubCategory}
-                      onChange={handleChangeSubCat}
-                      options={SubCatOptions}
-                      isClearable={true}
-                      isSearchable={true}
-                      isDisabled={!SubCatOptions}
-                    />
-                  </Col>
-                </Row>
-              </Col>
-            )}
-            {selectedSubCategory && (
-              <Col xs={4} className="mt-2">
-                <Row>
-                  <Col xs={12} className="chooseText">
-                    Choose & Search Your Brand
-                  </Col>
-                  <Col xs={12} className="mt-2">
-                    <Select
-                      value={selectedBrand}
-                      onChange={handleChangeBrand}
-                      options={BrandOptions}
-                      isClearable={true}
-                      isSearchable={true}
-                    />
-                  </Col>
-                </Row>
-              </Col>
-            )}
-          </Row>
-          {selectedBrand != "" && (
-            <Container className="mt-4">
-              <Row>
-                <Col xs={4}>
-                  <Row className="chContainer">
-                    <Col xs={12} className="box1">
-                      {`${selectedCategory?.label || "Category"} >`}{" "}
-                      {`${selectedSubCategory?.label || "SubCategory"} >`}{" "}
-                      {`${selectedBrand?.label || "Brand"} .`}{" "}
+            {/* Category and SubCategory Selection */}
+            <Col xs={8} className="d-flex flex-column justify-content-center align-items-start gap-4">
+              
+                <Col xs={6} className="mt-2">
+                  <Row>
+                    <Col xs={12} className="chooseText">
+                      Choose & Search Your Category
                     </Col>
-                    <Col xs={12} className="text-center mt-2 chImg">
-                      <img
-                        src={selectedCategory?.image?.[0]?.image_path}
-                        alt="image"
-                        width={200}
-                        height={200}
+                    <Col xs={12} className="mt-2">
+                      <Select
+                        value={selectedCategory}
+                        onChange={handleChange}
+                        options={Catoptions}
+                        isClearable={true}
+                        isSearchable={true}
                       />
-                    </Col>
-                    <Col xs={12} onClick={handleClick} className="mt-2">
-                      <Row className="dwnTemp">
-                        <Col
-                          xs={2}
-                          className="d-flex align-items-center justify-content-center"
-                        >
-                          <FaFileDownload size={26} />
-                        </Col>
-                        <Col className="d-flex align-items-center justify-content-center">
-                          Dowmload Prefilled Templete
-                        </Col>
-                      </Row>
-                      <p></p>
-                    </Col>
-                    <Col xs={12}>
-                      <Row className="dwnTemp2">
-                        <Col
-                          xs={2}
-                          className="d-flex align-items-center justify-content-center"
-                        >
-                          {loading ? (
-                            <Spinner size="sm" />
-                          ) : (
-                            <span>
-                              <FaFileUpload size={26} />
-                            </span>
-                          )}
-                        </Col>
-                        <Col className="d-flex align-items-center justify-content-center">
-                          <label
-                            htmlFor="fileInput"
-                            className="w-100 text-center"
-                          >
-                            Upload Spreadsheet
-                          </label>
-                          <input
-                            id="fileInput"
-                            type="file"
-                            accept=".xls,.xlsx,.ods,.csv" // Specify accepted file types here
-                            style={{ display: "none" }}
-                            onChange={handleFileChange}
-                          />
-                        </Col>
-                        {/* <Col className="mt-2 className='dwnTemp'">
-                                                    <label
-                                                        htmlFor="fileInput"
-                                                        className="w-100 text-center"
-                                                    >
-                                                        {loading ? (
-                                                            <Spinner className="mx-2" size="sm" />
-                                                        ) : (
-                                                            <span>
-                                                                <MdOutlineFileUpload size={25} />
-                                                            </span>
-                                                        )}
-                                                        Upload Spreadsheet
-                                                    </label>
-                                                    <input
-                                                        id="fileInput"
-                                                        type="file"
-                                                        accept=".xls,.xlsx,.ods,.csv" // Specify accepted file types here
-                                                        style={{ display: "none" }}
-                                                        onChange={handleFileChange}
-                                                    />
-                                                </Col> */}
-                      </Row>
                     </Col>
                   </Row>
                 </Col>
-              </Row>
-            </Container>
-          )}
+                {selectedCategory && (
+                  <Col xs={6} className="mt-4">
+                    <Row>
+                      <Col xs={12} className="chooseText">
+                        Choose & Search Your SubCategory for{" "}
+                        {selectedCategory?.label}
+                      </Col>
+                      <Col xs={12} className="mt-2">
+                        <Select
+                          value={selectedSubCategory}
+                          onChange={handleChangeSubCat}
+                          options={SubCatOptions}
+                          isClearable={true}
+                          isSearchable={true}
+                          isDisabled={!SubCatOptions}
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+                )}
+                {selectedSubCategory && (
+                  <Col xs={6} className="mt-4">
+                    <Row>
+                      <Col xs={12} className="chooseText">
+                        Choose & Search Your Brand
+                      </Col>
+                      <Col xs={12} className="mt-2">
+                        <Select
+                          value={selectedBrand}
+                          onChange={handleChangeBrand}
+                          options={BrandOptions}
+                          isClearable={true}
+                          isSearchable={true}
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+                )}
+             
+            </Col>
+
+            {/* Brand Selection and File Upload Section */}
+            <Col xs={4}>
+              <div>
+                {selectedBrand != "" && (
+                  <Container className="mt-4">
+                    <Row>
+                      <Col xs={12}>
+                        <Row className="chContainer">
+                          <Col xs={12} className="box1">
+                            {`${selectedCategory?.label || "Category"} >`}{" "}
+                            {`${selectedSubCategory?.label || "SubCategory"} >`}{" "}
+                            {`${selectedBrand?.label || "Brand"}.`}
+                          </Col>
+                          <Col xs={12} className="text-center mt-2 chImg">
+                            <img
+                              src={selectedCategory?.image?.[0]?.image_path}
+                              alt="image"
+                              width={200}
+                              height={200}
+                            />
+                          </Col>
+                          <Col xs={12} onClick={handleClick} className="mt-2">
+                            <Row className="dwnTemp">
+                              <Col
+                                xs={2}
+                                className="d-flex align-items-center justify-content-center"
+                              >
+                                <FaFileDownload size={26} />
+                              </Col>
+                              <Col className="d-flex align-items-center justify-content-center">
+                                Download Prefilled Template
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col xs={12} className="mt-2">
+                            <Row className="dwnTemp2 d-flex justify-content-center align-items-center gap-4">
+                              <Col
+                                xs={2}
+                                className="d-flex align-items-center justify-content-center"
+                              >
+                                {loading ? (
+                                  <Spinner size="sm" />
+                                ) : (
+                                  <span>
+                                    <FaFileUpload size={26} />
+                                  </span>
+                                )}
+                              </Col>
+                              <Col className="d-flex align-items-center justify-content-center">
+                                <label
+                                  htmlFor="fileInput"
+                                  className="w-100 text-center"
+                                >
+                                  Upload Spreadsheet
+                                </label>
+                                <input
+                                  id="fileInput"
+                                  type="file"
+                                  accept=".xls,.xlsx,.ods,.csv"
+                                  style={{ display: "none" }}
+                                  onChange={handleFileChange}
+                                />
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Container>
+                )}
+              </div>
+            </Col>
+          </Row>
 
           <Toaster />
         </Container>
       )}
+
       <Container className="mt-4 p-4 mb-4">
         <ImageConveter showConverter={showConverter} />
       </Container>
