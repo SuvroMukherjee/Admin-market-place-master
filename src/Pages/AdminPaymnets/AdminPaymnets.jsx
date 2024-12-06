@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -112,6 +112,7 @@ const AdminPaymnets = () => {
     let payload = {
       sellerId: selectedSeller,
       adminAmount: formData?.amount,
+      remark: formData?.remarks,
     };
 
     let res = await createPayment(payload);
@@ -388,9 +389,10 @@ const AdminPaymnets = () => {
                               ₹ {ele?.balance?.toLocaleString("en-IN")}
                             </span>
                           )}
-
-                          <span>{ele?.remark}</span>
                         </span>
+                        <div>
+                          {ele?.remark && <TaxRemarks remarks={ele?.remark} />}
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -422,6 +424,7 @@ const AdminPaymnets = () => {
                   value={formData.amount}
                   onChange={handleInputChange}
                   size="sm"
+                  required
                 />
               </Col>
               <Col xs={8} className="d-flex flex-column">
@@ -436,10 +439,11 @@ const AdminPaymnets = () => {
                   as="textarea"
                   rows={3}
                   size="sm"
+                  required
                 />
               </Col>
 
-              <Col xs={8} className="d-flex flex-column mt-2">
+              {/* <Col xs={8} className="d-flex flex-column mt-2">
                 <Form.Label>Payment Receipts</Form.Label>
                 <Form.Control
                   aria-label="Small"
@@ -452,7 +456,7 @@ const AdminPaymnets = () => {
                   rows={3}
                   size="sm"
                 />
-              </Col>
+              </Col> */}
               <Col xs={8} className="d-flex flex-column mt-2">
                 <Button size="sm" variant="dark" type="submit">
                   Save Payment
@@ -462,6 +466,18 @@ const AdminPaymnets = () => {
           </form>
         </Modal.Body>
       </Modal>
+    </div>
+  );
+};
+
+const TaxRemarks = ({ remarks }) => {
+  const [show, setShow] = React.useState(false);
+  return (
+    <div className="mt-2">
+      <p onClick={() => setShow(!show)} className="shwTx2">
+        {show ? "Hide" : "Show"} Remarks
+      </p>
+      {show && <p className="text-start mt-2 fw-500 text-break">{remarks}</p>}
     </div>
   );
 };

@@ -32,7 +32,7 @@ export const AmountWithGst = ({ ele }) => {
 
   const stateOfSupply = ele?.sellerId?.Shop_Details_Info?.state ?? "";
   const stateOfDelivery = ele?.orderId?.addressId?.state ?? "";
-  console.log(stateOfSupply, stateOfDelivery,'stateOfSupply, stateOfDelivery');
+  console.log(stateOfSupply, stateOfDelivery, "stateOfSupply, stateOfDelivery");
   const applicableTaxType = getApplicableTaxType(
     stateOfSupply,
     stateOfDelivery
@@ -63,27 +63,33 @@ export const AmountWithGst = ({ ele }) => {
 
   return (
     <>
-      <p>₹ {ele?.totalAmount}</p>
+      <p>₹ {ele?.totalAmount?.toLocaleString("en-IN")}</p>
 
-      <p onClick={() => setShow(!show)} className="shwTx">{show ? "Hide" : "Show"} Break Up</p>
+      <p onClick={() => setShow(!show)} className="shwTx">
+        {show ? "Hide" : "Show"} Break Up
+      </p>
       {show && (
         <>
           <Table striped bordered hover size="sm" className="mb-4">
             <tbody>
               <tr>
                 <td>Order Amount</td>
-                <td className="text-end">₹{withTaxAmount}</td>
+                <td className="text-end">
+                  ₹{withTaxAmount?.toLocaleString("en-IN")}
+                </td>
               </tr>
               <tr>
                 <td>Shipping</td>
-                <td className="text-end">₹{shippingCharge}</td>
+                <td className="text-end">
+                  ₹{shippingCharge?.toLocaleString("en-IN")}
+                </td>
               </tr>
               <tr>
                 <td>
                   <strong>Invoice Amount</strong>
                 </td>
                 <td className="text-end">
-                  <strong>₹{ele?.totalAmount}</strong>
+                  <strong>₹{ele?.totalAmount?.toLocaleString("en-IN")}</strong>
                 </td>
               </tr>
             </tbody>
@@ -92,24 +98,32 @@ export const AmountWithGst = ({ ele }) => {
             <tbody>
               <tr>
                 <td>Amount (Without Tax)</td>
-                <td className="text-end">₹{withOutTaxAmount}</td>
+                <td className="text-end">
+                  ₹{withOutTaxAmount?.toLocaleString("en-IN")}
+                </td>
               </tr>
               {applicableTaxType === "SGSTCGST" && (
                 <>
                   <tr>
                     <td>CGST ({cgstPercent}%)</td>
-                    <td className="text-end">₹{cgst}</td>
+                    <td className="text-end">
+                      ₹{Number(cgst).toFixed(2)?.toLocaleString("en-IN")}
+                    </td>
                   </tr>
                   <tr>
                     <td>SGST ({sgstPercent}%)</td>
-                    <td className="text-end">₹{sgst}</td>
+                    <td className="text-end">
+                      ₹{Number(sgst).toFixed(2)?.toLocaleString("en-IN")}
+                    </td>
                   </tr>
                 </>
               )}
               {applicableTaxType === "IGST" && (
                 <tr>
                   <td>IGST ({igstPercent}%)</td>
-                  <td className="text-end">₹{igst}</td>
+                  <td className="text-end">
+                    ₹{Number(igst).toFixed(2)?.toLocaleString("en-IN")}
+                  </td>
                 </tr>
               )}
             </tbody>

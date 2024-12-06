@@ -198,6 +198,21 @@
 }
 
 .shwTx:hover{
-  color: #025c5c;
+  background-color: #025c5c;
+  color: white;
   border: 1px solid #025c5c;  
+}
+
+.shwTx2{
+     color: #16aae9;
+     font-weight: 500;
+    border: 1px solid #16aae9;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.shwTx2:hover{
+  background-color: #16aae9;
+  color: white;
+  border: 1px solid #16aae9;  
 }
