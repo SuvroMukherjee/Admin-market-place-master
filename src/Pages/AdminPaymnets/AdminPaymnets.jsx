@@ -521,7 +521,7 @@ const AdminPaymnets = () => {
   );
 };
 
-const TaxRemarks = ({ remarks }) => {
+export const TaxRemarks = ({ remarks }) => {
   const [show, setShow] = React.useState(false);
   return (
     <div className="mt-2">

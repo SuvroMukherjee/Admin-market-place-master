@@ -870,6 +870,7 @@ const sidebarRoutes = [
   { title: "Seller Dashboard", path: "/seller/seller-dashboard" },
   { title: "Add Zoofi Product", path: "/seller/seller-addproduct" },
   { title: "Request Panel", path: "/seller/seller-request" },
+  { title: "Add Product Via Bulk Upload", path: "/seller/bulk-product-upload" },
   { title: "Inventory Manage", path: "/seller/seller-productList" },
   {
     title: "Closing Stock",
@@ -886,7 +887,6 @@ const sidebarRoutes = [
   { title: "All Transactions", path: "/seller/trasactions" },
   { title: "Service Feedback", path: "/seller/service-feedback" },
   { title: "Busniess Report", path: "/seller/seller-report" },
-  { title: "Add Product Via Upload", path: "/seller/bulk-product-upload" },
 ];
 
 const otherRoutes = [
@@ -1100,7 +1100,6 @@ const MyNavbar = ({ socket }) => {
         navigate("/seller/seller-return-order-list");
         setHeaderTitle(pathName);
         break;
-
       case "Customer Feedback":
         navigate("/seller/customer-feedback");
         setHeaderTitle(pathName);
@@ -1113,7 +1112,7 @@ const MyNavbar = ({ socket }) => {
         navigate("/seller/advertising-campaign");
         setHeaderTitle(pathName);
         break;
-      case "Add Product Via Upload":
+      case "Add Product Via Bulk Upload":
         navigate("/seller/bulk-product-upload");
         setHeaderTitle(pathName);
         break;
