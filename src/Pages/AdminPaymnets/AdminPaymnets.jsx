@@ -247,8 +247,8 @@ const AdminPaymnets = () => {
                   <th>Payment Id / Refund Id</th>
                   <th>Invoice Amount Calculation</th>
                   <th>Category Commission</th>
-                  <th>Receivable Amount</th>
-                  <th>Ledger Amount</th>
+                  <th>Commission Amount</th>
+                  <th>Seller Amount</th>
                   <th>Due Balance</th>
                 </tr>
               </thead>
