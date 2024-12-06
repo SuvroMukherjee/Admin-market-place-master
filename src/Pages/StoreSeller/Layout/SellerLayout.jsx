@@ -887,6 +887,7 @@ const sidebarRoutes = [
   { title: "All Transactions", path: "/seller/trasactions" },
   { title: "Service Feedback", path: "/seller/service-feedback" },
   { title: "Busniess Report", path: "/seller/seller-report" },
+  { title: "HelpDesk", path: "/seller/helpdesk" },
 ];
 
 const otherRoutes = [
@@ -1354,6 +1355,13 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div>
           <div className="custom-nav-right">
+            <div onClick={()=>navigate("/seller/helpdesk")}>
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1733497783729.png?alt=media"
+                alt="helpdesk"
+                style={{boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;:'white'",cursor:'pointer'}}
+              />
+            </div>
             {/* notification */}
             {completeFlag && (
               <div className="notify">

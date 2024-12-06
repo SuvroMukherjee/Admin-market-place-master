@@ -99,6 +99,7 @@ import { Nav } from "react-bootstrap";
 import SellerRequestPanel from "./Pages/StoreSeller/RequestPanel/SellerRequestPanel";
 import Customers from "./Pages/CustomerList/Customers";
 import HelpDesk from "./Pages/HelpDesk/HelpDesk";
+import ViewHelpDesk from "./Pages/HelpDesk/ViewHelpDesk";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -273,6 +274,7 @@ export default function Router({ socket }) {
             { path: "profile/:id", element: <ProfilePage /> },
             { path: "trasactions", element: <AllTransaction /> },
             { path: "refund-orders-list", element: <RefundOrderSeller /> },
+            { path: "helpdesk", element: <ViewHelpDesk /> },
           ],
         },
       ],
