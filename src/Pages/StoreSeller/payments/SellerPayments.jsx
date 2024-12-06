@@ -78,9 +78,7 @@ const SellerPayments = () => {
               color: "green",
               textTransform: "capitalize",
             }}
-          >
-            * Commission Amount will be calculated on without tax amount
-          </span>
+          ></span>
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
