@@ -49,6 +49,7 @@ const SellerStock = () => {
     is_bestSell: false,
     out_of_stock: false,
     sales_start: false,
+    status: false,
   });
 
   const [importedData, setImportedData] = useState([]);
@@ -123,6 +124,7 @@ const SellerStock = () => {
         is_bestSell,
         out_of_stock,
         sales_start,
+        status,
       } = filters;
       const res = await axios.get(
         `${baseURL}/seller-product/list-by-seller-paginated/${sellerID}`,
@@ -138,6 +140,7 @@ const SellerStock = () => {
             is_bestSell: is_bestSell !== "" ? is_bestSell : undefined,
             out_of_stock: out_of_stock !== "" ? out_of_stock : undefined,
             sales_start: sales_start !== "" ? sales_start : undefined,
+            status: status !== "" ? status : undefined,
           },
         }
       );
@@ -503,6 +506,15 @@ const SellerStock = () => {
               name="sales_start"
               label="Top Sales"
               checked={filters.sales_start}
+              onClick={handleFilterChangeCheckbox}
+              className="fw-bold"
+            />
+          </Form.Group>
+          <Form.Group controlId="sales_start">
+            <Form.Check
+              name="status"
+              label="Close Listing"
+              checked={filters.status}
               onClick={handleFilterChangeCheckbox}
               className="fw-bold"
             />
