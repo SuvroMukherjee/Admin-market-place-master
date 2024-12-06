@@ -244,7 +244,7 @@ const AdminPaymnets = () => {
                   <th>Transaction Type</th>
                   <th>Seller</th>
                   <th>Order NO</th>
-                  <th>Payment Id</th>
+                  <th>Payment Id / Refund Id</th>
                   <th>Invoice Amount Calculation</th>
                   <th>Category Commission</th>
                   <th>Receivable Amount</th>
@@ -312,10 +312,36 @@ const AdminPaymnets = () => {
                       <td>{ele?.sellerId?.Shop_Details_Info?.shope_name}</td>
                       <td>{ele?.orderId?.order_no?.toLocaleString("en-IN")}</td>
                       <td>
-                        {ele?.type === "orderPayment" &&
-                          ele?.orderId?.paymentId}
-                        {ele?.type === "RefundPayment" &&
-                          ele?.orderId?.refund_status?.razorpayRefundId}
+                        {ele?.type === "orderPayment" && (
+                          <span
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              gap: "5px",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <span>{ele?.orderId?.paymentId}</span>
+                            <span>({ele?.orderId?.order_type})</span>
+                          </span>
+                        )}
+                        {ele?.type === "RefundPayment" && (
+                          <span
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              gap: "5px",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <span>
+                              {ele?.orderId?.refund_status?.razorpayRefundId}
+                            </span>
+                            <span>({ele?.orderId?.order_type})</span>
+                          </span>
+                        )}
                       </td>
                       <td>
                         {ele?.type === "orderPayment" && (
