@@ -93,7 +93,7 @@ const SellerPayments = () => {
                 <th>Category Commission</th>
                 <th>Commission Amount</th>
                 <th>Seller Amount</th>
-                <th>Due Balance</th>
+                <th style={{width:'200px'}}>Due Balance</th>
               </tr>
             </thead>
             <tbody>
