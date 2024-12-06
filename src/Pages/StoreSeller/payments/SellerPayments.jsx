@@ -87,10 +87,12 @@ const SellerPayments = () => {
                 <th>Transaction Type </th>
                 <th>Order Date</th>
                 <th>Order No</th>
-                <th>Payment Id</th>
+                <th>Payment Id/Refund Id</th>
                 <th>Order Amount</th>
                 <th>Invoice Amount Calculation</th>
-                <th>Admin Price</th>
+                <th>Settlement Amount</th>
+                <th>Category Commission</th>
+                <th>Commission Amount</th>
                 <th>Leadger Amount</th>
                 <th>Creditable Balance</th>
               </tr>
@@ -154,6 +156,9 @@ const SellerPayments = () => {
                         ele?.orderId?.refund_status?.razorpayRefundId}
                     </td>
                     <td>
+                      <span>{ele?.totalAmount?.toLocaleString("en-IN")}</span>
+                    </td>
+                    <td>
                       {/* {ele?.type === "orderPayment" && (
                         <span>{ele?.totalAmount?.toLocaleString("en-IN")}</span>
                       )} */}
@@ -171,26 +176,39 @@ const SellerPayments = () => {
                       )}
                     </td>
                     <td>
-                      {/* {!isNaN((ele?.commissionAmount * 100) / ele?.totalAmount)
-                        ? `${(
-                            (ele?.commissionAmount * 100) /
-                            ele?.totalAmount
-                          ).toFixed(2)}%`
-                        : ""} */}
-                      {ele?.orderId?.order_details?.[0]?.commissionPercentage} %
+                      {ele?.type === "AdminPayout" && (
+                        <span style={{ fontWeight: "bold" }}>
+                          ₹
+                          {Number(ele?.adminAmount)
+                            ?.toFixed(2)
+                            ?.toLocaleString("en-IN")}
+                        </span>
+                      )}
                     </td>
                     <td>
-                      <span
-                        style={{
-                          color: "#024CAA",
-                          fontWeight: "bold",
-                          letterSpacing: "1px",
-                        }}
-                      >
-                        ₹{" "}
-                        {ele?.commissionAmount?.toLocaleString("en-IN") ?? "0"}
-                      </span>
-                      {/* <AmountWithGst ele={ele} /> */}
+                      {/* {!isNaN(
+                          (ele?.commissionAmount * 100) / ele?.totalAmount
+                        )
+                          ? `${(
+                              (ele?.commissionAmount * 100) /
+                              ele?.totalAmount
+                            ).toFixed(2)}%`
+                          : ""} */}
+                      {ele?.type === "orderPayment" && (
+                        <>
+                          {ele?.orderId?.order_details?.[0]
+                            ?.commissionPercentage || 0}
+                          %
+                        </>
+                      )}
+                    </td>
+                    <td>
+                      {ele?.type === "orderPayment" && (
+                        <span style={{ color: "#024CAA", fontWeight: "bold" }}>
+                          ₹{" "}
+                          {ele?.commissionAmount?.toLocaleString("en-IN") || 0}
+                        </span>
+                      )}
                     </td>
                     <td>
                       {/* {ele?.sellerAmount?.toLocaleString("en-IN")} */}
