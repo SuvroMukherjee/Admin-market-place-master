@@ -93,6 +93,7 @@ const SellerPayments = () => {
                 <th>Settlement Amount</th>
                 <th>Category Commission</th>
                 <th>Commission Amount</th>
+                <th>Admin Amount</th>
                 <th>Leadger Amount</th>
                 <th>Creditable Balance</th>
               </tr>
@@ -159,6 +160,15 @@ const SellerPayments = () => {
                       {ele?.type === "orderPayment" && (
                         <span>{ele?.totalAmount?.toLocaleString("en-IN")}</span>
                       )}
+                      {ele?.type === "RefundPayment" && (
+                        <span>
+                          {ele?.refundAmount?.toLocaleString("en-IN")}
+                        </span>
+                      )}
+
+                      {ele?.type === "AdminPayout" && (
+                        <span>{ele?.adminAmount?.toLocaleString("en-IN")}</span>
+                      )}
                     </td>
                     <td>
                       {ele?.type === "orderPayment" && (
@@ -191,6 +201,14 @@ const SellerPayments = () => {
                             ?.commissionPercentage || 0}
                           %
                         </>
+                      )}
+                    </td>
+                    <td>
+                      {ele?.type === "orderPayment" && (
+                        <span style={{ color: "#024CAA", fontWeight: "bold" }}>
+                          ₹{" "}
+                          {ele?.commissionAmount?.toLocaleString("en-IN") || 0}
+                        </span>
                       )}
                     </td>
                     <td>
