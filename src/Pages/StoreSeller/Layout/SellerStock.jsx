@@ -49,7 +49,7 @@ const SellerStock = () => {
     is_bestSell: false,
     out_of_stock: false,
     sales_start: false,
-    status: false,
+    status: true,
   });
 
   const [importedData, setImportedData] = useState([]);
@@ -195,6 +195,7 @@ const SellerStock = () => {
       categoryId: "",
       subcategoryId: "",
       brandId: "",
+      status: true,
     });
     handlePageChange(1);
   };
@@ -510,11 +511,11 @@ const SellerStock = () => {
               className="fw-bold"
             />
           </Form.Group>
-          <Form.Group controlId="sales_start">
+          <Form.Group controlId="status">
             <Form.Check
               name="status"
               label="Close Listing"
-              checked={filters.status}
+              checked={!filters.status}
               onClick={handleFilterChangeCheckbox}
               className="fw-bold"
             />
