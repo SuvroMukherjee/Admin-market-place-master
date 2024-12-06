@@ -911,9 +911,7 @@ const MyNavbar = ({ socket }) => {
       location.pathname.includes(route?.path)
     );
 
-    return matchedRoute
-      ? matchedRoute?.headerTitle || matchedRoute?.title
-      : "Unknown Page";
+    return matchedRoute ? matchedRoute?.headerTitle || matchedRoute?.title : "";
   };
   const currentHeaderTitle = getHeaderTitle();
 
