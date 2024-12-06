@@ -159,7 +159,7 @@ const SellerStock = () => {
           _id: ele?._id,
           Status: ele?.status ? "Active" : "Inactive",
           SKU: ele?.specId?.skuId,
-          "Product Name": `${ele?.productId?.brandId?.title} ${ele?.name}`,
+          "Product Name": `${ele?.name}`,
           "Date Created": ChangeFormatDate(ele?.updatedAt),
           "Available Quantity": ele?.available_qty || 0,
           "MRP price": ele?.specId?.price,
@@ -196,6 +196,7 @@ const SellerStock = () => {
       subcategoryId: "",
       brandId: "",
       status: true,
+      name: "",
     });
     handlePageChange(1);
   };
@@ -407,7 +408,7 @@ const SellerStock = () => {
     <div>
       <div style={{ backgroundColor: "#9de367" }} className="p-4 mb-3">
         <div className="d-flex justify-content-between gap-4">
-          <Form.Group controlId="searchtext" className="flex-grow-1">
+          <Form.Group controlId="name" className="flex-grow-1">
             <Form.Label className="fw-bold">Search by Product name</Form.Label>
             <Form.Control
               type="text"
