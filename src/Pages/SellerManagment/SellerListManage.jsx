@@ -95,7 +95,7 @@ export default function SellerListManage() {
 
   const handleStatus = async (data, password = "") => {
     let payload = {};
-
+      console.log({data})
     if (data?.status == "approved") {
       payload = {
         status: "rejected",
@@ -103,7 +103,7 @@ export default function SellerListManage() {
     } else {
       payload = {
         status: "approved",
-        password: password,
+        password: "Enter the Password that you have set",
       };
     }
 
