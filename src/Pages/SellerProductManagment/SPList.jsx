@@ -92,11 +92,19 @@ const SPList = () => {
   };
 
   const handleFilterChange = (e) => {
-    const { name } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: filters[name] ? undefined : true,
-    }));
+    const { name, value } = e.target;
+
+    if (name === "isPopular") {
+      setFilters((prev) => ({
+        ...prev,
+        [name]: filters[name] ? undefined : true,
+      }));
+    } else {
+      setFilters((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handlePageChange = (pageNumber) => {
