@@ -246,9 +246,10 @@ const AdminPaymnets = () => {
                   <th>Order NO</th>
                   <th>Payment Id / Refund Id</th>
                   <th>Invoice Amount Calculation</th>
+                  <th>Settlement Amount</th>
                   <th>Category Commission</th>
                   <th>Commission Amount</th>
-                  <th>Seller Amount</th>
+                  <th style={{width:'100px'}}>Seller Amount</th>
                   <th>Due Balance</th>
                 </tr>
               </thead>
@@ -353,9 +354,16 @@ const AdminPaymnets = () => {
                           </span>
                         )}
 
-                        {ele?.type === "AdminPayout" && (
-                          <span style={{ color: "#37AFE1" }}>
-                            {ele?.adminAmount?.toLocaleString("en-IN")}
+                        {/* {ele?.type === "AdminPayout" && (
+                          <span>
+                            ₹ {ele?.adminAmount?.toLocaleString("en-IN")}
+                          </span>
+                        )} */}
+                      </td>
+                      <td>
+                      {ele?.type === "AdminPayout" && (
+                          <span>
+                            ₹{Number(ele?.adminAmount)?.toFixed(2)?.toLocaleString("en-IN")}
                           </span>
                         )}
                       </td>
@@ -368,30 +376,44 @@ const AdminPaymnets = () => {
                               ele?.totalAmount
                             ).toFixed(2)}%`
                           : ""} */}
-                        {ele?.orderId?.order_details?.[0]?.commissionPercentage}{" "}
-                        %
-                      </td>
-                      <td>
-                        <span style={{ color: "#024CAA", fontWeight: "bold" }}>
-                          ₹{" "}
-                          {ele?.commissionAmount?.toLocaleString("en-IN") || 0}
-                        </span>
+                        {ele?.type === "orderPayment" && (
+                          <>
+                            {ele?.orderId?.order_details?.[0]
+                              ?.commissionPercentage || 0}
+                            %
+                          </>
+                        )}
                       </td>
                       <td>
                         {ele?.type === "orderPayment" && (
-                          <span style={{ color: "red" }}>
-                            + {ele?.sellerAmount?.toLocaleString("en-IN")}
+                          <span
+                            style={{ color: "#024CAA", fontWeight: "bold" }}
+                          >
+                            ₹{" "}
+                            {ele?.commissionAmount?.toLocaleString("en-IN") ||
+                              0}
+                          </span>
+                        )}
+                      </td>
+
+                      <td style={{ color: "#024CAA", fontWeight: "bold" }}>
+                        {ele?.type === "orderPayment" && (
+                          <span>
+                            ₹ {ele?.sellerAmount?.toLocaleString("en-IN")}
                           </span>
                         )}
                         {ele?.type === "RefundPayment" && (
-                          <span style={{ color: "green" }}>
-                            - {ele?.refundAmount?.toLocaleString("en-IN")}
+                          <span>
+                            ₹ {ele?.refundAmount?.toLocaleString("en-IN")}
                           </span>
                         )}
 
                         {ele?.type === "AdminPayout" && (
-                          <span style={{ color: "green" }}>
-                            - {ele?.adminAmount?.toLocaleString("en-IN")}
+                          <span>
+                            ₹{" "}
+                            {Number(ele?.adminAmount)
+                              .toFixed(2)
+                              ?.toLocaleString("en-IN")}
                           </span>
                         )}
                       </td>
