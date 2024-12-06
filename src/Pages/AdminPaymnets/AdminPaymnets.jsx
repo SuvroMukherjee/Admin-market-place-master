@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -9,12 +10,14 @@ import {
   Pagination,
   Row,
   Spinner,
+  Tooltip,
 } from "react-bootstrap";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaInfoCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { AdminSellerLists, createPayment } from "../../API/api";
-import moment from "moment";
 import { AmountWithGst } from "./AmountWithGst";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
@@ -57,6 +60,7 @@ const AdminPaymnets = () => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, selectedSeller, startDate, endDate]);
 
   useEffect(() => {
@@ -364,9 +368,16 @@ const AdminPaymnets = () => {
                           </span>
                         )}
                       </td>
-                      <td style={{ width: "150px" }}>
+                      <td style={{ width: "250px" }}>
                         <span
-                          style={{ fontWeight: "bold", letterSpacing: "1px" }}
+                          style={{
+                            fontWeight: "bold",
+                            letterSpacing: "1px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                          }}
                         >
                           {ele?.balance <= 0 ? (
                             <span style={{ color: "green" }}>
@@ -377,6 +388,8 @@ const AdminPaymnets = () => {
                               ₹ {ele?.balance?.toLocaleString("en-IN")}
                             </span>
                           )}
+
+                          <span>{ele?.remark}</span>
                         </span>
                       </td>
                     </tr>
