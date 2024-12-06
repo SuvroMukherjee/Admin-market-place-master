@@ -4,6 +4,7 @@ import { Col, Container, Pagination, Row, Spinner } from "react-bootstrap";
 import useAuth from "../../../hooks/useAuth";
 import moment from "moment";
 import { AmountWithGst } from "../../AdminPaymnets/AmountWithGst";
+import { TaxRemarks } from "../../AdminPaymnets/AdminPaymnets";
 
 // import { AdminSellerLists, createPayment } from "../../API/api";
 
@@ -91,9 +92,8 @@ const SellerPayments = () => {
                 <th>Settlement Amount</th>
                 <th>Category Commission</th>
                 <th>Commission Amount</th>
-                <th>Admin Amount</th>
-                <th>Leadger Amount</th>
-                <th>Creditable Balance</th>
+                <th>Seller Amount</th>
+                <th>Due Balance</th>
               </tr>
             </thead>
             <tbody>
@@ -119,7 +119,7 @@ const SellerPayments = () => {
                             fontWeight: "500",
                           }}
                         >
-                          Order Payment {console.log(ele, "ele")}
+                          Order Payment
                         </span>
                       )}
                       {ele?.type == "RefundPayment" && (
@@ -163,10 +163,6 @@ const SellerPayments = () => {
                           {ele?.refundAmount?.toLocaleString("en-IN")}
                         </span>
                       )}
-
-                      {ele?.type === "AdminPayout" && (
-                        <span>{ele?.adminAmount?.toLocaleString("en-IN")}</span>
-                      )}
                     </td>
                     <td>
                       {ele?.type === "orderPayment" && (
@@ -176,10 +172,6 @@ const SellerPayments = () => {
                         <span>
                           {ele?.refundAmount?.toLocaleString("en-IN")}
                         </span>
-                      )}
-
-                      {ele?.type === "AdminPayout" && (
-                        <span>{ele?.adminAmount?.toLocaleString("en-IN")}</span>
                       )}
                     </td>
                     <td>
@@ -210,30 +202,16 @@ const SellerPayments = () => {
                       )}
                     </td>
                     <td>
-                      {ele?.type === "orderPayment" && (
-                        <span style={{ color: "#024CAA", fontWeight: "bold" }}>
-                          ₹{" "}
-                          {ele?.commissionAmount?.toLocaleString("en-IN") || 0}
-                        </span>
-                      )}
-                    </td>
-                    <td>
                       {/* {ele?.sellerAmount?.toLocaleString("en-IN")} */}
 
                       {ele?.type === "orderPayment" && (
-                        <span style={{ color: "green" }}>
-                          + {ele?.sellerAmount?.toLocaleString("en-IN") ?? "0"}
+                        <span>
+                          {ele?.sellerAmount?.toLocaleString("en-IN") ?? "0"}
                         </span>
                       )}
                       {ele?.type === "RefundPayment" && (
-                        <span style={{ color: "red" }}>
-                          - {ele?.refundAmount?.toLocaleString("en-IN") ?? "0"}
-                        </span>
-                      )}
-
-                      {ele?.type === "AdminPayout" && (
-                        <span style={{ color: "red" }}>
-                          - {ele?.adminAmount?.toLocaleString("en-IN") ?? "0"}
+                        <span>
+                          {ele?.refundAmount?.toLocaleString("en-IN") ?? "0"}
                         </span>
                       )}
                     </td>
@@ -241,7 +219,7 @@ const SellerPayments = () => {
                       <span
                         style={{ fontWeight: "bold", letterSpacing: "1px" }}
                       >
-                        {ele?.balance <= 0 ? (
+                        {ele?.balance < 0 ? (
                           <span style={{ color: "red" }}>
                             ₹ {ele?.balance?.toLocaleString("en-IN")}
                           </span>
@@ -251,6 +229,9 @@ const SellerPayments = () => {
                           </span>
                         )}
                       </span>
+                      <div>
+                        {ele?.remark && <TaxRemarks remarks={ele?.remark} />}
+                      </div>
                     </td>
                   </tr>
                 ))}
