@@ -4,7 +4,7 @@ import { DataGrid, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-g
 import { useEffect } from "react";
 import { Col, Container, Row } from 'react-bootstrap';
 import { attendenceList } from "../../API/api";
-import { calculateTimeDifference } from "../../common/DateFormat";
+import { calculateTimeDifference, ChangeFormatDate, ChangeFormatDate2 } from "../../common/DateFormat";
 import moment from 'moment-timezone';
 
 
@@ -67,15 +67,20 @@ function UserAttendence({ userId }) {
         {
             field: "log_in_time",
             headerName: 'Login Time',
-            width: 100,
+            width: 200,
             renderCell: (params) => {
                 return (
                     <div className="productListItem">
-                        <span className="loginT">
+                        {/* <span className="loginT">
                             {params?.row?.log_in_time
-                                ? moment.tz(params?.row?.log_in_time, "Asia/Kolkata").format('HH:mm')
+                                ? moment(params?.row?.log_in_time).format('HH:mm:ss')
                                 : ''}
-                        </span>
+                        </span> */}
+                        {/* <span>{params?.row?.log_in_time}</span> */}
+                        {/* <span>{params?.row?.log_in_time ? moment.tz("2024-11-26T15:08:00.000Z"
+, "Asia/Kolkata").format('HH:mm:ss A') : 'Invalid Time'}</span> */}
+                         {console.log(params?.row?.log_in_time,'params?.row?.log_in_time')}
+                         <span>{params?.row?.log_in_time ? ChangeFormatDate(params?.row?.log_in_time) : 'Invalid Time'}</span>
                     </div>
                 );
             }

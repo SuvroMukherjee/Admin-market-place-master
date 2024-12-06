@@ -32,6 +32,7 @@ export const AmountWithGst = ({ ele }) => {
 
   const stateOfSupply = ele?.sellerId?.Shop_Details_Info?.state ?? "";
   const stateOfDelivery = ele?.orderId?.addressId?.state ?? "";
+  console.log(stateOfSupply, stateOfDelivery,'stateOfSupply, stateOfDelivery');
   const applicableTaxType = getApplicableTaxType(
     stateOfSupply,
     stateOfDelivery
@@ -62,7 +63,7 @@ export const AmountWithGst = ({ ele }) => {
 
   return (
     <>
-      <p>₹ {withOutTaxAmount}</p>
+      <p>₹ {ele?.totalAmount}</p>
 
       <p onClick={() => setShow(!show)} className="shwTx">{show ? "Hide" : "Show"} Break Up</p>
       {show && (

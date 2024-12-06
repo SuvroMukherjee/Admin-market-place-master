@@ -71,6 +71,16 @@ const SellerPayments = () => {
           </Col>
         </Row>
         <Row className="mt-2">
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "bold",
+              color: "green",
+              textTransform: "capitalize",
+            }}
+          >
+            * Commission Amount will be calculated on without tax amount
+          </span>
           <table className="table table-bordered table-striped">
             <thead>
               <tr>
@@ -130,7 +140,7 @@ const SellerPayments = () => {
                             fontWeight: "500",
                           }}
                         >
-                          Payment Done 
+                          Payment Done
                         </span>
                       )}
                     </td>
@@ -148,8 +158,8 @@ const SellerPayments = () => {
                         <span>{ele?.totalAmount?.toLocaleString("en-IN")}</span>
                       )} */}
                       {ele?.type === "orderPayment" && (
-                          <AmountWithGst ele={ele} />
-                        )}
+                        <AmountWithGst ele={ele} />
+                      )}
                       {ele?.type === "RefundPayment" && (
                         <span>
                           {ele?.refundAmount?.toLocaleString("en-IN")}
@@ -167,7 +177,7 @@ const SellerPayments = () => {
                             ele?.totalAmount
                           ).toFixed(2)}%`
                         : ""} */}
-                        {ele?.orderId?.order_details?.[0]?.commissionPercentage}{" "} %
+                      {ele?.orderId?.order_details?.[0]?.commissionPercentage} %
                     </td>
                     <td>
                       <span
@@ -177,7 +187,8 @@ const SellerPayments = () => {
                           letterSpacing: "1px",
                         }}
                       >
-                        ₹ {ele?.commissionAmount?.toLocaleString("en-IN") ?? "0"}
+                        ₹{" "}
+                        {ele?.commissionAmount?.toLocaleString("en-IN") ?? "0"}
                       </span>
                       {/* <AmountWithGst ele={ele} /> */}
                     </td>
