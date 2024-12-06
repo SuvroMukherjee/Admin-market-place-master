@@ -48,7 +48,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="user_name">
                                     <Form.Label className='frmLable'>User Name <span className="req">*</span></Form.Label>
-                                    <Form.Control type="text" name="user_name" placeholder='Enter Your Username' size='sm' value={userInfo.user_name} onChange={handleChange} required />
+                                    <Form.Control type="text" name="user_name" placeholder='Enter Username' size='sm' value={userInfo.user_name} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -57,7 +57,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                             <Col xs={6}>
                                 <Form.Group controlId="email">
                                     <Form.Label className='frmLable'>Email <span className="req">*</span> </Form.Label>
-                                    <Form.Control type="email" name="email" size='sm' placeholder='Enter Your Email' value={userInfo.email} onChange={handleChange} required />
+                                    <Form.Control type="email" name="email" size='sm' placeholder='Enter Email' value={userInfo.email} onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -70,7 +70,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                                         type="tel"
                                         name="phone_no"
                                         size='sm'
-                                        placeholder='Enter Your Phone No.'
+                                        placeholder='Enter Phone No.'
                                         value={userInfo.phone_no}
                                         onChange={handleChange}
                                         pattern="[0-9]{0,10}"
@@ -90,7 +90,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                                         type="password"
                                         name="password"
                                         size='sm'
-                                        placeholder='Enter Your Password'
+                                        placeholder='Enter Password'
                                         value={userInfo.password}
                                         onChange={handleChange}
                                         pattern=".{6,}"
