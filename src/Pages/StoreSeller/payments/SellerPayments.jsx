@@ -156,12 +156,11 @@ const SellerPayments = () => {
                         ele?.orderId?.refund_status?.razorpayRefundId}
                     </td>
                     <td>
-                      <span>{ele?.totalAmount?.toLocaleString("en-IN")}</span>
+                      {ele?.type === "orderPayment" && (
+                        <span>{ele?.totalAmount?.toLocaleString("en-IN")}</span>
+                      )}
                     </td>
                     <td>
-                      {/* {ele?.type === "orderPayment" && (
-                        <span>{ele?.totalAmount?.toLocaleString("en-IN")}</span>
-                      )} */}
                       {ele?.type === "orderPayment" && (
                         <AmountWithGst ele={ele} />
                       )}
@@ -186,14 +185,6 @@ const SellerPayments = () => {
                       )}
                     </td>
                     <td>
-                      {/* {!isNaN(
-                          (ele?.commissionAmount * 100) / ele?.totalAmount
-                        )
-                          ? `${(
-                              (ele?.commissionAmount * 100) /
-                              ele?.totalAmount
-                            ).toFixed(2)}%`
-                          : ""} */}
                       {ele?.type === "orderPayment" && (
                         <>
                           {ele?.orderId?.order_details?.[0]
