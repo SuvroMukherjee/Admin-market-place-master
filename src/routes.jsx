@@ -100,6 +100,8 @@ import SellerRequestPanel from "./Pages/StoreSeller/RequestPanel/SellerRequestPa
 import Customers from "./Pages/CustomerList/Customers";
 import HelpDesk from "./Pages/HelpDesk/HelpDesk";
 import ViewHelpDesk from "./Pages/HelpDesk/ViewHelpDesk";
+import SellerChoose from "./Pages/OfferManagment/SellerChoose";
+import SellingProductOffer from "./Pages/OfferManagment/SellingProductOffer";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -165,6 +167,8 @@ export default function Router({ socket }) {
             { path: "Addproduct", element: <AddProduct /> },
             { path: "uploadbulk", element: <BulkAdminUpload /> },
             { path: "Editproduct/:id", element: <EditProduct /> },
+            { path: "product-offer-sellerchoose", element: <SellerChoose /> },
+            { path: "product-offer-productchoose/:id", element: <SellingProductOffer /> },
             { path: "product-offer", element: <ProductOffer /> },
             { path: "testimonial", element: <Testimonial /> },
             { path: "offer/:id", element: <Offer /> },

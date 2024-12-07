@@ -7,12 +7,14 @@ import {
   GetProductDetails,
   offerCreate,
   offerTypeCreate,
+  offerTypeDelete,
   offerTypeList,
   sellerProductDeatils,
 } from "../../../API/api";
 import { ChangeFormatDate2 } from "../../../common/DateFormat";
 import useAuth from "../../../hooks/useAuth";
 import "../product.css";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const Offer = () => {
   const [formData, setFormData] = useState();
@@ -165,6 +167,21 @@ const Offer = () => {
       offerId: [...(prevData?.offerId || []), id],
     }));
   };
+
+
+  const handleDelete = async(id) => {
+
+
+    let res = await offerTypeDelete(id);
+
+    if (res?.response?.data?.error) {
+      toast.error(res?.response?.data?.message);
+    } else {
+      toast.success(`${id} Deleted successfully`);
+      getOfferTypeLists();
+    }
+
+  }
 
   return (
     <div className="newProduct mt-4">
@@ -522,36 +539,74 @@ const Offer = () => {
             )}
           </Col>
 
-          <Col xs={4} className="bgoffer">
+          <Col xs={4} className="">
             <Row>
               <Col className="text-center specHeader2">Current Offers</Col>
             </Row>
+             
+             <Row className="mt-2">
+                {productData?.OfferData?.length === 0 && (
+                  <Col className="text-center">
+                    <span className="specText2">No Offers Available</span>
+                  </Col>
+                )}
+              </Row>
 
             <Row>
               {productData?.OfferData?.map((ele, index) => (
-                <div key={index} className="mt-2">
-                  <Col xs={12} key={index}>
-                    <div className="specText2Rest">
-                      <span className="specText2">
-                        {ele?.offerId?.offer_type_name}
-                      </span>{" "}
-                      offer {ele?.discount_percentage}% discount on{" "}
-                      {ele?.offer_on?.bank_name}-{ele?.offer_on?.card_type} Card
-                    </div>
-                    <div className="specTextsmall">
-                      <span className="mx-1">
-                        <SlCalender size={12} />
-                      </span>
-                      {ChangeFormatDate2(ele?.offer_start_date)} -{" "}
-                      <span className="mx-1">
-                        <SlCalender size={12} />
-                      </span>
-                      {ChangeFormatDate2(ele?.offer_end_date)}
-                    </div>
-                  </Col>
+                
+                  // <Col xs={10} key={index}>
+                  //   <div className="specText2Rest">
+                  //     <span className="specText2">
+                  //       {ele?.offerId?.offer_type_name}
+                  //     </span>{" "}
+                  //     offer {ele?.discount_percentage}% discount on{" "}
+                  //     {ele?.offer_on?.bank_name}-{ele?.offer_on?.card_type} Card
+                  //   </div>
+                  //   <div className="specTextsmall">
+                  //     <span className="mx-1">
+                  //       <SlCalender size={12} />
+                  //     </span>
+                  //     {ChangeFormatDate2(ele?.offer_start_date)} -{" "}
+                  //     <span className="mx-1">
+                  //       <SlCalender size={12} />
+                  //     </span>
+                  //     {ChangeFormatDate2(ele?.offer_end_date)}
+                  //   </div>
+                  // </Col>
+                  // <Col xs={2}>
+                  //   <FaRegTrashAlt size={20} />
+                  // </Col>
 
-                  <hr />
-                </div>
+                  // <hr />
+
+                  <Col xs={12} key={index} style={{background:'#f5f5f5'}}>
+                     <Row className="mt-2 d-flex justify-content-between items-center p-2">
+                       <Col xs={10}>
+                         <div className="specText2Rest">
+                           <span className="specText2">
+                             {ele?.offerId?.offer_type_name}
+                           </span>{" "}
+                           offer {ele?.discount_percentage}% discount on{" "}
+                           {ele?.offer_on?.bank_name}-{ele?.offer_on?.card_type} Card
+                         </div>
+                         <div className="specTextsmall">
+                           <span className="mx-1">
+                             <SlCalender size={12} />
+                           </span>
+                           {ChangeFormatDate2(ele?.offer_start_date)} -{" "}
+                           <span className="mx-1">
+                             <SlCalender size={12} />
+                           </span>
+                           {ChangeFormatDate2(ele?.offer_end_date)}
+                         </div>
+                       </Col>
+                       <Col xs={2} className="d-flex justify-content-center align-items-center ">
+                         <FaRegTrashAlt size={20} color="red" onClick={() => handleDelete(ele?._id)} style={{cursor:'pointer'}}/>
+                       </Col>
+                     </Row>
+                  </Col> 
+                
               ))}
             </Row>
           </Col>

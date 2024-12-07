@@ -1983,3 +1983,12 @@ export async function deleteHelpDeskById(id) {
     return error;
   }
 }
+
+export async function offerTypeDelete(id) {
+  try {
+    const response = await axios.delete(apiUrl + `/offer/delete/${id}`);
+    return response;
+  } catch (error) {
+    return error;
+  } 
+}
