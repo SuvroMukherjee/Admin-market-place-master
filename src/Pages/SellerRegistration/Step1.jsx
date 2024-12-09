@@ -195,7 +195,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                   aria-labelledby="contained-modal-title-vcenter"
                   centered
                   show={showModal}
-                  onHide={handleClose}
+                 // onHide={handleClose}
                 >
                   <Modal.Header closeButton>
                     <Modal.Title
