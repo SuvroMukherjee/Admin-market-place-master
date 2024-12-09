@@ -120,7 +120,7 @@ export const AdminSidebarData = [
   },
   {
     title: "Offers",
-   //path: "/Admin/product-offe
+    //path: "/Admin/product-offe
     path: "/Admin/product-offer-sellerchoose",
     icon: FaCartArrowDown,
     cName: "nav-text",
@@ -154,7 +154,13 @@ export const AdminSidebarData = [
     path: "/helpdesk",
     icon: RiCheckboxMultipleFill,
     cName: "nav-text",
-  }
+  },
+  {
+    title: "View HelpDesk",
+    path: "/Admin/view-helpdesk",
+    icon: RiCheckboxMultipleFill,
+    cName: "nav-text",
+  },
   // {
   //   title: "Template Upload",
   //   path: "/templete-upload",

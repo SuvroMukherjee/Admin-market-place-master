@@ -102,6 +102,7 @@ import HelpDesk from "./Pages/HelpDesk/HelpDesk";
 import ViewHelpDesk from "./Pages/HelpDesk/ViewHelpDesk";
 import SellerChoose from "./Pages/OfferManagment/SellerChoose";
 import SellingProductOffer from "./Pages/OfferManagment/SellingProductOffer";
+import AdminViewHelpDesk from "./Pages/HelpDesk/AdminViewHelpDesk";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -168,12 +169,16 @@ export default function Router({ socket }) {
             { path: "uploadbulk", element: <BulkAdminUpload /> },
             { path: "Editproduct/:id", element: <EditProduct /> },
             { path: "product-offer-sellerchoose", element: <SellerChoose /> },
-            { path: "product-offer-productchoose/:id", element: <SellingProductOffer /> },
+            {
+              path: "product-offer-productchoose/:id",
+              element: <SellingProductOffer />,
+            },
             { path: "product-offer", element: <ProductOffer /> },
             { path: "testimonial", element: <Testimonial /> },
             { path: "offer/:id", element: <Offer /> },
             { path: "admin-refund-order-list", element: <RefundOrderAdmin /> },
             { path: "paymnets", element: <AdminPaymnets /> },
+            { path: "view-helpdesk", element: <AdminViewHelpDesk /> },
 
             // { path: "live-preview/:id", element: <LivePreview /> },
           ],

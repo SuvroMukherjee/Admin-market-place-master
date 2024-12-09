@@ -176,6 +176,7 @@ const HelpDesk = () => {
                     variant="warning"
                     size="sm"
                     onClick={() => handleEdit(item?._id)}
+                    className="mb-2"
                   >
                     Edit
                   </Button>{" "}
@@ -256,7 +257,12 @@ const HelpDesk = () => {
                 {uploading && <Spinner animation="border" size="sm" />}
                 {formData?.url && (
                   <div>
-                    <a href={formData?.url} target="_blank" rel="noreferrer">
+                    <a
+                      href={formData?.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-primary hover-underline"
+                    >
                       View Uploaded File
                     </a>
                   </div>
