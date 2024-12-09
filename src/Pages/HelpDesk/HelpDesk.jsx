@@ -246,6 +246,21 @@ const HelpDesk = () => {
                   {errors?.type}
                 </Form.Control.Feedback>
               </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Module</Form.Label>
+                <Form.Select
+                  name="module"
+                  value={formData?.module}
+                  onChange={handleChange}
+                  isInvalid={!!errors?.module}
+                >
+                  <option value="all">All</option>
+                  <option value="admin">Admin</option>
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                  {errors?.module}
+                </Form.Control.Feedback>
+              </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label>Upload File</Form.Label>
