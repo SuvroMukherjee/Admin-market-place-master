@@ -46,9 +46,9 @@ const ViewHelpDesk = () => {
       }}
     >
       <Container>
-        <h2 className="text-center mb-4" style={{ color: "#2c3e50" }}>
+        {/* <h2 className="text-center mb-4" style={{ color: "#2c3e50" }}>
           Help Center: Find Answers and Resources
-        </h2>
+        </h2> */}
 
         <Col xs={12} md={8} lg={6} className="mx-auto">
           <Form.Group>

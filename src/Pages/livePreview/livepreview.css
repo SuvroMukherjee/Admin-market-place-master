@@ -3003,6 +3003,25 @@ footer .lower li a {
   border: none !important;
 }
 
+.btn-login2{
+  border-radius: 4px !important;
+  background: #000 !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  color: #fff !important;
+  height: 40px !important;
+  width: 100% !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.btn-login2:hover{
+  color: black !important;
+  background: white !important;
+  border: 1px solid !important;
+}
+
 .btn-login:hover {
   color: black !important;
   background: white !important;
@@ -3039,6 +3058,14 @@ footer .lower li a {
   justify-content: space-around;
   height: 25vh;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+
+.otp-input-container-Seller {
+  background-color: rgb(249, 248, 248);
+  padding: 5%;
+  justify-content: space-around;
 }
 
 .logout {
@@ -6284,4 +6311,23 @@ input[type="number"] {
 }
 .testimonial-swiper-nav .nav-btn svg path {
   stroke: #9af064;
+}
+
+.timerEmail {
+  color: rgb(19, 136, 8);
+  font-size: 16px;
+}
+
+.shwTimer {
+  color: #424242;
+  /* font-size: 14px; */
+  text-align: right;
+}
+
+.resendEmail {
+  color: #219b9d;
+  /* font-size: 14px; */
+  text-align: right;
+  cursor: pointer;
+  font-weight: bold;
 }
