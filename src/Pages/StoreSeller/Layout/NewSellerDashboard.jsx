@@ -205,7 +205,7 @@ const SellingProductList = ({ data, reviewData }) => {
                 <td
                   className="pname"
                   onClick={() =>
-                    navigate(`/seller/product-deatils/${ele?._id}`)
+                    navigate(`/seller/seller-productList?name=${ele?.name}`)
                   }
                 >
                   {ele?.specId?.skuId?.toUpperCase()}
@@ -213,7 +213,7 @@ const SellingProductList = ({ data, reviewData }) => {
                 <td
                   className="pname"
                   onClick={() =>
-                    navigate(`/seller/product-deatils/${ele?._id}`)
+                    navigate(`/seller/seller-productList?name=${ele?.name}`)
                   }
                 >
                   {ele?.name}
