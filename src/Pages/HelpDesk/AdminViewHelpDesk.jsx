@@ -43,7 +43,7 @@ const AdminViewHelpDesk = () => {
           Help Center: Find Answers and Resources
         </h2> */}
 
-          <Col xs={12} md={6} className="mt-4">
+          <Col xs={12} md={8} lg={6} className="mt-4">
             <Form.Group>
               <Form.Label>Select a Topic to Learn More</Form.Label>
               <Form.Control as="select" size="lg" onChange={handleChange}>
