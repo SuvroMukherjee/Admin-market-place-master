@@ -10,6 +10,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
+import { useNavigate } from "react-router-dom";
 
 function SellerRegistrationPage() {
   const [step, setStep] = useState(0);
@@ -39,6 +40,8 @@ function SellerRegistrationPage() {
     backgroundColor: "#F3F3F3  !important",
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="App">
       <Navbar expand="lg" className="nvbg sellreg-navbar" style={navbarStyle}>
@@ -53,7 +56,7 @@ function SellerRegistrationPage() {
               letterSpacing: "1px",
             }}
           >
-            <img src={blackzofi} alt="" width={150} />{" "}
+            <img onClick={() => navigate("/")} src={blackzofi} width={150} />
             <span
               className="mx-2"
               style={{

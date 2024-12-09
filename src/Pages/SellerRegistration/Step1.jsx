@@ -8,7 +8,7 @@ import {
   InputGroup,
   Modal,
 } from "react-bootstrap";
-import { sellerOwnRegistrationForm } from "../../API/api";
+import { resendOtp, sellerOwnRegistrationForm, verifyOTP } from "../../API/api";
 import toast, { Toaster } from "react-hot-toast";
 import { RiShareForwardFill } from "react-icons/ri";
 import { FaEye, FaEyeSlash, FaInfoCircle } from "react-icons/fa";
@@ -43,14 +43,14 @@ const Step1 = ({ nextStep, getUserdata }) => {
     console.log(response?.data?.data);
 
     if (response?.response?.data?.error) {
-      toast.error(response?.response?.data?.data);
+      toast.error(response?.response?.data?.message);
     } else {
-      // getUserdata(response?.data?.data);
-      // localStorage.setItem(
-      //   "seller-registration",
-      //   JSON.stringify(response?.data?.data)
-      // );
-      // toast.success("Personal information Added");
+      getUserdata(response?.data?.data);
+      localStorage.setItem(
+        "seller-registration",
+        JSON.stringify(response?.data?.data)
+      );
+      toast.success("Personal information Added");
       setShowModal(true);
       // nextStep();
     }
@@ -198,12 +198,21 @@ const Step1 = ({ nextStep, getUserdata }) => {
                   onHide={handleClose}
                 >
                   <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter" style={{ textAlign: "left",fontSize:'16px' }}>
-                       To Complete the registration process, please verify your Mobile Number and Email
+                    <Modal.Title
+                      id="contained-modal-title-vcenter"
+                      style={{ textAlign: "left", fontSize: "16px" }}
+                    >
+                      To Complete the registration process, please verify your
+                      Mobile Number and Email
                     </Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <OtpContainer userInfo={userInfo} nextStep={nextStep} />
+                    <OtpContainer
+                      userInfo={userInfo}
+                      nextStep={nextStep}
+                      handleClose={handleClose}
+                      getUserdata={getUserdata}
+                    />
                   </Modal.Body>
                 </Modal>
               </Col>
@@ -218,16 +227,13 @@ const Step1 = ({ nextStep, getUserdata }) => {
 
 export default Step1;
 
-
-const OtpContainer = ({ userInfo,nextStep }) => {
+const OtpContainer = ({ userInfo, nextStep, handleClose, getUserdata }) => {
   const [otp, setOtp] = useState("");
   const [emailOtp, setEmailOtp] = useState("");
   const [phoneTimer, setPhoneTimer] = useState(60);
   const [canResendPhoneOtp, setCanResendPhoneOtp] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("Verify OTP");
-
-
 
   // Timer for OTP resend
   useEffect(() => {
@@ -241,10 +247,26 @@ const OtpContainer = ({ userInfo,nextStep }) => {
     }
   }, [phoneTimer]);
 
-  const handleResendOtp = () => {
+  const handleResendOtp = async () => {
+    setOtp("")
+    setEmailOtp("")
     setPhoneTimer(60);
     setCanResendPhoneOtp(false);
     // Logic to resend OTP for phone and email
+    let payload = {
+      email: userInfo?.email,
+      phone_no: userInfo?.phone_no,
+    };
+
+    let response = await resendOtp(payload);
+
+    console.log("response", response);
+
+    if (response?.response?.data?.error) {
+      toast.error(response?.response?.data?.message || "Something went wrong");
+    } else {
+      toast.success("Otp resent successfully");
+    }
   };
 
   const handleOtpVerification = async () => {
@@ -254,8 +276,38 @@ const OtpContainer = ({ userInfo,nextStep }) => {
       // Replace this with your OTP verification logic
       console.log("Verifying OTP:", { phoneOtp: otp, emailOtp });
       // Navigate or dispatch actions based on the verification result
+      let payload = {
+        email: userInfo?.email,
+        phone_no: userInfo?.phone_no,
+        mobileOtp: otp,
+        emailOtp: emailOtp,
+      };
+
+      let response = await verifyOTP(payload);
+
+      console.log("response", response);
+
+      if (response?.response?.data?.error) {
+        toast.error(
+          response?.response?.data?.message || "Something went wrong"
+        );
+        handleResendOtp();
+      } else {
+        toast.success("Otp verified Successfully");
+        // getUserdata(response?.data?.data);
+        // localStorage.setItem(
+        //   "seller-registration",
+        //   JSON.stringify(response?.data?.data)
+        // );
+        // toast.success("Personal information Added");
+        handleClose();
+        setTimeout(() => {
+          nextStep();
+        }, 1000);
+      }
     } catch (error) {
       console.error("Error verifying OTP:", error);
+      handleResendOtp();
     } finally {
       setLoadingState(false);
       setLoadingMessage("Verify OTP");
@@ -268,8 +320,9 @@ const OtpContainer = ({ userInfo,nextStep }) => {
         <div className="mb-3">
           <p>
             <span className="mx-2">
-            <FaInfoCircle />
-              </span> We have sent an SMS with an OTP to your mobile number{" "}
+              <FaInfoCircle />
+            </span>{" "}
+            We have sent an SMS with an OTP to your mobile number{" "}
             <strong>{userInfo?.phone_no}</strong>
           </p>
           <OtpInput
@@ -284,9 +337,10 @@ const OtpContainer = ({ userInfo,nextStep }) => {
         </div>
         <div className="mb-3">
           <p>
-          <span className="mx-2">
-            <FaInfoCircle />
-              </span> We have sent an email with a verification code to your email address{" "}
+            <span className="mx-2">
+              <FaInfoCircle />
+            </span>{" "}
+            We have sent an email with a verification code to your email address{" "}
             <strong>{userInfo?.email}</strong>
           </p>
           <OtpInput
@@ -303,12 +357,24 @@ const OtpContainer = ({ userInfo,nextStep }) => {
           <p>
             Did not get the verification code?{" "}
             {canResendPhoneOtp ? (
-              <span onClick={handleResendOtp} style={{color:'#219b9d',fontWeight:'bold',cursor:'pointer',textDecoration:'underline'}} className="resend-link">
+              <span
+                onClick={handleResendOtp}
+                style={{
+                  color: "#219b9d",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
+                className="resend-link"
+              >
                 Resend OTP for Phone & Email
               </span>
             ) : (
               <span className="timer">
-               <span style={{color:'darkgreen',fontWeight:'bold'}}>{phoneTimer}</span>  seconds left to resend OTP
+                <span style={{ color: "darkgreen", fontWeight: "bold" }}>
+                  {phoneTimer}
+                </span>{" "}
+                seconds left to resend OTP
               </span>
             )}
           </p>
@@ -322,7 +388,7 @@ const OtpContainer = ({ userInfo,nextStep }) => {
           {loadingState ? loadingMessage : "Verify OTP for Email & Phone"}
         </button>
       </div>
+      <Toaster position="top-right" />
     </div>
   );
 };
-

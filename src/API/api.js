@@ -1990,5 +1990,38 @@ export async function offerTypeDelete(id) {
     return response;
   } catch (error) {
     return error;
-  } 
+  }
+}
+
+{
+  /** {{base_url}}/seller/verify-both-otp */
+}
+
+
+
+export async function verifyOTP(payload) {
+  try {
+    const response = await axios.post(
+      apiUrl + `/seller/verify-both-otp`,
+      payload
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+
+/** seller/resend-otp */
+
+export async function resendOtp(payload){
+  try {
+    const response = await axios.post(
+      apiUrl + `/seller/resend-otp`,
+      payload
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
 }
