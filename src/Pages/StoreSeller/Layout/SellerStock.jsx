@@ -15,7 +15,7 @@ import { CSVLink } from "react-csv";
 import toast, { Toaster } from "react-hot-toast";
 import { FaFileUpload } from "react-icons/fa";
 import { LuDownload } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   allBrandList,
   allCategoryList,
@@ -34,6 +34,7 @@ import "./sellerlayout.css";
 const baseURL = import.meta.env.VITE_API_BASE; // Replace with your actual base URL
 
 const SellerStock = () => {
+  const location = useLocation();
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -103,6 +104,18 @@ const SellerStock = () => {
       console.error("Error fetching brands", error);
     }
   }
+
+  useEffect(() => {
+    // Get the query parameter from the URL
+    const params = new URLSearchParams(location.search);
+    const name = params.get("name");
+    if (name) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        name,
+      }));
+    }
+  }, [location.search]);
 
   useEffect(() => {
     getAllComission();
@@ -719,7 +732,23 @@ const SellerStock = () => {
           ) : filteredData.length > 0 ? (
             filteredData.map((row) => (
               <tr key={row._id}>
-                <td>{row?.name?.slice(0, 20)}</td>
+                <td>
+                  <p>{row?.name?.slice(0, 20)}</p>
+                  {row?.productId?.categoryId?.title && (
+                    <p
+                      style={{
+                        backgroundColor: "#6ead3e",
+                        color: "white",
+                        fontWeight: "bold",
+                        padding: "2px 4px",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      {row?.productId?.categoryId?.title}
+                    </p>
+                  )}
+                </td>
+
                 <td>{row?.specId?.skuId}</td>
                 <td>
                   {row?.status ? (
@@ -826,7 +855,16 @@ const SellerStock = () => {
                   />
                   <br />{" "}
                   <span onClick={() => getLowestPriceFunc(row, row._id)}>
-                    <p className="viewLowestPrice" size="sm">
+                    <p
+                      className="fw-bold text-white"
+                      size="sm"
+                      style={{
+                        backgroundColor: "green",
+                        padding: "2px",
+                        borderRadius: "2px",
+                        cursor: "pointer",
+                      }}
+                    >
                       View Lowest Price
                     </p>
                   </span>

@@ -1356,7 +1356,7 @@ const MyNavbar = ({ socket }) => {
             </div>
           </div>
           <div className="custom-nav-right">
-            <div onClick={()=>navigate("/seller/helpdesk")}>
+            <div onClick={() => navigate("/seller/helpdesk")}>
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1733737867959.png?alt=media"
                 alt="helpdesk"
