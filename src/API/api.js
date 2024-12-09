@@ -2025,3 +2025,30 @@ export async function resendOtp(payload){
     return error;
   }
 }
+
+///seller/request-edit-otp
+export async function EditVerification(payload) {
+  try {
+    const response = await axios.post(
+      apiUrl + `/seller/request-edit-otp`,
+      payload
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+//seller/verify-edit-otp
+
+export async function VerifyEditOtp(payload) {
+  try {
+    const response = await axios.post(
+      apiUrl + `/seller/verify-edit-otp`,
+      payload
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

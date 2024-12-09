@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import {
+  EditVerification,
   FileUpload,
   UpdatesellerOwnRegistrationForm,
+  VerifyEditOtp,
   allIndiaCities,
   allcatList,
   sellerDetails,
@@ -17,12 +19,13 @@ import {
   Card,
   Image,
   Table,
+  Modal,
 } from "react-bootstrap";
-import { RiShareForwardFill } from "react-icons/ri";
+import { RiEdit2Fill, RiShareForwardFill } from "react-icons/ri";
 import toast, { Toaster } from "react-hot-toast";
 import { GrUpdate } from "react-icons/gr";
 import { MdCancel, MdOutlineFileUpload } from "react-icons/md";
-import { IoIosAddCircle } from "react-icons/io";
+import { IoIosAddCircle, IoIosCloseCircle } from "react-icons/io";
 import { IoSaveSharp } from "react-icons/io5";
 import "./sellerlayout.css";
 import { ImProfile } from "react-icons/im";
@@ -34,6 +37,7 @@ import { BsShop } from "react-icons/bs";
 import Spinner from "react-bootstrap/Spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { distanceCategories } from "../../../common/DistanceDelivery";
+import OtpInput from "react-otp-input";
 
 const ProfilePage = () => {
   const { auth } = useAuth();
@@ -42,12 +46,24 @@ const ProfilePage = () => {
 
   const [loading, setloading] = useState(true);
 
+  const [isEdit, setIsEdit] = useState({
+    email: false,
+    phone_no: false,
+  });
+
   const [userInfo, setUserInfo] = useState({
     user_name: "",
     email: "",
     phone_no: "",
     password: "",
   });
+
+  const [oldEmail, setOldEmail] = useState("");
+  const [oldPhone,setOldphone] = useState("")
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClose = () => setShowModal(false);
 
   useEffect(() => {
     if (auth) {
@@ -59,6 +75,8 @@ const ProfilePage = () => {
     let res = await sellerDetails(userId);
     const { ...filteredData } = res?.data?.data || {};
     console.log(res?.data?.data);
+    setOldEmail(res?.data?.data?.email);
+    setOldphone(res?.data?.data?.phone_no)
     setUserInfo(filteredData);
     setloading(false);
   }
@@ -75,8 +93,13 @@ const ProfilePage = () => {
     console.log({ userInfo });
     // You can perform validation here before proceeding to the next step
 
+    let payload = { 
+     
+      user_name : userInfo?.user_name,
+    }
+
     let response = await UpdatesellerOwnRegistrationForm(
-      userInfo,
+      payload,
       auth?.userId
     );
 
@@ -90,6 +113,45 @@ const ProfilePage = () => {
     } else {
       toast.success("Personal information Updated");
       getProfileData();
+    }
+  };
+
+  const resendEmailVerification = async () => {
+    let payload = { newUser: userInfo?.email, user: oldEmail };
+
+    if (userInfo?.email == oldEmail) {
+      toast.error("Please update your email first");
+      return;
+    }
+    let response = await EditVerification(payload);
+
+    if (response?.response?.data?.error) {
+      toast.error(response?.response?.data?.message);
+    } else {
+      // toast.success("Email Verification Resent");
+      // updateEmailHandler();
+      toast.success("Email Verification Code Resent");
+      setShowModal(true);
+    }
+  };
+
+
+  const resendPhoneVerification = async () => {
+    let payload = { newUser: userInfo?.phone_no, user: oldPhone };
+
+    if (userInfo?.phone_no == oldPhone) {
+      toast.error("Please update your email first");
+      return;
+    }
+    let response = await EditVerification(payload);
+
+    if (response?.response?.data?.error) {
+      toast.error(response?.response?.data?.message);
+    } else {
+      // toast.success("Email Verification Resent");
+      // updateEmailHandler();
+      toast.success("Email Verification Code Resent");
+      setShowModal(true);
     }
   };
 
@@ -141,38 +203,151 @@ const ProfilePage = () => {
                       <Form.Group controlId="email">
                         <Form.Label className="frmLable">
                           Email <span className="req">*</span>{" "}
+                          <span>
+                            {isEdit?.email ? (
+                              <IoIosCloseCircle
+                                size={25}
+                                color="black"
+                                className="cursor"
+                                onClick={() =>
+                                  setIsEdit({ ...isEdit, email: false })
+                                }
+                              />
+                            ) : (
+                              <RiEdit2Fill
+                                size={25}
+                                color="black"
+                                className="cursor"
+                                onClick={() =>
+                                  setIsEdit({ ...isEdit, email: true })
+                                }
+                              />
+                            )}
+                          </span>
                         </Form.Label>
                         <Form.Control
                           type="email"
                           name="email"
                           size="sm"
                           placeholder="Enter Your Email"
-                          value={userInfo?.email}
+                          value={oldEmail}
                           onChange={handleChange}
                           required
                         />
                       </Form.Group>
+                      {isEdit.email && (
+                        <>
+                          <Form.Group controlId="email">
+                            <Form.Label className="frmLable mt-4">
+                              Enter Your New Email{" "}
+                              <span className="req">*</span>{" "}
+                            </Form.Label>
+                            <Form.Control
+                              type="email"
+                              name="email"
+                              size="sm"
+                              placeholder="Enter Your Email"
+                              value={userInfo?.email}
+                              onChange={handleChange}
+                              required
+                            />
+                          </Form.Group>
+                          <Button
+                            variant="dark"
+                            size="sm"
+                            className="frmLable w-30 mt-2"
+                            onClick={() => resendEmailVerification()}
+                          >
+                            Update Email
+                          </Button>
+                        </>
+                      )}
                     </Col>
                   </Row>
+
+                  {showModal && (
+                    <EmailEditModal
+                      showModal={showModal}
+                      handleClose={handleClose}
+                      getProfileData={getProfileData}
+                      isEdit={isEdit}
+                      userInfo={userInfo}
+                      oldEmail={oldEmail}
+                      oldPhone={oldPhone}
+                      setIsEdit={setIsEdit}
+                    />
+                  )}
 
                   <Row className="mt-2">
                     <Col xs={6}>
                       <Form.Group controlId="phone_no">
                         <Form.Label className="frmLable">
                           Phone Number <span className="req">*</span>{" "}
+                          <span className="mx-2">
+                            {" "}
+                            {isEdit?.phone_no ? (
+                              <IoIosCloseCircle
+                                size={25}
+                                color="black"
+                                className="cursor"
+                                onClick={() =>
+                                  setIsEdit({ ...isEdit, phone_no: false })
+                                }
+                              />
+                            ) : (
+                              <RiEdit2Fill
+                                size={25}
+                                color="black"
+                                className="cursor"
+                                onClick={() =>
+                                  setIsEdit({ ...isEdit, phone_no: true })
+                                }
+                              />
+                            )}
+                          </span>
                         </Form.Label>
                         <Form.Control
                           type="tel"
                           name="phone_no"
                           size="sm"
                           placeholder="Enter Your Phone No."
-                          value={userInfo?.phone_no}
+                          value={oldPhone}
                           onChange={handleChange}
                           required
                           pattern="[0-9]{10}"
                           title="Phone number must be a 10-digit number"
                         />
                       </Form.Group>
+                      {isEdit.phone_no && (
+                        <>
+                          <Form.Group controlId="phone_no">
+                            <Form.Label className="frmLable mt-2">
+                             Enter Your New Phone Numer <span className="req">*</span>{" "}
+                              
+                            </Form.Label>
+                            <Form.Control
+                              type="tel"
+                              name="phone_no"
+                              size="sm"
+                              placeholder="Enter Your Phone No."
+                              value={userInfo?.phone_no}
+                              onChange={handleChange}
+                              required
+                              pattern="[0-9]{10}"
+                              title="Phone number must be a 10-digit number"
+                            />
+                          </Form.Group>
+
+                          <Button
+                            variant="dark"
+                            size="sm"
+                            className="frmLable w-30 mt-2"
+                            onClick={()=>resendPhoneVerification()}
+                          >
+                            Update Phone Number
+                          </Button>
+                        </>
+                      )}
                     </Col>
                   </Row>
 
@@ -222,6 +397,128 @@ const ProfilePage = () => {
       )}
       <Toaster position="top-right" />
     </Container>
+  );
+};
+
+const EmailEditModal = ({
+  showModal,
+  handleClose,
+  getProfileData,
+  isEdit,
+  userInfo,
+  oldEmail,
+  oldPhone,
+  setIsEdit,
+}) => {
+  const [loading, setloading] = useState(false);
+
+  const { setAuth } = useAuth();
+
+  const updateEmailHandler = async () => {
+    try {
+      setloading(true);
+      let payload = {};
+
+      if (isEdit.email) {
+        payload = { user: oldEmail, newUser: userInfo?.email, otp: otp };
+      }
+
+      if (isEdit.phone_no) {
+        payload = { user: oldPhone, newUser: userInfo?.phone_no, otp: otp };
+      }
+
+      const res = await VerifyEditOtp(payload, userInfo?._id);
+
+      if (res?.response?.data?.error) {
+        toast.error(res?.response?.data?.message);
+      } else {
+        const accessToken = res?.data?.data[1]?.accessToken;
+        const role = {
+          _id: "seller",
+          name: "Seller",
+        };
+
+        console.log(res?.data?.data[0]?.name, "api name");
+
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          username: res?.data?.data[0]?.name,
+          password: res?.data?.data[0]?.password,
+          email: res?.data?.data[0]?.email,
+          accessToken,
+          role,
+          userId: res?.data?.data[0]?._id,
+        }));
+
+        const authData = {
+          username: res?.data?.data[0]?.name,
+          password: res?.data?.data[0]?.password,
+          email: res?.data?.data[0]?.email,
+          accessToken,
+          role,
+          userId: res?.data?.data[0]?._id,
+        };
+
+        localStorage.clear();
+        localStorage.setItem("ACCESS_TOKEN", JSON.stringify(accessToken));
+        localStorage.setItem("auth", JSON.stringify(authData));
+        getProfileData();
+        setIsEdit({ ...isEdit, email: false, phone_no: false });
+        handleClose();
+      }
+    } catch (error) {
+      console.error("Error updating email/phone:", error);
+      toast.error("An error occurred while updating the information.");
+    } finally {
+      setloading(false);
+    }
+  };
+
+  const [otp, setOtp] = useState("");
+
+  return (
+    <Modal show={showModal} size="md" centered>
+      <Modal.Header closeButton>
+        <Modal.Title style={{ fontSize: "14px" }}>
+          {isEdit.email &&
+            `We have sent a verification code to your new Email - ${userInfo?.email}`}
+          {isEdit.phone_no &&
+            `We have sent a verficaton code to your new Phone - ${userInfo?.phone_no}`}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <OtpInput
+          value={otp}
+          onChange={setOtp}
+          numInputs={4}
+          renderSeparator={<span>-</span>}
+          renderInput={(props) => <input {...props} />}
+          inputStyle="otp-input"
+          containerStyle="otp-input-container-Seller"
+        />
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          variant="dark"
+          size="sm"
+          className="frmLable w-30"
+          onClick={handleClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          variant="dark"
+          size="sm"
+          className="frmLable w-30"
+          type="submit"
+          onClick={updateEmailHandler}
+        >
+          {loading && <Spinner animation="border" size="sm" />}
+          {!loading && isEdit.email && "Update Email"}
+          {!loading && isEdit.phone_no && "Update Phone Number"}
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
@@ -301,8 +598,8 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
         setShopInfo((prevData) => ({
           ...prevData,
           pic_of_shope: [
-            ...(prevData?.pic_of_shope || []), // Fallback to an empty array if undefined
             res?.data?.data?.fileurl,
+            ...(prevData?.pic_of_shope || []), // Fallback to an empty array if undefined
           ],
         }));
       }, 3000);
