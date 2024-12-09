@@ -7,13 +7,16 @@ const ViewHelpDesk = () => {
   const [titleArray, setTitleArray] = useState([]);
   const [filteredList, setFilteredList] = useState(null);
 
-  const videoRef = useRef()
+  const videoRef = useRef();
 
   const fetchHelpDeskList = async () => {
     try {
       const response = await getAllHelpDeskList();
-      setHelpDeskList(response?.data || []);
-      setTitleArray(response?.data?.map((item) => item?.title));
+      const allModuleHelpdesks = response?.data?.filter(
+        (item) => item?.module === "all"
+      );
+      setHelpDeskList(allModuleHelpdesks ?? []);
+      setTitleArray(allModuleHelpdesks?.map((item) => item?.title));
     } catch (error) {
       console.error("Failed to fetch Help Desk data:", error);
     }
