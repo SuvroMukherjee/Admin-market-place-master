@@ -1360,9 +1360,9 @@ const MyNavbar = ({ socket }) => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1733737867959.png?alt=media"
                 alt="helpdesk"
-                style={{boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;:'white'",cursor:'pointer'}}
-                width={40}
-                height={40}
+                style={{background:'white',cursor:'pointer',borderRadius:'50px',padding : '5px'}}
+                width={45}
+                height={45}
                 title="Helpdesk"
               />
             </div>

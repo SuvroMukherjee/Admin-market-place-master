@@ -182,6 +182,8 @@ const SellingProductList = ({ data, reviewData }) => {
               <th>Image</th>
               <th>SKU</th>
               <th>Product Name</th>
+              <th>Category</th>
+              <th>Brand</th>
               <th>Selling Price</th>
               <th>In Stock</th>
               <th>Total Sales</th>
@@ -195,12 +197,13 @@ const SellingProductList = ({ data, reviewData }) => {
             data?.slice(0, 20)?.map((ele, index) => (
               <tr key={index}>
                 <td>
-                  <Image
+                  {/* <Image
                     src={ele?.specId?.image?.[0]?.image_path}
                     thumbnail
                     width={60}
                     height={60}
-                  />
+                  /> */}
+                  <img src={ele?.specId?.image?.[0]?.image_path} width={60} />
                 </td>
                 <td
                   className="pname"
@@ -216,23 +219,25 @@ const SellingProductList = ({ data, reviewData }) => {
                     navigate(`/seller/seller-productList?name=${ele?.name}`)
                   }
                 >
-                  <div className="d-flex align-items-center justify-content-center gap-4">
+                  <div className="d-flex align-items-center justify-content-start gap-4">
                     {ele?.name?.slice(0, 30)}
-                    {ele?.productId?.categoryId?.image[0] && (
-                      <img
-                        src={ele?.productId?.categoryId?.image[0]?.image_path}
-                        width={20}
-                      />
-                    )}
-                    {ele?.productId?.subcategoryId?.image[0] && (
-                      <img
-                        src={
-                          ele?.productId?.subcategoryId?.image[0]?.image_path
-                        }
-                        width={20}
-                      />
-                    )}
                   </div>
+                </td>
+                <td>
+                  {ele?.productId?.categoryId?.image[0] && (
+                    <img
+                      src={ele?.productId?.categoryId?.image[0]?.image_path}
+                      width={40}
+                    />
+                  )}
+                </td>
+                <td>
+                  {ele?.productId?.brandId?.image[0] && (
+                    <img
+                      src={ele?.productId?.subcategoryId?.image[0]?.image_path}
+                      width={40}
+                    />
+                  )}
                 </td>
                 <td>{ele?.price?.toLocaleString()}</td>
                 <td className="avaible">{ele?.available_qty || 0}</td>
