@@ -72,11 +72,10 @@ const AddingProductTable = () => {
 
   const [allComission, setAllComission] = useState([]);
 
-
   async function getAllComission() {
     try {
       const res = await allCommissionList();
-     
+
       setAllComission(res.data?.data);
     } catch (error) {
       console.error("Error fetching brands", error);
@@ -730,7 +729,10 @@ const AddingProductTable = () => {
                   </td>
                   <td>
                     {row?.categoryId?.title}
-                    <TaxTable data={row?.categoryId} allComission={allComission} />
+                    <TaxTable
+                      data={row?.categoryId}
+                      allComission={allComission}
+                    />
                   </td>
                   <td>{row?.subcategoryId?.title}</td>
                   <td>{row?.brandId?.title}</td>
@@ -857,7 +859,7 @@ const AddingProductTable = () => {
                               <Col>
                                 <Form.Group
                                   className="mb-3"
-                                  controlId="exampleForm.ControlInput1"
+                                  controlId={`priceInput${index}`}
                                 >
                                   <Form.Control
                                     type="tel"
@@ -865,12 +867,35 @@ const AddingProductTable = () => {
                                     placeholder="Product Price"
                                     name="price"
                                     required
-                                    max={ele?.price}
+                                    max={ele?.price} // Add max attribute
                                     value={formData[index]?.price}
-                                    onChange={(e) =>
-                                      handlePriceChange(index, e.target.value)
-                                    }
+                                    onChange={(e) => {
+                                      if (
+                                        parseFloat(e.target.value) > ele?.price
+                                      ) {
+                                        document.getElementById(
+                                          `error-${index}`
+                                        ).innerText =
+                                          "Price cannot exceed MRP!";
+                                      } else {
+                                        document.getElementById(
+                                          `error-${index}`
+                                        ).innerText = "";
+                                        handlePriceChange(
+                                          index,
+                                          e.target.value
+                                        );
+                                      }
+                                    }}
                                   />
+                                  <div
+                                    id={`error-${index}`}
+                                    style={{
+                                      color: "red",
+                                      fontSize: "12px",
+                                      marginTop: "4px",
+                                    }}
+                                  ></div>
                                 </Form.Group>
                               </Col>
                               <Col>
@@ -1563,7 +1588,7 @@ const ProductSpecificationForm = ({
 
 const TaxTable = ({ data, allComission }) => {
   const [show, setShow] = useState(false);
- 
+
   return (
     <div className="mt-2">
       <p className="shwTx" onClick={() => setShow(!show)}>
@@ -1578,7 +1603,6 @@ const TaxTable = ({ data, allComission }) => {
                 {allComission?.find(
                   (item) => item?.categoryId?._id == data?._id
                 )?.commission_rate || 0}
-                
                 %
               </td>
             </tr>
