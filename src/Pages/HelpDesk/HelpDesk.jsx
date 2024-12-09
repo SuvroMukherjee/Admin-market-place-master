@@ -66,7 +66,7 @@ const HelpDesk = () => {
         );
         setFormData((prevData) => ({
           ...prevData,
-          url: response.data.data.fileurl,
+          url: response?.data?.data?.fileurl,
         }));
       } catch (error) {
         console.error("File upload failed:", error);
