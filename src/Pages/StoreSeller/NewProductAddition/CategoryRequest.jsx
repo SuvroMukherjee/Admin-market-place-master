@@ -336,23 +336,6 @@ const CategoryRequest = () => {
                     </Col>
                   </Form.Group>
                 </Row>
-
-                {/* <Row className='mt-4 bgColor' >
-                                        <Col xs={6} className='d-flex align-items-center aggree'>
-                                            By clicking on Agree and Submit, I agree to the conditions.
-                                        </Col>
-                                        <Col className='d-flex justify-content-center'>
-                                            <Button
-                                                className="btn-block mr-1 mt-1 btn-lg"
-                                                variant="warning"
-                                                size='sm'
-                                                type='submit'
-                                                block
-                                            >Agress & Submit</Button>
-                                        </Col>
-                                    </Row> */}
-
-                {/* </Form> */}
               </Row>
             </Col>
 
@@ -454,7 +437,7 @@ const CategoryRequest = () => {
                           onChange={(e) => {
                             handleFileChange2(e, "distributer");
                           }}
-                          required
+                          
                         />
                         <label htmlFor="fileInput">
                           <Button
@@ -542,7 +525,7 @@ const CategoryRequest = () => {
                           type="file"
                           id="fileInput"
                           style={{ display: "none" }}
-                          required
+                          
                           onChange={(e) => {
                             setUploading(true);
                             handleFileChange2(e, "manufracturer");

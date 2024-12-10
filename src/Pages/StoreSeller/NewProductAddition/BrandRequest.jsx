@@ -477,7 +477,7 @@ const BrandRequest = () => {
                         id="fileInput"
                         style={{ display: "none" }}
                         onChange={(e) => handleFileChange2(e, "distributer")}
-                        required
+                       
                       />
                       <label htmlFor="fileInput">
                         <Button
@@ -547,7 +547,7 @@ const BrandRequest = () => {
                         id="fileInput2"
                         style={{ display: "none" }}
                         onChange={(e) => handleFileChange2(e, "manufracturer")}
-                        required
+                        
                       />
                       <label htmlFor="fileInput2">
                         <Button

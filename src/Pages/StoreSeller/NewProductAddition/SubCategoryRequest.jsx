@@ -385,7 +385,7 @@ const SubCategoryRequest = () => {
                           type="file"
                           id="fileInput"
                           style={{ display: "none" }}
-                          required
+                          
                           onChange={(e) => handleFileChange2(e, "distributer")}
                         />
                         <label htmlFor="fileInput">
@@ -459,7 +459,7 @@ const SubCategoryRequest = () => {
                           type="file"
                           id="fileInput"
                           style={{ display: "none" }}
-                          required
+                          
                           onChange={(e) =>
                             handleFileChange2(e, "manufracturer")
                           }

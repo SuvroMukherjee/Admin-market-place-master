@@ -154,7 +154,7 @@ const EditBrandRequest = () => {
             <Container>
                 <Row>
                     <Col xs={6} className='mt-4'>
-                        <h4>Selling application for Brand Listing </h4>
+                        <h4>Application for New Brand Listing </h4>
                     </Col>
                     <Col xs={3}></Col>
                     <Col xs={3} className='mt-4'>
