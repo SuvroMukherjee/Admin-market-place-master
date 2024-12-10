@@ -49,7 +49,7 @@ const NewAddLayout = () => {
                     isActive ? "activeNav" : "inactivetab"
                   }
                 >
-                  Customized
+                  Additional Details
                 </NavLink>
               </li>
               {/* <li>

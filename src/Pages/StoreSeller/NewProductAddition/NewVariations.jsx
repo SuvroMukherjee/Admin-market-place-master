@@ -76,8 +76,45 @@ const NewVariations = ({
     });
   };
 
+  const validate = () => {
+    if (!productId) {
+      toast.error("Please create product id");
+      return false;
+    }
+
+    if (specifications.length == 0) {
+      toast.error("Please add atleast one specification");
+      return false;
+    }
+
+    specifications.forEach((specification) => {
+      if (
+        specification.title.trim() == "" ||
+        specification.value.trim() == ""
+      ) {
+        toast.error("Please add title & value for each specification");
+        return false;
+      }
+    });
+
+    if (!productPrice || productPrice <= 0) {
+      toast.error("Please add product price");
+      return false;
+    }
+
+    if (productImges.length <= 0) {
+      toast.error("Please upload atleast one image");
+      return false;
+    }
+  };
+
   const handleSubmit = async () => {
     console.log("Submitted Data:", specifications);
+
+    if (!validate()) {
+      return;
+    }
+
     let payload = {
       productId: productId,
       spec_det: specifications,
@@ -226,8 +263,6 @@ const NewVariations = ({
     setproductPrice(filterSpecData?.price);
     console.log(filterSpecData);
   };
-
-  console.table(productImges);
 
   const deleteSpec = async (id) => {
     let res = await DeleteProductSpecification(id);
