@@ -1,25 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
-import { Toaster, toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { productRows } from "../../../dummyData";
-import "../Seller/listStyle.css";
-import {
-  UpdateSellerStatus,
-  allSellerList,
-  attendenceList,
-} from "../../../API/api";
-import { useEffect } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
-import { Button, Col, Container, Row, ButtonGroup } from "react-bootstrap";
-import { DataGrid } from "@mui/x-data-grid";
-import { RiEdit2Line } from "react-icons/ri";
-import { width } from "@mui/system";
+import { Toaster } from "react-hot-toast";
+import { attendenceList } from "../../../API/api";
 import {
   calculateTimeDifference,
+  formateDateTimeUsingMomentTimezoneAsiaKolkata,
   getDayOfWeek,
   splitDateTime,
 } from "../../../common/DateFormat";
+import "../Seller/listStyle.css";
 
 export default function AttendenceComp() {
   const [attendenceadata, setAttendencedata] = useState();
@@ -40,128 +30,8 @@ export default function AttendenceComp() {
 
   useEffect(() => {
     getAttendenceList(userId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const columns = [
-    { field: "id", headerName: "ID", width: 50 },
-    {
-      field: "date",
-      headerName: "Date",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <div>
-            {params?.row?.log_in_time && (
-              <span className="loglocation">
-                {splitDateTime(params?.row?.log_in_time)?.date}
-              </span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "day",
-      headerName: "Day",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <div>
-            {params?.row?.log_in_time && (
-              <span className="loglocation">
-                {getDayOfWeek(splitDateTime(params?.row?.log_in_time)?.date)}
-              </span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "log_in_time",
-      headerName: "Login Time",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params?.row?.log_in_time && (
-              <span className="loginT">
-                {splitDateTime(params?.row?.log_in_time)?.time}
-              </span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "log_in_loce",
-      headerName: "Login Location",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            <span className="loglocation">
-              {params?.row?.log_in_loc?.location},
-              {params?.row?.log_in_loc?.city},{params?.row?.log_in_loc?.state}
-            </span>
-          </div>
-        );
-      },
-    },
-    {
-      field: "log_out_time",
-      headerName: "Logout time",
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params?.row?.log_out_time && (
-              <span className="logoutT">
-                {splitDateTime(params?.row?.log_out_time)?.time}
-              </span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "log_out_loc",
-      headerName: "Logout Location",
-      width: 220,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params?.row?.log_out_time && (
-              <span className="loglocation">
-                {" "}
-                {params?.row?.log_out_loc?.location},
-                {params?.row?.log_out_loc?.city},
-                {params?.row?.log_out_loc?.state}
-              </span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "duration",
-      headerName: "Work Log",
-      width: 250,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params?.row?.log_out_time && (
-              <span className="duraT">
-                {calculateTimeDifference(
-                  params?.row?.log_out_time,
-                  params?.row?.log_in_time
-                )}
-              </span>
-            )}
-          </div>
-        );
-      },
-    },
-  ];
 
   return (
     <>
@@ -185,19 +55,193 @@ export default function AttendenceComp() {
             </Row>
             <Row className="justify-content-md-center">
               <Col>
-                <DataGrid
-                  style={{ height: 400, width: "100%" }}
-                  rows={attendenceadata}
-                  columns={columns}
-                  pageSize={8}
-                  noRowsOverlay={
-                    attendenceadata?.length == 0 && (
-                      <div style={{ textAlign: "center", padding: "20px" }}>
-                        No Data Found
-                      </div>
-                    )
-                  }
-                />
+                <div
+                  style={{
+                    maxHeight: "500px",
+                    overflow: "auto",
+                  }}
+                >
+                  <table
+                    style={{
+                      width: "100%",
+
+                      borderCollapse: "collapse",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                    }}
+                  >
+                    <thead>
+                      <tr
+                        style={{
+                          backgroundColor: "#007BFF",
+                          color: "#fff",
+                          textAlign: "center",
+                          fontSize: "16px",
+                        }}
+                      >
+                        <th
+                          style={{ padding: "12px", border: "1px solid #ddd" }}
+                        >
+                          ID
+                        </th>
+                        <th
+                          style={{ padding: "12px", border: "1px solid #ddd" }}
+                        >
+                          Day
+                        </th>
+                        <th
+                          style={{ padding: "12px", border: "1px solid #ddd" }}
+                        >
+                          Login Date Time
+                        </th>
+                        <th
+                          style={{ padding: "12px", border: "1px solid #ddd" }}
+                        >
+                          Login Location
+                        </th>
+                        <th
+                          style={{ padding: "12px", border: "1px solid #ddd" }}
+                        >
+                          Logout Date Time
+                        </th>
+                        <th
+                          style={{ padding: "12px", border: "1px solid #ddd" }}
+                        >
+                          Logout Location
+                        </th>
+                        <th
+                          style={{ padding: "12px", border: "1px solid #ddd" }}
+                        >
+                          Work Log
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {attendenceadata?.length === 0 ? (
+                        <tr>
+                          <td
+                            colSpan="7"
+                            style={{
+                              textAlign: "center",
+                              padding: "20px",
+                              fontStyle: "italic",
+                              color: "#888",
+                            }}
+                          >
+                            No Data Found
+                          </td>
+                        </tr>
+                      ) : (
+                        attendenceadata?.map((row) => (
+                          <tr
+                            key={row.id}
+                            style={{
+                              textAlign: "center",
+                              borderBottom: "1px solid #ddd",
+                              transition: "background-color 0.3s",
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = "#f1f1f1";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = "#fff";
+                            }}
+                          >
+                            <td
+                              style={{
+                                padding: "12px",
+                                border: "1px solid #ddd",
+                              }}
+                            >
+                              {row.id}
+                            </td>
+                            <td
+                              style={{
+                                padding: "12px",
+                                border: "1px solid #ddd",
+                              }}
+                            >
+                              {row.log_in_time && (
+                                <span className="loglocation">
+                                  {getDayOfWeek(
+                                    splitDateTime(row.log_in_time)?.date
+                                  )}
+                                </span>
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                padding: "12px",
+                                border: "1px solid #ddd",
+                              }}
+                            >
+                              {row.log_in_time && (
+                                <span className="loginT">
+                                  {formateDateTimeUsingMomentTimezoneAsiaKolkata(
+                                    row.log_in_time
+                                  )}
+                                </span>
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                padding: "12px",
+                                border: "1px solid #ddd",
+                              }}
+                            >
+                              <span className="loglocation">
+                                {row.log_in_loc?.location},{" "}
+                                {row.log_in_loc?.city}, {row.log_in_loc?.state}
+                              </span>
+                            </td>
+                            <td
+                              style={{
+                                padding: "12px",
+                                border: "1px solid #ddd",
+                              }}
+                            >
+                              {row.log_out_time && (
+                                <span className="logoutT">
+                                  {formateDateTimeUsingMomentTimezoneAsiaKolkata(
+                                    row.log_out_time
+                                  )}
+                                </span>
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                padding: "12px",
+                                border: "1px solid #ddd",
+                              }}
+                            >
+                              {row.log_out_time && (
+                                <span className="loglocation">
+                                  {row.log_out_loc?.location},{" "}
+                                  {row.log_out_loc?.city},{" "}
+                                  {row.log_out_loc?.state}
+                                </span>
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                padding: "12px",
+                                border: "1px solid #ddd",
+                              }}
+                            >
+                              {row.log_out_time && (
+                                <span className="duraT">
+                                  {calculateTimeDifference(
+                                    row.log_out_time,
+                                    row.log_in_time
+                                  )}
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </Col>
             </Row>
           </Container>
