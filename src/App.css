@@ -226,3 +226,11 @@
 .disabledTab {
   opacity: 0.5;
 }
+
+.custom-tabs .nav-link {
+  color: #70bb42 !important; /* Ensures your style takes precedence */
+}
+
+.custom-tabs .nav-link.active {
+  color: #025c5c !important; /* Optional: different color for active tab */
+}

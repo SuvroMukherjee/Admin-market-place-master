@@ -15,6 +15,7 @@ import { ChangeFormatDate2 } from "../../../common/DateFormat";
 import useAuth from "../../../hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
+import moment from "moment";
 
 const ApprovalPendingList = () => {
   const [categoryApplicqation, setCategoryApplication] = useState();
@@ -67,7 +68,7 @@ const ApprovalPendingList = () => {
     let newtypeadded = res?.data?.data?.subcategoryData.map((ele) => {
       return { ...ele, type: "SubCategory" };
     });
-    setSubCategoryApplication(newtypeadded);
+    //setSubCategoryApplication(newtypeadded);
     // setTableHeader();
   };
 
@@ -289,6 +290,7 @@ const ApprovalPendingList = () => {
                     <th>Application Type</th>
                     <th>subCategory</th>
                     <th>Created Date</th>
+                    <th>Updated Date</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -308,7 +310,8 @@ const ApprovalPendingList = () => {
                         </td>
                         <td>{ele?.type}</td>
                         <td>{filterSubCatdata(ele?._id)?.title || "N/A"}</td>
-                        <td>{ChangeFormatDate2(ele?.createdAt)}</td>
+                        <td>{moment(ele?.createdAt).format("LLL")}</td>
+                        <td>{moment(ele?.updatedAt).format("LLL")}</td>
                         <td>
                           {ele?.is_approved ? (
                             <span>Approved</span>

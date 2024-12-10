@@ -35,7 +35,7 @@ export default function CatReqList() {
 
   const handleUpdateFunction = async (data) => {
     console.log(data);
-    
+
     let payload = {
       is_approved: !data?.is_approved,
     };
@@ -78,14 +78,26 @@ export default function CatReqList() {
           </Row>
         </div>
       )}
-      <div className="productList mt-2 p-4">
-        <div className="text-center">
+      <div className="mt-2 p-2">
+        {/* <div className="text-center">
           <h4>Category Request Lists</h4>
-        </div>
+        </div> */}
         <Container className="mt-4">
           <Row>
-            <Col xs={12} className="fw-bold fs-5 text-center mb-2">Total Data : {categoryApplicqation?.length}</Col>
-            <Col>
+            <Col xs={12} className="d-flex justify-content-end align-items-center mb-2">
+              <div
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  padding: "5px",
+                  borderRadius: "2px",
+                  width: "fit-content",
+                }}
+              >
+                Total Request : {categoryApplicqation?.length}
+              </div>
+            </Col>
+            <Col className="mt-4">
               <Table responsive hover striped>
                 <thead>
                   <tr>
@@ -123,8 +135,10 @@ export default function CatReqList() {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            <span className="text-primary">image_link<FaLongArrowAltRight /></span>
-                          
+                            <span className="text-primary">
+                              image_link
+                              <FaLongArrowAltRight />
+                            </span>
                           </a>
                         </td>
                         <td>{ChangeFormatDate2(ele?.createdAt)}</td>

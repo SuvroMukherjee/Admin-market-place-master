@@ -98,6 +98,7 @@ import SellerRequestPanel from "./Pages/StoreSeller/RequestPanel/SellerRequestPa
 import { Testimonial } from "./Pages/Testimonials/Testimonial";
 import EditUser from "./Pages/UserList/EditUser";
 import UserList from "./Pages/UserList/UserList";
+import AdminApplications from "./Pages/AdminApplications/AdminApplications";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -148,6 +149,7 @@ export default function Router({ socket }) {
           element: <RequireAuth allowedRoles={["Admin"]} />,
           children: [
             { path: "category", element: <ListCategory /> },
+            {path: "AdminApplications", element: <AdminApplications />},
             { path: "category-request", element: <CatReqList /> },
             { path: "category-commission", element: <CategoryComissions /> },
             { path: "AddCategory", element: <AddCategory /> },

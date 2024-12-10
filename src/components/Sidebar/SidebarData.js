@@ -14,6 +14,7 @@ import { CgWebsite } from "react-icons/cg";
 import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { HiCurrencyRupee } from "react-icons/hi2";
 import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
+import { VscRequestChanges } from "react-icons/vsc";
 
 export const AdminSidebarData = [
   {
@@ -38,6 +39,12 @@ export const AdminSidebarData = [
     title: "Sellers",
     path: "/SellerManagment",
     icon: BsShop,
+    cName: "nav-text",
+  },
+  {
+    title: "Request Applications",
+    path: "/Admin/AdminApplications",
+    icon: VscRequestChanges,
     cName: "nav-text",
   },
   {
