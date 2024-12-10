@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,6 +8,7 @@ import {
   allBrandList,
   allCategoryList,
   getSubCategoryByCategory,
+  sellerNewAddedProductDtails,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
 import "../../SellerRegistration/registration.css";
@@ -23,15 +24,31 @@ const NewProductAdd = () => {
   const [allbrandList, setAllBrandList] = useState([]);
   const [openNewCat, setOpenNewCat] = useState(false);
   const [openNewBrand, setOpenNewCatBrand] = useState(false);
+  const [imageUploading,setImageUploading] = useState(false)
 
   const { auth } = useAuth();
 
   const navigate = useNavigate();
 
+  const SellerNewProductId = localStorage.getItem("Seller-productId") || "";
+
   useEffect(() => {
     getCategoryList();
     getBrandList();
   }, []);
+
+  useEffect(() => {
+    if(SellerNewProductId !== ""){
+    getProductdata()
+    }
+  }, [SellerNewProductId])
+
+  async function getProductdata() {
+    let res = await sellerNewAddedProductDtails(SellerNewProductId);
+    console.log(res?.data?.data, 'productData')
+    setFormData(res?.data?.data)
+}
+
 
   async function getCategoryList() {
     await allCategoryList()
@@ -94,6 +111,7 @@ const NewProductAdd = () => {
   }
 
   const handleImageInputChange = (e) => {
+   
     const { files } = e.target;
     const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
     const selectedFiles = Array.from(files).filter((file) =>
@@ -110,6 +128,7 @@ const NewProductAdd = () => {
     formData.append("file", file);
 
     try {
+      setImageUploading(true)
       const res = await FileUpload(formData);
       setTimeout(() => {
         setFormData((prevData) => ({
@@ -119,7 +138,10 @@ const NewProductAdd = () => {
             { image_path: res?.data?.data?.fileurl },
           ],
         }));
-      }, 3000);
+        setImageUploading(false)
+      }, 2000);
+     
+
     } catch (err) {
       console.error(err, "err");
     }
@@ -139,6 +161,7 @@ const NewProductAdd = () => {
       // setTimeout(() => {
       //     navigate(`/seller/seller-ownproduct-status/new-variations/${res?.data?.data?._id}`)
       // }, 1500);
+      localStorage.setItem("Seller-productId", res?.data?.data?._id);
       setTimeout(() => {
         navigate(
           `/seller/seller-ownproduct-status/new-description/${res?.data?.data?._id}`
@@ -146,6 +169,11 @@ const NewProductAdd = () => {
       }, 1500);
     }
   };
+
+  const resetAll = () =>{
+    localStorage.removeItem('Seller-productId');
+    navigate('/seller/seller-ownproduct-status/new-add')
+  }
 
   return (
     <Container>
@@ -226,7 +254,7 @@ const NewProductAdd = () => {
                     </Col>
                     <Col xs={6}>
                       <span className="specTextsmall ms-2">
-                        {formData?.image?.length || 0} images Uploaded
+                        {formData?.image?.length || 0} images Uploaded  <span className="mx-4">{imageUploading ? <Spinner size="md" animation="border" role="status" className="spinner-border spinner-border-sm text-secondary" /> : null}</span>
                       </span>
                       <Form.Control
                         type="file"
@@ -390,8 +418,8 @@ const NewProductAdd = () => {
               <Col xs={12} className="mt-4">
                 <Row>
                   <Col>
-                    <Button size="sm" variant="secondary" className="cancelbtn">
-                      CANCEL
+                    <Button size="sm" variant="secondary" className="cancelbtn" onClick={()=> resetAll()}>
+                      Reset All
                     </Button>
                   </Col>
                   <Col className="d-flex justify-content-end">

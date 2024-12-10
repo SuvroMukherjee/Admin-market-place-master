@@ -1,14 +1,16 @@
 import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 import "./newproduct.css";
 
 const NewAddLayout = () => {
+  const SellerNewProductId = localStorage.getItem("Seller-productId") || "";
+
   return (
     <div>
       <Container className="mt-4">
-        <Row className=" p-1 justify-content-md-center">
+        <Row className="p-1 justify-content-md-center">
           <Col xs={10}>
             <ul className="d-flex justify-content-evenly liststyle">
               <li>
@@ -21,40 +23,66 @@ const NewAddLayout = () => {
                   Product Identity
                 </NavLink>
               </li>
-              <li>
+              <li className={SellerNewProductId === "" ? "disabledTab" : ""}>
                 <NavLink
                   to="/seller/seller-ownproduct-status/new-description"
                   className={({ isActive }) =>
-                    isActive ? "activeNav" : "inactivetab"
+                    SellerNewProductId === ""
+                      ? "disabledLink"
+                      : isActive
+                      ? "activeNav"
+                      : "inactivetab"
                   }
+                  aria-disabled={SellerNewProductId === ""}
+                  onClick={(e) => {
+                    if (SellerNewProductId === "") {
+                      e.preventDefault(); // Prevent navigation
+                    }
+                  }}
                 >
                   Product Details & Videos
                 </NavLink>
               </li>
-              <li>
+              <li className={SellerNewProductId === "" ? "disabledTab" : ""}>
                 <NavLink
                   to="/seller/seller-ownproduct-status/new-variations"
                   className={({ isActive }) =>
-                    isActive ? "activeNav" : "inactivetab"
+                    SellerNewProductId === ""
+                      ? "disabledLink"
+                      : isActive
+                      ? "activeNav"
+                      : "inactivetab"
                   }
+                  aria-disabled={SellerNewProductId === ""}
+                  onClick={(e) => {
+                    if (SellerNewProductId === "") {
+                      e.preventDefault(); // Prevent navigation
+                    }
+                  }}
                 >
                   Variations
                 </NavLink>
               </li>
-
-              <li>
+              <li className={SellerNewProductId === "" ? "disabledTab" : ""}>
                 <NavLink
                   to="/seller/seller-ownproduct-status/new-customization"
                   className={({ isActive }) =>
-                    isActive ? "activeNav" : "inactivetab"
+                    SellerNewProductId === ""
+                      ? "disabledLink"
+                      : isActive
+                      ? "activeNav"
+                      : "inactivetab"
                   }
+                  aria-disabled={SellerNewProductId === ""}
+                  onClick={(e) => {
+                    if (SellerNewProductId === "") {
+                      e.preventDefault(); // Prevent navigation
+                    }
+                  }}
                 >
                   Additional Details
                 </NavLink>
               </li>
-              {/* <li>
-                              <NavLink to="about">Safety & Complains</NavLink>
-                          </li> */}
             </ul>
           </Col>
         </Row>

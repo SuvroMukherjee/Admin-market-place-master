@@ -17,9 +17,13 @@ const NewDescription = () => {
 
     const { id: productId } = useParams();
 
+    const SellerNewProductId = localStorage.getItem("Seller-productId") || "";
+
     const { auth } = useAuth();
 
     const navigate = useNavigate()
+
+
 
 
     useEffect(() => {
@@ -29,7 +33,7 @@ const NewDescription = () => {
     
 
     async function getProductdata() {
-        let res = await sellerNewAddedProductDtails(productId);
+        let res = await sellerNewAddedProductDtails(productId || SellerNewProductId);
         console.log(res?.data?.data, 'productData')
         setFormData(res?.data?.data)
     }
@@ -72,7 +76,7 @@ const NewDescription = () => {
        
         // console.log( formData )
 
-        const res = await EditSellerOwnProduct(productId, formData);
+        const res = await EditSellerOwnProduct(productId || SellerNewProductId, formData);
         //    console.log(res?.data?.data);
            
         if (res?.response?.data?.error) {
@@ -85,17 +89,23 @@ const NewDescription = () => {
         }
     }
 
+
+    const resetAll = () =>{
+        localStorage.removeItem('Seller-productId');
+        navigate('/seller/seller-ownproduct-status/new-add')
+    }
+
     return (
         <div>
             <Container className='stepContent'>
                 <Row className='m-4 p-4 justify-content-md-center stepContent paddingConatiner'>
-                    {!productId &&
+                    {!productId && !SellerNewProductId &&
                         <Row>
                             <Col className='text-center noproductIdText'><span className='mx-4'><FaInfoCircle color='#7D0A0A' size={25} /></span> Product Id is missing.Please Go the First Step and then try to uplaod or <span style={{ cursor: 'pointer', textDecoration: 'underline', color: 'darkred' }} onClick={() => navigate('/seller/seller-ownproduct-status/new-add')}>request for new Product</span></Col>
                         </Row>}
                     <Container>
                         <Form onSubmit={handleSubmit}>
-                            <fieldset disabled={!productId}>
+                            <fieldset disabled={!productId && !SellerNewProductId}>
                                 <Row className='mt-3'>
                                     <Col xs={12}>
                                         <Form.Group controlId="user_name">
@@ -138,11 +148,11 @@ const NewDescription = () => {
                                         <Form.Group controlId="user_name">
                                             <Row>
                                                 <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                                    <Form.Label className='frmLable'> <span className="req mx-1">*</span>Features</Form.Label>
+                                                    <Form.Label className='frmLable'>Features</Form.Label>
 
                                                 </Col>
                                                 <Col xs={8}>
-                                                    <Form.Control type="text" as="textarea" rows={3} name="features" className='tapG' placeholder='Enter Product Features' size='sm' value={formData?.features?.join(', ')} onChange={handleFeaturesChange} required autoComplete='off' />
+                                                    <Form.Control type="text" as="textarea" rows={3} name="features" className='tapG' placeholder='Enter Product Features' size='sm' value={formData?.features?.join(', ')} onChange={handleFeaturesChange}  autoComplete='off' />
                                                     <Form.Text className="text-muted">
                                                         Separate Features with commas (e.g., features1, features2).
                                                     </Form.Text>
@@ -158,7 +168,7 @@ const NewDescription = () => {
                                         <Form.Group controlId="user_name">
                                             <Row>
                                                 <Col xs={3} className='d-flex align-items-center justify-content-end'>
-                                                    <Form.Label className='frmLable'> <span className="req mx-1">*</span>Add Video Link</Form.Label>
+                                                    <Form.Label className='frmLable'> Add Video Link</Form.Label>
 
                                                 </Col>
                                                 <Col xs={8}>
@@ -177,7 +187,7 @@ const NewDescription = () => {
                                     <Col xs={12} className='mt-4'>
                                         <Row>
                                             <Col>
-                                                <Button size='sm' variant='secondary' className='cancelbtn'>CANCEL</Button>
+                                                <Button size='sm' variant='secondary' className='cancelbtn' onClick={()=> resetAll()}>Reset All</Button>
                                             </Col>
                                             <Col className='d-flex justify-content-end'>
                                                 <Button size='sm' variant='success' type="submit"> Save & NEXT </Button>

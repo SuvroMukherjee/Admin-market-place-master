@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Image, Row, Spinner } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import { FaInfoCircle } from "react-icons/fa";
 import { IoIosAdd, IoMdCloseCircle } from "react-icons/io";
@@ -28,6 +28,7 @@ const NewVariations = ({
       //user_choice: false,
     },
   ]);
+  const SellerNewProductId = localStorage.getItem("Seller-productId") || "";
 
   const [productPrice, setproductPrice] = useState(0);
 
@@ -41,6 +42,8 @@ const NewVariations = ({
 
   const { id: productId } = useParams();
 
+  const [uploading,setImageUploading] = useState(false)
+
   useEffect(() => {
     getProductdata();
   }, []);
@@ -48,7 +51,7 @@ const NewVariations = ({
   const navigate = useNavigate();
 
   async function getProductdata() {
-    let res = await sellerNewAddedProductDtails(productId);
+    let res = await sellerNewAddedProductDtails(productId || SellerNewProductId);
     console.log(res?.data?.data?.specId, "productData");
     setAddedVariants(res?.data?.data?.specId);
   }
@@ -77,7 +80,7 @@ const NewVariations = ({
   };
 
   const validate = () => {
-    if (!productId) {
+    if (!productId || !SellerNewProductId) {
       toast.error("Please create product id");
       return false;
     }
@@ -106,17 +109,22 @@ const NewVariations = ({
       toast.error("Please upload atleast one image");
       return false;
     }
+
+    return true;
   };
 
   const handleSubmit = async () => {
     console.log("Submitted Data:", specifications);
 
     if (!validate()) {
+      console.log("Invalid");
       return;
     }
 
+
+
     let payload = {
-      productId: productId,
+      productId: productId || SellerNewProductId,
       spec_det: specifications,
       price: productPrice,
       image: productImges,
@@ -157,7 +165,7 @@ const NewVariations = ({
   const nextToCustomized = () => {
     setTimeout(() => {
       navigate(
-        `/seller/seller-ownproduct-status/new-customization/${productId}`
+        `/seller/seller-ownproduct-status/new-customization/${productId || SellerNewProductId}`
       );
     }, 1500);
   };
@@ -229,6 +237,7 @@ const NewVariations = ({
     formData.append("file", file);
 
     try {
+      setImageUploading(true)
       const res = await FileUpload(formData);
       console.log(res?.data?.data);
 
@@ -237,9 +246,14 @@ const NewVariations = ({
           ...prevData,
           { image_path: res?.data?.data?.fileurl },
         ]);
+        setImageUploading(false)
       }, 1500);
     } catch (err) {
       console.error(err, "err");
+    } finally {
+      setTimeout(() => {
+        setImageUploading(false)
+      }, 1500);
     }
   };
 
@@ -274,11 +288,18 @@ const NewVariations = ({
       handleCloseModal();
     }
   };
+
+
+  const resetAll = () =>{
+    localStorage.removeItem('Seller-productId');
+    navigate('/seller/seller-ownproduct-status/new-add')
+  }
+
   return (
     <>
       <Container>
         <Row className="m-4 p-4 justify-content-md-center stepContent paddingConatiner">
-          {!productId && (
+          {!productId && !SellerNewProductId && (
             <Row>
               <Col className="text-center noproductIdText">
                 <span className="mx-4">
@@ -391,7 +412,7 @@ const NewVariations = ({
                   <Form.Group>
                     <Form.Group controlId="formFileMultiple" className="mb-3">
                       <Form.Label className="frmLable">
-                        Choose Multiple Files
+                        Choose Multiple Files <span className="mx-4">{uploading ? <Spinner size="lg" animation="border" role="status" className="spinner-border spinner-border-md text-secondary" /> : null}</span>
                       </Form.Label>
                       <Form.Control
                         type="file"
@@ -496,8 +517,9 @@ const NewVariations = ({
             <Col xs={12} className="mt-4">
               <Row>
                 <Col>
-                  <Button size="sm" variant="secondary" className="cancelbtn">
-                    CANCEL
+                  <Button size="sm" variant="secondary" className="cancelbtn" onClick={()=> resetAll()}>
+                    Reset All
+                   
                   </Button>
                 </Col>
                 <Col className="d-flex justify-content-end">
@@ -514,8 +536,8 @@ const NewVariations = ({
             </Col>
           </Row>
         </Row>
+        <Toaster position="top-right" />
       </Container>
-      <Toaster position="top-right" />
     </>
   );
 };

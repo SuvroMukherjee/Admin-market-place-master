@@ -216,3 +216,13 @@
   color: white;
   border: 1px solid #16aae9;  
 }
+
+.disabledLink {
+  pointer-events: none;
+  color: gray;
+  cursor: not-allowed;
+}
+
+.disabledTab {
+  opacity: 0.5;
+}
