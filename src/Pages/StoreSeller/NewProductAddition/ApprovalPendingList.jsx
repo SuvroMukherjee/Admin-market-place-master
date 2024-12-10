@@ -200,10 +200,10 @@ const ApprovalPendingList = () => {
     <div>
       <Container className="mt-4">
         <Row>
-          <Col xs={12}>
+          {/* <Col xs={12}>
             <h4>View Selling Applications Form</h4>
-          </Col>
-          <Col xs={12}>
+          </Col> */}
+          {/* <Col xs={12}>
             <p>
               Track and manage your selling application status. Use{" "}
               <span
@@ -214,7 +214,7 @@ const ApprovalPendingList = () => {
               </span>{" "}
               search to determine your eligibility to sell a product.
             </p>
-          </Col>
+          </Col> */}
         </Row>
         <Row>
           <Col className="d-flex gap-2">

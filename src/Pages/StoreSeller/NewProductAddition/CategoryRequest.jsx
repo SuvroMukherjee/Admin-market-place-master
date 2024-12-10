@@ -129,7 +129,7 @@ const CategoryRequest = () => {
             <Container>
                 <Row>
                     <Col xs={4} className='mt-4'>
-                        <h4>Selling application for Category </h4>
+                        <h4>Application for New Category Listing </h4>
                     </Col>
                     <Col xs={5}></Col>
                     <Col xs={3} className='mt-4'>

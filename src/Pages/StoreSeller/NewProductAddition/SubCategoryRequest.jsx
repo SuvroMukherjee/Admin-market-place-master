@@ -26,7 +26,10 @@ const SubCategoryRequest = () => {
   async function getCategoryList() {
     await allCategoryList()
       .then((res) => {
-        setAllCategoryList(res?.data?.data);
+        let filterData = res?.data?.data
+        .filter((item) => item?.status == true)
+        ?.sort((a, b) => a?.title?.localeCompare(b?.title));
+        setAllCategoryList(filterData);
         // console.log(res?.data?.data);
         setLoading(false);
       })
@@ -162,7 +165,7 @@ const SubCategoryRequest = () => {
       <Container>
         <Row>
           <Col xs={5} className="mt-4">
-            <h4> Selling application for Sub Category</h4>
+            <h4> Application for new Sub-category Listing</h4>
           </Col>
           <Col xs={4}></Col>
           <Col xs={3} className="mt-4">

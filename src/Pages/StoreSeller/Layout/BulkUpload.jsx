@@ -575,7 +575,7 @@ const BulkUpload = () => {
                               <FaFileDownload size={26} />
                             </Col>
                             <Col className="d-flex align-items-center justify-content-center">
-                              Dowmload Pre-filled Templete
+                              Download Pre-filled Templete
                             </Col>
                           </Row>
                           <p></p>

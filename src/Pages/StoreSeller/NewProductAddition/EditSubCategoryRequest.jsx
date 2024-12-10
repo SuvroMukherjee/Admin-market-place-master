@@ -150,7 +150,7 @@ const EditSubCategoryRequest = () => {
             <Container>
                 <Row>
                     <Col xs={4} className='mt-4'>
-                        <h4>Selling application for Sub Category </h4>
+                        <h4>Application for new Sub-category Listing </h4>
                     </Col>
                     <Col xs={5}></Col>
                     <Col xs={3} className='mt-4'>
