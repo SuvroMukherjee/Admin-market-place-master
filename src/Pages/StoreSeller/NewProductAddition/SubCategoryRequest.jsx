@@ -9,6 +9,7 @@ import {
   FileUpload,
   allCategoryList,
 } from "../../../API/api";
+import { IoArrowBackCircle } from "react-icons/io5";
 
 const SubCategoryRequest = () => {
   const navigate = useNavigate();
@@ -27,8 +28,8 @@ const SubCategoryRequest = () => {
     await allCategoryList()
       .then((res) => {
         let filterData = res?.data?.data
-        .filter((item) => item?.status == true)
-        ?.sort((a, b) => a?.title?.localeCompare(b?.title));
+          .filter((item) => item?.status == true)
+          ?.sort((a, b) => a?.title?.localeCompare(b?.title));
         setAllCategoryList(filterData);
         // console.log(res?.data?.data);
         setLoading(false);
@@ -163,22 +164,43 @@ const SubCategoryRequest = () => {
   return (
     <div>
       <Container>
-        <Row>
-          <Col xs={5} className="mt-4">
-            <h4> Application for new Sub-category Listing</h4>
+        <Row
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginTop: "1rem",
+          }}
+        >
+          <Col style={{ flex: "1" }}>
+            <Button
+              size="sm"
+              variant="outline-dark"
+              onClick={() => navigate("/seller/seller-request")}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <IoArrowBackCircle size={20} />
+              <span>Back</span>
+            </Button>
           </Col>
-          <Col xs={4}></Col>
-          <Col xs={3} className="mt-4">
+          <Col style={{ flex: "2", textAlign: "center" }}>
+            <h4>Application for new Sub-category Listing</h4>
+          </Col>
+          <Col style={{ flex: "1", textAlign: "right" }}>
             <Button
               size="sm"
               variant="outline-dark"
               onClick={() => navigate("/seller/approval-request-list")}
             >
-              {" "}
               <span className="mx-1">
                 <FaList />
-              </span>{" "}
-              View All applications
+              </span>
+              View All Applications
             </Button>
           </Col>
         </Row>

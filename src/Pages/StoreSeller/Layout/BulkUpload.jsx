@@ -38,6 +38,7 @@ import {
 import useAuth from "../../../hooks/useAuth";
 import { FaFileDownload } from "react-icons/fa";
 import { FaFileUpload } from "react-icons/fa";
+import { use } from "react";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -316,6 +317,10 @@ const BulkUpload = () => {
     }
   };
 
+  useEffect(() => {
+    console.log({ showConverter });
+  }, [showConverter]);
+
   return (
     <div
       className="py-3 px-5"
@@ -453,7 +458,7 @@ const BulkUpload = () => {
                   {!showConverter ? (
                     <Col
                       className="mt-2"
-                      onClick={() => setshowConverter(!showConverter)}
+                      onClick={() => setshowConverter(true)}
                     >
                       <button className="w-100 cmpComtinueLaunch">
                         <span>
@@ -465,7 +470,7 @@ const BulkUpload = () => {
                   ) : (
                     <Col
                       className="mt-2"
-                      onClick={() => setshowConverter(!showConverter)}
+                      onClick={() => setshowConverter(false)}
                     >
                       <button className="w-100 cmpComtinueLaunch">
                         <span>
@@ -645,9 +650,11 @@ const BulkUpload = () => {
           <Toaster position="top-right" />
         </Container>
       )}
-      <Container className="p-4 mx-4">
-        <ImageConveter showConverter={showConverter} />
-      </Container>
+
+      <ImageConveter
+        showConverter={showConverter}
+        setshowConverter={setshowConverter}
+      />
     </div>
   );
 };
@@ -717,7 +724,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                     <Col>Status</Col>
                     <Col className="text-center">Image</Col>
                     <Col>Product ID</Col>
-                    <Col>Cateogry</Col>
+                    <Col>Category</Col>
                     <Col>Brand</Col>
                     <Col>Variants</Col>
                     <Col xs={2}>Action</Col>
@@ -883,9 +890,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
   );
 };
 
-const ImageConveter = ({ showConverter }) => {
-  console.log({ showConverter });
-
+const ImageConveter = ({ showConverter, setshowConverter }) => {
   const [formData, setFormData] = useState({
     image: [],
   });
@@ -943,161 +948,189 @@ const ImageConveter = ({ showConverter }) => {
   }, [formData]);
 
   return (
-    <div>
-      {showConverter && (
-        <div className="converterBack">
-          <Container>
-            <Row className="justify-content-md-center">
-              <Col md="auto">
-                <h3 className="cmpgin-title">Convert Your Images</h3>
-              </Col>
-            </Row>
-          </Container>
-          <Container>
-            <Row className="mt-2">
-              <Col xs={6}>
-                <Form.Group controlId="formFileMultiple" className="mb-3">
-                  <Form.Label className="cmpgin-title">
-                    Multiple Images
-                  </Form.Label>
-                  <Form.Control
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleImageInputChange}
-                    multiple
-                    accept="image/jpeg, image/png, image/gif"
-                  />
-                  <p className="cmpgin-sub-title">
-                    Add images one by one or Select multiple images.
-                  </p>
-                </Form.Group>
-              </Col>
-              <Col className="d-flex justify-content-start align-items-center gap-4">
-                <Button
-                  variant="dark"
-                  onClick={() => {
-                    setFormData({ image: [] });
-                  }}
-                >
-                  Reset
-                </Button>
-                {formData?.image?.length > 1 && (
-                  <Button
-                    onClick={() => {
-                      if (formData?.image?.length == 0) {
-                        toast.error("No Images to Copy", {
-                          position: "bottom-right",
-                          style: {
-                            background: "red",
-                            color: "#fff",
-                          },
-                        });
-                        return;
-                      }
-                      navigator.clipboard.writeText(
-                        formData?.image?.toString()
-                      );
-                      toast.dismiss();
-                      toast.success("Copied All urls to clipboard", {
-                        position: "bottom-right",
-                        style: {
-                          background: "green",
-                          color: "#fff",
-                        },
-                      });
-                    }}
-                  >
-                    Copy All
-                  </Button>
-                )}
-              </Col>
-            </Row>
-
-            <Table
-              responsive
-              style={{
-                border: "1px solid #ccc",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Preview</th>
-                  <th>Url</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {formData?.image?.map((fileUrl, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>
-                      <img
-                        src={fileUrl}
-                        alt="productImage"
-                        width={50}
-                        height={50}
+    <>
+      <Modal
+        show={showConverter}
+        size="lg"
+        onHide={() => setshowConverter(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body
+          style={{
+            height: "70vh",
+            overflow: "scroll",
+          }}
+        >
+          <div>
+            {/* {showConverter && ( */}
+            <div className="converterBack">
+              <Container>
+                <Row className="justify-content-md-center">
+                  <Col md="auto">
+                    <h3 className="cmpgin-title">Convert Your Images</h3>
+                  </Col>
+                </Row>
+              </Container>
+              <Container>
+                <Row className="mt-2">
+                  <Col xs={6}>
+                    <Form.Group controlId="formFileMultiple" className="mb-3">
+                      <Form.Label className="cmpgin-title">
+                        Multiple Images
+                      </Form.Label>
+                      <Form.Control
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleImageInputChange}
+                        multiple
+                        accept="image/jpeg, image/png, image/gif"
                       />
-                    </td>
-                    <td>
-                      <a href={fileUrl} target="_blank" rel="noreferrer">
-                        {fileUrl}
-                      </a>
-                    </td>
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          gap: "10px",
-                        }}
-                      >
-                        <MdCancel
-                          style={{
-                            color: "red",
-                            fontSize: "20px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => handleCancelImage(fileUrl)}
-                        />
-
-                        <FaRegCopy
-                          style={{
-                            color: "blue",
-                            fontSize: "15px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            navigator.clipboard.writeText(fileUrl);
-                            toast.dismiss();
-                            toast.success("Copied url to clipboard", {
+                      <p className="cmpgin-sub-title">
+                        Add images one by one or Select multiple images.
+                      </p>
+                    </Form.Group>
+                  </Col>
+                  <Col className="d-flex justify-content-start align-items-center gap-4">
+                    <Button
+                      variant="dark"
+                      onClick={() => {
+                        setFormData({ image: [] });
+                      }}
+                    >
+                      Reset
+                    </Button>
+                    {formData?.image?.length > 1 && (
+                      <Button
+                        onClick={() => {
+                          if (formData?.image?.length == 0) {
+                            toast.error("No Images to Copy", {
                               position: "bottom-right",
                               style: {
-                                background: "green",
+                                background: "red",
                                 color: "#fff",
                               },
                             });
-                          }}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {formData?.image?.length == 0 && (
-                  <tr>
-                    <td colSpan="4" className="text-center">
-                      No Images Uploaded Start Uploading some
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
-          </Container>
-          <Toaster position="top-right" />
-        </div>
-      )}
-    </div>
+                            return;
+                          }
+                          navigator.clipboard.writeText(
+                            formData?.image?.toString()
+                          );
+                          toast.dismiss();
+                          toast.success("Copied All urls to clipboard", {
+                            position: "bottom-right",
+                            style: {
+                              background: "green",
+                              color: "#fff",
+                            },
+                          });
+                        }}
+                      >
+                        Copy All
+                      </Button>
+                    )}
+                  </Col>
+                </Row>
+
+                <Table
+                  responsive
+                  style={{
+                    border: "1px solid #ccc",
+                  }}
+                >
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Preview</th>
+                      <th>Url</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {formData?.image?.map((fileUrl, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>
+                          <img
+                            src={fileUrl}
+                            alt="productImage"
+                            width={50}
+                            height={50}
+                          />
+                        </td>
+                        <td>
+                          <a href={fileUrl} target="_blank" rel="noreferrer">
+                            {fileUrl}
+                          </a>
+                        </td>
+                        <td>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              gap: "10px",
+                            }}
+                          >
+                            <MdCancel
+                              style={{
+                                color: "red",
+                                fontSize: "20px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => handleCancelImage(fileUrl)}
+                            />
+
+                            <FaRegCopy
+                              style={{
+                                color: "blue",
+                                fontSize: "15px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => {
+                                navigator.clipboard.writeText(fileUrl);
+                                toast.dismiss();
+                                toast.success("Copied url to clipboard", {
+                                  position: "bottom-right",
+                                  style: {
+                                    background: "green",
+                                    color: "#fff",
+                                  },
+                                });
+                              }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                    {formData?.image?.length == 0 && (
+                      <tr>
+                        <td colSpan="4" className="text-center">
+                          No Images Uploaded Start Uploading some
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </Container>
+              <Toaster position="top-right" />
+            </div>
+            {/* )} */}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setshowConverter(false);
+            }}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 

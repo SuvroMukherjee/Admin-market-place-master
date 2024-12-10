@@ -22,7 +22,7 @@ const ApprovalPendingList = () => {
   const [type, setType] = useState("");
   const [data, setData] = useState([]);
   const [brandList, setBrandlist] = useState([]);
-  const [singleAddedSubCat,setSingleAddedSubCart] = useState([])
+  const [singleAddedSubCat, setSingleAddedSubCart] = useState([]);
 
   const { auth } = useAuth();
 
@@ -79,18 +79,15 @@ const ApprovalPendingList = () => {
     });
     setData(newtypeadded);
     // console.log(data);
-    
   };
 
-
-  const getRequestedSubCats= async() =>{
+  const getRequestedSubCats = async () => {
     let res = await subCategoryReqList();
     let newtypeadded = res?.data?.data?.map((ele) => {
       return { ...ele, type: "SubCategory" };
     });
-    setSingleAddedSubCart(newtypeadded)
-    
-  }
+    setSingleAddedSubCart(newtypeadded);
+  };
 
   const filterSubCatdata = (id) => {
     let find = SubcategoryApplicqation?.find((ele) => {
@@ -113,11 +110,12 @@ const ApprovalPendingList = () => {
   };
 
   const getSubCategory = () => {
-  
-    let all = [...singleAddedSubCat,...SubcategoryApplicqation]?.sort((a,b)=>{
-      return new Date(b?.updatedAt) - new Date(a.updatedAt)
-    })
-    console.table(all)
+    let all = [...singleAddedSubCat, ...SubcategoryApplicqation]?.sort(
+      (a, b) => {
+        return new Date(b?.updatedAt) - new Date(a.updatedAt);
+      }
+    );
+    console.table(all);
     setData(all);
   };
 
@@ -218,7 +216,7 @@ const ApprovalPendingList = () => {
         </Row>
         <Row>
           <Col className="d-flex gap-2">
-            <div>
+            {/* <div>
               <Button
                 size="sm"
                 variant={type != "all" ? "outline-secondary" : "dark"}
@@ -227,7 +225,7 @@ const ApprovalPendingList = () => {
                 {" "}
                 View All
               </Button>
-            </div>
+            </div> */}
             <div>
               <Button
                 size="sm"
@@ -290,7 +288,7 @@ const ApprovalPendingList = () => {
                     <th>Image</th>
                     <th>Application Type</th>
                     <th>subCategory</th>
-                    <th>Changed</th>
+                    <th>Created Date</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -362,7 +360,7 @@ const ApprovalPendingList = () => {
                     <th>Application Name</th>
                     <th>Image</th>
                     <th>Application Type</th>
-                    <th>Changed</th>
+                    <th>Created Date</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -433,7 +431,7 @@ const ApprovalPendingList = () => {
                     <th>Application Name</th>
                     <th>Image</th>
                     <th>Application Type</th>
-                    <th>Changed</th>
+                    <th>Created Date</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -507,6 +505,7 @@ const ApprovalPendingList = () => {
                     <th>Application Type</th>
                     <th>Category</th>
                     <th>SubCategory</th>
+                    <th>Created Date</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -558,6 +557,7 @@ const ApprovalPendingList = () => {
                         <td>{ele?.type}</td>
                         <td>{ele?.categoryId?.title}</td>
                         <td>{ele?.subcategoryId?.title}</td>
+                        <td>{ChangeFormatDate2(ele?.createdAt)}</td>
                         <td>
                           {ele?.is_approved === "pending" ? (
                             <span>Pending</span>
@@ -584,7 +584,9 @@ const ApprovalPendingList = () => {
                               size="sm"
                               className="gotoBtn"
                               onClick={() =>
-                                navigate(`/seller/seller-ownproduct-status/new-description/${ele?._id}`)
+                                navigate(
+                                  `/seller/seller-ownproduct-status/new-description/${ele?._id}`
+                                )
                               }
                             >
                               <span className="mx-2">
@@ -609,6 +611,7 @@ const ApprovalPendingList = () => {
                     <th>Application Type</th>
                     <th>SKU ID</th>
                     <th>Main Product</th>
+                    <th>Created Date</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -638,6 +641,7 @@ const ApprovalPendingList = () => {
                         <td>{ele?.type}</td>
                         <td>{ele?.skuId?.toUpperCase()}</td>
                         <td>{ele?.productId?.name}</td>
+                        <td>{ChangeFormatDate2(ele?.createdAt)}</td>
                         <td>
                           {ele?.is_approved ? (
                             <span>Approved</span>
@@ -680,7 +684,7 @@ const ApprovalPendingList = () => {
               </Table>
             )}
 
-            {type == "all" && (
+            {/* {type == "all" && (
               <Table responsive hover striped>
                 <thead>
                   <tr>
@@ -749,7 +753,7 @@ const ApprovalPendingList = () => {
                     ))}
                 </tbody>
               </Table>
-            )}
+            )} */}
           </Col>
         </Row>
       </Container>
