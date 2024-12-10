@@ -307,13 +307,15 @@ const BulkUpload = () => {
     };
 
     let res = await sellerVariationsBulkUpload(payload);
-    console.log(res?.data?.data);
+    console.log(res,"racing");
+     
     if (res?.response?.data?.error) {
       toast.error(res?.response?.data?.message);
       setvariLoading(false);
     } else {
-      toast.success("Products Added Successfully");
+      toast.success("Products Added Successfully,View your Application Status from Request Panel");
       setvariLoading(false);
+      setActiveVariation(false);
     }
   };
 
@@ -421,6 +423,7 @@ const BulkUpload = () => {
                       onChange={handleFileChangeForVariations}
                     />
                   </Col>
+                  
                 </Row>
               </Card.Body>
             </Card>
@@ -614,28 +617,7 @@ const BulkUpload = () => {
                                 onChange={handleFileChange}
                               />
                             </Col>
-                            {/* <Col className="mt-2 className='dwnTemp'">
-                                                    <label
-                                                        htmlFor="fileInput"
-                                                        className="w-100 text-center"
-                                                    >
-                                                        {loading ? (
-                                                            <Spinner className="mx-2" size="sm" />
-                                                        ) : (
-                                                            <span>
-                                                                <MdOutlineFileUpload size={25} />
-                                                            </span>
-                                                        )}
-                                                        Upload Spreadsheet
-                                                    </label>
-                                                    <input
-                                                        id="fileInput"
-                                                        type="file"
-                                                        accept=".xls,.xlsx,.ods,.csv" // Specify accepted file types here
-                                                        style={{ display: "none" }}
-                                                        onChange={handleFileChange}
-                                                    />
-                                                </Col> */}
+                           
                           </Row>
                         </Col>
                       </Row>
@@ -646,8 +628,8 @@ const BulkUpload = () => {
             </Col>
           </Row>
 
-          <Toaster />
-          <Toaster position="top-right" />
+          {/* <Toaster position="top-right"/> */}
+          {/* <Toaster position="top-right" /> */}
         </Container>
       )}
 
@@ -655,6 +637,7 @@ const BulkUpload = () => {
         showConverter={showConverter}
         setshowConverter={setshowConverter}
       />
+       <Toaster position="top-right" />
     </div>
   );
 };
