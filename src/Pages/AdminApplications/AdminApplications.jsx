@@ -1,16 +1,5 @@
-import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Tab, Table, Tabs } from "react-bootstrap";
-import Spinner from "react-bootstrap/Spinner";
-import toast, { Toaster } from "react-hot-toast";
-import { FaLongArrowAltRight } from "react-icons/fa";
-import { IoDocumentTextOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-import {
-  SubcategoryApproval,
-  allCategoryeqList,
-  categoryApproval,
-} from "../../API/api";
-import { ChangeFormatDate2 } from "../../common/DateFormat";
+import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
+import { Toaster } from "react-hot-toast";
 import CatReqList from "../ProductManagement/Category/CatReqList";
 
 export default function AdminApplications() {
