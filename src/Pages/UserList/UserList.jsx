@@ -12,6 +12,7 @@ import { AdminCreateUserList, StaffStatusUpdateByAdmin } from "../../API/api";
 import { productRows } from "../../dummyData";
 import UserAttendence from "./UserAttendence";
 import "./userlist.css";
+import AdminAttendence from "../KeyManager/AdminAttendence";
 
 export default function UserList() {
     const [data, setData] = useState(productRows || []);
@@ -190,12 +191,13 @@ export default function UserList() {
                 </Container>
                 <Container>
                     {console.log(selectedUserId)}
-                    <Modal size="lg" show={show} onHide={handleClose} centered>
+                    <Modal size="xl" show={show} onHide={handleClose} centered>
                         <Modal.Header closeButton>
                             <h5>{selectedUserId?.name} Attendence logs</h5>
                         </Modal.Header>
                         <Modal.Body>
-                            <UserAttendence userId={selectedUserId?._id}/>
+                            {/* <UserAttendence userId={selectedUserId?._id}/> */}
+                             <AdminAttendence userId={selectedUserId?._id}/>
                         </Modal.Body>
                     </Modal>
                 </Container>

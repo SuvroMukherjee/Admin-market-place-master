@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import { Toaster } from "react-hot-toast";
-import { attendenceList } from "../../../API/api";
+import { attendenceList } from "../../API/api";
 import {
   calculateTimeDifference,
   formateDateTimeUsingMomentTimezoneAsiaKolkata,
   getDayOfWeek,
   splitDateTime,
-} from "../../../common/DateFormat";
-import "../Seller/listStyle.css";
+} from "../../common/DateFormat";
+// import "../Seller/listStyle.css";
 
-export default function AttendenceComp() {
+export default function AdminAttendence({ userId }) {
   const [attendenceadata, setAttendencedata] = useState();
   const [loading, setLoading] = useState(true);
 
-  const userId = JSON.parse(localStorage.getItem("auth"))?.userId;
+//   const userId = JSON.parse(localStorage.getItem("auth"))?.userId;
 
   
 
@@ -48,13 +48,13 @@ export default function AttendenceComp() {
           </Row>
         </div>
       ) : (
-        <div className="productList mt-2 p-4">
+        <div className="mt-2 p-2">
           <Container>
-            <Row className="justify-content-md-center">
+            {/* <Row className="justify-content-md-center">
               <Col md="auto">
                 <h3>Attendance Report</h3>
               </Col>
-            </Row>
+            </Row> */}
             <Row className="justify-content-md-center">
               <Col>
                 <div
