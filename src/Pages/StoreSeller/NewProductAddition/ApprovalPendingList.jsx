@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { CiClock2 } from "react-icons/ci";
-import { FaRegCopy } from "react-icons/fa";
+import { FaEye, FaRegCopy } from "react-icons/fa";
 import { MdFileDownloadDone } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import {
@@ -510,7 +510,7 @@ const ApprovalPendingList = () => {
                     <th>SubCategory</th>
                     <th>Created Date</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th>Zoofi Live Preview</th>
                   </tr>
                 </thead>
                 <tbody className="mt-2 ">
@@ -568,7 +568,7 @@ const ApprovalPendingList = () => {
                             <span>Approved</span>
                           )}
                         </td>
-                        <td>
+                        {/* <td>
                           {ele?.is_approved !== "pending" ? (
                             <button
                               size="sm"
@@ -598,6 +598,20 @@ const ApprovalPendingList = () => {
                               RE-APPLY
                             </button>
                           )}
+                        </td> */}
+                        <td>
+                          <button
+                            size="sm"
+                            className="gotoBtn"
+                            onClick={() =>
+                              window.open(`https://zoofi.in/livepreview/${ele?._id}`, "_blank")
+                            }
+                          >
+                            <span className="mx-2">
+                              <FaEye size={20} />
+                            </span>{" "}
+                            Live Preview
+                          </button>
                         </td>
                       </tr>
                     ))}
