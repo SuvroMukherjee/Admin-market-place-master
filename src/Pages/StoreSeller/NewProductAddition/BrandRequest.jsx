@@ -284,7 +284,6 @@ const BrandRequest = () => {
                         id="indianBrandCheckbox"
                         name="brand_origin"
                         label="Is It Indian Brand?"
-                        required
                         checked={isChecked}
                         onChange={handleCheckboxChange}
                       />

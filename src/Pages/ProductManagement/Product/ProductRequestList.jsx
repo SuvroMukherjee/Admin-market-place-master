@@ -9,6 +9,7 @@ import { FaCodePullRequest } from "react-icons/fa6";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import {
+    AdminSellerProductLists,
   DeleteProductCategory,
   UpdateProductCategory,
   UpdateStatusProductCategory,
@@ -23,7 +24,7 @@ import EditCategory from "./EditCategory";
 import moment from "moment";
 import { Select } from "@mui/material";
 
-export default function ListCategory() {
+export default function ProductRequestList() {
   const [data, setData] = useState(productRows || []);
   const [topCats, setTopCats] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -59,27 +60,47 @@ export default function ListCategory() {
   // };
 
   useEffect(() => {
-    getCategoryList();
+    getAllOwnProducts();
     topCategoryList();
   }, []);
 
-  async function getCategoryList() {
-    await allCategoryList()
+  async function getAllOwnProducts() {
+    setLoading(true);
+    await AdminSellerProductLists()
       .then((res) => {
+        console.log(res?.data?.data, 'own data');
+        // console.log(" first product", res?.data?.data[0]);      
         const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
           ...item,
           id: index + 1,
         }));
         setData(dataWithUniqueIds);
+        // console.log(sellerOwnData);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
+        console.error(err);
       });
   }
+
+
+//   async function getCategoryList() {
+//     await allCategoryList()
+//       .then((res) => {
+//         const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
+//           ...item,
+//           id: index + 1,
+//         }));
+//         setData(dataWithUniqueIds);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       })
+//       .finally(() => {
+//         setLoading(false);
+//       });
+//   }
   async function topCategoryList() {
     try {
       setLoading(true);
@@ -100,7 +121,7 @@ export default function ListCategory() {
     await UpdateStatusProductCategory(payload, data?._id)
       .then((res) => {
         console.log(res, "res");
-        getCategoryList();
+        getAllOwnProducts();
         toast.success("Category updated successfully");
       })
       .catch((err) => {
@@ -113,7 +134,7 @@ export default function ListCategory() {
     await DeleteProductCategory(id)
       .then((res) => {
         console.log({ res });
-        getCategoryList();
+        getAllOwnProducts();
         toast.success("Category deleted successfully");
       })
       .catch((err) => {
@@ -133,13 +154,13 @@ export default function ListCategory() {
       .then((res) => {
         console.log({ res });
         toast.success("Category update successfully");
-        getCategoryList();
+        getAllOwnProducts();
         handleClose();
       })
       .catch((err) => {
         console.log(err);
         toast.error("Something went wrong!");
-        getCategoryList();
+        getAllOwnProducts();
       });
   };
 
@@ -155,13 +176,13 @@ export default function ListCategory() {
       .then((res) => {
         console.log({ res });
         toast.success("Category update successfully");
-        getCategoryList();
+        getAllOwnProducts();
         handleClose();
       })
       .catch((err) => {
         console.log(err);
         toast.error("Something went wrong!");
-        getCategoryList();
+        getAllOwnProducts();
       });
   };
 
@@ -175,12 +196,12 @@ export default function ListCategory() {
       .then((res) => {
         console.log({ res });
         toast.success("Category position updated successfully");
-        getCategoryList();
+        getAllOwnProducts();
       })
       .catch((err) => {
         console.log(err);
         toast.error("Something went wrong!");
-        getCategoryList();
+        getAllOwnProducts();
       });
   };
 

@@ -1,9 +1,28 @@
 import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import { Toaster } from "react-hot-toast";
 import CatReqList from "../ProductManagement/Category/CatReqList";
+import React, { useEffect } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import SubCatReqList from "../ProductManagement/SubCategory/SubCatReqList";
+import BrandReqList from "../ProductManagement/Brand/BrandReqList";
+import SellerProductManagment from "../SellerProductManagment/SellerProductManagment";
 
 export default function AdminApplications() {
-  
+  const [searchParams] = useSearchParams();
+  const tab = searchParams.get("tab");
+
+  const [activeTab, setActiveTab] = React.useState(tab ?? "catgories");
+
+  //   console.log({tab})
+
+  //   useEffect(() => {
+  //     if (tab) {
+  //       setActiveTab(tab);
+  //     }
+  //   }, [tab]);
+
+  //   console.log({activeTab})
+
   return (
     <>
       <div className="productList mt-2 p-4">
@@ -14,7 +33,8 @@ export default function AdminApplications() {
           <Row>
             <Col>
               <Tabs
-                defaultActiveKey="catgories"
+                defaultActiveKey={activeTab}
+                onSelect={(k) => setActiveTab(k)}
                 id="justify-tab-example"
                 className="mb-3 custom-tabs"
                 justify
@@ -22,19 +42,20 @@ export default function AdminApplications() {
                 <Tab eventKey="catgories" title="Categories">
                   <CatReqList />
                 </Tab>
-                <Tab eventKey="profile" title="Profile">
-                  Tab content for Profile
+                <Tab eventKey="sub-categories" title="Sub-Categories">
+                  <SubCatReqList />
                 </Tab>
-                <Tab eventKey="longer-tab" title="Loooonger Tab">
-                  Tab content for Loooonger Tab
+                <Tab eventKey="brands" title="Brands">
+                  <BrandReqList/> 
                 </Tab>
-                <Tab eventKey="contact" title="Contact">
-                  Tab content for Contact
+                <Tab eventKey="products" title="Products">
+                  <SellerProductManagment/>
                 </Tab>
               </Tabs>
             </Col>
           </Row>
         </Container>
+
         <Toaster position="top-right" />
       </div>
     </>

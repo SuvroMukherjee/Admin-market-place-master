@@ -72,6 +72,8 @@ const NewCustomization = () => {
             setTimeout(() => {
                 navigate(`/seller/approval-request-list?tabtype=product`)
             }, 1500);
+            localStorage.removeItem('Seller-productId');
+            navigate('/seller/approval-request-list')
         }
     }
 

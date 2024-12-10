@@ -63,8 +63,8 @@ export default function SellerProductManagment() {
     setLoading(true);
     await AdminSellerProductLists()
       .then((res) => {
-        console.log(res?.data?.data, 'own data');
-        // console.log(" first product", res?.data?.data[0]);      
+        console.log(res?.data?.data, "own data");
+        // console.log(" first product", res?.data?.data[0]);
         const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
           ...item,
           id: index + 1,
@@ -113,162 +113,163 @@ export default function SellerProductManagment() {
       });
   };
 
-  const columns = [
-    { field: "id", headerName: "ID", width: 100 },
-    // { field: "productId", headerName: "Product Id", width: 150 },
-    {
-      field: "seller",
-      headerName: "Seller",
-      width: 200,
-      renderCell: (params) => {
-        
-        return (
-          <div className="productListItem">{params?.row?.sellerId?.email}</div>
-        );
-      },
-    },
-    { field: "name", headerName: "Product Name", width: 150 },
-    {
-      field: "seller deatils",
-      headerName: "Seller Details",
-      width: 150,
-      renderCell: (params) => {      
-        return (
-          <>
-            <div className="buttonWrapper">
-              <Button
-                variant="dark"
-                onClick={() => handleSellerModalOpen(params?.row)}
-                size="sm">
-                <FaEye /> View
-              </Button>
-            </div>
-          </>
-        );
-      },
-    },
-    {
-      field: "image",
-      headerName: "Product Image",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div
-            className="productListItem"
-            // onClick={() => console.log(params?.row, 'roeDara')}
-          >
-            <img
-              className="productListImg"
-              src={params?.row?.image?.[0]?.image_path}
-              alt=""
-            />
-            {params?.row?.image?.length > 1 && (
-              <span>{params?.row?.image?.length - 1}+</span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "seller product",
-      headerName: "Product Details",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <div className="buttonWrapper">
-              <Button
-                variant="dark"
-                onClick={() => handleProductModalOpen(params?.row)}
-                size="sm">
-                <FaEye /> View
-              </Button>
-            </div>
-          </>
-        );
-      },
-    },
-    // { field: "regular_price", headerName: "Price", width: 150},
-    // { field: "desc", headerName: "Description", width: 150 },
-    {
-      field: "category",
-      headerName: "Category",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">{params.row.categoryId?.title}</div>
-        );
-      },
-    },
-    {
-      field: "Subcategory",
-      headerName: "Sub Category",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params.row.subcategoryId?.title}
-          </div>
-        );
-      },
-    },
-    {
-      field: "Brand",
-      headerName: "Brand",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">{params.row?.brandId?.title}</div>
-        );
-      },
-    },
-    {
-      field: "approved",
-      headerName: "Is Approved",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <div className="productListItem">
-            {params?.row?.is_approved == "pending" ? (
-              <span className="DeactiveStatus">Pending</span>
-            ) : (
-              <span className="ActiveStatus">Approved</span>
-            )}
-          </div>
-        );
-      },
-    },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 300,
-      renderCell: (params) => {
-        return (
-          <>
-            <div className="buttonWrapper">
-              {params?.row?.is_approved == "pending" ? (
-                <Button
-                  variant="outline-success"
-                  onClick={() => productStatusUpdate(params?.row)}
-                  size="sm"
-                >
-                  <IoCheckmarkDoneSharp /> Approve
-                </Button>
-              ) : (
-                <Button
-                  variant="outline-danger"
-                  onClick={() => productStatusUpdate(params?.row)}
-                  size="sm"
-                >
-                  <IoCheckmarkDoneSharp /> Reject
-                </Button>
-              )}
-            </div>
-          </>
-        );
-      },
-    },
-  ];
+  // const columns = [
+  //   { field: "id", headerName: "ID", width: 100 },
+  //   // { field: "productId", headerName: "Product Id", width: 150 },
+  //   {
+  //     field: "seller",
+  //     headerName: "Seller",
+  //     width: 200,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div className="productListItem">{params?.row?.sellerId?.email}</div>
+  //       );
+  //     },
+  //   },
+  //   { field: "name", headerName: "Product Name", width: 150 },
+  //   {
+  //     field: "seller deatils",
+  //     headerName: "Seller Details",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return (
+  //         <>
+  //           <div className="buttonWrapper">
+  //             <Button
+  //               variant="dark"
+  //               onClick={() => handleSellerModalOpen(params?.row)}
+  //               size="sm"
+  //             >
+  //               <FaEye /> View
+  //             </Button>
+  //           </div>
+  //         </>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "image",
+  //     headerName: "Product Image",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div
+  //           className="productListItem"
+  //           // onClick={() => console.log(params?.row, 'roeDara')}
+  //         >
+  //           <img
+  //             className="productListImg"
+  //             src={params?.row?.image?.[0]?.image_path}
+  //             alt=""
+  //           />
+  //           {params?.row?.image?.length > 1 && (
+  //             <span>{params?.row?.image?.length - 1}+</span>
+  //           )}
+  //         </div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "seller product",
+  //     headerName: "Product Details",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return (
+  //         <>
+  //           <div className="buttonWrapper">
+  //             <Button
+  //               variant="dark"
+  //               onClick={() => handleProductModalOpen(params?.row)}
+  //               size="sm"
+  //             >
+  //               <FaEye /> View
+  //             </Button>
+  //           </div>
+  //         </>
+  //       );
+  //     },
+  //   },
+  //   // { field: "regular_price", headerName: "Price", width: 150},
+  //   // { field: "desc", headerName: "Description", width: 150 },
+  //   {
+  //     field: "category",
+  //     headerName: "Category",
+  //     width: 200,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div className="productListItem">{params.row.categoryId?.title}</div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "Subcategory",
+  //     headerName: "Sub Category",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div className="productListItem">
+  //           {params.row.subcategoryId?.title}
+  //         </div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "Brand",
+  //     headerName: "Brand",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div className="productListItem">{params.row?.brandId?.title}</div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "approved",
+  //     headerName: "Is Approved",
+  //     width: 150,
+  //     renderCell: (params) => {
+  //       return (
+  //         <div className="productListItem">
+  //           {params?.row?.is_approved == "pending" ? (
+  //             <span className="DeactiveStatus">Pending</span>
+  //           ) : (
+  //             <span className="ActiveStatus">Approved</span>
+  //           )}
+  //         </div>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     field: "action",
+  //     headerName: "Action",
+  //     width: 300,
+  //     renderCell: (params) => {
+  //       return (
+  //         <>
+  //           <div className="buttonWrapper">
+  //             {params?.row?.is_approved == "pending" ? (
+  //               <Button
+  //                 variant="outline-success"
+  //                 onClick={() => productStatusUpdate(params?.row)}
+  //                 size="sm"
+  //               >
+  //                 <IoCheckmarkDoneSharp /> Approve
+  //               </Button>
+  //             ) : (
+  //               <Button
+  //                 variant="outline-danger"
+  //                 onClick={() => productStatusUpdate(params?.row)}
+  //                 size="sm"
+  //               >
+  //                 <IoCheckmarkDoneSharp /> Reject
+  //               </Button>
+  //             )}
+  //           </div>
+  //         </>
+  //       );
+  //     },
+  //   },
+  // ];
 
   return (
     <>
@@ -283,22 +284,38 @@ export default function SellerProductManagment() {
           </Row>
         </div>
       )}
-      <div className="productList mt-2 p-4">
+      <div className="mt-2 p-2">
         <Container>
           <Row className="justify-content-md-center">
-            <Col md="auto">
+            {/* <Col md="auto">
               <h3>Seller Product List</h3>
             </Col>
             <Col xs={3}></Col>
             <Col xs={5} className="">
               <FaInfoCircle /> Keep the cursor pointer inside the table and use <span className="fw-bold">shift + scrollbar</span> to scroll from left to right
-            </Col>
+            </Col> */}
           </Row>
-          
+
           <div className="mt-4">
             <Row className="justify-content-md-center mt-4">
-              <Col>
-                <DataGrid
+              <Col
+                xs={12}
+                className="d-flex justify-content-end align-items-center mb-2"
+              >
+                <div
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    padding: "5px",
+                    borderRadius: "2px",
+                    width: "fit-content",
+                  }}
+                >
+                  Total Request : {sellerOwnData?.length}
+                </div>
+              </Col>
+              <Col className="mt-2">
+                {/* <DataGrid
                   rows={sellerOwnData}
                   columns={columns}
                   pageSize={8}
@@ -309,7 +326,101 @@ export default function SellerProductManagment() {
                       </div>
                     )
                   }
-                />
+                /> */}
+                <div style={{ overflowX: "auto" }}>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Seller</th>
+                        <th>Product Name</th>
+                        <th>Seller Details</th>
+                        <th>Product Image</th>
+                        <th>Product Live Preview</th>
+                        <th>Category</th>
+                        <th>Sub Category</th>
+                        <th>Brand</th>
+                        <th>Is Approved</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sellerOwnData?.length === 0 ? (
+                        <tr>
+                          <td
+                            colSpan="11"
+                            style={{ textAlign: "center", padding: "20px" }}
+                          >
+                            No Data Found
+                          </td>
+                        </tr>
+                      ) : (
+                        sellerOwnData?.map((row) => (
+                          <tr key={row.id}>
+                            <td>{row.id}</td>
+                            <td>{row?.sellerId?.email}</td>
+                            <td>{row.name?.slice(0, 20)+"..."}</td>
+                            <td
+                              onClick={() => handleSellerModalOpen(row)}
+                              style={{ cursor: "pointer" }}
+                              title="View Seller Details"
+                            >
+                              <FaEye size={20}/>
+                            </td>
+
+                            <td>
+                              <img
+                                className="productListImg"
+                                src={row?.image?.[0]?.image_path}
+                                alt=""
+                              />
+                              {row?.image?.length > 1 && (
+                                <span>{row?.image?.length - 1}+</span>
+                              )}
+                            </td>
+                            <td
+                              onClick={() => window.open(`https://zoofi.in/livepreview/${row?._id}`, "_blank")}
+                              style={{ cursor: "pointer" }}
+                              title="View Details"
+                            >
+                              <FaEye size={20} />
+                            </td>
+
+                            <td>{row?.categoryId?.title}</td>
+                            <td>{row?.subcategoryId?.title}</td>
+                            <td>{row?.brandId?.title}</td>
+                            <td>
+                              {row?.is_approved === "pending" ? (
+                                <span className="DeactiveStatus">Pending</span>
+                              ) : (
+                                <span className="ActiveStatus">Approved</span>
+                              )}
+                            </td>
+                            <td>
+                              {row?.is_approved === "pending" ? (
+                                <Button
+                                  variant="outline-success"
+                                  onClick={() => productStatusUpdate(row)}
+                                  size="sm"
+                                >
+                                  <IoCheckmarkDoneSharp /> Approve
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="outline-danger"
+                                  onClick={() => productStatusUpdate(row)}
+                                  size="sm"
+                                >
+                                  <IoCheckmarkDoneSharp /> Reject
+                                </Button>
+                              )}
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </Col>
             </Row>
           </div>

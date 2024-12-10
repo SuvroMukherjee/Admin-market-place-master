@@ -255,7 +255,7 @@ export default function ListSubCategory() {
                 <Button
                   className="addCategoryButton"
                   variant="dark"
-                  onClick={() => navigate("/Admin/subcategory-request")}
+                  onClick={() =>  navigate("/Admin/AdminApplications?tab=sub-categories")}
                 >
                   <FaCodePullRequest /> Requested Sub Category
                 </Button>

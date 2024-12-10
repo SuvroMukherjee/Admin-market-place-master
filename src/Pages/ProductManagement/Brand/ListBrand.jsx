@@ -187,7 +187,7 @@ export default function ListSubCategory() {
                 <Button
                   className="addCategoryButton"
                   variant="dark"
-                  onClick={() => navigate("/Admin/brand-request")}
+                  onClick={() => navigate("/Admin/AdminApplications?tab=brands")}
                 >
                   <FaCodePullRequest /> Requested Brand
                 </Button>

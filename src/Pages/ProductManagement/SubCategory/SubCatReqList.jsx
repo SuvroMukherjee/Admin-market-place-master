@@ -64,13 +64,25 @@ const SubCatReqList = () => {
           </Row>
         </div>
       )}
-       <div className="productList mt-2 p-4">
-        <div className="text-center">
+       <div className="mt-2 p-2">
+        {/* <div className="text-center">
           <h4>Sub Category Request Lists</h4>
-        </div>
+        </div> */}
         <Container className="mt-4">
           <Row>
-            <Col xs={12} className="fw-bold fs-5 text-center mb-2">Total Data : {SubcategoryApplicqation?.length}</Col>
+          <Col xs={12} className="d-flex justify-content-end align-items-center mb-2">
+              <div
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  padding: "5px",
+                  borderRadius: "2px",
+                  width: "fit-content",
+                }}
+              >
+                Total Request : {SubcategoryApplicqation?.length}
+              </div>
+            </Col>
             <Col>
               <Table responsive hover striped>
                 <thead>
