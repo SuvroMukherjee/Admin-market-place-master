@@ -713,7 +713,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                     <Col xs={2}>Action</Col>
                   </Row>
                   <Row className="vData mt-2">
-                    <Col>{ele?.name}</Col>
+                    <Col>{ele?.name?.slice(0, 20)+"..."}</Col>
                     <Col>{ele?.is_approved}</Col>
                     <Col className="text-center">
                       {" "}
@@ -813,7 +813,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                               <Row>
                                 <Col xs={12} className="othervariDivName">
                                   {item?.productId?.brandId?.title}{" "}
-                                  {item?.productId?.name}{" "}
+                                  {item?.productId?.name?.slice(0, 20)+"..."}{" "}
                                   {item?.spec_det?.length > 0 && (
                                     <span>
                                       (
