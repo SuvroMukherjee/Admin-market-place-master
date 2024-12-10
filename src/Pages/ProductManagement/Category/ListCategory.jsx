@@ -204,9 +204,26 @@ export default function ListCategory() {
       },
     },
     {
+      field: "icon",
+      headerName: "Icon",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <div className="productListItem">
+            <img
+              className="productListImg"
+              src={params.row.icon}
+              alt=""
+            />
+            {/* {params?.row?.image} */}
+          </div>
+        );
+      },
+    },
+    {
       field: "title",
       headerName: "Title",
-      width: 180,
+      width: 250,
       renderCell: (params) => {
         return (
           <div>
