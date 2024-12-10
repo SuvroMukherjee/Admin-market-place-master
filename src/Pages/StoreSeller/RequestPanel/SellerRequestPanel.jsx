@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const SellerRequestPanel = () => {
@@ -31,6 +31,16 @@ const SellerRequestPanel = () => {
       className="px-5 py-3"
       style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
     >
+      <div className="mt-4 d-flex justify-content-end">
+        <Button
+          variant="dark"
+          size="sm"
+          className="btns"
+          onClick={() => handleClick("track")}
+        >
+          Track Your Request Applications
+        </Button>
+      </div>
       <Row className="mt-4 d-flex justify-content-start items-center gap-4">
         <Col className="text-center" size={4}>
           <Card
@@ -140,7 +150,7 @@ const SellerRequestPanel = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col className="text-center" size={4}>
+        {/* <Col className="text-center" size={4}>
           <Card
             className="bcard5"
             style={{ height: "300px", width: "400px" }}
@@ -166,7 +176,7 @@ const SellerRequestPanel = () => {
               </Row>
             </Card.Body>
           </Card>
-        </Col>
+        </Col> */}
         <Col size={4}></Col>
       </Row>
     </div>
