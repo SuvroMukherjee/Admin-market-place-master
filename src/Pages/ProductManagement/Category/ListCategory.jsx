@@ -1,6 +1,14 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  InputGroup,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import Spinner from "react-bootstrap/Spinner";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -22,6 +30,7 @@ import "../product.css";
 import EditCategory from "./EditCategory";
 import moment from "moment";
 import { Select } from "@mui/material";
+import { Search } from "@mui/icons-material";
 
 export default function ListCategory() {
   const [data, setData] = useState(productRows || []);
@@ -195,7 +204,7 @@ export default function ListCategory() {
           <div className="productListItem">
             <img
               className="productListImg"
-              src={params.row.image?.[0]?.image_path}
+              src={params?.row?.image?.[0]?.image_path}
               alt=""
             />
             {/* {params?.row?.image} */}
@@ -210,11 +219,15 @@ export default function ListCategory() {
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            <img
-              className="productListImg"
-              src={params.row.icon}
-              alt=""
-            />
+            {params?.row?.icon && (
+              <img
+                className="productListImg"
+                src={params?.row?.icon}
+                alt=""
+                style={{ backgroundColor: "black", padding: "5px" }}
+              />
+            )}
+
             {/* {params?.row?.image} */}
           </div>
         );
@@ -681,7 +694,9 @@ export default function ListCategory() {
                     className="addCategoryButton"
                     variant="dark"
                     size="sm"
-                    onClick={() => navigate("/Admin/AdminApplications?tab=catgories")}
+                    onClick={() =>
+                      navigate("/Admin/AdminApplications?tab=catgories")
+                    }
                   >
                     <FaCodePullRequest /> Requested Category
                   </Button>
@@ -689,6 +704,22 @@ export default function ListCategory() {
               </Row>
             </Col>
           </Row>
+          {/* <Row className="justify-content-md-center">
+            <Col>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  placeholder="Username"
+                  aria-label="Username"
+                  aria-describedby="basic-addon1"
+                  onChange={(e) =>
+                    setData(
+                      data.filter((item) => item?.title?.includes(e.target.value))
+                    )
+                  }
+                />
+              </InputGroup>
+            </Col>
+          </Row> */}
           <Row className="justify-content-md-center">
             <Col>
               <DataGrid
