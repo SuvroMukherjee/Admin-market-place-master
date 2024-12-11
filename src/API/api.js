@@ -1223,6 +1223,16 @@ export async function sellerBrandRequestList() {
     return error;
   }
 }
+export async function deleteSellerOwnProduct(id) {
+  try {
+    const response = await axios.delete(
+      apiUrl + `/seller-new-product/delete/${id}`
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
 
 export async function sellerNewAddedProductDtails(id) {
   try {
@@ -1997,8 +2007,6 @@ export async function offerTypeDelete(id) {
   /** {{base_url}}/seller/verify-both-otp */
 }
 
-
-
 export async function verifyOTP(payload) {
   try {
     const response = await axios.post(
@@ -2011,15 +2019,11 @@ export async function verifyOTP(payload) {
   }
 }
 
-
 /** seller/resend-otp */
 
-export async function resendOtp(payload){
+export async function resendOtp(payload) {
   try {
-    const response = await axios.post(
-      apiUrl + `/seller/resend-otp`,
-      payload
-    );
+    const response = await axios.post(apiUrl + `/seller/resend-otp`, payload);
     return response;
   } catch (error) {
     return error;
