@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { CiClock2 } from "react-icons/ci";
-import { FaEye, FaRegCopy } from "react-icons/fa";
+import { FaEye, FaRegCopy, FaRegTrashAlt } from "react-icons/fa";
 import { MdFileDownloadDone } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import {
+  deleteSellerOwnProduct,
   OwnProductSellerList,
   sellerBrandRequestList,
   sellerCategoryRequestList,
@@ -16,6 +17,8 @@ import useAuth from "../../../hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import moment from "moment";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import toast, { Toaster } from "react-hot-toast";
 
 const ApprovalPendingList = () => {
   const [categoryApplicqation, setCategoryApplication] = useState();
@@ -191,6 +194,22 @@ const ApprovalPendingList = () => {
       setCopied(false);
       setCopiedIndex("");
     }, 2000);
+  };
+
+  const handleProductDelete = async (id) => {
+    try {
+      let res = await deleteSellerOwnProduct(id);
+      if (!res?.data?.error) {
+        toast.success(res?.data?.message);
+      } else {
+        toast.error(res?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message);
+    } finally {
+      getReqPorducts();
+    }
   };
 
   console.log({ data });
@@ -511,6 +530,9 @@ const ApprovalPendingList = () => {
                     <th>Created Date</th>
                     <th>Status</th>
                     <th>Zoofi Live Preview</th>
+                    {data?.some((ele) => ele?.is_approved === "pending") && (
+                      <th>Delete</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="mt-2 ">
@@ -604,7 +626,10 @@ const ApprovalPendingList = () => {
                             size="sm"
                             className="gotoBtn"
                             onClick={() =>
-                              window.open(`https://zoofi.in/livepreview/${ele?._id}`, "_blank")
+                              window.open(
+                                `https://zoofi.in/livepreview/${ele?._id}`,
+                                "_blank"
+                              )
                             }
                           >
                             <span className="mx-2">
@@ -613,6 +638,17 @@ const ApprovalPendingList = () => {
                             Live Preview
                           </button>
                         </td>
+                        {ele?.is_approved === "pending" ? (
+                          <td>
+                            <Button
+                              variant="outline-danger"
+                              onClick={() => handleProductDelete(ele?._id)}
+                              size="md"
+                            >
+                              <FaRegTrashAlt />
+                            </Button>
+                          </td>
+                        ) : null}
                       </tr>
                     ))}
                 </tbody>
@@ -773,6 +809,7 @@ const ApprovalPendingList = () => {
             )} */}
           </Col>
         </Row>
+        <Toaster position="top-right" />
       </Container>
     </div>
   );
