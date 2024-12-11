@@ -530,7 +530,9 @@ const ApprovalPendingList = () => {
                     <th>Created Date</th>
                     <th>Status</th>
                     <th>Zoofi Live Preview</th>
-                    <th>Action</th>
+                    {data?.some((ele) => ele?.is_approved === "pending") && (
+                      <th>Delete</th>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="mt-2 ">
@@ -646,9 +648,7 @@ const ApprovalPendingList = () => {
                               <FaRegTrashAlt />
                             </Button>
                           </td>
-                        ) : (
-                          "N/A"
-                        )}
+                        ) : null}
                       </tr>
                     ))}
                 </tbody>
