@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  OverlayTrigger,
+  Row,
+  Table,
+  Tooltip,
+} from "react-bootstrap";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { CiClock2 } from "react-icons/ci";
 import { FaEye, FaRegCopy, FaRegTrashAlt } from "react-icons/fa";
@@ -530,9 +538,9 @@ const ApprovalPendingList = () => {
                     <th>Created Date</th>
                     <th>Status</th>
                     <th>Zoofi Live Preview</th>
-                    {data?.some((ele) => ele?.is_approved === "pending") && (
+                    {/* {data?.some((ele) => ele?.is_approved === "pending") && (
                       <th>Delete</th>
-                    )}
+                    )} */}
                   </tr>
                 </thead>
                 <tbody className="mt-2 ">
@@ -640,13 +648,20 @@ const ApprovalPendingList = () => {
                         </td>
                         {ele?.is_approved === "pending" ? (
                           <td>
-                            <Button
-                              variant="outline-danger"
-                              onClick={() => handleProductDelete(ele?._id)}
-                              size="md"
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={
+                                <Tooltip id={`tooltip-delete`}>Delete</Tooltip>
+                              }
                             >
-                              <FaRegTrashAlt />
-                            </Button>
+                              <Button
+                                variant="outline-danger"
+                                onClick={() => handleProductDelete(ele?._id)}
+                                size="md"
+                              >
+                                <FaRegTrashAlt />
+                              </Button>
+                            </OverlayTrigger>
                           </td>
                         ) : null}
                       </tr>
