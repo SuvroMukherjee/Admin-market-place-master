@@ -151,10 +151,9 @@ const FrontPage = () => {
                       </svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">Crores of customers</div>
+                      <div className="card-title">Zoofi: The Heart of Local Shopping</div>
                       <div className="card-text">
-                        Reach thousands of customers on Zoofi.in, India's one of
-                        the most visited shopping destination.
+                        Empowering local sellers and celebrating Make-in-India products.
                       </div>
                     </div>
                   </div>
@@ -187,10 +186,9 @@ const FrontPage = () => {
                       </svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">5.1K+</div>
+                      <div className="card-title">Zoofi: Your Gateway to Local Excellence</div>
                       <div className="card-text">
-                        Transforming Sellers into Crorepatis: Launching Your
-                        Path to Success.
+                      Discover unique products crafted with passion, right here in India.
                       </div>
                     </div>
                   </div>
@@ -232,9 +230,9 @@ const FrontPage = () => {
                       </svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">Unbeatable reach</div>
+                      <div className="card-title">Shop Smart, Shop Local with Zoofi</div>
                       <div className="card-text">
-                        Deliver to 100% of India's serviceable pincodes .
+                      Connecting you to authentic, homegrown treasures from Indian sellers.
                       </div>
                     </div>
                   </div>
@@ -267,10 +265,9 @@ const FrontPage = () => {
                       </svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">Secure timely payments</div>
+                      <div className="card-title">Think Local, Shop Zoofi</div>
                       <div className="card-text">
-                        Funds are deposited directly to your bank account every
-                        7 days, including for Pay on Delivery order.
+                      Transforming how you support Indian businesses, one purchase at a time.
                       </div>
                     </div>
                   </div>
@@ -278,42 +275,12 @@ const FrontPage = () => {
                 <div className="col-lg-4 col-12">
                   <div className="card why-card">
                     <div className="card-img">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        version="1.1"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                        width={512}
-                        height={512}
-                        x={0}
-                        y={0}
-                        viewBox="0 0 512 512"
-                        style={{ enableBackground: "new 0 0 512 512" }}
-                        xmlSpace="preserve"
-                        className=""
-                      >
-                        <g>
-                          <path
-                            d="M394.884 126.116c5.858 5.858 15.355 5.858 21.213 0l35.355-35.355c5.858-5.858 5.858-15.355 0-21.213-5.858-5.858-15.355-5.858-21.213 0l-35.355 35.355c-5.858 5.858-5.858 15.355 0 21.213zM412.215 168.889c2.144 8.002 10.369 12.751 18.371 10.607l48.296-12.941c8.002-2.144 12.751-10.369 10.607-18.371s-10.369-12.751-18.371-10.606l-48.296 12.941c-8.003 2.143-12.751 10.368-10.607 18.37zM352.111 108.789c8.002 2.144 16.227-2.605 18.371-10.607l12.941-48.296c2.144-8.002-2.605-16.227-10.606-18.371-8.002-2.144-16.227 2.605-18.371 10.607l-12.941 48.296c-2.145 8.002 2.604 16.227 10.606 18.371z"
-                            fill="#9af064"
-                            opacity={1}
-                            data-original="#000000"
-                            className=""
-                          />
-                          <path
-                            d="M478.25 211H305.357c-9.863 0-17.042-9.355-14.489-18.882l17.414-64.99c4.824-18.004-5.861-36.511-23.865-41.335-18.004-4.824-36.51 5.861-41.335 23.865l-8.288 30.93C223.667 182.12 186.03 211 143.032 211H100v230h27.5l7.5 10a75 75 0 0 0 60 30h131.25c18.64 0 33.75-15.11 33.75-33.75s-15.11-33.75-33.75-33.75h20c18.64 0 33.75-15.11 33.75-33.75S364.89 346 346.25 346h20c18.64 0 33.75-15.11 33.75-33.75s-15.11-33.75-33.75-33.75h112c18.64 0 33.75-15.11 33.75-33.75S496.89 211 478.25 211zM55 181H15c-8.284 0-15 6.716-15 15v260c0 8.284 6.716 15 15 15h40c8.284 0 15-6.716 15-15V196c0-8.284-6.716-15-15-15z"
-                            fill="#9af064"
-                            opacity={1}
-                            data-original="#000000"
-                            className=""
-                          />
-                        </g>
-                      </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 64 64" xml:space="preserve" class=""><g><path d="M56.73 18.6c-4.69-2.89-7.91 4.78-12.09 3.61-1.37-.38.02-2.56-2.23-2.46-5.87.26-5.07 3.33-8.68 2.71-3.73-.64-2.62-2.49-6.21-5.83-1.31-.44-4.19-1.31-2.91-3.12 1.44-.28 1.11-1.76.62-2.71-.2-1.53 2.85-1.81 2.78-3.36-.09-2.2-3.68-.42-4.73-.65-2.33-.51-3-3.61-5.77-2.77-3.53 1.11-4.13 1.01-2.35 2.89.68.71.94 1.71.77 2.67-.81 4.43 3.91.89.29 6.99-.35.59-.84 1.07-1.35 1.52-1.72 1.49-2.13 4.46-4.98 3.95-3.34.81 1.62 4.6.11 6.82-.66 1.02-2.24-.96-3.46.68-1.15 1.55 1.22 2.09 2.43 2.6.61.25.73 1.1.22 1.51l-.02.02c-.46.36-.46 1.08-.02 1.46 2.94 2.54 3.29-2.28 5.4-1.2.43.54-.15 1.26-.53 1.84-.91 1.39-.58 3.25-.05 4.82.95 2.08 1.15 4.17.88 6.34.19.75.99 1.2 1.33 1.89 1.98 7.32 4.3 15.42 8.82 8.38 1.22-1.91 1.91-4.12 2.05-6.38.46-7.68 6.9-3.02 8.01-10.06.26-1.66 1.13-2.76 2.04-3.24.92-.48 1.79-1.05 2.44-1.86 1.39-1.72 1.71-.66 4.04-1.57 1.19-1.47-1.49-2.67-.93-4.03.64-1.56-.67-2.33-.04-3.64.64-1.34 2.31 0 3.28.29.61.15 1.48-.03 2.13-.07 1.45-.09 1.34 1.3.78 1.8-.53.47-1.98 1.07-2.27 1.82 1.15-.06 1.44.31 2.14.47.46.11.88.38 1.06.82.42 1 1.74 1.86 3.05 1.8.26-1.59-1.25-4.34.55-5.13 1.29-1.09-.13-3.35.63-4.85.95-1.52 5.38-2.57 2.77-4.8z" fill="#9af064" opacity="1" data-original="#000000" class=""></path></g></svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">Ease of starting</div>
+                      <div className="card-title">Zoofi: Celebrating Indian Innovation</div>
                       <div className="card-text">
-                        From product photography to hassle free delivery &amp;
-                        returns management, Zoofi has a solution for you.
+                      A marketplace where local talent meets global possibilities
                       </div>
                     </div>
                   </div>
@@ -361,11 +328,10 @@ const FrontPage = () => {
                     </div>
                     <div className="card-body">
                       <div className="card-title">
-                        Sell to customers worldwide
+                      Zoofi: Where Local Dreams Go Global
                       </div>
                       <div className="card-text">
-                        Sign up for Zoofi Global Selling &amp; reach customers
-                        in upto 200+ countries.
+                      Empowering small businesses to reach big audiences, one product at a time
                       </div>
                     </div>
                   </div>
@@ -388,7 +354,8 @@ const FrontPage = () => {
                     </div>
                     <div className="card-body">
                       <div className="card-title">
-                        STEP 1: Register your account
+                        Step 1: Register Your Account
+                        <p>Create your Zoofi account and join the marketplace revolution.</p>
                       </div>
                     </div>
                   </div>
@@ -400,7 +367,9 @@ const FrontPage = () => {
                     </div>
                     <div className="card-body">
                       <div className="card-title">
-                        STEP 2: Choose storage &amp; shipping
+                        Step 2: Add Products
+                        <p>Choose from Zoofi&apos;s catalogue or request to list your unique products that aren&amp;t already available.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -412,7 +381,8 @@ const FrontPage = () => {
                     </div>
                     <div className="card-body">
                       <div className="card-title">
-                        STEP 3: List your products
+                        Step 3: Manage Your Inventory
+                        <p>Keep your stock updated and ready for sales with Zoofi&amp;s intuitive tools.</p>
                       </div>
                     </div>
                   </div>
@@ -424,7 +394,8 @@ const FrontPage = () => {
                     </div>
                     <div className="card-body">
                       <div className="card-title">
-                        STEP 4: Complete orders &amp; get paid
+                        Step 4: Complete Orders & Grow Your Business
+                        <p>Fulfill orders effortlessly and take your business to new heights.</p>
                       </div>
                     </div>
                   </div>

@@ -709,6 +709,16 @@ footer .info-list .cta-link:hover svg {
   transition: all 0.15s ease-in-out;
 }
 
+.why-card .card-text {
+  margin: 0 auto;
+}
+
+.how-card .card-title p {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+}
+
 @media only screen and (max-width: 1199px) {
   .about-section .text-holder {
     font-size: 16px;
