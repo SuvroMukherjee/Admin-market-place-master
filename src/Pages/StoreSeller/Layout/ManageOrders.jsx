@@ -1,16 +1,18 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
-  Container,
   Form,
   Image,
+  Modal,
   Pagination,
   Row,
+  Spinner,
   Table,
 } from "react-bootstrap";
-import { IoIosInformationCircle } from "react-icons/io";
-import { MdArrowDropDownCircle } from "react-icons/md";
+import { FaPrint, FaRegMoneyBillAlt, FaTimes, FaTruck } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   PaymentUpdate,
   commandOnOrder,
@@ -21,8 +23,7 @@ import {
   ChangeFormatDate,
   formatDateRemoveTime,
 } from "../../../common/DateFormat";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { LoaderIcon } from "react-hot-toast";
 
 const ManageOrders = () => {
   const { userId } = JSON.parse(localStorage.getItem("auth"));
@@ -32,6 +33,7 @@ const ManageOrders = () => {
   const [showCommentIndex, setCommentIndx] = useState();
   const [showCommentBoxText, SetshowCommentBoxText] = useState("");
   const [loading, setLoading] = useState(true);
+  const [processLoader, setProcessLoader] = useState(false);
 
   const navigate = useNavigate();
 
@@ -63,6 +65,7 @@ const ManageOrders = () => {
   // console.log({ list });
 
   const handleStatusUpdate = async (OId, product, status) => {
+    setProcessLoader(true);
     let payload = {
       proId: product,
       order_status: status,
@@ -72,6 +75,7 @@ const ManageOrders = () => {
 
     console.log(res);
     getOrdersist();
+    setProcessLoader(false);
   };
 
   const IsallOrderPackedFunc = (data) => {
@@ -267,6 +271,7 @@ const ManageOrders = () => {
   }
 
   const handleMakePayment = async (orderId, orderType) => {
+    setProcessLoader(true);
     let payload = {
       is_payment: true,
       payment_status: "paid",
@@ -289,6 +294,7 @@ const ManageOrders = () => {
       toast.error("An error occurred while processing the payment.");
     }
     getOrdersist();
+    setProcessLoader(false);
   };
 
   let filteredListByDate = [];
@@ -326,6 +332,15 @@ const ManageOrders = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
+
+  const handleClose = () => {
+    setShow(false);
+    setSelectIndex(null);
   };
 
   return (
@@ -464,7 +479,10 @@ const ManageOrders = () => {
                     <tr key={row.id}>
                       <td
                         className="orderId"
-                        onClick={() => setSelectIndex(index)}
+                        onClick={() => {
+                          setSelectIndex(index);
+                          handleShow();
+                        }}
                       >
                         {row?.order_no}
                         {/* <MdArrowDropDownCircle size={20} />{" "} */}
@@ -499,7 +517,10 @@ const ManageOrders = () => {
                         </span>
                       </td>
                       <td>{row?.addressId?.pincode}</td>
-                      <td>{row?.addressId?.address}</td>
+                      <td>
+                        {row?.addressId?.landmark},{row?.addressId?.city},
+                        {row?.addressId?.state}
+                      </td>
                       <td>
                         {row?.payment_status == "unpaid"
                           ? "Incomplete"
@@ -514,7 +535,10 @@ const ManageOrders = () => {
                           <Button
                             variant="dark"
                             size="sm"
-                            onClick={() => setSelectIndex(index)}
+                            onClick={() => {
+                              setSelectIndex(index);
+                              handleShow();
+                            }}
                             disabled={
                               row?.order_details?.[0]?.order_status == "cancel"
                             }
@@ -585,205 +609,225 @@ const ManageOrders = () => {
           </Col>
         </Row>
 
-        {filteredListByDate[selectIndex]?.order_details?.length > 0 && (
-          <Row className="mt-4">
-            <Col className="mb-2 dtextOredr">
-              Order Id :{" "}
-              <span style={{ color: "#FF9843" }}>
-                {filteredListByDate[selectIndex]?.order_no}
-              </span>{" "}
-              {filteredListByDate[selectIndex]?.order_details?.every(
-                IsallOrderPackedFunc
-              ) && (
-                <Row className="p-2 mt-2 cdetailsbg ">
-                  <Col className="dtext" xs={3}>
-                    <Row>
-                      <Col>Customer Details</Col>
-                    </Row>
-                    <Row className="mt-3">
-                      <Col className="orderId">
-                        {" "}
-                        {filteredListByDate[selectIndex]?.order_no} (
-                        {
-                          filteredListByDate[selectIndex]?.order_details?.[0]
-                            ?.order_status
-                        }
-                        )
+        <Modal show={show} onHide={handleClose} centered size="xl">
+          {/* <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header> */}
+          <Modal.Body>
+            {filteredListByDate[selectIndex]?.order_details?.length > 0 && (
+              <Row className="mt-4">
+                <Col className="mb-2">
+                  <h5 className="dtextOredr">
+                    Order Id:{" "}
+                    <span style={{ color: "#FF9843", fontWeight: "bold" }}>
+                      {filteredListByDate[selectIndex]?.order_no}
+                    </span>
+                  </h5>
+                  {filteredListByDate[selectIndex]?.order_details?.every(
+                    IsallOrderPackedFunc
+                  ) && (
+                    <Row
+                      className="p-3 mt-3 rounded cdetailsbg"
+                      style={{ backgroundColor: "#f8f9fa" }}
+                    >
+                      <Col xs={12}>
+                        <h6>Customer Details</h6>
+                      </Col>
+                      <Col xs={12}>
+                        <Row className="mt-3">
+                          <Col className="orderId" xs={12} md={6}>
+                            Order No:{" "}
+                            {filteredListByDate[selectIndex]?.order_no} (
+                            {
+                              filteredListByDate[selectIndex]
+                                ?.order_details?.[0]?.order_status
+                            }
+                            )
+                          </Col>
+                        </Row>
+                        <div
+                          style={{ background: "#343a40", color: "#fff" }}
+                          className="d-flex justify-content-between align-items-center flex-wrap p-2"
+                        >
+                          <Col className="mt-3" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              Name:
+                            </Col>
+                            <Col xs={12}>
+                              {filteredListByDate[selectIndex]?.addressId?.name}
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              Phone:
+                            </Col>
+                            <Col xs={12}>
+                              {
+                                filteredListByDate[selectIndex]?.addressId
+                                  ?.ph_no
+                              }
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              Alternate Phone:
+                            </Col>
+                            <Col xs={12}>
+                              {filteredListByDate[selectIndex]?.addressId
+                                ?.alterphone || "N/A"}
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              Pincode:
+                            </Col>
+                            <Col xs={12}>
+                              {
+                                filteredListByDate[selectIndex]?.addressId
+                                  ?.pincode
+                              }
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              City:
+                            </Col>
+                            <Col xs={12}>
+                              {filteredListByDate[selectIndex]?.addressId?.city}
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              State:
+                            </Col>
+                            <Col xs={12}>
+                              {
+                                filteredListByDate[selectIndex]?.addressId
+                                  ?.state
+                              }
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              Locality:
+                            </Col>
+                            <Col xs={12}>
+                              {filteredListByDate[selectIndex]?.addressId
+                                ?.locality || "N/A"}
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              Landmark:
+                            </Col>
+                            <Col xs={12}>
+                              {
+                                filteredListByDate[selectIndex]?.addressId
+                                  ?.landmark
+                              }
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              Address Type:
+                            </Col>
+                            <Col xs={12}>
+                              {
+                                filteredListByDate[selectIndex]?.addressId
+                                  ?.address_type
+                              }
+                            </Col>
+                          </Col>
+                          <Col className="mt-1" xs={3}>
+                            <Col xs={12} className="fw-bold">
+                              Order For:
+                            </Col>
+                            <Col xs={12}>
+                              {
+                                filteredListByDate[selectIndex]?.addressId
+                                  ?.order_for
+                              }
+                            </Col>
+                          </Col>
+                        </div>
                       </Col>
                     </Row>
-                  </Col>
-                  <Col>
-                    <Row>
-                      <Col className="dtext" xs={3}>
-                        Name
-                      </Col>
-                      <Col className="dtext">Phone</Col>
-                      <Col className="dtext">City</Col>
-                      <Col className="dtext" xs={3}>
-                        Locality
-                      </Col>
-                      <Col className="dtext">Shipping Place</Col>
-                    </Row>
-                    <Row>
-                      <Col className="cdetails" xs={3}>
-                        {filteredListByDate[selectIndex]?.addressId?.name}
-                      </Col>
-                      <Col className="cdetails">
-                        {filteredListByDate[selectIndex]?.addressId?.ph_no}
-                      </Col>
-                      <Col className="cdetails">
-                        {filteredListByDate[selectIndex]?.addressId?.city}
-                      </Col>
-                      <Col xs={3} className="cdetails">
-                        {filteredListByDate[selectIndex]?.addressId?.locality}
-                      </Col>
-                      <Col className="cdetails">
-                        {
-                          filteredListByDate[selectIndex]?.addressId
-                            ?.address_type
-                        }
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              )}
-            </Col>
-            <Col xs={12}>
-              <Table striped bordered hover responsive>
-                <thead>
-                  <tr>
-                    <th>Product Name</th>
-                    <th>Image</th>
-                    <th>Order Quantity</th>
-                    <th>SKU</th>
-                    <th>Price</th>
-                    <th>Shipping Cost</th>
-                    <th>Estimated Date & Time</th>
-                    <th>Manage Order</th>
-                  </tr>
-                </thead>
-                {/* {console.log(filteredListByDate[selectIndex], "index")} */}
-                <tbody>
-                  {filteredListByDate[selectIndex]?.order_details?.length > 0 &&
-                    filteredListByDate[selectIndex]?.order_details?.map(
-                      (row, index) => (
-                        <Fragment key={index}>
-                          <tr>
-                            <td>
-                              {row?.proId?.name} {console.log(row)}
-                            </td>
+                  )}
+                </Col>
+                <Col xs={12}>
+                  <Table striped bordered hover responsive>
+                    <thead
+                      style={{ backgroundColor: "#343a40", color: "#fff" }}
+                    >
+                      <tr>
+                        <th>Product Name</th>
+                        <th>Image</th>
+                        <th>Order Quantity</th>
+                        <th>SKU</th>
+                        <th>Price</th>
+                        <th>Shipping Cost</th>
+                        {/* <th>Estimated Date & Time</th> */}
+                        <th>Manage Order</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredListByDate[selectIndex]?.order_details?.map(
+                        (row, index) => (
+                          <tr key={index}>
+                            <td>{row?.proId?.name}</td>
                             <td>
                               <Image
                                 src={row?.proId?.specId?.image?.[0]?.image_path}
                                 thumbnail
                                 width={100}
-                                style={{
-                                  objectFit: "contain",
-                                  height: "120px",
-                                }}
+                                style={{ objectFit: "contain", height: "80px" }}
                               />
                             </td>
                             <td>{row?.qty}</td>
                             <td>{row?.proId?.specId?.skuId?.toUpperCase()}</td>
-
                             <td>₹{row?.price?.toLocaleString()}</td>
-                            <td>{row?.total_shipping_price}</td>
-
-                            <td className="estTime">
-                              <p style={{ color: "green" }}>
-                                {row?.order_status != "delivered" &&
-                                  ` ${OrderSequence(
-                                    row?.order_status
-                                  )} Estimation`}{" "}
-                                <br />
-                                {row?.order_status != "delivered" &&
-                                  ChangeFormatDate(row?.estimited_delivery)}
-                              </p>
-                              {row?.order_delivery &&
-                                row?.order_status == "delivered" && (
-                                  <span>
-                                    Delivered :{" "}
-                                    {ChangeFormatDate(row?.order_delivery)}
-                                  </span>
-                                )}
-                              {row?.order_delivery &&
-                              row?.order_status == "delivered" ? (
-                                <span
-                                  style={{
-                                    fontSize: "10px",
-                                    fontWeight: "bold",
-                                    color: "black",
-                                    textTransform: "uppercase",
-                                  }}
-                                >
-                                  {" "}
-                                  (Delivered In{" "}
-                                  <span style={{ color: "#2874f0" }}>
+                            <td>
+                              ₹{row?.total_shipping_price?.toLocaleString()}
+                            </td>
+                            {/* <td className="text-success">
+                              {row?.order_status !== "delivered" && (
+                                <>
+                                  {OrderSequence(row?.order_status)} Estimation:{" "}
+                                  {ChangeFormatDate(row?.estimited_delivery)}
+                                </>
+                              )}
+                              {row?.order_status === "delivered" && (
+                                <>
+                                  Delivered:{" "}
+                                  {ChangeFormatDate(row?.order_delivery)}
+                                  <span className="text-secondary">
+                                    {" "}
+                                    (
                                     {calculateDateDifference(
                                       row?.order_delivery,
                                       filteredListByDate[selectIndex]?.createdAt
-                                    )}
-                                  </span>{" "}
-                                  )
-                                </span>
-                              ) : (
-                                ""
-                              )}
-
-                              <div
-                                onClick={() => showCommentBox(row?._id)}
-                                style={{ cursor: "pointer" }}
-                              >
-                                <IoIosInformationCircle
-                                  size={20}
-                                  color="black"
-                                />{" "}
-                                <span
-                                  className="mx-2"
-                                  style={{ color: "black" }}
-                                >
-                                  Add your Reason
-                                </span>
-                              </div>
-                              {showCommentIndex == row?._id && (
-                                <>
-                                  <div className="mt-2">
-                                    <Form.Group
-                                      className="mb-3"
-                                      controlId="exampleForm.ControlTextarea1"
-                                    >
-                                      <Form.Control
-                                        size="sm"
-                                        placeholder="Enter your comment.."
-                                        onChange={(e) =>
-                                          SetshowCommentBoxText(e.target.value)
-                                        }
-                                        as="textarea"
-                                        rows={3}
-                                      />
-                                    </Form.Group>
-                                  </div>
-                                  <button
-                                    onClick={() =>
-                                      handleCommand(
-                                        filteredListByDate[selectIndex]?._id,
-                                        row?.proId?._id
-                                      )
-                                    }
-                                    className="savebtn"
-                                  >
-                                    save
-                                  </button>
+                                    )}{" "}
+                                    days)
+                                  </span>
                                 </>
                               )}
-                              {row?.comment}
-                            </td>
+                            </td> */}
+                            <td
+                              className="d-flex flex-column gap-2"
+                              style={{ width: "200px" }}
+                            >
+                              <p
+                                className="text-center"
+                                style={{ color: "black" }}
+                              >
+                                {processLoader && <Spinner size={30} />}
+                                {processLoader && <br />}
+                                {processLoader && "Processing...."}
+                              </p>
 
-                            <td className="d-flex flex-column gap-2">
                               <Button
                                 variant="success"
                                 size="sm"
-                                className="orderpadding"
                                 onClick={() =>
                                   handleStatusUpdate(
                                     filteredListByDate[selectIndex]?._id,
@@ -791,45 +835,29 @@ const ManageOrders = () => {
                                     OrderSequenceStatus(row?.order_status)
                                   )
                                 }
-                                disabled={
-                                  row?.order_status == "delivered"
-                                    ? true
-                                    : false
-                                }
+                                disabled={row?.order_status === "delivered"}
                               >
-                                {OrderSequence(row?.order_status)}
+                                <FaTruck /> {OrderSequence(row?.order_status)}
                               </Button>
-
                               <Button
                                 variant="warning"
                                 size="sm"
-                                className={`orderpadding ${
-                                  row?.order_status !== "delivered"
-                                    ? "d-none"
-                                    : ""
-                                }`}
-                                disabled={
-                                  filteredListByDate[selectIndex]
-                                    ?.payment_status == "paid"
-                                    ? true
-                                    : false
-                                }
                                 onClick={() =>
                                   handleMakePayment(
                                     filteredListByDate[selectIndex]?._id,
                                     filteredListByDate[selectIndex]?.order_type
-                                    // row?.is_payment,
-                                    // "cancel"
                                   )
                                 }
+                                disabled={
+                                  filteredListByDate[selectIndex]
+                                    ?.payment_status === "paid"
+                                }
                               >
-                                Payment Received
+                                <FaRegMoneyBillAlt /> Payment Received
                               </Button>
-
                               <Button
                                 variant="danger"
                                 size="sm"
-                                className="orderpadding"
                                 onClick={() =>
                                   handleStatusUpdate(
                                     filteredListByDate[selectIndex]?._id,
@@ -838,33 +866,41 @@ const ManageOrders = () => {
                                   )
                                 }
                               >
-                                Order Cancel
+                                <FaTimes /> Cancel Order
                               </Button>
-
-                              <Button
+                              {/* <Button
                                 variant="outline-secondary"
                                 size="sm"
-                                className="orderpadding"
+                                onClick={() => console.log("Refund clicked")}
                               >
-                                Order Refund
-                              </Button>
-                              <Button
+                                Refund
+                              </Button> */}
+                              {/* <Button
                                 variant="outline-secondary"
                                 size="sm"
-                                className="orderpadding"
+                                onClick={() => console.log("Print clicked")}
                               >
-                                Print Tax Invoice
-                              </Button>
+                                <FaPrint /> Print Tax Invoice
+                              </Button> */}
                             </td>
                           </tr>
-                        </Fragment>
-                      )
-                    )}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        )}
+                        )
+                      )}
+                    </tbody>
+                  </Table>
+                </Col>
+              </Row>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );
