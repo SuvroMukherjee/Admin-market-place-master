@@ -1,8 +1,15 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import logo from "../../assets/logo-new.png";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaEnvelope } from "react-icons/fa";
+import { FaPhoneAlt } from "react-icons/fa";
+
 const Footer = () => {
   return (
     <div>
       <footer>
-        <div className="upper">
+        {/*<div className="upper">
           <div className="container">
             <div className="row">
               <div className="col">
@@ -228,6 +235,59 @@ const Footer = () => {
                   </li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </div>*/}
+
+        <div className="bg-holder">
+          <img src={logo} alt="logo" />
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-5 col-md-4 col-12">
+              <a href="/" className="logo-link"><img src={logo} alt="logo" /></a>
+              <p className="short-desc">Crafted with Care, Built on Trust, Inspired by You.</p>
+            </div>
+            <div className="col-lg-3 col-md-4 col-12">
+              <ul className="footer-nav">
+                <li>
+                  <Link to={"/policy/terms&condition"}>
+                    <p>Terms &amp; Conditions</p>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/policy/cancellation-refund">
+                    <p>Cancellation &amp; Refund Policy</p>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/policy/shipping-delivery">
+                    <p>Shipping Policy</p>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/policy/privacy-policy">
+                    <p>Privacy Policy</p>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="col-lg-4 col-md-4 col-12">
+              <ul className="info-list">
+                <li>
+                  <FaLocationDot />
+                  <p className="address">
+                    6S 2nd floor -<br /> Sai Residency Rajendra
+                    Nagar <br /> Pincode :- 243122 , Uttar Pradesh India.
+                  </p>
+                </li>
+                <li>
+                  <Link to="mailto:support@zoofi.in" className="cta-link"><FaEnvelope /> Support@zoofi.in</Link>
+                </li>
+                <li>
+                  <a href="tel:+918077204945" className="cta-link"><FaPhoneAlt /> +91 80772-04945</a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

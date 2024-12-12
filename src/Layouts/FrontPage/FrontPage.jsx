@@ -9,6 +9,8 @@ import sellerShip from "../../assets/storage-shipping.jpg";
 import { ScrollToTop } from "../../components/scrollToTop/ScrollToTop";
 import Footer from "./Footer";
 import Header from "./Header";
+import aboutVideo from "../../assets/videos/about.mp4";
+import { FaAngleRight } from "react-icons/fa";
 import "./style.css";
 import "./swiper-bundle.min.css";
 
@@ -47,11 +49,43 @@ const FrontPage = () => {
               </div>
             </div>
           </section>
+
+          <section className="about-section">
+            <div className="container-fluid container-padding">
+              <div className="about-heading">
+                <h2>Welcome To <span>Zoofi</span></h2>
+              </div>
+
+              <div className="row">
+                <div className="col-xl-7 col-lg-6 col-12">
+                  <div className="video-holder">
+                    <video loop autoPlay muted>
+                      <source src={aboutVideo} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+                <div className="col-xl-5 col-lg-6 col-12">
+                  <div className="right-content">
+                    <p className="text-holder">
+                        Welcome to Zoofi! Your one-stop destination for homegrown products and passionate local sellers. <br/><br/>
+                        We aim to empower local businesses and offer customers the best value with high-quality, affordable options.
+                    </p>
+                    <a  className="cta-view" onClick={() => navigate(`/policy/about-us`)}>
+                      About Us
+                      <FaAngleRight />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <section className="why-best-section">
             <div className="container">
               <div className="row section-heading">
                 <div className="col-12">
-                  <h3>Why sellers best choice is Zoofi ?</h3>
+                  <h3>Why choose Zoofi ?</h3>
                 </div>
               </div>
               <div className="row why-content">
@@ -398,7 +432,7 @@ const FrontPage = () => {
               </div>
             </div>
           </section>
-          <section className="seller-stories-section">
+          {/*<section className="seller-stories-section">
             <div className="container">
               <div className="row section-heading">
                 <div className="col-12 heading-col">
@@ -566,7 +600,7 @@ const FrontPage = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </section>*/}
           <section className="bottom-section">
             <div className="container">
               <div className="row">

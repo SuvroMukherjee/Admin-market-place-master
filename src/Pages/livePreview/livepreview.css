@@ -6331,3 +6331,11 @@ input[type="number"] {
   cursor: pointer;
   font-weight: bold;
 }
+
+
+@media only screen and (max-width: 479px) {
+  .container-padding {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
