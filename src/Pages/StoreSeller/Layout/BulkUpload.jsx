@@ -39,6 +39,7 @@ import useAuth from "../../../hooks/useAuth";
 import { FaFileDownload } from "react-icons/fa";
 import { FaFileUpload } from "react-icons/fa";
 import { use } from "react";
+import { useNavigate } from "react-router-dom";
 
 const options = [
   { value: "chocolate", label: "Chocolate" },
@@ -64,6 +65,7 @@ const BulkUpload = () => {
   const [showConverter, setshowConverter] = useState(false);
   const [choose, setChoose] = useState(false);
   const [activeVariation, setActiveVariation] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getAllCats();
@@ -307,13 +309,15 @@ const BulkUpload = () => {
     };
 
     let res = await sellerVariationsBulkUpload(payload);
-    console.log(res,"racing");
-     
+    console.log(res, "racing");
+
     if (res?.response?.data?.error) {
       toast.error(res?.response?.data?.message);
       setvariLoading(false);
     } else {
-      toast.success("Products Added Successfully,View your Application Status from Request Panel");
+      toast.success(
+        "Products Added Successfully,View your Application Status from Request Panel"
+      );
       setvariLoading(false);
       setActiveVariation(false);
     }
@@ -328,6 +332,16 @@ const BulkUpload = () => {
       className="py-3 px-5"
       style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
     >
+      <div className="d-flex justify-content-end">
+        <Button
+          variant="dark"
+          size="sm"
+          className="btns"
+          onClick={() => navigate("/seller/approval-request-list")}
+        >
+          Track Your All Request Applications
+        </Button>
+      </div>
       <div className="mt-4">
         <Row>
           <Col>
@@ -423,7 +437,6 @@ const BulkUpload = () => {
                       onChange={handleFileChangeForVariations}
                     />
                   </Col>
-                  
                 </Row>
               </Card.Body>
             </Card>
@@ -617,7 +630,6 @@ const BulkUpload = () => {
                                 onChange={handleFileChange}
                               />
                             </Col>
-                           
                           </Row>
                         </Col>
                       </Row>
@@ -637,7 +649,7 @@ const BulkUpload = () => {
         showConverter={showConverter}
         setshowConverter={setshowConverter}
       />
-       <Toaster position="top-right" />
+      <Toaster position="top-right" />
     </div>
   );
 };
@@ -713,7 +725,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                     <Col xs={2}>Action</Col>
                   </Row>
                   <Row className="vData mt-2">
-                    <Col>{ele?.name?.slice(0, 20)+"..."}</Col>
+                    <Col>{ele?.name?.slice(0, 20) + "..."}</Col>
                     <Col>{ele?.is_approved}</Col>
                     <Col className="text-center">
                       {" "}
@@ -813,7 +825,7 @@ const ShowVariationSheets = ({ show, handleClose, productList }) => {
                               <Row>
                                 <Col xs={12} className="othervariDivName">
                                   {item?.productId?.brandId?.title}{" "}
-                                  {item?.productId?.name?.slice(0, 20)+"..."}{" "}
+                                  {item?.productId?.name?.slice(0, 20) + "..."}{" "}
                                   {item?.spec_det?.length > 0 && (
                                     <span>
                                       (

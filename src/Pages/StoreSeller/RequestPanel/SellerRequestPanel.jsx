@@ -38,7 +38,7 @@ const SellerRequestPanel = () => {
           className="btns"
           onClick={() => handleClick("track")}
         >
-          Track Your Request Applications
+          Track Your All Request Applications
         </Button>
       </div>
       <Row className="mt-4 d-flex justify-content-start items-center gap-4">
