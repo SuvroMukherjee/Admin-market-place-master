@@ -31,14 +31,14 @@ const SellerRequestPanel = () => {
       className="px-5 py-3"
       style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
     >
-      <div className="mt-4 d-flex justify-content-end">
+      <div className="d-flex justify-content-end">
         <Button
           variant="dark"
           size="sm"
           className="btns"
           onClick={() => handleClick("track")}
         >
-          Track Your Request Applications
+          Track Your All Request Applications
         </Button>
       </div>
       <Row className="mt-4 d-flex justify-content-start items-center gap-4">

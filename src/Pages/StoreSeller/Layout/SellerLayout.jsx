@@ -866,7 +866,6 @@ import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
 import useAuth from "../../../hooks/useAuth";
 import { notificationContext } from "../../../context/context";
 
-
 const sidebarRoutes = [
   { title: "Seller Dashboard", path: "/seller/seller-dashboard" },
   { title: "Add Zoofi Product", path: "/seller/seller-addproduct" },
@@ -1139,17 +1138,26 @@ const MyNavbar = ({ socket }) => {
   //Notidfication
   const handleRedirection = (type, id) => {
     switch (type) {
+      case "placed_order":
+        navigate("/seller/manage-orders");
+        break;
       case "cat_apprv":
-        navigate("/seller/approval-request-list?tabtype=product");
+        navigate("/seller/approval-request-list?tabtype=category");
         break;
       case "brand_apprv":
-        navigate("/seller/approval-request-list/");
+        navigate("/seller/approval-request-list?tabtype=brand");
         break;
       case "product_apprv":
-        navigate("/seller/approval-request-list/");
+        navigate("/seller/approval-request-list?tabtype=product");
         break;
       case "pro_review":
-        navigate("/Admin/category-request");
+        navigate("/seller/seller-dashboard");
+        break;
+      case "seller_rev":
+        navigate("/seller/service-feedback");
+        break;
+      case "return_req":
+        navigate("/seller/seller-return-order-request-list");
         break;
       default:
         navigate("/");
@@ -1360,7 +1368,12 @@ const MyNavbar = ({ socket }) => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1733737867959.png?alt=media"
                 alt="helpdesk"
-                style={{background:'white',cursor:'pointer',borderRadius:'50px',padding : '5px'}}
+                style={{
+                  background: "white",
+                  cursor: "pointer",
+                  borderRadius: "50px",
+                  padding: "5px",
+                }}
                 width={45}
                 height={45}
                 title="Helpdesk"
@@ -1398,12 +1411,12 @@ const MyNavbar = ({ socket }) => {
                     <li
                       key={index}
                       className="notification-item"
-                      // onClick={() => {
-                      //   handleRedirection(
-                      //     notification?.notification_type,
-                      //     notification?._id
-                      //   );
-                      // }}
+                      onClick={() => {
+                        handleRedirection(
+                          notification?.notification_type,
+                          notification?._id
+                        );
+                      }}
                     >
                       <Row>
                         <Col
