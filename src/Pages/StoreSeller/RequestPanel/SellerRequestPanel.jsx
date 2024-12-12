@@ -31,7 +31,7 @@ const SellerRequestPanel = () => {
       className="px-5 py-3"
       style={{ backgroundColor: "#e5faca", minHeight: "100vh" }}
     >
-      <div className="mt-4 d-flex justify-content-end">
+      <div className="d-flex justify-content-end">
         <Button
           variant="dark"
           size="sm"
