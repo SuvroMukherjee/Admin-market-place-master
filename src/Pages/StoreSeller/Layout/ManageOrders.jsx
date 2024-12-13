@@ -161,6 +161,8 @@ const ManageOrders = () => {
         return "shipped";
       case "shipped":
         return "delivered";
+      case "cancel":
+        return "cancel";
       default:
         return "Unknown Status";
     }
@@ -825,7 +827,11 @@ const ManageOrders = () => {
                                     OrderSequenceStatus(row?.order_status)
                                   )
                                 }
-                                disabled={row?.order_status === "delivered"}
+                                disabled={
+                                  row?.order_status === "delivered" ||
+                                  row?.order_status === "cancel" ||
+                                  row?.order_status === "returned"
+                                }
                               >
                                 <FaTruck /> {OrderSequence(row?.order_status)}
                               </Button>
@@ -845,19 +851,23 @@ const ManageOrders = () => {
                               >
                                 <FaRegMoneyBillAlt /> Payment Received
                               </Button>
-                              <Button
-                                variant="danger"
-                                size="sm"
-                                onClick={() =>
-                                  handleStatusUpdate(
-                                    filteredData[selectIndex]?._id,
-                                    row?.proId?._id,
-                                    "cancel"
-                                  )
-                                }
-                              >
-                                <FaTimes /> Cancel Order
-                              </Button>
+                              {row?.order_status !== "cancel" &&
+                                row?.order_status !== "delivered" &&
+                                row?.order_status !== "returned" && (
+                                  <Button
+                                    variant="danger"
+                                    size="sm"
+                                    onClick={() =>
+                                      handleStatusUpdate(
+                                        filteredData[selectIndex]?._id,
+                                        row?.proId?._id,
+                                        "cancel"
+                                      )
+                                    }
+                                  >
+                                    <FaTimes /> Cancel Order
+                                  </Button>
+                                )}
                               {/* <Button
                                 variant="outline-secondary"
                                 size="sm"
