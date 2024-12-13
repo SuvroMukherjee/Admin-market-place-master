@@ -24,45 +24,85 @@ import {
   formatDateRemoveTime,
 } from "../../../common/DateFormat";
 import { LoaderIcon } from "react-hot-toast";
+import ReactPaginate from "react-paginate";
+import { useDebounce } from "../../../hooks/useDebounce";
+import axios from "axios";
+const baseURL = import.meta.env.VITE_API_BASE; // Replace with your actual base URL
 
 const ManageOrders = () => {
   const { userId } = JSON.parse(localStorage.getItem("auth"));
-
-  const [list, setList] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [selectIndex, setSelectIndex] = useState();
-  const [showCommentIndex, setCommentIndx] = useState();
-  const [showCommentBoxText, SetshowCommentBoxText] = useState("");
   const [loading, setLoading] = useState(true);
   const [processLoader, setProcessLoader] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [reportDate, setReportDate] = useState({
+    start: "",
+    end: "",
+  });
+  const [reportDateRange, setReportDateRange] = useState("Select Date Range");
+  const [filters, setFilters] = useState({
+    search: "",
+    order_status: "",
+    payment_status: "",
+    fromDate: "",
+    toDate: "",
+    sellerId: userId,
+  });
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getOrdersist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getOrdersist = async () => {
+  const fetchData = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      let res = await sellerOrderLists(userId);
-      // console.log(res?.data?.data, "seller orders");
+      const {
+        search,
+        order_status,
+        payment_status,
+        fromDate,
+        toDate,
+        sellerId,
+      } = filters;
+      const res = await axios.get(`${baseURL}/order/order-list-paginated`, {
+        params: {
+          page: currentPage,
+          limit: 20,
+          search,
+          order_status,
+          payment_status,
+          fromDate,
+          toDate,
+          sellerId,
+        },
+      });
       const dataWithUniqueIds = res?.data?.data?.map((item, index) => ({
         ...item,
         id: index + 1,
       }));
-
-      // console.log({ dataWithUniqueIds });
-
-      setList(dataWithUniqueIds);
+      // setFormData(dataWithUniqueIds);
+      // setList(dataWithUniqueIds);
+      setFilteredData(dataWithUniqueIds);
+      setCurrentPage(res.data?.pagination?.currentPage);
+      setTotalPages(res.data?.pagination?.totalPages);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching products", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // console.log({ list });
+  const debouncedFetchData = useDebounce(fetchData, 500);
+
+  useEffect(() => {
+    debouncedFetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   const handleStatusUpdate = async (OId, product, status) => {
     setProcessLoader(true);
@@ -93,15 +133,19 @@ const ManageOrders = () => {
     //"order_placed"
     switch (status) {
       case "order_placed":
-        return "Pack Your Order";
+        return "Order Placed";
+      case "confirmed":
+        return "Order Confirmed";
       case "order_packed":
-        return "Shipping Order";
+        return "Order Packed";
       case "shipped":
-        return "Deliver Order";
+        return "Shipped";
       case "delivered":
         return "Order Delivered";
       case "cancel":
-        return "Order Cancel";
+        return "Order Cancelled";
+      case "returned":
+        return "Order Returned";
       default:
         return "Unknown Status";
     }
@@ -110,15 +154,13 @@ const ManageOrders = () => {
   const OrderSequenceStatus = (status) => {
     switch (status) {
       case "order_placed":
+        return "confirmed";
+      case "confirmed":
         return "order_packed";
       case "order_packed":
         return "shipped";
       case "shipped":
         return "delivered";
-      case "delivered":
-        return "Order Delivered";
-      case "cancel":
-        return "Order Cancel";
       default:
         return "Unknown Status";
     }
@@ -139,113 +181,72 @@ const ManageOrders = () => {
     }
   }
 
-  const showCommentBox = (index) => {
-    setCommentIndx(index);
-  };
+  const handleDateRangeChange = (e) => {
+    const value = e.target.value;
+    setReportDateRange(value);
+    let start = "";
+    let end = "";
 
-  const handleCommand = async (orderId, proId) => {
-    // console.log({ orderId });
-    let payload = {
-      proId: proId,
-      comment: showCommentBoxText,
-    };
+    if (value === "Today") {
+      start = formatDateRemoveTime(new Date());
+      end = formatDateRemoveTime(new Date());
+    } else if (value === "This Week") {
+      const date = new Date();
+      const day = date.getDay();
+      const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+      start = formatDateRemoveTime(new Date(date.setDate(diff - 1)));
+      end = formatDateRemoveTime(new Date());
+    } else if (value === "Last Week") {
+      const date = new Date();
+      const day = date.getDay();
+      const diff = date.getDate() - day - 6;
+      start = formatDateRemoveTime(new Date(date.setDate(diff - 1)));
+      end = formatDateRemoveTime(new Date(date.setDate(diff + 6 - 1)));
+    } else if (value === "This Month") {
+      const date = new Date();
+      start = formatDateRemoveTime(
+        new Date(date.getFullYear(), date.getMonth(), 2)
+      );
+      end = formatDateRemoveTime(new Date());
+    } else if (value === "Last Month") {
+      const date = new Date();
+      start = formatDateRemoveTime(
+        new Date(date.getFullYear(), date.getMonth() - 1, 2)
+      );
+      end = formatDateRemoveTime(
+        new Date(date.getFullYear(), date.getMonth(), 1)
+      );
+    } else if (value === "This Year") {
+      const date = new Date();
+      start = formatDateRemoveTime(new Date(date.getFullYear(), 0, 2));
+      end = formatDateRemoveTime(new Date());
+    } else if (value === "Last Year") {
+      const date = new Date();
+      start = formatDateRemoveTime(new Date(date.getFullYear() - 1, 0, 2));
+      end = formatDateRemoveTime(new Date(date.getFullYear() - 1, 11, 32));
+    }
 
-    let res = await commandOnOrder(orderId, payload);
+    // Update reportDate state
+    setReportDate({ start, end });
 
-    console.log(res, "res");
-
-    getOrdersist();
-  };
-
-  const [reportDate, setReportDate] = useState({
-    start: "",
-    end: "",
-  });
-
-  const [reportDateRange, setReportDateRange] = useState("Select Date Range");
-
-  const handleDateChange = (e) => {
-    const { name, value } = e.target;
-    setReportDate((prev) => ({
+    // Update filters directly using calculated start and end
+    setFilters((prev) => ({
       ...prev,
-      [name]: value,
+      fromDate: start,
+      toDate: end,
     }));
   };
 
-  const handleDateRangeChange = (e) => {
-    setReportDateRange(e.target.value);
-    if (e.target.value == "Today") {
-      setReportDate({
-        start: formatDateRemoveTime(new Date()),
-        end: formatDateRemoveTime(new Date()),
-      });
-    } else if (e.target.value == "This Week") {
-      // from last sunday to today
-      let date = new Date();
-      let day = date.getDay();
-      let diff = date.getDate() - day + (day == 0 ? -6 : 1);
-      let start = new Date(date.setDate(diff - 1));
-      let end = new Date();
-      setReportDate({
-        start: formatDateRemoveTime(start),
-        end: formatDateRemoveTime(end),
-      });
-    } else if (e.target.value == "Last Week") {
-      // from last sunday to last saturday
-      let date = new Date();
-      let day = date.getDay();
-      let diff = date.getDate() - day - 6;
-      let start = new Date(date.setDate(diff - 1));
-      let end = new Date(date.setDate(diff + 6 - 1));
-      setReportDate({
-        start: formatDateRemoveTime(start),
-        end: formatDateRemoveTime(end),
-      });
-    } else if (e.target.value == "This Month") {
-      // from 1st to today
-      let date = new Date();
-      let start = new Date(date.getFullYear(), date.getMonth(), 2);
-      let end = new Date();
-      setReportDate({
-        start: formatDateRemoveTime(start),
-        end: formatDateRemoveTime(end),
-      });
-    } else if (e.target.value == "Last Month") {
-      // from 1st to last day of last month
-      let date = new Date();
-      let start = new Date(date.getFullYear(), date.getMonth() - 1, 2);
-      let end = new Date(date.getFullYear(), date.getMonth(), 1);
-      setReportDate({
-        start: formatDateRemoveTime(start),
-        end: formatDateRemoveTime(end),
-      });
-    } else if (e.target.value == "This Year") {
-      // from 1st jan to today
-      let date = new Date();
-      let start = new Date(date.getFullYear(), 0, 2);
-      let end = new Date();
-      setReportDate({
-        start: formatDateRemoveTime(start),
-        end: formatDateRemoveTime(end),
-      });
-    } else if (e.target.value == "Last Year") {
-      // from 1st jan to 31st dec
-      let date = new Date();
-      let start = new Date(date.getFullYear() - 1, 0, 2);
-      let end = new Date(date.getFullYear() - 1, 11, 32);
-      setReportDate({
-        start: formatDateRemoveTime(start),
-        end: formatDateRemoveTime(end),
-      });
-    } else {
-      setReportDate({
-        start: "",
-        end: "",
-      });
-    }
-  };
-
-  const resetDate = () => {
+  const resetAllFilters = () => {
+    setCurrentPage(1);
+    setFilters({
+      search: "",
+      payment_status: "",
+      order_status: "",
+      fromDate: "",
+      toDate: "",
+      sellerId: userId,
+    });
     setReportDate({
       start: "",
       end: "",
@@ -297,41 +298,16 @@ const ManageOrders = () => {
     setProcessLoader(false);
   };
 
-  let filteredListByDate = [];
-  if (list.length > 0) {
-    if (
-      reportDateRange === "Select Date Range" &&
-      reportDate.start === "" &&
-      reportDate.end === ""
-    ) {
-      filteredListByDate = list;
-    } else {
-      filteredListByDate = list.filter((item) => {
-        const orderDate = new Date(item.createdAt);
-        const startDate = new Date(reportDate.start);
-        const endDate = new Date(reportDate.end);
+  const handlePageChange = (selectedPage) => {
+    const newPage = selectedPage.selected + 1;
+    // Your page change logic here, for example:
+    console.log(`Navigating to page ${newPage}`);
+    setCurrentPage(newPage);
+  };
 
-        return orderDate >= startDate && orderDate <= endDate;
-      });
-    }
-  }
-
-  console.log(filteredListByDate, "filteredListByDate");
-
-  const itemsPerPage = 10; // You can adjust this based on your preference
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredListByDate?.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
-
-  const totalPages = Math.ceil(filteredListByDate?.length / itemsPerPage);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const [show, setShow] = useState(false);
@@ -357,34 +333,66 @@ const ManageOrders = () => {
             backgroundColor: "#9de367",
           }}
         >
-          {/* start date */}
-          <Col xs={4}>
-            <Form.Group controlId="date-to">
-              <Form.Label className="customDatelable">Start Date:</Form.Label>
+          {/* Search By Order Id or  Payment Id*/}
+          <Col xs={3}>
+            <Form.Group controlId="search" className="flex-grow-1">
+              <Form.Label className="fw-bold">
+                Search by Order Id or Payment Id
+              </Form.Label>
               <Form.Control
-                type="date"
-                className="tapG"
-                name="start"
-                value={reportDate?.start}
-                onChange={(e) => handleDateChange(e)}
+                type="text"
+                name="search"
+                value={filters.search}
+                onChange={handleFilterChange}
+                size="sm"
+                placeholder="Search by OrderId or PaymentId"
               />
             </Form.Group>
           </Col>
-          {/* end date */}
-          <Col xs={4}>
-            <Form.Group controlId="date-form">
-              <Form.Label className="customDatelable">End Date:</Form.Label>
-              <Form.Control
-                type="date"
-                className="tapG"
-                name="end"
-                value={reportDate?.end}
-                onChange={(e) => handleDateChange(e)}
-              />
+          {/* Order Status */}
+          <Col xs={3}>
+            <Form.Group controlId="order_status" className="flex-grow-1">
+              <Form.Label className="fw-bold">
+                Filter by Order Status
+              </Form.Label>
+              <Form.Select
+                name="order_status"
+                value={filters.order_status}
+                onChange={handleFilterChange}
+                size="sm"
+              >
+                <option value="">Select Order Status</option>
+                <option value="order_placed">Order Placed</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="order_packed">Order Packed</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancel">Cancelled</option>
+                <option value="returned">Returned</option>
+              </Form.Select>
+            </Form.Group>
+          </Col>
+          {/* Payment Status */}
+          <Col xs={3}>
+            <Form.Group controlId="payment_status" className="flex-grow-1">
+              <Form.Label className="fw-bold">
+                Filter by Payment Status
+              </Form.Label>
+              <Form.Select
+                name="payment_status"
+                value={filters.payment_status}
+                onChange={handleFilterChange}
+                size="sm"
+              >
+                <option value="">Select Payment Status</option>
+                <option value="paid">Paid</option>
+                <option value="unpaid">Unpaid</option>
+                <option value="partial">Partially Paid</option>
+              </Form.Select>
             </Form.Group>
           </Col>
           {/* select date range */}
-          <Col xs={4}>
+          <Col xs={3}>
             <Form.Group controlId="date-range">
               <Form.Label className="customDatelable">
                 Select Date Range:
@@ -406,18 +414,22 @@ const ManageOrders = () => {
               </Form.Select>
             </Form.Group>
           </Col>
-          {/* btnS */}
+          {/* buttons */}
           <Row>
             <Col className="mt-2">
               <div className="flex-justify-center-align-end custom-gap-10">
                 <Button
                   variant="dark"
+                  size="sm"
                   style={{
                     fontWeight: "bold",
                   }}
-                  onClick={() => resetDate()}
+                  onClick={() => resetAllFilters()}
                 >
-                  Reset
+                  Reset & Refresh
+                </Button>
+                <Button variant="secondary" size="sm">
+                  {filteredData?.length} Filtered Products
                 </Button>
               </div>
             </Col>
@@ -427,32 +439,26 @@ const ManageOrders = () => {
         <Row className="mt-2">
           <Col>
             {/* Pagination */}
-            {totalPages > 1 && (
-              <Pagination size="md" className="justify-content-end mb-2">
-                <Pagination.Prev
-                  onClick={() =>
-                    currentPage > 1 && handlePageChange(currentPage - 1)
-                  }
-                  disabled={currentPage === 1}
-                />
-                {[...Array(totalPages)].map((_, index) => (
-                  <Pagination.Item
-                    key={index + 1}
-                    active={index + 1 === currentPage}
-                    onClick={() => handlePageChange(index + 1)}
-                  >
-                    {index + 1}
-                  </Pagination.Item>
-                ))}
-                <Pagination.Next
-                  onClick={() =>
-                    currentPage < totalPages &&
-                    handlePageChange(currentPage + 1)
-                  }
-                  disabled={currentPage === totalPages}
-                />
-              </Pagination>
-            )}
+            <div className="d-flex justify-content-end mt-2 mb-4">
+              <ReactPaginate
+                pageCount={totalPages}
+                pageRangeDisplayed={2}
+                marginPagesDisplayed={1}
+                onPageChange={handlePageChange}
+                containerClassName="pagination"
+                activeClassName="active"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousLabel={"Previous"}
+                nextLabel={"Next"}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                previousClassName="page-item"
+                nextClassName="page-item"
+                previousLinkClassName="page-link"
+                nextLinkClassName="page-link"
+              />
+            </div>
             {/* table start */}
             <Table striped bordered hover responsive>
               <thead>
@@ -474,8 +480,8 @@ const ManageOrders = () => {
               </thead>
               <tbody>
                 {!loading &&
-                  currentItems?.length > 0 &&
-                  currentItems?.map((row, index) => (
+                  filteredData?.length > 0 &&
+                  filteredData?.map((row, index) => (
                     <tr key={row.id}>
                       <td
                         className="orderId"
@@ -540,7 +546,7 @@ const ManageOrders = () => {
                               handleShow();
                             }}
                             disabled={
-                              row?.order_details?.[0]?.order_status == "cancel"
+                              row?.order_details?.[0]?.order_status === "cancel"
                             }
                           >
                             {} Manage
@@ -590,9 +596,9 @@ const ManageOrders = () => {
                       </td>
                     </tr>
                   ))}
-                {!loading && currentItems?.length === 0 && (
+                {!loading && filteredData?.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="text-center">
+                    <td colSpan={15} className="text-center fw-bold">
                       No Order Found
                     </td>
                   </tr>
@@ -614,16 +620,16 @@ const ManageOrders = () => {
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header> */}
           <Modal.Body>
-            {filteredListByDate[selectIndex]?.order_details?.length > 0 && (
+            {filteredData[selectIndex]?.order_details?.length > 0 && (
               <Row className="mt-4">
                 <Col className="mb-2">
                   <h5 className="dtextOredr">
                     Order Id:{" "}
                     <span style={{ color: "#FF9843", fontWeight: "bold" }}>
-                      {filteredListByDate[selectIndex]?.order_no}
+                      {filteredData[selectIndex]?.order_no}
                     </span>
                   </h5>
-                  {filteredListByDate[selectIndex]?.order_details?.every(
+                  {filteredData[selectIndex]?.order_details?.every(
                     IsallOrderPackedFunc
                   ) && (
                     <Row
@@ -636,11 +642,10 @@ const ManageOrders = () => {
                       <Col xs={12}>
                         <Row className="mt-3">
                           <Col className="orderId" xs={12} md={6}>
-                            Order No:{" "}
-                            {filteredListByDate[selectIndex]?.order_no} (
+                            Order No: {filteredData[selectIndex]?.order_no} (
                             {
-                              filteredListByDate[selectIndex]
-                                ?.order_details?.[0]?.order_status
+                              filteredData[selectIndex]?.order_details?.[0]
+                                ?.order_status
                             }
                             )
                           </Col>
@@ -654,7 +659,7 @@ const ManageOrders = () => {
                               Name:
                             </Col>
                             <Col xs={12}>
-                              {filteredListByDate[selectIndex]?.addressId?.name}
+                              {filteredData[selectIndex]?.addressId?.name}
                             </Col>
                           </Col>
                           <Col className="mt-1" xs={3}>
@@ -662,10 +667,7 @@ const ManageOrders = () => {
                               Phone:
                             </Col>
                             <Col xs={12}>
-                              {
-                                filteredListByDate[selectIndex]?.addressId
-                                  ?.ph_no
-                              }
+                              {filteredData[selectIndex]?.addressId?.ph_no}
                             </Col>
                           </Col>
                           <Col className="mt-1" xs={3}>
@@ -673,7 +675,7 @@ const ManageOrders = () => {
                               Alternate Phone:
                             </Col>
                             <Col xs={12}>
-                              {filteredListByDate[selectIndex]?.addressId
+                              {filteredData[selectIndex]?.addressId
                                 ?.alterphone || "N/A"}
                             </Col>
                           </Col>
@@ -682,10 +684,7 @@ const ManageOrders = () => {
                               Pincode:
                             </Col>
                             <Col xs={12}>
-                              {
-                                filteredListByDate[selectIndex]?.addressId
-                                  ?.pincode
-                              }
+                              {filteredData[selectIndex]?.addressId?.pincode}
                             </Col>
                           </Col>
                           <Col className="mt-1" xs={3}>
@@ -693,7 +692,7 @@ const ManageOrders = () => {
                               City:
                             </Col>
                             <Col xs={12}>
-                              {filteredListByDate[selectIndex]?.addressId?.city}
+                              {filteredData[selectIndex]?.addressId?.city}
                             </Col>
                           </Col>
                           <Col className="mt-1" xs={3}>
@@ -701,10 +700,7 @@ const ManageOrders = () => {
                               State:
                             </Col>
                             <Col xs={12}>
-                              {
-                                filteredListByDate[selectIndex]?.addressId
-                                  ?.state
-                              }
+                              {filteredData[selectIndex]?.addressId?.state}
                             </Col>
                           </Col>
                           <Col className="mt-1" xs={3}>
@@ -712,8 +708,8 @@ const ManageOrders = () => {
                               Locality:
                             </Col>
                             <Col xs={12}>
-                              {filteredListByDate[selectIndex]?.addressId
-                                ?.locality || "N/A"}
+                              {filteredData[selectIndex]?.addressId?.locality ||
+                                "N/A"}
                             </Col>
                           </Col>
                           <Col className="mt-1" xs={3}>
@@ -721,10 +717,7 @@ const ManageOrders = () => {
                               Landmark:
                             </Col>
                             <Col xs={12}>
-                              {
-                                filteredListByDate[selectIndex]?.addressId
-                                  ?.landmark
-                              }
+                              {filteredData[selectIndex]?.addressId?.landmark}
                             </Col>
                           </Col>
                           <Col className="mt-1" xs={3}>
@@ -733,7 +726,7 @@ const ManageOrders = () => {
                             </Col>
                             <Col xs={12}>
                               {
-                                filteredListByDate[selectIndex]?.addressId
+                                filteredData[selectIndex]?.addressId
                                   ?.address_type
                               }
                             </Col>
@@ -743,10 +736,7 @@ const ManageOrders = () => {
                               Order For:
                             </Col>
                             <Col xs={12}>
-                              {
-                                filteredListByDate[selectIndex]?.addressId
-                                  ?.order_for
-                              }
+                              {filteredData[selectIndex]?.addressId?.order_for}
                             </Col>
                           </Col>
                         </div>
@@ -771,7 +761,7 @@ const ManageOrders = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredListByDate[selectIndex]?.order_details?.map(
+                      {filteredData[selectIndex]?.order_details?.map(
                         (row, index) => (
                           <tr key={index}>
                             <td>{row?.proId?.name}</td>
@@ -830,7 +820,7 @@ const ManageOrders = () => {
                                 size="sm"
                                 onClick={() =>
                                   handleStatusUpdate(
-                                    filteredListByDate[selectIndex]?._id,
+                                    filteredData[selectIndex]?._id,
                                     row?.proId?._id,
                                     OrderSequenceStatus(row?.order_status)
                                   )
@@ -844,13 +834,13 @@ const ManageOrders = () => {
                                 size="sm"
                                 onClick={() =>
                                   handleMakePayment(
-                                    filteredListByDate[selectIndex]?._id,
-                                    filteredListByDate[selectIndex]?.order_type
+                                    filteredData[selectIndex]?._id,
+                                    filteredData[selectIndex]?.order_type
                                   )
                                 }
                                 disabled={
-                                  filteredListByDate[selectIndex]
-                                    ?.payment_status === "paid"
+                                  filteredData[selectIndex]?.payment_status ===
+                                  "paid"
                                 }
                               >
                                 <FaRegMoneyBillAlt /> Payment Received
@@ -860,7 +850,7 @@ const ManageOrders = () => {
                                 size="sm"
                                 onClick={() =>
                                   handleStatusUpdate(
-                                    filteredListByDate[selectIndex]?._id,
+                                    filteredData[selectIndex]?._id,
                                     row?.proId?._id,
                                     "cancel"
                                   )
