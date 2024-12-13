@@ -1049,8 +1049,6 @@ export async function orderStatusUpdate(fromdata, id) {
       apiUrl + `/order/status-update/${id}`,
       fromdata
     );
-    console.log();
-
     return response;
   } catch (error) {
     return error;
