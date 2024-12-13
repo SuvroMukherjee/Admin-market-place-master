@@ -1047,8 +1047,11 @@ export async function orderStatusUpdate(fromdata, id) {
   try {
     const response = await axios.patch(
       apiUrl + `/order/status-update/${id}`,
-      fromdata
+      fromdata,
+      { headers: setAuthHeader() }
     );
+    console.log();
+
     return response;
   } catch (error) {
     return error;

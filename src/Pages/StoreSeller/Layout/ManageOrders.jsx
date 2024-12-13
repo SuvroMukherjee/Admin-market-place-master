@@ -114,7 +114,7 @@ const ManageOrders = () => {
     let res = await orderStatusUpdate(payload, OId);
 
     console.log(res);
-    getOrdersist();
+    fetchData();
     setProcessLoader(false);
   };
 
@@ -154,7 +154,7 @@ const ManageOrders = () => {
   const OrderSequenceStatus = (status) => {
     switch (status) {
       case "order_placed":
-        return "confirmed";
+        return "order_packed";
       case "confirmed":
         return "order_packed";
       case "order_packed":
@@ -163,6 +163,24 @@ const ManageOrders = () => {
         return "delivered";
       case "cancel":
         return "cancel";
+      default:
+        return "Unknown Status";
+    }
+  };
+  const buttonActionStatus = (status) => {
+    switch (status) {
+      case "order_placed":
+        return "Order Packed";
+      case "confirmed":
+        return "Order Packed";
+      case "order_packed":
+        return "Shipped";
+      case "shipped":
+        return "Order Delivered";
+      case "delivered":
+        return "Order Delivered";
+      case "cancel":
+        return "Order Cancelled";
       default:
         return "Unknown Status";
     }
@@ -296,7 +314,7 @@ const ManageOrders = () => {
       // console.error("Error making payment:", error);
       toast.error("An error occurred while processing the payment.");
     }
-    getOrdersist();
+    fetchData();
     setProcessLoader(false);
   };
 
@@ -833,7 +851,8 @@ const ManageOrders = () => {
                                   row?.order_status === "returned"
                                 }
                               >
-                                <FaTruck /> {OrderSequence(row?.order_status)}
+                                <FaTruck />{" "}
+                                {buttonActionStatus(row?.order_status)}
                               </Button>
                               <Button
                                 variant="warning"
