@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import { FaPrint, FaRegMoneyBillAlt, FaTimes, FaTruck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import {
   PaymentUpdate,
   commandOnOrder,
@@ -111,9 +111,19 @@ const ManageOrders = () => {
       order_status: status,
     };
 
+
+
     let res = await orderStatusUpdate(payload, OId);
 
-    console.log(res);
+    console.log(res?.response?.data?.error);
+
+    if(res?.response?.data?.error){
+      toast.error(res?.resaponse?.data?.message || "An error occurred while processing .");
+    }
+    else{
+      toast.success("Order Status Updated Successfully");
+    }
+
     fetchData();
     setProcessLoader(false);
   };
@@ -908,7 +918,9 @@ const ManageOrders = () => {
                     </tbody>
                   </Table>
                 </Col>
+                <ToastContainer />
               </Row>
+              
             )}
           </Modal.Body>
           <Modal.Footer>
