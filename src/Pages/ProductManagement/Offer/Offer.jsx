@@ -59,19 +59,25 @@ const Offer = () => {
   }
 
   const createOfferTypeHandler = async () => {
-    if (type === "") {
+    // Trim whitespace and validate the input
+    const trimmedType = type.trim();
+    if (!trimmedType) {
       alert("Please fill offer type");
       return;
     }
 
-    let res = await offerTypeCreate({ offer_type_name: type });
-    if (!res?.data?.error) {
-      toast.success(res?.data?.message);
-    } else {
-      toast.error(res?.data?.message);
+    try {
+      let res = await offerTypeCreate({ offer_type_name: trimmedType });
+      if (!res?.data?.error) {
+        toast.success(res?.data?.message);
+      } else {
+        toast.error(res?.data?.message);
+      }
+      setType(""); // Reset the input field
+      getOfferTypeLists(); // Refresh the list
+    } catch (error) {
+      toast.error("An error occurred while creating the offer type.");
     }
-    setType("");
-    getOfferTypeLists();
   };
 
   const handleTypeChange = (event) => {
@@ -210,7 +216,7 @@ const Offer = () => {
       <Container className="mt-4">
         <Row className="m-2 p-2 justify-content-md-center stepContent">
           <Col>
-            <Row className="mt-3">
+            {/* <Row className="mt-3">
               <Col xs={12}>
                 <Form.Group controlId="user_name">
                   <Row>
@@ -235,7 +241,7 @@ const Offer = () => {
                   </Row>
                 </Form.Group>
               </Col>
-            </Row>
+            </Row> */}
 
             <Row className="mt-3">
               <Col xs={12}>
@@ -254,8 +260,33 @@ const Offer = () => {
                         className="tapG"
                         placeholder="Enter Product HSN Code"
                         size="sm"
-                        value={productId}
-                        onChange={handleChange}
+                        value={productData?.ProductData?.productId}
+                        disabled
+                        autoComplete="off"
+                      />
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="mt-3">
+              <Col xs={12}>
+                <Form.Group controlId="product_name">
+                  <Row>
+                    <Col
+                      xs={3}
+                      className="d-flex align-items-center justify-content-end"
+                    >
+                      <Form.Label className="frmLable">Product-Name</Form.Label>
+                    </Col>
+                    <Col xs={8}>
+                      <Form.Control
+                        type="text"
+                        name="product"
+                        className="tapG"
+                        placeholder="Enter Product Name"
+                        size="sm"
+                        value={productData?.ProductData?.name}
                         disabled
                         autoComplete="off"
                       />
