@@ -1048,8 +1048,7 @@ export async function orderStatusUpdate(fromdata, id) {
     const response = await axios.patch(
       apiUrl + `/order/status-update/${id}`,
       fromdata,
-     { headers: setAuthHeader(),}
-
+      { headers: setAuthHeader() }
     );
     return response;
   } catch (error) {

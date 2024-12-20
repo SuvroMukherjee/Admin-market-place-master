@@ -32,7 +32,7 @@ const SellingProductOffer = () => {
     brandId: "",
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { id: sellerID } = useParams();
   const [reviewData, setReviewData] = useState([]);
@@ -190,7 +190,8 @@ const SellingProductOffer = () => {
       <Row>
         <Col>
           <h6 className="text-center">
-            Select your Products to Apply Offers from {filteredData[0]?.sellerId?.user_name}
+            Select your Products to Apply Offers from{" "}
+            {filteredData[0]?.sellerId?.user_name}
           </h6>
         </Col>
       </Row>
@@ -372,8 +373,18 @@ const SellingProductOffer = () => {
                   </a>
                 </td>
                 <td>
-                 
-                  <Button variant="warning" size="sm" onClick={() => navigate(`/Admin/offer/${row?._id}`)}><span className='mx-1'><BiSolidOffer size={20}/></span> APPLY OFFERS</Button>
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() =>
+                      navigate(`/Admin/offer/${row?.productId?._id}`)
+                    }
+                  >
+                    <span className="mx-1">
+                      <BiSolidOffer size={20} />
+                    </span>{" "}
+                    APPLY OFFERS
+                  </Button>
                 </td>
               </tr>
             ))

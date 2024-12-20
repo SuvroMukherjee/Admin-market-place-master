@@ -49,8 +49,7 @@ const Offer = () => {
     /** */
   }
 
-  console.log({ formData });
-  console.log({ productData });
+  // console.log({ productData });
 
   async function getOfferTypeLists() {
     let res = await offerTypeList();
