@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Row, Spinner } from "react-bootstrap";
+import { Col, Modal, Row, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { RxCrossCircled } from "react-icons/rx";
 import {
@@ -197,6 +197,11 @@ export const ProductServices = () => {
     }
   };
 
+  const [showConverter, setShowConverter] = useState(false);
+
+  const handleShowConverter = () => setShowConverter(true);
+  const handleCloseConverter = () => setShowConverter(false);
+
   return (
     <>
       {loading && (
@@ -276,7 +281,21 @@ export const ProductServices = () => {
               <div className="mb-2">
                 <label htmlFor="image" className="form-label">
                   Image URL
+                  <span
+                    onClick={() => window.open("/image-convert", "_blank")}
+                    style={{
+                      background: "lightgrey",
+                      color: "black",
+                      cursor: "pointer",
+                      padding: "4px 10px",
+                      fontWeight: "bold",
+                    }}
+                    className="mx-4"
+                  >
+                    *Use Image Converter to Add Image URL
+                  </span>
                 </label>
+
                 <input
                   type="text"
                   className="form-control"
