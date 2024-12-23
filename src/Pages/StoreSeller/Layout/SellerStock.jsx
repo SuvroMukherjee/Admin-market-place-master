@@ -1103,10 +1103,12 @@ const SellerStock = () => {
   );
 };
 
-const TaxTable = ({ data,brandId, allComission }) => {
-  const [show, setShow] = useState(false);
+const TaxTable = ({ data, brandId, allComission }) => {
+  const [showModal, setShowModal] = useState(false); // For controlling modal visibility
+  const [offers, setOffers] = useState([]);
 
-  async function getOffersData () {
+  // Fetch offers data based on brandId and data
+  async function getOffersData() {
     let res = await getOffers(brandId?._id, data?._id);
     console.log(res?.data?.data, "offers");
     setOffers(res?.data?.data);
@@ -1116,62 +1118,84 @@ const TaxTable = ({ data,brandId, allComission }) => {
     getOffersData();
   }, [brandId, data]);
 
-  const [offers, setOffers] = useState([]);
-
   return (
-    
     <div>
-      <p className="shwTx" onClick={() => setShow(!show)}>
-        {show ? "Hide" : "Show"}
+      {/* <Button variant="primary" onClick={() => setShowModal(true)}>
+        {showModal ? "Hide" : "Show"} Tax Table & Offers
+      </Button> */}
+
+      <p className="shwTx" onClick={() => setShowModal(true)}>
+        {showModal ? "Hide" : "Show"}
       </p>
-      {show && (
-        <>
-        <table className="border-collapse border border-gray-300 w-full text-left">
-          <tbody>
-            <tr>
-              <td className="border border-black-500 p-1">Commission</td>
-              <td className="border border-black-500 p-1">
-                {allComission?.find(
-                  (item) => item?.categoryId?._id == data?._id
-                )?.commission_rate || 0}
-                %
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-black-500 p-1">IGST</td>
-              <td className="border border-black-500 p-1">
-                {data?.igst || 0}%
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-black-500 p-1">CGST</td>
-              <td className="border border-black-500 p-1">
-                {data?.cgst || 0}%
-              </td>
-            </tr>
-            <tr>
-              <td className="border border-black-500 p-1">SGST</td>
-              <td className="border border-black-500 p-1">
-                {data?.sgst || 0}%
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div>
-        <OfferDetails offers={offers} />
-        </div>
-        </>
-      )}
+
+      {/* Modal for showing Tax Table and Offer Details */}
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Tax Table & Offers</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          {/* Tax Table */}
+          <table
+            className="border-collapse border border-gray-300 w-full text-left"
+            style={{ width: "100%" }}
+          >
+            <tbody>
+              <tr>
+                <td className="border border-black-500 p-1">Commission</td>
+                <td className="border border-black-500 p-1">
+                  {allComission?.find(
+                    (item) => item?.categoryId?._id === data?._id
+                  )?.commission_rate || 0}{" "}
+                  %
+                </td>
+              </tr>
+              <tr>
+                <td className="border border-black-500 p-1">IGST</td>
+                <td className="border border-black-500 p-1">
+                  {data?.igst || 0}%
+                </td>
+              </tr>
+              <tr>
+                <td className="border border-black-500 p-1">CGST</td>
+                <td className="border border-black-500 p-1">
+                  {data?.cgst || 0}%
+                </td>
+              </tr>
+              <tr>
+                <td className="border border-black-500 p-1">SGST</td>
+                <td className="border border-black-500 p-1">
+                  {data?.sgst || 0}%
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          {/* Offer Details */}
+          <OfferDetails offers={offers} />
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
-
 
 const OfferDetails = ({ offers }) => {
   if (!offers || offers.length === 0) {
     return (
       <Container className="mt-4">
-        <h2 className="mb-3">Available Offers</h2>
+        <p className="mb-4">Available Offers</p>
         <Card className="p-3">
           <p>No offers available at the moment.</p>
         </Card>
@@ -1187,38 +1211,64 @@ const OfferDetails = ({ offers }) => {
           <Col key={offer._id} xs={12}>
             <Card className="h-100 shadow-sm">
               <Card.Body>
-                <Card.Title style={{fontSize: "10px"}}>
+                <Card.Title style={{ fontSize: "16px" }}>
                   {index + 1}. {offer.offerName}
                 </Card.Title>
-                <Card.Text>
-                  <strong>Brand:</strong> {offer.brand.title}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Category:</strong> {offer.category.title}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Discount:</strong>{" "}
-                  {offer.discountType === "percentage"
-                    ? `${offer.discountValue}%`
-                    : `₹${offer.discountValue}`}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Minimum Amount:</strong> ₹{offer.minAmount}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Maximum Discount:</strong> ₹{offer.maxAmount}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Valid From:</strong>{" "}
-                  {new Date(offer.startDate).toLocaleDateString()}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Valid Until:</strong>{" "}
-                  {new Date(offer.endDate).toLocaleDateString()}
-                </Card.Text>
-                <Card.Text>
-                  <strong>Status:</strong> {offer.status ? "Active" : "Inactive"}
-                </Card.Text>
+
+                <Row>
+                  <Col md={4}>
+                    <Card.Text>
+                      <strong>Brand:</strong> {offer.brand.title}
+                    </Card.Text>
+                  </Col>
+                  <Col md={4}>
+                    <Card.Text>
+                      <strong>Category:</strong> {offer.category.title}
+                    </Card.Text>
+                  </Col>
+                  <Col md={4}>
+                    <Card.Text>
+                      <strong>Discount:</strong>{" "}
+                      {offer.discountType === "percentage"
+                        ? `${offer.discountValue}%`
+                        : `₹${offer.discountValue}`}
+                    </Card.Text>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={4}>
+                    <Card.Text>
+                      <strong>Minimum Amount:</strong> ₹{offer.minAmount}
+                    </Card.Text>
+                  </Col>
+                  <Col md={4}>
+                    <Card.Text>
+                      <strong>Maximum Discount:</strong> ₹{offer.maxAmount}
+                    </Card.Text>
+                  </Col>
+                  <Col md={4}>
+                    <Card.Text>
+                      <strong>Valid From:</strong>{" "}
+                      {new Date(offer.startDate).toLocaleDateString()}
+                    </Card.Text>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col md={4}>
+                    <Card.Text>
+                      <strong>Valid Until:</strong>{" "}
+                      {new Date(offer.endDate).toLocaleDateString()}
+                    </Card.Text>
+                  </Col>
+                  <Col md={4}>
+                    <Card.Text>
+                      <strong>Status:</strong>{" "}
+                      {offer.status ? "Active" : "Inactive"}
+                    </Card.Text>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
           </Col>
@@ -1227,7 +1277,5 @@ const OfferDetails = ({ offers }) => {
     </Container>
   );
 };
-
-
 
 export default SellerStock;
