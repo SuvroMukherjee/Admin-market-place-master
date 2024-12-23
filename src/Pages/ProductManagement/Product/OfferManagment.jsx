@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import {
   AdminOfferDelete,
+  AdminOfferUpdate,
   allBrandList,
   allCategoryList,
   allOfferList,
@@ -36,6 +37,7 @@ const OfferManagment = () => {
   });
   const [loading, setLoading] = useState(true);
   const [offerLoading, setOfferLoading] = useState(true);
+  const [editingOfferId, setEditingOfferId] = useState(null);
 
   async function getCategoryList() {
     await allCategoryList()
@@ -109,33 +111,82 @@ const OfferManagment = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    if (editingOfferId) {
+      // If editing, update the offer
+      await handleUpdate();
+    } else {
+      // If creating a new offer
+      try {
+        const response = await newOfferCreate(offerData); // Replace with your API endpoint
+        if (!response?.data?.error) {
+          alert("Offer created successfully!");
+          getAllOfferList();
+        }
+      } catch (error) {
+        console.error("Error creating offer:", error);
+        alert("Failed to create offer. Please try again.");
+      } finally {
+        setLoading(false);
+        resetForm();
+      }
+    }
+  };
+  // Handle updating an offer
+  const handleUpdate = async () => {
     try {
-      const response = await newOfferCreate(offerData); // Replace with your API endpoint
+      const response = await AdminOfferUpdate(editingOfferId, offerData); // Replace with your API endpoint
       if (!response?.data?.error) {
-        alert("Offer created successfully!");
+        alert("Offer updated successfully!");
+        getAllOfferList();
       }
     } catch (error) {
-      console.error("Error creating offer:", error);
-      alert("Failed to create offer. Please try again.");
+      console.error("Error updating offer:", error);
+      alert("Failed to update offer. Please try again.");
     } finally {
       setLoading(false);
-      setOfferData({
-        offerName: "",
-        brand: "",
-        category: "",
-        discountType: "percentage",
-        discountValue: "",
-        minAmount: "",
-        maxAmount: "",
-        startDate: "",
-        endDate: "",
-      });
-      getAllOfferList();
+      resetForm();
     }
+  };
+
+  // Prefill the form for editing
+  const handleEdit = (offer) => {
+    setEditingOfferId(offer._id); // Set the ID of the offer being edited
+    setOfferData({
+      offerName: offer.offerName || "",
+      brand: offer.brand?._id || "",
+      category: offer.category?._id || "",
+      discountType: offer.discountType || "percentage",
+      discountValue: offer.discountValue || "",
+      minAmount: offer.minAmount || "",
+      maxAmount: offer.maxAmount || "",
+      startDate: offer.startDate?.slice(0, 10) || "",
+      endDate: offer.endDate?.slice(0, 10) || "",
+    });
+  };
+
+  // Reset the form to its initial state
+  const resetForm = () => {
+    setEditingOfferId(null);
+    setOfferData({
+      offerName: "",
+      brand: "",
+      category: "",
+      discountType: "percentage",
+      discountValue: "",
+      minAmount: "",
+      maxAmount: "",
+      startDate: "",
+      endDate: "",
+    });
   };
 
   // Handle delete offer
   const handleDelete = async (offerId) => {
+    const isConfirmed = confirm("Are you sure you want to delete this offer?");
+    if (!isConfirmed) {
+      return;
+    }
     try {
       const response = await AdminOfferDelete(offerId); // Replace with your API endpoint
       if (!response?.data?.error) {
@@ -151,7 +202,9 @@ const OfferManagment = () => {
 
   return (
     <Container className="my-5 productList">
-      <h2 className="text-center mb-4">Create Offer</h2>
+      <h2 className="text-center mb-4">
+        {editingOfferId ? "Update Offer" : "Create Offer"}
+      </h2>
       <Form onSubmit={handleSubmit} className="mb-5">
         <Row>
           <Col md={6}>
@@ -307,10 +360,14 @@ const OfferManagment = () => {
             </Form.Group>
           </Col>
         </Row>
-
         <Button variant="primary" type="submit">
-          Create Offer
+          {editingOfferId ? "Update Offer" : "Create Offer"}
         </Button>
+        {editingOfferId && (
+          <Button variant="secondary" className="ms-3" onClick={resetForm}>
+            Cancel
+          </Button>
+        )}
       </Form>
 
       <h3 className="text-center mb-4">Offer List</h3>
@@ -359,14 +416,14 @@ const OfferManagment = () => {
                     <Button
                       variant="warning"
                       size="sm"
-                      // onClick={() => handleUpdate(offer?._id)}
+                      onClick={() => handleEdit(offer)}
                     >
                       <MdEdit />
                     </Button>
                     <Button
                       variant="danger"
                       size="sm"
-                      // onClick={() => handleDelete(offer?._id)}
+                      onClick={() => handleDelete(offer?._id)}
                     >
                       <MdDelete />
                     </Button>
