@@ -2004,6 +2004,53 @@ export async function offerTypeDelete(id) {
   }
 }
 
+// Updated offer api's based on category and brand
+
+export async function newOfferCreate(formData) {
+  try {
+    const response = await axios.post(
+      apiUrl + `/offer-management/create`,
+      formData
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function allOfferList() {
+  try {
+    const response = await axios.get(apiUrl + `/offer-management/all-list`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function AdminOfferDelete(id) {
+  try {
+    const response = await axios.delete(
+      apiUrl + `/offer-management/delete/${id}`
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+export async function AdminOfferUpdate(id, formData) {
+  try {
+    const response = await axios.patch(
+      apiUrl + `/offer-management/update/${id}`,
+      formData
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
 {
   /** {{base_url}}/seller/verify-both-otp */
 }

@@ -1,7 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
-import { allBrandList, allCategoryList } from "../../../API/api";
+import {
+  AdminOfferDelete,
+  allBrandList,
+  allCategoryList,
+  allOfferList,
+  newOfferCreate,
+} from "../../../API/api";
 
 const OfferManagment = () => {
   const [brands, setBrands] = useState([]);
@@ -19,6 +25,7 @@ const OfferManagment = () => {
     endDate: "",
   });
   const [loading, setLoading] = useState(true);
+  const [offerLoading, setOfferLoading] = useState(true);
 
   async function getCategoryList() {
     await allCategoryList()
@@ -63,9 +70,24 @@ const OfferManagment = () => {
       });
   }
 
+  async function getAllOfferList() {
+    try {
+      const res = await allOfferList();
+      if (!res?.data?.error) {
+        setOffers(res?.data?.data);
+      }
+    } catch (err) {
+      console.log(err);
+      alert(err?.response?.data?.message || "Error! fetching offers");
+    } finally {
+      setOfferLoading(false);
+    }
+  }
+
   useEffect(() => {
     getCategoryList();
     getAllBrandLists();
+    getAllOfferList();
   }, []);
 
   // Handle form input change
@@ -78,9 +100,15 @@ const OfferManagment = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/offers", offerData); // Replace with your API endpoint
-      alert("Offer created successfully!");
-      setOffers([...offers, response.data]); // Add the new offer to the list
+      const response = await newOfferCreate(offerData); // Replace with your API endpoint
+      if (!response?.data?.error) {
+        alert("Offer created successfully!");
+      }
+    } catch (error) {
+      console.error("Error creating offer:", error);
+      alert("Failed to create offer. Please try again.");
+    } finally {
+      setLoading(false);
       setOfferData({
         offerName: "",
         brand: "",
@@ -92,21 +120,22 @@ const OfferManagment = () => {
         startDate: "",
         endDate: "",
       });
-    } catch (error) {
-      console.error("Error creating offer:", error);
-      alert("Failed to create offer. Please try again.");
+      getAllOfferList();
     }
   };
 
   // Handle delete offer
   const handleDelete = async (offerId) => {
     try {
-      await axios.delete(`/api/offers/${offerId}`); // Replace with your API endpoint
-      setOffers(offers.filter((offer) => offer.id !== offerId));
-      alert("Offer deleted successfully!");
+      const response = await AdminOfferDelete(offerId); // Replace with your API endpoint
+      if (!response?.data?.error) {
+        alert("Offer deleted successfully!");
+      }
     } catch (error) {
       console.error("Error deleting offer:", error);
       alert("Failed to delete offer. Please try again.");
+    } finally {
+      getAllOfferList();
     }
   };
 
@@ -149,7 +178,7 @@ const OfferManagment = () => {
         </Row>
 
         <Row>
-        <Col md={6}>
+          <Col md={6}>
             <Form.Group className="mb-3">
               <Form.Label>Brand</Form.Label>
               <Form.Select
