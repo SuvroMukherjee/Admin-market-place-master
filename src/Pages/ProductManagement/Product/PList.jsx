@@ -390,7 +390,7 @@ const PList = () => {
             ?.map((spec) => spec?.skuId)
             .join(", "),
           "Product Description": product?.desc,
-          // "Product Full Description": htmlToPlainText(product?.full_desc),
+          "Product Full Description": htmlToPlainText(product?.full_desc),
         };
       });
 
