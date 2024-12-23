@@ -16,6 +16,8 @@ import {
   allOfferList,
   newOfferCreate,
 } from "../../../API/api";
+import { MdDelete, MdEdit } from "react-icons/md";
+import moment from "moment";
 
 const OfferManagment = () => {
   const [brands, setBrands] = useState([]);
@@ -133,19 +135,19 @@ const OfferManagment = () => {
   };
 
   // Handle delete offer
-  // const handleDelete = async (offerId) => {
-  //   try {
-  //     const response = await AdminOfferDelete(offerId); // Replace with your API endpoint
-  //     if (!response?.data?.error) {
-  //       alert("Offer deleted successfully!");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error deleting offer:", error);
-  //     alert("Failed to delete offer. Please try again.");
-  //   } finally {
-  //     getAllOfferList();
-  //   }
-  // };
+  const handleDelete = async (offerId) => {
+    try {
+      const response = await AdminOfferDelete(offerId); // Replace with your API endpoint
+      if (!response?.data?.error) {
+        alert("Offer deleted successfully!");
+      }
+    } catch (error) {
+      console.error("Error deleting offer:", error);
+      alert("Failed to delete offer. Please try again.");
+    } finally {
+      getAllOfferList();
+    }
+  };
 
   return (
     <Container className="my-5 productList">
@@ -350,16 +352,25 @@ const OfferManagment = () => {
                 </td>
                 <td>₹{offer?.minAmount}</td>
                 <td>₹{offer?.maxAmount}</td>
-                <td>{offer?.startDate}</td>
-                <td>{offer?.endDate}</td>
+                <td>{moment(offer?.startDate).format("LLL")}</td>
+                <td>{moment(offer?.endDate).format("LLL")}</td>
                 <td>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleDelete(offer?._id)}
-                  >
-                    Delete
-                  </Button>
+                  <div className="d-flex gap-3 justify-content-center">
+                    <Button
+                      variant="warning"
+                      size="sm"
+                      // onClick={() => handleUpdate(offer?._id)}
+                    >
+                      <MdEdit />
+                    </Button>
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      // onClick={() => handleDelete(offer?._id)}
+                    >
+                      <MdDelete />
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))
