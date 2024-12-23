@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -8,19 +8,16 @@ import {
   Container,
   Form,
   Image,
-  InputGroup,
   ListGroup,
   Modal,
-  Pagination,
   Row,
   Table,
 } from "react-bootstrap";
-import { CSVLink } from "react-csv";
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineInfoCircle, AiOutlinePlus } from "react-icons/ai";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { CiCircleInfo } from "react-icons/ci";
-import { FaArrowDown, FaArrowUp, FaFileExport, FaSearch } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { FaCircleInfo, FaCirclePlus } from "react-icons/fa6";
 import { IoIosAdd } from "react-icons/io";
 import { LiaMailBulkSolid } from "react-icons/lia";
@@ -28,19 +25,17 @@ import { LuClipboardSignature } from "react-icons/lu";
 import { MdCancel } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  BulkProductUpload,
   DeleteProductSpecification,
   FileUpload,
   ProductSpecificationCreate,
-  SpecBulkProductUpload,
   StatusUpdateProduct,
   UpdateProductSpecification,
   allBrandList,
   allCategoryList,
   allSubCategoryList,
-  deleteProduct,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
+import { useDebounce } from "../../../hooks/useDebounce";
 import "../product.css";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
@@ -72,6 +67,9 @@ const PList = () => {
   const handleCloseModal2 = () => setShowModal2(false);
   const handleShowModal2 = () => setShowModal2(true);
 
+  const [downloadLoading, setDownloadLoading] = useState(false);
+  const [downloadMessage, setDownloadMessage] = useState(null);
+
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -82,16 +80,6 @@ const PList = () => {
   };
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchData();
-  }, [currentPage, filters]);
-
-  useEffect(() => {
-    fetchCategories();
-    fetchSubcategories();
-    fetchBrands();
-  }, []);
 
   const fetchData = async () => {
     setLoading(true);
@@ -154,9 +142,9 @@ const PList = () => {
     }
   };
 
-  const handleSearch = () => {
-    fetchData(); // Trigger search when the search button is clicked
-  };
+  // const handleSearch = () => {
+  //   fetchData(); // Trigger search when the search button is clicked
+  // };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -208,94 +196,95 @@ const PList = () => {
       });
   };
 
-  const handledeleteProduct = async (id) => {
-    await deleteProduct(id)
-      .then((res) => {
-        console.log(res);
-        fetchData();
-        toast.success("Product deleted successfully!");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const handledeleteProduct = async (id) => {
+  //   await deleteProduct(id)
+  //     .then((res) => {
+  //       console.log(res);
+  //       fetchData();
+  //       toast.success("Product deleted successfully!");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
-  const csvData = filterData.flatMap((product, index) => {
-    const htmlToPlainText = (html) => {
-      const tempDiv = document.createElement("div");
-      tempDiv.innerHTML = html;
-      return tempDiv.textContent || tempDiv.innerText || "";
-    };
-    return {
-      "SL NO": index + 1,
-      "Product Name": product?.name,
-      "Product ID": product?.productId,
-      "Product Type": product?.type,
-      "Product Category": product?.categoryId?.title,
-      "Product Sub-Category": product?.subcategoryId?.title,
-      "Product Brand": product?.brandId?.title,
-      "Product Tax status": product?.tax_status,
-      "Product Visibility": "Visible",
-      "Product Identification Images": product?.image
-        ?.map((ele) => ele?.image_path)
-        .join(","),
-      "Product Features": product?.features?.map((ele) => ele).join(" "),
-      "Product Uploaded Date": moment(product?.updatedAt).format(
-        "DD-MM-YYYY, hh:mm:ss A"
-      ),
-      "Product Specifications": product?.specId
-        ?.flatMap((spec) =>
-          spec?.spec_det?.map((det) => `${det.title}: ${det.value}`)
-        )
-        .join(", "),
-      "Specification Images": product?.specId
-        ?.flatMap((spec) => spec?.image?.map((image) => image?.image_path))
-        .join(", "),
-      "Specification Prices": product?.specId
-        ?.map((spec) => spec?.price)
-        .join(", "),
-      "Specification SkuId": product?.specId
-        ?.map((spec) => spec?.skuId)
-        .join(", "),
-      "Product Description": product?.desc,
-      // "Product Full Description": htmlToPlainText(product?.full_desc),
-    };
-  });
+  // const csvData = filterData.flatMap((product, index) => {
+  //   const htmlToPlainText = (html) => {
+  //     const tempDiv = document.createElement("div");
+  //     tempDiv.innerHTML = html;
+  //     return tempDiv.textContent || tempDiv.innerText || "";
+  //   };
 
-  const onFileUpload = async (file, type) => {
-    try {
-      setUploading(true);
+  //   return {
+  //     "SL NO": index + 1,
+  //     "Product Name": product?.name,
+  //     "Product ID": product?.productId,
+  //     "Product Type": product?.type,
+  //     "Product Category": product?.categoryId?.title,
+  //     "Product Sub-Category": product?.subcategoryId?.title,
+  //     "Product Brand": product?.brandId?.title,
+  //     "Product Tax status": product?.tax_status,
+  //     "Product Visibility": "Visible",
+  //     "Product Identification Images": product?.image
+  //       ?.map((ele) => ele?.image_path)
+  //       .join(","),
+  //     "Product Features": product?.features?.map((ele) => ele).join(" "),
+  //     "Product Uploaded Date": moment(product?.updatedAt).format(
+  //       "DD-MM-YYYY, hh:mm:ss A"
+  //     ),
+  //     "Product Specifications": product?.specId
+  //       ?.flatMap((spec) =>
+  //         spec?.spec_det?.map((det) => `${det.title}: ${det.value}`)
+  //       )
+  //       .join(", "),
+  //     "Specification Images": product?.specId
+  //       ?.flatMap((spec) => spec?.image?.map((image) => image?.image_path))
+  //       .join(", "),
+  //     "Specification Prices": product?.specId
+  //       ?.map((spec) => spec?.price)
+  //       .join(", "),
+  //     "Specification SkuId": product?.specId
+  //       ?.map((spec) => spec?.skuId)
+  //       .join(", "),
+  //     "Product Description": product?.desc,
+  //     // "Product Full Description": htmlToPlainText(product?.full_desc),
+  //   };
+  // });
 
-      const formData = new FormData();
-      formData.append("file", file);
+  // const onFileUpload = async (file, type) => {
+  //   try {
+  //     setUploading(true);
 
-      const uploadResponse = await FileUpload(formData);
-      const fileName = uploadResponse?.data?.data?.fileName;
+  //     const formData = new FormData();
+  //     formData.append("file", file);
 
-      if (!fileName) {
-        throw new Error("File upload failed");
-      }
+  //     const uploadResponse = await FileUpload(formData);
+  //     const fileName = uploadResponse?.data?.data?.fileName;
 
-      const payload = { file: fileName };
-      const Bulkres =
-        type == "spec"
-          ? await SpecBulkProductUpload(payload)
-          : await BulkProductUpload(payload);
+  //     if (!fileName) {
+  //       throw new Error("File upload failed");
+  //     }
 
-      if (Bulkres?.data?.error === false) {
-        toast.success(`Upload successful: ${file.name}`);
-        fetchData();
-      } else {
-        throw new Error(`Could not upload file: ${file.name}`);
-      }
-    } catch (error) {
-      console.error("Error in file upload:", error.message);
-      toast.error(`Error in file upload: ${error.message}`);
-    } finally {
-      setUploading(false);
-      fetchData();
-    }
-  };
+  //     const payload = { file: fileName };
+  //     const Bulkres =
+  //       type == "spec"
+  //         ? await SpecBulkProductUpload(payload)
+  //         : await BulkProductUpload(payload);
+
+  //     if (Bulkres?.data?.error === false) {
+  //       toast.success(`Upload successful: ${file.name}`);
+  //       fetchData();
+  //     } else {
+  //       throw new Error(`Could not upload file: ${file.name}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error in file upload:", error.message);
+  //     toast.error(`Error in file upload: ${error.message}`);
+  //   } finally {
+  //     setUploading(false);
+  //     fetchData();
+  //   }
+  // };
 
   const showVariants = (data) => {
     console.log(data);
@@ -311,16 +300,22 @@ const PList = () => {
     return filterData?.length;
   };
 
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const fetchAllData = async () => {
     let currentPage = 1;
-    const pageSize = 100; // Based on your API
+    const pageSize = 50; // Based on your API
     let allData = [];
     let isFetching = true;
 
     try {
-      setLoading(true);
+      setDownloadLoading(true);
 
       while (isFetching) {
+        // Wait for 100 ms before making the API call
+        setDownloadMessage("Processing page " + currentPage);
+        await sleep(300);
+
         const response = await axios.get(
           `${apiUrl}/product/all-list?page=${currentPage}&limit=${pageSize}`
         );
@@ -339,22 +334,20 @@ const PList = () => {
       return allData;
     } catch (error) {
       console.error("Error fetching all data:", error);
+      toast.error("Error fetching all data");
       return [];
     } finally {
-      setLoading(false);
+      setDownloadLoading(false);
+      setDownloadMessage(null);
     }
   };
+
   const downloadCSV = async () => {
     try {
-      const allData = await new Promise((resolve) => {
-        setTimeout(async () => {
-          const data = await fetchAllData();
-          resolve(data);
-        }, 5000); // Optional delay of 1 second
-      });
+      const allData = await fetchAllData();
 
       if (allData.length === 0) {
-        alert("No data to download!");
+        toast.error("No data to download!");
         return;
       }
 
@@ -363,7 +356,7 @@ const PList = () => {
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.setAttribute("download", "data.csv");
+      link.setAttribute("download", "products.csv");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -371,6 +364,8 @@ const PList = () => {
       console.error("Error downloading CSV:", error);
     }
   };
+
+  const replacer = (key, value) => (value === null ? "" : value);
 
   const convertToCSV = (data) => {
     const headers = Object.keys(data[0]);
@@ -380,7 +375,22 @@ const PList = () => {
     return [headers.join(","), ...rows].join("\n");
   };
 
-  const replacer = (key, value) => (value === null ? "" : value);
+  const debouncedFetchData = useDebounce(fetchData, 300);
+
+  useEffect(() => {
+    debouncedFetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, filters, searchTerm]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, searchTerm]);
+
+  useEffect(() => {
+    fetchCategories();
+    fetchSubcategories();
+    fetchBrands();
+  }, []);
 
   return (
     <div className="productList mt-2 p-4">
@@ -391,42 +401,41 @@ const PList = () => {
           </Col>
         </Row>
 
-        <Row className="mt-4">
-          <Col xs={4}></Col>
-          <Col>
-            <Button
-              variant="dark"
-              size="sm"
-              onClick={() => navigate("/Admin/uploadbulk")}
-            >
-              {" "}
-              <span className="mx-2">
-                <LiaMailBulkSolid />
-              </span>
-              Upload Products in Bulk
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              size="sm"
-              variant="dark"
-              onClick={() => navigate("/Admin/Addproduct")}
-            >
-              <AiOutlinePlus /> Add New Product
-            </Button>
-          </Col>
-          <Col>
-            <Button size="md" variant="dark">
-              <CSVLink
-                className="text-white"
-                data={csvData}
-                filename={`backup-product.csv`}
-              >
-                <FaFileExport /> Export To CSV
-              </CSVLink>
-            </Button>
-          </Col>
-        </Row>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            gap: "20px",
+            marginTop: "16px",
+            marginBottom: "16px",
+            flexWrap: "wrap",
+          }}
+        >
+          <button
+            className="btn btn-dark btn-sm"
+            onClick={() => navigate("/Admin/uploadbulk")}
+          >
+            <span className="me-2">
+              <LiaMailBulkSolid />
+            </span>
+            Upload Products in Bulk
+          </button>
+          <button
+            className="btn btn-dark btn-sm"
+            onClick={() => navigate("/Admin/Addproduct")}
+          >
+            <AiOutlinePlus /> Add New Product
+          </button>
+          <button
+            className="btn btn-dark btn-sm"
+            onClick={downloadCSV}
+            disabled={downloadLoading}
+          >
+            {downloadLoading ? downloadMessage : "Download Products CSV"}
+          </button>
+        </div>
+
         <Row>
           <ProductSpecificationForm
             selectedproductid={selectedproductid}
@@ -435,6 +444,7 @@ const PList = () => {
             fetchData={fetchData}
           />
         </Row>
+
         <Container>
           <Modal show={showModal2} size="xl" onHide={handleCloseModal2}>
             <Modal.Body>
@@ -496,13 +506,11 @@ const PList = () => {
           </Modal>
         </Container>
       </Container>
+
       <Toaster position="top-right" />
-      {/* <button onClick={downloadCSV} disabled={loading}>
-        {loading ? "Downloading..." : "Download All Data as CSV"}
-      </button> */}
-      <div style={{ height: 1000, overflowY: "auto" }}>
+      <div>
         {/* Search Input and Button */}
-        <div>
+        {/* <div>
           <InputGroup className="mb-3">
             <InputGroup.Text id="basic-addon1">Search</InputGroup.Text>
             <Form.Control
@@ -519,15 +527,21 @@ const PList = () => {
               </Button>
             </div>
           </InputGroup>
-        </div>
+        </div> */}
 
         {/* Filter Selects */}
         <div className="d-flex justify-content-between mb-3 gap-4">
+          <Form.Control
+            placeholder="Search Product"
+            aria-label="Search-Product"
+            aria-describedby="basic-addon1"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Form.Select
             name="categoryId"
             value={filters.categoryId}
             onChange={handleFilterChange}
-            size="sm"
           >
             <option value="">Select Category</option>
             {categories?.length > 0 &&
@@ -541,7 +555,6 @@ const PList = () => {
             name="subcategoryId"
             value={filters.subcategoryId}
             onChange={handleFilterChange}
-            size="sm"
           >
             <option value="">Select Subcategory</option>
             {subcategories?.length > 0 &&
@@ -555,7 +568,6 @@ const PList = () => {
             name="brandId"
             value={filters.brandId}
             onChange={handleFilterChange}
-            size="sm"
           >
             <option value="">Select Brand</option>
             {brands?.length > 0 &&
@@ -565,19 +577,22 @@ const PList = () => {
                 </option>
               ))}
           </Form.Select>
+
+          <div className="d-flex justify-content-center gap-2">
+            <Button
+              style={{
+                whiteSpace: "nowrap",
+              }}
+              variant="dark"
+              size="sm"
+              onClick={handleReset}
+            >
+              Reset & Refresh
+            </Button>
+          </div>
         </div>
 
-        <div className="d-flex justify-content-center mt-2 mb-4 gap-2">
-          <Button variant="dark" size="sm" onClick={handleReset}>
-            Reset & Refresh
-          </Button>
-
-          <Button variant="dark" size="sm" onClick={handleReset}>
-            {filterData?.length} Products
-          </Button>
-        </div>
-
-        <div className="d-flex justify-content-end mt-2 mb-4">
+        {/* <div className="d-flex justify-content-end mt-2 mb-4">
           <Pagination>
             {Array.from({ length: totalPages }, (_, i) => (
               <Pagination.Item
@@ -589,179 +604,295 @@ const PList = () => {
               </Pagination.Item>
             ))}
           </Pagination>
-        </div>
+        </div> */}
 
-        <Table responsive striped bordered hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Product Id</th>
-              <th>Name</th>
-              <th>Image</th>
-              <th>Variants</th>
-              <th>Category</th>
-              <th>Sub Category</th>
-              <th>Uploaded</th>
-              <th>Live Preview</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan="10">Loading...</td>
-              </tr>
-            ) : filterData?.length > 0 ? (
-              filterData.map((row, index) => (
-                <tr key={index}>
-                  <td>{row?.id}</td>
-                  <td>
-                    {row?.productId?.substring(0, 15)}
-                    <span className="mx-2">
-                      {copied && copiedIndex === index ? (
-                        <>
-                          <BsClipboard2CheckFill size={20} color="green" />
-                          <br />
-                          <span style={{ fontSize: "10px", color: "green" }}>
-                            Copied
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <LuClipboardSignature
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              copyTextToClipboard(row?.productId, index)
-                            }
-                            size={18}
-                          />
-                        </>
-                      )}
-                    </span>
-                  </td>
-                  <td>{row?.name?.substring(0, 20) + "..."}</td>
-                  <td>
-                    <div className="productListItem">
-                      <img
-                        className="productListImg"
-                        src={row.image?.[0]?.image_path}
-                        alt=""
-                      />
-                    </div>
-                  </td>
-                  <td style={{ width: "150px" }}>
-                    {row?.specId?.length}
-                    <p
-                      className="variCss"
-                      onClick={() => showVariants(row?.specId)}
+        {totalPages > 1 && (
+          <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
+            <nav aria-label="Pagination">
+              <ul className="pagination">
+                {/* Previous Button */}
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
+                  <Button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    variant="secondary"
+                    size="sm"
+                  >
+                    Previous
+                  </Button>
+                </li>
+
+                {/* Page Numbers */}
+                {Array.from({ length: totalPages })
+                  .map((_, index) => index + 1)
+                  .filter(
+                    (page) =>
+                      page === currentPage || // Current page
+                      (page >= currentPage - 2 && page <= currentPage + 2) // Range: prev 2 to next 2
+                  )
+                  .map((page) => (
+                    <li
+                      key={page}
+                      className={`page-item ${
+                        currentPage === page ? "active" : ""
+                      }`}
                     >
-                      VIEW
-                    </p>
-                    {variationRequestCount(row?.specId) > 0 && (
-                      <p className="newrqNo">
-                        <AiOutlineInfoCircle size={22} />{" "}
-                        {variationRequestCount(row?.specId)} Requested{" "}
-                      </p>
-                    )}
-                  </td>
-                  <td>{row?.categoryId?.title}</td>
-                  <td>{row?.subcategoryId?.title}</td>
-                  <td>{moment(row?.updatedAt).format("LLL")}</td>
-                  <td className="d-flex justify-content-center">
-                    {row?.specId?.length > 0 ? (
-                      <a
-                        href={`http://zoofi.in/livepreview/${row?._id}`}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        <Image
-                          src="https://w7.pngwing.com/pngs/1001/808/png-transparent-google-chrome-app-web-browser-icon-google-chrome-logo-text-orange-logo.png"
-                          width={50}
-                          height={50}
-                          thumbnail
-                        />
-                      </a>
-                    ) : (
-                      <p
-                        style={{
-                          color: "rgb(122 119 119)",
-                          fontSize: "12px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        <CiCircleInfo size={15} /> Add At least 1 variant
-                      </p>
-                    )}{" "}
-                  </td>
-                  <td style={{ width: "275px" }}>
-                    <div className="buttonWrapper">
                       <Button
-                        variant="info"
+                        onClick={() => handlePageChange(page)}
+                        variant={currentPage === page ? "dark" : "secondary"}
                         size="sm"
-                        onClick={() => {
-                          handleShowModal();
-                          setSeledtedProductId(row);
-                        }}
                       >
-                        <FaCirclePlus /> Variants
+                        {page}
                       </Button>
-                      <Link
-                        to={`/Admin/Editproduct/${row?._id}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <Button variant="success" size="sm">
-                          Edit
-                        </Button>
-                      </Link>
+                    </li>
+                  ))}
 
-                      {row?.status ? (
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          onClick={() => handleStatus(row)}
-                        >
-                          Deactivate
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="success"
-                          size="sm"
-                          onClick={() => handleStatus(row)}
-                        >
-                          Activate
-                        </Button>
+                {/* Next Button */}
+                <li
+                  className={`page-item ${
+                    currentPage === totalPages ? "disabled" : ""
+                  }`}
+                >
+                  <Button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    variant="secondary"
+                    size="sm"
+                  >
+                    Next
+                  </Button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        )}
+
+        <div
+          style={{
+            maxHeight: 500,
+            overflowY: "auto",
+            border: "1px solid #ccc",
+          }}
+        >
+          <Table responsive striped bordered hover>
+            <thead>
+              <tr>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  ID
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Product Id
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Name
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Image
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Variants
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Category
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Sub Category
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Uploaded
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Live Preview
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="100%">Loading...</td>
+                </tr>
+              ) : filterData?.length > 0 ? (
+                filterData.map((row, index) => (
+                  <tr key={index}>
+                    <td>{(currentPage - 1) * 50 + (index + 1)}</td>
+                    <td>
+                      {row?.productId?.substring(0, 15)}
+                      <span className="mx-2">
+                        {copied && copiedIndex === index ? (
+                          <>
+                            <BsClipboard2CheckFill size={20} color="green" />
+                            <br />
+                            <span style={{ fontSize: "10px", color: "green" }}>
+                              Copied
+                            </span>
+                          </>
+                        ) : (
+                          <>
+                            <LuClipboardSignature
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                copyTextToClipboard(row?.productId, index)
+                              }
+                              size={18}
+                            />
+                          </>
+                        )}
+                      </span>
+                    </td>
+                    <td>{row?.name?.substring(0, 20) + "..."}</td>
+                    <td>
+                      <div className="productListItem">
+                        <img
+                          className="productListImg"
+                          src={row.image?.[0]?.image_path}
+                          alt=""
+                        />
+                      </div>
+                    </td>
+                    <td style={{ width: "150px" }}>
+                      {row?.specId?.length}
+                      <p
+                        className="variCss"
+                        onClick={() => showVariants(row?.specId)}
+                      >
+                        VIEW
+                      </p>
+                      {variationRequestCount(row?.specId) > 0 && (
+                        <p className="newrqNo">
+                          <AiOutlineInfoCircle size={22} />{" "}
+                          {variationRequestCount(row?.specId)} Requested{" "}
+                        </p>
                       )}
-                      {/* <Button
+                    </td>
+                    <td>{row?.categoryId?.title}</td>
+                    <td>{row?.subcategoryId?.title}</td>
+                    <td>{moment(row?.updatedAt).format("LLL")}</td>
+                    <td className="d-flex justify-content-center">
+                      {row?.specId?.length > 0 ? (
+                        <a
+                          href={`http://zoofi.in/livepreview/${row?._id}`}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          <Image
+                            src="https://w7.pngwing.com/pngs/1001/808/png-transparent-google-chrome-app-web-browser-icon-google-chrome-logo-text-orange-logo.png"
+                            width={50}
+                            height={50}
+                            thumbnail
+                          />
+                        </a>
+                      ) : (
+                        <p
+                          style={{
+                            color: "rgb(122 119 119)",
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          <CiCircleInfo size={15} /> Add At least 1 variant
+                        </p>
+                      )}{" "}
+                    </td>
+                    <td style={{ width: "275px" }}>
+                      <div className="buttonWrapper">
+                        <Button
+                          variant="info"
+                          size="sm"
+                          onClick={() => {
+                            handleShowModal();
+                            setSeledtedProductId(row);
+                          }}
+                        >
+                          <FaCirclePlus /> Variants
+                        </Button>
+                        <Link
+                          to={`/Admin/Editproduct/${row?._id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Button variant="success" size="sm">
+                            Edit
+                          </Button>
+                        </Link>
+
+                        {row?.status ? (
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleStatus(row)}
+                          >
+                            Deactivate
+                          </Button>
+                        ) : (
+                          <Button
+                            variant="success"
+                            size="sm"
+                            onClick={() => handleStatus(row)}
+                          >
+                            Activate
+                          </Button>
+                        )}
+                        {/* <Button
                         variant="outline-danger"
                         size="sm"
                         onClick={() => handledeleteProduct(row?._id)}
                       >
                         Delete
                       </Button> */}
-                    </div>
-                  </td>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="10">No data found</td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="10">No data found</td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-
-        {/* Pagination Controls */}
-        <Pagination>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <Pagination.Item
-              key={i + 1}
-              active={i + 1 === currentPage}
-              onClick={() => handlePageChange(i + 1)}
-            >
-              {i + 1}
-            </Pagination.Item>
-          ))}
-        </Pagination>
+              )}
+            </tbody>
+          </Table>
+        </div>
       </div>
     </div>
   );
