@@ -168,7 +168,7 @@ const OfferManagment = () => {
               >
                 <option value="">Select a category</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <option key={category.id} value={category._id}>
                     {category.title}
                   </option>
                 ))}
@@ -189,7 +189,7 @@ const OfferManagment = () => {
               >
                 <option value="">Select a brand</option>
                 {brands.map((brand) => (
-                  <option key={brand.id} value={brand.id}>
+                  <option key={brand.id} value={brand._id}>
                     {brand?.title}
                   </option>
                 ))}
