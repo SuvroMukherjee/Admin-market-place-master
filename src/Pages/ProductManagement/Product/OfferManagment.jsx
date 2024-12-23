@@ -1,6 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+  Table,
+} from "react-bootstrap";
 import {
   AdminOfferDelete,
   allBrandList,
@@ -125,19 +133,19 @@ const OfferManagment = () => {
   };
 
   // Handle delete offer
-  const handleDelete = async (offerId) => {
-    try {
-      const response = await AdminOfferDelete(offerId); // Replace with your API endpoint
-      if (!response?.data?.error) {
-        alert("Offer deleted successfully!");
-      }
-    } catch (error) {
-      console.error("Error deleting offer:", error);
-      alert("Failed to delete offer. Please try again.");
-    } finally {
-      getAllOfferList();
-    }
-  };
+  // const handleDelete = async (offerId) => {
+  //   try {
+  //     const response = await AdminOfferDelete(offerId); // Replace with your API endpoint
+  //     if (!response?.data?.error) {
+  //       alert("Offer deleted successfully!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting offer:", error);
+  //     alert("Failed to delete offer. Please try again.");
+  //   } finally {
+  //     getAllOfferList();
+  //   }
+  // };
 
   return (
     <Container className="my-5 productList">
@@ -320,34 +328,42 @@ const OfferManagment = () => {
           </tr>
         </thead>
         <tbody>
-          {offers.map((offer, index) => (
-            <tr key={offer.id}>
-              <td>{index + 1}</td>
-              <td>{offer.offerName}</td>
-              <td>{brands.find((b) => b.id === offer.brand)?.name || "N/A"}</td>
-              <td>
-                {categories.find((c) => c.id === offer.category)?.name || "N/A"}
-              </td>
-              <td>
-                {offer.discountType === "percentage"
-                  ? `${offer.discountValue}%`
-                  : `₹${offer.discountValue}`}
-              </td>
-              <td>₹{offer.minAmount}</td>
-              <td>₹{offer.maxAmount}</td>
-              <td>{offer.startDate}</td>
-              <td>{offer.endDate}</td>
-              <td>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => handleDelete(offer.id)}
-                >
-                  Delete
-                </Button>
-              </td>
+          {offerLoading ? (
+            <tr>
+              <Spinner animation="border" size="lg" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
             </tr>
-          ))}
+          ) : offers?.length === 0 ? (
+            <tr>No offers found</tr>
+          ) : (
+            offers?.map((offer, index) => (
+              <tr key={offer?.id}>
+                <td>{index + 1}</td>
+                <td>{offer?.offerName}</td>
+                <td>{offer?.brand?.title || "N/A"}</td>
+                <td>{offer?.category?.title || "N/A"}</td>
+                <td>
+                  {offer?.discountType === "percentage"
+                    ? `${offer.discountValue}%`
+                    : `₹${offer.discountValue}`}
+                </td>
+                <td>₹{offer?.minAmount}</td>
+                <td>₹{offer?.maxAmount}</td>
+                <td>{offer?.startDate}</td>
+                <td>{offer?.endDate}</td>
+                <td>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => handleDelete(offer?._id)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </Container>
