@@ -395,48 +395,37 @@ const PList = () => {
         };
       });
 
-      const csvData2 = allData.flatMap((product, index) => {
-        const htmlToPlainText = (html) => {
-          const tempDiv = document.createElement("div");
-          tempDiv.innerHTML = html;
-          return tempDiv.textContent || tempDiv.innerText || "";
-        };
+      let csvData2 = [];
 
-        return {
-          "SL NO": index + 1,
-          "Product DB ID": product?._id,
-          "Product Name": product?.name,
-          "Product ID": product?.productId,
-          "Product Type": product?.type,
-          "Product Category": product?.categoryId?.title,
-          "Product Sub-Category": product?.subcategoryId?.title,
-          "Product Brand": product?.brandId?.title,
-          "Product Tax status": product?.tax_status,
-          "Product Visibility": "Visible",
-          "Product Identification Images": product?.image
-            ?.map((ele) => ele?.image_path)
-            .join(","),
-          "Product Features": product?.features?.map((ele) => ele).join(" "),
-          "Product Uploaded Date": moment(product?.updatedAt).format(
-            "DD-MM-YYYY, hh:mm:ss A"
-          ),
-          "Product Specifications": product?.specId
-            ?.flatMap((spec) =>
-              spec?.spec_det?.map((det) => `${det.title}: ${det.value}`)
-            )
-            .join(", "),
-          "Specification Images": product?.specId
-            ?.flatMap((spec) => spec?.image?.map((image) => image?.image_path))
-            .join(", "),
-          "Specification Prices": product?.specId
-            ?.map((spec) => spec?.price)
-            .join(", "),
-          "Specification SkuId": product?.specId
-            ?.map((spec) => spec?.skuId)
-            .join(", "),
-          "Product Description": product?.desc,
-          "Product Full Description": htmlToPlainText(product?.full_desc),
-        };
+      allData.forEach((product, productIndex) => {
+        const specId = product?.specId || [];
+
+        if (specId.length > 0) {
+          specId.forEach((spec) => {
+            const images = spec?.image || [];
+            const imageUrls = images.map((item) => item.image_path).join(", ");
+            const price = spec?.price || "";
+            const spec_det = spec?.spec_det || [];
+            const spec_det_values = spec_det
+              .map((item) => item?.value || "")
+              .join(", ");
+            const spec_det_titles = spec_det
+              .map((item) => item?.title || "")
+              .join(", ");
+            const skuId = spec?.skuId || "";
+
+            csvData2.push({
+              "SL NO": productIndex + 1,
+              "Product DB ID": product?._id,
+              "Product ID": product?.productId,
+              "Sku Id": skuId,
+              "Spec Det Titles": spec_det_titles,
+              "Spec Det Values": spec_det_values,
+              "Image Urls": imageUrls,
+              Price: price,
+            });
+          });
+        }
       });
 
       const csvContent = convertToCSV(csvData);
