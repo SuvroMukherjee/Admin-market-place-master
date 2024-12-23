@@ -497,9 +497,9 @@ const PList = () => {
         </Container>
       </Container>
       <Toaster position="top-right" />
-      <button onClick={downloadCSV} disabled={loading}>
+      {/* <button onClick={downloadCSV} disabled={loading}>
         {loading ? "Downloading..." : "Download All Data as CSV"}
-      </button>
+      </button> */}
       <div style={{ height: 1000, overflowY: "auto" }}>
         {/* Search Input and Button */}
         <div>
