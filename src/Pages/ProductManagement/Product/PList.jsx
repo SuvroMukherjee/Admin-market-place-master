@@ -360,6 +360,7 @@ const PList = () => {
 
         return {
           "SL NO": index + 1,
+          "Product DB ID": product?._id,
           "Product Name": product?.name,
           "Product ID": product?.productId,
           "Product Type": product?.type,
