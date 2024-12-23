@@ -3,6 +3,9 @@ import Papa from "papaparse";
 import { useEffect, useRef, useState } from "react";
 import {
   Button,
+  Card,
+  Col,
+  Container,
   DropdownButton,
   Form,
   Modal,
@@ -22,6 +25,7 @@ import {
   allCommissionList,
   allSubCategoryList,
   getLowestPriceProdut,
+  getOffers,
   UpdateSellerProduct,
   UpdateSellerProductDataStatus,
 } from "../../../API/api";
@@ -689,7 +693,7 @@ const SellerStock = () => {
               MRP
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
-              Commission & Tax
+              Commission,Tax & Offers
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               Selling Price
@@ -840,6 +844,7 @@ const SellerStock = () => {
                   </table> */}
                   <TaxTable
                     data={row?.productId?.categoryId}
+                    brandId={row?.productId?.brandId}
                     allComission={allComission}
                   />
                 </td>
@@ -1098,15 +1103,29 @@ const SellerStock = () => {
   );
 };
 
-const TaxTable = ({ data, allComission }) => {
+const TaxTable = ({ data,brandId, allComission }) => {
   const [show, setShow] = useState(false);
 
+  async function getOffersData () {
+    let res = await getOffers(brandId?._id, data?._id);
+    console.log(res?.data?.data, "offers");
+    setOffers(res?.data?.data);
+  }
+
+  useEffect(() => {
+    getOffersData();
+  }, [brandId, data]);
+
+  const [offers, setOffers] = useState([]);
+
   return (
+    
     <div>
       <p className="shwTx" onClick={() => setShow(!show)}>
         {show ? "Hide" : "Show"}
       </p>
       {show && (
+        <>
         <table className="border-collapse border border-gray-300 w-full text-left">
           <tbody>
             <tr>
@@ -1138,9 +1157,77 @@ const TaxTable = ({ data, allComission }) => {
             </tr>
           </tbody>
         </table>
+        <div>
+        <OfferDetails offers={offers} />
+        </div>
+        </>
       )}
     </div>
   );
 };
+
+
+const OfferDetails = ({ offers }) => {
+  if (!offers || offers.length === 0) {
+    return (
+      <Container className="mt-4">
+        <h2 className="mb-3">Available Offers</h2>
+        <Card className="p-3">
+          <p>No offers available at the moment.</p>
+        </Card>
+      </Container>
+    );
+  }
+
+  return (
+    <Container className="mt-4">
+      <p className="mb-4">Available Offers</p>
+      <Row className="g-4">
+        {offers.map((offer, index) => (
+          <Col key={offer._id} xs={12}>
+            <Card className="h-100 shadow-sm">
+              <Card.Body>
+                <Card.Title style={{fontSize: "10px"}}>
+                  {index + 1}. {offer.offerName}
+                </Card.Title>
+                <Card.Text>
+                  <strong>Brand:</strong> {offer.brand.title}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Category:</strong> {offer.category.title}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Discount:</strong>{" "}
+                  {offer.discountType === "percentage"
+                    ? `${offer.discountValue}%`
+                    : `₹${offer.discountValue}`}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Minimum Amount:</strong> ₹{offer.minAmount}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Maximum Discount:</strong> ₹{offer.maxAmount}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Valid From:</strong>{" "}
+                  {new Date(offer.startDate).toLocaleDateString()}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Valid Until:</strong>{" "}
+                  {new Date(offer.endDate).toLocaleDateString()}
+                </Card.Text>
+                <Card.Text>
+                  <strong>Status:</strong> {offer.status ? "Active" : "Inactive"}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
+};
+
+
 
 export default SellerStock;

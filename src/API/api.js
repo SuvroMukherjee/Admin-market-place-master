@@ -2104,3 +2104,16 @@ export async function VerifyEditOtp(payload) {
     return error;
   }
 }
+
+
+
+export async function getOffers(brandId, categoryId) {
+  try {
+    const response = await axios.get(
+      apiUrl + `/offer-management/list?brand=${brandId}&category=${categoryId}`
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
