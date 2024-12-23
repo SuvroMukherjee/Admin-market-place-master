@@ -102,7 +102,11 @@ const PList = () => {
       //   : searchTerm;
 
       const res = await axios.get(
-        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm?.trim()}`
+        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${
+          filters.categoryId
+        }&subcategoryId=${filters.subcategoryId}&brandId=${
+          filters.brandId
+        }&productId=${searchTerm?.trim()}`
       );
 
       setFilterData(res?.data?.data);
@@ -117,7 +121,9 @@ const PList = () => {
   const fetchCategories = async () => {
     try {
       const res = await allCategoryList();
-      let data = res.data?.data?.filter((item) => item?.status == true)?.sort((a, b) => a?.title?.localeCompare(b?.title));
+      let data = res.data?.data
+        ?.filter((item) => item?.status == true)
+        ?.sort((a, b) => a?.title?.localeCompare(b?.title));
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories", error);
@@ -127,7 +133,9 @@ const PList = () => {
   const fetchSubcategories = async () => {
     try {
       const res = await allSubCategoryList();
-      let data = res.data?.data?.filter((item) => item?.status == true)?.sort((a, b) => a?.title?.localeCompare(b?.title));
+      let data = res.data?.data
+        ?.filter((item) => item?.status == true)
+        ?.sort((a, b) => a?.title?.localeCompare(b?.title));
       setSubcategories(data);
     } catch (error) {
       console.error("Error fetching subcategories", error);
@@ -137,7 +145,9 @@ const PList = () => {
   const fetchBrands = async () => {
     try {
       const res = await allBrandList();
-      let data = res.data?.data?.filter((item) => item?.status == true)?.sort((a, b) => a?.title?.localeCompare(b?.title));
+      let data = res.data?.data
+        ?.filter((item) => item?.status == true)
+        ?.sort((a, b) => a?.title?.localeCompare(b?.title));
       setBrands(data);
     } catch (error) {
       console.error("Error fetching brands", error);
@@ -301,6 +311,77 @@ const PList = () => {
     return filterData?.length;
   };
 
+  const fetchAllData = async () => {
+    let currentPage = 1;
+    const pageSize = 100; // Based on your API
+    let allData = [];
+    let isFetching = true;
+
+    try {
+      setLoading(true);
+
+      while (isFetching) {
+        const response = await axios.get(
+          `${apiUrl}/product/all-list?page=${currentPage}&limit=${pageSize}`
+        );
+
+        const fetchedData = response.data?.data || []; // Assuming 'items' contains the data
+        allData = [...allData, ...fetchedData];
+
+        // If less than page size is returned, we know we're at the last page
+        if (fetchedData.length < pageSize) {
+          isFetching = false;
+        } else {
+          currentPage++; // Move to the next page
+        }
+      }
+
+      return allData;
+    } catch (error) {
+      console.error("Error fetching all data:", error);
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  };
+  const downloadCSV = async () => {
+    try {
+      const allData = await new Promise((resolve) => {
+        setTimeout(async () => {
+          const data = await fetchAllData();
+          resolve(data);
+        }, 5000); // Optional delay of 1 second
+      });
+
+      if (allData.length === 0) {
+        alert("No data to download!");
+        return;
+      }
+
+      const csvContent = convertToCSV(allData);
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", "data.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+    }
+  };
+
+  const convertToCSV = (data) => {
+    const headers = Object.keys(data[0]);
+    const rows = data.map((row) =>
+      headers.map((header) => JSON.stringify(row[header], replacer)).join(",")
+    );
+    return [headers.join(","), ...rows].join("\n");
+  };
+
+  const replacer = (key, value) => (value === null ? "" : value);
+
   return (
     <div className="productList mt-2 p-4">
       <Container className="mt-2 mb-4">
@@ -416,6 +497,9 @@ const PList = () => {
         </Container>
       </Container>
       <Toaster position="top-right" />
+      <button onClick={downloadCSV} disabled={loading}>
+        {loading ? "Downloading..." : "Download All Data as CSV"}
+      </button>
       <div style={{ height: 1000, overflowY: "auto" }}>
         {/* Search Input and Button */}
         <div>
