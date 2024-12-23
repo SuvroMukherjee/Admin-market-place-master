@@ -205,7 +205,7 @@ const OfferManagment = () => {
       <h2 className="text-center mb-4">
         {editingOfferId ? "Update Offer" : "Create Offer"}
       </h2>
-      <Form onSubmit={handleSubmit} className="mb-5">
+      <Form onSubmit={handleSubmit} className="">
         <Row>
           <Col md={6}>
             <Form.Group className="mb-3">
