@@ -99,6 +99,7 @@ import { Testimonial } from "./Pages/Testimonials/Testimonial";
 import EditUser from "./Pages/UserList/EditUser";
 import UserList from "./Pages/UserList/UserList";
 import AdminApplications from "./Pages/AdminApplications/AdminApplications";
+import OfferManagment from "./Pages/ProductManagement/Product/OfferManagment";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -176,6 +177,7 @@ export default function Router({ socket }) {
             { path: "admin-refund-order-list", element: <RefundOrderAdmin /> },
             { path: "paymnets", element: <AdminPaymnets /> },
             { path: "view-helpdesk", element: <AdminViewHelpDesk /> },
+            { path: "offer-managment", element: <OfferManagment /> },
 
             // { path: "live-preview/:id", element: <LivePreview /> },
           ],
