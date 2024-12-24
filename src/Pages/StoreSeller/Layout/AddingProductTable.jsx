@@ -175,15 +175,13 @@ const AddingProductTable = () => {
         let filter = res.data?.data
           ?.filter((ele) => ele?.status == true)
           .sort((a, b) => a?.title?.localeCompare(b?.title));
-        console.log(res.data?.data, "res with no count");
         setBrands(filter);
       } catch (error) {
         console.error("Error fetching brands", error);
       }
     } else {
       try {
-        const res = await getAllBrandsBycat(filters.categoryId);
-        console.log(res.data?.data, "res with count");
+        const res = await getAllBrandsBycat(filters.categoryId)
         let filter = res.data?.data?.sort((a, b) =>
           a?.title?.localeCompare(b?.title)
         );
@@ -993,6 +991,7 @@ const AddingProductTable = () => {
             </Modal>
           </Row>
         </Container>
+         <ProductList />
         <Toaster position="top-right" />
 
         {/* Pagination Controls */}
@@ -1677,3 +1676,83 @@ const TaxTable = ({ data, allComission }) => {
 };
 
 export default AddingProductTable;
+
+
+
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+
+const ProductList = () => {
+  const [products, setProducts] = useState([]);
+  const [pagination, setPagination] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchProducts = async (page = 1, limit = 50) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get("http://localhost:10000/api/products/all-list", {
+        params: {
+          page, // Current page number
+          limit, // Number of items per page
+          categoryId: "", // Optional filter
+          subcategoryId: "", // Optional filter
+          brandId: "", // Optional filter
+          productId: "", // Optional search/filter
+        },
+      });
+
+      const { data, pagination } = response.data;
+      console.log(data,'data');
+      setProducts(data);
+      setPagination(pagination);
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+      setError(err.response?.data?.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  return (
+    <div>
+      <h1>Product List</h1>
+
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <ul>
+        {products.map((product) => (
+          <li key={product._id}>{product.name}</li>
+        ))}
+      </ul>
+
+      {pagination.total && (
+        <div>
+          <p>
+            Page {pagination.page} of {pagination.pages}
+          </p>
+          <button
+            disabled={pagination.page <= 1}
+            onClick={() => fetchProducts(pagination.page - 1)}
+          >
+            Previous
+          </button>
+          <button
+            disabled={pagination.page >= pagination.pages}
+            onClick={() => fetchProducts(pagination.page + 1)}
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
