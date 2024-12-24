@@ -74,8 +74,7 @@ const SellerStock = () => {
     if (filters?.brandId?.trim() !== "") {
       try {
         const res = await SellergetAllCategoryBybrand(filters?.brandId);
-        let data = res.data?.data;
-        data = data.sort((a, b) => a.name.localeCompare(b.title));
+        let data = res.data?.data.sort((a, b) => a.name.localeCompare(b.title));
         data = data.map((item) => {
           return {
             _id: item?._id,
@@ -113,10 +112,9 @@ const SellerStock = () => {
     if (filters?.categoryId?.trim() !== "") {
       try {
         const res = await SellersgetAllBrandsBycat(filters?.categoryId);
-        let data = res.data?.data;
-        console.log(data, "data");
-
-        data = data.sort((a, b) => a.name.localeCompare(b.title));
+        let data = res.data?.data?.sort((a, b) =>
+          a.name.localeCompare(b.title)
+        );
         data = data.map((item) => {
           return {
             _id: item?._id,
@@ -503,7 +501,7 @@ const SellerStock = () => {
             >
               <option value="">Select Category</option>
               {categories?.length > 0 &&
-                categories.map((cat) => (
+                categories?.map((cat) => (
                   <option key={cat._id} value={cat._id}>
                     {cat.title}
                   </option>
@@ -521,11 +519,13 @@ const SellerStock = () => {
             >
               <option value="">Select Subcategory</option>
               {subcategories?.length > 0 &&
-                subcategories.map((sub) => (
-                  <option key={sub._id} value={sub._id}>
-                    {sub.title}
-                  </option>
-                ))}
+                subcategories
+                  ?.filter((sub) => sub?.category?._id === filters?.categoryId)
+                  ?.map((sub) => (
+                    <option key={sub._id} value={sub._id}>
+                      {sub.title}
+                    </option>
+                  ))}
             </Form.Select>
           </Form.Group>
 
@@ -539,7 +539,7 @@ const SellerStock = () => {
             >
               <option value="">Select Brand</option>
               {brands?.length > 0 &&
-                brands.map((brand) => (
+                brands?.map((brand) => (
                   <option key={brand._id} value={brand._id}>
                     {brand.title}
                   </option>
