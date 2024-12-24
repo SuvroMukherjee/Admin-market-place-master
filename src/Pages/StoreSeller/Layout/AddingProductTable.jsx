@@ -472,6 +472,13 @@ const AddingProductTable = () => {
     }
   };
 
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+    console.log("Checkbox Value:", event.target.checked);
+  };
+
   return (
     <div className="mt-3">
       <Row>
@@ -650,6 +657,19 @@ const AddingProductTable = () => {
             </div>
           </div>
 
+          <div className="mt-3 float-end">
+              <Form>
+                <Form.Check
+                  type="checkbox"
+                  id="exampleCheckbox"
+                  label={`Hide Already Selling Products from Page : ${currentPage}`}
+                  checked={isChecked}
+                  onChange={handleCheckboxChange}
+                />
+              </Form>
+             {/* // <p>Checkbox is {isChecked ? "Checked" : "Unchecked"}</p> */}
+            </div>
+             
           <div className="d-flex justify-content-center mt-2 gap-2">
             <Button variant="dark" size="sm" onClick={handleReset}>
               Reset & Refresh Filters
@@ -762,96 +782,102 @@ const AddingProductTable = () => {
                   Loading...
                 </td>
               </tr>
-            ) : filterData?.length > 0 ? (
-              filterData.map(
-                (row, index) =>
-                  checkAlreadySellingHandler(row) && (
-                    <>
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>
-                          {row?.productId?.substring(0, 15)}
-                          <span className="mx-2">
-                            {copied && copiedIndex === index ? (
-                              <>
-                                <BsClipboard2CheckFill
-                                  size={20}
-                                  color="green"
-                                />
-                                <br />
-                                <span
-                                  style={{ fontSize: "10px", color: "green" }}
-                                >
-                                  Copied
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                <LuClipboardSignature
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() =>
-                                    copyTextToClipboard(row?.productId, index)
-                                  }
-                                  size={18}
-                                />
-                              </>
-                            )}
+            ) : filterData.length > 0 ? (
+              filterData.map((row, index) => (
+                <tr
+                  key={index}
+                  className={
+                    !checkAlreadySellingHandler(row)
+                      ? !isChecked
+                        ? "opacity-50"
+                        : "d-none"
+                      : ""
+                  }
+                  
+                >
+                  <td>{index + 1}</td>
+                  <td>
+                    {row?.productId?.substring(0, 15)}
+                    <span className="mx-2">
+                      {copied && copiedIndex === index ? (
+                        <>
+                          <BsClipboard2CheckFill size={20} color="green" />
+                          <br />
+                          <span style={{ fontSize: "10px", color: "green" }}>
+                            Copied
                           </span>
-                        </td>
-                        <td>{row?.type}</td>
-                        <td>{row?.name?.substring(0, 30) + "..."}</td>
-                        <td>
-                          <div className="productListItem">
-                            <img
-                              className="productListImg img-thumbnail"
-                              width={20}
-                              src={row.image?.[0]?.image_path}
-                              alt=""
-                            />
-                          </div>
-                        </td>
-                        <td style={{ width: "150px" }}>
-                          {row?.specId?.length}
-                          <p
-                            className="variCss"
-                            onClick={() => showVariants(row?.specId)}
-                          >
-                            VIEW
-                          </p>
-                          {variationRequestCount(row?.specId) > 0 && (
-                            <p className="newrqNo">
-                              <AiOutlineInfoCircle size={22} />{" "}
-                              {variationRequestCount(row?.specId)} Requested{" "}
-                            </p>
-                          )}
-                        </td>
-                        <td>
-                          {row?.categoryId?.title}
-                          <TaxTable
-                            data={row?.categoryId}
-                            allComission={allComission}
-                          />
-                        </td>
-                        <td>{row?.subcategoryId?.title}</td>
-                        <td>{row?.brandId?.title}</td>
-                        {row?.status && row?.specId?.length >= 0 && (
-                          <td>
-                            <Button
-                              onClick={() => handleAddProduct(row)}
-                              variant="success"
-                              size="sm"
-                              disabled={
-                                !row?.status || row?.specId?.length <= 0
-                              }
-                            >
-                              Add to Inventory
-                            </Button>
-                          </td>
-                        )}
-                      </tr>
-                    </>
-                  )
-              )
+                        </>
+                      ) : (
+                        <LuClipboardSignature
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            copyTextToClipboard(row?.productId, index)
+                          }
+                          size={18}
+                        />
+                      )}
+                    </span>
+                  </td>
+                  <td>{row?.type}</td>
+                  <td>{row?.name?.substring(0, 30) + "..."}</td>
+                  <td>
+                    <div className="productListItem">
+                      <img
+                        className="productListImg img-thumbnail"
+                        width={20}
+                        src={row.image?.[0]?.image_path}
+                        alt=""
+                      />
+                    </div>
+                  </td>
+                  <td style={{ width: "150px" }}>
+                    {row?.specId?.length}
+                    <p
+                      className="variCss"
+                      onClick={() => showVariants(row?.specId)}
+                    >
+                      VIEW
+                    </p>
+                    {variationRequestCount(row?.specId) > 0 && (
+                      <p className="newrqNo">
+                        <AiOutlineInfoCircle size={22} />{" "}
+                        {variationRequestCount(row?.specId)} Requested
+                      </p>
+                    )}
+                  </td>
+                  <td>
+                    {row?.categoryId?.title}
+                    <TaxTable
+                      data={row?.categoryId}
+                      allComission={allComission}
+                    />
+                  </td>
+                  <td>{row?.subcategoryId?.title}</td>
+                  <td>{row?.brandId?.title}</td>
+                  {row?.status && row?.specId?.length >= 0 && (
+                    <td>
+                      <Button
+                        onClick={() => {
+                          if (checkAlreadySellingHandler(row)) {
+                            handleAddProduct(row); // Only add if not already selling
+                          }
+                        }}
+                        variant={
+                          checkAlreadySellingHandler(row)
+                            ? "success"
+                            : "warning"
+                        }
+                        size="sm"
+                        disabled={!row?.status || row?.specId?.length <= 0}
+                      >
+                        {checkAlreadySellingHandler(row)
+                          ? "Add to Inventory"
+                          : "Already Selling"}
+                      </Button>
+                    </td>
+                  )}
+                </tr>
+              ))
             ) : (
               <tr>
                 <td colSpan="10">No data found</td>
