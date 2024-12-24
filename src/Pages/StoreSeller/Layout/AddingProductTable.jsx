@@ -658,18 +658,18 @@ const AddingProductTable = () => {
           </div>
 
           <div className="mt-3 float-end">
-              <Form>
-                <Form.Check
-                  type="checkbox"
-                  id="exampleCheckbox"
-                  label={`Hide Already Selling Products from Page : ${currentPage}`}
-                  checked={isChecked}
-                  onChange={handleCheckboxChange}
-                />
-              </Form>
-             {/* // <p>Checkbox is {isChecked ? "Checked" : "Unchecked"}</p> */}
-            </div>
-             
+            <Form>
+              <Form.Check
+                type="checkbox"
+                id="exampleCheckbox"
+                label={`Hide Already Selling Products from Page : ${currentPage}`}
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+              />
+            </Form>
+            {/* // <p>Checkbox is {isChecked ? "Checked" : "Unchecked"}</p> */}
+          </div>
+
           <div className="d-flex justify-content-center mt-2 gap-2">
             <Button variant="dark" size="sm" onClick={handleReset}>
               Reset & Refresh Filters
@@ -793,7 +793,6 @@ const AddingProductTable = () => {
                         : "d-none"
                       : ""
                   }
-                  
                 >
                   <td>{index + 1}</td>
                   <td>
@@ -847,10 +846,10 @@ const AddingProductTable = () => {
                   </td>
                   <td>
                     {row?.categoryId?.title}
-                    <TaxTable
+                    {/* <TaxTable
                       data={row?.categoryId}
                       allComission={allComission}
-                    />
+                    /> */}
                   </td>
                   <td>{row?.subcategoryId?.title}</td>
                   <td>{row?.brandId?.title}</td>
