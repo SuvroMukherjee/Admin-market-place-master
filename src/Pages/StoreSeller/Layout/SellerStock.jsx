@@ -1,4 +1,4 @@
-import axios from "axios"; // or your preferred HTTP client
+import axios from "axios";
 import Papa from "papaparse";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -26,6 +26,8 @@ import {
   allSubCategoryList,
   getLowestPriceProdut,
   getOffers,
+  SellergetAllCategoryBybrand,
+  SellersgetAllBrandsBycat,
   UpdateSellerProduct,
   UpdateSellerProductDataStatus,
 } from "../../../API/api";
@@ -35,13 +37,15 @@ import { useDebounce } from "../../../hooks/useDebounce";
 import { SearchTermModal, ServicesModal } from "./SellerInventory";
 import "./sellerlayout.css";
 
-const baseURL = import.meta.env.VITE_API_BASE; // Replace with your actual base URL
+const baseURL = import.meta.env.VITE_API_BASE;
 
 const SellerStock = () => {
   const location = useLocation();
+
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [brands, setBrands] = useState([]);
+
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -67,13 +71,30 @@ const SellerStock = () => {
   const [allComission, setAllComission] = useState([]);
 
   const fetchCategories = async () => {
-    try {
-      const res = await allCategoryList();
-      let data = res.data?.data?.filter((item) => item.status === true);
-      data = data.sort((a, b) => a.title.localeCompare(b.title));
-      setCategories(data);
-    } catch (error) {
-      console.error("Error fetching categories", error);
+    if (filters?.brandId?.trim() !== "") {
+      try {
+        const res = await SellergetAllCategoryBybrand(filters?.brandId);
+        let data = res.data?.data;
+        data = data.sort((a, b) => a.name.localeCompare(b.title));
+        data = data.map((item) => {
+          return {
+            _id: item?._id,
+            title: item?.name,
+          };
+        });
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    } else {
+      try {
+        const res = await allCategoryList();
+        let data = res.data?.data?.filter((item) => item.status === true);
+        data = data.sort((a, b) => a.title.localeCompare(b.title));
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
     }
   };
 
@@ -89,13 +110,31 @@ const SellerStock = () => {
   };
 
   const fetchBrands = async () => {
-    try {
-      const res = await allBrandList();
-      let data = res.data?.data?.filter((item) => item.status === true);
-      data = data.sort((a, b) => a.title.localeCompare(b.title));
-      setBrands(data);
-    } catch (error) {
-      console.error("Error fetching brands", error);
+    if (filters?.categoryId?.trim() !== "") {
+      try {
+        const res = await SellersgetAllBrandsBycat(filters?.categoryId);
+        let data = res.data?.data;
+        data = data.sort((a, b) => a.name.localeCompare(b.title));
+        data = data.map((item) => {
+          return {
+            _id: item?._id,
+            title: item?.name,
+          };
+        });
+        setBrands(data);
+      } catch (error) {
+        setBrands([]);
+        console.error("Error fetching brands", error);
+      }
+    } else {
+      try {
+        const res = await allBrandList();
+        let data = res.data?.data?.filter((item) => item.status === true);
+        data = data.sort((a, b) => a.title.localeCompare(b.title));
+        setBrands(data);
+      } catch (error) {
+        console.error("Error fetching brands", error);
+      }
     }
   };
 
@@ -108,22 +147,6 @@ const SellerStock = () => {
       console.error("Error fetching brands", error);
     }
   }
-
-  useEffect(() => {
-    // Get the query parameter from the URL
-    const params = new URLSearchParams(location.search);
-    const name = params.get("name");
-    if (name) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        name,
-      }));
-    }
-  }, [location.search]);
-
-  useEffect(() => {
-    getAllComission();
-  }, []);
 
   const fetchData = async () => {
     setLoading(true);
@@ -251,8 +274,6 @@ const SellerStock = () => {
     setViewLowestPriceData(lowestPriceProduct);
 
     setLowIndex(index);
-
-    // /setViewLowestPriceData
   };
 
   const [lowIndex, setLowIndex] = useState();
@@ -416,6 +437,7 @@ const SellerStock = () => {
     fetchCategories();
     fetchSubcategories();
     fetchBrands();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -427,6 +449,31 @@ const SellerStock = () => {
     setCurrentPage(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const name = params.get("name");
+    if (name) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        name,
+      }));
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    getAllComission();
+  }, []);
+
+  useEffect(() => {
+    fetchBrands();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters?.categoryId]);
+
+  useEffect(() => {
+    fetchCategories();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters?.brandId]);
 
   return (
     <div>
@@ -1115,9 +1162,10 @@ const TaxTable = ({ data, brandId, allComission }) => {
   }
 
   useEffect(() => {
-    if(showModal){
+    if (showModal) {
       getOffersData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brandId, data]);
 
   return (
