@@ -38,8 +38,11 @@ import {
   allCommissionList,
   allSubCategoryList,
   deleteProduct,
+  getAllBrandsBycat,
+  getAllCategoryBybrand,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
+import { use } from "react";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -130,16 +133,28 @@ const AddingProductTable = () => {
   };
 
   const fetchCategories = async () => {
-    try {
-      const res = await allCategoryList();
-      let filter = res.data?.data
-        ?.filter((ele) => ele?.status == true)
-        .sort((a, b) => a?.title?.localeCompare(b?.title));
-      setCategories(filter);
-    } catch (error) {
-      console.error("Error fetching categories", error);
-    }
-  };
+    if(filters?.brandId == ""){
+      try {
+        const res = await allCategoryList();
+        let filter = res.data?.data
+          ?.filter((ele) => ele?.status == true)
+          .sort((a, b) => a?.title?.localeCompare(b?.title));
+        setCategories(filter);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    }else{
+      try {
+        const res = await getAllCategoryBybrand(filters?.brandId);
+        let filter = res.data?.data?.sort((a, b) =>
+          a?.title?.localeCompare(b?.title)
+        );
+        setCategories(filter);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+  }
+}
 
   const fetchSubcategories = async () => {
     try {
@@ -154,17 +169,42 @@ const AddingProductTable = () => {
   };
 
   const fetchBrands = async () => {
-    try {
-      const res = await allBrandList();
-      let filter = res.data?.data
-        ?.filter((ele) => ele?.status == true)
-        .sort((a, b) => a?.title?.localeCompare(b?.title));
+    if (filters.categoryId == "") {
+      try {
+        const res = await allBrandList();
+        let filter = res.data?.data
+          ?.filter((ele) => ele?.status == true)
+          .sort((a, b) => a?.title?.localeCompare(b?.title));
+        console.log(res.data?.data, "res with no count");
+        setBrands(filter);
+      } catch (error) {
+        console.error("Error fetching brands", error);
+      }
+    } else {
+      try {
+        const res = await getAllBrandsBycat(filters.categoryId);
+        console.log(res.data?.data, "res with count");
+        let filter = res.data?.data?.sort((a, b) =>
+          a?.title?.localeCompare(b?.title)
+        );
 
-      setBrands(filter);
-    } catch (error) {
-      console.error("Error fetching brands", error);
+        setBrands(filter);
+      } catch (error) {
+        console.error("Error fetching brands by category", error);
+      }
     }
   };
+
+  useEffect(() => {
+    fetchBrands();
+  }, [filters?.categoryId]);
+
+
+  useEffect(() => {
+    fetchCategories();
+  },[filters?.brandId]);
+
+
 
   const handleSearch = () => {
     fetchData();
@@ -340,6 +380,8 @@ const AddingProductTable = () => {
 
   const handleClose = () => {
     setShowSellerProduct(false);
+    setSelectedProduct(null);
+    setFormData([]);
   };
 
   const handlePriceChange = (specIndex, price) => {
@@ -398,7 +440,7 @@ const AddingProductTable = () => {
         })
         .catch((err) => {
           console.log(err);
-        });
+        })
     }
   };
 
@@ -455,7 +497,7 @@ const AddingProductTable = () => {
                               padding: "2%",
                             }}
                           >
-                            M.R.P -{" "}
+                            M.R.P-{" "}
                             <span style={{ color: "green" }}>
                               {ele?.price?.toLocaleString()}
                             </span>
@@ -542,7 +584,9 @@ const AddingProductTable = () => {
 
             <div className="flex-grow-1">
               <Form.Group controlId="brandFilter" className="mb-2">
-                <Form.Label className="fw-bold small">Brand</Form.Label>
+                <Form.Label className="fw-bold small">
+                  Brand
+                </Form.Label>
                 <Form.Select
                   name="brandId"
                   value={filters.brandId}
@@ -736,6 +780,7 @@ const AddingProductTable = () => {
                   </td>
                   <td>{row?.subcategoryId?.title}</td>
                   <td>{row?.brandId?.title}</td>
+                  {row?.status && row?.specId?.length >= 0 &&
                   <td>
                     <Button
                       onClick={() => handleAddProduct(row)}
@@ -745,7 +790,7 @@ const AddingProductTable = () => {
                     >
                       Add to Inventory
                     </Button>
-                  </td>
+                  </td>}
                 </tr>
               ))
             ) : (

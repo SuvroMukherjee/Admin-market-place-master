@@ -684,7 +684,7 @@ const SellerStock = () => {
               Product Image
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
-              Zoofi Sells
+              Total Sells
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               In Stock Quantity
@@ -1115,7 +1115,9 @@ const TaxTable = ({ data, brandId, allComission }) => {
   }
 
   useEffect(() => {
-    getOffersData();
+    if(showModal){
+      getOffersData();
+    }
   }, [brandId, data]);
 
   return (

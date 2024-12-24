@@ -2117,3 +2117,39 @@ export async function getOffers(brandId, categoryId) {
     return error;
   }
 }
+
+export async function getAllBrandsBycat(categoryId) {
+  try {
+    const response = await axios.get(apiUrl + `/brand/master-brand-with-product-count?categoryId=${categoryId}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getAllCategoryBybrand(brandId) {
+  try {
+    const response = await axios.get(apiUrl + `/category/master-category-with-product-count?brandId=${brandId}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function SellersgetAllBrandsBycat(categoryId) {
+  try {
+    const response = await axios.get(apiUrl + `/brand/brand-with-product-count?categoryId=${categoryId}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function SellergetAllCategoryBybrand(brandId) {
+  try {
+    const response = await axios.get(apiUrl + `/category/category-with-product-count?brandId=${brandId}`);
+    return response;
+  } catch (error) {
+    return error;
+  }
+}

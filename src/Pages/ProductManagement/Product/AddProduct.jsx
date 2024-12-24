@@ -140,6 +140,7 @@ const AddProduct = () => {
             // 'regular_price',
             'categoryId',
             'subcategoryId',
+            'brandId',
             'image'
         ];
 
@@ -380,6 +381,7 @@ const AddProduct = () => {
                           name="brandId"
                           value={formData.brandId}
                           onChange={handleChange}
+                          required
                         >
                           <option value="" disabled selected>
                             Select Brand
