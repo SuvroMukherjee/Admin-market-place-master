@@ -205,7 +205,7 @@ const OfferManagment = () => {
       <h2 className="text-center mb-4">
         {editingOfferId ? "Update Offer" : "Create Offer"}
       </h2>
-      <Form onSubmit={handleSubmit} className="mb-5">
+      <Form onSubmit={handleSubmit} className="">
         <Row>
           <Col md={6}>
             <Form.Group className="mb-3">
@@ -231,7 +231,7 @@ const OfferManagment = () => {
               >
                 <option value="">Select a category</option>
                 {categories.map((category) => (
-                  <option key={category.id} value={category._id}>
+                  <option key={category._id} value={category._id}>
                     {category.title}
                   </option>
                 ))}
@@ -252,7 +252,7 @@ const OfferManagment = () => {
               >
                 <option value="">Select a brand</option>
                 {brands.map((brand) => (
-                  <option key={brand.id} value={brand._id}>
+                  <option key={brand._id} value={brand._id}>
                     {brand?.title}
                   </option>
                 ))}
@@ -397,7 +397,7 @@ const OfferManagment = () => {
             <tr>No offers found</tr>
           ) : (
             offers?.map((offer, index) => (
-              <tr key={offer?.id}>
+              <tr key={offer?._id}>
                 <td>{index + 1}</td>
                 <td>{offer?.offerName}</td>
                 <td>{offer?.brand?.title || "N/A"}</td>
