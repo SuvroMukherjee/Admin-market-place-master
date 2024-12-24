@@ -442,6 +442,13 @@ const AddingProductTable = () => {
     }
   };
 
+
+
+  const checkAlreadySellingHandler  = (productData) => {
+    console.log(productData, "productData");
+    
+  };
+
   return (
     <div className="mt-3">
       <Row>
@@ -716,8 +723,9 @@ const AddingProductTable = () => {
               </tr>
             ) : filterData?.length > 0 ? (
               filterData.map((row, index) => (
+                
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1} {checkAlreadySellingHandler(row?.specId)} </td>
                   <td>
                     {row?.productId?.substring(0, 15)}
                     <span className="mx-2">
