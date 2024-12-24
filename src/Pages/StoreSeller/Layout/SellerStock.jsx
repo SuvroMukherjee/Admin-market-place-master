@@ -114,6 +114,8 @@ const SellerStock = () => {
       try {
         const res = await SellersgetAllBrandsBycat(filters?.categoryId);
         let data = res.data?.data;
+        console.log(data, "data");
+
         data = data.sort((a, b) => a.name.localeCompare(b.title));
         data = data.map((item) => {
           return {
@@ -437,7 +439,7 @@ const SellerStock = () => {
     fetchCategories();
     fetchSubcategories();
     fetchBrands();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -467,12 +469,12 @@ const SellerStock = () => {
 
   useEffect(() => {
     fetchBrands();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters?.categoryId]);
 
   useEffect(() => {
     fetchCategories();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters?.brandId]);
 
   return (

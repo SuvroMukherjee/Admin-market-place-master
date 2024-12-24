@@ -33,6 +33,8 @@ import {
   allBrandList,
   allCategoryList,
   allSubCategoryList,
+  getAllBrandsBycat,
+  getAllCategoryBybrand,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
 import { useDebounce } from "../../../hooks/useDebounce";
@@ -107,14 +109,25 @@ const PList = () => {
   };
 
   const fetchCategories = async () => {
-    try {
-      const res = await allCategoryList();
-      let data = res.data?.data
-        ?.filter((item) => item?.status == true)
-        ?.sort((a, b) => a?.title?.localeCompare(b?.title));
-      setCategories(data);
-    } catch (error) {
-      console.error("Error fetching categories", error);
+    if (filters?.brandId?.trim() !== "") {
+      try {
+        const res = await getAllCategoryBybrand(filters?.brandId);
+        let data = res.data?.data?.filter((item) => item?.status == true);
+        data = data.sort((a, b) => a?.title?.localeCompare(b?.title));
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    } else {
+      try {
+        const res = await allCategoryList();
+        let data = res.data?.data
+          ?.filter((item) => item?.status == true)
+          ?.sort((a, b) => a?.title?.localeCompare(b?.title));
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
     }
   };
 
@@ -131,14 +144,25 @@ const PList = () => {
   };
 
   const fetchBrands = async () => {
-    try {
-      const res = await allBrandList();
-      let data = res.data?.data
-        ?.filter((item) => item?.status == true)
-        ?.sort((a, b) => a?.title?.localeCompare(b?.title));
-      setBrands(data);
-    } catch (error) {
-      console.error("Error fetching brands", error);
+    if (filters?.categoryId?.trim() !== "") {
+      try {
+        const res = await getAllBrandsBycat(filters?.categoryId);
+        let data = res.data?.data?.filter((item) => item?.status == true);
+        data = data.sort((a, b) => a?.title?.localeCompare(b?.title));
+        setBrands(data);
+      } catch (error) {
+        console.error("Error fetching brands", error);
+      }
+    } else {
+      try {
+        const res = await allBrandList();
+        let data = res.data?.data
+          ?.filter((item) => item?.status == true)
+          ?.sort((a, b) => a?.title?.localeCompare(b?.title));
+        setBrands(data);
+      } catch (error) {
+        console.error("Error fetching brands", error);
+      }
     }
   };
 
@@ -480,6 +504,16 @@ const PList = () => {
     fetchBrands();
   }, []);
 
+  useEffect(() => {
+    fetchBrands();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters?.categoryId]);
+
+  useEffect(() => {
+    fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters?.brandId]);
+
   return (
     <div className="productList mt-2 p-4">
       <Container className="mt-2 mb-4">
@@ -646,11 +680,13 @@ const PList = () => {
           >
             <option value="">Select Subcategory</option>
             {subcategories?.length > 0 &&
-              subcategories.map((sub) => (
-                <option key={sub._id} value={sub._id}>
-                  {sub.title}
-                </option>
-              ))}
+              subcategories
+                ?.filter((sub) => sub?.category?._id === filters?.categoryId)
+                ?.map((sub) => (
+                  <option key={sub._id} value={sub._id}>
+                    {sub.title}
+                  </option>
+                ))}
           </Form.Select>
           <Form.Select
             name="brandId"
