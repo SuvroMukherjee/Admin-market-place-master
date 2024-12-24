@@ -112,8 +112,9 @@ const PList = () => {
     if (filters?.brandId?.trim() !== "") {
       try {
         const res = await getAllCategoryBybrand(filters?.brandId);
-        let data = res.data?.data?.filter((item) => item?.status == true);
-        data = data.sort((a, b) => a?.title?.localeCompare(b?.title));
+        let data = res?.data?.data?.sort((a, b) =>
+          a?.title?.localeCompare(b?.title)
+        );
         setCategories(data);
       } catch (error) {
         console.error("Error fetching categories", error);
@@ -147,8 +148,9 @@ const PList = () => {
     if (filters?.categoryId?.trim() !== "") {
       try {
         const res = await getAllBrandsBycat(filters?.categoryId);
-        let data = res.data?.data?.filter((item) => item?.status == true);
-        data = data.sort((a, b) => a?.title?.localeCompare(b?.title));
+        let data = res?.data?.data?.sort((a, b) =>
+          a?.title?.localeCompare(b?.title)
+        );
         setBrands(data);
       } catch (error) {
         console.error("Error fetching brands", error);
@@ -667,7 +669,7 @@ const PList = () => {
           >
             <option value="">Select Category</option>
             {categories?.length > 0 &&
-              categories.map((cat) => (
+              categories?.map((cat) => (
                 <option key={cat._id} value={cat._id}>
                   {cat.title}
                 </option>
@@ -695,7 +697,7 @@ const PList = () => {
           >
             <option value="">Select Brand</option>
             {brands?.length > 0 &&
-              brands.map((brand) => (
+              brands?.map((brand) => (
                 <option key={brand._id} value={brand._id}>
                   {brand.title}
                 </option>
