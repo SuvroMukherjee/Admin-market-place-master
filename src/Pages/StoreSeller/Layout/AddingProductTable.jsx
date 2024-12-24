@@ -175,15 +175,13 @@ const AddingProductTable = () => {
         let filter = res.data?.data
           ?.filter((ele) => ele?.status == true)
           .sort((a, b) => a?.title?.localeCompare(b?.title));
-        console.log(res.data?.data, "res with no count");
         setBrands(filter);
       } catch (error) {
         console.error("Error fetching brands", error);
       }
     } else {
       try {
-        const res = await getAllBrandsBycat(filters.categoryId);
-        console.log(res.data?.data, "res with count");
+        const res = await getAllBrandsBycat(filters.categoryId)
         let filter = res.data?.data?.sort((a, b) =>
           a?.title?.localeCompare(b?.title)
         );
@@ -1677,3 +1675,8 @@ const TaxTable = ({ data, allComission }) => {
 };
 
 export default AddingProductTable;
+
+
+
+
+
