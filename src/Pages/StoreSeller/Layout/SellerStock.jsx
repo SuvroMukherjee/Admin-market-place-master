@@ -742,7 +742,7 @@ const SellerStock = () => {
               MRP
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
-              Commission,Tax & Offers
+              Commission
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               Selling Price
@@ -891,11 +891,16 @@ const SellerStock = () => {
                       </tr>
                     </tbody>
                   </table> */}
-                  <TaxTable
+                  {/* <TaxTable
                     data={row?.productId?.categoryId}
                     brandId={row?.productId?.brandId}
                     allComission={allComission}
-                  />
+                  /> */}
+                  {allComission?.find(
+                    (item) =>
+                      item?.categoryId?._id == row?.productId?.categoryId?._id
+                  )?.commission_rate || 0}
+                  %
                 </td>
                 <td className="priceTD" style={{ width: "200px" }}>
                   <Form.Control
