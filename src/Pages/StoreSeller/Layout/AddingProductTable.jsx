@@ -133,7 +133,7 @@ const AddingProductTable = () => {
   };
 
   const fetchCategories = async () => {
-    if(filters?.brandId == ""){
+    if (filters?.brandId == "") {
       try {
         const res = await allCategoryList();
         let filter = res.data?.data
@@ -143,7 +143,7 @@ const AddingProductTable = () => {
       } catch (error) {
         console.error("Error fetching categories", error);
       }
-    }else{
+    } else {
       try {
         const res = await getAllCategoryBybrand(filters?.brandId);
         let filter = res.data?.data?.sort((a, b) =>
@@ -153,8 +153,8 @@ const AddingProductTable = () => {
       } catch (error) {
         console.error("Error fetching categories", error);
       }
-  }
-}
+    }
+  };
 
   const fetchSubcategories = async () => {
     try {
@@ -181,7 +181,7 @@ const AddingProductTable = () => {
       }
     } else {
       try {
-        const res = await getAllBrandsBycat(filters.categoryId)
+        const res = await getAllBrandsBycat(filters.categoryId);
         let filter = res.data?.data?.sort((a, b) =>
           a?.title?.localeCompare(b?.title)
         );
@@ -197,12 +197,9 @@ const AddingProductTable = () => {
     fetchBrands();
   }, [filters?.categoryId]);
 
-
   useEffect(() => {
     fetchCategories();
-  },[filters?.brandId]);
-
-
+  }, [filters?.brandId]);
 
   const handleSearch = () => {
     fetchData();
@@ -438,15 +435,41 @@ const AddingProductTable = () => {
         })
         .catch((err) => {
           console.log(err);
-        })
+        });
     }
   };
 
+  const checkAlreadySellingHandler = (productData) => {
+    const specId = productData?.specId;
+    const sellerId = userId;
 
+    const totalSpecs = specId?.length;
+    let totalSelling = 0;
 
-  const checkAlreadySellingHandler  = (productData) => {
-    console.log(productData, "productData");
-    
+    specId.forEach((spec) => {
+      const mapping = spec?.variantSellerMappingId?.sellerId || [];
+
+      if (mapping?.includes(sellerId)) {
+        totalSelling += 1;
+      }
+    });
+
+    if (totalSelling == totalSpecs) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const checkSecSellingHandler = (spec) => {
+    const mapping = spec?.variantSellerMappingId?.sellerId || [];
+    const sellerId = userId;
+
+    if (mapping?.includes(sellerId)) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   return (
@@ -461,6 +484,9 @@ const AddingProductTable = () => {
       </Row>
       <Container>
         <Modal show={showModal2} size="xl" onHide={handleCloseModal2}>
+          <Modal.Header closeButton>
+            <Modal.Title>Product Variants</Modal.Title>
+          </Modal.Header>
           <Modal.Body>
             <Row className="d-flex justify-content-md-center gap-4">
               {variantsArray?.length > 0 &&
@@ -508,6 +534,23 @@ const AddingProductTable = () => {
                             </span>
                           </Col>
                         </Row>
+                        {!checkSecSellingHandler(ele) && (
+                          <Row className="mt-2">
+                            <Col
+                              style={{
+                                fontSize: "12px",
+                                fontWeight: "bold",
+                                background: "lightgrey",
+                                textAlign: "center",
+                                padding: "2%",
+                              }}
+                            >
+                              <span style={{ color: "red" }}>
+                                Already Selling
+                              </span>
+                            </Col>
+                          </Row>
+                        )}
                       </Card.Body>
                     </Card>
                   </Col>
@@ -589,9 +632,7 @@ const AddingProductTable = () => {
 
             <div className="flex-grow-1">
               <Form.Group controlId="brandFilter" className="mb-2">
-                <Form.Label className="fw-bold small">
-                  Brand
-                </Form.Label>
+                <Form.Label className="fw-bold small">Brand</Form.Label>
                 <Form.Select
                   name="brandId"
                   value={filters.brandId}
@@ -722,83 +763,95 @@ const AddingProductTable = () => {
                 </td>
               </tr>
             ) : filterData?.length > 0 ? (
-              filterData.map((row, index) => (
-                
-                <tr key={index}>
-                  <td>{index + 1} {checkAlreadySellingHandler(row?.specId)} </td>
-                  <td>
-                    {row?.productId?.substring(0, 15)}
-                    <span className="mx-2">
-                      {copied && copiedIndex === index ? (
-                        <>
-                          <BsClipboard2CheckFill size={20} color="green" />
-                          <br />
-                          <span style={{ fontSize: "10px", color: "green" }}>
-                            Copied
+              filterData.map(
+                (row, index) =>
+                  checkAlreadySellingHandler(row) && (
+                    <>
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {row?.productId?.substring(0, 15)}
+                          <span className="mx-2">
+                            {copied && copiedIndex === index ? (
+                              <>
+                                <BsClipboard2CheckFill
+                                  size={20}
+                                  color="green"
+                                />
+                                <br />
+                                <span
+                                  style={{ fontSize: "10px", color: "green" }}
+                                >
+                                  Copied
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                <LuClipboardSignature
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() =>
+                                    copyTextToClipboard(row?.productId, index)
+                                  }
+                                  size={18}
+                                />
+                              </>
+                            )}
                           </span>
-                        </>
-                      ) : (
-                        <>
-                          <LuClipboardSignature
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              copyTextToClipboard(row?.productId, index)
-                            }
-                            size={18}
+                        </td>
+                        <td>{row?.type}</td>
+                        <td>{row?.name?.substring(0, 30) + "..."}</td>
+                        <td>
+                          <div className="productListItem">
+                            <img
+                              className="productListImg img-thumbnail"
+                              width={20}
+                              src={row.image?.[0]?.image_path}
+                              alt=""
+                            />
+                          </div>
+                        </td>
+                        <td style={{ width: "150px" }}>
+                          {row?.specId?.length}
+                          <p
+                            className="variCss"
+                            onClick={() => showVariants(row?.specId)}
+                          >
+                            VIEW
+                          </p>
+                          {variationRequestCount(row?.specId) > 0 && (
+                            <p className="newrqNo">
+                              <AiOutlineInfoCircle size={22} />{" "}
+                              {variationRequestCount(row?.specId)} Requested{" "}
+                            </p>
+                          )}
+                        </td>
+                        <td>
+                          {row?.categoryId?.title}
+                          <TaxTable
+                            data={row?.categoryId}
+                            allComission={allComission}
                           />
-                        </>
-                      )}
-                    </span>
-                  </td>
-                  <td>{row?.type}</td>
-                  <td>{row?.name?.substring(0, 30) + "..."}</td>
-                  <td>
-                    <div className="productListItem">
-                      <img
-                        className="productListImg img-thumbnail"
-                        width={20}
-                        src={row.image?.[0]?.image_path}
-                        alt=""
-                      />
-                    </div>
-                  </td>
-                  <td style={{ width: "150px" }}>
-                    {row?.specId?.length}
-                    <p
-                      className="variCss"
-                      onClick={() => showVariants(row?.specId)}
-                    >
-                      VIEW
-                    </p>
-                    {variationRequestCount(row?.specId) > 0 && (
-                      <p className="newrqNo">
-                        <AiOutlineInfoCircle size={22} />{" "}
-                        {variationRequestCount(row?.specId)} Requested{" "}
-                      </p>
-                    )}
-                  </td>
-                  <td>
-                    {row?.categoryId?.title}
-                    <TaxTable
-                      data={row?.categoryId}
-                      allComission={allComission}
-                    />
-                  </td>
-                  <td>{row?.subcategoryId?.title}</td>
-                  <td>{row?.brandId?.title}</td>
-                  {row?.status && row?.specId?.length >= 0 &&
-                  <td>
-                    <Button
-                      onClick={() => handleAddProduct(row)}
-                      variant="success"
-                      size="sm"
-                      disabled={!row?.status || row?.specId?.length <= 0}
-                    >
-                      Add to Inventory
-                    </Button>
-                  </td>}
-                </tr>
-              ))
+                        </td>
+                        <td>{row?.subcategoryId?.title}</td>
+                        <td>{row?.brandId?.title}</td>
+                        {row?.status && row?.specId?.length >= 0 && (
+                          <td>
+                            <Button
+                              onClick={() => handleAddProduct(row)}
+                              variant="success"
+                              size="sm"
+                              disabled={
+                                !row?.status || row?.specId?.length <= 0
+                              }
+                            >
+                              Add to Inventory
+                            </Button>
+                          </td>
+                        )}
+                      </tr>
+                    </>
+                  )
+              )
             ) : (
               <tr>
                 <td colSpan="10">No data found</td>
@@ -835,161 +888,179 @@ const AddingProductTable = () => {
                         }}
                       >
                         {seletedProducrt?.specId?.map((ele, index) => (
-                          <ListGroup.Item
-                            key={ele?._id}
-                            style={{
-                              border: "1px solid #ccc",
-                              width: "100%",
-                            }}
-                          >
-                            <Row>
-                              <Col>
-                                <span style={{ fontSize: "16px" }}>
-                                  <strong>Variant Title:</strong>
-                                  {" ( "}
-                                  {ele?.spec_det?.length > 0 &&
-                                    ele?.spec_det
-                                      ?.slice(0, 3)
-                                      .map((ele, index) => (
-                                        <span key={index} className="p-desc">
-                                          {ele?.title} : {ele?.value}
-                                          {index !== 2 && ", "}
-                                        </span>
-                                      ))}
-                                  {" )"}
-                                </span>
-                              </Col>
-                            </Row>
+                          <>
+                            {checkSecSellingHandler(ele) && (
+                              <ListGroup.Item
+                                key={ele?._id}
+                                style={{
+                                  border: "1px solid #ccc",
+                                  width: "100%",
+                                }}
+                              >
+                                <Row>
+                                  <Col>
+                                    <span style={{ fontSize: "16px" }}>
+                                      <strong>Variant Title:</strong>
+                                      {" ( "}
+                                      {ele?.spec_det?.length > 0 &&
+                                        ele?.spec_det
+                                          ?.slice(0, 3)
+                                          .map((ele, index) => (
+                                            <span
+                                              key={index}
+                                              className="p-desc"
+                                            >
+                                              {ele?.title} : {ele?.value}
+                                              {index !== 2 && ", "}
+                                            </span>
+                                          ))}
+                                      {" )"}
+                                    </span>
+                                  </Col>
+                                </Row>
 
-                            <Row>
-                              <Col xs={10}>
-                                <strong style={{ fontSize: "16px" }}>
-                                  Variant Specification Details: {index + 1}
-                                </strong>
-                              </Col>
-                              <Col xs={2}>
-                                <Button
-                                  variant="outline-success"
-                                  size="sm"
-                                  onClick={() =>
-                                    AddSellerProduct(
-                                      seletedProducrt?._id,
-                                      ele?._id,
-                                      formData[index]?.price,
-                                      formData[index]?.quantity,
-                                      formData[index]?.shipping_cost
-                                    )
-                                  }
-                                  disabled={!ele?.is_approved}
-                                >
-                                  SAVE
-                                </Button>
-                              </Col>
-                            </Row>
-
-                            <Row className="locationTagHeader mt-2">
-                              <Col xs={1}>MRP (₹)</Col>
-                              <Col xs={1}>SKUID</Col>
-                              {ele?.spec_det?.slice(1, 3).map((e, index) => (
-                                <Col key={index} xs={2}>
-                                  {e?.title}
-                                </Col>
-                              ))}
-                              <Col>Enter product price (₹)</Col>
-                              <Col>Add Stock</Col>
-                              <Col>Add Shipping Cost(₹)</Col>
-                            </Row>
-                            <Row className="locationTagvalue mt-2">
-                              <Col xs={1}>{ele?.price}</Col>
-                              <Col xs={1}>{ele?.skuId}</Col>
-                              {ele?.spec_det?.slice(1, 3).map((e, index) => (
-                                <Col key={index} xs={2}>
-                                  {e?.value}
-                                </Col>
-                              ))}
-                              <Col>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId={`priceInput${index}`}
-                                >
-                                  <Form.Control
-                                    type="tel"
-                                    size="sm"
-                                    placeholder="Product Price"
-                                    name="price"
-                                    required
-                                    max={ele?.price} // Add max attribute
-                                    value={formData[index]?.price}
-                                    onChange={(e) => {
-                                      if (
-                                        parseFloat(e.target.value) > ele?.price
-                                      ) {
-                                        document.getElementById(
-                                          `error-${index}`
-                                        ).innerText =
-                                          "Price cannot exceed MRP!";
-                                      } else {
-                                        document.getElementById(
-                                          `error-${index}`
-                                        ).innerText = "";
-                                        handlePriceChange(
-                                          index,
-                                          e.target.value
-                                        );
+                                <Row>
+                                  <Col xs={10}>
+                                    <strong style={{ fontSize: "16px" }}>
+                                      Variant Specification Details: {index + 1}
+                                    </strong>
+                                  </Col>
+                                  <Col xs={2}>
+                                    <Button
+                                      variant="outline-success"
+                                      size="sm"
+                                      onClick={() =>
+                                        AddSellerProduct(
+                                          seletedProducrt?._id,
+                                          ele?._id,
+                                          formData[index]?.price,
+                                          formData[index]?.quantity,
+                                          formData[index]?.shipping_cost
+                                        )
                                       }
-                                    }}
-                                  />
-                                  <div
-                                    id={`error-${index}`}
-                                    style={{
-                                      color: "red",
-                                      fontSize: "12px",
-                                      marginTop: "4px",
-                                    }}
-                                  ></div>
-                                </Form.Group>
-                              </Col>
-                              <Col>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="exampleForm.ControlInput1"
-                                >
-                                  <Form.Control
-                                    type="tel"
-                                    size="sm"
-                                    placeholder="Product Quatity"
-                                    name="quantity"
-                                    required
-                                    value={formData[index]?.quantity}
-                                    onChange={(e) =>
-                                      handleQuansChange(index, e.target.value)
-                                    }
-                                  />
-                                </Form.Group>
-                              </Col>
-                              <Col>
-                                <Form.Group
-                                  className="mb-3"
-                                  controlId="exampleForm.ControlInput1"
-                                >
-                                  <Form.Control
-                                    type="tel"
-                                    size="sm"
-                                    placeholder="Shipping cost"
-                                    name="shipping_cost"
-                                    required
-                                    value={formData[index]?.shipping_cost}
-                                    onChange={(e) =>
-                                      handleShippingChange(
-                                        index,
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </Form.Group>
-                              </Col>
-                            </Row>
-                          </ListGroup.Item>
+                                      style={{
+                                        whiteSpace: "nowrap",
+                                      }}
+                                      disabled={!ele?.is_approved}
+                                    >
+                                      Add To Inventory
+                                    </Button>
+                                  </Col>
+                                </Row>
+
+                                <Row className="locationTagHeader mt-2">
+                                  <Col xs={1}>MRP (₹)</Col>
+                                  <Col xs={1}>SKUID</Col>
+                                  {ele?.spec_det
+                                    ?.slice(1, 3)
+                                    .map((e, index) => (
+                                      <Col key={index} xs={2}>
+                                        {e?.title}
+                                      </Col>
+                                    ))}
+                                  <Col>Enter product price (₹)</Col>
+                                  <Col>Add Stock</Col>
+                                  <Col>Add Shipping Cost(₹)</Col>
+                                </Row>
+                                <Row className="locationTagvalue mt-2">
+                                  <Col xs={1}>{ele?.price}</Col>
+                                  <Col xs={1}>{ele?.skuId}</Col>
+                                  {ele?.spec_det
+                                    ?.slice(1, 3)
+                                    .map((e, index) => (
+                                      <Col key={index} xs={2}>
+                                        {e?.value}
+                                      </Col>
+                                    ))}
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId={`priceInput${index}`}
+                                    >
+                                      <Form.Control
+                                        type="tel"
+                                        size="sm"
+                                        placeholder="Product Price"
+                                        name="price"
+                                        required
+                                        max={ele?.price} // Add max attribute
+                                        value={formData[index]?.price}
+                                        onChange={(e) => {
+                                          if (
+                                            parseFloat(e.target.value) >
+                                            ele?.price
+                                          ) {
+                                            document.getElementById(
+                                              `error-${index}`
+                                            ).innerText =
+                                              "Price cannot exceed MRP!";
+                                          } else {
+                                            document.getElementById(
+                                              `error-${index}`
+                                            ).innerText = "";
+                                            handlePriceChange(
+                                              index,
+                                              e.target.value
+                                            );
+                                          }
+                                        }}
+                                      />
+                                      <div
+                                        id={`error-${index}`}
+                                        style={{
+                                          color: "red",
+                                          fontSize: "12px",
+                                          marginTop: "4px",
+                                        }}
+                                      ></div>
+                                    </Form.Group>
+                                  </Col>
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Control
+                                        type="tel"
+                                        size="sm"
+                                        placeholder="Product Quatity"
+                                        name="quantity"
+                                        required
+                                        value={formData[index]?.quantity}
+                                        onChange={(e) =>
+                                          handleQuansChange(
+                                            index,
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                    </Form.Group>
+                                  </Col>
+                                  <Col>
+                                    <Form.Group
+                                      className="mb-3"
+                                      controlId="exampleForm.ControlInput1"
+                                    >
+                                      <Form.Control
+                                        type="tel"
+                                        size="sm"
+                                        placeholder="Shipping cost"
+                                        name="shipping_cost"
+                                        required
+                                        value={formData[index]?.shipping_cost}
+                                        onChange={(e) =>
+                                          handleShippingChange(
+                                            index,
+                                            e.target.value
+                                          )
+                                        }
+                                      />
+                                    </Form.Group>
+                                  </Col>
+                                </Row>
+                              </ListGroup.Item>
+                            )}
+                          </>
                         ))}
                       </ListGroup>
                     </Col>
@@ -1683,8 +1754,3 @@ const TaxTable = ({ data, allComission }) => {
 };
 
 export default AddingProductTable;
-
-
-
-
-
