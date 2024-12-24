@@ -15,7 +15,11 @@ import { CSVLink } from "react-csv";
 import { Toaster } from "react-hot-toast";
 import { FaBoxOpen } from "react-icons/fa";
 import { LiaClipboardListSolid } from "react-icons/lia";
-import { AllOrderListsByAdmin, allProductList, productWithPagination } from "../../API/api";
+import {
+  AllOrderListsByAdmin,
+  allProductList,
+  productWithPagination,
+} from "../../API/api";
 
 export default function EcommerceReport() {
   const [loading, setLoading] = useState(true);
@@ -42,7 +46,7 @@ export default function EcommerceReport() {
           productWithPagination(1, 10),
           AllOrderListsByAdmin(),
         ]);
-        console.log(productsResponse?.data?.pagination?.total)
+        console.log(productsResponse?.data?.pagination?.total);
         setProducts(productsResponse?.data?.pagination?.total);
         setOrders(ordersResponse?.data?.data);
         setData(ordersResponse?.data?.data);
@@ -183,10 +187,11 @@ export default function EcommerceReport() {
   });
 
   const parseOrderData = (data) => {
-    console.log(data,'data');
+    console.log(data, "data");
     return data.map((order) => ({
       // orderId: order._id,
-      orderDate: moment(order.createdAt).format("DD-MM-YYYY, hh:mm:ss A") || "N/A",
+      orderDate:
+        moment(order.createdAt).format("DD-MM-YYYY, hh:mm:ss A") || "N/A",
       orderNo: order.order_no || "N/A",
       orderDetails: order.order_details.map((detail) => ({
         // productId: detail.proId?._id || "N/A",
@@ -212,8 +217,7 @@ export default function EcommerceReport() {
   const OrderTable = ({ data }) => {
     const parsedData = parseOrderData(data);
 
-
-    console.log(parsedData,'parsedData')
+    console.log(parsedData, "parsedData");
 
     return (
       <Table bordered hover responsive>
@@ -239,7 +243,8 @@ export default function EcommerceReport() {
               order.orderDetails.map((detail, index) => (
                 <tr key={`${idx}-${index}`}>
                   <td>
-                    {detail.shopName} {`(${detail.shopAddress})`} {console.log()}
+                    {detail.shopName} {`(${detail.shopAddress})`}{" "}
+                    {console.log()}
                   </td>
                   <td>{detail.sellerName}</td>
                   <td>
@@ -555,11 +560,6 @@ export default function EcommerceReport() {
                 </h5>
               </div>
             </Row>
-          </Row>
-          <Row>
-            <Col>
-              <input type="text" placeholder="Search"  />
-            </Col>
           </Row>
           <Row className="justify-content-md-center mt-4">
             <Col
