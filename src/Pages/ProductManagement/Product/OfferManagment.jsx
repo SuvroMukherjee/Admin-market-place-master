@@ -15,6 +15,8 @@ import {
   allBrandList,
   allCategoryList,
   allOfferList,
+  getAllBrandsBycat,
+  getAllCategoryBybrand,
   newOfferCreate,
 } from "../../../API/api";
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -40,8 +42,24 @@ const OfferManagment = () => {
   const [editingOfferId, setEditingOfferId] = useState(null);
 
   async function getCategoryList() {
-    await allCategoryList()
-      .then((res) => {
+    if (offerData?.brand !== "") {
+      try {
+        const res = await getAllCategoryBybrand(offerData?.brand);
+        const dataWithUniqueIds = res?.data?.data
+          ?.map((item, index) => ({
+            ...item,
+            id: index + 1,
+          }))
+          ?.sort((a, b) => a.title.localeCompare(b.title)); // Adjust `name` to the appropriate key
+        setCategories(dataWithUniqueIds);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      try {
+        const res = await allCategoryList();
         const dataWithUniqueIds = res?.data?.data
           ?.map((item, index) => ({
             ...item,
@@ -49,37 +67,50 @@ const OfferManagment = () => {
           }))
           ?.filter((item) => item.status)
           ?.sort((a, b) => a.title.localeCompare(b.title)); // Adjust `name` to the appropriate key
-
         setCategories(dataWithUniqueIds);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err);
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    }
   }
 
   async function getAllBrandLists() {
-    await allBrandList()
-      .then((res) => {
+    if (offerData?.category !== "") {
+      try {
+        const res = await getAllBrandsBycat(offerData?.category);
         const dataWithUniqueIds = res?.data?.data
           ?.map((item, index) => ({
             ...item,
             id: index + 1,
           }))
-          ?.sort((a, b) => a.title.localeCompare(b.title)); // Replace `name` with the key to sort by
-
-        setBrands(dataWithUniqueIds); // Update the state with sorted data
-        setLoading(false); // Set loading to false after processing
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
+          ?.sort((a, b) => a.title.localeCompare(b.title)); // Adjust `name` to the appropriate key
+        setBrands(dataWithUniqueIds);
         setLoading(false);
-      });
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      try {
+        const res = await allBrandList();
+        const dataWithUniqueIds = res?.data?.data
+          ?.map((item, index) => ({
+            ...item,
+            id: index + 1,
+          }))
+          ?.filter((item) => item.status)
+          ?.sort((a, b) => a.title.localeCompare(b.title)); // Adjust `name` to the appropriate key
+        setBrands(dataWithUniqueIds);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    }
   }
 
   async function getAllOfferList() {
@@ -101,6 +132,16 @@ const OfferManagment = () => {
     getAllBrandLists();
     getAllOfferList();
   }, []);
+
+  useEffect(() => {
+    getAllBrandLists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offerData?.category]);
+
+  useEffect(() => {
+    getCategoryList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offerData?.brand]);
 
   // Handle form input change
   const handleInputChange = (e) => {
