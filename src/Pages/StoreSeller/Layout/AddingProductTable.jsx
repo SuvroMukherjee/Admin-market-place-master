@@ -121,7 +121,7 @@ const AddingProductTable = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `${apiUrl}/product/all-list?page=${currentPage}&limit=10&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
+        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
       );
       setFilterData(res?.data?.data);
       setTotalPages(res?.data?.pagination?.pages);
@@ -657,7 +657,13 @@ const AddingProductTable = () => {
             </div>
           </div>
 
-          <div className="mt-3 float-end">
+          <div
+            className="mt-3"
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
             <Form>
               <Form.Check
                 type="checkbox"
