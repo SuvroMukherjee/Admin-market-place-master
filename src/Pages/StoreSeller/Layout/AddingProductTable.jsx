@@ -435,7 +435,10 @@ const AddingProductTable = () => {
         })
         .catch((err) => {
           console.log(err);
-        });
+        }).finally(() => {
+          setLoading(false);
+          fetchData();
+        })
     }
   };
 
