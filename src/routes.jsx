@@ -100,6 +100,7 @@ import EditUser from "./Pages/UserList/EditUser";
 import UserList from "./Pages/UserList/UserList";
 import AdminApplications from "./Pages/AdminApplications/AdminApplications";
 import OfferManagment from "./Pages/ProductManagement/Product/OfferManagment";
+import Permission from "./Pages/StoreSeller/CataloguePermissions/Permission";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -150,7 +151,7 @@ export default function Router({ socket }) {
           element: <RequireAuth allowedRoles={["Admin"]} />,
           children: [
             { path: "category", element: <ListCategory /> },
-            {path: "AdminApplications", element: <AdminApplications />},
+            { path: "AdminApplications", element: <AdminApplications /> },
             { path: "category-request", element: <CatReqList /> },
             { path: "category-commission", element: <CategoryComissions /> },
             { path: "AddCategory", element: <AddCategory /> },
@@ -283,6 +284,7 @@ export default function Router({ socket }) {
             { path: "trasactions", element: <AllTransaction /> },
             { path: "refund-orders-list", element: <RefundOrderSeller /> },
             { path: "helpdesk", element: <ViewHelpDesk /> },
+            { path: "Seller-permission", element: <Permission /> },
           ],
         },
       ],

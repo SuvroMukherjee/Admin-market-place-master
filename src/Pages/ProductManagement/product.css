@@ -194,6 +194,28 @@
   /* width: 250px; */
 }
 
+.bcard99 {
+  cursor: pointer;
+  background-color: #edd1b6;
+  min-height: 315px;
+  /* width: 250px; */
+}
+
+.bcard99 .card-header {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #FA4032;
+}
+
+.cmpgin99-sub-title{
+  font-size: 12px;
+    font-weight: 450;
+    text-transform: capitalize;
+    color: #dd5f56;
+    letter-spacing: 0.5px;
+}
+
 .bcard .card-header {
   font-weight: bold;
   font-size: 14px;

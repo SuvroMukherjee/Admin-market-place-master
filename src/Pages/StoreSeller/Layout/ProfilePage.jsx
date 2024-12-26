@@ -5,6 +5,7 @@ import {
   FileUpload,
   UpdatesellerOwnRegistrationForm,
   VerifyEditOtp,
+  allBrandList,
   allIndiaCities,
   allcatList,
   sellerDetails,
@@ -411,6 +412,10 @@ const ProfilePage = () => {
           </div>
 
           <div className="mt-4">
+              <SellingCatalogue userInfo={userInfo} getProfileData={getProfileData} />
+          </div>
+
+          <div className="mt-4">
             <Documentation
               userInfo={userInfo}
               getProfileData={getProfileData}
@@ -555,6 +560,154 @@ const EmailEditModal = ({
     </Modal>
   );
 };
+
+const SellingCatalogue = ({ userInfo, getProfileData }) => {
+  
+  const [categoryList, setCategoryList] = useState([]);
+  const [brandList, setBrandList] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
+
+  useEffect(() => {
+    fetchAllCategories();
+    fetchAllBrands();
+  }, []);
+
+  const fetchAllCategories = async () => {
+    try {
+      const res = await allcatList();
+      const filteredData = res?.data?.data
+        .filter((category) => category?.status)
+        .sort((a, b) => a?.title.localeCompare(b?.title));
+      setCategoryList(filteredData);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const fetchAllBrands = async () => {
+    try {
+      const res = await allBrandList();
+      const filteredData = res?.data?.data
+        .filter((brand) => brand?.status)
+        .sort((a, b) => a?.title.localeCompare(b?.title));
+      setBrandList(filteredData);
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+    }
+  };
+
+  const handleCheckboxChange = (categoryId) => {
+    setSelectedCategories((prevSelected) =>
+      prevSelected.includes(categoryId)
+        ? prevSelected.filter((id) => id !== categoryId)
+        : [...prevSelected, categoryId]
+    );
+  };
+
+  const handleBrandCheckboxChange = (brandId) => {
+    setSelectedBrands((prevSelected) =>
+      prevSelected.includes(brandId)
+        ? prevSelected.filter((id) => id !== brandId)
+        : [...prevSelected, brandId]
+    );
+  };
+
+  const handleSubmit = async () => {
+
+    const payload = {
+      categoryList: selectedCategories,
+      brandList: selectedBrands,
+    };
+    console.log(payload);
+    }
+   
+
+
+  return (
+    <Container>
+      <Row>
+        <Col>
+          <Row>
+            <Col className="hd">
+              <span className="mx-2">
+                <TbCategoryPlus size={25} />
+              </span>
+              Update Selling Categories & Brands
+            </Col>
+          </Row>
+
+          {/* Categories Section */}
+          <Row className="mt-4">
+            <p style={{ fontWeight: "bold" }}>
+              Select Categories - {selectedCategories?.length}
+            </p>
+            <Row>
+              {categoryList?.map((option) => (
+                <Col key={option?._id} xs={3} className="mt-2">
+                  <input
+                    type="checkbox"
+                    id={option?._id}
+                    checked={selectedCategories.includes(option?._id)}
+                    onChange={() => handleCheckboxChange(option?._id)}
+                  />
+                  <label className="mx-2 frmLable" htmlFor={option?._id}>
+                    {option?.title}
+                  </label>
+                </Col>
+              ))}
+            </Row>
+          </Row>
+
+          {/* Brands Section */}
+          <Row className="mt-4">
+            <p style={{ fontWeight: "bold" }}>
+              Select Brands - {selectedBrands?.length}
+            </p>
+            <Row>
+              {brandList?.map((option) => (
+                <Col key={option?._id} xs={2} className="mt-2">
+                  <input
+                    type="checkbox"
+                    id={option?._id}
+                    checked={selectedBrands.includes(option?._id)}
+                    onChange={() => handleBrandCheckboxChange(option?._id)}
+                  />
+                  <label className="mx-2 frmLable" htmlFor={option?._id}>
+                    {option?.title}
+                  </label>
+                </Col>
+              ))}
+            </Row>
+          </Row>
+        </Col>
+      </Row>
+
+      {/* Submit Button */}
+      <Row className="mt-4">
+        <Col>
+          <Button
+            variant="dark"
+            size="sm"
+            className="frmLable"
+            onClick={handleSubmit}
+          >
+            Update
+            <span className="mx-2">
+              <GrUpdate />
+            </span>
+          </Button>
+        </Col>
+      </Row>
+
+      <Toaster position="top-right" />
+    </Container>
+  );
+};
+
+
+
+
 
 const ShopInfo = ({ userInfo, getProfileData }) => {
   const [shopInfo, setShopInfo] = useState({

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import blackzofi from "../../../assets/blackzofi.png";
 
 const SellerRequestPanel = () => {
   const navigate = useNavigate();
@@ -24,6 +25,11 @@ const SellerRequestPanel = () => {
     if (type == "track") {
       navigate("/seller/approval-request-list/");
     }
+
+    if (type == "Seller-permission") {
+      navigate("/seller/Seller-permission/");
+    }
+
   };
 
   return (
@@ -42,6 +48,34 @@ const SellerRequestPanel = () => {
         </Button>
       </div>
       <Row className="mt-4 d-flex justify-content-start items-center gap-4">
+      <Col className="text-center" size={4}>
+          <Card
+            className="bcard99"
+            style={{ height: "300px", width: "400px" }}
+            onClick={() => handleClick("Seller-permission")}
+          >
+            <Card.Header className="text-center">
+              Permission for Zoofi's Category & Brands
+            </Card.Header>
+            <Card.Body className="mt-2">
+              <Row className="me-2">
+                <Col className="cmpgin99-sub-title">
+                    Permission for Zoofi's Category & Brands
+                </Col>
+              </Row>
+              <Row className="mb-2 mt-2">
+                <Col className="" xs={12} sm={12} md={12} lg={12} xl={12}>
+                  <img
+                    src={blackzofi}
+                    className="reqImgN"
+                    alt="cmp_img"
+                    style={{objectFit:'contain',backgroundColor:'#f1b80d'}}
+                  />
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Col>
         <Col className="text-center" size={4}>
           <Card
             className="bcard"

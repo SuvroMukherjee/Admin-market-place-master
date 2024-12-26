@@ -2153,3 +2153,37 @@ export async function SellergetAllCategoryBybrand(brandId) {
     return error;
   }
 }
+
+
+export async function createNewSellerPermission(formData) {
+  try {
+    const response = await axios.post(apiUrl + `/seller-permission-request/create-map-seller-category-brand-request`, formData, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getPermittedCatalogue(sellerId) {
+  try {
+    const response = await axios.get(apiUrl + `/seller-permission/get-seller-category-brand-map/${sellerId}`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getSellerCategoryRequest() {
+  try {
+    const response = await axios.get(apiUrl + `/seller-permission-request/get-map-seller-category-brand-request`, {
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
