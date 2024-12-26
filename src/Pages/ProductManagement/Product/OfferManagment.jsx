@@ -265,7 +265,7 @@ const OfferManagment = () => {
         <Row>
           <Col md={6}>
             <Form.Group className="mb-3">
-              <Form.Label>Offer Name</Form.Label>
+              <Form.Label className="fw-bold">Offer Name</Form.Label>
               <Form.Control
                 type="text"
                 name="offerName"
@@ -278,7 +278,7 @@ const OfferManagment = () => {
           </Col>
           <Col md={6}>
             <Form.Group className="mb-3">
-              <Form.Label>Category</Form.Label>
+              <Form.Label className="fw-bold">Category</Form.Label>
               <Form.Select
                 name="category"
                 value={offerData.category}
@@ -299,7 +299,7 @@ const OfferManagment = () => {
         <Row>
           <Col md={6}>
             <Form.Group className="mb-3">
-              <Form.Label>Brand</Form.Label>
+              <Form.Label className="fw-bold">Brand</Form.Label>
               <Form.Select
                 name="brand"
                 value={offerData.brand}
@@ -318,7 +318,7 @@ const OfferManagment = () => {
           </Col>
           <Col md={6}>
             <Form.Group className="mb-3">
-              <Form.Label className="mx-4">Discount Type</Form.Label>
+              <Form.Label className="fw-bold mx-4">Discount Type</Form.Label>
               <Form.Check
                 inline
                 label="Percentage"
@@ -344,7 +344,7 @@ const OfferManagment = () => {
         <Row>
           <Col md={6}>
             <Form.Group className="mb-3">
-              <Form.Label>
+              <Form.Label className="fw-bold">
                 {offerData.discountType === "percentage"
                   ? "Discount (%)"
                   : "Flat Discount (Amount)"}
@@ -365,7 +365,9 @@ const OfferManagment = () => {
           </Col>
           <Col md={3}>
             <Form.Group className="mb-3">
-              <Form.Label>Minimum Amount(Optional)</Form.Label>
+              <Form.Label className="fw-bold">
+                Minimum Product Price(Optional)
+              </Form.Label>
               <Form.Control
                 type="number"
                 name="minAmount"
@@ -377,7 +379,9 @@ const OfferManagment = () => {
           </Col>
           <Col md={3}>
             <Form.Group className="mb-3">
-              <Form.Label>Maximum Amount(Optional)</Form.Label>
+              <Form.Label className="fw-bold">
+                Maximum Product Price(Optional)
+              </Form.Label>
               <Form.Control
                 type="number"
                 name="maxAmount"
@@ -392,7 +396,7 @@ const OfferManagment = () => {
         <Row>
           <Col md={6}>
             <Form.Group className="mb-3">
-              <Form.Label>Start Date</Form.Label>
+              <Form.Label className="fw-bold">Start Date</Form.Label>
               <Form.Control
                 type="date"
                 name="startDate"
@@ -404,7 +408,7 @@ const OfferManagment = () => {
           </Col>
           <Col md={6}>
             <Form.Group className="mb-3">
-              <Form.Label>End Date</Form.Label>
+              <Form.Label className="fw-bold">End Date</Form.Label>
               <Form.Control
                 type="date"
                 name="endDate"
