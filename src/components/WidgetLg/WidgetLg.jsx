@@ -26,7 +26,8 @@ export default function WidgetLg({ product }) {
                                 <img
                                     src={ele?.image?.[0]?.image_path}
                                     alt=""
-                                    className="widgetLgImg"
+                                    className="widgetLgImg "
+                                    style={{objectFit:'contain'}}
                                 />
                                 {console.log({ ele })}
                                 <span className="widgetLgName d-flex align-items-center">{ele?.name}</span>
