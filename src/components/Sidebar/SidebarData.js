@@ -128,7 +128,7 @@ export const AdminSidebarData = [
   {
     title: "Offers",
     //path: "/Admin/product-offe
-    path: "/Admin/product-offer-sellerchoose",
+    path: "/Admin/offer-managment",
     icon: FaCartArrowDown,
     cName: "nav-text",
   },
