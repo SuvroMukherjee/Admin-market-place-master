@@ -38,6 +38,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { useNavigate, useParams } from "react-router-dom";
 import { distanceCategories } from "../../../common/DistanceDelivery";
 import OtpInput from "react-otp-input";
+import { Refresh } from "@mui/icons-material";
 
 const ProfilePage = () => {
   const { auth } = useAuth();
@@ -59,7 +60,7 @@ const ProfilePage = () => {
   });
 
   const [oldEmail, setOldEmail] = useState("");
-  const [oldPhone,setOldphone] = useState("")
+  const [oldPhone, setOldphone] = useState("");
 
   const [showModal, setShowModal] = useState(false);
 
@@ -76,7 +77,7 @@ const ProfilePage = () => {
     const { ...filteredData } = res?.data?.data || {};
     console.log(res?.data?.data);
     setOldEmail(res?.data?.data?.email);
-    setOldphone(res?.data?.data?.phone_no)
+    setOldphone(res?.data?.data?.phone_no);
     setUserInfo(filteredData);
     setloading(false);
   }
@@ -93,15 +94,11 @@ const ProfilePage = () => {
     console.log({ userInfo });
     // You can perform validation here before proceeding to the next step
 
-    let payload = { 
-     
-      user_name : userInfo?.user_name,
-    }
+    let payload = {
+      user_name: userInfo?.user_name,
+    };
 
-    let response = await UpdatesellerOwnRegistrationForm(
-      payload,
-      auth?.userId
-    );
+    let response = await UpdatesellerOwnRegistrationForm(payload, auth?.userId);
 
     console.log({ response });
 
@@ -134,7 +131,6 @@ const ProfilePage = () => {
       setShowModal(true);
     }
   };
-
 
   const resendPhoneVerification = async () => {
     let payload = { newUser: userInfo?.phone_no, user: oldPhone };
@@ -169,6 +165,44 @@ const ProfilePage = () => {
         </Container>
       ) : (
         <>
+          <div className="mt-4">
+            {userInfo?.doc_details?.gst_no == "" && (
+            <Container>
+              <Row
+                className="d-flex justify-content-center align-items-center bg-warning p-4"
+                style={{
+                  fontSize: "18px",
+                  textAlign: "center",
+                }}
+              >
+                <Col xs={10} className="text-center fw-bold">
+                  To get started, please complete your{" "}
+                  <span
+                    className="text-danger mx-2"
+                    onClick={() =>
+                      window.scrollTo({ top: 1200, behavior: "smooth" })
+                    }
+                    style={{ cursor: "pointer" }}
+                  >
+                    Gst Number & Other Documents
+                  </span>
+                  . This will help you efficiently manage your products and
+                  begin your journey with Zoofi.
+                </Col>
+
+                <Col>
+                  <Button
+                    variant="dark"
+                    size="sm"
+                    className="frmLable w-30"
+                    onClick={() => getProfileData()}
+                  >
+                    <Refresh onClick={() => {getProfileData();window.location.reload();}} />
+                  </Button>
+                </Col>
+              </Row>
+            </Container>)}
+          </div>
           <div className="mt-4">
             <Container>
               <Row>
@@ -322,8 +356,8 @@ const ProfilePage = () => {
                         <>
                           <Form.Group controlId="phone_no">
                             <Form.Label className="frmLable mt-2">
-                             Enter Your New Phone Numer <span className="req">*</span>{" "}
-                              
+                              Enter Your New Phone Numer{" "}
+                              <span className="req">*</span>{" "}
                             </Form.Label>
                             <Form.Control
                               type="tel"
@@ -342,7 +376,7 @@ const ProfilePage = () => {
                             variant="dark"
                             size="sm"
                             className="frmLable w-30 mt-2"
-                            onClick={()=>resendPhoneVerification()}
+                            onClick={() => resendPhoneVerification()}
                           >
                             Update Phone Number
                           </Button>
@@ -1002,6 +1036,10 @@ const Documentation = ({ userInfo, getProfileData }) => {
     } else {
       toast.success(response?.data?.message);
       getProfileData();
+      setTimeout(() => {
+        window.location.reload();
+        
+      }, 1000);
     }
   };
 
