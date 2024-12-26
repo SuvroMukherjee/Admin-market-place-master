@@ -1844,9 +1844,9 @@ export async function updateReturnStatus(formData, ordId, Proid) {
   }
 }
 
-export async function getRefundRequestCreate(id) {
+export async function getRefundRequestCreate(formData) {
   try {
-    const response = await axios.get(apiUrl + `/refund-request/create/${id}`, {
+    const response = await axios.post(apiUrl + `/refund-request/create`,formData, {
       headers: setAuthHeader(),
     });
     return response;

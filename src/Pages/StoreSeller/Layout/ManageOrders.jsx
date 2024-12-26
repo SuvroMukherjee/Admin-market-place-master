@@ -16,6 +16,7 @@ import { toast, ToastContainer } from "react-toastify";
 import {
   PaymentUpdate,
   commandOnOrder,
+  getRefundRequestCreate,
   orderStatusUpdate,
   sellerOrderLists,
 } from "../../../API/api";
@@ -122,6 +123,22 @@ const ManageOrders = () => {
     }
     else{
       toast.success("Order Status Updated Successfully");
+    }
+
+    if( status == "cancel" && filteredData[selectIndex]?.payment_status == "paid"){
+      let OId = filteredData[selectIndex]?._id;
+      let paymentId = filteredData[selectIndex]?.paymentId;
+      let dataload = {
+        orderId: OId,
+        paymentId: paymentId,
+      };
+      let res = await getRefundRequestCreate(dataload);
+      if(res?.response?.data?.error){
+        toast.error(res?.resaponse?.data?.message || "An error occurred while processing .");
+      }
+      else{
+        toast.success("Refund Request Created Successfully");
+      }
     }
 
     fetchData();
@@ -644,6 +661,8 @@ const ManageOrders = () => {
             </Table>
           </Col>
         </Row>
+
+        {console.log(filteredData[selectIndex],'filteredData[selectIndex]')}
 
         <Modal show={show} onHide={handleClose} centered size="xl">
           {/* <Modal.Header closeButton>
