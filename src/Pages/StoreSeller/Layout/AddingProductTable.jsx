@@ -40,9 +40,9 @@ import {
   deleteProduct,
   getAllBrandsBycat,
   getAllCategoryBybrand,
+  getPermittedCatalogue,
 } from "../../../API/api";
 import useAuth from "../../../hooks/useAuth";
-import { use } from "react";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -74,6 +74,34 @@ const AddingProductTable = () => {
   const handleShowModal2 = () => setShowModal2(true);
 
   const [allComission, setAllComission] = useState([]);
+
+  const [approvedCategories, setApprovedCategories] = useState([]);
+  const [approvedBrands, setApprovedBrands] = useState([]);
+  const [permittedCategoriesIds, setPermittedCategoriesIds] = useState([]);
+  const [permittedBrandsIds, setPermittedBrandsIds] = useState([]);
+
+  const { auth } = useAuth();
+
+  async function getPermittedCatalogueList() {
+    try {
+      const res = await getPermittedCatalogue(auth?.userId);
+      console.log(res?.data?.data, "ddddd");
+
+      setApprovedCategories(res?.data?.data?.categories);
+      setApprovedBrands(res?.data?.data?.brand);
+
+      setPermittedCategoriesIds(
+        res?.data?.data?.categories?.map((ele) => ele?._id)
+      );
+      setPermittedBrandsIds(res?.data?.data?.brand?.map((ele) => ele?._id));
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  }
+
+  useEffect(() => {
+    getPermittedCatalogueList();
+  }, []);
 
   async function getAllComission() {
     try {
@@ -608,12 +636,15 @@ const AddingProductTable = () => {
                   onChange={handleFilterChange}
                 >
                   <option value="">Select Category</option>
+                  
                   {categories?.length > 0 &&
                     categories.map((cat) => (
-                      <option key={cat._id} value={cat._id}>
-                        {cat.title}
-                      </option>
-                    ))}
+                      {!permittedCategoriesIds?.includes(cat._id) && (
+                        <option key={cat._id} value={cat._id}>
+                          {cat.title}
+                        </option>
+                      )}
+                    }}
                 </Form.Select>
               </Form.Group>
             </div>
@@ -625,6 +656,7 @@ const AddingProductTable = () => {
                   name="subcategoryId"
                   value={filters.subcategoryId}
                   onChange={handleFilterChange}
+                  disabled={filters?.categoryId == ""}
                 >
                   <option value="">Select Subcategory</option>
                   {subcategories?.length > 0 && filters.categoryId !== ""
@@ -655,8 +687,8 @@ const AddingProductTable = () => {
                   onChange={handleFilterChange}
                 >
                   <option value="">Select Brand</option>
-                  {brands?.length > 0 &&
-                    brands.map((brand) => (
+                  {approvedBrands?.length > 0 &&
+                    approvedBrands.map((brand) => (
                       <option key={brand._id} value={brand._id}>
                         {brand.title}
                       </option>
@@ -790,110 +822,127 @@ const AddingProductTable = () => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan="10" className="text-center fw-bold">
-                  Loading...
-                </td>
-              </tr>
-            ) : filterData2.length > 0 ? (
-              filterData2.map((row, index) => (
-                <tr
-                  key={index}
-                  className={
-                    !checkAlreadySellingHandler(row) ? "opacity-50" : ""
-                  }
-                >
-                  <td>{index + 1}</td>
-                  <td>
-                    {row?.productId?.substring(0, 15)}
-                    <span className="mx-2">
-                      {copied && copiedIndex === index ? (
-                        <>
-                          <BsClipboard2CheckFill size={20} color="green" />
-                          <br />
-                          <span style={{ fontSize: "10px", color: "green" }}>
-                            Copied
-                          </span>
-                        </>
-                      ) : (
-                        <LuClipboardSignature
-                          style={{ cursor: "pointer" }}
-                          onClick={() =>
-                            copyTextToClipboard(row?.productId, index)
-                          }
-                          size={18}
+          {(filters?.categoryId != "" || filters?.subcategoryId != "") && (
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="10" className="text-center fw-bold">
+                    Loading...
+                  </td>
+                </tr>
+              ) : filterData2.length > 0 ? (
+                filterData2.map((row, index) => (
+                  <tr
+                    key={index}
+                    className={
+                      !checkAlreadySellingHandler(row) ? "opacity-50" : ""
+                    }
+                  >
+                    <td>{index + 1}</td>
+                    <td>
+                      {row?.productId?.substring(0, 15)}
+                      <span className="mx-2">
+                        {copied && copiedIndex === index ? (
+                          <>
+                            <BsClipboard2CheckFill size={20} color="green" />
+                            <br />
+                            <span style={{ fontSize: "10px", color: "green" }}>
+                              Copied
+                            </span>
+                          </>
+                        ) : (
+                          <LuClipboardSignature
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              copyTextToClipboard(row?.productId, index)
+                            }
+                            size={18}
+                          />
+                        )}
+                      </span>
+                    </td>
+                    <td>{row?.type}</td>
+                    <td>{row?.name?.substring(0, 30) + "..."}</td>
+                    <td>
+                      <div className="productListItem">
+                        <img
+                          className="productListImg img-thumbnail"
+                          width={20}
+                          src={row.image?.[0]?.image_path}
+                          alt=""
                         />
-                      )}
-                    </span>
-                  </td>
-                  <td>{row?.type}</td>
-                  <td>{row?.name?.substring(0, 30) + "..."}</td>
-                  <td>
-                    <div className="productListItem">
-                      <img
-                        className="productListImg img-thumbnail"
-                        width={20}
-                        src={row.image?.[0]?.image_path}
-                        alt=""
-                      />
-                    </div>
-                  </td>
-                  <td style={{ width: "150px" }}>
-                    {row?.specId?.length}
-                    <p
-                      className="variCss"
-                      onClick={() => showVariants(row?.specId)}
-                    >
-                      VIEW
-                    </p>
-                    {variationRequestCount(row?.specId) > 0 && (
-                      <p className="newrqNo">
-                        <AiOutlineInfoCircle size={22} />{" "}
-                        {variationRequestCount(row?.specId)} Requested
+                      </div>
+                    </td>
+                    <td style={{ width: "150px" }}>
+                      {row?.specId?.length}
+                      <p
+                        className="variCss"
+                        onClick={() => showVariants(row?.specId)}
+                      >
+                        VIEW
                       </p>
-                    )}
-                  </td>
-                  <td>
-                    {row?.categoryId?.title}
-                    {/* <TaxTable
+                      {variationRequestCount(row?.specId) > 0 && (
+                        <p className="newrqNo">
+                          <AiOutlineInfoCircle size={22} />{" "}
+                          {variationRequestCount(row?.specId)} Requested
+                        </p>
+                      )}
+                    </td>
+                    <td>
+                      {row?.categoryId?.title}
+                      {/* <TaxTable
                       data={row?.categoryId}
                       allComission={allComission}
                     /> */}
-                  </td>
-                  <td>{row?.subcategoryId?.title}</td>
-                  <td>{row?.brandId?.title}</td>
-                  {row?.status && row?.specId?.length >= 0 && (
-                    <td>
-                      <Button
-                        onClick={() => {
-                          if (checkAlreadySellingHandler(row)) {
-                            handleAddProduct(row); // Only add if not already selling
-                          }
-                        }}
-                        variant={
-                          checkAlreadySellingHandler(row)
-                            ? "success"
-                            : "warning"
-                        }
-                        size="sm"
-                        disabled={!row?.status || row?.specId?.length <= 0}
-                        style={{
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {checkAlreadySellingHandler(row)
-                          ? "Add to Inventory"
-                          : "Already Selling"}
-                      </Button>
                     </td>
-                  )}
+                    <td>{row?.subcategoryId?.title}</td>
+                    <td>{row?.brandId?.title}</td>
+                    {row?.status && row?.specId?.length >= 0 && (
+                      <td>
+                        <Button
+                          onClick={() => {
+                            if (checkAlreadySellingHandler(row)) {
+                              handleAddProduct(row); // Only add if not already selling
+                            }
+                          }}
+                          variant={
+                            checkAlreadySellingHandler(row)
+                              ? "success"
+                              : "warning"
+                          }
+                          size="sm"
+                          disabled={!row?.status || row?.specId?.length <= 0}
+                          style={{
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {checkAlreadySellingHandler(row)
+                            ? "Add to Inventory"
+                            : "Already Selling"}
+                        </Button>
+                      </td>
+                    )}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="10">No data found</td>
                 </tr>
-              ))
-            ) : (
+              )}
+            </tbody>
+          )}
+          <tbody>
+            {filters?.categoryId == "" && filters?.subcategoryId == "" && (
               <tr>
-                <td colSpan="10">No data found</td>
+                <td colSpan="10">
+                  <p
+                    className="fw-bold mx-4"
+                    style={{ color: "black", padding: "10px" }}
+                  >
+                    Please select a category and subcategory or a brand to
+                    continue.
+                  </p>
+                </td>
               </tr>
             )}
           </tbody>

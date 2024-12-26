@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 const Permission = () => {
   const { auth } = useAuth();
   console.log({ auth });
+
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [permittedCategoriesIds, setPermittedCategoriesIds] = useState([]);
@@ -481,20 +482,24 @@ const SellingCatalogue = ({
                   {categoryList.length ? (
                     categoryList.map((option) => (
                       <Col key={option?._id} xs={3} className="mt-2">
-                        <input
-                          type="checkbox"
-                          id={`category-${option?._id}`}
-                          checked={selectedCategories.includes(option?._id)}
-                          onChange={() =>
-                            handleCheckboxChange(option?._id, "category")
-                          }
-                        />
-                        <label
-                          className="mx-2 frmLable"
-                          htmlFor={`category-${option?._id}`}
-                        >
-                          {option?.title}
-                        </label>
+                        {!permittedCategoriesIds?.includes(option?._id) && (
+                          <>
+                            <input
+                              type="checkbox"
+                              id={`category-${option?._id}`}
+                              checked={selectedCategories.includes(option?._id)}
+                              onChange={() =>
+                                handleCheckboxChange(option?._id, "category")
+                              }
+                            />
+                            <label
+                              className="mx-2 frmLable"
+                              htmlFor={`category-${option?._id}`}
+                            >
+                              {option?.title}
+                            </label>
+                          </>
+                        )}
                       </Col>
                     ))
                   ) : (
@@ -512,20 +517,25 @@ const SellingCatalogue = ({
                   {brandList.length ? (
                     brandList.map((option) => (
                       <Col key={option?._id} xs={3} className="mt-2">
-                        <input
-                          type="checkbox"
-                          id={`brand-${option?._id}`}
-                          checked={selectedBrands.includes(option?._id)}
-                          onChange={() =>
-                            handleCheckboxChange(option?._id, "brand")
-                          }
-                        />
-                        <label
-                          className="mx-2 frmLable"
-                          htmlFor={`brand-${option?._id}`}
-                        >
-                          {option?.title}
-                        </label>
+                        {!permittedBrandsIds?.includes(option?._id) && (
+                          <>
+                            {" "}
+                            <input
+                              type="checkbox"
+                              id={`brand-${option?._id}`}
+                              checked={selectedBrands.includes(option?._id)}
+                              onChange={() =>
+                                handleCheckboxChange(option?._id, "brand")
+                              }
+                            />
+                            <label
+                              className="mx-2 frmLable"
+                              htmlFor={`brand-${option?._id}`}
+                            >
+                              {option?.title}
+                            </label>
+                          </>
+                        )}
                       </Col>
                     ))
                   ) : (
