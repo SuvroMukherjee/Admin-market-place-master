@@ -359,6 +359,7 @@ const AddProduct = () => {
                           value={formData.subcategoryId}
                           onChange={handleChange}
                           required
+                          disabled={!formData.categoryId}
                         >
                           <option value="" disabled selected>
                             Select Sub Category

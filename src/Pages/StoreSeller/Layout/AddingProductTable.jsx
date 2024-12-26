@@ -874,6 +874,9 @@ const AddingProductTable = () => {
                         }
                         size="sm"
                         disabled={!row?.status || row?.specId?.length <= 0}
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
                       >
                         {checkAlreadySellingHandler(row)
                           ? "Add to Inventory"
