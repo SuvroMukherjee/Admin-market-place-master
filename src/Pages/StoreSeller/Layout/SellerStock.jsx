@@ -600,9 +600,6 @@ const SellerStock = () => {
           <Button variant="dark" size="sm" onClick={handleReset}>
             Reset & Refresh
           </Button>
-          <Button variant="secondary" size="sm">
-            {filteredData?.length} Filtered Products
-          </Button>
 
           {csvData?.length > 0 && (
             <CSVLink
@@ -721,6 +718,9 @@ const SellerStock = () => {
         <thead>
           <tr>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
+              Serial No
+            </th>
+            <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
               Product Name
             </th>
             <th style={{ fontWeight: "bold", borderBottom: "1px solid gray" }}>
@@ -783,8 +783,10 @@ const SellerStock = () => {
               </td>
             </tr>
           ) : filteredData.length > 0 ? (
-            filteredData.map((row) => (
+            filteredData.map((row, index) => (
               <tr key={row._id}>
+                <td>{(currentPage - 1) * 20 + index + 1}</td>
+
                 <td>
                   <p>{row?.name?.slice(0, 20)}</p>
                   {row?.productId?.categoryId?.title && (

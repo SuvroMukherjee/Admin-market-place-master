@@ -435,10 +435,11 @@ const AddingProductTable = () => {
         })
         .catch((err) => {
           console.log(err);
-        }).finally(() => {
+        })
+        .finally(() => {
           setLoading(false);
           fetchData();
-        })
+        });
     }
   };
 
@@ -481,6 +482,11 @@ const AddingProductTable = () => {
     setIsChecked(event.target.checked);
     console.log("Checkbox Value:", event.target.checked);
   };
+
+  let filterData2 = [...filterData];
+  if (isChecked) {
+    filterData2 = filterData2.filter((ele) => checkAlreadySellingHandler(ele));
+  }
 
   return (
     <div className="mt-3">
@@ -791,16 +797,12 @@ const AddingProductTable = () => {
                   Loading...
                 </td>
               </tr>
-            ) : filterData.length > 0 ? (
-              filterData.map((row, index) => (
+            ) : filterData2.length > 0 ? (
+              filterData2.map((row, index) => (
                 <tr
                   key={index}
                   className={
-                    !checkAlreadySellingHandler(row)
-                      ? !isChecked
-                        ? "opacity-50"
-                        : "d-none"
-                      : ""
+                    !checkAlreadySellingHandler(row) ? "opacity-50" : ""
                   }
                 >
                   <td>{index + 1}</td>

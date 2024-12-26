@@ -1,20 +1,7 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Image,
-  InputGroup,
-  ListGroup,
-  Row,
-  Table,
-} from "react-bootstrap";
-import Modal from "react-bootstrap/Modal";
-import toast, { Toaster } from "react-hot-toast";
-import { FaSearch } from "react-icons/fa";
-import { IoIosCloseCircle } from "react-icons/io";
+import { Button } from "react-bootstrap";
+import toast from "react-hot-toast";
 import { RiEdit2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import {
@@ -22,16 +9,11 @@ import {
   StatusUpdateProduct,
   allBrandList,
   allCategoryList,
-  allProductList,
   deleteProduct,
   getSubCategoryByCategory,
 } from "../../../API/api";
-import sellerback2 from "../../../assets/sellerback2.jpg";
-import "./sellerlayout.css";
-import { AiOutlineInfoCircle } from "react-icons/ai";
-import PList from "../../ProductManagement/Product/PList";
 import AddingProductTable from "./AddingProductTable";
-import axios from "axios";
+import "./sellerlayout.css";
 const apiUrl = import.meta.env.VITE_API_BASE;
 
 export default function NewAddProduct() {
