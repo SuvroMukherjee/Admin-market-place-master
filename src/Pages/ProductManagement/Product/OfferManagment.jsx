@@ -241,6 +241,21 @@ const OfferManagment = () => {
     }
   };
 
+  const handleStatus = async (data) => {
+    try {
+      let payload = {
+        status: !data?.status,
+      };
+      const res = await AdminOfferUpdate(data?._id, payload);
+      if (!res?.data?.error) {
+        getAllOfferList();
+        alert("Offer updated successfully!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Container className="my-5 productList">
       <h2 className="text-center mb-4">
@@ -289,6 +304,7 @@ const OfferManagment = () => {
                 name="brand"
                 value={offerData.brand}
                 onChange={handleInputChange}
+                disabled={!offerData.category}
                 required
               >
                 <option value="">Select a brand</option>
@@ -349,27 +365,25 @@ const OfferManagment = () => {
           </Col>
           <Col md={3}>
             <Form.Group className="mb-3">
-              <Form.Label>Minimum Amount</Form.Label>
+              <Form.Label>Minimum Amount(Optional)</Form.Label>
               <Form.Control
                 type="number"
                 name="minAmount"
                 value={offerData.minAmount}
                 onChange={handleInputChange}
                 placeholder="Enter minimum amount"
-                required
               />
             </Form.Group>
           </Col>
           <Col md={3}>
             <Form.Group className="mb-3">
-              <Form.Label>Maximum Amount</Form.Label>
+              <Form.Label>Maximum Amount(Optional)</Form.Label>
               <Form.Control
                 type="number"
                 name="maxAmount"
                 value={offerData.maxAmount}
                 onChange={handleInputChange}
                 placeholder="Enter maximum amount"
-                required
               />
             </Form.Group>
           </Col>
@@ -424,54 +438,77 @@ const OfferManagment = () => {
             <th>Max Amount</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {offerLoading ? (
             <tr>
-              <Spinner animation="border" size="lg" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
+              <td colSpan="11" className="text-center">
+                <Spinner animation="border" size="lg" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </td>
             </tr>
           ) : offers?.length === 0 ? (
-            <tr>No offers found</tr>
+            <tr>
+              <td colSpan="11" className="text-center">
+                No offers found
+              </td>
+            </tr>
           ) : (
-            offers?.map((offer, index) => (
-              <tr key={offer?._id}>
-                <td>{index + 1}</td>
-                <td>{offer?.offerName}</td>
-                <td>{offer?.brand?.title || "N/A"}</td>
-                <td>{offer?.category?.title || "N/A"}</td>
-                <td>
-                  {offer?.discountType === "percentage"
-                    ? `${offer.discountValue}%`
-                    : `₹${offer.discountValue}`}
-                </td>
-                <td>₹{offer?.minAmount}</td>
-                <td>₹{offer?.maxAmount}</td>
-                <td>{moment(offer?.startDate).format("LLL")}</td>
-                <td>{moment(offer?.endDate).format("LLL")}</td>
-                <td>
-                  <div className="d-flex gap-3 justify-content-center">
-                    <Button
-                      variant="warning"
-                      size="sm"
-                      onClick={() => handleEdit(offer)}
-                    >
-                      <MdEdit />
-                    </Button>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => handleDelete(offer?._id)}
-                    >
-                      <MdDelete />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))
+            offers?.map((offer, index) => {
+              return (
+                <tr key={offer?._id}>
+                  <td>{index + 1}</td>
+                  <td>{offer?.offerName}</td>
+                  <td>{offer?.brand?.title || "N/A"}</td>
+                  <td>{offer?.category?.title || "N/A"}</td>
+                  <td>
+                    {offer?.discountType === "percentage"
+                      ? `${offer.discountValue}%`
+                      : `₹${offer.discountValue}`}
+                  </td>
+                  <td>{offer?.minAmount ? `₹${offer.minAmount}` : "N/A"}</td>
+                  <td>{offer?.maxAmount ? `₹${offer.maxAmount}` : "N/A"}</td>
+                  <td>{moment(offer?.startDate).format("LLL")}</td>
+                  <td>{moment(offer?.endDate).format("LLL")}</td>
+                  <td
+                    className={`fw-bold ${
+                      offer?.status ? "text-success" : "text-danger"
+                    }`}
+                  >
+                    {offer?.status ? "Active" : "Inactive"}
+                  </td>
+                  <td>
+                    <div className="d-flex gap-3 justify-content-center">
+                      <Button
+                        variant="warning"
+                        size="sm"
+                        onClick={() => handleEdit(offer)}
+                      >
+                        <MdEdit />
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleDelete(offer?._id)}
+                      >
+                        <MdDelete />
+                      </Button>
+                      <Button
+                        variant={offer?.status ? "secondary" : "success"}
+                        size="sm"
+                        onClick={() => handleStatus(offer)}
+                      >
+                        {offer?.status ? "Deactivate" : "Activate"}
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })
           )}
         </tbody>
       </Table>
