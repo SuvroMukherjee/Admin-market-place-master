@@ -101,6 +101,7 @@ import UserList from "./Pages/UserList/UserList";
 import AdminApplications from "./Pages/AdminApplications/AdminApplications";
 import OfferManagment from "./Pages/ProductManagement/Product/OfferManagment";
 import Permission from "./Pages/StoreSeller/CataloguePermissions/Permission";
+import CataloguePermissions from "./Pages/SellerManagment/CataloguePermissions";
 
 export default function Router({ socket }) {
   const { auth } = useAuth();
@@ -179,6 +180,7 @@ export default function Router({ socket }) {
             { path: "paymnets", element: <AdminPaymnets /> },
             { path: "view-helpdesk", element: <AdminViewHelpDesk /> },
             { path: "offer-managment", element: <OfferManagment /> },
+            { path: "catalogue-permissions", element: <CataloguePermissions /> },
 
             // { path: "live-preview/:id", element: <LivePreview /> },
           ],

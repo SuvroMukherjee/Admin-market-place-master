@@ -2187,3 +2187,15 @@ export async function getSellerCategoryRequest() {
     return error;
   }
 }
+
+
+export async function UpdateSellerCategoryRequestList(formData) {
+  try {
+    const response = await axios.patch(apiUrl + `/seller-permission-request/update-map-seller-category-brand-request`,formData ,{
+      headers: setAuthHeader(),
+    });
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
