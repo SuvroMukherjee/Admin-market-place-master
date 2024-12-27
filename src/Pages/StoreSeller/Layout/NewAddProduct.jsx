@@ -428,4 +428,4 @@ export default function NewAddProduct() {
 
 const NewAddProductComponent = () => {
   return <AddingProductTable />;
-};
+};AddingProductTable

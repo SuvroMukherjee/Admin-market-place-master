@@ -117,7 +117,7 @@ const Permission = () => {
           variant="dark"
           size="sm"
           className="frmLable float-right"
-          onClick={() => navigate("seller/seller-request")}
+          onClick={() => navigate("/seller/seller-request")}
         >
           <span className="mx-2">
             {" "}
@@ -189,7 +189,7 @@ const PermittedCatalogue = ({ selectedCategories, selectedBrands }) => {
                 </p>
                 <Row>
                   {selectedCategories?.map((option, index) => (
-                    <Col key={option?._id} xs={3} className="mt-2">
+                    <Col key={option?._id} xs={2} className="mt-2">
                       <label className="mx-2 frmLable" htmlFor={option?._id}>
                         {index + 1}. {option?.title}
                       </label>
@@ -379,10 +379,7 @@ const SellingCatalogue = ({
     try {
       const res = await allcatList(); // Ensure this API function is correctly implemented
       const filteredData = res?.data?.data
-        ?.filter(
-          (category) =>
-            category?.status && !permittedCategoriesIds.includes(category?._id)
-        )
+        ?.filter((category) => category?.status)
         ?.sort((a, b) => a?.title.localeCompare(b?.title));
       setCategoryList(filteredData || []);
     } catch (error) {
@@ -395,9 +392,7 @@ const SellingCatalogue = ({
     try {
       const res = await allBrandList(); // Ensure this API function is correctly implemented
       const filteredData = res?.data?.data
-        ?.filter(
-          (brand) => brand?.status && !permittedBrandsIds.includes(brand?._id)
-        )
+        ?.filter((brand) => brand?.status)
         ?.sort((a, b) => a?.title.localeCompare(b?.title));
       setBrandList(filteredData || []);
     } catch (error) {
@@ -480,28 +475,26 @@ const SellingCatalogue = ({
                 </p>
                 <Row>
                   {categoryList.length ? (
-                    categoryList.map((option) => (
-                      <Col key={option?._id} xs={3} className="mt-2">
-                        {!permittedCategoriesIds?.includes(option?._id) && (
-                          <>
-                            <input
-                              type="checkbox"
-                              id={`category-${option?._id}`}
-                              checked={selectedCategories.includes(option?._id)}
-                              onChange={() =>
-                                handleCheckboxChange(option?._id, "category")
-                              }
-                            />
-                            <label
-                              className="mx-2 frmLable"
-                              htmlFor={`category-${option?._id}`}
-                            >
-                              {option?.title}
-                            </label>
-                          </>
-                        )}
-                      </Col>
-                    ))
+                    categoryList.map((option) =>
+                      !permittedCategoriesIds?.includes(option?._id) ? (
+                        <Col key={option?._id} xs={3} className="mt-2">
+                          <input
+                            type="checkbox"
+                            id={`category-${option?._id}`}
+                            checked={selectedCategories.includes(option?._id)}
+                            onChange={() =>
+                              handleCheckboxChange(option?._id, "category")
+                            }
+                          />
+                          <label
+                            className="mx-2 frmLable"
+                            htmlFor={`category-${option?._id}`}
+                          >
+                            {option?.title}
+                          </label>
+                        </Col>
+                      ) : null
+                    )
                   ) : (
                     <p>No available categories to request.</p>
                   )}
@@ -515,29 +508,26 @@ const SellingCatalogue = ({
                 </p>
                 <Row>
                   {brandList.length ? (
-                    brandList.map((option) => (
-                      <Col key={option?._id} xs={3} className="mt-2">
-                        {!permittedBrandsIds?.includes(option?._id) && (
-                          <>
-                            {" "}
-                            <input
-                              type="checkbox"
-                              id={`brand-${option?._id}`}
-                              checked={selectedBrands.includes(option?._id)}
-                              onChange={() =>
-                                handleCheckboxChange(option?._id, "brand")
-                              }
-                            />
-                            <label
-                              className="mx-2 frmLable"
-                              htmlFor={`brand-${option?._id}`}
-                            >
-                              {option?.title}
-                            </label>
-                          </>
-                        )}
-                      </Col>
-                    ))
+                    brandList.map((option) =>
+                      !permittedBrandsIds?.includes(option?._id) ? (
+                        <Col key={option?._id} xs={3} className="mt-2">
+                          <input
+                            type="checkbox"
+                            id={`brand-${option?._id}`}
+                            checked={selectedBrands.includes(option?._id)}
+                            onChange={() =>
+                              handleCheckboxChange(option?._id, "brand")
+                            }
+                          />
+                          <label
+                            className="mx-2 frmLable"
+                            htmlFor={`brand-${option?._id}`}
+                          >
+                            {option?.title}
+                          </label>
+                        </Col>
+                      ) : null
+                    )
                   ) : (
                     <p>No available brands to request.</p>
                   )}

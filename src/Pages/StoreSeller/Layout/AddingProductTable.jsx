@@ -636,15 +636,15 @@ const AddingProductTable = () => {
                   onChange={handleFilterChange}
                 >
                   <option value="">Select Category</option>
-                  
+
                   {categories?.length > 0 &&
-                    categories.map((cat) => (
-                      {!permittedCategoriesIds?.includes(cat._id) && (
+                    categories.map((cat) =>
+                      permittedCategoriesIds?.includes(cat._id) ? (
                         <option key={cat._id} value={cat._id}>
                           {cat.title}
                         </option>
-                      )}
-                    }}
+                      ) : null
+                    )}
                 </Form.Select>
               </Form.Group>
             </div>
@@ -687,12 +687,14 @@ const AddingProductTable = () => {
                   onChange={handleFilterChange}
                 >
                   <option value="">Select Brand</option>
-                  {approvedBrands?.length > 0 &&
-                    approvedBrands.map((brand) => (
-                      <option key={brand._id} value={brand._id}>
-                        {brand.title}
-                      </option>
-                    ))}
+                  {brands?.length > 0 &&
+                    brands.map((brand) =>
+                      permittedBrandsIds?.includes(brand._id) ? (
+                        <option key={brand._id} value={brand._id}>
+                          {brand.title}
+                        </option>
+                      ) : null
+                    )}
                 </Form.Select>
               </Form.Group>
             </div>

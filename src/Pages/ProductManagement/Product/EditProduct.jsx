@@ -78,12 +78,11 @@ const EditProduct = () => {
   }, [formData]);
 
   useEffect(() => {
-   
-      getCategoryList();
-      getSubCategoryList();
-      getAllBrandLists();
-      getProductDetails();
-    
+    getCategoryList();
+    getSubCategoryList();
+    getAllBrandLists();
+    getProductDetails();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
@@ -382,11 +381,14 @@ const EditProduct = () => {
                         onChange={handleChange}
                         required
                       >
-                        <option value="" disabled selected>
+                        <option value="" disabled>
                           Select Sub Category
                         </option>
-                        {allSubcategorylist?.length > 0 &&
-                          allSubcategorylist?.map((ele) => (
+                        {allSubcategorylist
+                          ?.filter(
+                            (sub) => sub?.category?._id === formData?.categoryId
+                          )
+                          ?.map((ele) => (
                             <option key={ele?._id} value={ele?._id}>
                               {ele?.title}
                             </option>
