@@ -25,6 +25,7 @@ import {
 import { productRows } from "../../dummyData";
 import "./Seller.css";
 import { distanceCategories } from "../../common/DistanceDelivery";
+import { GrCatalog } from "react-icons/gr";
 
 export default function SellerListManage() {
   const [data, setData] = useState(productRows);
@@ -432,6 +433,7 @@ export default function SellerListManage() {
                       <th>Seller Phone No.</th>
                       <th>Registration</th>
                       <th>Delivery Distance</th>
+                      <th>Permission Catalog</th>
                       <th>Status</th>
                       <th>View</th>
                       <th>Action</th>
@@ -518,6 +520,11 @@ export default function SellerListManage() {
                               
                             </p>
                             
+                          </td>
+                          <td>
+                            <Button value={row?._id} size="sm" variant="dark" onClick={() => navigate(`/Admin/catalogue-permissions?sellerId=${row?._id}`)}>
+                              <GrCatalog />
+                            </Button>
                           </td>
 
                           <td>

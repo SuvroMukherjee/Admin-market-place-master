@@ -15,6 +15,7 @@ import { MdOutlineMiscellaneousServices } from "react-icons/md";
 import { HiCurrencyRupee } from "react-icons/hi2";
 import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
 import { VscRequestChanges } from "react-icons/vsc";
+import { GrCatalog } from "react-icons/gr";
 
 export const AdminSidebarData = [
   {
@@ -39,6 +40,12 @@ export const AdminSidebarData = [
     title: "Sellers",
     path: "/SellerManagment",
     icon: BsShop,
+    cName: "nav-text",
+  },
+  {
+    title: "Permission Catalog",
+    path: "/Admin/catalogue-permissions",
+    icon: GrCatalog,
     cName: "nav-text",
   },
   {
