@@ -1,560 +1,544 @@
-import React, { useEffect, useState } from 'react';
-import { Col, Container, Form, Image, Row, Table } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import { allIndiaCities, allcatList, sellerDetails } from '../../API/api';
+import React, { useEffect, useState } from "react";
+import { Col, Container, Form, Image, Row } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import {
+  allIndiaCities,
+  getPermittedCatalogue,
+  sellerDetails,
+} from "../../API/api";
 // import '../../Layouts/sellerlayout.css';
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "react-bootstrap/Spinner";
 import { BsBank, BsShop } from "react-icons/bs";
-import { FaFileAlt, FaFileInvoice, FaFilePdf, FaHouseUser } from "react-icons/fa";
+import {
+  FaFileAlt,
+  FaFileInvoice,
+  FaFilePdf,
+  FaHouseUser,
+} from "react-icons/fa";
 import { ImProfile } from "react-icons/im";
+import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { TbCategoryPlus } from "react-icons/tb";
 import { TiDocumentText } from "react-icons/ti";
-import { ChangeFormatDate2 } from '../../common/DateFormat';
-
+import { ChangeFormatDate2 } from "../../common/DateFormat";
 
 const SellerDetails = () => {
+  const [sellerdata, setSellerData] = useState();
+  const [loading, setLoading] = useState(true);
 
-    const [sellerdata, setSellerData] = useState();
-    const [loading, setLoading] = useState(true)
+  const { id: sellerId } = useParams();
 
-    const { id: sellerId } = useParams();
+  useEffect(() => {
+    getSellerData();
+  }, []);
 
-    useEffect(() => {
-        getSellerData();
-    }, [])
+  const getSellerData = async () => {
+    let res = await sellerDetails(sellerId);
+    setSellerData(res?.data?.data);
+    // console.log(res?.data?.data);
 
-    const getSellerData = async () => {
-        let res = await sellerDetails(sellerId)
-        setSellerData(res?.data?.data)
-        // console.log(res?.data?.data);
-        
-        setTimeout(() => {
-            setLoading(false)
-        }, 3000);
-    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  };
 
-    return (
-        <>
-            {loading &&
-                <div className="productList p-4 contentLoader">
-                    <Row>
-                        <Col>
-                            <Spinner animation="border" size="lg" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </Spinner>
-                        </Col>
-                    </Row>
-                </div>}
-            <div className="productList mt-2 p-4 mt-4">
-                <Container>
-                    <Row>
-                        <Col><span className='mx-1'><FaHouseUser size={25}/></span> <span className='mx-2' style={{ fontWeight: 'bold', color:'#0C2D57'}}>{sellerdata?.user_name} ({sellerdata?.Shop_Details_Info?.shope_name})</span></Col>
-                        <p style={{fontSize:'12px'}} className='mt-2'>Register on {ChangeFormatDate2(sellerdata?.updatedAt)}</p>
-                    </Row>
-                </Container>
-                <Container className='mb-4 mt-4'>
-                    <div className='mt-4'>
-                        <Container>
-                            <Row>
-                                <Col className='hd'> <span className='mx-2'><ImProfile size={25} /></span> Personal Information</Col>
-                            </Row>
-                            <Row>
-                                <Form>
-                                    <Row className='mt-2'>
-                                        <Col xs={6}>
-                                            <Form.Group controlId="user_name">
-                                                <Form.Label className='frmLable'>User Name </Form.Label>
-                                                <p className='sellv'>{sellerdata?.user_name}</p>
-                                            </Form.Group>
-                                        </Col>
-                                        <Col xs={6}>
-                                            <Form.Group controlId="email">
-                                                <Form.Label className='frmLable'>Email  </Form.Label>
-                                                <p className='sellv'>{sellerdata?.email}</p>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
+  return (
+    <>
+      {loading && (
+        <div className="productList p-4 contentLoader">
+          <Row>
+            <Col>
+              <Spinner animation="border" size="lg" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </Col>
+          </Row>
+        </div>
+      )}
+      <div className="productList mt-2 p-4 mt-4">
+        <Container>
+          <Row>
+            <Col>
+              <span className="mx-1">
+                <FaHouseUser size={25} />
+              </span>{" "}
+              <span
+                className="mx-2"
+                style={{ fontWeight: "bold", color: "#0C2D57" }}
+              >
+                {sellerdata?.user_name} (
+                {sellerdata?.Shop_Details_Info?.shope_name})
+              </span>
+            </Col>
+            <p style={{ fontSize: "12px" }} className="mt-2">
+              Register on {ChangeFormatDate2(sellerdata?.updatedAt)}
+            </p>
+          </Row>
+        </Container>
+        <Container className="mb-4 mt-4">
+          <div className="mt-4">
+            <Container>
+              <Row>
+                <Col className="hd">
+                  {" "}
+                  <span className="mx-2">
+                    <ImProfile size={25} />
+                  </span>{" "}
+                  Personal Information
+                </Col>
+              </Row>
+              <Row>
+                <Form>
+                  <Row className="mt-2">
+                    <Col xs={6}>
+                      <Form.Group controlId="user_name">
+                        <Form.Label className="frmLable">User Name </Form.Label>
+                        <p className="sellv">{sellerdata?.user_name}</p>
+                      </Form.Group>
+                    </Col>
+                    <Col xs={6}>
+                      <Form.Group controlId="email">
+                        <Form.Label className="frmLable">Email </Form.Label>
+                        <p className="sellv">{sellerdata?.email}</p>
+                      </Form.Group>
+                    </Col>
+                  </Row>
 
-                                    <Row className='mt-2'>
-                                        <Col xs={6}>
-                                            <Form.Group controlId="phone_no">
-                                                <Form.Label className='frmLable'>Phone Number  </Form.Label>
-                                                <p className='sellv'>{sellerdata?.phone_no}</p>
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                </Form>
-                            </Row>
-                        </Container>
+                  <Row className="mt-2">
+                    <Col xs={6}>
+                      <Form.Group controlId="phone_no">
+                        <Form.Label className="frmLable">
+                          Phone Number{" "}
+                        </Form.Label>
+                        <p className="sellv">{sellerdata?.phone_no}</p>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                </Form>
+              </Row>
+            </Container>
+          </div>
 
-                    </div>
+          <div className="mt-4">
+            <ShopInfo userInfo={sellerdata?.Shop_Details_Info} />
+          </div>
 
-                    <div className='mt-4'>
-                        <ShopInfo userInfo={sellerdata?.Shop_Details_Info} />
-                    </div>
+          <div className="mt-4">
+            <Documentation userInfo={sellerdata?.doc_details} />
+          </div>
 
-                    <div className='mt-4'>
-                        <Documentation userInfo={sellerdata?.doc_details} />
-                    </div>
+          <div className="mt-4">
+            <Bankdata userInfo={sellerdata?.bank_details} />
+          </div>
 
-                    <div className='mt-4'>
-                        <Bankdata userInfo={sellerdata?.bank_details} />
-                    </div>
-
-                    <div className='mt-4'>
-                        <CategoryAndCommission userInfo={sellerdata?.interest_details} />
-                    </div>
-
-                </Container>
-            </div>
-        </>
-    )
-}
-
+          <div className="mt-4">
+            <CategoryAndCommission
+              userInfo={sellerdata?.interest_details}
+              userId={sellerId}
+            />
+          </div>
+        </Container>
+      </div>
+    </>
+  );
+};
 
 const ShopInfo = ({ userInfo }) => {
+  const [shopInfo, setShopInfo] = useState({
+    shope_name: "",
+    shop_address1: "",
+    shop_address2: "",
+    picup_location: "",
+    pin_code: "",
+    disict: "",
+    state: "",
+    pic_of_shope: [],
+    old_shope_desc: "",
+    total_no_of_unit: "",
+  });
+  const [allstates, setAllStates] = useState([]);
 
-    const [shopInfo, setShopInfo] = useState({
-        shope_name: '',
-        shop_address1: '',
-        shop_address2: '',
-        picup_location: '',
-        pin_code: '',
-        disict: '',
-        state: '',
-        pic_of_shope: [],
-        old_shope_desc: '',
-        total_no_of_unit: ''
+  useEffect(() => {
+    setShopInfo(userInfo);
+  }, [userInfo]);
 
-    });
-    const [allstates, setAllStates] = useState([])
+  useEffect(() => {
+    getallStates();
+  }, []);
 
+  const getallStates = async () => {
+    let res = await allIndiaCities();
+    setAllStates(res?.data?.data?.states);
+  };
 
-    useEffect(() => {
-        setShopInfo(userInfo)
-    }, [userInfo])
+  return (
+    <Container>
+      <Row>
+        <Col className="hd">
+          <span className="mx-2">
+            <BsShop size={25} />
+          </span>{" "}
+          Update Shop Deatils
+        </Col>
+      </Row>
+      <Row>
+        <Form>
+          <Row className="mt-2">
+            <Col xs={4}>
+              <Form.Group controlId="shopName">
+                <Form.Label className="frmLable">Shop Name </Form.Label>
+                <p className="sellv">{shopInfo?.shope_name}</p>
+              </Form.Group>
+            </Col>
 
-    useEffect(() => {
-        getallStates();
-    }, [])
+            <Col xs={4}>
+              <Form.Group controlId="shopAddress1">
+                <Form.Label className="frmLable">Shop Address 1</Form.Label>
+                <p className="sellv">{shopInfo?.shop_address1}</p>
+              </Form.Group>
+            </Col>
 
-    const getallStates = async () => {
-        let res = await allIndiaCities();
-        setAllStates(res?.data?.data?.states)
-    }
+            <Col xs={4}>
+              <Form.Group controlId="shopAddress2">
+                <Form.Label className="frmLable">Shop Address 2</Form.Label>
+                <p className="sellv">{shopInfo?.shop_address2}</p>
+              </Form.Group>
+            </Col>
+          </Row>
 
+          <Row className="mt-2">
+            <Col xs={3}>
+              <Form.Group controlId="pickupLocation">
+                <Form.Label className="frmLable">Pickup Location</Form.Label>
+                <p className="sellv">{shopInfo?.picup_location}</p>
+              </Form.Group>
+            </Col>
 
-    return (
-        <Container>
-            <Row>
-                <Col className='hd'>
-                    <span className='mx-2'><BsShop size={25} /></span> Update Shop Deatils
-                </Col>
-            </Row>
-            <Row>
-                <Form>
-                    <Row className='mt-2'>
-                        <Col xs={4}>
-                            <Form.Group controlId="shopName">
-                                <Form.Label className='frmLable'>Shop Name </Form.Label>
-                                <p className='sellv'>{shopInfo?.shope_name}</p>
-                            </Form.Group>
+            <Col xs={3}>
+              <Form.Group controlId="pincode">
+                <Form.Label className="frmLable">Pincode</Form.Label>
+                <p className="sellv">{shopInfo?.pin_code}</p>
+              </Form.Group>
+            </Col>
+
+            <Col xs={3}>
+              <Form.Group controlId="district">
+                <Form.Label className="frmLable">District</Form.Label>
+                <p className="sellv">{shopInfo?.disict}</p>
+              </Form.Group>
+            </Col>
+
+            <Col xs={3}>
+              <Form.Group controlId="state">
+                <Form.Label className="frmLable">State</Form.Label>
+                <p className="sellv">{shopInfo?.state}</p>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row className="mt-2">
+            <Col xs={12}>
+              <Form.Group controlId="shopImages">
+                <Form.Label className="frmLable">Shop Images</Form.Label>
+                {shopInfo?.pic_of_shope?.length > 0 && (
+                  <Container>
+                    <Row>
+                      {shopInfo?.pic_of_shope.map((fileUrl, index) => (
+                        <Col key={index} xs={4} md={2}>
+                          <Image src={fileUrl} thumbnail fluid />
                         </Col>
-
-                        <Col xs={4}>
-                            <Form.Group controlId="shopAddress1">
-                                <Form.Label className='frmLable'>Shop Address 1</Form.Label>
-                                <p className='sellv'>{shopInfo?.shop_address1}</p>
-                            </Form.Group>
-                        </Col>
-
-                        <Col xs={4}>
-                            <Form.Group controlId="shopAddress2">
-                                <Form.Label className='frmLable'>Shop Address 2</Form.Label>
-                                <p className='sellv'>{shopInfo?.shop_address2}</p>
-                            </Form.Group>
-                        </Col>
-
+                      ))}
                     </Row>
+                  </Container>
+                )}
+              </Form.Group>
+            </Col>
+          </Row>
 
-                    <Row className='mt-2'>
-                        <Col xs={3}>
-                            <Form.Group controlId="pickupLocation">
-                                <Form.Label className='frmLable'>Pickup Location</Form.Label>
-                                <p className='sellv'>{shopInfo?.picup_location}</p>
-                            </Form.Group>
-                        </Col>
+          <Row className="mt-2">
+            <Col xs={4}>
+              <Form.Group controlId="old_shope_desc">
+                <Form.Label className="frmLable">
+                  Total Year of Busniess Experience
+                </Form.Label>
+                <p className="sellv"> {shopInfo?.old_shope_desc}</p>
+              </Form.Group>
+            </Col>
 
-                        <Col xs={3}>
-                            <Form.Group controlId="pincode">
-                                <Form.Label className='frmLable'>Pincode</Form.Label>
-                                <p className='sellv'>{shopInfo?.pin_code}</p>
-                            </Form.Group>
-                        </Col>
-
-                        <Col xs={3}>
-                            <Form.Group controlId="district">
-                                <Form.Label className='frmLable'>District</Form.Label>
-                                <p className='sellv'>{shopInfo?.disict}</p>
-                            </Form.Group>
-                        </Col>
-
-                        <Col xs={3}>
-                            <Form.Group controlId="state">
-                                <Form.Label className='frmLable'>State</Form.Label>
-                                <p className='sellv'>{shopInfo?.state}</p>
-                            </Form.Group>
-                        </Col>
-
-                    </Row>
-
-                    <Row className='mt-2'>
-                        <Col xs={12}>
-                            <Form.Group controlId="shopImages">
-                                <Form.Label className='frmLable'>Shop Images</Form.Label>
-                                {shopInfo?.pic_of_shope?.length > 0 && (
-                                    <Container>
-                                        <Row>
-                                            {shopInfo?.pic_of_shope.map((fileUrl, index) => (
-                                                <Col key={index} xs={4} md={2}>
-                                                    <Image src={fileUrl} thumbnail fluid />
-                                                </Col>
-                                            ))}
-                                        </Row>
-                                    </Container>
-                                )}
-                            </Form.Group>
-                        </Col>
-                    </Row>
-
-                    <Row className='mt-2'>
-                        <Col xs={4}>
-                            <Form.Group controlId="old_shope_desc">
-                                <Form.Label className='frmLable'>Total Year of Busniess Experience</Form.Label>
-                                <p className='sellv'> {shopInfo?.old_shope_desc}</p>
-                            </Form.Group>
-                        </Col>
-
-                        <Col xs={4}>
-                            <Form.Group controlId="total_no_of_unit">
-                                <Form.Label className='frmLable'> Total of Units Sold Each Year</Form.Label>
-                                <p className='sellv'>{shopInfo?.total_no_of_unit}</p>
-                            </Form.Group>
-                        </Col>
-
-                    </Row>
-                </Form>
-            </Row>
-        </Container>
-    )
-}
-
+            <Col xs={4}>
+              <Form.Group controlId="total_no_of_unit">
+                <Form.Label className="frmLable">
+                  {" "}
+                  Total of Units Sold Each Year
+                </Form.Label>
+                <p className="sellv">{shopInfo?.total_no_of_unit}</p>
+              </Form.Group>
+            </Col>
+          </Row>
+        </Form>
+      </Row>
+    </Container>
+  );
+};
 
 const Documentation = ({ userInfo }) => {
+  const [documentation, setDocumentation] = useState({
+    gst_no: "",
+    pan_no: "",
+    adhar_card: "",
+    gst_file: null,
+    cancelled_cheque: null,
+    msme_certificate: null,
+  });
 
+  useEffect(() => {
+    setDocumentation(userInfo);
+  }, [userInfo]);
 
-    const [documentation, setDocumentation] = useState({
-        gst_no: '',
-        pan_no: '',
-        adhar_card: '',
-        gst_file: null,
-        cancelled_cheque: null,
-        msme_certificate: null
-    });
+  return (
+    <Container>
+      <Row>
+        <Col className="hd">
+          {" "}
+          <span className="mx-2">
+            <TiDocumentText size={25} />
+          </span>{" "}
+          Update Document
+        </Col>
+      </Row>
+      <Row>
+        <Form>
+          <Row className="mt-2">
+            <Col xs={4}>
+              <Form.Group controlId="gst_no">
+                <Form.Label className="frmLable">GST Number</Form.Label>
+                <p className="sellv">{documentation?.gst_no} </p>
+              </Form.Group>
+            </Col>
+            <Col xs={4}>
+              <Form.Group controlId="pan_no">
+                <Form.Label className="frmLable">PAN Card</Form.Label>
+                <p className="sellv">{documentation?.pan_no}</p>
+              </Form.Group>
+            </Col>
+            <Col xs={4}>
+              <Form.Group controlId="adhar_card">
+                <Form.Label className="frmLable">Aadhar Card</Form.Label>
+                <p className="sellv">{documentation?.adhar_card}</p>
+              </Form.Group>
+            </Col>
+          </Row>
 
-    useEffect(() => {
-        setDocumentation(userInfo)
-    }, [userInfo])
-
-
-
-
-
-    return (
-        <Container>
-            <Row>
-                <Col className='hd'> <span className='mx-2'><TiDocumentText size={25} /></span> Update Document</Col>
-            </Row>
-            <Row>
-                <Form>
-                    <Row className='mt-2'>
-                        <Col xs={4}>
-                            <Form.Group controlId="gst_no">
-                                <Form.Label className='frmLable'>GST Number</Form.Label>
-                                <p className='sellv'>{documentation?.gst_no} </p>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={4}>
-                            <Form.Group controlId="pan_no">
-                                <Form.Label className='frmLable'>PAN Card</Form.Label>
-                                <p className='sellv'>{documentation?.pan_no}</p>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={4}>
-                            <Form.Group controlId="adhar_card">
-                                <Form.Label className='frmLable'>Aadhar Card</Form.Label>
-                                <p className='sellv'>{documentation?.adhar_card}</p>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-
-                    <Row className='mt-2'>
-                        <Col xs={4}>
-                            <Form.Group controlId="gst_file">
-                                <Form.Label className='frmLable'>
-                                    GST File
-                                </Form.Label>
-                                <p>
-                                    {documentation?.gst_file &&
-                                        <a href={documentation?.gst_file} target="_blank" rel="noreferrer">
-                                            <span><FaFileAlt size={25} /></span>
-                                        </a>
-                                    }</p>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={4}>
-                            <Form.Group controlId="cancelled_cheque">
-                                <Form.Label className='frmLable'>Cancelled Cheque
-                                </Form.Label>
-                                <p>
-                                    {documentation?.cancelled_cheque &&
-                                        <a
-                                            href={documentation?.cancelled_cheque}
-                                            target="_blank" rel="noreferrer"
-                                        >
-
-                                            <span><FaFileInvoice size={25} /></span>
-                                        </a>
-                                    }
-                                </p>
-                            </Form.Group>
-                        </Col>
-                        <Col xs={4}>
-                            <Form.Group controlId="msme_certificate">
-                                <Form.Label className='frmLable'>MSME Certificate
-                                </Form.Label>
-                                <p>
-                                    {documentation?.msme_certificate &&
-                                        <a
-                                            href={documentation?.msme_certificate}
-                                            target="_blank" rel="noreferrer"
-                                        >
-
-                                            <span><FaFilePdf size={25} /></span>
-                                        </a>
-                                    }
-                                </p>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                </Form>
-            </Row>
-        </Container>
-    )
-}
+          <Row className="mt-2">
+            <Col xs={4}>
+              <Form.Group controlId="gst_file">
+                <Form.Label className="frmLable">GST File</Form.Label>
+                <p>
+                  {documentation?.gst_file && (
+                    <a
+                      href={documentation?.gst_file}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span>
+                        <FaFileAlt size={25} />
+                      </span>
+                    </a>
+                  )}
+                </p>
+              </Form.Group>
+            </Col>
+            <Col xs={4}>
+              <Form.Group controlId="cancelled_cheque">
+                <Form.Label className="frmLable">Cancelled Cheque</Form.Label>
+                <p>
+                  {documentation?.cancelled_cheque && (
+                    <a
+                      href={documentation?.cancelled_cheque}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span>
+                        <FaFileInvoice size={25} />
+                      </span>
+                    </a>
+                  )}
+                </p>
+              </Form.Group>
+            </Col>
+            <Col xs={4}>
+              <Form.Group controlId="msme_certificate">
+                <Form.Label className="frmLable">MSME Certificate</Form.Label>
+                <p>
+                  {documentation?.msme_certificate && (
+                    <a
+                      href={documentation?.msme_certificate}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span>
+                        <FaFilePdf size={25} />
+                      </span>
+                    </a>
+                  )}
+                </p>
+              </Form.Group>
+            </Col>
+          </Row>
+        </Form>
+      </Row>
+    </Container>
+  );
+};
 
 const Bankdata = ({ userInfo }) => {
-    const [bankingDetails, setBankingDetails] = useState({
-        bank_name: '',
-        beneficiary_name: '',
-        account_number: '',
-        ifsc_code: '',
-        bank_branch: '',
-        micr_code: ''
-    });
+  const [bankingDetails, setBankingDetails] = useState({
+    bank_name: "",
+    beneficiary_name: "",
+    account_number: "",
+    ifsc_code: "",
+    bank_branch: "",
+    micr_code: "",
+  });
 
-    useEffect(() => {
-        setBankingDetails(userInfo)
-    }, [userInfo])
+  useEffect(() => {
+    setBankingDetails(userInfo);
+  }, [userInfo]);
 
-   
-    return (
-        <Container>
-            <Row>
-                <Col className='hd'> <span className='mx-2'><BsBank size={25} /></span> Bank Details</Col>
-            </Row>
-            <Row>
-                <Form >
-                    <Row className='mt-2'>
-                        <Col xs={6}>
-                            <Form.Group controlId="bankName">
-                                <Form.Label className='frmLable'>Bank Name</Form.Label>
-                                <p className='sellv'>{bankingDetails?.bank_name}</p>
-                            </Form.Group>
-                        </Col>
+  return (
+    <Container>
+      <Row>
+        <Col className="hd">
+          {" "}
+          <span className="mx-2">
+            <BsBank size={25} />
+          </span>{" "}
+          Bank Details
+        </Col>
+      </Row>
+      <Row>
+        <Form>
+          <Row className="mt-2">
+            <Col xs={6}>
+              <Form.Group controlId="bankName">
+                <Form.Label className="frmLable">Bank Name</Form.Label>
+                <p className="sellv">{bankingDetails?.bank_name}</p>
+              </Form.Group>
+            </Col>
 
-                        <Col xs={6}>
-                            <Form.Group controlId="beneficiaryName">
-                                <Form.Label className='frmLable'>Beneficiary Name</Form.Label>
-                                <p className='sellv'>{bankingDetails?.beneficiary_name}</p>
-                            </Form.Group>
-                        </Col>
+            <Col xs={6}>
+              <Form.Group controlId="beneficiaryName">
+                <Form.Label className="frmLable">Beneficiary Name</Form.Label>
+                <p className="sellv">{bankingDetails?.beneficiary_name}</p>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mt-2">
+            <Col xs={6}>
+              <Form.Group controlId="accountNumber">
+                <Form.Label className="frmLable">Account Number</Form.Label>
+                <p className="sellv">{bankingDetails?.account_number} </p>
+              </Form.Group>
+            </Col>
 
-                    </Row>
-                    <Row className='mt-2'>
-                        <Col xs={6}>
-                            <Form.Group controlId="accountNumber">
-                                <Form.Label className='frmLable'>Account Number</Form.Label>
-                                <p className='sellv'>{bankingDetails?.account_number} </p>
-                            </Form.Group>
-                        </Col>
+            <Col xs={6}>
+              <Form.Group controlId="ifscCode">
+                <Form.Label className="frmLable">IFSC Code</Form.Label>
+                <p className="sellv">{bankingDetails?.ifsc_code}</p>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mt-2">
+            <Col xs={6}>
+              <Form.Group controlId="bankBranch">
+                <Form.Label className="frmLable">Bank Branch</Form.Label>
+                <p className="sellv">{bankingDetails?.bank_branch}</p>
+              </Form.Group>
+            </Col>
 
-                        <Col xs={6}>
-                            <Form.Group controlId="ifscCode">
-                                <Form.Label className='frmLable'>IFSC Code</Form.Label>
-                                <p className='sellv'>{bankingDetails?.ifsc_code}</p>
-                            </Form.Group>
-                        </Col>
+            <Col xs={6}>
+              <Form.Group controlId="micrCode">
+                <Form.Label className="frmLable">MICR Code</Form.Label>
+                <p className="sellv">{bankingDetails?.micr_code}</p>
+              </Form.Group>
+            </Col>
+          </Row>
+        </Form>
+      </Row>
+    </Container>
+  );
+};
 
-                    </Row>
-                    <Row className='mt-2'>
-                        <Col xs={6}>
-                            <Form.Group controlId="bankBranch">
-                                <Form.Label className='frmLable'>Bank Branch</Form.Label>
-                                <p className='sellv'>{bankingDetails?.bank_branch}</p>
-                            </Form.Group>
-                        </Col>
+const CategoryAndCommission = ({ userInfo, userId }) => {
+  console.log({ userInfo });
 
-                        <Col xs={6}>
-                            <Form.Group controlId="micrCode">
-                                <Form.Label className='frmLable'>MICR Code</Form.Label>
-                                <p className='sellv'>{bankingDetails?.micr_code}</p>
-                            </Form.Group>
-                        </Col>
+  useEffect(() => {
+    getPermittedCatalogueList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-                    </Row>
-                </Form>
-            </Row>
-        </Container>
-    )
-}
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
 
-const CategoryAndCommission = ({ userInfo }) => {
+  async function getPermittedCatalogueList() {
+    try {
+      const res = await getPermittedCatalogue(userId);
+      console.log(res?.data?.data, "ddddd");
 
-    const [formData, setFormData] = useState({
-        commission_data: [{ categoryId: '', commission_rate: '' }]
-    });
-    const [categorylist, setcategorylist] = useState([]);
- 
-    console.log({ userInfo })
-
-    useEffect(() => {
-        getAllCats()
-    }, [])
-
-
-    useEffect(() => {
-        setFormData(userInfo)
-        setSelectedCategories(userInfo?.categoryId)
-    }, [userInfo])
-
-
-    async function getAllCats() {
-        await allcatList().then((res) => {
-            setcategorylist(res?.data?.data)
-        }).catch((err) => {
-            console.log(err)
-        })
+      setSelectedCategories(res?.data?.data?.categories);
+      setSelectedBrands(res?.data?.data?.brand);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
     }
+  }
 
-    const [selectedCategories, setSelectedCategories] = useState([]);
-
-    const findcatName = (id) =>{
-        console.log(id)
-        let cat = categorylist?.find((ele)=>{
-            return ele?._id == id
-        })
-      
-        console.log({cat})
-        return cat?.title
-    }
-
-    return (
-        <Container>
-            <Row>
-                <Col>
-                    <Row>
-                        <Col className='hd'> <span className='mx-2'><TbCategoryPlus size={25} /></span>Interest  Category & Commission</Col>
-                    </Row>
-                    <Row className='mt-2'>
-                        <Row>
-                            {categorylist.map((option) => (
-                                selectedCategories?.includes(option?._id) && (
-                                    <Col key={option?._id} xs={4} className='mt-2'>
-                                        <input
-                                            type="checkbox"
-                                            id={option?._id}
-                                            name={option?.title}
-                                            checked={selectedCategories?.includes(option?._id)}
-                                            onChange={() => handleCheckboxChange(option?._id)} // Assuming you have a function to handle checkbox change
-                                        />
-                                        <label className='mx-2 frmLable' htmlFor={option?._id}>{option?.title}</label>
-                                    </Col>
-                                )
-                            ))}
-                        </Row>
-                    </Row>
-                </Col>
+  return (
+    <Container className="mt-4 mb-4">
+      <Row>
+        <Col>
+          <Row className="hd">
+            <Col>
+              <span className="mx-2">
+                <TbCategoryPlus size={25} />
+              </span>
+              Mapped Categories & Brands
+            </Col>
+          </Row>
+          <div className="p-3 mb-3">
+            <Row className="mt-4">
+              <p style={{ fontWeight: "bold" }}>
+                Mapped Categories - {selectedCategories?.length || 0}
+              </p>
+              <Row>
+                {selectedCategories?.map((option, index) => (
+                  <Col key={option?._id} xs={2} className="mt-2">
+                    <label className="mx-2 frmLable" htmlFor={option?._id}>
+                      {index + 1}. {option?.title}
+                    </label>
+                  </Col>
+                ))}
+              </Row>
             </Row>
-            <Row className='mt-4'>
-                <Col>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th className="text-center">Category Title</th>
-                                <th className="text-center">Commission Rate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {formData?.commission_data?.length > 0 && formData?.commission_data?.map((item, index) => (
-                                <tr key={index}>
-                                    <td className="text-center">{findcatName(item?.categoryId)}</td>
-                                    <td className="text-center">{item?.commission_rate}%</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-            {/* <Row className='mt-2'>
-                <Row className='mt-2'>
-                    <Col xs={8} >
-                        <Form.Group controlId="commissionRate">
-                            {formData?.commission_data.map((item, index) => (
-                                <Row key={index} className="mb-2">
-                                    <Col xs={4}>
-                                        <Form.Label className='frmLable'>category</Form.Label>
-                                        <Form.Select
-                                            name="categoryId"
-                                            value={item?.categoryId}
-                                            size='sm'
-                                            required
-                                        >
-                                            <option value="" disabled>Select category</option>
-                                            {categorylist?.length > 0 && categorylist.map((ele) => (
-                                                <option value={ele?._id}>{ele?.title}</option>
-                                            ))}
-                                        </Form.Select>
-                                    </Col>
-                                    <Col xs={4}>
-                                        <Form.Label className='frmLable'>commission(%)</Form.Label>
-                                        <Form.Control
-                                            type="number"
-                                            name="commission_rate"
-                                            value={item?.commission_rate}
-                                            placeholder="Commisson rate"
-                                            size='sm'
-                                            required
-                                        />
-                                    </Col>
-                                </Row>
-                            ))}
-                        </Form.Group>
-                    </Col>
-                </Row>
-            </Row> */}
-        </Container>
-    )
-}
 
-export default SellerDetails
+            {/* Brands Section */}
+            <Row className="mt-4">
+              <p style={{ fontWeight: "bold" }}>
+                Mapped Brands - {selectedBrands?.length || 0}
+              </p>
+              <Row>
+                {selectedBrands?.map((option, index) => (
+                  <Col key={option?._id} xs={2} className="mt-2">
+                    <label className="mx-2 frmLable" htmlFor={option?._id}>
+                      {index + 1}. {option?.title}
+                    </label>
+                  </Col>
+                ))}
+              </Row>
+            </Row>
+          </div>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default SellerDetails;

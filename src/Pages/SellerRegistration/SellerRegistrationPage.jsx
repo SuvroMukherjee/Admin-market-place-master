@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 import { Step, Stepper } from "react-form-stepper";
-import newlogo from "../../assets/zoofilogo.png";
+import { useNavigate } from "react-router-dom";
 import blackzofi from "../../assets/blackzofi.png";
 import "./registration.css";
 import Step1 from "./Step1";
@@ -10,7 +10,6 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
-import { useNavigate } from "react-router-dom";
 
 function SellerRegistrationPage() {
   const [step, setStep] = useState(0);
