@@ -711,9 +711,10 @@ const AddingProductTable = () => {
               <Form.Check
                 type="checkbox"
                 id="exampleCheckbox"
-                label={`Hide Already Selling Products from Page : ${currentPage}`}
+                label={`Hide Already Selling Products`}
                 checked={isChecked}
                 onChange={handleCheckboxChange}
+                className="fw-bold"
               />
             </Form>
             {/* // <p>Checkbox is {isChecked ? "Checked" : "Unchecked"}</p> */}
@@ -748,7 +749,7 @@ const AddingProductTable = () => {
           />
         </div> */}
 
-        {totalPages > 1 && (
+        {totalPages > 1 && (filters?.categoryId != "" && filters?.brandId != "") && (
           <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
             <nav aria-label="Pagination">
               <ul className="pagination">
@@ -824,7 +825,7 @@ const AddingProductTable = () => {
               <th>Actions</th>
             </tr>
           </thead>
-          {(filters?.categoryId != "" || filters?.subcategoryId != "") && (
+          {(filters?.categoryId != "" && filters?.brandId != "") && (
             <tbody>
               {loading ? (
                 <tr>
@@ -934,15 +935,14 @@ const AddingProductTable = () => {
             </tbody>
           )}
           <tbody>
-            {filters?.categoryId == "" && filters?.subcategoryId == "" && (
+            {(filters?.categoryId == "" || filters?.brandId == "") && (
               <tr>
                 <td colSpan="10">
                   <p
                     className="fw-bold mx-4"
                     style={{ color: "black", padding: "10px" }}
                   >
-                    Please select a category and subcategory or a brand to
-                    continue.
+                    Please select a Category, Subcategory or Brand to continue.
                   </p>
                 </td>
               </tr>
