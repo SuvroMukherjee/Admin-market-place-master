@@ -393,7 +393,6 @@ export default function SellerListManage() {
 
       setSelectedCategories(categoryIds);
       setSelectedBrands(brandIds);
-      toast.success("Categories and brand map fetched successfully!");
     } catch (error) {
       console.error("Error fetching categories and brand map:", error);
       setPermissionManageModalDataError(
