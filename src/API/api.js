@@ -1846,9 +1846,13 @@ export async function updateReturnStatus(formData, ordId, Proid) {
 
 export async function getRefundRequestCreate(formData) {
   try {
-    const response = await axios.post(apiUrl + `/refund-request/create`,formData, {
-      headers: setAuthHeader(),
-    });
+    const response = await axios.post(
+      apiUrl + `/refund-request/create`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
     return response;
   } catch (error) {
     return error;
@@ -2105,8 +2109,6 @@ export async function VerifyEditOtp(payload) {
   }
 }
 
-
-
 export async function getOffers(brandId, categoryId) {
   try {
     const response = await axios.get(
@@ -2120,7 +2122,9 @@ export async function getOffers(brandId, categoryId) {
 
 export async function getAllBrandsBycat(categoryId) {
   try {
-    const response = await axios.get(apiUrl + `/brand/master-brand-with-product-count?categoryId=${categoryId}`);
+    const response = await axios.get(
+      apiUrl + `/brand/master-brand-with-product-count?categoryId=${categoryId}`
+    );
     return response;
   } catch (error) {
     return error;
@@ -2129,7 +2133,9 @@ export async function getAllBrandsBycat(categoryId) {
 
 export async function getAllCategoryBybrand(brandId) {
   try {
-    const response = await axios.get(apiUrl + `/category/master-category-with-product-count?brandId=${brandId}`);
+    const response = await axios.get(
+      apiUrl + `/category/master-category-with-product-count?brandId=${brandId}`
+    );
     return response;
   } catch (error) {
     return error;
@@ -2138,7 +2144,9 @@ export async function getAllCategoryBybrand(brandId) {
 
 export async function SellersgetAllBrandsBycat(categoryId) {
   try {
-    const response = await axios.get(apiUrl + `/brand/brand-with-product-count?categoryId=${categoryId}`);
+    const response = await axios.get(
+      apiUrl + `/brand/brand-with-product-count?categoryId=${categoryId}`
+    );
     return response;
   } catch (error) {
     return error;
@@ -2147,19 +2155,25 @@ export async function SellersgetAllBrandsBycat(categoryId) {
 
 export async function SellergetAllCategoryBybrand(brandId) {
   try {
-    const response = await axios.get(apiUrl + `/category/category-with-product-count?brandId=${brandId}`);
+    const response = await axios.get(
+      apiUrl + `/category/category-with-product-count?brandId=${brandId}`
+    );
     return response;
   } catch (error) {
     return error;
   }
 }
 
-
 export async function createNewSellerPermission(formData) {
   try {
-    const response = await axios.post(apiUrl + `/seller-permission-request/create-map-seller-category-brand-request`, formData, {
-      headers: setAuthHeader(),
-    });
+    const response = await axios.post(
+      apiUrl +
+        `/seller-permission-request/create-map-seller-category-brand-request`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
     return response;
   } catch (error) {
     return error;
@@ -2168,9 +2182,12 @@ export async function createNewSellerPermission(formData) {
 
 export async function getPermittedCatalogue(sellerId) {
   try {
-    const response = await axios.get(apiUrl + `/seller-permission/get-seller-category-brand-map/${sellerId}`, {
-      headers: setAuthHeader(),
-    });
+    const response = await axios.get(
+      apiUrl + `/seller-permission/get-seller-category-brand-map/${sellerId}`,
+      {
+        headers: setAuthHeader(),
+      }
+    );
     return response;
   } catch (error) {
     return error;
@@ -2179,21 +2196,44 @@ export async function getPermittedCatalogue(sellerId) {
 
 export async function getSellerCategoryRequest() {
   try {
-    const response = await axios.get(apiUrl + `/seller-permission-request/get-map-seller-category-brand-request`, {
-      headers: setAuthHeader(),
-    });
+    const response = await axios.get(
+      apiUrl +
+        `/seller-permission-request/get-map-seller-category-brand-request`,
+      {
+        headers: setAuthHeader(),
+      }
+    );
     return response;
   } catch (error) {
     return error;
   }
 }
 
-
 export async function UpdateSellerCategoryRequestList(formData) {
   try {
-    const response = await axios.patch(apiUrl + `/seller-permission-request/update-map-seller-category-brand-request`,formData ,{
-      headers: setAuthHeader(),
-    });
+    const response = await axios.patch(
+      apiUrl +
+        `/seller-permission-request/update-map-seller-category-brand-request`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function UpdateSellerPermission(formData) {
+  try {
+    const response = await axios.post(
+      apiUrl + `/seller-permission/map-seller-category-brand`,
+      formData,
+      {
+        headers: setAuthHeader(),
+      }
+    );
     return response;
   } catch (error) {
     return error;

@@ -8,7 +8,6 @@ import {
   Container,
   Form,
   Image,
-  InputGroup,
   ListGroup,
   Modal,
   Row,
@@ -17,12 +16,11 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { BsClipboard2CheckFill } from "react-icons/bs";
-import { FaArrowDown, FaArrowUp, FaSearch } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
 import { IoIosAdd } from "react-icons/io";
 import { LuClipboardSignature } from "react-icons/lu";
 import { MdCancel } from "react-icons/md";
-import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import {
   BulkProductUpload,
@@ -129,7 +127,9 @@ const AddingProductTable = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchData();
+    if (filters?.categoryId != "" && filters?.brandId != "") {
+      fetchData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, filters, searchTerm]);
 
@@ -148,8 +148,9 @@ const AddingProductTable = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
+      const limit = 1000;
       const res = await axios.get(
-        `${apiUrl}/product/all-list?page=${currentPage}&limit=50&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
+        `${apiUrl}/product/all-list?page=${currentPage}&limit=${limit}&categoryId=${filters.categoryId}&subcategoryId=${filters.subcategoryId}&brandId=${filters.brandId}&productId=${searchTerm}`
       );
       setFilterData(res?.data?.data);
       setTotalPages(res?.data?.pagination?.pages);
@@ -724,6 +725,22 @@ const AddingProductTable = () => {
             <Button variant="dark" size="sm" onClick={handleReset}>
               Reset & Refresh Filters
             </Button>
+
+            <Button
+              variant="dark"
+              size="sm"
+              onClick={() => {
+                navigate("/seller/Seller-permission");
+              }}
+            >
+              Request Permission for Category/Brand
+            </Button>
+
+            {filters?.categoryId != "" && filters?.brandId != "" && (
+              <Button variant="dark" size="sm">
+                {`${filterData2.length} Products Found`}
+              </Button>
+            )}
           </div>
         </div>
 
@@ -749,206 +766,222 @@ const AddingProductTable = () => {
           />
         </div> */}
 
-        {totalPages > 1 && (filters?.categoryId != "" && filters?.brandId != "") && (
-          <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
-            <nav aria-label="Pagination">
-              <ul className="pagination">
-                {/* Previous Button */}
-                <li
-                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
-                >
-                  <Button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    variant="secondary"
-                    size="sm"
+        {totalPages > 1 &&
+          filters?.categoryId != "" &&
+          filters?.brandId != "" && (
+            <div className="d-flex justify-content-end mt-2 mb-4 gap-4">
+              <nav aria-label="Pagination">
+                <ul className="pagination">
+                  {/* Previous Button */}
+                  <li
+                    className={`page-item ${
+                      currentPage === 1 ? "disabled" : ""
+                    }`}
                   >
-                    Previous
-                  </Button>
-                </li>
-
-                {/* Page Numbers */}
-                {Array.from({ length: totalPages })
-                  .map((_, index) => index + 1)
-                  .filter(
-                    (page) =>
-                      page === currentPage || // Current page
-                      (page >= currentPage - 2 && page <= currentPage + 2) // Range: prev 2 to next 2
-                  )
-                  .map((page) => (
-                    <li
-                      key={page}
-                      className={`page-item ${
-                        currentPage === page ? "active" : ""
-                      }`}
+                    <Button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      variant="secondary"
+                      size="sm"
                     >
-                      <Button
-                        onClick={() => handlePageChange(page)}
-                        variant={currentPage === page ? "dark" : "secondary"}
-                        size="sm"
+                      Previous
+                    </Button>
+                  </li>
+
+                  {/* Page Numbers */}
+                  {Array.from({ length: totalPages })
+                    .map((_, index) => index + 1)
+                    .filter(
+                      (page) =>
+                        page === currentPage || // Current page
+                        (page >= currentPage - 2 && page <= currentPage + 2) // Range: prev 2 to next 2
+                    )
+                    .map((page) => (
+                      <li
+                        key={page}
+                        className={`page-item ${
+                          currentPage === page ? "active" : ""
+                        }`}
                       >
-                        {page}
-                      </Button>
-                    </li>
-                  ))}
+                        <Button
+                          onClick={() => handlePageChange(page)}
+                          variant={currentPage === page ? "dark" : "secondary"}
+                          size="sm"
+                        >
+                          {page}
+                        </Button>
+                      </li>
+                    ))}
 
-                {/* Next Button */}
-                <li
-                  className={`page-item ${
-                    currentPage === totalPages ? "disabled" : ""
-                  }`}
-                >
-                  <Button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    variant="secondary"
-                    size="sm"
+                  {/* Next Button */}
+                  <li
+                    className={`page-item ${
+                      currentPage === totalPages ? "disabled" : ""
+                    }`}
                   >
-                    Next
-                  </Button>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        )}
+                    <Button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      variant="secondary"
+                      size="sm"
+                    >
+                      Next
+                    </Button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          )}
 
-        <Table responsive striped bordered hover>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Product Id</th>
-              <th>Type</th>
-              <th>Name</th>
-              <th>Image</th>
-              <th>Variants</th>
-              <th>Category</th>
-              <th>Sub Category</th>
-              <th>Brand</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          {(filters?.categoryId != "" && filters?.brandId != "") && (
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan="10" className="text-center fw-bold">
-                    Loading...
-                  </td>
-                </tr>
-              ) : filterData2.length > 0 ? (
-                filterData2.map((row, index) => (
-                  <tr
-                    key={index}
-                    className={
-                      !checkAlreadySellingHandler(row) ? "opacity-50" : ""
-                    }
-                  >
-                    <td>{index + 1}</td>
-                    <td>
-                      {row?.productId?.substring(0, 15)}
-                      <span className="mx-2">
-                        {copied && copiedIndex === index ? (
-                          <>
-                            <BsClipboard2CheckFill size={20} color="green" />
-                            <br />
-                            <span style={{ fontSize: "10px", color: "green" }}>
-                              Copied
-                            </span>
-                          </>
-                        ) : (
-                          <LuClipboardSignature
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              copyTextToClipboard(row?.productId, index)
-                            }
-                            size={18}
+        <div className="mt-3">
+          <Table responsive striped bordered hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Product Id</th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Variants</th>
+                <th>Category</th>
+                <th>Sub Category</th>
+                <th>Brand</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            {filters?.categoryId != "" && filters?.brandId != "" && (
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td colSpan="10" className="text-center fw-bold">
+                      Loading...
+                    </td>
+                  </tr>
+                ) : filterData2.length > 0 ? (
+                  filterData2.map((row, index) => (
+                    <tr
+                      key={index}
+                      className={
+                        !checkAlreadySellingHandler(row) ? "opacity-50" : ""
+                      }
+                    >
+                      <td>{index + 1}</td>
+                      <td>
+                        {row?.productId?.substring(0, 15)}
+                        <span className="mx-2">
+                          {copied && copiedIndex === index ? (
+                            <>
+                              <BsClipboard2CheckFill size={20} color="green" />
+                              <br />
+                              <span
+                                style={{ fontSize: "10px", color: "green" }}
+                              >
+                                Copied
+                              </span>
+                            </>
+                          ) : (
+                            <LuClipboardSignature
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                copyTextToClipboard(row?.productId, index)
+                              }
+                              size={18}
+                            />
+                          )}
+                        </span>
+                      </td>
+                      <td>{row?.type}</td>
+                      <td>{row?.name?.substring(0, 30) + "..."}</td>
+                      <td>
+                        <div className="productListItem">
+                          <img
+                            className="productListImg img-thumbnail"
+                            width={20}
+                            src={row.image?.[0]?.image_path}
+                            alt=""
                           />
-                        )}
-                      </span>
-                    </td>
-                    <td>{row?.type}</td>
-                    <td>{row?.name?.substring(0, 30) + "..."}</td>
-                    <td>
-                      <div className="productListItem">
-                        <img
-                          className="productListImg img-thumbnail"
-                          width={20}
-                          src={row.image?.[0]?.image_path}
-                          alt=""
-                        />
-                      </div>
-                    </td>
-                    <td style={{ width: "150px" }}>
-                      {row?.specId?.length}
-                      <p
-                        className="variCss"
-                        onClick={() => showVariants(row?.specId)}
-                      >
-                        VIEW
-                      </p>
-                      {variationRequestCount(row?.specId) > 0 && (
-                        <p className="newrqNo">
-                          <AiOutlineInfoCircle size={22} />{" "}
-                          {variationRequestCount(row?.specId)} Requested
+                        </div>
+                      </td>
+                      <td style={{ width: "150px" }}>
+                        {row?.specId?.length}
+                        <p
+                          className="variCss"
+                          onClick={() => showVariants(row?.specId)}
+                        >
+                          VIEW
                         </p>
-                      )}
-                    </td>
-                    <td>
-                      {row?.categoryId?.title}
-                      {/* <TaxTable
+                        {variationRequestCount(row?.specId) > 0 && (
+                          <p className="newrqNo">
+                            <AiOutlineInfoCircle size={22} />{" "}
+                            {variationRequestCount(row?.specId)} Requested
+                          </p>
+                        )}
+                      </td>
+                      <td>
+                        {row?.categoryId?.title}
+                        {/* <TaxTable
                       data={row?.categoryId}
                       allComission={allComission}
                     /> */}
-                    </td>
-                    <td>{row?.subcategoryId?.title}</td>
-                    <td>{row?.brandId?.title}</td>
-                    {row?.status && row?.specId?.length >= 0 && (
-                      <td>
-                        <Button
-                          onClick={() => {
-                            if (checkAlreadySellingHandler(row)) {
-                              handleAddProduct(row); // Only add if not already selling
-                            }
-                          }}
-                          variant={
-                            checkAlreadySellingHandler(row)
-                              ? "success"
-                              : "warning"
-                          }
-                          size="sm"
-                          disabled={!row?.status || row?.specId?.length <= 0}
-                          style={{
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {checkAlreadySellingHandler(row)
-                            ? "Add to Inventory"
-                            : "Already Selling"}
-                        </Button>
                       </td>
-                    )}
+                      <td>{row?.subcategoryId?.title}</td>
+                      <td>{row?.brandId?.title}</td>
+                      {row?.status && row?.specId?.length >= 0 && (
+                        <td>
+                          <Button
+                            onClick={() => {
+                              if (checkAlreadySellingHandler(row)) {
+                                handleAddProduct(row); // Only add if not already selling
+                              }
+                            }}
+                            variant={
+                              checkAlreadySellingHandler(row)
+                                ? "success"
+                                : "warning"
+                            }
+                            size="sm"
+                            disabled={!row?.status || row?.specId?.length <= 0}
+                            style={{
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {checkAlreadySellingHandler(row)
+                              ? "Add to Inventory"
+                              : "Already Selling"}
+                          </Button>
+                        </td>
+                      )}
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="10">
+                      <p
+                        className="fw-bold mx-4"
+                        style={{ color: "black", padding: "10px" }}
+                      >
+                        No more product found to add to inventory
+                      </p>
+                    </td>
                   </tr>
-                ))
-              ) : (
+                )}
+              </tbody>
+            )}
+            <tbody>
+              {(filters?.categoryId == "" || filters?.brandId == "") && (
                 <tr>
-                  <td colSpan="10">No data found</td>
+                  <td colSpan="10">
+                    <p
+                      className="fw-bold mx-4"
+                      style={{ color: "black", padding: "10px" }}
+                    >
+                      Please select a Category, Subcategory or Brand to
+                      continue.
+                    </p>
+                  </td>
                 </tr>
               )}
             </tbody>
-          )}
-          <tbody>
-            {(filters?.categoryId == "" || filters?.brandId == "") && (
-              <tr>
-                <td colSpan="10">
-                  <p
-                    className="fw-bold mx-4"
-                    style={{ color: "black", padding: "10px" }}
-                  >
-                    Please select a Category, Subcategory or Brand to continue.
-                  </p>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+          </Table>
+        </div>
 
         <Container>
           <Row>

@@ -14,18 +14,23 @@ import Modal from "react-bootstrap/Modal";
 import Spinner from "react-bootstrap/Spinner";
 import { toast, Toaster } from "react-hot-toast";
 import { FaInfoCircle, FaRegUser } from "react-icons/fa";
+import { GrCatalog } from "react-icons/gr";
 import { IoIosEye } from "react-icons/io";
 import { MdAutorenew } from "react-icons/md";
+import { RiFolderSettingsFill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import {
   AdminSellerLists,
+  allBrandList,
+  allcatList,
   deleteSellerById,
+  getPermittedCatalogue,
+  UpdateSellerPermission,
   UpdateSellerStatus,
 } from "../../API/api";
+import { distanceCategories } from "../../common/DistanceDelivery";
 import { productRows } from "../../dummyData";
 import "./Seller.css";
-import { distanceCategories } from "../../common/DistanceDelivery";
-import { GrCatalog } from "react-icons/gr";
 
 export default function SellerListManage() {
   const [data, setData] = useState(productRows);
@@ -96,7 +101,7 @@ export default function SellerListManage() {
 
   const handleStatus = async (data, password = "") => {
     let payload = {};
-      console.log({data})
+    console.log({ data });
     if (data?.status == "approved") {
       payload = {
         status: "rejected",
@@ -317,6 +322,129 @@ export default function SellerListManage() {
     }
   });
 
+  const [permissionManageModalShow, setPermissionManageModalShow] =
+    useState(false);
+  const [
+    permissionManageModalDataLoading,
+    setPermissionManageModalDataLoading,
+  ] = useState(false);
+  const [permissionManageModalDataError, setPermissionManageModalDataError] =
+    useState(null);
+
+  const [permissionManageSellerId, setPermissionManageSellerId] =
+    useState(null);
+
+  const onPermissionManageModalClose = () => {
+    setPermissionManageModalShow(false);
+    setPermissionManageSellerId(null);
+    setPermissionManageModalDataError(null);
+  };
+
+  const [categoryList, setCategoryList] = useState([]);
+  const [brandList, setBrandList] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
+
+  useEffect(() => {
+    fetchAllCategories();
+    fetchAllBrands();
+  }, []);
+
+  const fetchAllCategories = async () => {
+    try {
+      const res = await allcatList();
+      const filteredData = res?.data?.data
+        .filter((category) => category?.status)
+        .sort((a, b) => a?.title.localeCompare(b?.title));
+      setCategoryList(filteredData);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const fetchAllBrands = async () => {
+    try {
+      const res = await allBrandList();
+      const filteredData = res?.data?.data
+        .filter((brand) => brand?.status)
+        .sort((a, b) => a?.title.localeCompare(b?.title));
+      setBrandList(filteredData);
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+    }
+  };
+
+  const handleCheckboxChange = (categoryId) => {
+    setSelectedCategories((prevSelected) =>
+      prevSelected.includes(categoryId)
+        ? prevSelected.filter((id) => id !== categoryId)
+        : [...prevSelected, categoryId]
+    );
+  };
+
+  const getSellerCategoryBrandMapping = async (sellerId) => {
+    setPermissionManageModalDataLoading(true);
+    try {
+      const res = await getPermittedCatalogue(sellerId);
+      const data = res?.data?.data;
+      const { categories, brand } = data;
+      const categoryIds = categories.map((category) => category?._id);
+      const brandIds = brand.map((brand) => brand?._id);
+
+      setSelectedCategories(categoryIds);
+      setSelectedBrands(brandIds);
+      toast.success("Categories and brand map fetched successfully!");
+    } catch (error) {
+      console.error("Error fetching categories and brand map:", error);
+      setPermissionManageModalDataError(
+        "Error fetching categories and brand map"
+      );
+      toast.error("Error fetching categories and brand map");
+    } finally {
+      setPermissionManageModalDataLoading(false);
+    }
+  };
+
+  const handleBrandCheckboxChange = (brandId) => {
+    setSelectedBrands((prevSelected) =>
+      prevSelected.includes(brandId)
+        ? prevSelected.filter((id) => id !== brandId)
+        : [...prevSelected, brandId]
+    );
+  };
+
+  const handleSubmit = async () => {
+    const payload = {
+      sellerId: permissionManageSellerId?._id,
+      categories: selectedCategories,
+      brand: selectedBrands,
+    };
+
+    toast
+      .promise(UpdateSellerPermission(payload), {
+        loading: "Updating seller category and brand mapping...",
+        success: "Seller category and brand mapping updated successfully!",
+        error: "Error updating seller category and brand mapping",
+      })
+      .then(() => {
+        onPermissionManageModalClose();
+      })
+      .catch((error) => {
+        console.error(
+          "Error updating seller category and brand mapping:",
+          error
+        );
+      });
+  };
+
+  useEffect(() => {
+    if (permissionManageSellerId) {
+      getSellerCategoryBrandMapping(permissionManageSellerId?._id);
+    }
+  }, [permissionManageSellerId]);
+
+  console.log({ selectedCategories, selectedBrands });
+
   return (
     <>
       {loading && (
@@ -424,20 +552,104 @@ export default function SellerListManage() {
                 <Table bordered hover responsive>
                   <thead>
                     <tr>
-                      <th>ID</th>
-                      <td>Registered By</td>
-                      <th>Shop Name</th>
-                      <th>Shop Image</th>
-                      <th>Seller Name</th>
-                      <th>Seller Email</th>
-                      <th>Seller Phone No.</th>
-                      <th>Registration</th>
-                      <th>Delivery Distance</th>
-                      <th>Permission Catalog</th>
-                      <th>Status</th>
-                      <th>View</th>
-                      <th>Action</th>
-                      <th>Delete</th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        ID
+                      </th>
+                      <td
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Registered By
+                      </td>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Shop Name
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Shop Image
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Seller Name
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Seller Email
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Seller Phone No.
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Registration
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Delivery Distance
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Permission Catalog
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Status
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        View
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Action
+                      </th>
+                      <th
+                        style={{
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        Delete
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -492,8 +704,8 @@ export default function SellerListManage() {
                           <td>
                             {/* {row?.Shop_Details_Info?.distance_category} 
                             <br /> */}
-                            <p style={{fontSize:'12px',fontWeight:'bold'}}> 
-                            {/* {distanceCategories?.find(
+                            <p style={{ fontSize: "12px", fontWeight: "bold" }}>
+                              {/* {distanceCategories?.find(
                               (ele) =>
                                 ele?.distance ===
                                 row?.Shop_Details_Info?.distance_category
@@ -507,24 +719,49 @@ export default function SellerListManage() {
                                 })`
                               : ""} */}
                               <p>
-                              {distanceCategories?.find(
-                                (ele) =>
-                                  ele?.distance ===
-                                  row?.Shop_Details_Info?.distance_category
-                              )?.range} - {distanceCategories?.find(
-                                (ele) =>
-                                  ele?.distance ===
-                                  row?.Shop_Details_Info?.distance_category
-                              )?.text}
+                                {
+                                  distanceCategories?.find(
+                                    (ele) =>
+                                      ele?.distance ===
+                                      row?.Shop_Details_Info?.distance_category
+                                  )?.range
+                                }{" "}
+                                -{" "}
+                                {
+                                  distanceCategories?.find(
+                                    (ele) =>
+                                      ele?.distance ===
+                                      row?.Shop_Details_Info?.distance_category
+                                  )?.text
+                                }
                               </p>
-                              
                             </p>
-                            
                           </td>
                           <td>
-                            <Button value={row?._id} size="sm" variant="dark" onClick={() => navigate(`/Admin/catalogue-permissions?sellerId=${row?._id}`)}>
-                              <GrCatalog />
-                            </Button>
+                            <span className="d-flex justify-content-center gap-2 flex-column">
+                              <Button
+                                size="sm"
+                                variant="dark"
+                                onClick={() =>
+                                  navigate(
+                                    `/Admin/catalogue-permissions?sellerId=${row?._id}`
+                                  )
+                                }
+                              >
+                                <GrCatalog /> Requests
+                              </Button>
+
+                              <Button
+                                size="sm"
+                                variant="dark"
+                                onClick={() => {
+                                  setPermissionManageModalShow(true);
+                                  setPermissionManageSellerId(row);
+                                }}
+                              >
+                                <RiFolderSettingsFill /> Manage
+                              </Button>
+                            </span>
                           </td>
 
                           <td>
@@ -657,6 +894,132 @@ export default function SellerListManage() {
         </Container>
         <Toaster position="top-right" />
       </div>
+
+      <Modal
+        show={permissionManageModalShow}
+        onHide={onPermissionManageModalClose}
+        size="xl"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <p
+              style={{
+                fontSize: "20px",
+              }}
+            >
+              {`Manage Category & Brand Permission For ${permissionManageSellerId?.user_name}`}
+            </p>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {permissionManageModalDataLoading && (
+            <Container>
+              <Row>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100px",
+                  }}
+                >
+                  <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                </div>
+              </Row>
+            </Container>
+          )}
+
+          {permissionManageModalDataError && (
+            <Container>
+              <Row>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100px",
+                  }}
+                >
+                  <p>{permissionManageModalDataError}</p>
+                </div>
+              </Row>
+            </Container>
+          )}
+
+          {!permissionManageModalDataLoading &&
+            !permissionManageModalDataError && (
+              <Container>
+                <Row>
+                  <Col>
+                    {/* Categories Section */}
+                    <Row className="mt-4">
+                      <p style={{ fontWeight: "bold" }}>
+                        Select Categories - {selectedCategories?.length}
+                      </p>
+                      <Row>
+                        {categoryList?.map((option) => (
+                          <Col key={option?._id} xs={3} className="mt-2">
+                            <input
+                              type="checkbox"
+                              id={option?._id}
+                              checked={selectedCategories.includes(option?._id)}
+                              onChange={() => handleCheckboxChange(option?._id)}
+                            />
+                            <label
+                              className="mx-2 frmLable"
+                              htmlFor={option?._id}
+                            >
+                              {option?.title}
+                            </label>
+                          </Col>
+                        ))}
+                      </Row>
+                    </Row>
+
+                    {/* Brands Section */}
+                    <Row className="mt-4">
+                      <p style={{ fontWeight: "bold" }}>
+                        Select Brands - {selectedBrands?.length}
+                      </p>
+                      <Row>
+                        {brandList?.map((option) => (
+                          <Col key={option?._id} xs={2} className="mt-2">
+                            <input
+                              type="checkbox"
+                              id={option?._id}
+                              checked={selectedBrands.includes(option?._id)}
+                              onChange={() =>
+                                handleBrandCheckboxChange(option?._id)
+                              }
+                            />
+                            <label
+                              className="mx-2 frmLable"
+                              htmlFor={option?._id}
+                            >
+                              {option?.title}
+                            </label>
+                          </Col>
+                        ))}
+                      </Row>
+                    </Row>
+                  </Col>
+                </Row>
+
+                <Toaster position="top-right" />
+              </Container>
+            )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleSubmit}>
+            Save Changes
+          </Button>
+          <Button variant="secondary" onClick={onPermissionManageModalClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

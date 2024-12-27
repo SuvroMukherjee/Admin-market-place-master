@@ -1,5 +1,25 @@
-import React, { useEffect, useState } from "react";
-import useAuth from "../../../hooks/useAuth";
+import { Refresh } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  Modal,
+  Row,
+} from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
+import toast, { Toaster } from "react-hot-toast";
+import { BsBank, BsShop } from "react-icons/bs";
+import { GrUpdate } from "react-icons/gr";
+import { ImProfile } from "react-icons/im";
+import { IoIosCloseCircle } from "react-icons/io";
+import { RiEdit2Fill } from "react-icons/ri";
+import { TbCategoryPlus } from "react-icons/tb";
+import { TiDocumentText } from "react-icons/ti";
+import OtpInput from "react-otp-input";
+import { useParams } from "react-router-dom";
 import {
   EditVerification,
   FileUpload,
@@ -10,36 +30,9 @@ import {
   allcatList,
   sellerDetails,
 } from "../../../API/api";
-import {
-  Button,
-  Col,
-  Container,
-  Row,
-  Form,
-  ButtonGroup,
-  Card,
-  Image,
-  Table,
-  Modal,
-} from "react-bootstrap";
-import { RiEdit2Fill, RiShareForwardFill } from "react-icons/ri";
-import toast, { Toaster } from "react-hot-toast";
-import { GrUpdate } from "react-icons/gr";
-import { MdCancel, MdOutlineFileUpload } from "react-icons/md";
-import { IoIosAddCircle, IoIosCloseCircle } from "react-icons/io";
-import { IoSaveSharp } from "react-icons/io5";
-import "./sellerlayout.css";
-import { ImProfile } from "react-icons/im";
-import { GiShop } from "react-icons/gi";
-import { TiDocumentText } from "react-icons/ti";
-import { BsBank } from "react-icons/bs";
-import { TbCategoryPlus } from "react-icons/tb";
-import { BsShop } from "react-icons/bs";
-import Spinner from "react-bootstrap/Spinner";
-import { useNavigate, useParams } from "react-router-dom";
 import { distanceCategories } from "../../../common/DistanceDelivery";
-import OtpInput from "react-otp-input";
-import { Refresh } from "@mui/icons-material";
+import useAuth from "../../../hooks/useAuth";
+import "./sellerlayout.css";
 
 const ProfilePage = () => {
   const { auth } = useAuth();
@@ -71,6 +64,7 @@ const ProfilePage = () => {
     if (auth) {
       getProfileData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getProfileData() {
@@ -168,41 +162,47 @@ const ProfilePage = () => {
         <>
           <div className="mt-4">
             {userInfo?.doc_details?.gst_no == "" && (
-            <Container>
-              <Row
-                className="d-flex justify-content-center align-items-center bg-warning p-4"
-                style={{
-                  fontSize: "18px",
-                  textAlign: "center",
-                }}
-              >
-                <Col xs={10} className="text-center fw-bold">
-                  To get started, please complete your{" "}
-                  <span
-                    className="text-danger mx-2"
-                    onClick={() =>
-                      window.scrollTo({ top: 1200, behavior: "smooth" })
-                    }
-                    style={{ cursor: "pointer" }}
-                  >
-                    Gst Number & Other Documents
-                  </span>
-                  . This will help you efficiently manage your products and
-                  begin your journey with Zoofi.
-                </Col>
+              <Container>
+                <Row
+                  className="d-flex justify-content-center align-items-center bg-warning p-4"
+                  style={{
+                    fontSize: "18px",
+                    textAlign: "center",
+                  }}
+                >
+                  <Col xs={10} className="text-center fw-bold">
+                    To get started, please complete your{" "}
+                    <span
+                      className="text-danger mx-2"
+                      onClick={() =>
+                        window.scrollTo({ top: 1200, behavior: "smooth" })
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      Gst Number & Other Documents
+                    </span>
+                    . This will help you efficiently manage your products and
+                    begin your journey with Zoofi.
+                  </Col>
 
-                <Col>
-                  <Button
-                    variant="dark"
-                    size="sm"
-                    className="frmLable w-30"
-                    onClick={() => getProfileData()}
-                  >
-                    <Refresh onClick={() => {getProfileData();window.location.reload();}} />
-                  </Button>
-                </Col>
-              </Row>
-            </Container>)}
+                  <Col>
+                    <Button
+                      variant="dark"
+                      size="sm"
+                      className="frmLable w-30"
+                      onClick={() => getProfileData()}
+                    >
+                      <Refresh
+                        onClick={() => {
+                          getProfileData();
+                          window.location.reload();
+                        }}
+                      />
+                    </Button>
+                  </Col>
+                </Row>
+              </Container>
+            )}
           </div>
           <div className="mt-4">
             <Container>
@@ -411,9 +411,12 @@ const ProfilePage = () => {
             <ShopInfo userInfo={userInfo} getProfileData={getProfileData} />
           </div>
 
-          <div className="mt-4">
-              <SellingCatalogue userInfo={userInfo} getProfileData={getProfileData} />
-          </div>
+          {/* <div className="mt-4">
+            <SellingCatalogue
+              userInfo={userInfo}
+              getProfileData={getProfileData}
+            />
+          </div> */}
 
           <div className="mt-4">
             <Documentation
@@ -562,7 +565,6 @@ const EmailEditModal = ({
 };
 
 const SellingCatalogue = ({ userInfo, getProfileData }) => {
-  
   const [categoryList, setCategoryList] = useState([]);
   const [brandList, setBrandList] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -614,15 +616,12 @@ const SellingCatalogue = ({ userInfo, getProfileData }) => {
   };
 
   const handleSubmit = async () => {
-
     const payload = {
       categoryList: selectedCategories,
       brandList: selectedBrands,
     };
     console.log(payload);
-    }
-   
-
+  };
 
   return (
     <Container>
@@ -704,10 +703,6 @@ const SellingCatalogue = ({ userInfo, getProfileData }) => {
     </Container>
   );
 };
-
-
-
-
 
 const ShopInfo = ({ userInfo, getProfileData }) => {
   const [shopInfo, setShopInfo] = useState({
@@ -1006,23 +1001,28 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
               {shopInfo?.pic_of_shope?.length > 0 && (
                 <Container>
                   <Row>
-                    {shopInfo?.pic_of_shope.map((fileUrl, index) => (
-                      <Col key={index} xs={4} md={2}>
-                        {/* <span>{index + 1}</span> */}
-                        <span>
-                          {/* <MdCancel
-                                                        style={{
-                                                            color: 'red',
-                                                            fontSize: '20px',
-                                                            cursor: 'pointer',
-                                                        }}
-                                                        onClick={() => handleCancelImage(fileUrl)}
-                                                    /> */}
-                        </span>
-                        <Image src={fileUrl} thumbnail fluid />
-                        {/* Use fluid prop for responsive images */}
-                      </Col>
-                    ))}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        gap: "10px",
+                      }}
+                    >
+                      {shopInfo?.pic_of_shope.map((fileUrl, index) => (
+                        <img
+                          key={index}
+                          style={{
+                            height: "100px",
+                            objectFit: "cover",
+                            borderRadius: "10px",
+                          }}
+                          src={fileUrl}
+                          alt="company image"
+                        />
+                      ))}
+                    </div>
                   </Row>
                 </Container>
               )}
@@ -1191,7 +1191,6 @@ const Documentation = ({ userInfo, getProfileData }) => {
       getProfileData();
       setTimeout(() => {
         window.location.reload();
-        
       }, 1000);
     }
   };
