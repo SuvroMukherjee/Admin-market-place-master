@@ -160,7 +160,7 @@ const PermittedCatalogue = ({ selectedCategories, selectedBrands }) => {
 
   return (
     <Container className="mt-4 mb-4">
-      <Row>
+      <Row  style={{backgroundColor:"#e5faca"}}>
         <Col>
           <Row
             className="hd bg-success"
@@ -182,9 +182,9 @@ const PermittedCatalogue = ({ selectedCategories, selectedBrands }) => {
             </Col>
           </Row>
           {show && (
-            <>
+            <div className="p-3 mb-3">
               <Row className="mt-4">
-                <p style={{ fontWeight: "bold" }}>
+                <p style={{ fontWeight: "bold",textDecoration:"underline" }}>
                   Working Categories - {selectedCategories?.length || 0}
                 </p>
                 <Row>
@@ -200,7 +200,7 @@ const PermittedCatalogue = ({ selectedCategories, selectedBrands }) => {
 
               {/* Brands Section */}
               <Row className="mt-4">
-                <p style={{ fontWeight: "bold" }}>
+                <p style={{ fontWeight: "bold",textDecoration:"underline" }}>
                   Working Brands - {selectedBrands?.length || 0}
                 </p>
                 <Row>
@@ -213,7 +213,7 @@ const PermittedCatalogue = ({ selectedCategories, selectedBrands }) => {
                   ))}
                 </Row>
               </Row>
-            </>
+            </div>
           )}
         </Col>
       </Row>
@@ -226,7 +226,7 @@ const RequestedCatalogue = ({ requestedCategories, requestedBrands }) => {
 
   return (
     <Container className="mt-4 mb-4">
-      <Row>
+      <Row  style={{backgroundColor:"#B1F0F7"}}>
         <Col>
           <Row
             className="hd bg-info"
@@ -249,10 +249,10 @@ const RequestedCatalogue = ({ requestedCategories, requestedBrands }) => {
           </Row>
 
           {show && (
-            <>
+            <div className="p-3 mb-3">
               {/* Categories Section */}
               <Row className="mt-4">
-                <p style={{ fontWeight: "bold" }}>
+                <p style={{ fontWeight: "bold",textDecoration:"underline" }}>
                   Requested Categories - {requestedCategories?.length || 0}
                 </p>
                 <Row>
@@ -268,7 +268,7 @@ const RequestedCatalogue = ({ requestedCategories, requestedBrands }) => {
 
               {/* Brands Section */}
               <Row className="mt-4">
-                <p style={{ fontWeight: "bold" }}>
+                <p style={{ fontWeight: "bold",textDecoration:"underline" }}>
                   Requested Brands - {requestedBrands?.length || 0}
                 </p>
                 <Row>
@@ -281,7 +281,7 @@ const RequestedCatalogue = ({ requestedCategories, requestedBrands }) => {
                   ))}
                 </Row>
               </Row>
-            </>
+            </div>
           )}
         </Col>
       </Row>
@@ -294,7 +294,7 @@ const RejectedCatalogue = ({ requestedCategories, requestedBrands }) => {
 
   return (
     <Container className="mt-4 mb-4">
-      <Row>
+      <Row  style={{backgroundColor:"#FFCCE1"}}>
         <Col>
           <Row
             className="hd bg-danger"
@@ -317,10 +317,10 @@ const RejectedCatalogue = ({ requestedCategories, requestedBrands }) => {
           </Row>
 
           {show && (
-            <>
+            <div className="p-3 mb-3">
               {/* Categories Section */}
               <Row className="mt-4">
-                <p style={{ fontWeight: "bold" }}>
+                <p style={{ fontWeight: "bold",textDecoration:"underline" }}>
                   Rejected Categories - {requestedCategories?.length || 0}
                 </p>
                 <Row>
@@ -336,7 +336,7 @@ const RejectedCatalogue = ({ requestedCategories, requestedBrands }) => {
 
               {/* Brands Section */}
               <Row className="mt-4">
-                <p style={{ fontWeight: "bold" }}>
+                <p style={{ fontWeight: "bold",textDecoration:"underline" }}>
                   Rejected Brands - {requestedBrands?.length || 0}
                 </p>
                 <Row>
@@ -349,7 +349,7 @@ const RejectedCatalogue = ({ requestedCategories, requestedBrands }) => {
                   ))}
                 </Row>
               </Row>
-            </>
+            </div>
           )}
         </Col>
       </Row>
@@ -444,7 +444,7 @@ const SellingCatalogue = ({
 
   return (
     <Container className="mt-4">
-      <Row>
+      <Row  style={{backgroundColor:"#FCFFC1"}}>
         <Col>
           <Row
             className="hd bg-warning"
@@ -467,10 +467,10 @@ const SellingCatalogue = ({
           </Row>
 
           {show && (
-            <div className="p-3">
+            <div className="p-3 mb-3">
               {/* Categories Section */}
               <Row className="mt-3">
-                <p style={{ fontWeight: "bold" }}>
+                <p style={{ fontWeight: "bold",textDecoration:"underline" }}>
                   Select Categories - {selectedCategories.length}
                 </p>
                 <Row>
@@ -503,7 +503,7 @@ const SellingCatalogue = ({
 
               {/* Brands Section */}
               <Row className="mt-4">
-                <p style={{ fontWeight: "bold" }}>
+                <p style={{ fontWeight: "bold",textDecoration:"underline" }}>
                   Select Brands - {selectedBrands.length}
                 </p>
                 <Row>
