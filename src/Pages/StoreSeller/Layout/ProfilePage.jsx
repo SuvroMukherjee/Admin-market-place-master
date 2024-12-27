@@ -426,12 +426,12 @@ const ProfilePage = () => {
             <Bankdata userInfo={userInfo} getProfileData={getProfileData} />
           </div>
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <CategoryAndCommission
               userInfo={userInfo}
               getProfileData={getProfileData}
             />
-          </div>
+          </div> */}
         </>
       )}
       <Toaster position="top-right" />

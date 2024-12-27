@@ -472,7 +472,7 @@ export default function SellerListManage() {
                           <td>{row?.email}</td>
                           <td>{row?.phone_no}</td>
                           <td>
-                            {row?.interest_details ? (
+                            {row?.doc_details?.gst_no ? (
                               <p
                                 style={{ color: "white", background: "green" }}
                               >
