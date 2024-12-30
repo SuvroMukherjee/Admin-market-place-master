@@ -1,21 +1,17 @@
 import * as AiIcons from "react-icons/ai";
-import { BiSolidCategory } from "react-icons/bi";
+import { BiSolidCategory, BiSolidCoupon } from "react-icons/bi";
 import { BsShop } from "react-icons/bs";
+import { CgWebsite } from "react-icons/cg";
 import { FaCartArrowDown, FaUsers } from "react-icons/fa";
 import { GiVerticalBanner } from "react-icons/gi";
-import { IoMdImages } from "react-icons/io";
-import { TbBrandAdobe } from "react-icons/tb";
-import { MdCategory } from "react-icons/md";
-import { RiCheckboxMultipleFill, RiUserSettingsFill } from "react-icons/ri";
-import { VscFeedback } from "react-icons/vsc";
-import { IoStatsChart } from "react-icons/io5";
-import { MdSell } from "react-icons/md";
-import { CgWebsite } from "react-icons/cg";
-import { MdOutlineMiscellaneousServices } from "react-icons/md";
-import { HiCurrencyRupee } from "react-icons/hi2";
-import { HiOutlineAdjustmentsVertical } from "react-icons/hi2";
-import { VscRequestChanges } from "react-icons/vsc";
 import { GrCatalog } from "react-icons/gr";
+import { HiCurrencyRupee, HiOutlineAdjustmentsVertical } from "react-icons/hi2";
+import { IoMdImages } from "react-icons/io";
+import { IoStatsChart } from "react-icons/io5";
+import { MdCategory, MdOutlineMiscellaneousServices, MdSell } from "react-icons/md";
+import { RiCheckboxMultipleFill } from "react-icons/ri";
+import { TbBrandAdobe } from "react-icons/tb";
+import { VscFeedback, VscRequestChanges } from "react-icons/vsc";
 
 export const AdminSidebarData = [
   {
@@ -137,6 +133,13 @@ export const AdminSidebarData = [
     //path: "/Admin/product-offe
     path: "/Admin/offer-managment",
     icon: FaCartArrowDown,
+    cName: "nav-text",
+  },
+  {
+    title: "Coupons",
+    //path: "/Admin/product-offe
+    path: "/Admin/coupon-managment",
+    icon: BiSolidCoupon,
     cName: "nav-text",
   },
   {
