@@ -12,7 +12,8 @@ import {
   Table,
 } from "react-bootstrap";
 import axios from "axios";
-import { Toaster,toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
+import moment from "moment";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -50,6 +51,31 @@ const CouponManagement = () => {
     });
   };
 
+  const downloadCSV = (csvContent) => {
+    const timestamp =  moment().format("YYYY-MM-DD_HH-mm-ss"); // Replace invalid filename characters
+    const fileName = `coupons-${timestamp}.csv`; // Use timestamp in the filename
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = fileName;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+  
+
+  const convertArrayToCSV = (data) => {
+    if (!data.length) return "";
+    const headers = Object.keys(data[0]);
+    const rows = data.map((row) =>
+      headers.map((header) => JSON.stringify(row[header] || "")).join(",")
+    );
+    return [headers.join(","), ...rows].join("\n");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -61,6 +87,19 @@ const CouponManagement = () => {
         text: response.data.message,
         type: "success",
       });
+
+      console.log(response, "PAI RESponse");
+
+      // Assuming response.data.coupons is the array to download
+      if (
+        response?.data?.data &&
+        response?.data.data?.length > 0 &&
+        formData.couponType === "multi-use"
+      ) {
+        const csvContent = convertArrayToCSV(response?.data?.data);
+        console.warn(csvContent, "csvContent");
+        downloadCSV(csvContent, ` coupons.csv`);
+      }
     } catch (error) {
       setMessage({
         text: error.response?.data?.message || "Error creating coupon.",
@@ -89,9 +128,7 @@ const CouponManagement = () => {
     }
   };
 
-  const reFetchListCall = async () => {
-    
-  };
+  const reFetchListCall = async () => {};
 
   return (
     <Container className="productList mt-2 p-4">
@@ -109,8 +146,8 @@ const CouponManagement = () => {
                 value={formData.couponType}
                 onChange={handleChange}
               >
-                <option value="single-use">Single-Use</option>
-                <option value="multi-use">Multi-Use</option>
+                <option value="single-use">Single-Coupon</option>
+                <option value="multi-use">Multi-Coupons</option>
               </Form.Select>
             </Form.Group>
           </Col>
@@ -170,19 +207,21 @@ const CouponManagement = () => {
               />
             </Form.Group>
           </Col>
-          <Col md={4}>
-            <Form.Group className="mb-3">
-              <Form.Label>Max Use Count</Form.Label>
-              <Form.Control
-                type="number"
-                name="maxUseCount"
-                value={formData.maxUseCount}
-                onChange={handleChange}
-                min={1}
-                required
-              />
-            </Form.Group>
-          </Col>
+          {formData.couponType !== "multi-use" && (
+            <Col md={4}>
+              <Form.Group className="mb-3">
+                <Form.Label>Max Use Count</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="maxUseCount"
+                  value={formData.maxUseCount}
+                  onChange={handleChange}
+                  min={1}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          )}
         </Row>
 
         <Row>
@@ -265,8 +304,8 @@ const CouponManagement = () => {
                     value={updateFormData.couponType}
                     onChange={handleUpdateChange}
                   >
-                    <option value="single-use">Single-Use</option>
-                    <option value="multi-use">Multi-Use</option>
+                    <option value="single-use">Single-Coupon</option>
+                    <option value="multi-use">Multi-Coupons</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
@@ -449,7 +488,7 @@ const CouponList = () => {
     setCurrentPage(pageNumber);
   };
 
-  console.log(totalPages,'totalPages')
+  console.log(totalPages, "totalPages");
 
   return (
     <div className="mt-4">
