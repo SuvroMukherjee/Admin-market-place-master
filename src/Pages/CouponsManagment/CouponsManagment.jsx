@@ -52,7 +52,7 @@ const CouponManagement = () => {
   };
 
   const downloadCSV = (csvContent) => {
-    const timestamp =  moment().format("YYYY-MM-DD_HH-mm-ss"); // Replace invalid filename characters
+    const timestamp = moment().format("YYYY-MM-DD_HH-mm-ss"); // Replace invalid filename characters
     const fileName = `coupons-${timestamp}.csv`; // Use timestamp in the filename
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
@@ -65,7 +65,6 @@ const CouponManagement = () => {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
-  
 
   const convertArrayToCSV = (data) => {
     if (!data.length) return "";
@@ -269,7 +268,7 @@ const CouponManagement = () => {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        {/* <Form.Group className="mb-3">
           <Form.Check
             type="checkbox"
             label="Active Status"
@@ -277,7 +276,7 @@ const CouponManagement = () => {
             checked={formData.status}
             onChange={handleChange}
           />
-        </Form.Group>
+        </Form.Group> */}
 
         <Button variant="primary" type="submit">
           Create Coupon
@@ -432,7 +431,7 @@ const CouponManagement = () => {
               </Col>
             </Row>
 
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
               <Form.Check
                 type="checkbox"
                 label="Active Status"
@@ -440,7 +439,7 @@ const CouponManagement = () => {
                 checked={updateFormData.status}
                 onChange={handleUpdateChange}
               />
-            </Form.Group>
+            </Form.Group> */}
 
             <Button variant="primary" type="submit">
               Update Coupon
@@ -499,10 +498,16 @@ const CouponList = () => {
           <Table striped bordered hover responsive>
             <thead>
               <tr>
-                <th>Coupon Type</th>
                 <th>Coupon Code</th>
+                <th>Discount Type</th>
                 <th>Discount</th>
                 <th>Created At</th>
+                <th>Minimum Amount</th>
+                <th>Maximum Amount</th>
+                <th>Maximum Usage(No. of Times)</th>
+                <th>Used till now(No. of Times)</th>
+                <th>Start Date</th>
+                <th>End Date</th>
               </tr>
             </thead>
             <tbody>
@@ -516,25 +521,84 @@ const CouponList = () => {
               {coupons?.length > 0 &&
                 coupons?.map((coupon) => (
                   <tr key={coupon._id}>
-                    <td>{coupon._id}</td>
                     <td>{coupon.couponNo}</td>
-                    <td>{coupon.discount}</td>
-                    <td>{new Date(coupon.createdAt).toLocaleDateString()}</td>
+                    <td>{coupon.discountType}</td>
+                    <td>{coupon.discountValue}</td>
+                    <td>
+                      {moment(coupon.createdAt)
+                        .tz("Asia/Kolkata")
+                        .format("LLL")}
+                    </td>
+                    <td>{coupon.minAmount ? coupon.minAmount : "N/A"}</td>
+                    <td>{coupon.maxAmount ? coupon.maxAmount : "N/A"}</td>
+                    <td>{coupon.maxUseCount}</td>
+                    <td>{coupon.useCount}</td>
+                    <td>
+                      {coupon.startDate
+                        ? moment(coupon.startDate)
+                            .tz("Asia/Kolkata")
+                            .format("LLL")
+                        : "N/A"}
+                    </td>
+                    <td>
+                      {coupon.endDate
+                        ? moment(coupon.endDate)
+                            .tz("Asia/Kolkata")
+                            .format("LLL")
+                        : "N/A"}
+                    </td>
                   </tr>
                 ))}
             </tbody>
           </Table>
 
           <Pagination>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <Pagination.Item
-                key={index + 1}
-                active={index + 1 === currentPage}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </Pagination.Item>
-            ))}
+            <Pagination.Prev
+              disabled={currentPage === 1}
+              onClick={() => handlePageChange(currentPage - 1)}
+            >
+              Previous
+            </Pagination.Prev>
+
+            {currentPage > 3 && (
+              <>
+                <Pagination.Item onClick={() => handlePageChange(1)}>
+                  1
+                </Pagination.Item>
+                {currentPage > 4 && <Pagination.Ellipsis />}
+              </>
+            )}
+
+            {Array.from(
+              { length: 5 },
+              (_, index) => currentPage - 2 + index
+            ).map((page) =>
+              page > 0 && page <= totalPages ? (
+                <Pagination.Item
+                  key={page}
+                  active={page === currentPage}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </Pagination.Item>
+              ) : null
+            )}
+
+            {currentPage < totalPages - 2 && (
+              <>
+                {currentPage < totalPages - 3 && <Pagination.Ellipsis />}
+                <Pagination.Item onClick={() => handlePageChange(totalPages)}>
+                  {totalPages}
+                </Pagination.Item>
+              </>
+            )}
+
+            <Pagination.Next
+              disabled={currentPage === totalPages}
+              onClick={() => handlePageChange(currentPage + 1)}
+            >
+              Next
+            </Pagination.Next>
           </Pagination>
         </>
       )}
