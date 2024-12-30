@@ -461,14 +461,22 @@ const CouponList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [limit] = useState(10);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("default");
 
   useEffect(() => {
     const fetchCoupons = async () => {
       setLoading(true);
+      const params = {
+        page: currentPage,
+        limit: limit,
+      };
+      if (search.trim()) params.search = search.trim();
+      if (status !== "default") params.status = status;
       try {
-        const response = await axios.get(
-          `${apiUrl}/coupon/coupon-list?page=${currentPage}&limit=${limit}`
-        );
+        const response = await axios.get(`${apiUrl}/coupon/coupon-list`, {
+          params,
+        });
         console.log({ response });
         setCoupons(response.data?.data);
         setTotalCoupons(response.data?.pagination?.totalCoupons);
@@ -480,17 +488,63 @@ const CouponList = () => {
     };
 
     fetchCoupons();
-  }, [currentPage, limit]);
+  }, [currentPage, limit, search, status]);
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setCurrentPage(1); // Reset to the first page when searching
+  };
+
+  // Handle status change
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+    setCurrentPage(1); // Reset to the first page when filtering by status
+  };
+
+  const resetFilter = () => {
+    setSearch("");
+    setStatus("default");
+    setCurrentPage(1);
+  };
+
   console.log(totalPages, "totalPages");
 
   return (
     <div className="mt-4">
+      {/* Search Input */}
+      <Row className="mb-3">
+        <Col md={4}>
+          <Form.Control
+            type="text"
+            placeholder="Search by Coupon Code or ID"
+            value={search}
+            onChange={handleSearchChange}
+          />
+        </Col>
+        <Col md={2}>
+          <Button variant="primary" onClick={() => setCurrentPage(1)}>
+            Search
+          </Button>
+        </Col>
+        <Col md={3}>
+          <Form.Select value={status} onChange={handleStatusChange}>
+            <option value="default">All Status</option>
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </Form.Select>
+        </Col>
+        <Col md={2}>
+          <Button variant="secondary" onClick={() => resetFilter()}>
+            Reset
+          </Button>
+        </Col>
+      </Row>
       {loading ? (
         <Spinner animation="border" variant="primary" />
       ) : (
