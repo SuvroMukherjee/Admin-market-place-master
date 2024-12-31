@@ -21,7 +21,7 @@ const CouponManagement = () => {
   const [formData, setFormData] = useState({
     couponType: "single-use",
     baseCouponNo: "",
-    discountType: "flat",
+    discountType: "percentage",
     discountValue: "",
     minAmount: "",
     maxAmount: "",
@@ -114,7 +114,7 @@ const CouponManagement = () => {
       setFormData({
         couponType: "single-use",
         baseCouponNo: "",
-        discountType: "flat",
+        discountType: "percentage",
         discountValue: "",
         minAmount: "",
         maxAmount: "",
@@ -148,7 +148,7 @@ const CouponManagement = () => {
       setFormData({
         couponType: "single-use",
         baseCouponNo: "",
-        discountType: "flat",
+        discountType: "percentage",
         discountValue: "",
         minAmount: "",
         maxAmount: "",
@@ -271,7 +271,6 @@ const CouponManagement = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">Select</option>
                   <option value="percentage">Percentage</option>
                   <option value="flat">Flat</option>
                 </Form.Select>
@@ -552,51 +551,51 @@ const CouponList = () => {
 
   return (
     <div className="mt-4">
-      <Row className="mb-3">
-        <Col md={4}>
+      <div className="mb-3 d-flex align-items-center justify-content-center">
+        <div className="d-flex">
           <Form.Control
             type="text"
+            style={{
+              width: "200px",
+            }}
             placeholder="Search by Coupon Code or ID"
             value={search}
             onChange={handleSearchChange}
           />
-        </Col>
-        <Col md={2}>
-          <Button variant="primary" onClick={() => setCurrentPage(1)}>
-            Search
-          </Button>
-        </Col>
-        <Col md={3}>
-          <Form.Select value={status} onChange={handleStatusChange}>
+        </div>
+
+        <div className="d-flex justify-content-start mx-3">
+          <Form.Select
+            style={{
+              width: "200px",
+            }}
+            value={status}
+            onChange={handleStatusChange}
+          >
             <option value="default">All Status</option>
             <option value="true">Active</option>
             <option value="false">Inactive</option>
           </Form.Select>
-        </Col>
-        <Col md={2}>
+        </div>
+
+        <div className="d-flex justify-content-start">
           <Button variant="danger" onClick={resetFilter}>
             Reset
           </Button>
-        </Col>
-      </Row>
-
-      <Row className="mt-3 mt-2">
-        <Col xs={10}></Col>
-        <Col className="text-end" xs={2}>
           <Button
             variant="dark"
             size="sm"
             onClick={downloadCSV}
             disabled={loading}
+            className="ms-2"
           >
             <span>
-              {" "}
-              <GoDownload size="20" />{" "}
-            </span>{" "}
+              <GoDownload size="20" />
+            </span>
             Download CSV
           </Button>
-        </Col>
-      </Row>
+        </div>
+      </div>
 
       {loading ? (
         <div
@@ -610,6 +609,68 @@ const CouponList = () => {
         </div>
       ) : (
         <>
+          {totalPages > 1 && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                marginTop: "20px",
+              }}
+            >
+              <Pagination>
+                <Pagination.Prev
+                  disabled={currentPage === 1}
+                  onClick={() => handlePageChange(currentPage - 1)}
+                >
+                  Previous
+                </Pagination.Prev>
+
+                {currentPage > 3 && (
+                  <>
+                    <Pagination.Item onClick={() => handlePageChange(1)}>
+                      1
+                    </Pagination.Item>
+                    {currentPage > 4 && <Pagination.Ellipsis />}
+                  </>
+                )}
+
+                {Array.from(
+                  { length: 5 },
+                  (_, index) => currentPage - 2 + index
+                ).map((page) =>
+                  page > 0 && page <= totalPages ? (
+                    <Pagination.Item
+                      key={page}
+                      active={page === currentPage}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </Pagination.Item>
+                  ) : null
+                )}
+
+                {currentPage < totalPages - 2 && (
+                  <>
+                    {currentPage < totalPages - 3 && <Pagination.Ellipsis />}
+                    <Pagination.Item
+                      onClick={() => handlePageChange(totalPages)}
+                    >
+                      {totalPages}
+                    </Pagination.Item>
+                  </>
+                )}
+
+                <Pagination.Next
+                  disabled={currentPage === totalPages}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  Next
+                </Pagination.Next>
+              </Pagination>
+            </div>
+          )}
+
           <Table striped bordered hover responsive className="mt-3">
             <thead>
               <tr>
@@ -717,25 +778,43 @@ const CouponList = () => {
               {coupons.map((coupon) => (
                 <tr key={coupon._id}>
                   <td>
-                    {coupon._id}
                     <span
-                      onClick={() => copyToClipboard(coupon._id)}
-                      style={{ marginLeft: "10px", cursor: "pointer" }}
-                      title="Copy"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                      }}
                     >
-                      <i className="fas fa-copy"></i>{" "}
-                      {/* You can use any icon or text */}
+                      <span>{coupon._id}</span>
+                      <span
+                        onClick={() => copyToClipboard(coupon._id)}
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                        title="Copy"
+                      >
+                        <i className="fas fa-copy"></i>{" "}
+                        {/* You can use any icon or text */}
+                      </span>
                     </span>
                   </td>
                   <td>
-                    {coupon.couponNo}
                     <span
-                      onClick={() => copyToClipboard(coupon.couponNo)}
-                      style={{ marginLeft: "10px", cursor: "pointer" }}
-                      title="Copy"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                      }}
                     >
-                      <i className="fas fa-copy"></i>{" "}
-                      {/* You can use any icon or text */}
+                      <span> {coupon.couponNo}</span>
+                      <span
+                        onClick={() => copyToClipboard(coupon.couponNo)}
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                        title="Copy"
+                      >
+                        <i className="fas fa-copy"></i>{" "}
+                        {/* You can use any icon or text */}
+                      </span>
                     </span>
                   </td>
 
@@ -790,55 +869,6 @@ const CouponList = () => {
               ))}
             </tbody>
           </Table>
-
-          <Pagination>
-            <Pagination.Prev
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              Previous
-            </Pagination.Prev>
-
-            {currentPage > 3 && (
-              <>
-                <Pagination.Item onClick={() => handlePageChange(1)}>
-                  1
-                </Pagination.Item>
-                {currentPage > 4 && <Pagination.Ellipsis />}
-              </>
-            )}
-
-            {Array.from(
-              { length: 5 },
-              (_, index) => currentPage - 2 + index
-            ).map((page) =>
-              page > 0 && page <= totalPages ? (
-                <Pagination.Item
-                  key={page}
-                  active={page === currentPage}
-                  onClick={() => handlePageChange(page)}
-                >
-                  {page}
-                </Pagination.Item>
-              ) : null
-            )}
-
-            {currentPage < totalPages - 2 && (
-              <>
-                {currentPage < totalPages - 3 && <Pagination.Ellipsis />}
-                <Pagination.Item onClick={() => handlePageChange(totalPages)}>
-                  {totalPages}
-                </Pagination.Item>
-              </>
-            )}
-
-            <Pagination.Next
-              disabled={currentPage === totalPages}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              Next
-            </Pagination.Next>
-          </Pagination>
         </>
       )}
     </div>
