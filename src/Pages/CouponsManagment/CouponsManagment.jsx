@@ -486,6 +486,7 @@ const CouponList = ({ refetch, setRefetch }) => {
     setSearch("");
     setStatus("default");
     setCurrentPage(1);
+    fetchCoupons();
   };
 
   const downloadCSV = async () => {
