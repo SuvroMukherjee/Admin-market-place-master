@@ -35,6 +35,7 @@ const CouponManagement = () => {
   const [updateFormData, setUpdateFormData] = useState({ ...formData });
   const [message, setMessage] = useState({ text: "", type: "" });
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -47,6 +48,25 @@ const CouponManagement = () => {
           .toUpperCase()
           .replace(/[^a-zA-Z0-9]/g, ""),
       });
+    } else if (name === "quantity") {
+      if (e.target.value > 500) {
+        toast.error("Quantity should be less than 500");
+        setFormData({
+          ...formData,
+          [name]: 500,
+        });
+      } else if (e.target.value < 1) {
+        toast.error("Quantity should be greater than 0");
+        setFormData({
+          ...formData,
+          [name]: 1,
+        });
+      } else {
+        setFormData({
+          ...formData,
+          [name]: e.target.value,
+        });
+      }
     } else {
       setFormData({
         ...formData,
@@ -89,50 +109,43 @@ const CouponManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        `${apiUrl}/coupon/coupon-create`,
-        formData
-      );
-      setMessage({
-        text: response.data.message,
-        type: "success",
-      });
-      toast.success(response.data.message || "Coupon created successfully.");
 
-      console.log(response, "PAI RESponse");
+    setDisableBtn(true);
 
-      // Assuming response.data.coupons is the array to download
-      if (
-        response?.data?.data &&
-        response?.data.data?.length > 0 &&
-        formData.couponType === "multi-use"
-      ) {
-        const csvContent = convertArrayToCSV(response?.data?.data);
-        console.warn(csvContent, "csvContent");
-        downloadCSV(csvContent, ` coupons.csv`);
-      }
-      setFormData({
-        couponType: "single-use",
-        baseCouponNo: "",
-        discountType: "percentage",
-        discountValue: "",
-        minAmount: "",
-        maxAmount: "",
-        startDate: "",
-        endDate: "",
-        status: true,
-        quantity: 1, // Only relevant for multi-use
+    toast
+      .promise(axios.post(`${apiUrl}/coupon/coupon-create`, formData), {
+        loading: "Creating coupon...",
+        success: (response) => {
+          if (
+            response?.data?.data?.length > 0 &&
+            formData.couponType === "multi-use"
+          ) {
+            const csvContent = convertArrayToCSV(response.data.data);
+            downloadCSV(csvContent, `coupons.csv`);
+          }
+
+          setFormData({
+            couponType: "single-use",
+            baseCouponNo: "",
+            discountType: "percentage",
+            discountValue: "",
+            minAmount: "",
+            maxAmount: "",
+            startDate: "",
+            endDate: "",
+            status: true,
+            quantity: 1,
+          });
+
+          setRefetch(true);
+          return response.data.message || "Coupon created successfully";
+        },
+        error: (error) =>
+          error.response?.data?.message || "Error creating coupon",
+      })
+      .finally(() => {
+        setDisableBtn(false);
       });
-    } catch (error) {
-      setMessage({
-        text: error.response?.data?.message || "Error creating coupon.",
-        type: "danger",
-      });
-      toast.error(error.response?.data?.message || "Error creating coupon.");
-    } finally {
-      setRefetch(true);
-    }
   };
 
   const handleUpdateSubmit = async (e) => {
@@ -257,6 +270,7 @@ const CouponManagement = () => {
                     value={formData.quantity}
                     onChange={handleChange}
                     min={1}
+                    max={500}
                     required
                   />
                 </Form.Group>
@@ -376,7 +390,12 @@ const CouponManagement = () => {
         </div>
 
         <div className="d-flex justify-content-center mt-4">
-          <Button variant="primary" type="submit" className="px-5">
+          <Button
+            disabled={disableBtn}
+            variant="primary"
+            type="submit"
+            className="px-5"
+          >
             Create Coupon
           </Button>
         </div>
