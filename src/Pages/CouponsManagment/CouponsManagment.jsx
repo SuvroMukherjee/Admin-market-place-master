@@ -30,6 +30,7 @@ const CouponManagement = () => {
     status: true,
     quantity: 1, // Only relevant for multi-use
   });
+  const [refetch, setRefetch] = useState(false);
 
   const [updateFormData, setUpdateFormData] = useState({ ...formData });
   const [message, setMessage] = useState({ text: "", type: "" });
@@ -129,6 +130,8 @@ const CouponManagement = () => {
         type: "danger",
       });
       toast.error(error.response?.data?.message || "Error creating coupon.");
+    } finally {
+      setRefetch(true);
     }
   };
 
@@ -380,7 +383,7 @@ const CouponManagement = () => {
       </Form>
 
       <div className="mt-5">
-        <CouponList />
+        <CouponList refetch={refetch} setRefetch={setRefetch} />
       </div>
 
       {/* Update Modal */}
@@ -408,7 +411,7 @@ const CouponManagement = () => {
 
 export default CouponManagement;
 
-const CouponList = () => {
+const CouponList = ({ refetch, setRefetch }) => {
   const [coupons, setCoupons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalCoupons, setTotalCoupons] = useState(0);
@@ -443,6 +446,15 @@ const CouponList = () => {
     fetchCoupons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit, search, status]);
+
+  useEffect(() => {
+    if (refetch) {
+      fetchCoupons();
+    }
+
+    setRefetch(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refetch]);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
