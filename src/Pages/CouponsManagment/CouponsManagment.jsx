@@ -87,6 +87,7 @@ const CouponManagement = () => {
         text: response.data.message,
         type: "success",
       });
+      toast.success(response.data.message || "Coupon created successfully.");
 
       console.log(response, "PAI RESponse");
 
@@ -100,11 +101,24 @@ const CouponManagement = () => {
         console.warn(csvContent, "csvContent");
         downloadCSV(csvContent, ` coupons.csv`);
       }
+      setFormData({
+        couponType: "single-use",
+        baseCouponNo: "",
+        discountType: "flat",
+        discountValue: "",
+        minAmount: "",
+        maxAmount: "",
+        startDate: "",
+        endDate: "",
+        status: true,
+        quantity: 1, // Only relevant for multi-use
+      });
     } catch (error) {
       setMessage({
         text: error.response?.data?.message || "Error creating coupon.",
         type: "danger",
       });
+      toast.error(error.response?.data?.message || "Error creating coupon.");
     }
   };
 
@@ -119,12 +133,26 @@ const CouponManagement = () => {
         text: response.data.message,
         type: "success",
       });
+      toast.success(response.data.message || "Coupon updated successfully.");
       setShowUpdateModal(false);
+      setFormData({
+        couponType: "single-use",
+        baseCouponNo: "",
+        discountType: "flat",
+        discountValue: "",
+        minAmount: "",
+        maxAmount: "",
+        startDate: "",
+        endDate: "",
+        status: true,
+        quantity: 1, // Only relevant for multi-use
+      });
     } catch (error) {
       setMessage({
         text: error.response?.data?.message || "Error updating coupon.",
         type: "danger",
       });
+      toast.error(error.response?.data?.message || "Error updating coupon.");
     }
   };
 
