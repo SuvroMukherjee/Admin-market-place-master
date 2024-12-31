@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import {
+  Button,
+  Col,
   Container,
   Form,
-  Button,
-  Row,
-  Col,
-  Alert,
   Modal,
   Pagination,
+  Row,
   Spinner,
   Table,
 } from "react-bootstrap";
-import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
-import moment from "moment";
 import { GoDownload } from "react-icons/go";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
@@ -38,10 +37,21 @@ const CouponManagement = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+
+    if (name === "baseCouponNo") {
+      setFormData({
+        ...formData,
+        [name]: value
+          ?.trim()
+          .toUpperCase()
+          .replace(/[^a-zA-Z0-9]/g, ""),
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? checked : value,
+      });
+    }
   };
 
   const handleUpdateChange = (e) => {
@@ -162,190 +172,206 @@ const CouponManagement = () => {
 
       {/* Create Form */}
       <Form onSubmit={handleSubmit}>
-        <Row className="gy-3">
-          <Col md={6}>
-            <Form.Group>
-              <Form.Label>Coupon Type</Form.Label>
-              <Form.Select
-                name="couponType"
-                value={formData.couponType}
-                onChange={handleChange}
-                className="form-control"
-              >
-                <option value="single-use">Single-Coupon</option>
-                <option value="multi-use">Multi-Coupons</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group>
-              <Form.Label>Base Coupon No</Form.Label>
-              {formData?.couponType == "multi-use" && (
-                <span
-                  className="mx-2"
-                  style={{
-                    fontSize: "12px",
-                    color: "darkgrey",
-                    textTransform: "lowercase",
-                    fontStyle: "italic",
-                    fontWeight: "bold",
-                  }}
-                >
-                  (use a prefix that will be used for generating the coupon
-                  codes.)
-                </span>
-              )}
-              <Form.Control
-                type="text"
-                name="baseCouponNo"
-                value={formData.baseCouponNo}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-
-        {formData.couponType === "multi-use" && (
-          <Row className="gy-3 mt-3">
+        <div>
+          <Row className="gy-3">
             <Col md={6}>
               <Form.Group>
-                <Form.Label>Quantity</Form.Label>
-                <span
-                  className="mx-2"
-                  style={{
-                    fontSize: "12px",
-                    color: "darkgrey",
-                    textTransform: "lowercase",
-                    fontStyle: "italic",
-                    fontWeight: "bold",
-                  }}
-                >
-                  (Enter number of coupons you want to be generated.)
-                </span>
-                <Form.Control
-                  type="number"
-                  name="quantity"
-                  value={formData.quantity}
+                <Form.Label>Coupon Type</Form.Label>
+                <Form.Select
+                  name="couponType"
+                  value={formData.couponType}
                   onChange={handleChange}
-                  min={1}
+                  className="form-control"
+                >
+                  <option value="single-use">Single-Coupon</option>
+                  <option value="multi-use">Multi-Coupons</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Base Coupon No</Form.Label>
+                {formData?.couponType == "multi-use" && (
+                  <span
+                    className="mx-2"
+                    style={{
+                      fontSize: "12px",
+                      color: "darkgrey",
+                      textTransform: "lowercase",
+                      fontStyle: "italic",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    (use a prefix that will be used for generating the coupon
+                    codes.)
+                  </span>
+                )}
+                {formData?.couponType == "single-use" && (
+                  <span
+                    className="mx-2"
+                    style={{
+                      fontSize: "12px",
+                      color: "darkgrey",
+                      textTransform: "lowercase",
+                      fontStyle: "italic",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    (only uppercase, no special character.)
+                  </span>
+                )}
+                <Form.Control
+                  type="text"
+                  name="baseCouponNo"
+                  value={formData.baseCouponNo}
+                  onChange={handleChange}
                   required
                 />
               </Form.Group>
             </Col>
           </Row>
-        )}
 
-        <Row className="gy-3 mt-3">
-          <Col md={4}>
-            <Form.Group>
-              <Form.Label>Discount Type</Form.Label>
-              <Form.Select
-                name="discountType"
-                value={formData.discountType}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select</option>
-                <option value="percentage">Percentage</option>
-                <option value="flat">Flat</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-          <Col md={4}>
-            <Form.Group>
-              <Form.Label>
-                {formData?.discountType !== "percentage"
-                  ? "Discount Value in Rupees"
-                  : "Discount Value in Percentage"}
-              </Form.Label>
-              <Form.Control
-                type="number"
-                name="discountValue"
-                value={formData.discountValue}
-                onChange={handleChange}
-                required
-              />
-            </Form.Group>
-          </Col>
-          {formData.couponType !== "multi-use" && (
+          {formData.couponType === "multi-use" && (
+            <Row className="gy-3 mt-3">
+              <Col md={6}>
+                <Form.Group>
+                  <Form.Label>Quantity</Form.Label>
+                  <span
+                    className="mx-2"
+                    style={{
+                      fontSize: "12px",
+                      color: "darkgrey",
+                      textTransform: "lowercase",
+                      fontStyle: "italic",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    (Enter number of coupons you want to be generated.)
+                  </span>
+                  <Form.Control
+                    type="number"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                    min={1}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+          )}
+
+          <Row className="gy-3 mt-3">
             <Col md={4}>
               <Form.Group>
-                <Form.Label>Max Use Count</Form.Label>
-                <span
-                  className="mx-2"
-                  style={{
-                    fontSize: "12px",
-                    color: "darkgrey",
-                    textTransform: "lowercase",
-                    fontStyle: "italic",
-                    fontWeight: "bold",
-                  }}
+                <Form.Label>Discount Type</Form.Label>
+                <Form.Select
+                  name="discountType"
+                  value={formData.discountType}
+                  onChange={handleChange}
+                  required
                 >
-                  (Enter maximum number of times the coupon can be used.)
-                </span>
+                  <option value="">Select</option>
+                  <option value="percentage">Percentage</option>
+                  <option value="flat">Flat</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col md={4}>
+              <Form.Group>
+                <Form.Label>
+                  {formData?.discountType !== "percentage"
+                    ? "Discount Value in Rupees"
+                    : "Discount Value in Percentage"}
+                </Form.Label>
                 <Form.Control
                   type="number"
-                  name="maxUseCount"
-                  value={formData.maxUseCount}
+                  name="discountValue"
+                  value={formData.discountValue}
                   onChange={handleChange}
-                  min={1}
                   required
                 />
               </Form.Group>
             </Col>
-          )}
-        </Row>
+            {formData.couponType !== "multi-use" && (
+              <Col md={4}>
+                <Form.Group>
+                  <Form.Label>Max Use Count</Form.Label>
+                  <span
+                    className="mx-2"
+                    style={{
+                      fontSize: "12px",
+                      color: "darkgrey",
+                      textTransform: "lowercase",
+                      fontStyle: "italic",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    (maximum times coupon can be used.)
+                  </span>
+                  <Form.Control
+                    type="number"
+                    name="maxUseCount"
+                    value={formData.maxUseCount}
+                    onChange={handleChange}
+                    min={1}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            )}
+          </Row>
 
-        <Row className="gy-3 mt-3">
-          <Col md={6}>
-            <Form.Group>
-              <Form.Label>Start Date (optional) </Form.Label>
-              <Form.Control
-                type="date"
-                name="startDate"
-                value={formData.startDate}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group>
-              <Form.Label>End Date (optional) </Form.Label>
-              <Form.Control
-                type="date"
-                name="endDate"
-                value={formData.endDate}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+          <Row className="gy-3 mt-3">
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Start Date (optional) </Form.Label>
+                <Form.Control
+                  type="date"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>End Date (optional) </Form.Label>
+                <Form.Control
+                  type="date"
+                  name="endDate"
+                  value={formData.endDate}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
 
-        <Row className="gy-3 mt-3">
-          <Col md={6}>
-            <Form.Group>
-              <Form.Label>Min Amount (optional) </Form.Label>
-              <Form.Control
-                type="number"
-                name="minAmount"
-                value={formData.minAmount}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group>
-              <Form.Label>Max Amount (optional) </Form.Label>
-              <Form.Control
-                type="number"
-                name="maxAmount"
-                value={formData.maxAmount}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+          <Row className="gy-3 mt-3">
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Min Amount (optional) </Form.Label>
+                <Form.Control
+                  type="number"
+                  name="minAmount"
+                  value={formData.minAmount}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Max Amount (optional) </Form.Label>
+                <Form.Control
+                  type="number"
+                  name="maxAmount"
+                  value={formData.maxAmount}
+                  onChange={handleChange}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+        </div>
 
         <div className="d-flex justify-content-center mt-4">
           <Button variant="primary" type="submit" className="px-5">
@@ -416,6 +442,7 @@ const CouponList = () => {
 
   useEffect(() => {
     fetchCoupons();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, limit, search, status]);
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
@@ -516,6 +543,13 @@ const CouponList = () => {
     setCurrentPage(1);
   };
 
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).catch((err) => {
+      console.error("Failed to copy text: ", err);
+    });
+    toast.success("Copied to clipboard!");
+  };
+
   return (
     <div className="mt-4">
       <Row className="mb-3">
@@ -540,7 +574,7 @@ const CouponList = () => {
           </Form.Select>
         </Col>
         <Col md={2}>
-          <Button variant="secondary" onClick={resetFilter}>
+          <Button variant="danger" onClick={resetFilter}>
             Reset
           </Button>
         </Col>
@@ -565,24 +599,111 @@ const CouponList = () => {
       </Row>
 
       {loading ? (
-        <Spinner animation="border" variant="primary" />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Spinner animation="border" variant="primary" />
+        </div>
       ) : (
         <>
           <Table striped bordered hover responsive className="mt-3">
             <thead>
               <tr>
-                <th>Coupon Code</th>
-                <th>Discount Type</th>
-                <th>Discount</th>
-                <th>Created At</th>
-                <th>Minimum Amount</th>
-                <th>Maximum Amount</th>
-                <th>Maximum Usage(No. of Times)</th>
-                <th>Used till now(No. of Times)</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Coupon ID
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Coupon Code
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Discount Type
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Discount
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Created At
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Min Amount
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Max Amount
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Max Limit
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Used Count
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Start Date
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  End Date
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Status
+                </th>
+                <th
+                  style={{
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -595,8 +716,29 @@ const CouponList = () => {
               )}
               {coupons.map((coupon) => (
                 <tr key={coupon._id}>
-                  <td>{coupon.couponType}</td>
-                  <td>{coupon.couponNo}</td>
+                  <td>
+                    {coupon._id}
+                    <span
+                      onClick={() => copyToClipboard(coupon._id)}
+                      style={{ marginLeft: "10px", cursor: "pointer" }}
+                      title="Copy"
+                    >
+                      <i className="fas fa-copy"></i>{" "}
+                      {/* You can use any icon or text */}
+                    </span>
+                  </td>
+                  <td>
+                    {coupon.couponNo}
+                    <span
+                      onClick={() => copyToClipboard(coupon.couponNo)}
+                      style={{ marginLeft: "10px", cursor: "pointer" }}
+                      title="Copy"
+                    >
+                      <i className="fas fa-copy"></i>{" "}
+                      {/* You can use any icon or text */}
+                    </span>
+                  </td>
+
                   <td>{coupon.discountType}</td>
                   <td>{coupon.discountValue}</td>
                   <td>
