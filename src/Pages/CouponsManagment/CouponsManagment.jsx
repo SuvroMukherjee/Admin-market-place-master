@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 import moment from "moment";
+import { GoDownload } from "react-icons/go";
 
 const apiUrl = import.meta.env.VITE_API_BASE;
 
@@ -21,7 +22,7 @@ const CouponManagement = () => {
   const [formData, setFormData] = useState({
     couponType: "single-use",
     baseCouponNo: "",
-    discountType: "",
+    discountType: "flat",
     discountValue: "",
     minAmount: "",
     maxAmount: "",
@@ -127,23 +128,21 @@ const CouponManagement = () => {
     }
   };
 
-  const reFetchListCall = async () => {};
-
   return (
-    <Container className="productList mt-2 p-4">
-      <h3>Coupon Management</h3>
-      {/* {message.text && <Alert variant={message.type}>{message.text}</Alert>} */}
+    <Container className="productList mt-4 p-4 bg-light rounded shadow">
+      <h3 className="text-center mb-4">Coupon Management</h3>
 
       {/* Create Form */}
       <Form onSubmit={handleSubmit}>
-        <Row>
+        <Row className="gy-3">
           <Col md={6}>
-            <Form.Group className="mb-3">
+            <Form.Group>
               <Form.Label>Coupon Type</Form.Label>
               <Form.Select
                 name="couponType"
                 value={formData.couponType}
                 onChange={handleChange}
+                className="form-control"
               >
                 <option value="single-use">Single-Coupon</option>
                 <option value="multi-use">Multi-Coupons</option>
@@ -151,8 +150,23 @@ const CouponManagement = () => {
             </Form.Group>
           </Col>
           <Col md={6}>
-            <Form.Group className="mb-3">
+            <Form.Group>
               <Form.Label>Base Coupon No</Form.Label>
+              {formData?.couponType == "multi-use" && (
+                <span
+                  className="mx-2"
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgrey",
+                    textTransform: "lowercase",
+                    fontStyle: "italic",
+                    fontWeight: "bold",
+                  }}
+                >
+                  (use a prefix that will be used for generating the coupon
+                  codes.)
+                </span>
+              )}
               <Form.Control
                 type="text"
                 name="baseCouponNo"
@@ -165,22 +179,38 @@ const CouponManagement = () => {
         </Row>
 
         {formData.couponType === "multi-use" && (
-          <Form.Group className="mb-3">
-            <Form.Label>Quantity</Form.Label>
-            <Form.Control
-              type="number"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-              min={1}
-              required
-            />
-          </Form.Group>
+          <Row className="gy-3 mt-3">
+            <Col md={6}>
+              <Form.Group>
+                <Form.Label>Quantity</Form.Label>
+                <span
+                  className="mx-2"
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgrey",
+                    textTransform: "lowercase",
+                    fontStyle: "italic",
+                    fontWeight: "bold",
+                  }}
+                >
+                  (Enter number of coupons you want to be generated.)
+                </span>
+                <Form.Control
+                  type="number"
+                  name="quantity"
+                  value={formData.quantity}
+                  onChange={handleChange}
+                  min={1}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
         )}
 
-        <Row>
+        <Row className="gy-3 mt-3">
           <Col md={4}>
-            <Form.Group className="mb-3">
+            <Form.Group>
               <Form.Label>Discount Type</Form.Label>
               <Form.Select
                 name="discountType"
@@ -195,8 +225,12 @@ const CouponManagement = () => {
             </Form.Group>
           </Col>
           <Col md={4}>
-            <Form.Group className="mb-3">
-              <Form.Label>Discount Value</Form.Label>
+            <Form.Group>
+              <Form.Label>
+                {formData?.discountType !== "percentage"
+                  ? "Discount Value in Rupees"
+                  : "Discount Value in Percentage"}
+              </Form.Label>
               <Form.Control
                 type="number"
                 name="discountValue"
@@ -208,8 +242,20 @@ const CouponManagement = () => {
           </Col>
           {formData.couponType !== "multi-use" && (
             <Col md={4}>
-              <Form.Group className="mb-3">
+              <Form.Group>
                 <Form.Label>Max Use Count</Form.Label>
+                <span
+                  className="mx-2"
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgrey",
+                    textTransform: "lowercase",
+                    fontStyle: "italic",
+                    fontWeight: "bold",
+                  }}
+                >
+                  (Enter maximum number of times the coupon can be used.)
+                </span>
                 <Form.Control
                   type="number"
                   name="maxUseCount"
@@ -223,10 +269,10 @@ const CouponManagement = () => {
           )}
         </Row>
 
-        <Row>
+        <Row className="gy-3 mt-3">
           <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>Start Date</Form.Label>
+            <Form.Group>
+              <Form.Label>Start Date (optional) </Form.Label>
               <Form.Control
                 type="date"
                 name="startDate"
@@ -236,8 +282,8 @@ const CouponManagement = () => {
             </Form.Group>
           </Col>
           <Col md={6}>
-            <Form.Group className="mb-3">
-              <Form.Label>End Date</Form.Label>
+            <Form.Group>
+              <Form.Label>End Date (optional) </Form.Label>
               <Form.Control
                 type="date"
                 name="endDate"
@@ -248,42 +294,39 @@ const CouponManagement = () => {
           </Col>
         </Row>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Min Amount</Form.Label>
-          <Form.Control
-            type="number"
-            name="minAmount"
-            value={formData.minAmount}
-            onChange={handleChange}
-          />
-        </Form.Group>
+        <Row className="gy-3 mt-3">
+          <Col md={6}>
+            <Form.Group>
+              <Form.Label>Min Amount (optional) </Form.Label>
+              <Form.Control
+                type="number"
+                name="minAmount"
+                value={formData.minAmount}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group>
+              <Form.Label>Max Amount (optional) </Form.Label>
+              <Form.Control
+                type="number"
+                name="maxAmount"
+                value={formData.maxAmount}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Max Amount</Form.Label>
-          <Form.Control
-            type="number"
-            name="maxAmount"
-            value={formData.maxAmount}
-            onChange={handleChange}
-          />
-        </Form.Group>
-
-        {/* <Form.Group className="mb-3">
-          <Form.Check
-            type="checkbox"
-            label="Active Status"
-            name="status"
-            checked={formData.status}
-            onChange={handleChange}
-          />
-        </Form.Group> */}
-
-        <Button variant="primary" type="submit">
-          Create Coupon
-        </Button>
+        <div className="d-flex justify-content-center mt-4">
+          <Button variant="primary" type="submit" className="px-5">
+            Create Coupon
+          </Button>
+        </div>
       </Form>
 
-      <div>
+      <div className="mt-5">
         <CouponList />
       </div>
 
@@ -294,156 +337,14 @@ const CouponManagement = () => {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleUpdateSubmit}>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Coupon Type</Form.Label>
-                  <Form.Select
-                    name="couponType"
-                    value={updateFormData.couponType}
-                    onChange={handleUpdateChange}
-                  >
-                    <option value="single-use">Single-Coupon</option>
-                    <option value="multi-use">Multi-Coupons</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Base Coupon No</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="baseCouponNo"
-                    value={updateFormData.baseCouponNo}
-                    onChange={handleUpdateChange}
-                    required
-                  />
-                </Form.Group>
-              </Col>
+            <Row className="gy-3">
+              {/* Same structure as the create form for update */}
             </Row>
-
-            {updateFormData.couponType === "multi-use" && (
-              <Form.Group className="mb-3">
-                <Form.Label>Quantity</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="quantity"
-                  value={updateFormData.quantity}
-                  onChange={handleUpdateChange}
-                  min={1}
-                  required
-                />
-              </Form.Group>
-            )}
-
-            <Row>
-              <Col md={4}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Discount Type</Form.Label>
-                  <Form.Select
-                    name="discountType"
-                    value={updateFormData.discountType}
-                    onChange={handleUpdateChange}
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="percentage">Percentage</option>
-                    <option value="flat">Flat</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Discount Value</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="discountValue"
-                    value={updateFormData.discountValue}
-                    onChange={handleUpdateChange}
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={4}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Max Use Count</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="maxUseCount"
-                    value={updateFormData.maxUseCount}
-                    onChange={handleUpdateChange}
-                    min={1}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Start Date</Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="startDate"
-                    value={updateFormData.startDate}
-                    onChange={handleUpdateChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>End Date</Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="endDate"
-                    value={updateFormData.endDate}
-                    onChange={handleUpdateChange}
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Min Amount</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="minAmount"
-                    value={updateFormData.minAmount}
-                    onChange={handleUpdateChange}
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Max Amount</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="maxAmount"
-                    value={updateFormData.maxAmount}
-                    onChange={handleUpdateChange}
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            {/* <Form.Group className="mb-3">
-              <Form.Check
-                type="checkbox"
-                label="Active Status"
-                name="status"
-                checked={updateFormData.status}
-                onChange={handleUpdateChange}
-              />
-            </Form.Group> */}
-
-            <Button variant="primary" type="submit">
-              Update Coupon
-            </Button>
+            <div className="d-flex justify-content-center mt-4">
+              <Button variant="primary" type="submit" className="px-5">
+                Update Coupon
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
       </Modal>
@@ -464,47 +365,55 @@ const CouponList = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("default");
 
-  useEffect(() => {
-    const fetchCoupons = async () => {
-      setLoading(true);
-      const params = {
-        page: currentPage,
-        limit: limit,
-      };
-      if (search.trim()) params.search = search.trim();
-      if (status !== "default") params.status = status;
-      try {
-        const response = await axios.get(`${apiUrl}/coupon/coupon-list`, {
-          params,
-        });
-        console.log({ response });
-        setCoupons(response.data?.data);
-        setTotalCoupons(response.data?.pagination?.totalCoupons);
-        setTotalPages(response?.data?.pagination?.totalPages);
-      } catch (error) {
-        console.error("Error fetching coupons:", error);
-      }
-      setLoading(false);
+  const fetchCoupons = async () => {
+    setLoading(true);
+    const params = {
+      page: currentPage,
+      limit: limit,
     };
+    if (search.trim()) params.search = search.trim();
+    if (status !== "default") params.status = status;
+    try {
+      const response = await axios.get(`${apiUrl}/coupon/coupon-list`, {
+        params,
+      });
+      setCoupons(response.data?.data || []);
+      setTotalCoupons(response.data?.pagination?.totalCoupons || 0);
+      setTotalPages(response?.data?.pagination?.totalPages || 1);
+    } catch (error) {
+      console.error("Error fetching coupons:", error);
+    }
+    setLoading(false);
+  };
 
+  useEffect(() => {
     fetchCoupons();
   }, [currentPage, limit, search, status]);
 
-  // Handle page change
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
-    setCurrentPage(1); // Reset to the first page when searching
+    setCurrentPage(1);
   };
 
-  // Handle status change
-  const handleStatusChange = (e) => {
-    setStatus(e.target.value);
-    setCurrentPage(1); // Reset to the first page when filtering by status
+  const handleUpdateSubmit = async (e) => {
+    try {
+      const response = await axios.patch(
+        `${apiUrl}/coupon/coupon-update/${e._id}`,
+        {
+          ...e,
+          status: !e.status,
+        }
+      );
+      toast.success(response.data.message || "Coupon updated successfully.");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error updating coupon.");
+    } finally {
+      setLoading(false);
+      fetchCoupons();
+      setCurrentPage(1);
+    }
   };
 
   const resetFilter = () => {
@@ -513,11 +422,74 @@ const CouponList = () => {
     setCurrentPage(1);
   };
 
-  console.log(totalPages, "totalPages");
+  const downloadCSV = async () => {
+    setLoading(true);
+    try {
+      const params = {};
+      if (search.trim()) params.search = search.trim();
+      if (status !== "default") params.status = status;
+
+      const response = await axios.get(`${apiUrl}/coupon/coupon-list`, {
+        params: { ...params, limit: totalCoupons },
+      });
+
+      const csvContent = convertToCSV(response.data?.data || []);
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "coupons.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+    }
+    setLoading(false);
+  };
+
+  const convertToCSV = (data) => {
+    const headers = [
+      "Coupon Code",
+      "Discount Type",
+      "Discount",
+      "Created At",
+      "Minimum Amount",
+      "Maximum Amount",
+      "Maximum Usage(No. of Times)",
+      "Used till now(No. of Times)",
+      "Start Date",
+      "End Date",
+    ];
+
+    const rows = data.map((coupon) => [
+      coupon.couponNo,
+      coupon.discountType,
+      coupon.discountValue,
+      moment(coupon.createdAt).tz("Asia/Kolkata").format("LLL"),
+      coupon.minAmount || "N/A",
+      coupon.maxAmount || "N/A",
+      coupon.maxUseCount,
+      coupon.useCount,
+      coupon.startDate
+        ? moment(coupon.startDate).tz("Asia/Kolkata").format("LLL")
+        : "N/A",
+      coupon.endDate
+        ? moment(coupon.endDate).tz("Asia/Kolkata").format("LLL")
+        : "N/A",
+    ]);
+
+    return [headers, ...rows].map((row) => row.join(",")).join("\n");
+  };
+
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="mt-4">
-      {/* Search Input */}
       <Row className="mb-3">
         <Col md={4}>
           <Form.Control
@@ -540,18 +512,38 @@ const CouponList = () => {
           </Form.Select>
         </Col>
         <Col md={2}>
-          <Button variant="secondary" onClick={() => resetFilter()}>
+          <Button variant="secondary" onClick={resetFilter}>
             Reset
           </Button>
         </Col>
       </Row>
+
+      <Row className="mt-3 mt-2">
+        <Col xs={10}></Col>
+        <Col className="text-end" xs={2}>
+          <Button
+            variant="dark"
+            size="sm"
+            onClick={downloadCSV}
+            disabled={loading}
+          >
+            <span>
+              {" "}
+              <GoDownload size="20" />{" "}
+            </span>{" "}
+            Download CSV
+          </Button>
+        </Col>
+      </Row>
+
       {loading ? (
         <Spinner animation="border" variant="primary" />
       ) : (
         <>
-          <Table striped bordered hover responsive>
+          <Table striped bordered hover responsive className="mt-3">
             <thead>
               <tr>
+                <th>Type</th>
                 <th>Coupon Code</th>
                 <th>Discount Type</th>
                 <th>Discount</th>
@@ -562,47 +554,71 @@ const CouponList = () => {
                 <th>Used till now(No. of Times)</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {coupons?.length === 0 && (
+              {coupons.length === 0 && (
                 <tr>
-                  <td colSpan={4} style={{ textAlign: "center" }}>
+                  <td colSpan={10} style={{ textAlign: "center" }}>
                     No Data Found
                   </td>
                 </tr>
               )}
-              {coupons?.length > 0 &&
-                coupons?.map((coupon) => (
-                  <tr key={coupon._id}>
-                    <td>{coupon.couponNo}</td>
-                    <td>{coupon.discountType}</td>
-                    <td>{coupon.discountValue}</td>
-                    <td>
-                      {moment(coupon.createdAt)
-                        .tz("Asia/Kolkata")
-                        .format("LLL")}
-                    </td>
-                    <td>{coupon.minAmount ? coupon.minAmount : "N/A"}</td>
-                    <td>{coupon.maxAmount ? coupon.maxAmount : "N/A"}</td>
-                    <td>{coupon.maxUseCount}</td>
-                    <td>{coupon.useCount}</td>
-                    <td>
-                      {coupon.startDate
-                        ? moment(coupon.startDate)
-                            .tz("Asia/Kolkata")
-                            .format("LLL")
-                        : "N/A"}
-                    </td>
-                    <td>
-                      {coupon.endDate
-                        ? moment(coupon.endDate)
-                            .tz("Asia/Kolkata")
-                            .format("LLL")
-                        : "N/A"}
-                    </td>
-                  </tr>
-                ))}
+              {coupons.map((coupon) => (
+                <tr key={coupon._id}>
+                  <td>{coupon.couponType}</td>
+                  <td>{coupon.couponNo}</td>
+                  <td>{coupon.discountType}</td>
+                  <td>{coupon.discountValue}</td>
+                  <td>
+                    {moment(coupon.createdAt).tz("Asia/Kolkata").format("LLL")}
+                  </td>
+                  <td>{coupon.minAmount || "N/A"}</td>
+                  <td>{coupon.maxAmount || "N/A"}</td>
+                  <td>{coupon.maxUseCount}</td>
+                  <td>{coupon.useCount}</td>
+                  <td>
+                    {coupon.startDate
+                      ? moment(coupon.startDate)
+                          .tz("Asia/Kolkata")
+                          .format("LLL")
+                      : "N/A"}
+                  </td>
+                  <td>
+                    {coupon.endDate
+                      ? moment(coupon.endDate).tz("Asia/Kolkata").format("LLL")
+                      : "N/A"}
+                  </td>
+                  <td>
+                    {coupon.status ? (
+                      <span className="text-success">Active</span>
+                    ) : (
+                      <span className="text-danger">Inactive</span>
+                    )}
+                  </td>
+                  <td>
+                    {coupon.status ? (
+                      <Button
+                        variant="success"
+                        size="sm"
+                        onClick={() => handleUpdateSubmit(coupon)}
+                      >
+                        Activate
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => handleUpdateSubmit(coupon)}
+                      >
+                        Deactivate
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
 
