@@ -257,7 +257,7 @@ const OfferManagment = () => {
   };
 
   return (
-    <Container className="my-5 productList">
+    <Container className="my-5 productList mt-4 p-4 bg-light rounded shadow">
       <h2 className="text-center mb-4">
         {editingOfferId ? "Update Offer" : "Create Offer"}
       </h2>
@@ -429,7 +429,7 @@ const OfferManagment = () => {
         )}
       </Form>
 
-      <h3 className="text-center mb-4">Offer List</h3>
+      {/* <h3 className="text-center mb-4">Offer List</h3> */}
       <Table striped bordered hover>
         <thead>
           <tr>
