@@ -430,7 +430,7 @@ const OfferManagment = () => {
       </Form>
 
       {/* <h3 className="text-center mb-4">Offer List</h3> */}
-      <Table striped bordered hover>
+      <Table striped bordered hover className="mt-4">
         <thead>
           <tr>
             <th>#</th>
