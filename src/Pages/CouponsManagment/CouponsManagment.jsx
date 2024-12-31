@@ -543,7 +543,6 @@ const CouponList = () => {
           <Table striped bordered hover responsive className="mt-3">
             <thead>
               <tr>
-                <th>Type</th>
                 <th>Coupon Code</th>
                 <th>Discount Type</th>
                 <th>Discount</th>
