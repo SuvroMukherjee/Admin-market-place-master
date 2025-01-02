@@ -92,6 +92,7 @@ const RefundOrderAdmin = () => {
                 <th>Payment ID</th>
                 <th>Refund Status</th>
                 <th>Refund Id</th>
+                <th>Customer Info</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -128,7 +129,7 @@ const RefundOrderAdmin = () => {
                     <td>
                       {row?.sellerId
                         ? row?.sellerId?.Shop_Details_Info?.shope_name
-                        : "Order is not Delivered"}
+                        : "N/A"}
                     </td>
                     <td>{row?.orderId ? row?.orderId.order_type : ""}</td>
                     <td>
@@ -140,6 +141,16 @@ const RefundOrderAdmin = () => {
                     <td>{row?.paymentId}</td>
                     <td> {row?.status}</td>
                     <td>{row?.razorpayRefundId}</td>
+                    <td>
+                      <div className="d-flex flex-column gap-0">
+                        <span>
+                          {row?.orderId?.name}, {row?.orderId?.ph_no},
+                        </span>
+                        <span>
+                          {row?.orderId?.city}, {row?.orderId?.pincode}
+                        </span>
+                      </div>
+                    </td>
 
                     <td className="d-flex gap-2 justify-content-center align-items-center">
                       {row?.orderId?.order_type === "COD" ? (
@@ -203,7 +214,11 @@ const RefundOrderAdmin = () => {
                               ?.bankAccount
                           );
                         }}
-                        style={{ background: "lightgrey", cursor: "pointer",fontWeight:"bold" }}
+                        style={{
+                          background: "lightgrey",
+                          cursor: "pointer",
+                          fontWeight: "bold",
+                        }}
                       >
                         View Account Details
                       </p>
