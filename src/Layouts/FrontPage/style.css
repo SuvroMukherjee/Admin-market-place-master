@@ -752,3 +752,31 @@ footer .info-list .cta-link:hover svg {
 }
 
 /* 12-12-2024 */
+
+.seller-banner-section {
+  background: #9af064;
+  padding: 0;
+}
+.seller-banner-section::before {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  transform: none;
+  background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0));
+}
+.banner-content-text {
+  padding: 60px 0; 
+}
+.seller-banner-section h2 {
+  color: #fff;
+}
+.seller-banner-section p {
+  color: #fff;
+}
+.seller-banner-section .banner-content-img {
+  border-radius: 0;
+  width: auto;
+  height: auto;
+}

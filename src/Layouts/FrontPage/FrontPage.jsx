@@ -5,6 +5,7 @@ import quoteLeft from "../../assets/quote-left.png";
 import sellerReg from "../../assets/register-now.jpg";
 import sellerspeacking from "../../assets/seller-speaking.jpg";
 import seller from "../../assets/seller.jpg";
+import sellerBg from "../../assets/seller-bg.png";
 import sellerShip from "../../assets/storage-shipping.jpg";
 import { ScrollToTop } from "../../components/scrollToTop/ScrollToTop";
 import Footer from "./Footer";
@@ -43,7 +44,7 @@ const FrontPage = () => {
                 </div>
                 <div className="col-lg-6">
                   <div className="banner-content-img">
-                    <img src={seller} alt="seller" />
+                    <img src={sellerBg} alt="seller" />
                   </div>
                 </div>
               </div>
