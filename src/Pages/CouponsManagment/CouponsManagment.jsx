@@ -439,6 +439,7 @@ const CouponList = ({ refetch, setRefetch }) => {
   const [limit] = useState(10);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("default");
+  const [type, setType] = useState("default");
 
   const fetchCoupons = async () => {
     setLoading(true);
@@ -448,6 +449,7 @@ const CouponList = ({ refetch, setRefetch }) => {
     };
     if (search.trim()) params.search = search.trim();
     if (status !== "default") params.status = status;
+    if (type !== "default") params.useType = type;
     try {
       const response = await axios.get(`${apiUrl}/coupon/coupon-list`, {
         params,
@@ -464,7 +466,7 @@ const CouponList = ({ refetch, setRefetch }) => {
   useEffect(() => {
     fetchCoupons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, limit, search, status]);
+  }, [currentPage, limit, search, status, type]);
 
   useEffect(() => {
     if (refetch) {
@@ -574,6 +576,11 @@ const CouponList = ({ refetch, setRefetch }) => {
     setCurrentPage(1);
   };
 
+  const handleTypeChange = (e) => {
+    setType(e.target.value);
+    setCurrentPage(1);
+  };
+
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).catch((err) => {
       console.error("Failed to copy text: ", err);
@@ -607,6 +614,20 @@ const CouponList = ({ refetch, setRefetch }) => {
             <option value="default">All Status</option>
             <option value="true">Active</option>
             <option value="false">Inactive</option>
+          </Form.Select>
+        </div>
+
+        <div className="d-flex justify-content-start mx-3">
+          <Form.Select
+            style={{
+              width: "200px",
+            }}
+            value={type}
+            onChange={handleTypeChange}
+          >
+            <option value="default">All Types</option>
+            <option value="single">Single Use</option>
+            <option value="multi">Multile Use</option>
           </Form.Select>
         </div>
 
