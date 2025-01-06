@@ -193,6 +193,35 @@ const CouponManagement = () => {
             <Col md={6}>
               <Form.Group>
                 <Form.Label>Coupon Type</Form.Label>
+                <br/>
+                <span
+                  className="mx-2"
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgrey",
+                    textTransform: "lowercase",
+                    fontStyle: "italic",
+                    fontWeight: "bold",
+                  }}
+                >
+                  (Create a single coupon that can be redeemed by multiple
+                  users, if needed.)
+                </span>
+                <br/>
+                <span
+                  className="mx-2"
+                  style={{
+                    fontSize: "12px",
+                    color: "darkgrey",
+                    textTransform: "lowercase",
+                    fontStyle: "italic",
+                    fontWeight: "bold",
+                  }}
+                >
+                  (Generate multiple unique coupon codes for individual use by a
+                  single user.)
+                </span>
+
                 <Form.Select
                   name="couponType"
                   value={formData.couponType}
@@ -200,7 +229,7 @@ const CouponManagement = () => {
                   className="form-control"
                 >
                   <option value="single-use">Single-Coupon</option>
-                  <option value="multi-use">Multi-Coupons</option>
+                  <option value="multi-use">Multiple-Coupons</option>
                 </Form.Select>
               </Form.Group>
             </Col>
