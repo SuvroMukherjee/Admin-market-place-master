@@ -276,9 +276,13 @@ const Footer = () => {
               <ul className="info-list">
                 <li>
                   <FaLocationDot />
-                  <p className="address">
+                  {/* <p className="address">
                     6S 2nd floor -<br /> Sai Residency Rajendra
                     Nagar <br /> Pincode :- 243122 , Uttar Pradesh India.
+                  </p> */}
+                  <p className="address">
+                    ZOOFI COMMERCE PRIVATE LIMITED <br />{" "}
+                    CIN NO.: U47912UP2024PTC212404
                   </p>
                 </li>
                 <li>
