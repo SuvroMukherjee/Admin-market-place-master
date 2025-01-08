@@ -164,7 +164,7 @@ const CouponManagement = () => {
       setFormData({
         couponType: "single-use",
         baseCouponNo: "",
-        discountType: "percentage",
+        discountType: "flat",
         discountValue: "",
         minAmount: "",
         maxAmount: "",
@@ -308,7 +308,7 @@ const CouponManagement = () => {
           )}
 
           <Row className="gy-3 mt-3">
-            <Col md={4}>
+            {/* <Col md={4}>
               <Form.Group>
                 <Form.Label>Discount Type</Form.Label>
                 <Form.Select
@@ -321,7 +321,7 @@ const CouponManagement = () => {
                   <option value="flat">Flat</option>
                 </Form.Select>
               </Form.Group>
-            </Col>
+            </Col> */}
             <Col md={4}>
               <Form.Group>
                 <Form.Label>
