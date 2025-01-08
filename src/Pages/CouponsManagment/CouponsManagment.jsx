@@ -21,7 +21,7 @@ const CouponManagement = () => {
   const [formData, setFormData] = useState({
     couponType: "single-use",
     baseCouponNo: "",
-    discountType: "percentage",
+    discountType: "flat",
     discountValue: "",
     minAmount: "",
     maxAmount: "",
@@ -127,7 +127,7 @@ const CouponManagement = () => {
           setFormData({
             couponType: "single-use",
             baseCouponNo: "",
-            discountType: "percentage",
+            discountType: "flat",
             discountValue: "",
             minAmount: "",
             maxAmount: "",
