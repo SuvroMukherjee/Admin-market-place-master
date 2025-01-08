@@ -32,6 +32,7 @@ const OfferManagment = () => {
     category: "",
     discountType: "percentage", // Default to percentage
     discountValue: "",
+    maxDiscountvalue: "",
     minAmount: "",
     maxAmount: "",
     startDate: "",
@@ -199,6 +200,7 @@ const OfferManagment = () => {
       category: offer.category?._id || "",
       discountType: offer.discountType || "percentage",
       discountValue: offer.discountValue || "",
+      maxDiscountvalue: offer.maxDiscountvalue || "",
       minAmount: offer.minAmount || "",
       maxAmount: offer.maxAmount || "",
       startDate: offer.startDate?.slice(0, 10) || "",
@@ -215,6 +217,7 @@ const OfferManagment = () => {
       category: "",
       discountType: "percentage",
       discountValue: "",
+      maxDiscountvalue: "",
       minAmount: "",
       maxAmount: "",
       startDate: "",
@@ -342,7 +345,7 @@ const OfferManagment = () => {
         </Row>
 
         <Row>
-          <Col md={6}>
+          <Col md={offerData.discountType === "percentage" ? 3 : 6}>
             <Form.Group className="mb-3">
               <Form.Label className="fw-bold">
                 {offerData.discountType === "percentage"
@@ -363,6 +366,23 @@ const OfferManagment = () => {
               />
             </Form.Group>
           </Col>
+          {offerData.discountType === "percentage" && (
+            <Col md={3}>
+              <Form.Group className="mb-3">
+                <Form.Label className="fw-bold">
+                  Maximum Discount Amount
+                </Form.Label>
+                <Form.Control
+                  type="number"
+                  name="maxDiscountvalue"
+                  value={offerData.maxDiscountvalue}
+                  onChange={handleInputChange}
+                  placeholder="Enter maximum discount amount"
+                  required
+                />
+              </Form.Group>
+            </Col>
+          )}
           <Col md={3}>
             <Form.Group className="mb-3">
               <Form.Label className="fw-bold">
@@ -373,7 +393,7 @@ const OfferManagment = () => {
                 name="minAmount"
                 value={offerData.minAmount}
                 onChange={handleInputChange}
-                placeholder="Enter minimum amount"
+                placeholder="Enter minimum product price"
               />
             </Form.Group>
           </Col>
@@ -387,7 +407,7 @@ const OfferManagment = () => {
                 name="maxAmount"
                 value={offerData.maxAmount}
                 onChange={handleInputChange}
-                placeholder="Enter maximum amount"
+                placeholder="Enter maximum product price"
               />
             </Form.Group>
           </Col>
@@ -438,6 +458,7 @@ const OfferManagment = () => {
             <th>Brand</th>
             <th>Category</th>
             <th>Discount</th>
+            <th>Max Discount</th>
             <th>Min Amount</th>
             <th>Max Amount</th>
             <th>Start Date</th>
@@ -473,6 +494,11 @@ const OfferManagment = () => {
                     {offer?.discountType === "percentage"
                       ? `${offer.discountValue}%`
                       : `₹${offer.discountValue}`}
+                  </td>
+                  <td>
+                    {offer?.maxDiscountvalue
+                      ? `₹${offer?.maxDiscountvalue}`
+                      : "N/A"}
                   </td>
                   <td>{offer?.minAmount ? `₹${offer.minAmount}` : "N/A"}</td>
                   <td>{offer?.maxAmount ? `₹${offer.maxAmount}` : "N/A"}</td>
