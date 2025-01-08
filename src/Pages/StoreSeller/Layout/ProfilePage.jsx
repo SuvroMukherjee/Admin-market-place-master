@@ -1092,6 +1092,25 @@ const ShopInfo = ({ userInfo, getProfileData }) => {
                 </Form.Control>
               </Form.Group>
             </Col>
+            <Col xs={6}>
+              <Form.Group controlId="accept_cash_on_delivery">
+                <Form.Label className="frmLable">
+                  Accept Cash On Delivery <span className="req">*</span>
+                </Form.Label>
+                <Form.Control
+                  as="select"
+                  size="sm"
+                  name="acceptCashOnDelivery"
+                  value={shopInfo?.acceptCashOnDelivery}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
           </Row>
           {/* Existing Submit Button */}
 
