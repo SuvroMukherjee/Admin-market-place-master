@@ -137,6 +137,54 @@ function SellerRegistrationPage() {
           </Col>
         </Row>
       </Container>
+      <Container className="support-container mt-4">
+        <Row>
+          <Col xs={12} className="text-center">
+            <p style={{ fontSize: "15px", color: "#555" }}>
+              In case of any queries or issues during registration, please feel
+              free to reach out to our dedicated seller support team via
+              WhatsApp at
+              <a
+                href="https://wa.me/917505429772"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontWeight: "bold",
+                  color: "#25D366",
+                  textDecoration: "none",
+                  marginLeft: "5px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                <i
+                  className="fa fa-phone"
+                  style={{ marginRight: "5px", fontSize: "16px" }}
+                ></i>
+                917505429772
+              </a>{" "}
+              or email us at
+              <a
+                href="mailto:support@zoofi.in"
+                style={{
+                  fontWeight: "bold",
+                  color: "#25D366",
+                  textDecoration: "none",
+                  marginLeft: "5px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                <i
+                  className="fa fa-envelope"
+                  style={{ marginRight: "5px", fontSize: "16px" }}
+                ></i>
+                support@zoofi.in
+              </a>
+            </p>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }
