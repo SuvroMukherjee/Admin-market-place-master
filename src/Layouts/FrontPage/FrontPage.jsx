@@ -26,11 +26,10 @@ const FrontPage = () => {
         <div className="page-content">
           <section className="seller-banner-section">
             <div className="bg-holder">
-              {/* <video loop autoPlay muted> */}
-              {/* <source src="https://s7.ezgif.com/tmp/ezgif-7-f40c47b90b.gif" type="video/mp4" /> */}
-              {/* Your browser does not support the video tag. */}
-              <img src="https://s7.ezgif.com/tmp/ezgif-7-f40c47b90b.gif" alt="loading..."></img>
-              {/* </video> */}
+              <video loop autoPlay muted>
+                <source src="https://firebasestorage.googleapis.com/v0/b/lux-file-storage.appspot.com/o/0_Neon_Tunnel_3840x2160.mp4?alt=media&token=b54b17a4-34fb-4c9a-b0a2-fe7c25277c08" type="video/mp4"></source>
+                Your browser does not support the video tag.
+              </video>
             </div>
             <div className="content-holder">
               <div className="container">
