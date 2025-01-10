@@ -767,7 +767,7 @@ footer .info-list .cta-link:hover svg {
   background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0));
 }
 .banner-content-text {
-  padding: 60px 0; 
+  padding: 150px 0; 
 }
 .seller-banner-section .banner-content-img {
   border-radius: 0;
@@ -804,3 +804,34 @@ footer .info-list .cta-link:hover svg {
 .seller-banner-section p {
   color: #fff;
 }
+
+.bc-seller {
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #9af064;
+  padding: 5px 10px;
+  border-radius: 27px;
+  cursor: pointer;
+  text-decoration: none !important;
+  color: #000 !important;
+  background: #9af064 !important;
+  box-shadow: none;
+  animation: pulse-glow 1.5s infinite;
+  padding: 5px 20px 5px 10px;
+}
+
+.bc-seller:hover {
+  color: #000;
+}
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 #9af064;
+  }
+  70% {
+    box-shadow: 0 0 0 20px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+

@@ -34,26 +34,26 @@ const FrontPage = () => {
             <div className="content-holder">
               <div className="container">
                 <div className="row">
-                  <div className="col-lg-6">
+                  <div className="col-lg-12 text-center">
                     <div className="banner-content-text">
                       <h2>Become a proud Zoofi seller</h2>
-                      <p>
+                      <p style={{margin:'0px auto'}}>
                         Start your selling journey on Zoofi and become a part of
                         our Seller community
-                      </p>
+                      </p> 
                       <a
-                        className="banner-cta cursor"
+                        className="banner-cta cursor bc-seller"
                         onClick={() => navigate("./seller-registration")}
                       >
                         Register Now
                       </a>
                     </div>
                   </div>
-                  <div className="col-lg-6">
+                  {/* <div className="col-lg-6">
                     <div className="banner-content-img">
                       <img src={"https://firebasestorage.googleapis.com/v0/b/lux-file-storage.appspot.com/o/seller-bg.png?alt=media&token=86b576f3-e738-447d-9c5f-516978fd596e"} alt="seller" />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
