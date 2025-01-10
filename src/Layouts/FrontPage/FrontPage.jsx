@@ -25,26 +25,34 @@ const FrontPage = () => {
       <div>
         <div className="page-content">
           <section className="seller-banner-section">
-            <div className="container">
-              <div className="row">
-                <div className="col-lg-6">
-                  <div className="banner-content-text">
-                    <h2>Become a proud Zoofi seller</h2>
-                    <p>
-                      Start your selling journey on Zoofi and become a part of
-                      our Seller community
-                    </p>
-                    <a
-                      className="banner-cta cursor"
-                      onClick={() => navigate("./seller-registration")}
-                    >
-                      Register Now
-                    </a>
+            <div className="bg-holder">
+              <video loop autoPlay muted>
+                <source src="https://firebasestorage.googleapis.com/v0/b/lux-file-storage.appspot.com/o/0_Neon_Tunnel_3840x2160.mp4?alt=media&token=b54b17a4-34fb-4c9a-b0a2-fe7c25277c08" type="video/mp4"></source>
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div className="content-holder">
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <div className="banner-content-text">
+                      <h2>Become a proud Zoofi seller</h2>
+                      <p>
+                        Start your selling journey on Zoofi and become a part of
+                        our Seller community
+                      </p>
+                      <a
+                        className="banner-cta cursor"
+                        onClick={() => navigate("./seller-registration")}
+                      >
+                        Register Now
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="banner-content-img">
-                    <img src={sellerBg} alt="seller" />
+                  <div className="col-lg-6">
+                    <div className="banner-content-img">
+                      <img src={sellerBg} alt="seller" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -276,7 +284,7 @@ const FrontPage = () => {
                 <div className="col-lg-4 col-12">
                   <div className="card why-card">
                     <div className="card-img">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 64 64" xml:space="preserve" class=""><g><path d="M56.73 18.6c-4.69-2.89-7.91 4.78-12.09 3.61-1.37-.38.02-2.56-2.23-2.46-5.87.26-5.07 3.33-8.68 2.71-3.73-.64-2.62-2.49-6.21-5.83-1.31-.44-4.19-1.31-2.91-3.12 1.44-.28 1.11-1.76.62-2.71-.2-1.53 2.85-1.81 2.78-3.36-.09-2.2-3.68-.42-4.73-.65-2.33-.51-3-3.61-5.77-2.77-3.53 1.11-4.13 1.01-2.35 2.89.68.71.94 1.71.77 2.67-.81 4.43 3.91.89.29 6.99-.35.59-.84 1.07-1.35 1.52-1.72 1.49-2.13 4.46-4.98 3.95-3.34.81 1.62 4.6.11 6.82-.66 1.02-2.24-.96-3.46.68-1.15 1.55 1.22 2.09 2.43 2.6.61.25.73 1.1.22 1.51l-.02.02c-.46.36-.46 1.08-.02 1.46 2.94 2.54 3.29-2.28 5.4-1.2.43.54-.15 1.26-.53 1.84-.91 1.39-.58 3.25-.05 4.82.95 2.08 1.15 4.17.88 6.34.19.75.99 1.2 1.33 1.89 1.98 7.32 4.3 15.42 8.82 8.38 1.22-1.91 1.91-4.12 2.05-6.38.46-7.68 6.9-3.02 8.01-10.06.26-1.66 1.13-2.76 2.04-3.24.92-.48 1.79-1.05 2.44-1.86 1.39-1.72 1.71-.66 4.04-1.57 1.19-1.47-1.49-2.67-.93-4.03.64-1.56-.67-2.33-.04-3.64.64-1.34 2.31 0 3.28.29.61.15 1.48-.03 2.13-.07 1.45-.09 1.34 1.3.78 1.8-.53.47-1.98 1.07-2.27 1.82 1.15-.06 1.44.31 2.14.47.46.11.88.38 1.06.82.42 1 1.74 1.86 3.05 1.8.26-1.59-1.25-4.34.55-5.13 1.29-1.09-.13-3.35.63-4.85.95-1.52 5.38-2.57 2.77-4.8z" fill="#9af064" opacity="1" data-original="#000000" class=""></path></g></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 64 64" xml:space="preserve" className=""><g><path d="M56.73 18.6c-4.69-2.89-7.91 4.78-12.09 3.61-1.37-.38.02-2.56-2.23-2.46-5.87.26-5.07 3.33-8.68 2.71-3.73-.64-2.62-2.49-6.21-5.83-1.31-.44-4.19-1.31-2.91-3.12 1.44-.28 1.11-1.76.62-2.71-.2-1.53 2.85-1.81 2.78-3.36-.09-2.2-3.68-.42-4.73-.65-2.33-.51-3-3.61-5.77-2.77-3.53 1.11-4.13 1.01-2.35 2.89.68.71.94 1.71.77 2.67-.81 4.43 3.91.89.29 6.99-.35.59-.84 1.07-1.35 1.52-1.72 1.49-2.13 4.46-4.98 3.95-3.34.81 1.62 4.6.11 6.82-.66 1.02-2.24-.96-3.46.68-1.15 1.55 1.22 2.09 2.43 2.6.61.25.73 1.1.22 1.51l-.02.02c-.46.36-.46 1.08-.02 1.46 2.94 2.54 3.29-2.28 5.4-1.2.43.54-.15 1.26-.53 1.84-.91 1.39-.58 3.25-.05 4.82.95 2.08 1.15 4.17.88 6.34.19.75.99 1.2 1.33 1.89 1.98 7.32 4.3 15.42 8.82 8.38 1.22-1.91 1.91-4.12 2.05-6.38.46-7.68 6.9-3.02 8.01-10.06.26-1.66 1.13-2.76 2.04-3.24.92-.48 1.79-1.05 2.44-1.86 1.39-1.72 1.71-.66 4.04-1.57 1.19-1.47-1.49-2.67-.93-4.03.64-1.56-.67-2.33-.04-3.64.64-1.34 2.31 0 3.28.29.61.15 1.48-.03 2.13-.07 1.45-.09 1.34 1.3.78 1.8-.53.47-1.98 1.07-2.27 1.82 1.15-.06 1.44.31 2.14.47.46.11.88.38 1.06.82.42 1 1.74 1.86 3.05 1.8.26-1.59-1.25-4.34.55-5.13 1.29-1.09-.13-3.35.63-4.85.95-1.52 5.38-2.57 2.77-4.8z" fill="#9af064" opacity="1" data-original="#000000" classNames=""></path></g></svg>
                     </div>
                     <div className="card-body">
                       <div className="card-title">Zoofi: Celebrating Indian Innovation</div>
