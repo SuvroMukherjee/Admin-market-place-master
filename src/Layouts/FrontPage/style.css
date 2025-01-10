@@ -769,14 +769,38 @@ footer .info-list .cta-link:hover svg {
 .banner-content-text {
   padding: 60px 0; 
 }
-/* .seller-banner-section h2 {
-  color: #fff;
-}
-.seller-banner-section p {
-  color: #fff;
-} */
 .seller-banner-section .banner-content-img {
   border-radius: 0;
   width: auto;
   height: auto;
+}
+.seller-banner-section {
+  background: #fff;
+}
+.seller-banner-section:before {
+  display: none;
+}
+.seller-banner-section .bg-holder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.seller-banner-section .bg-holder video { 
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.seller-banner-section .content-holder {
+  position: relative;
+  background: rgba(0,0,0,0.25);
+}
+.seller-banner-section h2 {
+  color: #fff;
+}
+.seller-banner-section p {
+  color: #fff;
 }
