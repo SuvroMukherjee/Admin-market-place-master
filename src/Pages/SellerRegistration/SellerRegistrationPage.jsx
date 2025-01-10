@@ -89,7 +89,7 @@ function SellerRegistrationPage() {
               }}
             >
               <Step label="Seller Information" />
-              <Step label="Shop Details" />
+              <Step label="Business details" />
               <Step label="Documentation" />
               <Step label="Banking Details" />
               <Step label="Interested Categories & Brands" />

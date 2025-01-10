@@ -73,13 +73,14 @@ const Step1 = ({ nextStep, getUserdata }) => {
           </Row>
           <Row>
             <Col className="">
-              <p>Please have the following before you start register</p>
+              <p>
+                please have the access to these following documents before you
+                start the registration process{" "}
+              </p>
               <ul>
-                <li>Shop related location,images </li>
-                <li>Bank account details </li>
-                <li>
-                  Business document with GST and cancelled cheque certificate
-                </li>
+                <li>business related location, shop/warehouse images </li>
+                <li>bank account details (cancelled cheque) </li>
+                <li>updated GST Certificate</li>
               </ul>
             </Col>
           </Row>
@@ -195,7 +196,7 @@ const Step1 = ({ nextStep, getUserdata }) => {
                   aria-labelledby="contained-modal-title-vcenter"
                   centered
                   show={showModal}
-                 // onHide={handleClose}
+                  // onHide={handleClose}
                 >
                   <Modal.Header closeButton>
                     <Modal.Title
@@ -248,8 +249,8 @@ const OtpContainer = ({ userInfo, nextStep, handleClose, getUserdata }) => {
   }, [phoneTimer]);
 
   const handleResendOtp = async () => {
-    setOtp("")
-    setEmailOtp("")
+    setOtp("");
+    setEmailOtp("");
     setPhoneTimer(60);
     setCanResendPhoneOtp(false);
     // Logic to resend OTP for phone and email
