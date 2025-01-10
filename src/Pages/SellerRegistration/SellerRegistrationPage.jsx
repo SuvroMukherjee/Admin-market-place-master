@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 import { Step, Stepper } from "react-form-stepper";
+import { BsFillInfoSquareFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import blackzofi from "../../assets/blackzofi.png";
 import "./registration.css";
@@ -97,51 +98,12 @@ function SellerRegistrationPage() {
           </Col>
         </Row>
       </Container>
-      <Container className="stepContent">
-        <Row className="mt-2 ml-4 p-4">
-          <Col xs={12}>
-            {step === 0 && (
-              <Step1 nextStep={nextStep} getUserdata={getUserdata} />
-            )}
-            {step === 1 && (
-              <Step2
-                nextStep={nextStep}
-                prevStep={prevStep}
-                reg_userdata={reg_userdata}
-                getUserdata={getUserdata}
-              />
-            )}
-            {step === 2 && (
-              <Step3
-                nextStep={nextStep}
-                prevStep={prevStep}
-                reg_userdata={reg_userdata}
-                getUserdata={getUserdata}
-              />
-            )}
-            {step === 3 && (
-              <Step4
-                nextStep={nextStep}
-                prevStep={prevStep}
-                reg_userdata={reg_userdata}
-                getUserdata={getUserdata}
-              />
-            )}
-            {step === 4 && (
-              <Step5
-                prevStep={prevStep}
-                reg_userdata={reg_userdata}
-                getUserdata={getUserdata}
-              />
-            )}
-          </Col>
-        </Row>
-      </Container>
-      <Container className="support-container mt-4">
+      <Container className="support-container mt-4 mb-4">
         <Row>
-          <Col xs={12} className="text-center">
-            <p style={{ fontSize: "15px", color: "#555" }}>
-              In case of any queries or issues during registration, please feel
+          <Col xs={12} className="text-center  d-flex justify-content-center align-items-center p-2">
+           
+            <p style={{ fontSize: "15px", color: "black",fontFamily:'sans-serif' }}>
+            <i><BsFillInfoSquareFill  size={20} color="black" className="mx-2"/></i> In case of any queries or issues during registration, please feel
               free to reach out to our dedicated seller support team via
               WhatsApp at
               <a
@@ -185,6 +147,47 @@ function SellerRegistrationPage() {
           </Col>
         </Row>
       </Container>
+      <Container className="stepContent">
+        <Row className="mt-2 ml-4 p-4">
+          <Col xs={12}>
+            {step === 0 && (
+              <Step1 nextStep={nextStep} getUserdata={getUserdata} />
+            )}
+            {step === 1 && (
+              <Step2
+                nextStep={nextStep}
+                prevStep={prevStep}
+                reg_userdata={reg_userdata}
+                getUserdata={getUserdata}
+              />
+            )}
+            {step === 2 && (
+              <Step3
+                nextStep={nextStep}
+                prevStep={prevStep}
+                reg_userdata={reg_userdata}
+                getUserdata={getUserdata}
+              />
+            )}
+            {step === 3 && (
+              <Step4
+                nextStep={nextStep}
+                prevStep={prevStep}
+                reg_userdata={reg_userdata}
+                getUserdata={getUserdata}
+              />
+            )}
+            {step === 4 && (
+              <Step5
+                prevStep={prevStep}
+                reg_userdata={reg_userdata}
+                getUserdata={getUserdata}
+              />
+            )}
+          </Col>
+        </Row>
+      </Container>
+     
     </div>
   );
 }
