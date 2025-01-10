@@ -51,7 +51,7 @@ const FrontPage = () => {
                   </div>
                   <div className="col-lg-6">
                     <div className="banner-content-img">
-                      <img src={sellerBg} alt="seller" />
+                      <img src={"https://firebasestorage.googleapis.com/v0/b/lux-file-storage.appspot.com/o/seller-bg.png?alt=media&token=86b576f3-e738-447d-9c5f-516978fd596e"} alt="seller" />
                     </div>
                   </div>
                 </div>
