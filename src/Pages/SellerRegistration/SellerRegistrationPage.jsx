@@ -92,7 +92,7 @@ function SellerRegistrationPage() {
               <Step label="Shop Details" />
               <Step label="Documentation" />
               <Step label="Banking Details" />
-              <Step label="Category & Commissions" />
+              <Step label="Interested Categories & Brands" />
             </Stepper>
           </Col>
         </Row>
