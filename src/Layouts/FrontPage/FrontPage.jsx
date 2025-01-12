@@ -27,7 +27,10 @@ const FrontPage = () => {
           <section className="seller-banner-section">
             <div className="bg-holder">
               <video loop autoPlay muted>
-                <source src="https://firebasestorage.googleapis.com/v0/b/lux-file-storage.appspot.com/o/0_Neon_Tunnel_3840x2160.mp4?alt=media&token=b54b17a4-34fb-4c9a-b0a2-fe7c25277c08" type="video/mp4"></source>
+                <source
+                  src="https://firebasestorage.googleapis.com/v0/b/lux-file-storage.appspot.com/o/0_Neon_Tunnel_3840x2160.mp4?alt=media&token=b54b17a4-34fb-4c9a-b0a2-fe7c25277c08"
+                  type="video/mp4"
+                ></source>
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -37,10 +40,10 @@ const FrontPage = () => {
                   <div className="col-lg-12 text-center">
                     <div className="banner-content-text">
                       <h2>Become a proud Zoofi seller</h2>
-                      <p style={{margin:'0px auto'}}>
+                      <p style={{ margin: "0px auto" }}>
                         Start your selling journey on Zoofi and become a part of
                         our Seller community
-                      </p> 
+                      </p>
                       <a
                         className="banner-cta cursor bc-seller"
                         onClick={() => navigate("./seller-registration")}
@@ -62,7 +65,9 @@ const FrontPage = () => {
           <section className="about-section">
             <div className="container-fluid container-padding">
               <div className="about-heading">
-                <h2>Welcome To <span>Zoofi</span></h2>
+                <h2>
+                  Welcome To <span>Zoofi</span>
+                </h2>
               </div>
 
               <div className="row">
@@ -77,10 +82,20 @@ const FrontPage = () => {
                 <div className="col-xl-5 col-lg-6 col-12">
                   <div className="right-content">
                     <p className="text-holder">
-                        Welcome to Zoofi! Your one-stop destination for homegrown products and passionate local sellers. <br/><br/>
-                        We aim to empower local businesses and offer customers the best value with high-quality, affordable options.
+                      {/* Welcome to Zoofi! Your one-stop destination for homegrown products and passionate local sellers. <br/><br/>
+                        We aim to empower local businesses and offer customers the best value with high-quality, affordable options. */}
+                      Your go-to homegrown e-commerce marketplace for locally
+                      sourced products and dedicated sellers.
+                      <br />
+                      <br />
+                      We’re committed to supporting businesses of all sizes,
+                      offering customers high-quality, affordable products that
+                      deliver outstanding value.
                     </p>
-                    <a  className="cta-view" onClick={() => navigate(`/policy/about-us`)}>
+                    <a
+                      className="cta-view"
+                      onClick={() => navigate(`/policy/about-us`)}
+                    >
                       About Us
                       <FaAngleRight />
                     </a>
@@ -160,9 +175,12 @@ const FrontPage = () => {
                       </svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">Zoofi: The Heart of Local Shopping</div>
+                      <div className="card-title">
+                        Zoofi: The Heart of Local Shopping
+                      </div>
                       <div className="card-text">
-                        Empowering local sellers and celebrating Make-in-India products.
+                        Empowering local sellers and celebrating Make-in-India
+                        products.
                       </div>
                     </div>
                   </div>
@@ -195,9 +213,12 @@ const FrontPage = () => {
                       </svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">Zoofi: Your Gateway to Local Excellence</div>
+                      <div className="card-title">
+                        Zoofi: Your Gateway to Local Excellence
+                      </div>
                       <div className="card-text">
-                      Discover unique products crafted with passion, right here in India.
+                        Discover unique products crafted with passion, right
+                        here in India.
                       </div>
                     </div>
                   </div>
@@ -239,9 +260,12 @@ const FrontPage = () => {
                       </svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">Shop Smart, Shop Local with Zoofi</div>
+                      <div className="card-title">
+                        Shop Smart, Shop Local with Zoofi
+                      </div>
                       <div className="card-text">
-                      Connecting you to authentic, homegrown treasures from Indian sellers.
+                        Connecting you to authentic, homegrown treasures from
+                        Indian sellers.
                       </div>
                     </div>
                   </div>
@@ -276,7 +300,8 @@ const FrontPage = () => {
                     <div className="card-body">
                       <div className="card-title">Think Local, Shop Zoofi</div>
                       <div className="card-text">
-                      Transforming how you support Indian businesses, one purchase at a time.
+                        Transforming how you support Indian businesses, one
+                        purchase at a time.
                       </div>
                     </div>
                   </div>
@@ -284,12 +309,36 @@ const FrontPage = () => {
                 <div className="col-lg-4 col-12">
                   <div className="card why-card">
                     <div className="card-img">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 64 64" xml:space="preserve" className=""><g><path d="M56.73 18.6c-4.69-2.89-7.91 4.78-12.09 3.61-1.37-.38.02-2.56-2.23-2.46-5.87.26-5.07 3.33-8.68 2.71-3.73-.64-2.62-2.49-6.21-5.83-1.31-.44-4.19-1.31-2.91-3.12 1.44-.28 1.11-1.76.62-2.71-.2-1.53 2.85-1.81 2.78-3.36-.09-2.2-3.68-.42-4.73-.65-2.33-.51-3-3.61-5.77-2.77-3.53 1.11-4.13 1.01-2.35 2.89.68.71.94 1.71.77 2.67-.81 4.43 3.91.89.29 6.99-.35.59-.84 1.07-1.35 1.52-1.72 1.49-2.13 4.46-4.98 3.95-3.34.81 1.62 4.6.11 6.82-.66 1.02-2.24-.96-3.46.68-1.15 1.55 1.22 2.09 2.43 2.6.61.25.73 1.1.22 1.51l-.02.02c-.46.36-.46 1.08-.02 1.46 2.94 2.54 3.29-2.28 5.4-1.2.43.54-.15 1.26-.53 1.84-.91 1.39-.58 3.25-.05 4.82.95 2.08 1.15 4.17.88 6.34.19.75.99 1.2 1.33 1.89 1.98 7.32 4.3 15.42 8.82 8.38 1.22-1.91 1.91-4.12 2.05-6.38.46-7.68 6.9-3.02 8.01-10.06.26-1.66 1.13-2.76 2.04-3.24.92-.48 1.79-1.05 2.44-1.86 1.39-1.72 1.71-.66 4.04-1.57 1.19-1.47-1.49-2.67-.93-4.03.64-1.56-.67-2.33-.04-3.64.64-1.34 2.31 0 3.28.29.61.15 1.48-.03 2.13-.07 1.45-.09 1.34 1.3.78 1.8-.53.47-1.98 1.07-2.27 1.82 1.15-.06 1.44.31 2.14.47.46.11.88.38 1.06.82.42 1 1.74 1.86 3.05 1.8.26-1.59-1.25-4.34.55-5.13 1.29-1.09-.13-3.35.63-4.85.95-1.52 5.38-2.57 2.77-4.8z" fill="#9af064" opacity="1" data-original="#000000" classNames=""></path></g></svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.1"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        width="512"
+                        height="512"
+                        x="0"
+                        y="0"
+                        viewBox="0 0 64 64"
+                        xml:space="preserve"
+                        className=""
+                      >
+                        <g>
+                          <path
+                            d="M56.73 18.6c-4.69-2.89-7.91 4.78-12.09 3.61-1.37-.38.02-2.56-2.23-2.46-5.87.26-5.07 3.33-8.68 2.71-3.73-.64-2.62-2.49-6.21-5.83-1.31-.44-4.19-1.31-2.91-3.12 1.44-.28 1.11-1.76.62-2.71-.2-1.53 2.85-1.81 2.78-3.36-.09-2.2-3.68-.42-4.73-.65-2.33-.51-3-3.61-5.77-2.77-3.53 1.11-4.13 1.01-2.35 2.89.68.71.94 1.71.77 2.67-.81 4.43 3.91.89.29 6.99-.35.59-.84 1.07-1.35 1.52-1.72 1.49-2.13 4.46-4.98 3.95-3.34.81 1.62 4.6.11 6.82-.66 1.02-2.24-.96-3.46.68-1.15 1.55 1.22 2.09 2.43 2.6.61.25.73 1.1.22 1.51l-.02.02c-.46.36-.46 1.08-.02 1.46 2.94 2.54 3.29-2.28 5.4-1.2.43.54-.15 1.26-.53 1.84-.91 1.39-.58 3.25-.05 4.82.95 2.08 1.15 4.17.88 6.34.19.75.99 1.2 1.33 1.89 1.98 7.32 4.3 15.42 8.82 8.38 1.22-1.91 1.91-4.12 2.05-6.38.46-7.68 6.9-3.02 8.01-10.06.26-1.66 1.13-2.76 2.04-3.24.92-.48 1.79-1.05 2.44-1.86 1.39-1.72 1.71-.66 4.04-1.57 1.19-1.47-1.49-2.67-.93-4.03.64-1.56-.67-2.33-.04-3.64.64-1.34 2.31 0 3.28.29.61.15 1.48-.03 2.13-.07 1.45-.09 1.34 1.3.78 1.8-.53.47-1.98 1.07-2.27 1.82 1.15-.06 1.44.31 2.14.47.46.11.88.38 1.06.82.42 1 1.74 1.86 3.05 1.8.26-1.59-1.25-4.34.55-5.13 1.29-1.09-.13-3.35.63-4.85.95-1.52 5.38-2.57 2.77-4.8z"
+                            fill="#9af064"
+                            opacity="1"
+                            data-original="#000000"
+                            classNames=""
+                          ></path>
+                        </g>
+                      </svg>
                     </div>
                     <div className="card-body">
-                      <div className="card-title">Zoofi: Celebrating Indian Innovation</div>
+                      <div className="card-title">
+                        Zoofi: Celebrating Indian Innovation
+                      </div>
                       <div className="card-text">
-                      A marketplace where local talent meets global possibilities
+                        A marketplace where local talent meets global
+                        possibilities
                       </div>
                     </div>
                   </div>
@@ -337,10 +386,11 @@ const FrontPage = () => {
                     </div>
                     <div className="card-body">
                       <div className="card-title">
-                      Zoofi: Where Local Dreams Go Global
+                        Zoofi: Where Local Dreams Go Global
                       </div>
                       <div className="card-text">
-                      Empowering small businesses to reach big audiences, one product at a time
+                        Empowering small businesses to reach big audiences, one
+                        product at a time
                       </div>
                     </div>
                   </div>
@@ -364,7 +414,10 @@ const FrontPage = () => {
                     <div className="card-body">
                       <div className="card-title">
                         Step 1: Register Your Account
-                        <p>Create your Zoofi account and join the marketplace revolution.</p>
+                        <p>
+                          Create your Zoofi account and join the marketplace
+                          revolution.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -377,7 +430,10 @@ const FrontPage = () => {
                     <div className="card-body">
                       <div className="card-title">
                         Step 2: Add Products
-                        <p>Choose from Zoofi&apos;s catalogue or request to list your unique products that aren&amp;t already available.
+                        <p>
+                          Choose from Zoofi&apos;s catalogue or request to list
+                          your unique products that aren&amp;t already
+                          available.
                         </p>
                       </div>
                     </div>
@@ -391,7 +447,10 @@ const FrontPage = () => {
                     <div className="card-body">
                       <div className="card-title">
                         Step 3: Manage Your Inventory
-                        <p>Keep your stock updated and ready for sales with Zoofi&amp;s intuitive tools.</p>
+                        <p>
+                          Keep your stock updated and ready for sales with
+                          Zoofi&amp;s intuitive tools.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -404,7 +463,10 @@ const FrontPage = () => {
                     <div className="card-body">
                       <div className="card-title">
                         Step 4: Complete Orders & Grow Your Business
-                        <p>Fulfill orders effortlessly and take your business to new heights.</p>
+                        <p>
+                          Fulfill orders effortlessly and take your business to
+                          new heights.
+                        </p>
                       </div>
                     </div>
                   </div>
