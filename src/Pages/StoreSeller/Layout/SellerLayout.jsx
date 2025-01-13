@@ -1363,7 +1363,49 @@ const MyNavbar = ({ socket }) => {
               {currentHeaderTitle}
             </div>
           </div>
+
           <div className="custom-nav-right">
+            <div
+              onClick={() => {
+                window.open("mailto:support@zoofi.in", "_blank");
+              }}
+            >
+              <img
+                src="https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png"
+                alt="helpdesk"
+                style={{
+                  background: "white",
+                  cursor: "pointer",
+                  borderRadius: "50px",
+                  padding: "5px",
+                }}
+                width={45}
+                height={45}
+                title="Helpdesk"
+              />
+            </div>
+            <div
+              onClick={() => {
+                window.open(
+                  "https://api.whatsapp.com/send?phone=917505429772&text=Hi!%20I%20hope%20you%27re%20doing%20well.%20It%27s%20a%20pleasure%20connecting%20with%20you!",
+                  "_blank"
+                );
+              }}
+            >
+              <img
+                src="https://static-00.iconduck.com/assets.00/whatsapp-icon-2040x2048-8b5th74o.png"
+                alt="helpdesk"
+                style={{
+                  background: "white",
+                  cursor: "pointer",
+                  borderRadius: "50px",
+                  padding: "5px",
+                }}
+                width={45}
+                height={45}
+                title="Helpdesk"
+              />
+            </div>
             <div onClick={() => navigate("/seller/helpdesk")}>
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/hire2inspire-62f96.appspot.com/o/MARKETPLACE_1733737867959.png?alt=media"
@@ -1383,7 +1425,7 @@ const MyNavbar = ({ socket }) => {
             {completeFlag && (
               <div className="notify">
                 <MdCircleNotifications
-                  size={36}
+                  size={40}
                   onClick={handleNotificationDropDown}
                 />
                 <span>{notifications?.length}</span>
