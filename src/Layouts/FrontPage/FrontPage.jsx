@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 import OrderCmpl from "../../assets/order-complete.jpg";
 import sellerProList from "../../assets/product-listing.png";
 import quoteLeft from "../../assets/quote-left.png";
@@ -12,10 +13,43 @@ import Footer from "./Footer";
 import Header from "./Header";
 import aboutVideo from "../../assets/videos/about.mp4";
 import { FaAngleRight } from "react-icons/fa";
+import { textArray } from "../../common/AboutMeText";
 import "./style.css";
 import "./swiper-bundle.min.css";
 
 const FrontPage = () => {
+
+  const [highlightedIndexes, setHighlightedIndexes] = useState([]);
+
+  useEffect(() => {
+
+    // Add your custom logic here
+    const handleScroll = () => {
+      const spans = document.querySelectorAll(".text-holder span");
+      const screenHeight = window.innerHeight;
+      const halfwayPoint = screenHeight / 2;
+
+      // Track indexes of spans above halfway
+      const newHighlightedIndexes = [];
+
+      spans.forEach((span, index) => {
+        const { top } = span.getBoundingClientRect();
+        if (top < halfwayPoint) {
+          newHighlightedIndexes.push(index);
+        }
+      });
+
+      setHighlightedIndexes(newHighlightedIndexes);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const navigate = useNavigate();
 
   return (
@@ -66,7 +100,7 @@ const FrontPage = () => {
               </div>
 
               <div className="row">
-                <div className="col-xl-7 col-lg-6 col-12">
+                <div className="col-lg-6 col-12">
                   <div className="video-holder">
                     <video loop autoPlay muted>
                       <source src={aboutVideo} type="video/mp4" />
@@ -74,11 +108,22 @@ const FrontPage = () => {
                     </video>
                   </div>
                 </div>
-                <div className="col-xl-5 col-lg-6 col-12">
+                <div className="col-lg-6 col-12">
                   <div className="right-content">
                     <p className="text-holder">
-                        Welcome to Zoofi! Your one-stop destination for homegrown products and passionate local sellers. <br/><br/>
-                        We aim to empower local businesses and offer customers the best value with high-quality, affordable options.
+                      {textArray.map((text, index) => (
+                        <span
+                          key={index}
+                          style={{
+                            color: highlightedIndexes.includes(index)
+                              ? "#9af064"
+                              : "#8a8a8d",
+                          }}
+                        >
+                          
+                          {text !== "" ? text : <br />}
+                        </span>
+                      ))}
                     </p>
                     <a  className="cta-view" onClick={() => navigate(`/policy/about-us`)}>
                       About Us
