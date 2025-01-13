@@ -107,7 +107,6 @@ const BrandRequest = () => {
     await FileUpload(formData)
       .then((res) => {
         console.log(res, "res");
-        alert(type);
         if (type == "distributer") {
           setTimeout(() => {
             setModalData({
