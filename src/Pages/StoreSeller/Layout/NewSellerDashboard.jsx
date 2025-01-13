@@ -39,7 +39,7 @@ const NewSellerDashboard = () => {
       sales_start: true,
     })
       .then((res) => {
-        setdata(res?.data?.data?.SellerProductData);
+        setdata(res?.data?.data?.SellerProductData?.filter((ele) => ele?.status === true));
         setReviewData(res?.data?.data?.reviewData);
         getProfileDetails();
         setLoading(false);
