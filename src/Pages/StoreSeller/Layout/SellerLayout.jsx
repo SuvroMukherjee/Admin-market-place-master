@@ -1372,7 +1372,7 @@ const MyNavbar = ({ socket }) => {
             >
               <img
                 src="https://cdn4.iconfinder.com/data/icons/social-media-logos-6/512/112-gmail_email_mail-512.png"
-                alt="helpdesk"
+                alt="mail"
                 style={{
                   background: "white",
                   cursor: "pointer",
@@ -1381,7 +1381,7 @@ const MyNavbar = ({ socket }) => {
                 }}
                 width={45}
                 height={45}
-                title="Helpdesk"
+                title="Mail"
               />
             </div>
             <div
@@ -1394,7 +1394,7 @@ const MyNavbar = ({ socket }) => {
             >
               <img
                 src="https://static-00.iconduck.com/assets.00/whatsapp-icon-2040x2048-8b5th74o.png"
-                alt="helpdesk"
+                alt="whatsapp"
                 style={{
                   background: "white",
                   cursor: "pointer",
@@ -1403,7 +1403,7 @@ const MyNavbar = ({ socket }) => {
                 }}
                 width={45}
                 height={45}
-                title="Helpdesk"
+                title="whatsapp"
               />
             </div>
             <div onClick={() => navigate("/seller/helpdesk")}>
