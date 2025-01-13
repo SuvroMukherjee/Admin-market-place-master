@@ -402,7 +402,7 @@ th {
 .custom-nav .custom-nav-right {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 16px;
   align-items: center;
   padding: 0 10px;
   position: relative;

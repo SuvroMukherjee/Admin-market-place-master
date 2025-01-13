@@ -1379,8 +1379,8 @@ const MyNavbar = ({ socket }) => {
                   borderRadius: "50px",
                   padding: "5px",
                 }}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 title="Mail"
               />
             </div>
@@ -1401,8 +1401,8 @@ const MyNavbar = ({ socket }) => {
                   borderRadius: "50px",
                   padding: "5px",
                 }}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 title="whatsapp"
               />
             </div>
@@ -1416,8 +1416,8 @@ const MyNavbar = ({ socket }) => {
                   borderRadius: "50px",
                   padding: "5px",
                 }}
-                width={45}
-                height={45}
+                width={35}
+                height={35}
                 title="Helpdesk"
               />
             </div>
