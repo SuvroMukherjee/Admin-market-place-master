@@ -843,16 +843,11 @@ import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
-import { toast } from "react-toastify";
-import {
-  FaAngleRight,
-  FaUserCircle,
-  FaVolumeMute,
-  FaVolumeUp,
-} from "react-icons/fa";
+import { FaAngleRight, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 import { MdCancel, MdCircleNotifications } from "react-icons/md";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   getAdminNotification,
   makeAllSeenNotification,
@@ -863,8 +858,8 @@ import notificationSoundTone from "../../../assets/notification.wav";
 // import newlogo from "../../../assets/zoofilogo.png";
 import blackzofi from "../../../assets/blackzofi.png";
 import { ScrollToTop } from "../../../components/scrollToTop/ScrollToTop";
-import useAuth from "../../../hooks/useAuth";
 import { notificationContext } from "../../../context/context";
+import useAuth from "../../../hooks/useAuth";
 
 const sidebarRoutes = [
   { title: "Seller Dashboard", path: "/seller/seller-dashboard" },
